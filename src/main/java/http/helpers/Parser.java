@@ -26,7 +26,6 @@ public class Parser {
     }
 
     public static  String getDataValue(String json, String key) throws ParseException {
-
         return Parser.getJSONValue(json, key);
     }
 
