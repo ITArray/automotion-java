@@ -110,11 +110,13 @@ public class MobileHelper {
         driver.execute("openNotifications", null);
     }
 
-    public static void clearField(AndroidDriver driver, MobileElement element){
+    public static MobileElement clearField(AndroidDriver driver, MobileElement element){
         element.click();
         element.clear();
         for (int i = 0; i < 30; i++){
-            driver.sendKeyEvent(BACKSPACE);
+            driver.pressKeyCode(BACKSPACE);
         }
+
+        return element;
     }
 }
