@@ -1,6 +1,8 @@
 package util.driver;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -8,6 +10,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MobileHelper {
+
+    public static final int BACKSPACE = 67;
 
     public MobileHelper(){
         getAdbPath();
@@ -106,4 +110,11 @@ public class MobileHelper {
         driver.execute("openNotifications", null);
     }
 
+    public static void clearField(AndroidDriver driver, MobileElement element){
+        element.click();
+        element.clear();
+        for (int i = 0; i < 30; i++){
+            driver.sendKeyEvent(BACKSPACE);
+        }
+    }
 }
