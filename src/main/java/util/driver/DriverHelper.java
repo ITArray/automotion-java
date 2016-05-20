@@ -2,6 +2,7 @@ package util.driver;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -25,6 +26,13 @@ public class DriverHelper {
         element.click();
         element.clear();
         element.sendKeys(text);
+
+        LOG.info("Send text: " + text);
+    }
+
+    public static void sendKeysFullClear(AndroidDriver driver, MobileElement element, String text) {
+        MobileHelper.clearField(driver, element).sendKeys(text);
+        driver.pressKeyCode(84);
 
         LOG.info("Send text: " + text);
     }
