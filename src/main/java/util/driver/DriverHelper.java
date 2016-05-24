@@ -180,6 +180,30 @@ public class DriverHelper {
         actions.click().build().perform();
     }
 
+    public static void clickByLocation(AppiumDriver driver, MobileElement element, ClickPoint clickPoint) {
+        Point location = element.getLocation();
+        Dimension size = element.getSize();
+        int x = location.getX();
+        int y = location.getY();
+        switch (clickPoint) {
+            case TOP_LEFT:
+                driver.tap(1, x + 5, y + 5, 1);
+                break;
+            case TOP_RIGHT:
+                driver.tap(1, x + size.getWidth() - 5, y + 5, 1);
+                break;
+            case BOTTOM_LEFT:
+                driver.tap(1, x + 5, y + size.getHeight() - 5, 1);
+                break;
+            case BOTTOM_RIGHT:
+                driver.tap(1, x + size.getWidth() - 5, y + size.getHeight() - 5, 1);
+                break;
+            case CENTER:
+                driver.tap(1, x + size.getWidth() / 2, y + size.getHeight() / 2, 1);
+                break;
+        }
+    }
+
     public static void clickJQuery(WebDriver driver, WebElement element) {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         if (!element.getAttribute("id").equals("")) {

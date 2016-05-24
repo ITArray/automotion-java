@@ -111,8 +111,8 @@ public class MobileHelper {
     }
 
     public static MobileElement clearField(AndroidDriver driver, MobileElement element){
-        element.click();
-        element.clear();
+        DriverHelper.clickByLocation(driver, element, DriverHelper.ClickPoint.TOP_RIGHT);
+        //element.clear();
         for (int i = 0; i < 30; i++){
             driver.pressKeyCode(BACKSPACE);
         }
