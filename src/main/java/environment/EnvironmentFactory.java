@@ -116,7 +116,7 @@ public class EnvironmentFactory {
         return SL_DESKTOP_PLATFORM;
     }
 
-    public static String getSlDesktopVersion() {
+    public static String getSlBrowserVersion() {
         return SL_BROWSER_VERSION;
     }
 
