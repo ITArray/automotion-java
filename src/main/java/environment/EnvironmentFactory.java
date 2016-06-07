@@ -21,7 +21,7 @@ public class EnvironmentFactory {
     private static final String IS_SAUCE = System.getenv("IS_SAUCE");
     private static final String NEW_COMMAND_TIMEOUT = System.getenv("NEW_COMMAND_TIMEOUT");
     private static final String SL_DESKTOP_PLATFORM = System.getenv("SL_DESKTOP_PLATFORM");
-    private static final String SL_DESKTOP_VERSION = System.getenv("SL_DESKTOP_VERSION");
+    private static final String SL_BROWSER_VERSION = System.getenv("SL_BROWSER_VERSION");
     private static final String SL_DESKTOP_RESOLUTION = System.getenv("SL_DESKTOP_RESOLUTION");
 
     public static boolean isMobile() {
@@ -117,7 +117,7 @@ public class EnvironmentFactory {
     }
 
     public static String getSlDesktopVersion() {
-        return SL_DESKTOP_VERSION;
+        return SL_BROWSER_VERSION;
     }
 
     public static String getSlDesktopResolution() {
