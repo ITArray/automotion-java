@@ -36,8 +36,10 @@ public class CapabilitiesFactory {
         capabilities.setCapability("automationName", getAutomationName());
         capabilities.setCapability("platformVersion", getPlatformVersion());
         capabilities.setCapability("deviceName", getDevice());
+        capabilities.setCapability("deviceOrientation", "portrait");
         capabilities.setCapability("app", getApp());
         capabilities.setCapability("browserName", getMobileBrowser());
+        capabilities.setCapability("appiumVersion", getAppiumVersion());
         capabilities.setCapability("name", getName());
         capabilities.setCapability("newCommandTimeout", getNewCommandTimeout());
 
@@ -57,6 +59,8 @@ public class CapabilitiesFactory {
         capabilities = getCommonMobileCapabilities();
         capabilities.setCapability("platformName", "iOS");
         capabilities.setCapability("udid", getUDIDDevice());
+        capabilities.setCapability("waitForAppScript", true);
+
 
         return capabilities;
     }

@@ -17,7 +17,12 @@ public class EnvironmentFactory {
     private static final String BROWSER = System.getenv("BROWSER");
     private static final String MOBILE_BROWSER = System.getenv("MOBILE_BROWSER");
     private static final String UDID = System.getenv("UDID");
+    private static final String APPIUM_VERSION = System.getenv("APPIUM_VERSION");
+    private static final String IS_SAUCE = System.getenv("IS_SAUCE");
     private static final String NEW_COMMAND_TIMEOUT = System.getenv("NEW_COMMAND_TIMEOUT");
+    private static final String SL_DESKTOP_PLATFORM = System.getenv("SL_DESKTOP_PLATFORM");
+    private static final String SL_DESKTOP_VERSION = System.getenv("SL_DESKTOP_VERSION");
+    private static final String SL_DESKTOP_RESOLUTION = System.getenv("SL_DESKTOP_RESOLUTION");
 
     public static boolean isMobile() {
         return IS_MOBILE != null && IS_MOBILE.toUpperCase().equals("TRUE");
@@ -29,6 +34,10 @@ public class EnvironmentFactory {
 
     public static boolean isRemote() {
         return IS_REMOTE != null && IS_REMOTE.toUpperCase().equals("TRUE");
+    }
+
+    public static boolean isSauce() {
+        return IS_SAUCE != null && IS_SAUCE.toUpperCase().equals("TRUE");
     }
 
     public static boolean isFirefox() {
@@ -87,6 +96,10 @@ public class EnvironmentFactory {
         return AUTOMATION_NAME;
     }
 
+    public static String getAppiumVersion() {
+        return APPIUM_VERSION;
+    }
+
     public static String getUDIDDevice() {
         return UDID;
     }
@@ -97,5 +110,17 @@ public class EnvironmentFactory {
 
     public static String getNewCommandTimeout() {
         return NEW_COMMAND_TIMEOUT;
+    }
+
+    public static String getSlDesktopPlatform() {
+        return SL_DESKTOP_PLATFORM;
+    }
+
+    public static String getSlDesktopVersion() {
+        return SL_DESKTOP_VERSION;
+    }
+
+    public static String getSlDesktopResolution() {
+        return SL_DESKTOP_RESOLUTION;
     }
 }
