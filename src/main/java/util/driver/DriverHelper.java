@@ -178,6 +178,7 @@ public class DriverHelper {
         }
 
         actions.click().build().perform();
+        LOG.info("INFO", "Click on " + clickPoint + " point");
     }
 
     public static void clickByLocation(AppiumDriver driver, MobileElement element, ClickPoint clickPoint) {
@@ -202,6 +203,7 @@ public class DriverHelper {
                 driver.tap(1, x + size.getWidth() / 2, y + size.getHeight() / 2, 1);
                 break;
         }
+        LOG.info("INFO", "Click on " + clickPoint + " point");
     }
 
     public static void clickJQuery(WebDriver driver, WebElement element) {

@@ -27,6 +27,8 @@ public class PageValidator {
 
             if (positionElementCurrent.getX() < positionElementPrevious.getX() + sizeElementPrevious.getWidth()) {
                 aligned = false;
+                LOG.debug("Wrong item on position: " + i + ".\nPrevious element text is: " + elementPrevious.getText() + ".\nCurrent element text is: " + elementCurrent.getText() +  ".\nCoord of previous item is [" + positionElementPrevious.getX() + "," + positionElementPrevious.getY() + "]." +
+                        "\nCoord of current item is [" + positionElementCurrent.getX() + "," + positionElementCurrent.getY() + "]");
                 break;
             }
 
@@ -50,6 +52,8 @@ public class PageValidator {
 
             if (positionElementCurrent.getY() < positionElementPrevious.getY() + sizeElementPrevious.getHeight()) {
                 aligned = false;
+                LOG.debug("Wrong item on position: " + i + ".\nPrevious element text is: " + elementPrevious.getText() + ".\nCurrent element text is: " + elementCurrent.getText() +  ".\nCoord of previous item is [" + positionElementPrevious.getX() + "," + positionElementPrevious.getY() + "]." +
+                        "\nCoord of current item is [" + positionElementCurrent.getX() + "," + positionElementCurrent.getY() + "]");
                 break;
             }
 

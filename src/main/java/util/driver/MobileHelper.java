@@ -3,6 +3,8 @@ package util.driver;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -10,8 +12,9 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MobileHelper {
+    private final static Logger LOG = LoggerFactory.getLogger(MobileHelper.class);
 
-    public static final int BACKSPACE = 67;
+    private static final int BACKSPACE = 67;
 
     public MobileHelper(){
         getAdbPath();
@@ -21,28 +24,34 @@ public class MobileHelper {
 
     public static void turnOnWifi() {
         executeCommand(ADB + " shell am start -n io.appium.settings/.Settings -e wifi on");
+        LOG.info("INFO", "Turn on WiFi");
     }
 
     public static void turnOffWifi() {
         executeCommand(ADB + " shell am start -n io.appium.settings/.Settings -e wifi off");
+        LOG.info("INFO", "Turn off WiFi");
     }
 
     public static void turnOnMobileData() {
         executeCommand(ADB + " shell am start -n io.appium.settings/.Settings -e data on");
+        LOG.info("INFO", "Turn on Mobile data");
     }
 
     public static void turnOffMobileData() {
         executeCommand(ADB + " shell am start -n io.appium.settings/.Settings -e data off");
+        LOG.info("INFO", "Turn off Mobile data");
     }
 
     public static void turnOnAirplaneMode() {
         executeCommand(ADB + " shell settings put global airplane_mode_on 1");
         executeCommand(ADB + " shell am broadcast -a android.intent.action.AIRPLANE_MODE --ez state true");
+        LOG.info("INFO", "Turn on Airplane mode");
     }
 
     public static void turnOffAirplaneMode() {
         executeCommand(ADB + " shell settings put global airplane_mode_on 0");
         executeCommand(ADB + " shell am broadcast -a android.intent.action.AIRPLANE_MODE --ez state false");
+        LOG.info("INFO", "Turn off Airplane mode");
     }
 
     public static void takeScreenshotToFolder(String pathToSave){
@@ -72,9 +81,9 @@ public class MobileHelper {
         }
     }
 
-    protected static OSType detectedOS;
+    private static OSType detectedOS;
 
-    public static OSType getOperatingSystemType() {
+    private static OSType getOperatingSystemType() {
         if (detectedOS == null) {
             String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
             if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
@@ -90,7 +99,7 @@ public class MobileHelper {
         return detectedOS;
     }
 
-    public enum OSType {
+    private enum OSType {
         Windows, MacOS, Linux, Other
     };
 
@@ -108,6 +117,7 @@ public class MobileHelper {
 
     public static void openAndroidNotifications(AppiumDriver driver){
         driver.execute("openNotifications", null);
+        LOG.info("INFO", "Open notifications bar");
     }
 
     public static MobileElement clearField(AndroidDriver driver, MobileElement element){
