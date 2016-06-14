@@ -18,7 +18,7 @@ This is JAVA library for the running of mobile, web or API automated tests.
                 <dependency>
                     <groupId>io.automotion</groupId>
                     <artifactId>automation.framework</artifactId>
-                    <version>1.0.1</version>
+                    <version>1.0.2</version>
                 </dependency>
 
 ### Steps of adding to the project ###
