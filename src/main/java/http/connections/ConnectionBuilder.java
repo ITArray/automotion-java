@@ -49,9 +49,9 @@ class ConnectionBuilder {
         System.out.println("\n\n------------------------------------------------------------");
         System.out.println("POST request to: " + url + endpoint);
         HttpPost request = new HttpPost(url + endpoint);
-        request.addHeader("Authorization", "Bearer " + token);
-        request.addHeader("Authorization", token);
-        request.addHeader("authorization", token);
+//        request.addHeader("Authorization", "Bearer " + token);
+//        request.addHeader("Authorization", token);
+//        request.addHeader("authorization", token);
         request.addHeader("Cookie", "AuthCookie=" + token);
         String fileName = null;
         File file = null;
