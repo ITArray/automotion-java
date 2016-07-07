@@ -76,9 +76,11 @@ public class CapabilitiesFactory {
             capabilities = DesiredCapabilities.internetExplorer();
         }
 
-        capabilities.setCapability("platform", getSlDesktopPlatform());
-        capabilities.setCapability("version", getSlBrowserVersion());
-        capabilities.setCapability("screenResolution", getSlDesktopResolution());
+        if (getSlDesktopPlatform() != null) {
+            capabilities.setCapability("platform", getSlDesktopPlatform());
+            capabilities.setCapability("version", getSlBrowserVersion());
+            capabilities.setCapability("screenResolution", getSlDesktopResolution());
+        }
 
         return capabilities;
     }
