@@ -8,7 +8,7 @@ public class EnvironmentFactory {
     private static final String PLATFORM = System.getenv("PLATFORM");
     private static final String PLATFORM_VERSION = System.getenv("PLATFORM_VERSION");
     private static final String DEVICE = System.getenv("DEVICE");
-    private static final String MOBILE_DEVIVE_EMULATION = System.getenv("MOBILE_DEVIVE_EMULATION");
+    private static final String MOBILE_DEVICE_EMULATION = System.getenv("MOBILE_DEVICE_EMULATION");
     private static final String NAME = System.getenv("NAME");
     private static final String AUTOMATION_NAME = System.getenv("AUTOMATION_NAME");
     private static final String APP = System.getenv("APP");
@@ -78,7 +78,7 @@ public class EnvironmentFactory {
     }
 
     public static String getMobileDeviveEmulation() {
-        return MOBILE_DEVIVE_EMULATION;
+        return MOBILE_DEVICE_EMULATION;
     }
 
     public static String getName() {
