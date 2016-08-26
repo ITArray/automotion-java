@@ -1,7 +1,10 @@
 package util.driver;
 
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import static environment.EnvironmentFactory.*;
@@ -76,6 +79,18 @@ public class CapabilitiesFactory {
             capabilities = DesiredCapabilities.internetExplorer();
         }
 
+        if (getMobileDeviveEmulation() != null) {
+            Map<String, String> mobileEmulation = new HashMap<>();
+            mobileEmulation.put("deviceName", getMobileDeviveEmulation());
+
+            Map<String, Object> chromeOptions = new HashMap<>();
+            chromeOptions.put("mobileEmulation", mobileEmulation);
+            chromeOptions.put("args", Arrays.asList("disable-extensions",
+                    "test-type", "no-default-browser-check", "ignore-certificate-errors"));
+
+            capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+        }
+
         if (getSlDesktopPlatform() != null) {
             capabilities.setCapability("platform", getSlDesktopPlatform());
             capabilities.setCapability("version", getSlBrowserVersion());
@@ -84,6 +99,4 @@ public class CapabilitiesFactory {
 
         return capabilities;
     }
-
-
 }
