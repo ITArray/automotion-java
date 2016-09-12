@@ -8,7 +8,7 @@ import static java.lang.String.join;
 
 public class TextFinder {
 
-    public static final double DERIVATION = 0.3;
+    private static double DERIVATION = 0.3;
 
     public static boolean textIsFound(String pattern, String text) {
         pattern = pattern.toLowerCase();
@@ -79,5 +79,14 @@ public class TextFinder {
 
             return matchTime == patternArr.length || found;
         }
+    }
+
+    public static void setDerivation(int derivation){
+        if (derivation > 1){
+            derivation = 1;
+        }else if (derivation < 0){
+            derivation = 0;
+        }
+        DERIVATION = derivation;
     }
 }
