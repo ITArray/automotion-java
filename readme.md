@@ -102,22 +102,22 @@ This is JAVA library for the running of mobile, web or API automated tests.
             Parser.getXMLValue(String xmlToParse, String xpath) - String
             Parser.getXMLValues(String xmlToParse, String xpath) - List<String>
             
-     * Smart Text finder. Can find the string even in the broken text with corrupted characters:
+    * Smart Text finder. Can find the string even in the broken text with corrupted characters:
      
             TextFinder.textIsFound(String whatToFind, String whereToFind) - bool. Default derivation is 30% (0.3). It means that accuracy of searching will be 70%
             TextFinder.setDerivation(int newValue) - void. New value between 0 and 1.
             
-     * Mail checker (IMAP). Possible to connect to any IMAP mail box (Gmail for example) and get the list of mails with access to the mail details.
+    * Mail checker (IMAP). Possible to connect to any IMAP mail box (Gmail for example) and get the list of mails with access to the mail details.
      
             MailService mailService = new MailService();
             mailService.login(String IMAP_Server, int IMAP_Port, String email, String passwordToEmail);
-            
+
             mailService.isLoggedIn()) - boolean
             mailService.getMessageCount() - integer
             mailService.getMessages() - Message[]
             mailService.getLastMessage() - Message - last message
             
-     * Language validator. Algorithm based on semantic approach of languages validation on the web page. Allowed methods:
+    * Language validator. Algorithm based on semantic approach of languages validation on the web page. Allowed methods:
      
             LanguageChecker.getRecognisedLanguage(String textToValidate) - Optional<LdLocale> 
             Allowed method .get() to get access to the details. E.g LanguageChecker.getRecognisedLanguage(String textToValidate).get().getLanguage() will return "en"
@@ -126,7 +126,7 @@ This is JAVA library for the running of mobile, web or API automated tests.
             
   - Web and mobile WebDriver Helpers that are useful in the very different situations:
   
-     * All the methods are collected in both classes: MobileHelper and DriverHelper. The most useful pf them are:
+    * All the methods are collected in both classes: MobileHelper and DriverHelper. The most useful pf them are:
      
             DriverHelper.scrollDownWeb(WebDriver driver) 
             DriverHelper.scrollUpWeb(WebDriver driver) 
