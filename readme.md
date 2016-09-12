@@ -53,6 +53,7 @@ This is JAVA library for the running of mobile, web or API automated tests.
             export IS_REMOTE=True
             export BROWSER=Firefox|Chrome|IE|Safari
             export EXECUTOR=http://{host}:{port}/wd/hub
+            (optional) export MOBILE_DEVICE_EMULATION=Google Nexus 5|Apple iPhone 6|Samsung Galaxy S5
 
     * For Web Mobile run:
 
