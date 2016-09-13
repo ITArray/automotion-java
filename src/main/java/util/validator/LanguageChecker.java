@@ -46,7 +46,7 @@ public class LanguageChecker {
         } else {
             for (int i = 0; i < bodyTextLength; i += textBlockLength) {
                 String tempString;
-                if (bodyTextLength >= (i + textBlockLength - 100) ) {
+                if (bodyTextLength >= (i + textBlockLength) ) {
                     tempString = bodyText.substring(i, i + textBlockLength);
 
                     try {
