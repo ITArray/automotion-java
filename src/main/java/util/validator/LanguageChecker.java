@@ -39,6 +39,8 @@ public class LanguageChecker {
         String bodyText = jse.executeScript("return document.body.innerHTML", "").toString();
         bodyText = bodyText.replaceAll("<script\\b[^<]*(?:(?!<\\/script>)<[^<]*)*<\\/script>", "");
         bodyText = bodyText.replaceAll("<noscript\\b[^<]*(?:(?!<\\/noscript>)<[^<]*)*<\\/noscript>", "");
+        bodyText = bodyText.replaceAll("<style\\b[^<]*(?:(?!<\\/style>)<[^<]*)*<\\/style>", "");
+        bodyText = bodyText.replaceAll("<pre\\b[^<]*(?:(?!<\\/pre>)<[^<]*)*<\\/pre>", "");
         bodyText = bodyText.replaceAll("<[^>]*>", "");
         bodyText = bodyText.toLowerCase().replaceAll("[\\t|\\n|\\r|\\s]+", " ").replaceAll("[\\s]+", " ");
 

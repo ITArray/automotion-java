@@ -6,7 +6,7 @@
 
     <groupId>io.automotion</groupId>
     <artifactId>automation.framework</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <properties>
         <!-- github server corresponds to entry in ~/.m2/settings.xml -->
         <github.global.server>github</github.global.server>

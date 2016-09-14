@@ -18,7 +18,7 @@ This is JAVA library for the running of mobile, web or API automated tests.
                 <dependency>
                     <groupId>io.automotion</groupId>
                     <artifactId>automation.framework</artifactId>
-                    <version>1.1.0</version>
+                    <version>1.1.1</version>
                 </dependency>
 
 ### Steps of adding to the project ###
@@ -41,6 +41,7 @@ This is JAVA library for the running of mobile, web or API automated tests.
 
 ### Steps of using during test run ###
 
+#### ! Do not forget to put Chrome driver into Your project src/test/resources/drivers ! ####
 
  - Specify env variables (example):
     * For Web local run::
