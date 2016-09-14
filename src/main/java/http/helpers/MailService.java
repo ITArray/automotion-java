@@ -10,10 +10,10 @@ public class MailService {
     private Folder folder;
 
     private String protocol = "imaps";
-    private String file = "INBOX";
+    private MailFolder folderName = MailFolder.INBOX;
 
     public boolean isLoggedIn() {
-        return store.isConnected();
+        return store != null && store.isConnected();
     }
 
     /**
@@ -21,7 +21,8 @@ public class MailService {
      */
     public void login(String host, int port, String username, String password)
             throws Exception {
-        URLName url = new URLName(protocol, host, port, file, username, password);
+        String fName = getFolderName(folderName);
+        URLName url = new URLName(protocol, host, port, fName, username, password);
 
         if (session == null) {
             Properties props = null;
@@ -65,5 +66,40 @@ public class MailService {
 
     public Message getLastMesage() throws MessagingException {
         return getMessages()[getMessageCount() - 1];
+    }
+
+    public MailService setFolder(MailFolder folder){
+        if (!isLoggedIn()) {
+            this.folderName = folder;
+        }
+
+        return this;
+    }
+
+    public enum MailFolder{
+        INBOX,
+        SPAM,
+        TRASH
+    }
+
+    private String getFolderName(MailFolder folder){
+        String folderName;
+
+        switch (folder){
+            case INBOX:
+                folderName = "INBOX";
+                break;
+            case SPAM:
+                folderName = "[Gmail]/Spam";
+                break;
+            case TRASH:
+                folderName = "[Gmail]/Trash";
+                break;
+            default:
+                folderName = "INBOX";
+                break;
+        }
+
+        return folderName;
     }
 }

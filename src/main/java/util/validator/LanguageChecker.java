@@ -36,7 +36,12 @@ public class LanguageChecker {
     public static boolean isCorrectLanguageOnThePage(WebDriver driver, String lang) throws IOException {
         boolean isCorrectLang = true;
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        String bodyText = jse.executeScript("return document.body.innerText", "").toString();
+        String bodyText = jse.executeScript("return document.body.innerHTML", "").toString();
+        bodyText = bodyText.replaceAll("<script\\b[^<]*(?:(?!<\\/script>)<[^<]*)*<\\/script>", "");
+        bodyText = bodyText.replaceAll("<noscript\\b[^<]*(?:(?!<\\/noscript>)<[^<]*)*<\\/noscript>", "");
+        bodyText = bodyText.replaceAll("<[^>]*>", "");
+        bodyText = bodyText.toLowerCase().replaceAll("[\\t|\\n|\\r|\\s]+", " ").replaceAll("[\\s]+", " ");
+
         int textBlockLength = 300;
         int bodyTextLength = bodyText.length();
 
@@ -48,9 +53,8 @@ public class LanguageChecker {
                 String tempString;
                 if (bodyTextLength >= (i + textBlockLength) ) {
                     tempString = bodyText.substring(i, i + textBlockLength);
-
                     try {
-                        String detectedLanguage = getRecognisedLanguage(tempString.toLowerCase().replaceAll("[\\t|\\n|\\r|\\s]+", " ").replaceAll("[\\s]+", " ")).get().getLanguage();
+                        String detectedLanguage = getRecognisedLanguage(tempString).get().getLanguage();
 
                         if (!detectedLanguage.toLowerCase().equals(lang.toLowerCase())) {
                             System.out.println("\n!!! - Piece of text without translation: \n" + tempString + "\nExpected language is \"" + lang + "\"\n");

@@ -111,7 +111,10 @@ This is JAVA library for the running of mobile, web or API automated tests.
     * Mail checker (IMAP). Possible to connect to any IMAP mail box (Gmail for example) and get the list of mails with access to the mail details.
      
             MailService mailService = new MailService();
-            mailService.login(String IMAP_Server, int IMAP_Port, String email, String passwordToEmail);
+            mailService
+                       .setFolder(MailService.MailFolder.INBOX) // (INBOX, SPAM, TRASH)
+                       .login(String IMAP_Server, int IMAP_Port, String email, String passwordToEmail);
+            
 
             mailService.isLoggedIn()) - boolean
             mailService.getMessageCount() - integer
