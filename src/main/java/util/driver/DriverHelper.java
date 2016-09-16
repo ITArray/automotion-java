@@ -106,13 +106,15 @@ public class DriverHelper {
         sleep(1000 * seconds);
     }
 
-    public static void takeScreenshot(WebDriver driver) throws Exception {
+    public static String takeScreenshot(WebDriver driver) throws Exception {
         String fullFileName = System.getProperty("user.dir")
                 + "/target/reports/screenshots/screenshot_"
                 + System.currentTimeMillis() + ".png";
 
         File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(screenshot, new File(fullFileName));
+
+        return fullFileName;
     }
 
     public static void hideKeyboard(AppiumDriver driver) {
