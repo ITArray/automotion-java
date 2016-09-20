@@ -85,7 +85,7 @@ public class CapabilitiesFactory {
 
             Map<String, Object> chromeOptions = new HashMap<>();
             chromeOptions.put("mobileEmulation", mobileEmulation);
-            chromeOptions.put("args", Arrays.asList("disable-extensions",
+            chromeOptions.put("args", Arrays.asList("enable-extensions",
                     "test-type", "no-default-browser-check", "ignore-certificate-errors"));
 
             capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
