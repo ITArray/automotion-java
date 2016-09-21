@@ -97,6 +97,62 @@ class ConnectionBuilder {
         return httpResponse;
     }
 
+    public CloseableHttpResponse sendPOST(Map<Object, Object> map, Map<String, String> headers, String endpoint, String token, boolean withMediaFile) throws IOException {
+        HttpClientBuilder httpClientBuilder = getHttpClientBuilder();
+
+        HttpClient httpClient = httpClientBuilder.build();
+
+        System.out.println("\n\n------------------------------------------------------------");
+        System.out.println("POST request to: " + url + endpoint);
+        HttpPost request = new HttpPost(url + endpoint);
+
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            request.addHeader(entry.getKey(), entry.getValue());
+        }
+        String fileName = null;
+        File file = null;
+        if (withMediaFile) {
+            String boundary = "-------------" + System.currentTimeMillis();
+            fileName = (String) map.get("file");
+
+            try {
+                file = Helper.createFile(fileName);
+
+            } catch (AWTException e) {
+                e.printStackTrace();
+            }
+
+            MultipartEntityBuilder entity = MultipartEntityBuilder.create()
+                    .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
+                    .setBoundary(boundary);
+
+            if (fileName != null) {
+                entity.addPart("file", new ByteArrayBody(Files.readAllBytes(file.toPath()), fileName));
+            }
+
+            for (Map.Entry entry: map.entrySet()){
+                entity.addPart(String.valueOf(entry.getKey()), new StringBody((String) entry.getValue()));
+            }
+
+
+            request.setEntity(entity.build());
+            request.setHeader("Content-type", "multipart/form-data; boundary=" + boundary);
+        } else {
+            StringEntity params = new StringEntity(JSONObject.toJSONString(map));
+            System.out.println("with data: " + JSONObject.toJSONString(map));
+            request.addHeader("Content-Type", "application/json;charset=UTF-8");
+            request.setEntity(params);
+        }
+
+        CloseableHttpResponse httpResponse = (CloseableHttpResponse) httpClient.execute(request);
+
+        if (file != null) {
+            file.delete();
+        }
+
+        return httpResponse;
+    }
+
     private HttpClientBuilder getHttpClientBuilder() {
         SSLContext sslContext = null;
         try {
@@ -177,6 +233,22 @@ class ConnectionBuilder {
         Map<Integer, String> mapResult = new HashMap<Integer, String>();
 
         CloseableHttpResponse response = sendPOST(map, endpoint, token, withMediaFile);
+
+        StringBuffer body = getBodyResponse(response);
+
+        mapResult.put(response.getStatusLine().getStatusCode(), body.toString());
+
+        System.out.println("\n\nResponse:");
+        System.out.println(response.getStatusLine());
+        System.out.println(body.toString());
+
+        return mapResult;
+    }
+
+    protected Map<Integer, String> getPOST(Map map, Map headers, String endpoint, String token, boolean withMediaFile) throws IOException {
+        Map<Integer, String> mapResult = new HashMap<Integer, String>();
+
+        CloseableHttpResponse response = sendPOST(map, headers, endpoint, token, withMediaFile);
 
         StringBuffer body = getBodyResponse(response);
 

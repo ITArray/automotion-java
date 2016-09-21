@@ -22,6 +22,10 @@ public class ConnectionFactory extends ConnectionBuilder {
         return new ConnectionBuilder(url).getPOST(map, endpoint, token, withMediaFile);
     }
 
+    public Map<Integer, String> sendPost(Map map, Map headers, String endpoint, String token, boolean withMediaFile) throws IOException {
+        return new ConnectionBuilder(url).getPOST(map, headers, endpoint, token, withMediaFile);
+    }
+
     public Map<Integer, String> sendGet(String endpoint, String token) throws IOException {
         return new ConnectionBuilder(url).getGET(endpoint, token);
     }
