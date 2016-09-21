@@ -40,8 +40,8 @@ public class Parser {
         return nodes.item(0).getNodeValue();
     }
 
-    public static JsonArray jsonToJsonArray(String json, String key) throws ParseException {
-        return (JsonArray) new JsonParser().parse(Parser.getJSONValue(json, key));
+    public static JsonArray jsonToJsonArray(String jsonArray) throws ParseException {
+        return (JsonArray) new JsonParser().parse(jsonArray);
     }
 
     public static List<String> getXMLValues(String xml, String selector) throws ParserConfigurationException, XPathExpressionException, IOException, SAXException {
