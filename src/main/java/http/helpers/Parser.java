@@ -1,5 +1,7 @@
 package http.helpers;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -20,12 +22,12 @@ import java.util.List;
 public class Parser {
 
     public static String getJSONValue(String jsonData, String key) throws ParseException {
-        JSONObject json = (JSONObject)new JSONParser().parse(jsonData);
+        JSONObject json = (JSONObject) new JSONParser().parse(jsonData);
 
-        return  json.get(key).toString();
+        return json.get(key).toString();
     }
 
-    public static  String getDataValue(String json, String key) throws ParseException {
+    public static String getDataValue(String json, String key) throws ParseException {
         return Parser.getJSONValue(json, key);
     }
 
@@ -36,6 +38,10 @@ public class Parser {
         }
 
         return nodes.item(0).getNodeValue();
+    }
+
+    public static JsonArray jsonToJsonArray(String json, String key) throws ParseException {
+        return (JsonArray) new JsonParser().parse(Parser.getJSONValue(json, key));
     }
 
     public static List<String> getXMLValues(String xml, String selector) throws ParserConfigurationException, XPathExpressionException, IOException, SAXException {
