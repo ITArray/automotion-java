@@ -34,11 +34,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 class ConnectionBuilder {
-    
+
     public ConnectionBuilder(String url) {
         this.url = url;
     }
-    
+
     private String url;
 
     public CloseableHttpResponse sendPOST(Map<Object, Object> map, String endpoint, String token, boolean withMediaFile) throws IOException {
@@ -74,7 +74,7 @@ class ConnectionBuilder {
                 entity.addPart("file", new ByteArrayBody(Files.readAllBytes(file.toPath()), fileName));
             }
 
-            for (Map.Entry entry: map.entrySet()){
+            for (Map.Entry entry : map.entrySet()) {
                 entity.addPart(String.valueOf(entry.getKey()), new StringBody((String) entry.getValue()));
             }
 
@@ -130,7 +130,7 @@ class ConnectionBuilder {
                 entity.addPart("file", new ByteArrayBody(Files.readAllBytes(file.toPath()), fileName));
             }
 
-            for (Map.Entry entry: map.entrySet()){
+            for (Map.Entry entry : map.entrySet()) {
                 entity.addPart(String.valueOf(entry.getKey()), new StringBody((String) entry.getValue()));
             }
 
@@ -188,9 +188,21 @@ class ConnectionBuilder {
         request.addHeader("Authorization", "Bearer " + token);
 
 
-        CloseableHttpResponse httpResponse = (CloseableHttpResponse) httpClient.execute(request);
+        return (CloseableHttpResponse) httpClient.execute(request);
+    }
 
-        return httpResponse;
+    private CloseableHttpResponse sendGET(String endpoint, Map<String, String> headers) throws IOException {
+        HttpClientBuilder httpClientBuilder = getHttpClientBuilder();
+
+        HttpClient httpClient = httpClientBuilder.build();
+
+        System.out.println("GET request to: " + url + endpoint);
+        HttpGet request = new HttpGet(url + endpoint);
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            request.addHeader(entry.getKey(), entry.getValue());
+        }
+
+        return (CloseableHttpResponse) httpClient.execute(request);
     }
 
     private CloseableHttpResponse sendDELETE(String endpoint, String token) throws IOException {
@@ -204,9 +216,7 @@ class ConnectionBuilder {
         request.addHeader("Authorization", "Bearer " + token);
 
 
-        CloseableHttpResponse httpResponse = (CloseableHttpResponse) httpClient.execute(request);
-
-        return httpResponse;
+        return (CloseableHttpResponse) httpClient.execute(request);
     }
 
     private CloseableHttpResponse sendPUT(Map<String, String> map, String endpoint, String token) throws IOException {
@@ -224,9 +234,7 @@ class ConnectionBuilder {
 
         request.setEntity(params);
 
-        CloseableHttpResponse httpResponse = (CloseableHttpResponse) httpClient.execute(request);
-
-        return httpResponse;
+        return (CloseableHttpResponse) httpClient.execute(request);
     }
 
     protected Map<Integer, String> getPOST(Map map, String endpoint, String token, boolean withMediaFile) throws IOException {
@@ -265,6 +273,18 @@ class ConnectionBuilder {
         Map<Integer, String> mapResult = new HashMap<Integer, String>();
 
         CloseableHttpResponse response = sendGET(endpoint, token);
+
+        StringBuffer body = getBodyResponse(response);
+
+        mapResult.put(response.getStatusLine().getStatusCode(), body.toString());
+
+        return mapResult;
+    }
+
+    protected Map<Integer, String> getGET(String endpoint, Map headers) throws IOException {
+        Map<Integer, String> mapResult = new HashMap<Integer, String>();
+
+        CloseableHttpResponse response = sendGET(endpoint, headers);
 
         StringBuffer body = getBodyResponse(response);
 

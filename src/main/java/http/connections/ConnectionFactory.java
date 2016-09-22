@@ -30,6 +30,10 @@ public class ConnectionFactory extends ConnectionBuilder {
         return new ConnectionBuilder(url).getGET(endpoint, token);
     }
 
+    public Map<Integer, String> sendGet(String endpoint, Map headers) throws IOException {
+        return new ConnectionBuilder(url).getGET(endpoint, headers);
+    }
+
     public Map<Integer, String> sendPut(Map map, String endpoint, String token) throws IOException {
         return new ConnectionBuilder(url).getPUT(map, endpoint, token);
     }
