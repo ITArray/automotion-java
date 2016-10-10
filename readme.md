@@ -63,6 +63,12 @@ This is JAVA library for the running of mobile, web or API automated tests.
             export BROWSER=Chrome|Safari
             export EXECUTOR=http://{host}:{port}/wd/hub
             export DEVICE=Device name
+            
+    * For Web Headless run (with PhantomJS without browser):
+
+            export IS_HEADLESS=True
+            export BROWSER=Firefox|Chrome|IE|Safari
+            export PHANTOM_JS_PATH=C://phantomjs.exe
 
     * For Native Mobile run:
 

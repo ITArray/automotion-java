@@ -9,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
@@ -18,10 +19,9 @@ import org.slf4j.LoggerFactory;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import static util.driver.CapabilitiesFactory.getCapabilities;
 import static environment.EnvironmentFactory.*;
+import static util.driver.CapabilitiesFactory.getCapabilities;
 
 public class WebDriverFactory {
     private final Logger LOG = LoggerFactory.getLogger(WebDriverFactory.class);
@@ -48,13 +48,17 @@ public class WebDriverFactory {
             LOG.info("Start Local web driver");
         } else if (isRemote()) {
             driver = getRemoteWebDriver();
-            LOG.info("Start Mobile driver");
+            LOG.info("Start Remote driver");
+        } else if (isHeadless()) {
+            driver = getPhantomJSDriver();
+            LOG.info("Start Phantom JS driver");
         }
 
         return driver;
     }
 
-    public void updateCapabilities(Map<String, Object> mapCapabilities){
+
+    public void updateCapabilities(Map<String, Object> mapCapabilities) {
         CapabilitiesFactory.updateCapabilities(capabilities, mapCapabilities);
     }
 
@@ -92,6 +96,10 @@ public class WebDriverFactory {
         }
 
         return webDriver;
+    }
+
+    private WebDriver getPhantomJSDriver() {
+        return new PhantomJSDriver(capabilities);
     }
 
     private RemoteWebDriver getRemoteWebDriver() {

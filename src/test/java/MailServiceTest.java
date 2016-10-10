@@ -7,8 +7,8 @@ import javax.mail.MessagingException;
 
 public class MailServiceTest {
 
-    private static final String EMAIL = "testremax01@gmail.com";
-    private static final String PASSWORD = "remax2016";
+    private static final String EMAIL = "myreaction.user1@gmail.com";
+    private static final String PASSWORD = "myreaction.user1-2015";
     private static final String IMAP_HOST = "imap.gmail.com";
     
     private MailService mailService;

@@ -4,8 +4,10 @@ public class EnvironmentFactory {
 
     private static final String IS_MOBILE = System.getenv("IS_MOBILE");
     private static final String IS_LOCAL = System.getenv("IS_LOCAL");
+    private static final String IS_HEADLESS = System.getenv("IS_HEADLESS");
     private static final String IS_REMOTE = System.getenv("IS_REMOTE");
     private static final String PLATFORM = System.getenv("PLATFORM");
+    private static final String PHANTOM_JS_PATH = System.getenv("PHANTOM_JS_PATH");
     private static final String PLATFORM_VERSION = System.getenv("PLATFORM_VERSION");
     private static final String DEVICE = System.getenv("DEVICE");
     private static final String MOBILE_DEVICE_EMULATION = System.getenv("MOBILE_DEVICE_EMULATION");
@@ -35,6 +37,10 @@ public class EnvironmentFactory {
 
     public static boolean isRemote() {
         return IS_REMOTE != null && IS_REMOTE.toUpperCase().equals("TRUE");
+    }
+
+    public static boolean isHeadless() {
+        return IS_HEADLESS != null && IS_HEADLESS.toUpperCase().equals("TRUE");
     }
 
     public static boolean isSauce() {
@@ -73,6 +79,10 @@ public class EnvironmentFactory {
         return PLATFORM_VERSION;
     }
 
+    public static String getPhantomJsPath() {
+        return PHANTOM_JS_PATH;
+    }
+
     public static String getDevice() {
         return DEVICE;
     }
@@ -83,6 +93,10 @@ public class EnvironmentFactory {
 
     public static String getName() {
         return NAME;
+    }
+
+    public static String getBrowserName() {
+        return BROWSER;
     }
 
     public static String getAppPackage() {

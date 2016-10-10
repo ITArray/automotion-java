@@ -1,6 +1,7 @@
 package util.driver;
 
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.Arrays;
@@ -20,6 +21,8 @@ public class CapabilitiesFactory {
             capabilities = getIOSCapabilities();
         } else if (isRemote()) {
             capabilities = getRemoteDriverCapabilities();
+        } else if (isHeadless()) {
+            capabilities = getPhantomJSCapabilities();
         }
 
         return capabilities;
@@ -64,6 +67,18 @@ public class CapabilitiesFactory {
         capabilities.setCapability("udid", getUDIDDevice());
         capabilities.setCapability("waitForAppScript", true);
 
+
+        return capabilities;
+    }
+
+    private static DesiredCapabilities getPhantomJSCapabilities() {
+        capabilities.setJavascriptEnabled(true);
+        capabilities.setCapability("takesScreenshot", true);
+        capabilities.setCapability("browserName", "PhantomJS");
+        capabilities.setCapability("browser", getBrowserName().toLowerCase());
+        capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
+                getPhantomJsPath()
+        );
 
         return capabilities;
     }
