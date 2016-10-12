@@ -1,3 +1,4 @@
+import environment.EnvironmentConstants;
 import environment.EnvironmentFactory;
 import http.helpers.EnvironmentHelper;
 import org.junit.Assert;
@@ -11,7 +12,7 @@ public class EnvironmentFactoryTest {
     @Test
     public void testThatEnvironmentPropertiesCouldBeSet(){
         Map<String, String> map = new HashMap<>();
-        map.put("IS_LOCAL", "TRUE");
+        map.put(EnvironmentConstants.IS_LOCAL, "TRUE");
         EnvironmentHelper.setEnv(map);
         Assert.assertTrue(EnvironmentFactory.isLocal());
         Assert.assertFalse(EnvironmentFactory.isMobile());
@@ -19,7 +20,7 @@ public class EnvironmentFactoryTest {
         Assert.assertFalse(EnvironmentFactory.isHeadless());
 
         map.clear();
-        map.put("IS_MOBILE", "TRUE");
+        map.put(EnvironmentConstants.IS_MOBILE, "TRUE");
         EnvironmentHelper.setEnv(map);
         Assert.assertFalse(EnvironmentFactory.isLocal());
         Assert.assertTrue(EnvironmentFactory.isMobile());
@@ -27,7 +28,7 @@ public class EnvironmentFactoryTest {
         Assert.assertFalse(EnvironmentFactory.isHeadless());
 
         map.clear();
-        map.put("IS_REMOTE", "TRUE");
+        map.put(EnvironmentConstants.IS_REMOTE, "TRUE");
         EnvironmentHelper.setEnv(map);
         Assert.assertFalse(EnvironmentFactory.isLocal());
         Assert.assertFalse(EnvironmentFactory.isMobile());
@@ -36,7 +37,7 @@ public class EnvironmentFactoryTest {
 
 
         map.clear();
-        map.put("IS_HEADLESS", "TRUE");
+        map.put(EnvironmentConstants.IS_HEADLESS, "TRUE");
         EnvironmentHelper.setEnv(map);
         Assert.assertFalse(EnvironmentFactory.isLocal());
         Assert.assertFalse(EnvironmentFactory.isMobile());
