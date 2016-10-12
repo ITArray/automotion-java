@@ -2,144 +2,134 @@ package environment;
 
 public class EnvironmentFactory {
 
-    private static final String IS_MOBILE = System.getenv("IS_MOBILE");
-    private static final String IS_LOCAL = System.getenv("IS_LOCAL");
-    private static final String IS_HEADLESS = System.getenv("IS_HEADLESS");
-    private static final String IS_REMOTE = System.getenv("IS_REMOTE");
-    private static final String PLATFORM = System.getenv("PLATFORM");
-    private static final String PHANTOM_JS_PATH = System.getenv("PHANTOM_JS_PATH");
-    private static final String PLATFORM_VERSION = System.getenv("PLATFORM_VERSION");
-    private static final String DEVICE = System.getenv("DEVICE");
-    private static final String MOBILE_DEVICE_EMULATION = System.getenv("MOBILE_DEVICE_EMULATION");
-    private static final String NAME = System.getenv("NAME");
-    private static final String AUTOMATION_NAME = System.getenv("AUTOMATION_NAME");
-    private static final String APP = System.getenv("APP");
-    private static final String APP_PACKAGE = System.getenv("APP_PACKAGE");
-    private static final String APP_ACTIVITY = System.getenv("APP_ACTIVITY");
-    private static final String EXECUTOR = System.getenv("EXECUTOR");
-    private static final String BROWSER = System.getenv("BROWSER");
-    private static final String MOBILE_BROWSER = System.getenv("MOBILE_BROWSER");
-    private static final String UDID = System.getenv("UDID");
-    private static final String APPIUM_VERSION = System.getenv("APPIUM_VERSION");
-    private static final String IS_SAUCE = System.getenv("IS_SAUCE");
-    private static final String NEW_COMMAND_TIMEOUT = System.getenv("NEW_COMMAND_TIMEOUT");
-    private static final String SL_DESKTOP_PLATFORM = System.getenv("SL_DESKTOP_PLATFORM");
-    private static final String SL_BROWSER_VERSION = System.getenv("SL_BROWSER_VERSION");
-    private static final String SL_DESKTOP_RESOLUTION = System.getenv("SL_DESKTOP_RESOLUTION");
+    private static String BROWSER;
 
     public static boolean isMobile() {
+        String IS_MOBILE = System.getenv("IS_MOBILE") != null ? System.getenv("IS_MOBILE") : System.getProperty("IS_MOBILE");
         return IS_MOBILE != null && IS_MOBILE.toUpperCase().equals("TRUE");
     }
 
     public static boolean isLocal() {
+        String IS_LOCAL = System.getenv("IS_LOCAL") != null ? System.getenv("IS_LOCAL") : System.getProperty("IS_LOCAL");
         return IS_LOCAL != null && IS_LOCAL.toUpperCase().equals("TRUE");
     }
 
     public static boolean isRemote() {
+        String IS_REMOTE = System.getenv("IS_REMOTE") != null ? System.getenv("IS_REMOTE") : System.getProperty("IS_REMOTE");
         return IS_REMOTE != null && IS_REMOTE.toUpperCase().equals("TRUE");
     }
 
     public static boolean isHeadless() {
+
+        String IS_HEADLESS = System.getenv("IS_HEADLESS") != null ? System.getenv("IS_HEADLESS") : System.getProperty("IS_HEADLESS");
         return IS_HEADLESS != null && IS_HEADLESS.toUpperCase().equals("TRUE");
     }
 
     public static boolean isSauce() {
+        String IS_SAUCE = System.getenv("IS_SAUCE") != null ? System.getenv("IS_SAUCE") : System.getProperty("IS_SAUCE");
         return IS_SAUCE != null && IS_SAUCE.toUpperCase().equals("TRUE");
     }
 
     public static boolean isFirefox() {
+        BROWSER = System.getenv("BROWSER") != null ? System.getenv("BROWSER") : System.getProperty("BROWSER");
         return BROWSER != null && BROWSER.toUpperCase().equals("FIREFOX");
     }
 
     public static boolean isChrome() {
+        BROWSER = System.getenv("BROWSER") != null ? System.getenv("BROWSER") : System.getProperty("BROWSER");
         return BROWSER != null && BROWSER.toUpperCase().equals("CHROME");
     }
 
     public static boolean isSafari() {
+        BROWSER = System.getenv("BROWSER") != null ? System.getenv("BROWSER") : System.getProperty("BROWSER");
         return BROWSER != null && BROWSER.toUpperCase().equals("SAFARI");
     }
 
     public static boolean isInternetExplorer() {
+        BROWSER = System.getenv("BROWSER") != null ? System.getenv("BROWSER") : System.getProperty("BROWSER");
         return BROWSER != null && BROWSER.toUpperCase().equals("IE");
     }
 
     public static boolean isAndroid() {
+        String PLATFORM = System.getenv("PLATFORM") != null ? System.getenv("PLATFORM") : System.getProperty("PLATFORM");
         return PLATFORM != null && PLATFORM.toUpperCase().equals("ANDROID");
     }
 
     public static boolean isIOS() {
+        String PLATFORM = System.getenv("PLATFORM") != null ? System.getenv("PLATFORM") : System.getProperty("PLATFORM");
         return PLATFORM != null && PLATFORM.toUpperCase().equals("IOS");
     }
 
     public static String getRemoteUrlPath() {
-        return EXECUTOR;
+        return System.getenv("EXECUTOR") != null ? System.getenv("EXECUTOR") : System.getProperty("EXECUTOR");
     }
 
     public static String getPlatformVersion() {
-        return PLATFORM_VERSION;
+        return System.getenv("PLATFORM_VERSION") != null ? System.getenv("PLATFORM_VERSION") : System.getProperty("PLATFORM_VERSION");
     }
 
     public static String getPhantomJsPath() {
-        return PHANTOM_JS_PATH;
+        return System.getenv("PHANTOM_JS_PATH") != null ? System.getenv("PHANTOM_JS_PATH") : System.getProperty("PHANTOM_JS_PATH");
     }
 
     public static String getDevice() {
-        return DEVICE;
+        return System.getenv("DEVICE") != null ? System.getenv("DEVICE") : System.getProperty("DEVICE");
     }
 
     public static String getMobileDeviveEmulation() {
-        return MOBILE_DEVICE_EMULATION;
+        return System.getenv("MOBILE_DEVICE_EMULATION") != null ? System.getenv("MOBILE_DEVICE_EMULATION") : System.getProperty("MOBILE_DEVICE_EMULATION");
     }
 
     public static String getName() {
-        return NAME;
+        return System.getenv("NAME") != null ? System.getenv("NAME") : System.getProperty("NAME");
     }
 
     public static String getBrowserName() {
+        BROWSER = System.getenv("BROWSER") != null ? System.getenv("BROWSER") : System.getProperty("BROWSER");
         return BROWSER;
     }
 
     public static String getAppPackage() {
-        return APP_PACKAGE;
+        return System.getenv("APP_PACKAGE") != null ? System.getenv("APP_PACKAGE") : System.getProperty("APP_PACKAGE");
     }
 
     public static String getAppActivity() {
-        return APP_ACTIVITY;
+        return System.getenv("APP_ACTIVITY") != null ? System.getenv("APP_ACTIVITY") : System.getProperty("APP_ACTIVITY");
     }
 
     public static String getApp() {
-        return APP;
+        return System.getenv("APP") != null ? System.getenv("APP") : System.getProperty("APP");
     }
 
     public static String getAutomationName() {
-        return AUTOMATION_NAME;
+        return System.getenv("AUTOMATION_NAME") != null ? System.getenv("AUTOMATION_NAME") : System.getProperty("AUTOMATION_NAME");
     }
 
     public static String getAppiumVersion() {
-        return APPIUM_VERSION;
+        return System.getenv("APPIUM_VERSION") != null ? System.getenv("APPIUM_VERSION") : System.getProperty("APPIUM_VERSION");
     }
 
     public static String getUDIDDevice() {
-        return UDID;
+        return System.getenv("UDID") != null ? System.getenv("UDID") : System.getProperty("UDID");
     }
 
     public static String getMobileBrowser() {
-        return MOBILE_BROWSER;
+        return System.getenv("MOBILE_BROWSER") != null ? System.getenv("MOBILE_BROWSER") : System.getProperty("MOBILE_BROWSER");
     }
 
     public static String getNewCommandTimeout() {
-        return NEW_COMMAND_TIMEOUT;
+        return System.getenv("NEW_COMMAND_TIMEOUT") != null ? System.getenv("NEW_COMMAND_TIMEOUT") : System.getProperty("NEW_COMMAND_TIMEOUT");
     }
 
     public static String getSlDesktopPlatform() {
-        return SL_DESKTOP_PLATFORM;
+        return System.getenv("SL_DESKTOP_PLATFORM") != null ? System.getenv("SL_DESKTOP_PLATFORM") : System.getProperty("SL_DESKTOP_PLATFORM");
     }
 
     public static String getSlBrowserVersion() {
-        return SL_BROWSER_VERSION;
+        return System.getenv("SL_BROWSER_VERSION") != null ? System.getenv("SL_BROWSER_VERSION") : System.getProperty("SL_BROWSER_VERSION");
     }
 
     public static String getSlDesktopResolution() {
-        return SL_DESKTOP_RESOLUTION;
+        return System.getenv("SL_DESKTOP_RESOLUTION") != null ? System.getenv("SL_DESKTOP_RESOLUTION") : System.getProperty("SL_DESKTOP_RESOLUTION");
     }
 }

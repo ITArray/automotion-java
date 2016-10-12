@@ -43,40 +43,40 @@ This is JAVA library for the running of mobile, web or API automated tests.
 
 #### ! Do not forget to put Chrome driver into Your project src/test/resources/drivers ! ####
 
- - Specify env variables (example):
-    * For Web local run::
-
-            export IS_LOCAL=True
-            export BROWSER=Firefox|Chrome|IE|Safari
+ - Specify env variables or system properties (example):
+    * For Web local run:       
+         
+            IS_LOCAL=True
+            BROWSER=Firefox|Chrome|IE|Safari
 
     * For Web remote run:
 
-            export IS_REMOTE=True
-            export BROWSER=Firefox|Chrome|IE|Safari
-            export EXECUTOR=http://{host}:{port}/wd/hub
-            (optional available with Chrome only) export MOBILE_DEVICE_EMULATION=Google Nexus 5|Apple iPhone 6|Samsung Galaxy S5
+            IS_REMOTE=True
+            BROWSER=Firefox|Chrome|IE|Safari
+            EXECUTOR=http://{host}:{port}/wd/hub
+            (optional available with Chrome only) MOBILE_DEVICE_EMULATION=Google Nexus 5|Apple iPhone 6|Samsung Galaxy S5
 
     * For Web Mobile run:
 
-            export IS_MOBILE=True
-            export PLATFORM=Android|iOS
-            export BROWSER=Chrome|Safari
-            export EXECUTOR=http://{host}:{port}/wd/hub
-            export DEVICE=Device name
+            IS_MOBILE=True
+            PLATFORM=Android|iOS
+            BROWSER=Chrome|Safari
+            EXECUTOR=http://{host}:{port}/wd/hub
+            DEVICE=Device name
             
     * For Web Headless run (with PhantomJS without browser):
 
-            export IS_HEADLESS=True
-            export BROWSER=Firefox|Chrome|IE|Safari
-            export PHANTOM_JS_PATH=C://phantomjs.exe
+            IS_HEADLESS=True
+            BROWSER=Firefox|Chrome|IE|Safari
+            PHANTOM_JS_PATH=C://phantomjs.exe
 
     * For Native Mobile run:
 
-            export IS_MOBILE=True
-            export PLATFORM=Android|iOS
-            export APP={path_to_app}
-            export EXECUTOR=http://{host}:{port}/wd/hub
-            export DEVICE=Device name
+            IS_MOBILE=True
+            PLATFORM=Android|iOS
+            APP={path_to_app}
+            EXECUTOR=http://{host}:{port}/wd/hub
+            DEVICE=Device name
 
 ### Possibilities ###
  - Verification that elements are aligned correctly on the web or mobile page
