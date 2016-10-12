@@ -3,22 +3,12 @@ This is JAVA library for the running of mobile, web or API automated tests.
 
 ### Steps to connect ###
  - Repo:
-   * add repository:
-
-            <repository>
-                  <id>io.automotion</id>
-                  <url>https://raw.github.com/dzaiats/java.automation.library/mvn-repo/</url>
-                  <snapshots>
-                      <enabled>true</enabled>
-                      <updatePolicy>always</updatePolicy>
-                  </snapshots>
-              </repository>
    * add dependecy:
 
                 <dependency>
-                    <groupId>io.automotion</groupId>
-                    <artifactId>automation.framework</artifactId>
-                    <version>1.1.1</version>
+                    <groupId>net.itarray</groupId>
+                    <artifactId>automotion</artifactId>
+                    <version>1.2.0</version>
                 </dependency>
 
 ### Steps of adding to the project ###
