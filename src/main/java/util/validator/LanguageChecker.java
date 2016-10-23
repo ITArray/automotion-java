@@ -33,16 +33,23 @@ public class LanguageChecker {
         return languageDetector.detect(textObject);
     }
 
+    public static Optional<LdLocale> getRecognisedLanguage(WebDriver driver) throws IOException {
+        List<LanguageProfile> languageProfiles = new LanguageProfileReader().readAllBuiltIn();
+
+        LanguageDetector languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())
+                .withProfiles(languageProfiles)
+                .build();
+
+        TextObjectFactory textObjectFactory = CommonTextObjectFactories.forDetectingOnLargeText();
+
+        TextObject textObject = textObjectFactory.forText(getTextFromPage(driver));
+
+        return languageDetector.detect(textObject);
+    }
+
     public static boolean isCorrectLanguageOnThePage(WebDriver driver, String lang) throws IOException {
         boolean isCorrectLang = true;
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        String bodyText = jse.executeScript("return document.body.innerHTML", "").toString();
-        bodyText = bodyText.replaceAll("<script\\b[^<]*(?:(?!<\\/script>)<[^<]*)*<\\/script>", " ");
-        bodyText = bodyText.replaceAll("<noscript\\b[^<]*(?:(?!<\\/noscript>)<[^<]*)*<\\/noscript>", " ");
-        bodyText = bodyText.replaceAll("<style\\b[^<]*(?:(?!<\\/style>)<[^<]*)*<\\/style>", " ");
-        bodyText = bodyText.replaceAll("<pre\\b[^<]*(?:(?!<\\/pre>)<[^<]*)*<\\/pre>", " ");
-        bodyText = bodyText.replaceAll("<[^>]*>", " ");
-        bodyText = bodyText.toLowerCase().replaceAll("[\\t|\\n|\\r|\\s]+", " ").replaceAll("[\\s]+", " ");
+        String bodyText = getTextFromPage(driver);
 
         int textBlockLength = 300;
         int bodyTextLength = bodyText.length();
@@ -53,7 +60,7 @@ public class LanguageChecker {
         } else {
             for (int i = 0; i < bodyTextLength; i += textBlockLength) {
                 String tempString;
-                if (bodyTextLength >= (i + textBlockLength) ) {
+                if (bodyTextLength >= (i + textBlockLength)) {
                     tempString = bodyText.substring(i, i + textBlockLength);
                     try {
                         String detectedLanguage = getRecognisedLanguage(tempString).get().getLanguage();
@@ -74,5 +81,18 @@ public class LanguageChecker {
             }
         }
         return isCorrectLang;
+    }
+
+    private static String getTextFromPage(WebDriver driver) {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        String bodyText = jse.executeScript("return document.body.innerHTML", "").toString();
+        bodyText = bodyText.replaceAll("<script\\b[^<]*(?:(?!</script>)<[^<]*)*</script>", " ")
+                .replaceAll("<noscript\\b[^<]*(?:(?!</noscript>)<[^<]*)*</noscript>", " ")
+                .replaceAll("<style\\b[^<]*(?:(?!</style>)<[^<]*)*</style>", " ")
+                .replaceAll("<pre\\b[^<]*(?:(?!</pre>)<[^<]*)*</pre>", " ")
+                .replaceAll("<[^>]*>", " ").toLowerCase()
+                .replaceAll("[\\t|\\n|\\r|\\s]+", " ").replaceAll("[\\s]+", " ");
+
+        return bodyText;
     }
 }
