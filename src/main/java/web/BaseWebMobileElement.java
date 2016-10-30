@@ -27,7 +27,8 @@ public abstract class BaseWebMobileElement{
                 .withTimeout(timeOfWaiting, TimeUnit.SECONDS)
                 .pollingEvery(10, TimeUnit.SECONDS)
                 .ignoring(NoSuchElementException.class)
-                .ignoring(TimeoutException.class);
+                .ignoring(TimeoutException.class)
+                .ignoring(StaleElementReferenceException.class);
     }
 
     public BaseWebMobileElement(WebDriver driver, int timeOfWaiting) {
