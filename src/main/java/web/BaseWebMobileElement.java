@@ -23,7 +23,7 @@ public abstract class BaseWebMobileElement{
     public BaseWebMobileElement(WebDriver driver) {
         this.driver = driver;
 
-        wait = new FluentWait<WebDriver>(driver)
+        wait = new FluentWait<>(driver)
                 .withTimeout(timeOfWaiting, TimeUnit.SECONDS)
                 .pollingEvery(10, TimeUnit.SECONDS)
                 .ignoring(NoSuchElementException.class)
@@ -34,7 +34,7 @@ public abstract class BaseWebMobileElement{
     public BaseWebMobileElement(WebDriver driver, int timeOfWaiting) {
         this.driver = driver;
 
-        wait = new FluentWait<WebDriver>(driver)
+        wait = new FluentWait<>(driver)
                 .withTimeout(timeOfWaiting, TimeUnit.SECONDS)
                 .pollingEvery(10, TimeUnit.SECONDS)
                 .ignoring(NoSuchElementException.class)
@@ -51,16 +51,10 @@ public abstract class BaseWebMobileElement{
     }
 
     protected WebElement getWebElement(ExpectedCondition<WebElement> expectedCondition) {
-        WebDriverWait wait = new WebDriverWait(driver, timeOfWaiting);
         return wait.until(expectedCondition);
     }
 
     protected MobileElement getMobileElement(final By by, int timeOfWaiting) {
-        wait = new FluentWait<WebDriver>(driver)
-                .withTimeout(timeOfWaiting, TimeUnit.SECONDS)
-                .pollingEvery(10, TimeUnit.SECONDS)
-                .ignoring(NoSuchElementException.class)
-                .ignoring(TimeoutException.class);
         return wait.until(new Function<WebDriver, MobileElement>() {
             public MobileElement apply(WebDriver d) {
                 return (MobileElement) d.findElement(by);
