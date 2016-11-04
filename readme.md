@@ -8,7 +8,7 @@ This is JAVA library for the running of mobile, web or API automated tests.
                 <dependency>
                     <groupId>net.itarray</groupId>
                     <artifactId>automotion</artifactId>
-                    <version>1.2.1</version>
+                    <version>1.3.0</version>
                 </dependency>
 
 ### Steps of adding to the project ###
@@ -31,7 +31,7 @@ This is JAVA library for the running of mobile, web or API automated tests.
 
 ### Steps of using during test run ###
 
-#### ! Do not forget to put Chrome driver into Your project src/test/resources/drivers ! ####
+#### ! Do not forget to put Chrome and Gecko drivers into Your project src/test/resources/drivers ! ####
 
  - Specify env variables or system properties (example):
     * For Web local run:       

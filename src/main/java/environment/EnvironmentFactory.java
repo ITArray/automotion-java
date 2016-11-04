@@ -59,6 +59,11 @@ public class EnvironmentFactory {
         return PLATFORM != null && PLATFORM.toUpperCase().equals("IOS");
     }
 
+    public static boolean isWindows() {
+        String PLATFORM = System.getenv(EnvironmentConstants.PLATFORM) != null ? System.getenv(EnvironmentConstants.PLATFORM) : System.getProperty(EnvironmentConstants.PLATFORM);
+        return PLATFORM != null && PLATFORM.toUpperCase().equals("WINDOWS");
+    }
+
     public static String getRemoteUrlPath() {
         return System.getenv(EnvironmentConstants.EXECUTOR) != null ? System.getenv(EnvironmentConstants.EXECUTOR) : System.getProperty(EnvironmentConstants.EXECUTOR);
     }

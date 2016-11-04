@@ -75,6 +75,12 @@ public class WebDriverFactory {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
+        } else if (isWindows()) {
+            try {
+                appiumDriver = new IOSDriver(new URL(getRemoteUrlPath()), capabilities);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
 
         return appiumDriver;
@@ -83,6 +89,7 @@ public class WebDriverFactory {
     private WebDriver getLocalWebDriver() {
         if (isFirefox()) {
             webDriver = new FirefoxDriver();
+            setGeckoDriver();
         } else if (isChrome()) {
             setChromeDriver();
             ChromeOptions options = new ChromeOptions();
@@ -117,6 +124,13 @@ public class WebDriverFactory {
         String chromeBinary = "src/main/resources/drivers/chromedriver"
                 + (platform.toString().toUpperCase().contains("WIN") ? ".exe" : "");
         System.setProperty("webdriver.chrome.driver", chromeBinary);
+    }
+
+    private static void setGeckoDriver() {
+        Platform platform = Platform.getCurrent();
+        String geckoBinary = "src/main/resources/drivers/geckodriver"
+                + (platform.toString().toUpperCase().contains("WIN") ? ".exe" : "");
+        System.setProperty("webdriver.gecko.driver", geckoBinary);
     }
 
     private static void setIEDriver() {
