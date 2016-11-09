@@ -28,7 +28,8 @@ public abstract class BaseWebMobileElement{
                 .pollingEvery(10, TimeUnit.SECONDS)
                 .ignoring(NoSuchElementException.class)
                 .ignoring(TimeoutException.class)
-                .ignoring(StaleElementReferenceException.class);
+                .ignoring(StaleElementReferenceException.class)
+                .ignoring(WebDriverException.class);
     }
 
     public BaseWebMobileElement(WebDriver driver, int timeOfWaiting) {
