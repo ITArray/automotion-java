@@ -88,8 +88,8 @@ public class WebDriverFactory {
 
     private WebDriver getLocalWebDriver() {
         if (isFirefox()) {
-            webDriver = new FirefoxDriver();
             setGeckoDriver();
+            webDriver = new FirefoxDriver();
         } else if (isChrome()) {
             setChromeDriver();
             ChromeOptions options = new ChromeOptions();
