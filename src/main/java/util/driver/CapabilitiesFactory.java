@@ -19,6 +19,8 @@ public class CapabilitiesFactory {
             capabilities = getAndroidCapabilities();
         } else if (isIOS()) {
             capabilities = getIOSCapabilities();
+        } else if (isWindows()) {
+            capabilities = getWindowsCapabilities();
         } else if (isRemote()) {
             capabilities = getRemoteDriverCapabilities();
         } else if (isHeadless()) {
@@ -67,6 +69,12 @@ public class CapabilitiesFactory {
         capabilities.setCapability("udid", getUDIDDevice());
         capabilities.setCapability("waitForAppScript", true);
 
+        return capabilities;
+    }
+
+    private static DesiredCapabilities getWindowsCapabilities() {
+        capabilities = getCommonMobileCapabilities();
+        capabilities.setCapability("platformName", "Windows");
 
         return capabilities;
     }

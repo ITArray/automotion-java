@@ -25,7 +25,7 @@ public abstract class BaseWebMobileElement{
 
         wait = new FluentWait<>(driver)
                 .withTimeout(timeOfWaiting, TimeUnit.SECONDS)
-                .pollingEvery(10, TimeUnit.SECONDS)
+                .pollingEvery(2, TimeUnit.SECONDS)
                 .ignoring(NoSuchElementException.class)
                 .ignoring(TimeoutException.class)
                 .ignoring(StaleElementReferenceException.class)

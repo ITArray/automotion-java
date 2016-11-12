@@ -8,7 +8,7 @@ This is JAVA library for the running of mobile, web or API automated tests.
                 <dependency>
                     <groupId>net.itarray</groupId>
                     <artifactId>automotion</artifactId>
-                    <version>1.3.0</version>
+                    <version>1.3.1</version>
                 </dependency>
 
 ### Steps of adding to the project ###
@@ -67,6 +67,14 @@ This is JAVA library for the running of mobile, web or API automated tests.
             APP={path_to_app}
             EXECUTOR=http://{host}:{port}/wd/hub
             DEVICE=Device name
+
+    * For Windows UWP:
+
+            IS_MOBILE=True
+            PLATFORM=Windows
+            APP={path_to_app}
+            EXECUTOR=http://{host}:{port}/wd/hub
+            DEVICE=Device name or ID
 
 ### Possibilities ###
  - Verification that elements are aligned correctly on the web or mobile page
