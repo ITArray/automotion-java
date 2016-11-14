@@ -69,13 +69,7 @@ public class WebDriverFactory {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-        } else if (isIOS()) {
-            try {
-                appiumDriver = new IOSDriver(new URL(getRemoteUrlPath()), capabilities);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        } else if (isWindows()) {
+        } else if (isIOS() || isWindows()) {
             try {
                 appiumDriver = new IOSDriver(new URL(getRemoteUrlPath()), capabilities);
             } catch (MalformedURLException e) {
@@ -94,6 +88,7 @@ public class WebDriverFactory {
             setChromeDriver();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--start-maximized");
+            options.addArguments("--disable-notifications");
             webDriver = new ChromeDriver(options);
         } else if (isSafari()) {
             webDriver = new SafariDriver();
