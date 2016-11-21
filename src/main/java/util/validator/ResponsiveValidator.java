@@ -35,6 +35,7 @@ public class ResponsiveValidator implements Validator {
     private WebElement containerElement;
     private HashMap<WebElement, String> overlapElements = new HashMap<>();
     private HashMap<WebElement, String> marginLeftElements = new HashMap<>();
+    private HashMap<WebElement, String> marginRightElements = new HashMap<>();
     private int minWidth,
             maxWidth,
             minHeight,
@@ -115,6 +116,12 @@ public class ResponsiveValidator implements Validator {
     @Override
     public ResponsiveValidator sameMarginLeftAs(WebElement element, String readableName) {
         marginLeftElements.put(element, readableName);
+        return this;
+    }
+
+    @Override
+    public ResponsiveValidator sameMarginRighttAs(WebElement element, String readableName) {
+        marginRightElements.put(element, readableName);
         return this;
     }
 

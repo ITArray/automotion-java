@@ -20,6 +20,8 @@ interface Validator {
 
     ResponsiveValidator sameMarginLeftAs(WebElement element, String readableName);
 
+    ResponsiveValidator sameMarginRighttAs(WebElement element, String readableName);
+
     ResponsiveValidator minWidth(int width);
 
     ResponsiveValidator maxWidth(int width);
