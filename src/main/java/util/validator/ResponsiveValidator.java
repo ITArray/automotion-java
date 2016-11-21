@@ -1,9 +1,12 @@
 package util.validator;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.*;
+import org.openqa.selenium.Point;
 import util.driver.PageValidator;
 
 import javax.imageio.ImageIO;
@@ -12,11 +15,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ResponsiveValidator implements Validator {
 
+    private final static Logger LOG = Logger.getLogger(ResponsiveValidator.class);
     private static final int MIN_MARGIN = -10000;
+    private static final String ERROR_KEY = "error";
+    private static final String REASON_KEY = "reason";
     private WebDriver driver;
     private String rootElementReadableName;
     private WebElement rootElement;
@@ -25,7 +33,8 @@ public class ResponsiveValidator implements Validator {
     private WebElement aboveElement;
     private WebElement belowElement;
     private WebElement containerElement;
-    private List<WebElement> overlapElements = new ArrayList<>();
+    private HashMap<WebElement, String> overlapElements = new HashMap<>();
+    private HashMap<WebElement, String> marginLeftElements = new HashMap<>();
     private int minWidth,
             maxWidth,
             minHeight,
@@ -98,9 +107,15 @@ public class ResponsiveValidator implements Validator {
     }
 
     @Override
-    public ResponsiveValidator notOverlapWith(WebElement element) {
-        overlapElements.add(element);
-        throw new UnsupportedCommandException();
+    public ResponsiveValidator notOverlapWith(WebElement element, String readableName) {
+        overlapElements.put(element, readableName);
+        return this;
+    }
+
+    @Override
+    public ResponsiveValidator sameMarginLeftAs(WebElement element, String readableName) {
+        marginLeftElements.put(element, readableName);
+        return this;
     }
 
     @Override
@@ -154,7 +169,7 @@ public class ResponsiveValidator implements Validator {
     @Override
     public JSONObject validate() {
         JSONObject json = new JSONObject();
-        json.put("error", false);
+        json.put(ERROR_KEY, false);
 
         if (rootElement != null) {
             JSONArray errorMessage = new JSONArray();
@@ -167,7 +182,8 @@ public class ResponsiveValidator implements Validator {
                 try {
                     map = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
                     img = ImageIO.read(map);
-                } catch (Exception ignored) {
+                } catch (Exception e) {
+                    LOG.error("Failed to create map file: " + e.getMessage());
                 }
 
                 g = img.createGraphics();
@@ -237,7 +253,7 @@ public class ResponsiveValidator implements Validator {
             }
             if (minWidth > MIN_MARGIN) {
                 if (widthRoot < minWidth) {
-                    errorMessage.add(String.format("Expected min width of element \"" + rootElementReadableName + "\" is: %spx. Actual width is: %spx", minWidth, widthRoot));
+                    errorMessage.add(String.format("Expected min width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, minWidth, widthRoot));
                     if (drawMap) {
                         drawElementRect(g, Color.RED, rootElement);
                     }
@@ -245,7 +261,7 @@ public class ResponsiveValidator implements Validator {
             }
             if (maxWidth > MIN_MARGIN) {
                 if (widthRoot > maxWidth) {
-                    errorMessage.add(String.format("Expected max width of element  \"" + rootElementReadableName + "\" is: %spx. Actual width is: %spx", maxWidth, widthRoot));
+                    errorMessage.add(String.format("Expected max width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, maxWidth, widthRoot));
                     if (drawMap) {
                         drawElementRect(g, Color.RED, rootElement);
                     }
@@ -253,7 +269,7 @@ public class ResponsiveValidator implements Validator {
             }
             if (minHeight > MIN_MARGIN) {
                 if (heightRoot < minHeight) {
-                    errorMessage.add(String.format("Expected min height of element \"" + rootElementReadableName + "\" is: %spx. Actual height is: %spx", minHeight, heightRoot));
+                    errorMessage.add(String.format("Expected min height of element '%s' is: %spx. Actual height is: %spx", rootElementReadableName, minHeight, heightRoot));
                     if (drawMap) {
                         drawElementRect(g, Color.RED, rootElement);
                     }
@@ -261,7 +277,7 @@ public class ResponsiveValidator implements Validator {
             }
             if (maxHeight > MIN_MARGIN) {
                 if (heightRoot > maxHeight) {
-                    errorMessage.add(String.format("Expected max height of element  \"" + rootElementReadableName + "\" is: %spx. Actual height is: %spx", maxHeight, heightRoot));
+                    errorMessage.add(String.format("Expected max height of element  '%s' is: %spx. Actual height is: %spx", rootElementReadableName, maxHeight, heightRoot));
                     if (drawMap) {
                         drawElementRect(g, Color.RED, rootElement);
                     }
@@ -269,37 +285,48 @@ public class ResponsiveValidator implements Validator {
             }
             if (minTopMargin > MIN_MARGIN && minRightMargin > MIN_MARGIN && minBottomMargin > MIN_MARGIN && minLeftMargin > MIN_MARGIN) {
 
-                if (xRoot < minLeftMargin){
-                    errorMessage.add(String.format("Expected min left margin of element  \"" + rootElementReadableName + "\" is: %spx. Actual left margin is: %spx", minLeftMargin, xRoot));
+                if (xRoot < minLeftMargin) {
+                    errorMessage.add(String.format("Expected min left margin of element  '%s' is: %spx. Actual left margin is: %spx", rootElementReadableName, minLeftMargin, xRoot));
                 }
-                if (yRoot < minTopMargin){
-                    errorMessage.add(String.format("Expected min top margin of element  \"" + rootElementReadableName + "\" is: %spx. Actual top margin is: %spx", minTopMargin, yRoot));
+                if (yRoot < minTopMargin) {
+                    errorMessage.add(String.format("Expected min top margin of element  '%s' is: %spx. Actual top margin is: %spx", rootElementReadableName, minTopMargin, yRoot));
                 }
-                if (elementRightMargin < minRightMargin){
-                    errorMessage.add(String.format("Expected min top margin of element  \"" + rootElementReadableName + "\" is: %spx. Actual right margin is: %spx", minRightMargin, elementRightMargin));
+                if (elementRightMargin < minRightMargin) {
+                    errorMessage.add(String.format("Expected min top margin of element  '%s' is: %spx. Actual right margin is: %spx", rootElementReadableName, minRightMargin, elementRightMargin));
                 }
-                if (elementBottomMargin < minBottomMargin){
-                    errorMessage.add(String.format("Expected min bottom margin of element  \"" + rootElementReadableName + "\" is: %spx. Actual bottom margin is: %spx", minBottomMargin, elementBottomMargin));
+                if (elementBottomMargin < minBottomMargin) {
+                    errorMessage.add(String.format("Expected min bottom margin of element  '%s' is: %spx. Actual bottom margin is: %spx", rootElementReadableName, minBottomMargin, elementBottomMargin));
                 }
             }
             if (maxTopMargin > MIN_MARGIN && maxRightMargin > MIN_MARGIN && maxBottomMargin > MIN_MARGIN && maxLeftMargin > MIN_MARGIN) {
-                if (xRoot > maxLeftMargin){
-                    errorMessage.add(String.format("Expected max left margin of element  \"" + rootElementReadableName + "\" is: %spx. Actual left margin is: %spx", maxLeftMargin, xRoot));
+                if (xRoot > maxLeftMargin) {
+                    errorMessage.add(String.format("Expected max left margin of element  '%s' is: %spx. Actual left margin is: %spx", rootElementReadableName, maxLeftMargin, xRoot));
                 }
-                if (yRoot > maxTopMargin){
-                    errorMessage.add(String.format("Expected max top margin of element  \"" + rootElementReadableName + "\" is: %spx. Actual top margin is: %spx", maxTopMargin, yRoot));
+                if (yRoot > maxTopMargin) {
+                    errorMessage.add(String.format("Expected max top margin of element '%s' is: %spx. Actual top margin is: %spx", rootElementReadableName, maxTopMargin, yRoot));
                 }
-                if (elementRightMargin > maxRightMargin){
-                    errorMessage.add(String.format("Expected max right margin of element  \"" + rootElementReadableName + "\" is: %spx. Actual right margin is: %spx", maxRightMargin, elementRightMargin));
+                if (elementRightMargin > maxRightMargin) {
+                    errorMessage.add(String.format("Expected max right margin of element  '%s' is: %spx. Actual right margin is: %spx", rootElementReadableName, maxRightMargin, elementRightMargin));
                 }
-                if (elementBottomMargin > maxBottomMargin){
-                    errorMessage.add(String.format("Expected max bottom margin of element  \"" + rootElementReadableName + "\" is: %spx. Actual bottom margin is: %spx", maxBottomMargin, elementBottomMargin));
+                if (elementBottomMargin > maxBottomMargin) {
+                    errorMessage.add(String.format("Expected max bottom margin of element  '%s' is: %spx. Actual bottom margin is: %spx", rootElementReadableName, maxBottomMargin, elementBottomMargin));
+                }
+            }
+            if (!overlapElements.isEmpty()) {
+                for (Map.Entry<WebElement, String> entry : overlapElements.entrySet()) {
+                    if (elementsAreOverlapped(rootElement, entry.getKey())) {
+                        errorMessage.add(String.format("Element '%s' is overlapped with element '%s' but should not", rootElementReadableName, entry.getValue()));
+                        if (drawMap) {
+                            drawElementRect(g, Color.RED, rootElement);
+                            drawElementRect(g, Color.MAGENTA, entry.getKey());
+                        }
+                    }
                 }
             }
 
             if (!errorMessage.isEmpty()) {
-                json.put("error", true);
-                json.put("reason", errorMessage);
+                json.put(ERROR_KEY, true);
+                json.put(REASON_KEY, errorMessage);
             }
 
             if (drawMap) {
@@ -315,11 +342,20 @@ public class ResponsiveValidator implements Validator {
                 }
             }
         } else {
-            json.put("error", true);
-            json.put("reason", "Set root web element");
+            json.put(ERROR_KEY, true);
+            json.put(REASON_KEY, "Set root web element");
         }
 
         return json;
+    }
+
+    private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
+        Point elLoc = elementOverlapWith.getLocation();
+        Dimension elSize = elementOverlapWith.getSize();
+        return (xRoot > elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
+                || (xRoot + widthRoot > elLoc.x && yRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
+                || (xRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height)
+                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height);
     }
 
     private void drawElementRect(Graphics g, Color color, WebElement element) {

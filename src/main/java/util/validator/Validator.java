@@ -16,7 +16,9 @@ interface Validator {
 
     ResponsiveValidator inside(WebElement element);
 
-    ResponsiveValidator notOverlapWith(WebElement element);
+    ResponsiveValidator notOverlapWith(WebElement element, String readableName);
+
+    ResponsiveValidator sameMarginLeftAs(WebElement element, String readableName);
 
     ResponsiveValidator minWidth(int width);
 
