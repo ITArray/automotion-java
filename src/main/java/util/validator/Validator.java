@@ -18,9 +18,9 @@ interface Validator {
 
     ResponsiveValidator notOverlapWith(WebElement element, String readableName);
 
-    ResponsiveValidator sameMarginLeftAs(WebElement element, String readableName);
+    ResponsiveValidator sameOffsetLeftAs(WebElement element, String readableName);
 
-    ResponsiveValidator sameMarginRighttAs(WebElement element, String readableName);
+    ResponsiveValidator sameOffsetRightAs(WebElement element, String readableName);
 
     ResponsiveValidator minWidth(int width);
 
@@ -30,9 +30,9 @@ interface Validator {
 
     ResponsiveValidator maxHeight(int height);
 
-    ResponsiveValidator minMargin(int top, int right, int bottom, int left);
+    ResponsiveValidator minOffset(int top, int right, int bottom, int left);
 
-    ResponsiveValidator maxMargin(int top, int right, int bottom, int left);
+    ResponsiveValidator maxOffset(int top, int right, int bottom, int left);
 
     ResponsiveValidator drawMap();
 

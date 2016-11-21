@@ -22,7 +22,7 @@ import java.util.Map;
 public class ResponsiveValidator implements Validator {
 
     private final static Logger LOG = Logger.getLogger(ResponsiveValidator.class);
-    private static final int MIN_MARGIN = -10000;
+    private static final int MIN_OFFSET = -10000;
     private static final String ERROR_KEY = "error";
     private static final String REASON_KEY = "reason";
     private WebDriver driver;
@@ -34,20 +34,20 @@ public class ResponsiveValidator implements Validator {
     private WebElement belowElement;
     private WebElement containerElement;
     private HashMap<WebElement, String> overlapElements = new HashMap<>();
-    private HashMap<WebElement, String> marginLeftElements = new HashMap<>();
-    private HashMap<WebElement, String> marginRightElements = new HashMap<>();
+    private HashMap<WebElement, String> offsetLeftElements = new HashMap<>();
+    private HashMap<WebElement, String> offsetRightElements = new HashMap<>();
     private int minWidth,
             maxWidth,
             minHeight,
             maxHeight,
-            minTopMargin,
-            minRightMargin,
-            minBottomMargin,
-            minLeftMargin,
-            maxTopMargin,
-            maxRightMargin,
-            maxBottomMargin,
-            maxLeftMargin = MIN_MARGIN;
+            minTopOffset,
+            minRightOffset,
+            minBottomOffset,
+            minLeftOffset,
+            maxTopOffset,
+            maxRightOffset,
+            maxBottomOffset,
+            maxLeftOffset = MIN_OFFSET;
     private int xRoot;
     private int yRoot;
     private int widthRoot;
@@ -55,8 +55,8 @@ public class ResponsiveValidator implements Validator {
     private boolean drawMap = false;
     private int pageWidth;
     private int pageHeight;
-    private int elementRightMargin;
-    private int elementBottomMargin;
+    private int elementRightOffset;
+    private int elementBottomOffset;
 
     public ResponsiveValidator(WebDriver driver) {
         this.driver = driver;
@@ -72,8 +72,8 @@ public class ResponsiveValidator implements Validator {
         heightRoot = rootElement.getSize().getHeight();
         pageWidth = driver.manage().window().getSize().getWidth();
         pageHeight = driver.manage().window().getSize().getHeight();
-        elementRightMargin = pageWidth - xRoot + widthRoot;
-        elementBottomMargin = pageHeight - yRoot + heightRoot;
+        elementRightOffset = pageWidth - xRoot + widthRoot;
+        elementBottomOffset = pageHeight - yRoot + heightRoot;
         return this;
     }
 
@@ -114,14 +114,14 @@ public class ResponsiveValidator implements Validator {
     }
 
     @Override
-    public ResponsiveValidator sameMarginLeftAs(WebElement element, String readableName) {
-        marginLeftElements.put(element, readableName);
+    public ResponsiveValidator sameOffsetLeftAs(WebElement element, String readableName) {
+        offsetLeftElements.put(element, readableName);
         return this;
     }
 
     @Override
-    public ResponsiveValidator sameMarginRighttAs(WebElement element, String readableName) {
-        marginRightElements.put(element, readableName);
+    public ResponsiveValidator sameOffsetRightAs(WebElement element, String readableName) {
+        offsetRightElements.put(element, readableName);
         return this;
     }
 
@@ -150,20 +150,20 @@ public class ResponsiveValidator implements Validator {
     }
 
     @Override
-    public ResponsiveValidator minMargin(int top, int right, int bottom, int left) {
-        minTopMargin = top;
-        minRightMargin = right;
-        minBottomMargin = bottom;
-        minLeftMargin = left;
+    public ResponsiveValidator minOffset(int top, int right, int bottom, int left) {
+        minTopOffset = top;
+        minRightOffset = right;
+        minBottomOffset = bottom;
+        minLeftOffset = left;
         return this;
     }
 
     @Override
-    public ResponsiveValidator maxMargin(int top, int right, int bottom, int left) {
-        maxTopMargin = top;
-        maxRightMargin = right;
-        maxBottomMargin = bottom;
-        maxLeftMargin = left;
+    public ResponsiveValidator maxOffset(int top, int right, int bottom, int left) {
+        maxTopOffset = top;
+        maxRightOffset = right;
+        maxBottomOffset = bottom;
+        maxLeftOffset = left;
         return this;
     }
 
@@ -183,7 +183,7 @@ public class ResponsiveValidator implements Validator {
 
             BufferedImage img = null;
             File map = null;
-            Graphics g = null;
+            Graphics2D g = null;
 
             if (drawMap) {
                 try {
@@ -258,7 +258,7 @@ public class ResponsiveValidator implements Validator {
                     }
                 }
             }
-            if (minWidth > MIN_MARGIN) {
+            if (minWidth > MIN_OFFSET) {
                 if (widthRoot < minWidth) {
                     errorMessage.add(String.format("Expected min width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, minWidth, widthRoot));
                     if (drawMap) {
@@ -266,7 +266,7 @@ public class ResponsiveValidator implements Validator {
                     }
                 }
             }
-            if (maxWidth > MIN_MARGIN) {
+            if (maxWidth > MIN_OFFSET) {
                 if (widthRoot > maxWidth) {
                     errorMessage.add(String.format("Expected max width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, maxWidth, widthRoot));
                     if (drawMap) {
@@ -274,7 +274,7 @@ public class ResponsiveValidator implements Validator {
                     }
                 }
             }
-            if (minHeight > MIN_MARGIN) {
+            if (minHeight > MIN_OFFSET) {
                 if (heightRoot < minHeight) {
                     errorMessage.add(String.format("Expected min height of element '%s' is: %spx. Actual height is: %spx", rootElementReadableName, minHeight, heightRoot));
                     if (drawMap) {
@@ -282,7 +282,7 @@ public class ResponsiveValidator implements Validator {
                     }
                 }
             }
-            if (maxHeight > MIN_MARGIN) {
+            if (maxHeight > MIN_OFFSET) {
                 if (heightRoot > maxHeight) {
                     errorMessage.add(String.format("Expected max height of element  '%s' is: %spx. Actual height is: %spx", rootElementReadableName, maxHeight, heightRoot));
                     if (drawMap) {
@@ -290,39 +290,61 @@ public class ResponsiveValidator implements Validator {
                     }
                 }
             }
-            if (minTopMargin > MIN_MARGIN && minRightMargin > MIN_MARGIN && minBottomMargin > MIN_MARGIN && minLeftMargin > MIN_MARGIN) {
+            if (minTopOffset > MIN_OFFSET && minRightOffset > MIN_OFFSET && minBottomOffset > MIN_OFFSET && minLeftOffset > MIN_OFFSET) {
 
-                if (xRoot < minLeftMargin) {
-                    errorMessage.add(String.format("Expected min left margin of element  '%s' is: %spx. Actual left margin is: %spx", rootElementReadableName, minLeftMargin, xRoot));
+                if (xRoot < minLeftOffset) {
+                    errorMessage.add(String.format("Expected min left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, minLeftOffset, xRoot));
                 }
-                if (yRoot < minTopMargin) {
-                    errorMessage.add(String.format("Expected min top margin of element  '%s' is: %spx. Actual top margin is: %spx", rootElementReadableName, minTopMargin, yRoot));
+                if (yRoot < minTopOffset) {
+                    errorMessage.add(String.format("Expected min top offset of element  '%s' is: %spx. Actual top offset is: %spx", rootElementReadableName, minTopOffset, yRoot));
                 }
-                if (elementRightMargin < minRightMargin) {
-                    errorMessage.add(String.format("Expected min top margin of element  '%s' is: %spx. Actual right margin is: %spx", rootElementReadableName, minRightMargin, elementRightMargin));
+                if (elementRightOffset < minRightOffset) {
+                    errorMessage.add(String.format("Expected min top offset of element  '%s' is: %spx. Actual right offset is: %spx", rootElementReadableName, minRightOffset, elementRightOffset));
                 }
-                if (elementBottomMargin < minBottomMargin) {
-                    errorMessage.add(String.format("Expected min bottom margin of element  '%s' is: %spx. Actual bottom margin is: %spx", rootElementReadableName, minBottomMargin, elementBottomMargin));
+                if (elementBottomOffset < minBottomOffset) {
+                    errorMessage.add(String.format("Expected min bottom offset of element  '%s' is: %spx. Actual bottom offset is: %spx", rootElementReadableName, minBottomOffset, elementBottomOffset));
                 }
             }
-            if (maxTopMargin > MIN_MARGIN && maxRightMargin > MIN_MARGIN && maxBottomMargin > MIN_MARGIN && maxLeftMargin > MIN_MARGIN) {
-                if (xRoot > maxLeftMargin) {
-                    errorMessage.add(String.format("Expected max left margin of element  '%s' is: %spx. Actual left margin is: %spx", rootElementReadableName, maxLeftMargin, xRoot));
+            if (maxTopOffset > MIN_OFFSET && maxRightOffset > MIN_OFFSET && maxBottomOffset > MIN_OFFSET && maxLeftOffset > MIN_OFFSET) {
+                if (xRoot > maxLeftOffset) {
+                    errorMessage.add(String.format("Expected max left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, maxLeftOffset, xRoot));
                 }
-                if (yRoot > maxTopMargin) {
-                    errorMessage.add(String.format("Expected max top margin of element '%s' is: %spx. Actual top margin is: %spx", rootElementReadableName, maxTopMargin, yRoot));
+                if (yRoot > maxTopOffset) {
+                    errorMessage.add(String.format("Expected max top offset of element '%s' is: %spx. Actual top offset is: %spx", rootElementReadableName, maxTopOffset, yRoot));
                 }
-                if (elementRightMargin > maxRightMargin) {
-                    errorMessage.add(String.format("Expected max right margin of element  '%s' is: %spx. Actual right margin is: %spx", rootElementReadableName, maxRightMargin, elementRightMargin));
+                if (elementRightOffset > maxRightOffset) {
+                    errorMessage.add(String.format("Expected max right offset of element  '%s' is: %spx. Actual right offset is: %spx", rootElementReadableName, maxRightOffset, elementRightOffset));
                 }
-                if (elementBottomMargin > maxBottomMargin) {
-                    errorMessage.add(String.format("Expected max bottom margin of element  '%s' is: %spx. Actual bottom margin is: %spx", rootElementReadableName, maxBottomMargin, elementBottomMargin));
+                if (elementBottomOffset > maxBottomOffset) {
+                    errorMessage.add(String.format("Expected max bottom offset of element  '%s' is: %spx. Actual bottom offset is: %spx", rootElementReadableName, maxBottomOffset, elementBottomOffset));
                 }
             }
             if (!overlapElements.isEmpty()) {
                 for (Map.Entry<WebElement, String> entry : overlapElements.entrySet()) {
-                    if (elementsAreOverlapped(rootElement, entry.getKey())) {
+                    if (elementsAreOverlapped(entry.getKey())) {
                         errorMessage.add(String.format("Element '%s' is overlapped with element '%s' but should not", rootElementReadableName, entry.getValue()));
+                        if (drawMap) {
+                            drawElementRect(g, Color.RED, rootElement);
+                            drawElementRect(g, Color.MAGENTA, entry.getKey());
+                        }
+                    }
+                }
+            }
+            if (!offsetLeftElements.isEmpty()){
+                for (Map.Entry<WebElement, String> entry : offsetLeftElements.entrySet()) {
+                        if (!elementsHasEqualOffset(true, entry.getKey())) {
+                            errorMessage.add(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, entry.getValue()));
+                            if (drawMap) {
+                                drawElementRect(g, Color.RED, rootElement);
+                                drawElementRect(g, Color.MAGENTA, entry.getKey());
+                            }
+                        }
+                }
+            }
+            if (!offsetRightElements.isEmpty()){
+                for (Map.Entry<WebElement, String> entry : offsetRightElements.entrySet()) {
+                    if (!elementsHasEqualOffset(false, entry.getKey())) {
+                        errorMessage.add(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, entry.getValue()));
                         if (drawMap) {
                             drawElementRect(g, Color.RED, rootElement);
                             drawElementRect(g, Color.MAGENTA, entry.getKey());
@@ -356,7 +378,7 @@ public class ResponsiveValidator implements Validator {
         return json;
     }
 
-    private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
+    private boolean elementsAreOverlapped(WebElement elementOverlapWith) {
         Point elLoc = elementOverlapWith.getLocation();
         Dimension elSize = elementOverlapWith.getSize();
         return (xRoot > elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
@@ -365,8 +387,20 @@ public class ResponsiveValidator implements Validator {
                 || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height);
     }
 
-    private void drawElementRect(Graphics g, Color color, WebElement element) {
+    private boolean elementsHasEqualOffset(boolean isLeft, WebElement elementToCompare){
+        Point elLoc = elementToCompare.getLocation();
+        Dimension elSize = elementToCompare.getSize();
+
+        if (isLeft){
+            return Math.abs(xRoot - elLoc.getX()) == 3;
+        }else{
+            return Math.abs((pageWidth - xRoot + widthRoot) - (pageWidth - elLoc.getX() + elSize.getWidth())) == 3;
+        }
+    }
+
+    private void drawElementRect(Graphics2D g, Color color, WebElement element) {
         g.setColor(color);
+        g.setStroke(new BasicStroke(3));
         g.drawRect(element.getLocation().x, element.getLocation().y, element.getSize().width, element.getSize().height);
     }
 
