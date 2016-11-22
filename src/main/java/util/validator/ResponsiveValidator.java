@@ -329,19 +329,21 @@ public class ResponsiveValidator implements Validator {
                         }
                     }
                 }
+                overlapElements.clear();
             }
-            if (!offsetLeftElements.isEmpty()){
+            if (!offsetLeftElements.isEmpty()) {
                 for (Map.Entry<WebElement, String> entry : offsetLeftElements.entrySet()) {
-                        if (!elementsHasEqualOffset(true, entry.getKey())) {
-                            errorMessage.add(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, entry.getValue()));
-                            if (drawMap) {
-                                drawElementRect(g, Color.RED, rootElement);
-                                drawElementRect(g, Color.MAGENTA, entry.getKey());
-                            }
+                    if (!elementsHasEqualOffset(true, entry.getKey())) {
+                        errorMessage.add(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, entry.getValue()));
+                        if (drawMap) {
+                            drawElementRect(g, Color.RED, rootElement);
+                            drawElementRect(g, Color.MAGENTA, entry.getKey());
                         }
+                    }
                 }
+                offsetLeftElements.clear();
             }
-            if (!offsetRightElements.isEmpty()){
+            if (!offsetRightElements.isEmpty()) {
                 for (Map.Entry<WebElement, String> entry : offsetRightElements.entrySet()) {
                     if (!elementsHasEqualOffset(false, entry.getKey())) {
                         errorMessage.add(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, entry.getValue()));
@@ -351,6 +353,7 @@ public class ResponsiveValidator implements Validator {
                         }
                     }
                 }
+                offsetRightElements.clear();
             }
 
             if (!errorMessage.isEmpty()) {
@@ -387,14 +390,14 @@ public class ResponsiveValidator implements Validator {
                 || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height);
     }
 
-    private boolean elementsHasEqualOffset(boolean isLeft, WebElement elementToCompare){
+    private boolean elementsHasEqualOffset(boolean isLeft, WebElement elementToCompare) {
         Point elLoc = elementToCompare.getLocation();
         Dimension elSize = elementToCompare.getSize();
 
-        if (isLeft){
-            return Math.abs(xRoot - elLoc.getX()) == 3;
-        }else{
-            return Math.abs((pageWidth - xRoot + widthRoot) - (pageWidth - elLoc.getX() + elSize.getWidth())) == 3;
+        if (isLeft) {
+            return xRoot == elLoc.getX();
+        } else {
+            return (pageWidth - xRoot + widthRoot) == (pageWidth - elLoc.getX() + elSize.getWidth());
         }
     }
 
