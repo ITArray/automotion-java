@@ -151,6 +151,13 @@ public class ResponsiveValidator implements Validator {
     }
 
     @Override
+    public ResponsiveValidator widthBetween(int min, int max) {
+        minWidth = min;
+        maxWidth = max;
+        return this;
+    }
+
+    @Override
     public ResponsiveValidator minHeight(int height) {
         minHeight = height;
         return this;
@@ -159,6 +166,13 @@ public class ResponsiveValidator implements Validator {
     @Override
     public ResponsiveValidator maxHeight(int height) {
         maxHeight = height;
+        return this;
+    }
+
+    @Override
+    public ResponsiveValidator heightBetween(int min, int max) {
+        minHeight = min;
+        maxHeight = max;
         return this;
     }
 

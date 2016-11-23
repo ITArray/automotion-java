@@ -26,9 +26,13 @@ interface Validator {
 
     ResponsiveValidator maxWidth(int width);
 
+    ResponsiveValidator widthBetween(int min, int max);
+
     ResponsiveValidator minHeight(int height);
 
     ResponsiveValidator maxHeight(int height);
+
+    ResponsiveValidator heightBetween(int min, int max);
 
     ResponsiveValidator minOffset(int top, int right, int bottom, int left);
 
