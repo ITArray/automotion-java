@@ -12,8 +12,8 @@ import util.driver.PageValidator;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,10 +21,16 @@ import java.util.Map;
 
 public class ResponsiveValidator implements Validator {
 
-    private final static Logger LOG = Logger.getLogger(ResponsiveValidator.class);
+    public static final String X = "x";
+    public static final String Y = "y";
+    public static final String WIDTH = "width";
+    public static final String HEIGHT = "height";
     private static final int MIN_OFFSET = -10000;
     private static final String ERROR_KEY = "error";
-    private static final String REASON_KEY = "reason";
+    private static final String REASON_KEY = "stacktrace";
+    private static final String MESSAGE = "message";
+    private static final String DETAILS = "details";
+    private final Logger LOG = Logger.getLogger(ResponsiveValidator.class);
     private WebDriver driver;
     private String rootElementReadableName;
     private WebElement rootElement;
@@ -36,34 +42,40 @@ public class ResponsiveValidator implements Validator {
     private HashMap<WebElement, String> overlapElements = new HashMap<>();
     private HashMap<WebElement, String> offsetLeftElements = new HashMap<>();
     private HashMap<WebElement, String> offsetRightElements = new HashMap<>();
-    private int minWidth,
-            maxWidth,
-            minHeight,
-            maxHeight,
-            minTopOffset,
-            minRightOffset,
-            minBottomOffset,
-            minLeftOffset,
-            maxTopOffset,
-            maxRightOffset,
-            maxBottomOffset,
-            maxLeftOffset = MIN_OFFSET;
+    private int minWidth = MIN_OFFSET;
+    private int maxWidth = MIN_OFFSET;
+    private int minHeight = MIN_OFFSET;
+    private int maxHeight = MIN_OFFSET;
+    private int minTopOffset = MIN_OFFSET;
+    private int minRightOffset = MIN_OFFSET;
+    private int minBottomOffset = MIN_OFFSET;
+    private int minLeftOffset = MIN_OFFSET;
+    private int maxTopOffset = MIN_OFFSET;
+    private int maxRightOffset = MIN_OFFSET;
+    private int maxBottomOffset = MIN_OFFSET;
+    private int maxLeftOffset = MIN_OFFSET;
     private int xRoot;
     private int yRoot;
     private int widthRoot;
     private int heightRoot;
-    private boolean drawMap = false;
+    private boolean withReport = false;
     private int pageWidth;
     private int pageHeight;
     private int elementRightOffset;
     private int elementBottomOffset;
+    private String readableContainerName;
+    private JSONObject jsonResults;
+    private File map;
+    private BufferedImage img;
+    private Graphics2D g;
+    private JSONArray errorMessage;
 
     public ResponsiveValidator(WebDriver driver) {
         this.driver = driver;
     }
 
     @Override
-    public ResponsiveValidator rootElement(WebElement element, String readableNameOfElement) {
+    public ResponsiveValidator findElement(WebElement element, String readableNameOfElement) {
         rootElement = element;
         rootElementReadableName = readableNameOfElement;
         xRoot = rootElement.getLocation().getX();
@@ -78,32 +90,33 @@ public class ResponsiveValidator implements Validator {
     }
 
     @Override
-    public ResponsiveValidator leftElement(WebElement element) {
+    public ResponsiveValidator withLeftElement(WebElement element) {
         leftElement = element;
         return this;
     }
 
     @Override
-    public ResponsiveValidator rightElement(WebElement element) {
+    public ResponsiveValidator withRightElement(WebElement element) {
         rightElement = element;
         return this;
     }
 
     @Override
-    public ResponsiveValidator aboveElement(WebElement element) {
+    public ResponsiveValidator withAboveElement(WebElement element) {
         aboveElement = element;
         return this;
     }
 
     @Override
-    public ResponsiveValidator belowElement(WebElement element) {
+    public ResponsiveValidator withBelowElement(WebElement element) {
         belowElement = element;
         return this;
     }
 
     @Override
-    public ResponsiveValidator inside(WebElement element) {
+    public ResponsiveValidator insideOf(WebElement element, String readableContainerName) {
         containerElement = element;
+        this.readableContainerName = readableContainerName;
         return this;
     }
 
@@ -169,23 +182,67 @@ public class ResponsiveValidator implements Validator {
 
     @Override
     public ResponsiveValidator drawMap() {
-        drawMap = true;
+        withReport = true;
         return this;
     }
 
     @Override
     public JSONObject validate() {
-        JSONObject json = new JSONObject();
-        json.put(ERROR_KEY, false);
+        jsonResults = new JSONObject();
+        jsonResults.put(ERROR_KEY, false);
 
         if (rootElement != null) {
-            JSONArray errorMessage = new JSONArray();
+            errorMessage = new JSONArray();
 
-            BufferedImage img = null;
-            File map = null;
-            Graphics2D g = null;
+            if (leftElement != null) {
+                validateLeftElement();
+            }
+            if (rightElement != null) {
+                validateRightElement();
+            }
+            if (aboveElement != null) {
+                validateAboveElement();
+            }
+            if (belowElement != null) {
+                validateBelowElement();
+            }
+            if (containerElement != null) {
+                validateInsideOfContainer();
+            }
+            if (minWidth > MIN_OFFSET) {
+                validateMinWidth();
+            }
+            if (maxWidth > MIN_OFFSET) {
+                validateMaxWidth();
+            }
+            if (minHeight > MIN_OFFSET) {
+                validateMinHeight();
+            }
+            if (maxHeight > MIN_OFFSET) {
+                validateMaxHeight();
+            }
+            if (minTopOffset > MIN_OFFSET && minRightOffset > MIN_OFFSET && minBottomOffset > MIN_OFFSET && minLeftOffset > MIN_OFFSET) {
+                validateMinOffset();
+            }
+            if (maxTopOffset > MIN_OFFSET && maxRightOffset > MIN_OFFSET && maxBottomOffset > MIN_OFFSET && maxLeftOffset > MIN_OFFSET) {
+                validateMaxOffset();
+            }
+            if (!overlapElements.isEmpty()) {
+                validateOverlappingWithElements();
+            }
+            if (!offsetLeftElements.isEmpty()) {
+                validateLeftOffsetForElements();
+            }
+            if (!offsetRightElements.isEmpty()) {
+                validateRightOffsetForElements();
+            }
 
-            if (drawMap) {
+            if (!errorMessage.isEmpty()) {
+                jsonResults.put(ERROR_KEY, true);
+                jsonResults.put(REASON_KEY, errorMessage);
+            }
+
+            if (withReport) {
                 try {
                     map = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
                     img = ImageIO.read(map);
@@ -193,192 +250,184 @@ public class ResponsiveValidator implements Validator {
                     LOG.error("Failed to create map file: " + e.getMessage());
                 }
 
-                g = img.createGraphics();
-            }
+                if (!errorMessage.isEmpty()) {
+                    jsonResults.put("screenshot", map.getName());
+                }
 
-            if (leftElement != null) {
-                List<WebElement> elements = new ArrayList<>();
-                elements.add(leftElement);
-                elements.add(rootElement);
-
-                if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
-                    errorMessage.add("Left element aligned not properly");
-                    if (drawMap) {
-                        drawElementRect(g, Color.RED, leftElement);
-                    }
+                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("target/automotion/automotion-" + System.currentTimeMillis() + ".json"), StandardCharsets.UTF_8))) {
+                    writer.write(jsonResults.toJSONString());
+                } catch (IOException ex) {
+                    LOG.error("Cannot create json report: " + ex.getMessage());
                 }
-            }
-            if (rightElement != null) {
-                List<WebElement> elements = new ArrayList<>();
-                elements.add(rootElement);
-                elements.add(rightElement);
-
-                if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
-                    errorMessage.add("Right element aligned not properly");
-                    if (drawMap) {
-                        drawElementRect(g, Color.RED, rightElement);
-                    }
-                }
-            }
-            if (aboveElement != null) {
-                List<WebElement> elements = new ArrayList<>();
-                elements.add(aboveElement);
-                elements.add(rootElement);
-
-                if (!PageValidator.elementsAreAlignedVertically(elements)) {
-                    errorMessage.add("Above element aligned not properly");
-                    if (drawMap) {
-                        drawElementRect(g, Color.RED, aboveElement);
-                    }
-                }
-            }
-            if (belowElement != null) {
-                List<WebElement> elements = new ArrayList<>();
-                elements.add(rootElement);
-                elements.add(belowElement);
-
-                if (!PageValidator.elementsAreAlignedVertically(elements)) {
-                    errorMessage.add("Below element aligned not properly");
-                    if (drawMap) {
-                        drawElementRect(g, Color.RED, belowElement);
-                    }
-                }
-            }
-            if (containerElement != null) {
-                float xContainer = containerElement.getLocation().getX();
-                float yContainer = containerElement.getLocation().getY();
-                float widthContainer = containerElement.getSize().getWidth();
-                float heightContainer = containerElement.getSize().getHeight();
-
-                if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
-                    errorMessage.add("Element \"" + rootElementReadableName + "\" is not inside of container");
-                    if (drawMap) {
-                        drawElementRect(g, Color.RED, containerElement);
-                        drawElementRect(g, Color.GREEN, rootElement);
-                    }
-                }
-            }
-            if (minWidth > MIN_OFFSET) {
-                if (widthRoot < minWidth) {
-                    errorMessage.add(String.format("Expected min width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, minWidth, widthRoot));
-                    if (drawMap) {
-                        drawElementRect(g, Color.RED, rootElement);
-                    }
-                }
-            }
-            if (maxWidth > MIN_OFFSET) {
-                if (widthRoot > maxWidth) {
-                    errorMessage.add(String.format("Expected max width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, maxWidth, widthRoot));
-                    if (drawMap) {
-                        drawElementRect(g, Color.RED, rootElement);
-                    }
-                }
-            }
-            if (minHeight > MIN_OFFSET) {
-                if (heightRoot < minHeight) {
-                    errorMessage.add(String.format("Expected min height of element '%s' is: %spx. Actual height is: %spx", rootElementReadableName, minHeight, heightRoot));
-                    if (drawMap) {
-                        drawElementRect(g, Color.RED, rootElement);
-                    }
-                }
-            }
-            if (maxHeight > MIN_OFFSET) {
-                if (heightRoot > maxHeight) {
-                    errorMessage.add(String.format("Expected max height of element  '%s' is: %spx. Actual height is: %spx", rootElementReadableName, maxHeight, heightRoot));
-                    if (drawMap) {
-                        drawElementRect(g, Color.RED, rootElement);
-                    }
-                }
-            }
-            if (minTopOffset > MIN_OFFSET && minRightOffset > MIN_OFFSET && minBottomOffset > MIN_OFFSET && minLeftOffset > MIN_OFFSET) {
-
-                if (xRoot < minLeftOffset) {
-                    errorMessage.add(String.format("Expected min left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, minLeftOffset, xRoot));
-                }
-                if (yRoot < minTopOffset) {
-                    errorMessage.add(String.format("Expected min top offset of element  '%s' is: %spx. Actual top offset is: %spx", rootElementReadableName, minTopOffset, yRoot));
-                }
-                if (elementRightOffset < minRightOffset) {
-                    errorMessage.add(String.format("Expected min top offset of element  '%s' is: %spx. Actual right offset is: %spx", rootElementReadableName, minRightOffset, elementRightOffset));
-                }
-                if (elementBottomOffset < minBottomOffset) {
-                    errorMessage.add(String.format("Expected min bottom offset of element  '%s' is: %spx. Actual bottom offset is: %spx", rootElementReadableName, minBottomOffset, elementBottomOffset));
-                }
-            }
-            if (maxTopOffset > MIN_OFFSET && maxRightOffset > MIN_OFFSET && maxBottomOffset > MIN_OFFSET && maxLeftOffset > MIN_OFFSET) {
-                if (xRoot > maxLeftOffset) {
-                    errorMessage.add(String.format("Expected max left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, maxLeftOffset, xRoot));
-                }
-                if (yRoot > maxTopOffset) {
-                    errorMessage.add(String.format("Expected max top offset of element '%s' is: %spx. Actual top offset is: %spx", rootElementReadableName, maxTopOffset, yRoot));
-                }
-                if (elementRightOffset > maxRightOffset) {
-                    errorMessage.add(String.format("Expected max right offset of element  '%s' is: %spx. Actual right offset is: %spx", rootElementReadableName, maxRightOffset, elementRightOffset));
-                }
-                if (elementBottomOffset > maxBottomOffset) {
-                    errorMessage.add(String.format("Expected max bottom offset of element  '%s' is: %spx. Actual bottom offset is: %spx", rootElementReadableName, maxBottomOffset, elementBottomOffset));
-                }
-            }
-            if (!overlapElements.isEmpty()) {
-                for (Map.Entry<WebElement, String> entry : overlapElements.entrySet()) {
-                    if (elementsAreOverlapped(entry.getKey())) {
-                        errorMessage.add(String.format("Element '%s' is overlapped with element '%s' but should not", rootElementReadableName, entry.getValue()));
-                        if (drawMap) {
-                            drawElementRect(g, Color.RED, rootElement);
-                            drawElementRect(g, Color.MAGENTA, entry.getKey());
+                try {
+                    File file = new File("target/automotion/automotion-" + System.currentTimeMillis() + ".json");
+                    if (file.getParentFile().mkdirs()) {
+                        if (file.createNewFile()) {
+                            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                            writer.write(jsonResults.toJSONString());
+                            writer.close();
                         }
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                overlapElements.clear();
-            }
-            if (!offsetLeftElements.isEmpty()) {
-                for (Map.Entry<WebElement, String> entry : offsetLeftElements.entrySet()) {
-                    if (!elementsHasEqualOffset(true, entry.getKey())) {
-                        errorMessage.add(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, entry.getValue()));
-                        if (drawMap) {
-                            drawElementRect(g, Color.RED, rootElement);
-                            drawElementRect(g, Color.MAGENTA, entry.getKey());
-                        }
-                    }
-                }
-                offsetLeftElements.clear();
-            }
-            if (!offsetRightElements.isEmpty()) {
-                for (Map.Entry<WebElement, String> entry : offsetRightElements.entrySet()) {
-                    if (!elementsHasEqualOffset(false, entry.getKey())) {
-                        errorMessage.add(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, entry.getValue()));
-                        if (drawMap) {
-                            drawElementRect(g, Color.RED, rootElement);
-                            drawElementRect(g, Color.MAGENTA, entry.getKey());
-                        }
-                    }
-                }
-                offsetRightElements.clear();
-            }
 
-            if (!errorMessage.isEmpty()) {
-                json.put(ERROR_KEY, true);
-                json.put(REASON_KEY, errorMessage);
-            }
-
-            if (drawMap) {
-                if (img != null) {
-                    try {
-                        g.setColor(Color.WHITE);
-                        ImageIO.write(img, "png", map);
-                        File file = new File("target/" + map.getName());
-                        FileUtils.copyFile(map, file);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                if ((boolean) jsonResults.get(ERROR_KEY)) {
+                    drawScreenshot();
                 }
             }
         } else {
-            json.put(ERROR_KEY, true);
-            json.put(REASON_KEY, "Set root web element");
+            jsonResults.put(ERROR_KEY, true);
+            jsonResults.put(REASON_KEY, "Set root web element");
         }
 
-        return json;
+        return jsonResults;
+    }
+
+    private void drawScreenshot() {
+        g = img.createGraphics();
+
+        drawElementRect(Color.RED, rootElement);
+
+        try {
+            ImageIO.write(img, "png", map);
+            File file = new File("target/automotion/" + map.getName());
+            FileUtils.copyFile(map, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void validateRightOffsetForElements() {
+        for (Map.Entry<WebElement, String> entry : offsetRightElements.entrySet()) {
+            if (!elementsHasEqualOffset(false, entry.getKey())) {
+                putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, entry.getValue()), entry.getKey());
+            }
+        }
+        offsetRightElements.clear();
+    }
+
+    private void validateLeftOffsetForElements() {
+        for (Map.Entry<WebElement, String> entry : offsetLeftElements.entrySet()) {
+            if (!elementsHasEqualOffset(true, entry.getKey())) {
+                putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, entry.getValue()), entry.getKey());
+            }
+        }
+        offsetLeftElements.clear();
+    }
+
+    private void validateOverlappingWithElements() {
+        for (Map.Entry<WebElement, String> entry : overlapElements.entrySet()) {
+            if (elementsAreOverlapped(entry.getKey())) {
+                putJsonDetailsWithElement(String.format("Element '%s' is overlapped with element '%s' but should not", rootElementReadableName, entry.getValue()), entry.getKey());
+            }
+        }
+        overlapElements.clear();
+    }
+
+    private void validateMaxOffset() {
+        if (xRoot > maxLeftOffset) {
+            putJsonDetailsWithoutElement(String.format("Expected max left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, maxLeftOffset, xRoot));
+        }
+        if (yRoot > maxTopOffset) {
+            putJsonDetailsWithoutElement(String.format("Expected max top offset of element '%s' is: %spx. Actual top offset is: %spx", rootElementReadableName, maxTopOffset, yRoot));
+        }
+        if (elementRightOffset > maxRightOffset) {
+            putJsonDetailsWithoutElement(String.format("Expected max right offset of element  '%s' is: %spx. Actual right offset is: %spx", rootElementReadableName, maxRightOffset, elementRightOffset));
+        }
+        if (elementBottomOffset > maxBottomOffset) {
+            putJsonDetailsWithoutElement(String.format("Expected max bottom offset of element  '%s' is: %spx. Actual bottom offset is: %spx", rootElementReadableName, maxBottomOffset, elementBottomOffset));
+        }
+    }
+
+    private void validateMinOffset() {
+        if (xRoot < minLeftOffset) {
+            putJsonDetailsWithoutElement(String.format("Expected min left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, minLeftOffset, xRoot));
+        }
+        if (yRoot < minTopOffset) {
+            putJsonDetailsWithoutElement(String.format("Expected min top offset of element  '%s' is: %spx. Actual top offset is: %spx", rootElementReadableName, minTopOffset, yRoot));
+        }
+        if (elementRightOffset < minRightOffset) {
+            putJsonDetailsWithoutElement(String.format("Expected min top offset of element  '%s' is: %spx. Actual right offset is: %spx", rootElementReadableName, minRightOffset, elementRightOffset));
+        }
+        if (elementBottomOffset < minBottomOffset) {
+            putJsonDetailsWithoutElement(String.format("Expected min bottom offset of element  '%s' is: %spx. Actual bottom offset is: %spx", rootElementReadableName, minBottomOffset, elementBottomOffset));
+        }
+    }
+
+    private void validateMaxHeight() {
+        if (heightRoot > maxHeight) {
+            putJsonDetailsWithoutElement(String.format("Expected max height of element  '%s' is: %spx. Actual height is: %spx", rootElementReadableName, maxHeight, heightRoot));
+        }
+    }
+
+    private void validateMinHeight() {
+        if (heightRoot < minHeight) {
+            putJsonDetailsWithoutElement(String.format("Expected min height of element '%s' is: %spx. Actual height is: %spx", rootElementReadableName, minHeight, heightRoot));
+        }
+    }
+
+    private void validateMaxWidth() {
+        if (widthRoot > maxWidth) {
+            putJsonDetailsWithoutElement(String.format("Expected max width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, maxWidth, widthRoot));
+        }
+    }
+
+    private void validateMinWidth() {
+        if (widthRoot < minWidth) {
+            putJsonDetailsWithoutElement(String.format("Expected min width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, minWidth, widthRoot));
+        }
+    }
+
+    private void validateInsideOfContainer() {
+        float xContainer = containerElement.getLocation().getX();
+        float yContainer = containerElement.getLocation().getY();
+        float widthContainer = containerElement.getSize().getWidth();
+        float heightContainer = containerElement.getSize().getHeight();
+
+        if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
+            putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), containerElement);
+        }
+    }
+
+    private void validateBelowElement() {
+        List<WebElement> elements = new ArrayList<>();
+        elements.add(rootElement);
+        elements.add(belowElement);
+
+        if (!PageValidator.elementsAreAlignedVertically(elements)) {
+            putJsonDetailsWithoutElement("Below element aligned not properly");
+        }
+    }
+
+    private void validateAboveElement() {
+        List<WebElement> elements = new ArrayList<>();
+        elements.add(aboveElement);
+        elements.add(rootElement);
+
+        if (!PageValidator.elementsAreAlignedVertically(elements)) {
+            putJsonDetailsWithoutElement("Above element aligned not properly");
+        }
+    }
+
+    private void validateRightElement() {
+        List<WebElement> elements = new ArrayList<>();
+        elements.add(rootElement);
+        elements.add(rightElement);
+
+        if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
+            putJsonDetailsWithoutElement("Right element aligned not properly");
+        }
+    }
+
+    private void validateLeftElement() {
+        List<WebElement> elements = new ArrayList<>();
+        elements.add(leftElement);
+        elements.add(rootElement);
+
+        if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
+            putJsonDetailsWithoutElement("Left element aligned not properly");
+        }
     }
 
     private boolean elementsAreOverlapped(WebElement elementOverlapWith) {
@@ -401,10 +450,41 @@ public class ResponsiveValidator implements Validator {
         }
     }
 
-    private void drawElementRect(Graphics2D g, Color color, WebElement element) {
+    private void drawElementRect(Color color, WebElement element) {
         g.setColor(color);
         g.setStroke(new BasicStroke(3));
         g.drawRect(element.getLocation().x, element.getLocation().y, element.getSize().width, element.getSize().height);
+    }
+
+    private void putJsonDetailsWithoutElement(String message) {
+        JSONObject details = new JSONObject();
+        JSONArray arr = new JSONArray();
+        JSONObject mes = new JSONObject();
+        mes.put(MESSAGE, message);
+        arr.add(mes);
+        details.put(DETAILS, arr);
+        errorMessage.add(details);
+    }
+
+    private void putJsonDetailsWithElement(String message, WebElement element) {
+        float xContainer = element.getLocation().getX();
+        float yContainer = element.getLocation().getY();
+        float widthContainer = element.getSize().getWidth();
+        float heightContainer = element.getSize().getHeight();
+
+        JSONObject details = new JSONObject();
+        JSONArray arr = new JSONArray();
+        JSONObject elDetails = new JSONObject();
+        elDetails.put(X, xContainer);
+        elDetails.put(Y, yContainer);
+        elDetails.put(WIDTH, widthContainer);
+        elDetails.put(HEIGHT, heightContainer);
+        JSONObject mes = new JSONObject();
+        mes.put(MESSAGE, message);
+        mes.put("element", elDetails);
+        arr.add(mes);
+        details.put(DETAILS, arr);
+        errorMessage.add(details);
     }
 
 }

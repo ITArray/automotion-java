@@ -4,17 +4,17 @@ import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 
 interface Validator {
-    ResponsiveValidator rootElement(WebElement element, String readableNameOfElement);
+    ResponsiveValidator findElement(WebElement element, String readableNameOfElement);
 
-    ResponsiveValidator leftElement(WebElement element);
+    ResponsiveValidator withLeftElement(WebElement element);
 
-    ResponsiveValidator rightElement(WebElement element);
+    ResponsiveValidator withRightElement(WebElement element);
 
-    ResponsiveValidator aboveElement(WebElement element);
+    ResponsiveValidator withAboveElement(WebElement element);
 
-    ResponsiveValidator belowElement(WebElement element);
+    ResponsiveValidator withBelowElement(WebElement element);
 
-    ResponsiveValidator inside(WebElement element);
+    ResponsiveValidator insideOf(WebElement element, String readableContainerName);
 
     ResponsiveValidator notOverlapWith(WebElement element, String readableName);
 
