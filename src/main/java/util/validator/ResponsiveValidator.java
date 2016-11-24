@@ -21,13 +21,12 @@ import java.util.Map;
 
 public class ResponsiveValidator implements Validator {
 
-    public static final String X = "x";
-    public static final String Y = "y";
-    public static final String WIDTH = "width";
-    public static final String HEIGHT = "height";
+    private static final String X = "x";
+    private static final String Y = "y";
+    private static final String WIDTH = "width";
+    private static final String HEIGHT = "height";
     private static final int MIN_OFFSET = -10000;
     private static final String ERROR_KEY = "error";
-    private static final String REASON_KEY = "stacktrace";
     private static final String MESSAGE = "message";
     private static final String DETAILS = "details";
     private final Logger LOG = Logger.getLogger(ResponsiveValidator.class);
@@ -42,6 +41,8 @@ public class ResponsiveValidator implements Validator {
     private HashMap<WebElement, String> overlapElements = new HashMap<>();
     private HashMap<WebElement, String> offsetLeftElements = new HashMap<>();
     private HashMap<WebElement, String> offsetRightElements = new HashMap<>();
+    private HashMap<WebElement, String> offsetTopElements = new HashMap<>();
+    private HashMap<WebElement, String> offsetBottomElements = new HashMap<>();
     private int minWidth = MIN_OFFSET;
     private int maxWidth = MIN_OFFSET;
     private int minHeight = MIN_OFFSET;
@@ -69,6 +70,7 @@ public class ResponsiveValidator implements Validator {
     private BufferedImage img;
     private Graphics2D g;
     private JSONArray errorMessage;
+    private int counterDetails = 0;
 
     public ResponsiveValidator(WebDriver driver) {
         this.driver = driver;
@@ -139,6 +141,18 @@ public class ResponsiveValidator implements Validator {
     }
 
     @Override
+    public ResponsiveValidator sameOffsetTopAs(WebElement element, String readableName) {
+        offsetTopElements.put(element, readableName);
+        return this;
+    }
+
+    @Override
+    public ResponsiveValidator sameOffsetBottomAs(WebElement element, String readableName) {
+        offsetBottomElements.put(element, readableName);
+        return this;
+    }
+
+    @Override
     public ResponsiveValidator minWidth(int width) {
         minWidth = width;
         return this;
@@ -201,7 +215,7 @@ public class ResponsiveValidator implements Validator {
     }
 
     @Override
-    public JSONObject validate() {
+    public boolean validate() {
         jsonResults = new JSONObject();
         jsonResults.put(ERROR_KEY, false);
 
@@ -250,10 +264,16 @@ public class ResponsiveValidator implements Validator {
             if (!offsetRightElements.isEmpty()) {
                 validateRightOffsetForElements();
             }
+            if (!offsetTopElements.isEmpty()) {
+                validateTopOffsetForElements();
+            }
+            if (!offsetBottomElements.isEmpty()) {
+                validateBottomOffsetForElements();
+            }
 
             if (!errorMessage.isEmpty()) {
                 jsonResults.put(ERROR_KEY, true);
-                jsonResults.put(REASON_KEY, errorMessage);
+                jsonResults.put(DETAILS, errorMessage);
             }
 
             if (withReport) {
@@ -265,6 +285,13 @@ public class ResponsiveValidator implements Validator {
                 }
 
                 if (!errorMessage.isEmpty()) {
+                    JSONObject rootDetails = new JSONObject();
+                    rootDetails.put(X, xRoot);
+                    rootDetails.put(Y, yRoot);
+                    rootDetails.put(WIDTH, widthRoot);
+                    rootDetails.put(HEIGHT, heightRoot);
+
+                    jsonResults.put("rootElement", rootDetails);
                     jsonResults.put("screenshot", map.getName());
                 }
 
@@ -292,10 +319,10 @@ public class ResponsiveValidator implements Validator {
             }
         } else {
             jsonResults.put(ERROR_KEY, true);
-            jsonResults.put(REASON_KEY, "Set root web element");
+            jsonResults.put(DETAILS, "Set root web element");
         }
 
-        return jsonResults;
+        return !((boolean) jsonResults.get(ERROR_KEY));
     }
 
     private void drawScreenshot() {
@@ -314,7 +341,7 @@ public class ResponsiveValidator implements Validator {
 
     private void validateRightOffsetForElements() {
         for (Map.Entry<WebElement, String> entry : offsetRightElements.entrySet()) {
-            if (!elementsHasEqualOffset(false, entry.getKey())) {
+            if (!elementsHasEqualLeftRightOffset(false, entry.getKey())) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, entry.getValue()), entry.getKey());
             }
         }
@@ -323,11 +350,29 @@ public class ResponsiveValidator implements Validator {
 
     private void validateLeftOffsetForElements() {
         for (Map.Entry<WebElement, String> entry : offsetLeftElements.entrySet()) {
-            if (!elementsHasEqualOffset(true, entry.getKey())) {
+            if (!elementsHasEqualLeftRightOffset(true, entry.getKey())) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, entry.getValue()), entry.getKey());
             }
         }
         offsetLeftElements.clear();
+    }
+
+    private void validateTopOffsetForElements() {
+        for (Map.Entry<WebElement, String> entry : offsetTopElements.entrySet()) {
+            if (!elementsHasEqualTopBottomOffset(true, entry.getKey())) {
+                putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, entry.getValue()), entry.getKey());
+            }
+        }
+        offsetTopElements.clear();
+    }
+
+    private void validateBottomOffsetForElements() {
+        for (Map.Entry<WebElement, String> entry : offsetBottomElements.entrySet()) {
+            if (!elementsHasEqualTopBottomOffset(false, entry.getKey())) {
+                putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, entry.getValue()), entry.getKey());
+            }
+        }
+        offsetBottomElements.clear();
     }
 
     private void validateOverlappingWithElements() {
@@ -453,7 +498,7 @@ public class ResponsiveValidator implements Validator {
                 || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height);
     }
 
-    private boolean elementsHasEqualOffset(boolean isLeft, WebElement elementToCompare) {
+    private boolean elementsHasEqualLeftRightOffset(boolean isLeft, WebElement elementToCompare) {
         Point elLoc = elementToCompare.getLocation();
         Dimension elSize = elementToCompare.getSize();
 
@@ -461,6 +506,17 @@ public class ResponsiveValidator implements Validator {
             return xRoot == elLoc.getX();
         } else {
             return (pageWidth - xRoot + widthRoot) == (pageWidth - elLoc.getX() + elSize.getWidth());
+        }
+    }
+
+    private boolean elementsHasEqualTopBottomOffset(boolean isTop, WebElement elementToCompare) {
+        Point elLoc = elementToCompare.getLocation();
+        Dimension elSize = elementToCompare.getSize();
+
+        if (isTop) {
+            return yRoot == elLoc.getY();
+        } else {
+            return (pageHeight - yRoot + heightRoot) == (pageHeight - elLoc.getY() + elSize.getHeight());
         }
     }
 
@@ -472,12 +528,11 @@ public class ResponsiveValidator implements Validator {
 
     private void putJsonDetailsWithoutElement(String message) {
         JSONObject details = new JSONObject();
-        JSONArray arr = new JSONArray();
         JSONObject mes = new JSONObject();
         mes.put(MESSAGE, message);
-        arr.add(mes);
-        details.put(DETAILS, arr);
+        details.put(counterDetails, mes);
         errorMessage.add(details);
+        counterDetails++;
     }
 
     private void putJsonDetailsWithElement(String message, WebElement element) {
@@ -487,7 +542,6 @@ public class ResponsiveValidator implements Validator {
         float heightContainer = element.getSize().getHeight();
 
         JSONObject details = new JSONObject();
-        JSONArray arr = new JSONArray();
         JSONObject elDetails = new JSONObject();
         elDetails.put(X, xContainer);
         elDetails.put(Y, yContainer);
@@ -496,9 +550,9 @@ public class ResponsiveValidator implements Validator {
         JSONObject mes = new JSONObject();
         mes.put(MESSAGE, message);
         mes.put("element", elDetails);
-        arr.add(mes);
-        details.put(DETAILS, arr);
+        details.put(counterDetails, mes);
         errorMessage.add(details);
+        counterDetails++;
     }
 
 }

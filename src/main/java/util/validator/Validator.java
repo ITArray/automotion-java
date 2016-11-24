@@ -22,6 +22,10 @@ interface Validator {
 
     ResponsiveValidator sameOffsetRightAs(WebElement element, String readableName);
 
+    ResponsiveValidator sameOffsetTopAs(WebElement element, String readableName);
+
+    ResponsiveValidator sameOffsetBottomAs(WebElement element, String readableName);
+
     ResponsiveValidator minWidth(int width);
 
     ResponsiveValidator maxWidth(int width);
@@ -40,6 +44,6 @@ interface Validator {
 
     ResponsiveValidator drawMap();
 
-    JSONObject validate();
+    boolean validate();
 
 }

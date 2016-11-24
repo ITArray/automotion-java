@@ -11,6 +11,7 @@ import com.optimaize.langdetect.profiles.LanguageProfileReader;
 import com.optimaize.langdetect.text.CommonTextObjectFactories;
 import com.optimaize.langdetect.text.TextObject;
 import com.optimaize.langdetect.text.TextObjectFactory;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
@@ -18,6 +19,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class LanguageChecker {
+
+    private static final Logger LOG = Logger.getLogger(LanguageChecker.class);
 
     public static Optional<LdLocale> getRecognisedLanguage(String text) throws IOException {
         List<LanguageProfile> languageProfiles = new LanguageProfileReader().readAllBuiltIn();
@@ -55,7 +58,7 @@ public class LanguageChecker {
         int bodyTextLength = bodyText.length();
 
         if (bodyTextLength == 0) {
-            System.out.println("\n!!! - Text on the page is absent\n");
+            LOG.info("\n!!! - Text on the page is absent\n");
             isCorrectLang = false;
         } else {
             for (int i = 0; i < bodyTextLength; i += textBlockLength) {
@@ -66,16 +69,16 @@ public class LanguageChecker {
                         String detectedLanguage = getRecognisedLanguage(tempString).get().getLanguage();
 
                         if (!detectedLanguage.toLowerCase().equals(lang.toLowerCase())) {
-                            System.out.println("\n!!! - Piece of text without translation: \n" + tempString + "\nExpected language is \"" + lang + "\"\n");
-                            System.out.println("\n!!! Current URL is " + driver.getCurrentUrl() + "\n-  !!!");
-                            System.out.println(String.format("\n!!! Characters are between %s and %s from %s full amount of characters \n", i, i + textBlockLength, bodyTextLength));
+                            LOG.info("\n!!! - Piece of text without translation: \n" + tempString + "\nExpected language is \"" + lang + "\"\n");
+                            LOG.info("\n!!! Current URL is " + driver.getCurrentUrl() + "\n-  !!!");
+                            LOG.info(String.format("\n!!! Characters are between %s and %s from %s full amount of characters \n", i, i + textBlockLength, bodyTextLength));
                             isCorrectLang = false;
                             break;
                         }
                     } catch (Exception e) {
-                        System.out.println("\n!!! - Impossible to recognise the language of this piece of text: \n" + tempString + "\nExpected language is \"" + lang + "\"\n");
-                        System.out.println("\n!!! Current URL is " + driver.getCurrentUrl() + "\n-  !!!");
-                        System.out.println(String.format("\n!!! Characters are between %s and %s from %s full amount of characters \n", i, i + textBlockLength, bodyTextLength));
+                        LOG.info("\n!!! - Impossible to recognise the language of this piece of text: \n" + tempString + "\nExpected language is \"" + lang + "\"\n");
+                        LOG.info("\n!!! Current URL is " + driver.getCurrentUrl() + "\n-  !!!");
+                        LOG.info(String.format("\n!!! Characters are between %s and %s from %s full amount of characters \n", i, i + textBlockLength, bodyTextLength));
                     }
                 }
             }
