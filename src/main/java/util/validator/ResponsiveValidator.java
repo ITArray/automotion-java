@@ -29,6 +29,8 @@ public class ResponsiveValidator implements Validator {
     private static final String ERROR_KEY = "error";
     private static final String MESSAGE = "message";
     private static final String DETAILS = "details";
+    private static final Object REASON = "reason";
+    private static final String ELEMENT = "element";
     private final Logger LOG = Logger.getLogger(ResponsiveValidator.class);
     private WebDriver driver;
     private String rootElementReadableName;
@@ -276,7 +278,7 @@ public class ResponsiveValidator implements Validator {
                 jsonResults.put(DETAILS, errorMessage);
             }
 
-            if (withReport) {
+            if (withReport && !errorMessage.isEmpty()) {
                 try {
                     map = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
                     img = ImageIO.read(map);
@@ -329,6 +331,23 @@ public class ResponsiveValidator implements Validator {
         g = img.createGraphics();
 
         drawElementRect(Color.RED, rootElement);
+
+        for (Object obj : errorMessage) {
+            JSONObject det = (JSONObject) obj;
+            JSONObject details = (JSONObject) det.get(REASON);
+            JSONObject numE = (JSONObject) details.get(ELEMENT);
+
+            if (numE != null) {
+                float x = (float) numE.get(X);
+                float y = (float) numE.get(Y);
+                float width = (float) numE.get(WIDTH);
+                float height = (float) numE.get(HEIGHT);
+
+                g.setColor(Color.MAGENTA);
+                g.setStroke(new BasicStroke(2));
+                g.drawRect((int) x, (int) y, (int) width, (int) height);
+            }
+        }
 
         try {
             ImageIO.write(img, "png", map);
@@ -530,7 +549,7 @@ public class ResponsiveValidator implements Validator {
         JSONObject details = new JSONObject();
         JSONObject mes = new JSONObject();
         mes.put(MESSAGE, message);
-        details.put(counterDetails, mes);
+        details.put(REASON, mes);
         errorMessage.add(details);
         counterDetails++;
     }
@@ -549,8 +568,8 @@ public class ResponsiveValidator implements Validator {
         elDetails.put(HEIGHT, heightContainer);
         JSONObject mes = new JSONObject();
         mes.put(MESSAGE, message);
-        mes.put("element", elDetails);
-        details.put(counterDetails, mes);
+        mes.put(ELEMENT, elDetails);
+        details.put(REASON, mes);
         errorMessage.add(details);
         counterDetails++;
     }

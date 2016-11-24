@@ -1,10 +1,12 @@
 import http.helpers.MailService;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.mail.MessagingException;
 
+@Ignore
 public class MailServiceTest {
 
     private static final String EMAIL = "myreaction.user1@gmail.com";
