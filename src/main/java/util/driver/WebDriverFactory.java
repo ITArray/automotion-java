@@ -88,6 +88,7 @@ public class WebDriverFactory {
             setChromeDriver();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--start-maximized");
+            options.addArguments("--kiosk");
             options.addArguments("--disable-notifications");
             webDriver = new ChromeDriver(options);
         } else if (isSafari()) {
