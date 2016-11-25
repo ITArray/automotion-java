@@ -3,6 +3,8 @@ package util.validator;
 import org.openqa.selenium.WebElement;
 
 interface Validator {
+    ResponsiveValidator init();
+
     ResponsiveValidator findElement(WebElement element, String readableNameOfElement);
 
     ResponsiveValidator withLeftElement(WebElement element);

@@ -4,10 +4,13 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Point;
 import util.driver.PageValidator;
+import util.general.HtmlReportBuilder;
+import util.general.SystemHelper;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,6 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static environment.EnvironmentFactory.isChrome;
 
 public class ResponsiveValidator implements Validator {
 
@@ -85,6 +90,11 @@ public class ResponsiveValidator implements Validator {
 
     public ResponsiveValidator(WebDriver driver) {
         this.driver = driver;
+    }
+
+    @Override
+    public ResponsiveValidator init() {
+        return new ResponsiveValidator(driver);
     }
 
     @Override
@@ -352,16 +362,18 @@ public class ResponsiveValidator implements Validator {
                     rootDetails.put(HEIGHT, heightRoot);
 
                     jsonResults.put("rootElement", rootDetails);
+                    jsonResults.put("elementName", rootElementReadableName);
                     jsonResults.put("screenshot", rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
                 }
 
-                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + System.currentTimeMillis() + ".json"), StandardCharsets.UTF_8))) {
+                long ms = System.currentTimeMillis();
+                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json"), StandardCharsets.UTF_8))) {
                     writer.write(jsonResults.toJSONString());
                 } catch (IOException ex) {
-                    LOG.error("Cannot create json report: " + ex.getMessage());
+                    LOG.error("Cannot create html report: " + ex.getMessage());
                 }
                 try {
-                    File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + System.currentTimeMillis() + ".json");
+                    File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json");
                     if (file.getParentFile().mkdirs()) {
                         if (file.createNewFile()) {
                             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -387,7 +399,11 @@ public class ResponsiveValidator implements Validator {
 
     @Override
     public void generateReport() {
-
+        try {
+            new HtmlReportBuilder().buildReport();
+        } catch (IOException | ParseException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void drawScreenshot() {
@@ -408,7 +424,11 @@ public class ResponsiveValidator implements Validator {
 
                 g.setColor(Color.MAGENTA);
                 g.setStroke(new BasicStroke(2));
-                g.drawRect((int) x, (int) y, (int) width, (int) height);
+                if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
+                    g.drawRect(2 * (int) x, 2 * (int) y, 2 * (int) width, 2 * (int) height);
+                } else {
+                    g.drawRect((int) x, (int) y, (int) width, (int) height);
+                }
             }
         }
 
@@ -639,13 +659,24 @@ public class ResponsiveValidator implements Validator {
     private void drawRoot(Color color) {
         g.setColor(color);
         g.setStroke(new BasicStroke(2));
-        g.drawRect(xRoot, yRoot, widthRoot, heightRoot);
+        if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
+            g.drawRect(2 * xRoot, 2 * yRoot, 2 * widthRoot, 2 * heightRoot);
+        } else {
+            g.drawRect(xRoot, yRoot, widthRoot, heightRoot);
+        }
         g.setStroke(new BasicStroke(1));
         g.setColor(Color.ORANGE);
-        g.drawLine(0, yRoot, pageWidth, yRoot);
-        g.drawLine(0, yRoot + heightRoot, pageWidth, yRoot + heightRoot);
-        g.drawLine(xRoot, 0, xRoot, pageHeight);
-        g.drawLine(xRoot + widthRoot, 0, xRoot + widthRoot, pageHeight);
+        if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
+            g.drawLine(0, 2 * yRoot, 2 * pageWidth, 2 * yRoot);
+            g.drawLine(0, 2 * (yRoot + heightRoot), 2 * pageWidth, 2 * (yRoot + heightRoot));
+            g.drawLine(2 * xRoot, 0, 2 * xRoot, 2 * pageHeight);
+            g.drawLine(2 * (xRoot + widthRoot), 0, 2 * (xRoot + widthRoot), 2 * pageHeight);
+        } else {
+            g.drawLine(0, yRoot, pageWidth, yRoot);
+            g.drawLine(0, yRoot + heightRoot, pageWidth, yRoot + heightRoot);
+            g.drawLine(xRoot, 0, xRoot, pageHeight);
+            g.drawLine(xRoot + widthRoot, 0, xRoot + widthRoot, pageHeight);
+        }
     }
 
     private void putJsonDetailsWithoutElement(String message) {

@@ -10,7 +10,7 @@ public class ResponsiveValidatorTest {
     @Test
     public void testThatResponsiveValidatorWorks() {
         System.setProperty("IS_LOCAL", "TRUE");
-        System.setProperty("BROWSER", "Chrome");
+        System.setProperty("BROWSER", "Firefox");
 
         WebDriverFactory driverFactory = new WebDriverFactory();
         WebDriver driver = driverFactory.getDriver();
@@ -20,7 +20,9 @@ public class ResponsiveValidatorTest {
 
         TestPage page = new TestPage(driver);
 
-        new ResponsiveValidator(driver)
+        ResponsiveValidator responsiveValidator = new ResponsiveValidator(driver);
+
+        responsiveValidator.init()
                 .findElement(page.newPhotos(), "New Photos")
                 .widthBetween(300, 400)
                 .heightBetween(20, 50)
@@ -32,6 +34,21 @@ public class ResponsiveValidatorTest {
                 .sameOffsetRightAs(page.logo(), "Logo")
                 .drawMap()
                 .validate();
+
+        responsiveValidator.init()
+                .findElement(page.newPhotos(), "New Photos")
+                .widthBetween(300, 400)
+                .heightBetween(20, 50)
+                .minOffset(10, 500, 500, 600)
+                .maxOffset(200, 2000, 2000, 1000)
+                .notOverlapWith(page.header(), "Header")
+                .notOverlapWith(page.myPhotos(), "My Photos")
+                .notOverlapWith(page.topPhotos(), "Top Photos")
+                .sameOffsetRightAs(page.logo(), "Logo")
+                .drawMap()
+                .validate();
+
+        new ResponsiveValidator(driver).generateReport();
 
         driver.quit();
     }

@@ -188,5 +188,10 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>com.webfirmframework</groupId>
+            <artifactId>wffweb</artifactId>
+            <version>2.1.1</version>
+        </dependency>
     </dependencies>
 </project>
