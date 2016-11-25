@@ -1,6 +1,5 @@
 package util.validator;
 
-import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 
 interface Validator {
@@ -8,11 +7,19 @@ interface Validator {
 
     ResponsiveValidator withLeftElement(WebElement element);
 
+    ResponsiveValidator withLeftElement(WebElement element, int minMargin, int maxMargin);
+
     ResponsiveValidator withRightElement(WebElement element);
 
-    ResponsiveValidator withAboveElement(WebElement element);
+    ResponsiveValidator withRightElement(WebElement element, int minMargin, int maxMargin);
 
-    ResponsiveValidator withBelowElement(WebElement element);
+    ResponsiveValidator withTopElement(WebElement element);
+
+    ResponsiveValidator withTopElement(WebElement element, int minMargin, int maxMargin);
+
+    ResponsiveValidator withBottomElement(WebElement element);
+
+    ResponsiveValidator withBottomElement(WebElement element, int minMargin, int maxMargin);
 
     ResponsiveValidator insideOf(WebElement element, String readableContainerName);
 
@@ -45,5 +52,7 @@ interface Validator {
     ResponsiveValidator drawMap();
 
     boolean validate();
+
+    void generateReport();
 
 }

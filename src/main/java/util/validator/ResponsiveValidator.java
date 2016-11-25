@@ -31,14 +31,16 @@ public class ResponsiveValidator implements Validator {
     private static final String DETAILS = "details";
     private static final Object REASON = "reason";
     private static final String ELEMENT = "element";
+    private static final String TARGET_AUTOMOTION_JSON = "target/automotion/json/";
+    private static final String TARGET_AUTOMOTION_IMG = "target/automotion/img/";
     private final Logger LOG = Logger.getLogger(ResponsiveValidator.class);
     private WebDriver driver;
     private String rootElementReadableName;
     private WebElement rootElement;
     private WebElement leftElement;
     private WebElement rightElement;
-    private WebElement aboveElement;
-    private WebElement belowElement;
+    private WebElement topElement;
+    private WebElement bottomElement;
     private WebElement containerElement;
     private HashMap<WebElement, String> overlapElements = new HashMap<>();
     private HashMap<WebElement, String> offsetLeftElements = new HashMap<>();
@@ -68,11 +70,18 @@ public class ResponsiveValidator implements Validator {
     private int elementBottomOffset;
     private String readableContainerName;
     private JSONObject jsonResults;
-    private File map;
+    private File screenshot;
     private BufferedImage img;
     private Graphics2D g;
     private JSONArray errorMessage;
-    private int counterDetails = 0;
+    private int leftMinMargin;
+    private int leftMaxMargin;
+    private int rightMinMargin;
+    private int rightMaxMargin;
+    private int topMinMargin;
+    private int topMaxMargin;
+    private int bottomMinMargin;
+    private int bottomMaxMargin;
 
     public ResponsiveValidator(WebDriver driver) {
         this.driver = driver;
@@ -100,20 +109,53 @@ public class ResponsiveValidator implements Validator {
     }
 
     @Override
+    public ResponsiveValidator withLeftElement(WebElement element, int minMargin, int maxMargin) {
+        leftElement = element;
+        leftMinMargin = minMargin;
+        leftMaxMargin = maxMargin;
+
+        return this;
+    }
+
+    @Override
     public ResponsiveValidator withRightElement(WebElement element) {
         rightElement = element;
         return this;
     }
 
     @Override
-    public ResponsiveValidator withAboveElement(WebElement element) {
-        aboveElement = element;
+    public ResponsiveValidator withRightElement(WebElement element, int minMargin, int maxMargin) {
+        rightElement = element;
+        rightMinMargin = minMargin;
+        rightMaxMargin = maxMargin;
         return this;
     }
 
     @Override
-    public ResponsiveValidator withBelowElement(WebElement element) {
-        belowElement = element;
+    public ResponsiveValidator withTopElement(WebElement element) {
+        topElement = element;
+        return this;
+    }
+
+    @Override
+    public ResponsiveValidator withTopElement(WebElement element, int minMargin, int maxMargin) {
+        topElement = element;
+        topMinMargin = minMargin;
+        topMaxMargin = maxMargin;
+        return this;
+    }
+
+    @Override
+    public ResponsiveValidator withBottomElement(WebElement element) {
+        bottomElement = element;
+        return this;
+    }
+
+    @Override
+    public ResponsiveValidator withBottomElement(WebElement element, int minMargin, int maxMargin) {
+        bottomElement = element;
+        bottomMinMargin = minMargin;
+        bottomMaxMargin = maxMargin;
         return this;
     }
 
@@ -225,16 +267,32 @@ public class ResponsiveValidator implements Validator {
             errorMessage = new JSONArray();
 
             if (leftElement != null) {
-                validateLeftElement();
+                if (leftMinMargin > 0) {
+                    validateLeftElementWithMargin();
+                } else {
+                    validateLeftElement();
+                }
             }
             if (rightElement != null) {
-                validateRightElement();
+                if (rightMinMargin > 0) {
+                    validateRightElementWithMargin();
+                } else {
+                    validateRightElement();
+                }
             }
-            if (aboveElement != null) {
-                validateAboveElement();
+            if (topElement != null) {
+                if (topMinMargin > 0) {
+                    validateAboveElementWithMargin();
+                } else {
+                    validateAboveElement();
+                }
             }
-            if (belowElement != null) {
-                validateBelowElement();
+            if (bottomElement != null) {
+                if (bottomMinMargin > 0) {
+                    validateBelowElementWithMargin();
+                } else {
+                    validateBelowElement();
+                }
             }
             if (containerElement != null) {
                 validateInsideOfContainer();
@@ -280,10 +338,10 @@ public class ResponsiveValidator implements Validator {
 
             if (withReport && !errorMessage.isEmpty()) {
                 try {
-                    map = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-                    img = ImageIO.read(map);
+                    screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+                    img = ImageIO.read(screenshot);
                 } catch (Exception e) {
-                    LOG.error("Failed to create map file: " + e.getMessage());
+                    LOG.error("Failed to create screenshot file: " + e.getMessage());
                 }
 
                 if (!errorMessage.isEmpty()) {
@@ -294,16 +352,16 @@ public class ResponsiveValidator implements Validator {
                     rootDetails.put(HEIGHT, heightRoot);
 
                     jsonResults.put("rootElement", rootDetails);
-                    jsonResults.put("screenshot", map.getName());
+                    jsonResults.put("screenshot", rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
                 }
 
-                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("target/automotion/automotion-" + System.currentTimeMillis() + ".json"), StandardCharsets.UTF_8))) {
+                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + System.currentTimeMillis() + ".json"), StandardCharsets.UTF_8))) {
                     writer.write(jsonResults.toJSONString());
                 } catch (IOException ex) {
                     LOG.error("Cannot create json report: " + ex.getMessage());
                 }
                 try {
-                    File file = new File("target/automotion/automotion-" + System.currentTimeMillis() + ".json");
+                    File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + System.currentTimeMillis() + ".json");
                     if (file.getParentFile().mkdirs()) {
                         if (file.createNewFile()) {
                             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -327,10 +385,15 @@ public class ResponsiveValidator implements Validator {
         return !((boolean) jsonResults.get(ERROR_KEY));
     }
 
+    @Override
+    public void generateReport() {
+
+    }
+
     private void drawScreenshot() {
         g = img.createGraphics();
 
-        drawElementRect(Color.RED, rootElement);
+        drawRoot(Color.RED);
 
         for (Object obj : errorMessage) {
             JSONObject det = (JSONObject) obj;
@@ -350,9 +413,9 @@ public class ResponsiveValidator implements Validator {
         }
 
         try {
-            ImageIO.write(img, "png", map);
-            File file = new File("target/automotion/" + map.getName());
-            FileUtils.copyFile(map, file);
+            ImageIO.write(img, "png", screenshot);
+            File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
+            FileUtils.copyFile(screenshot, file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -468,23 +531,48 @@ public class ResponsiveValidator implements Validator {
         }
     }
 
+    private void validateBelowElementWithMargin() {
+        int yBelowElement = bottomElement.getLocation().getY();
+        int marginBetweenRoot = yBelowElement - yRoot + heightRoot;
+        if (marginBetweenRoot < bottomMinMargin || marginBetweenRoot > bottomMaxMargin) {
+            putJsonDetailsWithElement(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", bottomMinMargin, bottomMaxMargin, marginBetweenRoot), bottomElement);
+        }
+    }
+
     private void validateBelowElement() {
         List<WebElement> elements = new ArrayList<>();
         elements.add(rootElement);
-        elements.add(belowElement);
+        elements.add(bottomElement);
 
         if (!PageValidator.elementsAreAlignedVertically(elements)) {
             putJsonDetailsWithoutElement("Below element aligned not properly");
         }
     }
 
+    private void validateAboveElementWithMargin() {
+        int yAboveElement = topElement.getLocation().getY();
+        int heightAboveElement = topElement.getSize().getHeight();
+        int marginBetweenRoot = yRoot - yAboveElement + heightAboveElement;
+        if (marginBetweenRoot < topMinMargin || marginBetweenRoot > topMaxMargin) {
+            putJsonDetailsWithElement(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", topMinMargin, topMaxMargin, marginBetweenRoot), topElement);
+        }
+    }
+
     private void validateAboveElement() {
         List<WebElement> elements = new ArrayList<>();
-        elements.add(aboveElement);
+        elements.add(topElement);
         elements.add(rootElement);
 
         if (!PageValidator.elementsAreAlignedVertically(elements)) {
             putJsonDetailsWithoutElement("Above element aligned not properly");
+        }
+    }
+
+    private void validateRightElementWithMargin() {
+        int xRightElement = rightElement.getLocation().getX();
+        int marginBetweenRoot = xRightElement - xRoot + widthRoot;
+        if (marginBetweenRoot < rightMinMargin || marginBetweenRoot > rightMaxMargin) {
+            putJsonDetailsWithElement(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", rightMinMargin, rightMaxMargin, marginBetweenRoot), rightElement);
         }
     }
 
@@ -495,6 +583,15 @@ public class ResponsiveValidator implements Validator {
 
         if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
             putJsonDetailsWithoutElement("Right element aligned not properly");
+        }
+    }
+
+    private void validateLeftElementWithMargin() {
+        int xLeftElement = leftElement.getLocation().getX();
+        int widthLeftElement = leftElement.getSize().getWidth();
+        int marginBetweenRoot = xRoot - xLeftElement + widthLeftElement;
+        if (marginBetweenRoot < leftMinMargin || marginBetweenRoot > leftMaxMargin) {
+            putJsonDetailsWithElement(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", leftMinMargin, leftMaxMargin, marginBetweenRoot), leftElement);
         }
     }
 
@@ -539,10 +636,16 @@ public class ResponsiveValidator implements Validator {
         }
     }
 
-    private void drawElementRect(Color color, WebElement element) {
+    private void drawRoot(Color color) {
         g.setColor(color);
-        g.setStroke(new BasicStroke(3));
-        g.drawRect(element.getLocation().x, element.getLocation().y, element.getSize().width, element.getSize().height);
+        g.setStroke(new BasicStroke(2));
+        g.drawRect(xRoot, yRoot, widthRoot, heightRoot);
+        g.setStroke(new BasicStroke(1));
+        g.setColor(Color.ORANGE);
+        g.drawLine(0, yRoot, pageWidth, yRoot);
+        g.drawLine(0, yRoot + heightRoot, pageWidth, yRoot + heightRoot);
+        g.drawLine(xRoot, 0, xRoot, pageHeight);
+        g.drawLine(xRoot + widthRoot, 0, xRoot + widthRoot, pageHeight);
     }
 
     private void putJsonDetailsWithoutElement(String message) {
@@ -551,7 +654,6 @@ public class ResponsiveValidator implements Validator {
         mes.put(MESSAGE, message);
         details.put(REASON, mes);
         errorMessage.add(details);
-        counterDetails++;
     }
 
     private void putJsonDetailsWithElement(String message, WebElement element) {
@@ -571,7 +673,5 @@ public class ResponsiveValidator implements Validator {
         mes.put(ELEMENT, elDetails);
         details.put(REASON, mes);
         errorMessage.add(details);
-        counterDetails++;
     }
-
 }
