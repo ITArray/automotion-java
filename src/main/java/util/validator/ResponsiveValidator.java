@@ -87,6 +87,7 @@ public class ResponsiveValidator implements Validator {
     private int topMaxMargin;
     private int bottomMinMargin;
     private int bottomMaxMargin;
+    private boolean drawOffsetLine = false;
 
     public ResponsiveValidator(WebDriver driver) {
         this.driver = driver;
@@ -185,24 +186,28 @@ public class ResponsiveValidator implements Validator {
     @Override
     public ResponsiveValidator sameOffsetLeftAs(WebElement element, String readableName) {
         offsetLeftElements.put(element, readableName);
+        drawOffsetLine = true;
         return this;
     }
 
     @Override
     public ResponsiveValidator sameOffsetRightAs(WebElement element, String readableName) {
         offsetRightElements.put(element, readableName);
+        drawOffsetLine = true;
         return this;
     }
 
     @Override
     public ResponsiveValidator sameOffsetTopAs(WebElement element, String readableName) {
         offsetTopElements.put(element, readableName);
+        drawOffsetLine = true;
         return this;
     }
 
     @Override
     public ResponsiveValidator sameOffsetBottomAs(WebElement element, String readableName) {
         offsetBottomElements.put(element, readableName);
+        drawOffsetLine = true;
         return this;
     }
 
@@ -664,18 +669,21 @@ public class ResponsiveValidator implements Validator {
         } else {
             g.drawRect(xRoot, yRoot, widthRoot, heightRoot);
         }
-        g.setStroke(new BasicStroke(1));
-        g.setColor(Color.ORANGE);
-        if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
-            g.drawLine(0, 2 * yRoot, 2 * pageWidth, 2 * yRoot);
-            g.drawLine(0, 2 * (yRoot + heightRoot), 2 * pageWidth, 2 * (yRoot + heightRoot));
-            g.drawLine(2 * xRoot, 0, 2 * xRoot, 2 * pageHeight);
-            g.drawLine(2 * (xRoot + widthRoot), 0, 2 * (xRoot + widthRoot), 2 * pageHeight);
-        } else {
-            g.drawLine(0, yRoot, pageWidth, yRoot);
-            g.drawLine(0, yRoot + heightRoot, pageWidth, yRoot + heightRoot);
-            g.drawLine(xRoot, 0, xRoot, pageHeight);
-            g.drawLine(xRoot + widthRoot, 0, xRoot + widthRoot, pageHeight);
+
+        if (drawOffsetLine) {
+            g.setStroke(new BasicStroke(1));
+            g.setColor(Color.ORANGE);
+            if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
+                g.drawLine(0, 2 * yRoot, 2 * pageWidth, 2 * yRoot);
+                g.drawLine(0, 2 * (yRoot + heightRoot), 2 * pageWidth, 2 * (yRoot + heightRoot));
+                g.drawLine(2 * xRoot, 0, 2 * xRoot, 2 * pageHeight);
+                g.drawLine(2 * (xRoot + widthRoot), 0, 2 * (xRoot + widthRoot), 2 * pageHeight);
+            } else {
+                g.drawLine(0, yRoot, pageWidth, yRoot);
+                g.drawLine(0, yRoot + heightRoot, pageWidth, yRoot + heightRoot);
+                g.drawLine(xRoot, 0, xRoot, pageHeight);
+                g.drawLine(xRoot + widthRoot, 0, xRoot + widthRoot, pageHeight);
+            }
         }
     }
 
