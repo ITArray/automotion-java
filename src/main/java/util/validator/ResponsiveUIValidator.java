@@ -1,5 +1,6 @@
 package util.validator;
 
+import http.helpers.TextFinder;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -8,6 +9,7 @@ import org.json.simple.parser.ParseException;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Point;
+import util.driver.DriverHelper;
 import util.driver.PageValidator;
 import util.general.HtmlReportBuilder;
 import util.general.SystemHelper;
@@ -144,8 +146,25 @@ public class ResponsiveUIValidator implements Validator {
     }
 
     @Override
+    public ResponsiveUIValidator notOverlapWith(List<WebElement> elements) {
+        for (WebElement element : elements) {
+            validateOverlappingWithElements(element, "Element with class name: " + element.getAttribute("class"));
+        }
+        return this;
+    }
+
+    @Override
     public ResponsiveUIValidator sameOffsetLeftAs(WebElement element, String readableName) {
         validateLeftOffsetForElements(element, readableName);
+        drawLeftOffsetLine = true;
+        return this;
+    }
+
+    @Override
+    public ResponsiveUIValidator sameOffsetLeftAs(List<WebElement> elements) {
+        for (WebElement element : elements) {
+            validateLeftOffsetForElements(element, "Element with class name: " + element.getAttribute("class"));
+        }
         drawLeftOffsetLine = true;
         return this;
     }
@@ -158,8 +177,26 @@ public class ResponsiveUIValidator implements Validator {
     }
 
     @Override
+    public ResponsiveUIValidator sameOffsetRightAs(List<WebElement> elements) {
+        for (WebElement element : elements) {
+            validateRightOffsetForElements(element, "Element with class name: " + element.getAttribute("class"));
+        }
+        drawRightOffsetLine = true;
+        return this;
+    }
+
+    @Override
     public ResponsiveUIValidator sameOffsetTopAs(WebElement element, String readableName) {
         validateTopOffsetForElements(element, readableName);
+        drawTopOffsetLine = true;
+        return this;
+    }
+
+    @Override
+    public ResponsiveUIValidator sameOffsetTopAs(List<WebElement> elements) {
+        for (WebElement element : elements) {
+            validateTopOffsetForElements(element, "Element with class name: " + element.getAttribute("class"));
+        }
         drawTopOffsetLine = true;
         return this;
     }
@@ -172,8 +209,25 @@ public class ResponsiveUIValidator implements Validator {
     }
 
     @Override
+    public ResponsiveUIValidator sameOffsetBottomAs(List<WebElement> elements) {
+        for (WebElement element : elements) {
+            validateBottomOffsetForElements(element, "Element with class name: " + element.getAttribute("class"));
+        }
+        drawBottomOffsetLine = true;
+        return this;
+    }
+
+    @Override
     public ResponsiveUIValidator sameWidthAs(WebElement element, String readableName) {
         validateSameWidth(element, readableName);
+        return this;
+    }
+
+    @Override
+    public ResponsiveUIValidator sameWidthAs(List<WebElement> elements) {
+        for (WebElement element : elements) {
+            validateSameWidth(element, "Element with class name: " + element.getAttribute("class"));
+        }
         return this;
     }
 
@@ -203,6 +257,14 @@ public class ResponsiveUIValidator implements Validator {
     }
 
     @Override
+    public ResponsiveUIValidator sameHeightAs(List<WebElement> elements) {
+        for (WebElement element : elements) {
+            validateSameHeight(element, "Element with class name: " + element.getAttribute("class"));
+        }
+        return this;
+    }
+
+    @Override
     public ResponsiveUIValidator minHeight(int height) {
         validateMinHeight(getInt(height, false));
         return this;
@@ -217,6 +279,14 @@ public class ResponsiveUIValidator implements Validator {
     @Override
     public ResponsiveUIValidator sameSizeAs(WebElement element, String readableName) {
         validateSameSize(element, readableName);
+        return this;
+    }
+
+    @Override
+    public ResponsiveUIValidator sameSizeAs(List<WebElement> elements) {
+        for (WebElement element : elements) {
+            validateSameSize(element, "Element with class name: " + element.getAttribute("class"));
+        }
         return this;
     }
 
@@ -239,6 +309,22 @@ public class ResponsiveUIValidator implements Validator {
     public ResponsiveUIValidator maxOffset(int top, int right, int bottom, int left) {
         if (getInt(top, false) > MIN_OFFSET && getInt(right, true) > MIN_OFFSET && getInt(bottom, false) > MIN_OFFSET && getInt(left, true) > MIN_OFFSET) {
             validateMaxOffset(getInt(top, false), getInt(right, true), getInt(bottom, false), getInt(left, true));
+        }
+        return this;
+    }
+
+    @Override
+    public ResponsiveUIValidator withCssValue(String cssProperty, String... args) {
+        String cssValue = rootElement.getCssValue(cssProperty);
+
+        if (!cssValue.equals("")) {
+            for (String val : args) {
+                if (!TextFinder.textIsFound(val, cssValue)) {
+                    putJsonDetailsWithoutElement(String.format("Expected value of '%s' is '%s'. Actual is '%s'", cssProperty, val, cssValue));
+                }
+            }
+        }else{
+            putJsonDetailsWithoutElement(String.format("Element '%s' does not have css property '%s'", rootElementReadableName, cssProperty));
         }
         return this;
     }
@@ -284,7 +370,7 @@ public class ResponsiveUIValidator implements Validator {
                 try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json"), StandardCharsets.UTF_8))) {
                     writer.write(jsonResults.toJSONString());
                 } catch (IOException ex) {
-                    LOG.error("Cannot create html report: " + ex.getMessage());
+                    LOG.error("Cannot create json report: " + ex.getMessage());
                 }
                 try {
                     File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json");
@@ -356,32 +442,42 @@ public class ResponsiveUIValidator implements Validator {
     }
 
     private void validateRightOffsetForElements(WebElement element, String readableName) {
-        if (!elementsHasEqualLeftRightOffset(false, element)) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
+        if (!element.equals(rootElement)) {
+            if (!elementsHasEqualLeftRightOffset(false, element)) {
+                putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
+            }
         }
     }
 
     private void validateLeftOffsetForElements(WebElement element, String readableName) {
-        if (!elementsHasEqualLeftRightOffset(true, element)) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), element);
+        if (!element.equals(rootElement)) {
+            if (!elementsHasEqualLeftRightOffset(true, element)) {
+                putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), element);
+            }
         }
     }
 
     private void validateTopOffsetForElements(WebElement element, String readableName) {
-        if (!elementsHasEqualTopBottomOffset(true, element)) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), element);
+        if (!element.equals(rootElement)) {
+            if (!elementsHasEqualTopBottomOffset(true, element)) {
+                putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), element);
+            }
         }
     }
 
     private void validateBottomOffsetForElements(WebElement element, String readableName) {
-        if (!elementsHasEqualTopBottomOffset(false, element)) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), element);
+        if (!element.equals(rootElement)) {
+            if (!elementsHasEqualTopBottomOffset(false, element)) {
+                putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), element);
+            }
         }
     }
 
     private void validateOverlappingWithElements(WebElement element, String readableName) {
-        if (elementsAreOverlapped(element)) {
-            putJsonDetailsWithElement(String.format("Element '%s' is overlapped with element '%s' but should not", rootElementReadableName, readableName), element);
+        if (!element.equals(rootElement)) {
+            if (elementsAreOverlapped(element)) {
+                putJsonDetailsWithElement(String.format("Element '%s' is overlapped with element '%s' but should not", rootElementReadableName, readableName), element);
+            }
         }
     }
 
@@ -428,9 +524,11 @@ public class ResponsiveUIValidator implements Validator {
     }
 
     private void validateSameHeight(WebElement element, String readableName) {
-        int h = element.getSize().getHeight();
-        if (h != heightRoot) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same height as '%s'. Height of '%s' is %spx. Height of '%s' is %spx", rootElementReadableName, readableName, rootElementReadableName, heightRoot, readableName, h), element);
+        if (!element.equals(rootElement)) {
+            int h = element.getSize().getHeight();
+            if (h != heightRoot) {
+                putJsonDetailsWithElement(String.format("Element '%s' has not the same height as '%s'. Height of '%s' is %spx. Height of '%s' is %spx", rootElementReadableName, readableName, rootElementReadableName, heightRoot, readableName, h), element);
+            }
         }
     }
 
@@ -447,17 +545,21 @@ public class ResponsiveUIValidator implements Validator {
     }
 
     private void validateSameWidth(WebElement element, String readableName) {
-        int w = element.getSize().getWidth();
-        if (w != widthRoot) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same width as '%s'. Width of '%s' is %spx. Width of '%s' is %spx", rootElementReadableName, readableName, rootElementReadableName, widthRoot, readableName, w), element);
+        if (!element.equals(rootElement)) {
+            int w = element.getSize().getWidth();
+            if (w != widthRoot) {
+                putJsonDetailsWithElement(String.format("Element '%s' has not the same width as '%s'. Width of '%s' is %spx. Width of '%s' is %spx", rootElementReadableName, readableName, rootElementReadableName, widthRoot, readableName, w), element);
+            }
         }
     }
 
     private void validateSameSize(WebElement element, String readableName) {
-        int h = element.getSize().getHeight();
-        int w = element.getSize().getWidth();
-        if (h != heightRoot || w != widthRoot) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same size as '%s'. Size of '%s' is %spx x %spx. Size of '%s' is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, widthRoot, heightRoot, readableName, w, h), element);
+        if (!element.equals(rootElement)) {
+            int h = element.getSize().getHeight();
+            int w = element.getSize().getWidth();
+            if (h != heightRoot || w != widthRoot) {
+                putJsonDetailsWithElement(String.format("Element '%s' has not the same size as '%s'. Size of '%s' is %spx x %spx. Size of '%s' is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, widthRoot, heightRoot, readableName, w, h), element);
+            }
         }
     }
 
@@ -645,13 +747,13 @@ public class ResponsiveUIValidator implements Validator {
         errorMessage.add(details);
     }
 
-    private int getInt(int i, boolean horizontal){
-        if (units.equals(PX)){
+    private int getInt(int i, boolean horizontal) {
+        if (units.equals(PX)) {
             return i;
-        }else{
-            if (horizontal){
+        } else {
+            if (horizontal) {
                 return (i * pageWidth) / 100;
-            }else{
+            } else {
                 return (i * pageHeight) / 100;
             }
         }

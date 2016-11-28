@@ -2,6 +2,8 @@ package util.validator;
 
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 interface Validator {
     ResponsiveUIValidator init();
 
@@ -29,15 +31,27 @@ interface Validator {
 
     ResponsiveUIValidator notOverlapWith(WebElement element, String readableName);
 
+    ResponsiveUIValidator notOverlapWith(List<WebElement> elements);
+
     ResponsiveUIValidator sameOffsetLeftAs(WebElement element, String readableName);
+
+    ResponsiveUIValidator sameOffsetLeftAs(List<WebElement> elements);
 
     ResponsiveUIValidator sameOffsetRightAs(WebElement element, String readableName);
 
+    ResponsiveUIValidator sameOffsetRightAs(List<WebElement> elements);
+
     ResponsiveUIValidator sameOffsetTopAs(WebElement element, String readableName);
+
+    ResponsiveUIValidator sameOffsetTopAs(List<WebElement> elements);
 
     ResponsiveUIValidator sameOffsetBottomAs(WebElement element, String readableName);
 
+    ResponsiveUIValidator sameOffsetBottomAs(List<WebElement> elements);
+
     ResponsiveUIValidator sameWidthAs(WebElement element, String readableName);
+
+    ResponsiveUIValidator sameWidthAs(List<WebElement> elements);
 
     ResponsiveUIValidator minWidth(int width);
 
@@ -47,17 +61,23 @@ interface Validator {
 
     ResponsiveUIValidator sameHeightAs(WebElement element, String readableName);
 
+    ResponsiveUIValidator sameHeightAs(List<WebElement> elements);
+
     ResponsiveUIValidator minHeight(int height);
 
     ResponsiveUIValidator maxHeight(int height);
 
     ResponsiveUIValidator sameSizeAs(WebElement element, String readableName);
 
+    ResponsiveUIValidator sameSizeAs(List<WebElement> elements);
+
     ResponsiveUIValidator heightBetween(int min, int max);
 
     ResponsiveUIValidator minOffset(int top, int right, int bottom, int left);
 
     ResponsiveUIValidator maxOffset(int top, int right, int bottom, int left);
+
+    ResponsiveUIValidator withCssValue(String cssProperty, String... args);
 
     ResponsiveUIValidator drawMap();
 
