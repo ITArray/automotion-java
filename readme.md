@@ -8,7 +8,7 @@ This is JAVA library for the running of mobile, web or API automated tests.
                 <dependency>
                     <groupId>net.itarray</groupId>
                     <artifactId>automotion</artifactId>
-                    <version>1.3.1</version>
+                    <version>1.4.0</version>
                 </dependency>
 
 ### Steps of adding to the project ###
@@ -77,6 +77,33 @@ This is JAVA library for the running of mobile, web or API automated tests.
             DEVICE=Device name or ID
 
 ### Possibilities ###
+ - Responsive UI Validator allows to validate UI on web or mobile page using lots of criterias. Also it allows tu build thr HTMl report after validation.
+            
+            ResponsiveUIValidator uiValidator = new    ResponsiveUIValidator(driver);
+            
+            
+            boolean result = uiValidator.init()
+                   .findElement({rootEelement}, "Name of element")
+                   .sameOffsetLeftAs({element} "Panel 1")
+                   .sameOffsetLeftAs({element} "Button 1")
+                   .sameOffsetRightAs({element} "Button 2")
+                   .sameOffsetRightAs({element}, "Button 3)
+                   .withCssValue("border", "2px", "solid", "#FBDCDC")
+                   .withCssValue("border-radius", "4px")
+                   .withoutCssValue("color", "#FFFFFF")
+                   .sameSizeAs({list_elements},)
+                   .insideOf({element}, "Container")
+                   .notOverlapWith({element}, "Other element")
+                   .withTopElement({element}, 10, 15)
+                   .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PERCENT)
+                   .widthBetween(50, 55)
+                   .heightBetween(90, 95)
+                   .drawMap()
+                   .validate();
+            
+            
+            uiValidator.generateReport();
+
  - Verification that elements are aligned correctly on the web or mobile page
     * Elements horizontally are aligned correctly:
         
