@@ -319,6 +319,7 @@ public class ResponsiveUIValidator implements Validator {
 
         if (!cssValue.equals("")) {
             for (String val : args) {
+                val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
                 if (!TextFinder.textIsFound(val, cssValue)) {
                     putJsonDetailsWithoutElement(String.format("Expected value of '%s' is '%s'. Actual is '%s'", cssProperty, val, cssValue));
                 }
