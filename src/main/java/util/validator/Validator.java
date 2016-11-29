@@ -79,6 +79,8 @@ interface Validator {
 
     ResponsiveUIValidator withCssValue(String cssProperty, String... args);
 
+    ResponsiveUIValidator withoutCssValue(String cssProperty, String... args);
+
     ResponsiveUIValidator drawMap();
 
     boolean validate();

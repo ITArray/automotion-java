@@ -321,7 +321,24 @@ public class ResponsiveUIValidator implements Validator {
             for (String val : args) {
                 val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
                 if (!TextFinder.textIsFound(val, cssValue)) {
-                    putJsonDetailsWithoutElement(String.format("Expected value of '%s' is '%s'. Actual is '%s'", cssProperty, val, cssValue));
+                    putJsonDetailsWithoutElement(String.format("Expected value of '%s' is '%s'. Actual value is '%s'", cssProperty, val, cssValue));
+                }
+            }
+        }else{
+            putJsonDetailsWithoutElement(String.format("Element '%s' does not have css property '%s'", rootElementReadableName, cssProperty));
+        }
+        return this;
+    }
+
+    @Override
+    public ResponsiveUIValidator withoutCssValue(String cssProperty, String... args) {
+        String cssValue = rootElement.getCssValue(cssProperty);
+
+        if (!cssValue.equals("")) {
+            for (String val : args) {
+                val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
+                if (TextFinder.textIsFound(val, cssValue)) {
+                    putJsonDetailsWithoutElement(String.format("CSS property '%s' should not contain value '%s'. Actual value is '%s'", cssProperty, val, cssValue));
                 }
             }
         }else{

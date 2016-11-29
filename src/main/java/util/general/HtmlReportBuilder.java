@@ -76,7 +76,7 @@ public class HtmlReportBuilder {
                             new Img(this,
                                     new Src("img/" + jsonObject.get(SCREENSHOT)),
                                     new Alt("screenshot"),
-                                    new Style("width: 90%; margin-left:5%"));
+                                    new Style("width: 96%; margin-left:2%"));
                         }};
                     }
                 }
