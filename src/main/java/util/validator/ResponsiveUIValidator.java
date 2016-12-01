@@ -9,7 +9,6 @@ import org.json.simple.parser.ParseException;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Point;
-import util.driver.DriverHelper;
 import util.driver.PageValidator;
 import util.general.HtmlReportBuilder;
 import util.general.SystemHelper;
@@ -33,6 +32,7 @@ public class ResponsiveUIValidator implements Validator {
     private WebDriver driver;
     private String rootElementReadableName;
     private WebElement rootElement;
+    private List<WebElement> rootElements;
     private File screenshot;
     private BufferedImage img;
     private Graphics2D g;
@@ -74,6 +74,14 @@ public class ResponsiveUIValidator implements Validator {
         pageHeight = driver.manage().window().getSize().getHeight();
         rootElementRightOffset = pageWidth - xRoot + widthRoot;
         rootElementBottomOffset = pageHeight - yRoot + heightRoot;
+        return this;
+    }
+
+    @Override
+    public ResponsiveUIValidator findElements(List<WebElement> elements) {
+        rootElements = elements;
+        pageWidth = driver.manage().window().getSize().getWidth();
+        pageHeight = driver.manage().window().getSize().getHeight();
         return this;
     }
 
@@ -141,6 +149,12 @@ public class ResponsiveUIValidator implements Validator {
 
     @Override
     public ResponsiveUIValidator notOverlapWith(WebElement element, String readableName) {
+        validateNotOverlappingWithElements(element, readableName);
+        return this;
+    }
+
+    @Override
+    public ResponsiveUIValidator overlapWith(WebElement element, String readableName) {
         validateOverlappingWithElements(element, readableName);
         return this;
     }
@@ -148,7 +162,7 @@ public class ResponsiveUIValidator implements Validator {
     @Override
     public ResponsiveUIValidator notOverlapWith(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateOverlappingWithElements(element, "Element with class name: " + element.getAttribute("class"));
+            validateNotOverlappingWithElements(element, "Element with class name: " + element.getAttribute("class"));
         }
         return this;
     }
@@ -324,7 +338,7 @@ public class ResponsiveUIValidator implements Validator {
                     putJsonDetailsWithoutElement(String.format("Expected value of '%s' is '%s'. Actual value is '%s'", cssProperty, val, cssValue));
                 }
             }
-        }else{
+        } else {
             putJsonDetailsWithoutElement(String.format("Element '%s' does not have css property '%s'", rootElementReadableName, cssProperty));
         }
         return this;
@@ -341,9 +355,21 @@ public class ResponsiveUIValidator implements Validator {
                     putJsonDetailsWithoutElement(String.format("CSS property '%s' should not contain value '%s'. Actual value is '%s'", cssProperty, val, cssValue));
                 }
             }
-        }else{
+        } else {
             putJsonDetailsWithoutElement(String.format("Element '%s' does not have css property '%s'", rootElementReadableName, cssProperty));
         }
+        return this;
+    }
+
+    @Override
+    public ResponsiveUIValidator alignedAsGrid(int horizontalGridSize) {
+        validateGridAlignment(horizontalGridSize, 0);
+        return this;
+    }
+
+    @Override
+    public ResponsiveUIValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize) {
+        validateGridAlignment(horizontalGridSize, verticalGridSize);
         return this;
     }
 
@@ -459,6 +485,30 @@ public class ResponsiveUIValidator implements Validator {
         }
     }
 
+    private void validateGridAlignment(int horizontalGridSize, int verticalGridSize) {
+        List<WebElement> row = new ArrayList<>();
+        for (int i = 0; i < rootElements.size(); i++) {
+            while (horizontalGridSize % i != 0) {
+                row.add(rootElements.get(i));
+                if (horizontalGridSize % i == 0) {
+                    row.add(rootElements.get(i));
+                    if (!PageValidator.elementsAreAlignedHorizontally(row)) {
+                        putJsonDetailsWithElement("Elements are not aligned properly in grid", rootElements.get(i));
+                        break;
+                    }
+                    if (i + 1 <= rootElements.size()) {
+                        row.add(rootElements.get(i + 1));
+                        if (!PageValidator.elementsAreAlignedHorizontally(row)) {
+                            putJsonDetailsWithElement("Elements are not aligned properly in grid", rootElements.get(i));
+                            break;
+                        }
+                    }
+                    row.clear();
+                }
+            }
+        }
+    }
+
     private void validateRightOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
             if (!elementsHasEqualLeftRightOffset(false, element)) {
@@ -491,10 +541,18 @@ public class ResponsiveUIValidator implements Validator {
         }
     }
 
-    private void validateOverlappingWithElements(WebElement element, String readableName) {
+    private void validateNotOverlappingWithElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
             if (elementsAreOverlapped(element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' is overlapped with element '%s' but should not", rootElementReadableName, readableName), element);
+            }
+        }
+    }
+
+    private void validateOverlappingWithElements(WebElement element, String readableName) {
+        if (!element.equals(rootElement)) {
+            if (!elementsAreOverlapped(element)) {
+                putJsonDetailsWithElement(String.format("Element '%s' is not overlapped with element '%s' but should be", rootElementReadableName, readableName), element);
             }
         }
     }

@@ -9,6 +9,8 @@ interface Validator {
 
     ResponsiveUIValidator findElement(WebElement element, String readableNameOfElement);
 
+    ResponsiveUIValidator findElements(List<WebElement> elements);
+
     ResponsiveUIValidator changeMetricsUnitsTo(ResponsiveUIValidator.Units units);
 
     ResponsiveUIValidator withLeftElement(WebElement element);
@@ -30,6 +32,8 @@ interface Validator {
     ResponsiveUIValidator insideOf(WebElement element, String readableContainerName);
 
     ResponsiveUIValidator notOverlapWith(WebElement element, String readableName);
+
+    ResponsiveUIValidator overlapWith(WebElement element, String readableName);
 
     ResponsiveUIValidator notOverlapWith(List<WebElement> elements);
 
@@ -80,6 +84,10 @@ interface Validator {
     ResponsiveUIValidator withCssValue(String cssProperty, String... args);
 
     ResponsiveUIValidator withoutCssValue(String cssProperty, String... args);
+
+    ResponsiveUIValidator alignedAsGrid(int horizontalGridSize);
+
+    ResponsiveUIValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 
     ResponsiveUIValidator drawMap();
 
