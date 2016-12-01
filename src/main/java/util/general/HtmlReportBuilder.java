@@ -72,6 +72,10 @@ public class HtmlReportBuilder {
                                 }};
                             }
                         }};
+                        new H4(this,
+                                new Style("color: rgb(105,105,105)")) {{
+                            new NoTag(this, "Time execution: " + jsonObject.get(TIME_EXECUTION));
+                        }};
                         new P(this) {{
                             new Img(this,
                                     new Src("img/" + jsonObject.get(SCREENSHOT)),

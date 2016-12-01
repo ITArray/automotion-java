@@ -13,6 +13,7 @@ public class Constants {
     public static final String SCREENSHOT = "screenshot";
     public static final String ELEMENT_NAME = "elementName";
     public static final String ROOT_ELEMENT = "rootElement";
+    public static final String TIME_EXECUTION = "timeExecution";
     public static final String TARGET_AUTOMOTION_JSON = "target/automotion/json/";
     public static final String TARGET_AUTOMOTION_IMG = "target/automotion/img/";
     public static final String TARGET_AUTOMOTION = "target/automotion/";

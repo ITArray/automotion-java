@@ -51,6 +51,7 @@ public class ResponsiveUIValidator implements Validator {
     private boolean drawTopOffsetLine = false;
     private boolean drawBottomOffsetLine = false;
     private Units units = PX;
+    private long startTime;
 
     public ResponsiveUIValidator(WebDriver driver) {
         this.driver = driver;
@@ -74,6 +75,7 @@ public class ResponsiveUIValidator implements Validator {
         pageHeight = driver.manage().window().getSize().getHeight();
         rootElementRightOffset = pageWidth - xRoot + widthRoot;
         rootElementBottomOffset = pageHeight - yRoot + heightRoot;
+        startTime = System.currentTimeMillis();
         return this;
     }
 
@@ -406,6 +408,7 @@ public class ResponsiveUIValidator implements Validator {
                     rootDetails.put(HEIGHT, heightRoot);
 
                     jsonResults.put(ROOT_ELEMENT, rootDetails);
+                    jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
                     jsonResults.put(ELEMENT_NAME, rootElementReadableName);
                     jsonResults.put(SCREENSHOT, rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
                 }
