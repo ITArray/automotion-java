@@ -89,10 +89,14 @@ interface Validator {
 
     ResponsiveUIValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 
+    ResponsiveUIValidator areNotOverlappedWithEachOther();
+
     ResponsiveUIValidator drawMap();
 
     boolean validate();
 
     void generateReport();
+
+    void generateReport(String name);
 
 }

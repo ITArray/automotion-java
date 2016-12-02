@@ -100,6 +100,8 @@ public class CapabilitiesFactory {
             capabilities = DesiredCapabilities.safari();
         } else if (isInternetExplorer()) {
             capabilities = DesiredCapabilities.internetExplorer();
+        } else if (isEDGE()) {
+            capabilities = DesiredCapabilities.edge();
         }
 
         if (getMobileDeviveEmulation() != null) {

@@ -11,6 +11,7 @@ import com.webfirmframework.wffweb.tag.html.metainfo.Head;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import org.apache.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -28,9 +29,44 @@ public class HtmlReportBuilder {
 
     private final Logger LOG = Logger.getLogger(HtmlReportBuilder.class);
 
+    public void buildReport(String reportName) throws IOException, ParseException, InterruptedException {
+        writeReport(reportName);
+    }
+
     public void buildReport() throws IOException, ParseException, InterruptedException {
+        writeReport("result");
+    }
+
+    private void writeReport(String reportName) throws InterruptedException, IOException, ParseException {
         Thread.sleep(3000);
-        Html html = new Html(null, new Style("background-color: rgb(255,250,250)")) {{
+
+        Html html = buildHtml();
+
+        long ms = System.currentTimeMillis();
+
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION + reportName + ms + ".html"), StandardCharsets.UTF_8))) {
+            writer.write(html.toHtmlString());
+        } catch (IOException ex) {
+            LOG.error("Cannot create html report: " + ex.getMessage());
+        }
+
+        try {
+            File file = new File(TARGET_AUTOMOTION + "result" + ms + ".html");
+            if (file.getParentFile().mkdirs()) {
+                if (file.createNewFile()) {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                    writer.write(html.toHtmlString());
+                    writer.close();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @NotNull
+    private Html buildHtml() throws IOException, ParseException {
+        return new Html(null, new Style("background-color: rgb(255,250,250)")) {{
             new Head(this) {{
                 new TitleTag(this) {{
                     new NoTag(this, "Automotion report");
@@ -82,30 +118,11 @@ public class HtmlReportBuilder {
                                     new Alt("screenshot"),
                                     new Style("width: 96%; margin-left:2%"));
                         }};
+
+                        while (!file.delete());
                     }
                 }
             }};
         }};
-
-        long ms = System.currentTimeMillis();
-
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION + "result" + ms + ".html"), StandardCharsets.UTF_8))) {
-            writer.write(html.toHtmlString());
-        } catch (IOException ex) {
-            LOG.error("Cannot create html report: " + ex.getMessage());
-        }
-
-        try {
-            File file = new File(TARGET_AUTOMOTION + "result" + ms + ".html");
-            if (file.getParentFile().mkdirs()) {
-                if (file.createNewFile()) {
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                    writer.write(html.toHtmlString());
-                    writer.close();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

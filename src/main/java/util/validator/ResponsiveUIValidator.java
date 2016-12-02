@@ -84,6 +84,7 @@ public class ResponsiveUIValidator implements Validator {
         rootElements = elements;
         pageWidth = driver.manage().window().getSize().getWidth();
         pageHeight = driver.manage().window().getSize().getHeight();
+        rootElement = rootElements.get(0);
         return this;
     }
 
@@ -376,6 +377,13 @@ public class ResponsiveUIValidator implements Validator {
     }
 
     @Override
+    public ResponsiveUIValidator areNotOverlappedWithEachOther() {
+        validateElementsAreNotOverlapped(rootElements);
+        return this;
+    }
+
+
+    @Override
     public ResponsiveUIValidator drawMap() {
         withReport = true;
         return this;
@@ -453,6 +461,15 @@ public class ResponsiveUIValidator implements Validator {
         }
     }
 
+    @Override
+    public void generateReport(String name) {
+        try {
+            new HtmlReportBuilder().buildReport(name);
+        } catch (IOException | ParseException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void drawScreenshot() {
         g = img.createGraphics();
 
@@ -485,6 +502,19 @@ public class ResponsiveUIValidator implements Validator {
             FileUtils.copyFile(screenshot, file);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void validateElementsAreNotOverlapped(List<WebElement> rootElements) {
+        for (WebElement el1 : rootElements) {
+            for (WebElement el2 : rootElements) {
+                if (!el1.equals(el2)) {
+                    if (elementsAreOverlapped(el1, el2)) {
+                        putJsonDetailsWithElement("Elements are overlapped", el1);
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -730,10 +760,32 @@ public class ResponsiveUIValidator implements Validator {
     private boolean elementsAreOverlapped(WebElement elementOverlapWith) {
         Point elLoc = elementOverlapWith.getLocation();
         Dimension elSize = elementOverlapWith.getSize();
-        return (xRoot > elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
+        return ((xRoot > elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot + widthRoot > elLoc.x && yRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height)
-                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height);
+                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height)) ||
+                ((elLoc.x > xRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot)
+                        || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot)
+                        || (elLoc.x > xRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot + heightRoot)
+                        || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot + widthRoot));
+    }
+
+    private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
+        Point elLoc = elementOverlapWith.getLocation();
+        Dimension elSize = elementOverlapWith.getSize();
+        int xRoot = rootElement.getLocation().x;
+        int yRoot = rootElement.getLocation().y;
+        int widthRoot = rootElement.getSize().width;
+        int heightRoot = rootElement.getSize().height;
+
+        return ((xRoot > elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
+                || (xRoot + widthRoot > elLoc.x && yRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
+                || (xRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height)
+                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height)) ||
+                ((elLoc.x > xRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot)
+                        || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot)
+                        || (elLoc.x > xRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot + heightRoot)
+                        || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot + widthRoot));
     }
 
     private boolean elementsHasEqualLeftRightOffset(boolean isLeft, WebElement elementToCompare) {

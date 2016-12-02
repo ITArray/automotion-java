@@ -49,6 +49,11 @@ public class EnvironmentFactory {
         return BROWSER != null && BROWSER.toUpperCase().equals("IE");
     }
 
+    public static boolean isEDGE() {
+        BROWSER = System.getenv(EnvironmentConstants.BROWSER) != null ? System.getenv(EnvironmentConstants.BROWSER) : System.getProperty(EnvironmentConstants.BROWSER);
+        return BROWSER != null && BROWSER.toUpperCase().equals("EDGE");
+    }
+
     public static boolean isAndroid() {
         String PLATFORM = System.getenv(EnvironmentConstants.PLATFORM) != null ? System.getenv(EnvironmentConstants.PLATFORM) : System.getProperty(EnvironmentConstants.PLATFORM);
         return PLATFORM != null && PLATFORM.toUpperCase().equals("ANDROID");

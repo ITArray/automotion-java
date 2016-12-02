@@ -7,6 +7,7 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -39,6 +40,30 @@ public class WebDriverFactory {
         remoteUrlPath = getRemoteUrlPath();
     }
 
+    private static void setChromeDriver() {
+        Platform platform = Platform.getCurrent();
+        String chromeBinary = "src/main/resources/drivers/chromedriver"
+                + (platform.toString().toUpperCase().contains("WIN") ? ".exe" : "");
+        System.setProperty("webdriver.chrome.driver", chromeBinary);
+    }
+
+    private static void setGeckoDriver() {
+        Platform platform = Platform.getCurrent();
+        String geckoBinary = "src/main/resources/drivers/geckodriver"
+                + (platform.toString().toUpperCase().contains("WIN") ? ".exe" : "");
+        System.setProperty("webdriver.gecko.driver", geckoBinary);
+    }
+
+    private static void setIEDriver() {
+        String ieBinary = "src/main/resources/drivers/IEDriverServer.exe";
+        System.setProperty("webdriver.ie.driver", ieBinary);
+    }
+
+    private static void setEdgeDriver() {
+        String edgeBinary = "src/main/resources/drivers/MicrosoftWebDriver.exe";
+        System.setProperty("webdriver.edge.driver", edgeBinary);
+    }
+
     public WebDriver getDriver() {
         if (isMobile()) {
             driver = getMobileDriver();
@@ -56,7 +81,6 @@ public class WebDriverFactory {
 
         return driver;
     }
-
 
     public void updateCapabilities(Map<String, Object> mapCapabilities) {
         CapabilitiesFactory.updateCapabilities(capabilities, mapCapabilities);
@@ -96,6 +120,9 @@ public class WebDriverFactory {
         } else if (isInternetExplorer()) {
             setIEDriver();
             webDriver = new InternetExplorerDriver();
+        } else if (isEDGE()) {
+            setEdgeDriver();
+            webDriver = new EdgeDriver();
         }
 
         return webDriver;
@@ -113,26 +140,5 @@ public class WebDriverFactory {
         }
 
         return remoteWebDriver;
-    }
-
-    private static void setChromeDriver() {
-        Platform platform = Platform.getCurrent();
-        String chromeBinary = "src/main/resources/drivers/chromedriver"
-                + (platform.toString().toUpperCase().contains("WIN") ? ".exe" : "");
-        System.setProperty("webdriver.chrome.driver", chromeBinary);
-    }
-
-    private static void setGeckoDriver() {
-        Platform platform = Platform.getCurrent();
-        String geckoBinary = "src/main/resources/drivers/geckodriver"
-                + (platform.toString().toUpperCase().contains("WIN") ? ".exe" : "");
-        System.setProperty("webdriver.gecko.driver", geckoBinary);
-    }
-
-    private static void setIEDriver() {
-        Platform platform = Platform.getCurrent();
-        String chromeBinary = "src/main/resources/drivers/IEDriverServer"
-                + (platform.toString().toUpperCase().contains("WIN") ? ".exe" : "");
-        System.setProperty("webdriver.ie.driver", chromeBinary);
     }
 }
