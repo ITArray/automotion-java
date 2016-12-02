@@ -91,6 +91,8 @@ interface Validator {
 
     ResponsiveUIValidator areNotOverlappedWithEachOther();
 
+    ResponsiveUIValidator withSameSize();
+
     ResponsiveUIValidator drawMap();
 
     boolean validate();

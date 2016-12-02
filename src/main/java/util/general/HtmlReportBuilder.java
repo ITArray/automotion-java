@@ -44,7 +44,7 @@ public class HtmlReportBuilder {
 
         long ms = System.currentTimeMillis();
 
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION + reportName + ms + ".html"), StandardCharsets.UTF_8))) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION + reportName.replace(" ", "") + ms + ".html"), StandardCharsets.UTF_8))) {
             writer.write(html.toHtmlString());
         } catch (IOException ex) {
             LOG.error("Cannot create html report: " + ex.getMessage());
@@ -82,44 +82,46 @@ public class HtmlReportBuilder {
                 File folder = new File(TARGET_AUTOMOTION_JSON);
                 File[] listOfFiles = folder.listFiles();
 
-                for (File file : listOfFiles) {
-                    if (file.isFile()) {
-                        JSONParser parser = new JSONParser();
-                        Object obj = parser.parse(new FileReader(file));
+                if (listOfFiles != null) {
+                    for (File file : listOfFiles) {
+                        if (file.isFile()) {
+                            JSONParser parser = new JSONParser();
+                            Object obj = parser.parse(new FileReader(file));
 
-                        JSONObject jsonObject = (JSONObject) obj;
-                        JSONArray details = (JSONArray) jsonObject.get(DETAILS);
-                        new H1(this,
-                                new Style("color: rgb(0,139,139); margin-top: 50px;")) {{
-                            new NoTag(this, "Element: \"" + jsonObject.get(ELEMENT_NAME) + "\"");
-                        }};
-                        new H2(this,
-                                new Style("color: rgb(255,69,0)")) {{
-                            new NoTag(this, "Failures:");
-                        }};
-                        new Ol(this) {{
-                            for (Object details : details) {
-                                JSONObject det = (JSONObject) details;
-                                JSONObject reason = (JSONObject) det.get(REASON);
-                                String numE = (String) reason.get(MESSAGE);
+                            JSONObject jsonObject = (JSONObject) obj;
+                            JSONArray details = (JSONArray) jsonObject.get(DETAILS);
+                            new H1(this,
+                                    new Style("color: rgb(0,139,139); margin-top: 50px;")) {{
+                                new NoTag(this, "Element: \"" + jsonObject.get(ELEMENT_NAME) + "\"");
+                            }};
+                            new H2(this,
+                                    new Style("color: rgb(255,69,0)")) {{
+                                new NoTag(this, "Failures:");
+                            }};
+                            new Ol(this) {{
+                                for (Object details : details) {
+                                    JSONObject det = (JSONObject) details;
+                                    JSONObject reason = (JSONObject) det.get(REASON);
+                                    String numE = (String) reason.get(MESSAGE);
 
-                                new Li(this) {{
-                                    new NoTag(this, numE.toString());
-                                }};
-                            }
-                        }};
-                        new H4(this,
-                                new Style("color: rgb(105,105,105)")) {{
-                            new NoTag(this, "Time execution: " + jsonObject.get(TIME_EXECUTION));
-                        }};
-                        new P(this) {{
-                            new Img(this,
-                                    new Src("img/" + jsonObject.get(SCREENSHOT)),
-                                    new Alt("screenshot"),
-                                    new Style("width: 96%; margin-left:2%"));
-                        }};
+                                    new Li(this) {{
+                                        new NoTag(this, numE.toString());
+                                    }};
+                                }
+                            }};
+                            new H4(this,
+                                    new Style("color: rgb(105,105,105)")) {{
+                                new NoTag(this, "Time execution: " + jsonObject.get(TIME_EXECUTION));
+                            }};
+                            new P(this) {{
+                                new Img(this,
+                                        new Src("img/" + jsonObject.get(SCREENSHOT)),
+                                        new Alt("screenshot"),
+                                        new Style("width: 96%; margin-left:2%"));
+                            }};
 
-                        while (!file.delete());
+                            while (!file.delete()) ;
+                        }
                     }
                 }
             }};

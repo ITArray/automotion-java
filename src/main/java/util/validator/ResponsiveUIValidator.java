@@ -20,6 +20,9 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static environment.EnvironmentFactory.isChrome;
 import static util.validator.Constants.*;
@@ -27,10 +30,13 @@ import static util.validator.ResponsiveUIValidator.Units.PX;
 
 public class ResponsiveUIValidator implements Validator {
 
+    private final static Logger LOG = Logger.getLogger(ResponsiveUIValidator.class);
+    private static boolean withReport = false;
     private static final int MIN_OFFSET = -10000;
-    private final Logger LOG = Logger.getLogger(ResponsiveUIValidator.class);
+    private static long startTime;
+    private static JSONObject jsonResults;
     private WebDriver driver;
-    private String rootElementReadableName;
+    private String rootElementReadableName = "Root Element";
     private WebElement rootElement;
     private List<WebElement> rootElements;
     private File screenshot;
@@ -41,7 +47,6 @@ public class ResponsiveUIValidator implements Validator {
     private int yRoot;
     private int widthRoot;
     private int heightRoot;
-    private boolean withReport = false;
     private int pageWidth;
     private int pageHeight;
     private int rootElementRightOffset;
@@ -51,7 +56,6 @@ public class ResponsiveUIValidator implements Validator {
     private boolean drawTopOffsetLine = false;
     private boolean drawBottomOffsetLine = false;
     private Units units = PX;
-    private long startTime;
 
     public ResponsiveUIValidator(WebDriver driver) {
         this.driver = driver;
@@ -85,6 +89,7 @@ public class ResponsiveUIValidator implements Validator {
         pageWidth = driver.manage().window().getSize().getWidth();
         pageHeight = driver.manage().window().getSize().getHeight();
         rootElement = rootElements.get(0);
+        startTime = System.currentTimeMillis();
         return this;
     }
 
@@ -382,6 +387,12 @@ public class ResponsiveUIValidator implements Validator {
         return this;
     }
 
+    @Override
+    public ResponsiveUIValidator withSameSize() {
+        validateSameSize(rootElements);
+        return this;
+    }
+
 
     @Override
     public ResponsiveUIValidator drawMap() {
@@ -391,7 +402,7 @@ public class ResponsiveUIValidator implements Validator {
 
     @Override
     public boolean validate() {
-        JSONObject jsonResults = new JSONObject();
+        jsonResults = new JSONObject();
         jsonResults.put(ERROR_KEY, false);
 
         if (rootElement != null) {
@@ -454,10 +465,12 @@ public class ResponsiveUIValidator implements Validator {
 
     @Override
     public void generateReport() {
-        try {
-            new HtmlReportBuilder().buildReport();
-        } catch (IOException | ParseException | InterruptedException e) {
-            e.printStackTrace();
+        if (withReport && (boolean) jsonResults.get(ERROR_KEY)) {
+            try {
+                new HtmlReportBuilder().buildReport();
+            } catch (IOException | ParseException | InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -518,28 +531,60 @@ public class ResponsiveUIValidator implements Validator {
         }
     }
 
-    private void validateGridAlignment(int horizontalGridSize, int verticalGridSize) {
-        List<WebElement> row = new ArrayList<>();
-        for (int i = 0; i < rootElements.size(); i++) {
-            while (horizontalGridSize % i != 0) {
-                row.add(rootElements.get(i));
-                if (horizontalGridSize % i == 0) {
-                    row.add(rootElements.get(i));
-                    if (!PageValidator.elementsAreAlignedHorizontally(row)) {
-                        putJsonDetailsWithElement("Elements are not aligned properly in grid", rootElements.get(i));
-                        break;
-                    }
-                    if (i + 1 <= rootElements.size()) {
-                        row.add(rootElements.get(i + 1));
-                        if (!PageValidator.elementsAreAlignedHorizontally(row)) {
-                            putJsonDetailsWithElement("Elements are not aligned properly in grid", rootElements.get(i));
-                            break;
+    private void validateGridAlignment(int columns, int rows) {
+        if (rootElements != null) {
+            ConcurrentHashMap<Integer, AtomicLong> map = new ConcurrentHashMap<>();
+            for (WebElement el : rootElements) {
+                Integer y = el.getLocation().y;
+
+                map.putIfAbsent(y, new AtomicLong(0));
+                map.get(y).incrementAndGet();
+            }
+
+            if (rows > 0) {
+                if (map.size() != rows) {
+                    putJsonDetailsWithoutElement("Elements in a grid are not aligned properly.");
+                }
+            }
+
+            if (columns > 0) {
+                int rowCount = 1;
+                for (Map.Entry<Integer, AtomicLong> entry : map.entrySet()) {
+                    if (rowCount <= map.size()) {
+                        if (entry.getValue().intValue() != columns) {
+                            putJsonDetailsWithoutElement("Elements in a grid are not aligned properly in row #" + rowCount + ".");
                         }
+                        rowCount++;
                     }
-                    row.clear();
+                }
+            } else {
+                if (map.size() == rootElements.size()) {
+                    putJsonDetailsWithoutElement("Elements are not aligned in a grid.");
                 }
             }
         }
+
+//        List<WebElement> row = new ArrayList<>();
+//        for (int i = 0; i < rootElements.size(); i++) {
+//            while (columns % i != 0) {
+//                row.add(rootElements.get(i));
+//                if (columns % i == 0) {
+//                    row.add(rootElements.get(i));
+//                    if (!PageValidator.elementsAreAlignedHorizontally(row)) {
+//                        putJsonDetailsWithElement("Elements are not aligned properly in grid", rootElements.get(i));
+//                        break;
+//                    }
+//                    if (i + 1 <= rootElements.size()) {
+//                        row.add(rootElements.get(i + 1));
+//                        if (!PageValidator.elementsAreAlignedHorizontally(row)) {
+//                            putJsonDetailsWithElement("Elements are not aligned properly in grid", rootElements.get(i));
+//                            break;
+//                        }
+//                    }
+//                    row.clear();
+//                }
+//            }
+//        }
     }
 
     private void validateRightOffsetForElements(WebElement element, String readableName) {
@@ -668,6 +713,22 @@ public class ResponsiveUIValidator implements Validator {
             int w = element.getSize().getWidth();
             if (h != heightRoot || w != widthRoot) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same size as '%s'. Size of '%s' is %spx x %spx. Size of '%s' is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, widthRoot, heightRoot, readableName, w, h), element);
+            }
+        }
+    }
+
+    private void validateSameSize(List<WebElement> elements) {
+        for (WebElement el1 : elements) {
+            for (WebElement el2 : elements) {
+                if (!el1.equals(el2)) {
+                    int h1 = el1.getSize().getHeight();
+                    int w1 = el1.getSize().getWidth();
+                    int h2 = el2.getSize().getHeight();
+                    int w2 = el2.getSize().getWidth();
+                    if (h1 != h2 || w1 != w2) {
+                        putJsonDetailsWithoutElement("Elements in a gird have different size.");
+                    }
+                }
             }
         }
     }

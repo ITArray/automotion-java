@@ -4,6 +4,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import web.BaseWebMobileElement;
 
+import java.util.List;
+
 /**
  * Created by ZayCo on 24/11/16.
  */
@@ -39,5 +41,9 @@ public class TestPage extends BaseWebMobileElement {
 
     public WebElement contactForm() {
         return getWebElement(By.id("contact-form"));
+    }
+
+    public List<WebElement> images() {
+        return getWebElements(By.className("image"));
     }
 }
