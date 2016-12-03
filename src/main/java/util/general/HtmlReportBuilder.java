@@ -44,7 +44,7 @@ public class HtmlReportBuilder {
 
         long ms = System.currentTimeMillis();
 
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION + reportName.replace(" ", "") + ms + ".html"), StandardCharsets.UTF_8))) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION + reportName.replace(" ", "_") + "-" + ms + ".html"), StandardCharsets.UTF_8))) {
             writer.write(html.toHtmlString());
         } catch (IOException ex) {
             LOG.error("Cannot create html report: " + ex.getMessage());
@@ -91,10 +91,14 @@ public class HtmlReportBuilder {
                             JSONObject jsonObject = (JSONObject) obj;
                             JSONArray details = (JSONArray) jsonObject.get(DETAILS);
                             new H1(this,
-                                    new Style("color: rgb(0,139,139); margin-top: 50px;")) {{
-                                new NoTag(this, "Element: \"" + jsonObject.get(ELEMENT_NAME) + "\"");
+                                    new Style("color: rgb(47,79,79); margin-top: 50px;")) {{
+                                new NoTag(this, "Scenario: \"" + jsonObject.get(SCENARIO) + "\"");
                             }};
                             new H2(this,
+                                    new Style("color: rgb(0,139,139);")) {{
+                                new NoTag(this, "Element: \"" + jsonObject.get(ELEMENT_NAME) + "\"");
+                            }};
+                            new H3(this,
                                     new Style("color: rgb(255,69,0)")) {{
                                 new NoTag(this, "Failures:");
                             }};

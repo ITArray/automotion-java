@@ -31,10 +31,11 @@ import static util.validator.ResponsiveUIValidator.Units.PX;
 public class ResponsiveUIValidator implements Validator {
 
     private final static Logger LOG = Logger.getLogger(ResponsiveUIValidator.class);
-    private static boolean withReport = false;
     private static final int MIN_OFFSET = -10000;
+    private static boolean withReport = false;
     private static long startTime;
     private static JSONObject jsonResults;
+    private static String scenarioName = "Default";
     private WebDriver driver;
     private String rootElementReadableName = "Root Element";
     private WebElement rootElement;
@@ -64,6 +65,12 @@ public class ResponsiveUIValidator implements Validator {
 
     @Override
     public ResponsiveUIValidator init() {
+        return new ResponsiveUIValidator(driver);
+    }
+
+    @Override
+    public ResponsiveUIValidator init(String scenarioName) {
+        ResponsiveUIValidator.scenarioName = scenarioName;
         return new ResponsiveUIValidator(driver);
     }
 
@@ -426,6 +433,7 @@ public class ResponsiveUIValidator implements Validator {
                     rootDetails.put(WIDTH, widthRoot);
                     rootDetails.put(HEIGHT, heightRoot);
 
+                    jsonResults.put(SCENARIO, scenarioName);
                     jsonResults.put(ROOT_ELEMENT, rootDetails);
                     jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
                     jsonResults.put(ELEMENT_NAME, rootElementReadableName);
@@ -476,10 +484,12 @@ public class ResponsiveUIValidator implements Validator {
 
     @Override
     public void generateReport(String name) {
-        try {
-            new HtmlReportBuilder().buildReport(name);
-        } catch (IOException | ParseException | InterruptedException e) {
-            e.printStackTrace();
+        if (withReport && (boolean) jsonResults.get(ERROR_KEY)) {
+            try {
+                new HtmlReportBuilder().buildReport(name);
+            } catch (IOException | ParseException | InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -880,7 +890,8 @@ public class ResponsiveUIValidator implements Validator {
             g.drawRect(xRoot, yRoot, widthRoot, heightRoot);
         }
 
-        g.setStroke(new BasicStroke(1));
+        Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+        g.setStroke(dashed);
         g.setColor(Color.ORANGE);
         if (drawLeftOffsetLine) {
             if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
