@@ -31,7 +31,7 @@ public class ResponsiveValidatorTest {
 
         boolean res1 = responsiveValidator.init("Grid validation")
                 .findElements(page.images())
-                .alignedAsGrid(1, 4)
+                .alignedAsGrid(1, 3)
                 .areNotOverlappedWithEachOther()
                 .withSameSize()
                 .drawMap()
