@@ -31,10 +31,11 @@ import static util.validator.ResponsiveUIValidator.Units.PX;
 public class ResponsiveUIValidator implements Validator {
 
     private final static Logger LOG = Logger.getLogger(ResponsiveUIValidator.class);
-    private static boolean withReport = false;
     private static final int MIN_OFFSET = -10000;
+    private static boolean withReport = false;
     private static long startTime;
     private static JSONObject jsonResults;
+    private static String scenarioName = "Default";
     private WebDriver driver;
     private String rootElementReadableName = "Root Element";
     private WebElement rootElement;
@@ -64,6 +65,12 @@ public class ResponsiveUIValidator implements Validator {
 
     @Override
     public ResponsiveUIValidator init() {
+        return new ResponsiveUIValidator(driver);
+    }
+
+    @Override
+    public ResponsiveUIValidator init(String scenarioName) {
+        ResponsiveUIValidator.scenarioName = scenarioName;
         return new ResponsiveUIValidator(driver);
     }
 
@@ -426,6 +433,7 @@ public class ResponsiveUIValidator implements Validator {
                     rootDetails.put(WIDTH, widthRoot);
                     rootDetails.put(HEIGHT, heightRoot);
 
+                    jsonResults.put(SCENARIO, scenarioName);
                     jsonResults.put(ROOT_ELEMENT, rootDetails);
                     jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
                     jsonResults.put(ELEMENT_NAME, rootElementReadableName);
@@ -476,10 +484,12 @@ public class ResponsiveUIValidator implements Validator {
 
     @Override
     public void generateReport(String name) {
-        try {
-            new HtmlReportBuilder().buildReport(name);
-        } catch (IOException | ParseException | InterruptedException e) {
-            e.printStackTrace();
+        if (withReport && (boolean) jsonResults.get(ERROR_KEY)) {
+            try {
+                new HtmlReportBuilder().buildReport(name);
+            } catch (IOException | ParseException | InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -726,7 +736,7 @@ public class ResponsiveUIValidator implements Validator {
                     int h2 = el2.getSize().getHeight();
                     int w2 = el2.getSize().getWidth();
                     if (h1 != h2 || w1 != w2) {
-                        putJsonDetailsWithoutElement("Elements in a gird have different size.");
+                        putJsonDetailsWithElement("Elements in a grid have different size.", el1);
                     }
                 }
             }
@@ -734,13 +744,24 @@ public class ResponsiveUIValidator implements Validator {
     }
 
     private void validateInsideOfContainer(WebElement element, String readableContainerName) {
-        float xContainer = element.getLocation().getX();
-        float yContainer = element.getLocation().getY();
-        float widthContainer = element.getSize().getWidth();
-        float heightContainer = element.getSize().getHeight();
-
-        if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
-            putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), element);
+        float xContainer = element.getLocation().x;
+        float yContainer = element.getLocation().y;
+        float widthContainer = element.getSize().width;
+        float heightContainer = element.getSize().height;
+        if (rootElements == null || rootElements.isEmpty()) {
+            if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
+                putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), element);
+            }
+        }else{
+            for (WebElement el: rootElements){
+                float xRoot = el.getLocation().x;
+                float yRoot = el.getLocation().y;
+                float widthRoot = el.getSize().width;
+                float heightRoot = el.getSize().height;
+                if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
+                    putJsonDetailsWithElement(String.format("Element is not inside of '%s'", readableContainerName), element);
+                }
+            }
         }
     }
 
@@ -880,7 +901,8 @@ public class ResponsiveUIValidator implements Validator {
             g.drawRect(xRoot, yRoot, widthRoot, heightRoot);
         }
 
-        g.setStroke(new BasicStroke(1));
+        Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+        g.setStroke(dashed);
         g.setColor(Color.ORANGE);
         if (drawLeftOffsetLine) {
             if (SystemHelper.isRetinaDisplay(g) && isChrome()) {

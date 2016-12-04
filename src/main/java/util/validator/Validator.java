@@ -7,6 +7,8 @@ import java.util.List;
 interface Validator {
     ResponsiveUIValidator init();
 
+    ResponsiveUIValidator init(String scenarioName);
+
     ResponsiveUIValidator findElement(WebElement element, String readableNameOfElement);
 
     ResponsiveUIValidator findElements(List<WebElement> elements);
