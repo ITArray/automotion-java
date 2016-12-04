@@ -736,7 +736,7 @@ public class ResponsiveUIValidator implements Validator {
                     int h2 = el2.getSize().getHeight();
                     int w2 = el2.getSize().getWidth();
                     if (h1 != h2 || w1 != w2) {
-                        putJsonDetailsWithoutElement("Elements in a gird have different size.");
+                        putJsonDetailsWithElement("Elements in a grid have different size.", el1);
                     }
                 }
             }
@@ -744,13 +744,24 @@ public class ResponsiveUIValidator implements Validator {
     }
 
     private void validateInsideOfContainer(WebElement element, String readableContainerName) {
-        float xContainer = element.getLocation().getX();
-        float yContainer = element.getLocation().getY();
-        float widthContainer = element.getSize().getWidth();
-        float heightContainer = element.getSize().getHeight();
-
-        if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
-            putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), element);
+        float xContainer = element.getLocation().x;
+        float yContainer = element.getLocation().y;
+        float widthContainer = element.getSize().width;
+        float heightContainer = element.getSize().height;
+        if (rootElements == null || rootElements.isEmpty()) {
+            if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
+                putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), element);
+            }
+        }else{
+            for (WebElement el: rootElements){
+                float xRoot = el.getLocation().x;
+                float yRoot = el.getLocation().y;
+                float widthRoot = el.getSize().width;
+                float heightRoot = el.getSize().height;
+                if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
+                    putJsonDetailsWithElement(String.format("Element is not inside of '%s'", readableContainerName), element);
+                }
+            }
         }
     }
 

@@ -14,7 +14,7 @@
     <licenses>
         <license>
             <name>Apache-2.0</name>
-            <url>https://github.com/dzaiats/Automotion/blob/master/LICENSE</url>
+            <url>https://github.com/ITArray/Automotion/blob/master/LICENSE-2.0</url>
         </license>
     </licenses>
 
@@ -28,9 +28,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:dzaiats/java.automation.library.git</connection>
-        <developerConnection>scm:git:git@github.com:dzaiats/java.automation.library.git</developerConnection>
-        <url>git@github.com:dzaiats/java.automation.library.git</url>
+        <connection>scm:git:git@github.com:ITArray/Automotion.git</connection>
+        <developerConnection>scm:git:git@github.com:ITArray/Automotion.git</developerConnection>
+        <url>git@github.com:ITArray/Automotion.git</url>
     </scm>
 
     <properties>

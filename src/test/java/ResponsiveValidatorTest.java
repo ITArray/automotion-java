@@ -34,6 +34,7 @@ public class ResponsiveValidatorTest {
                 .alignedAsGrid(1, 3)
                 .areNotOverlappedWithEachOther()
                 .withSameSize()
+                .insideOf(page.container(), "List View container")
                 .drawMap()
                 .validate();
 

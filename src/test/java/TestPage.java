@@ -35,6 +35,10 @@ public class TestPage extends BaseWebMobileElement {
         return getWebElement(By.id("my-photos"));
     }
 
+    public WebElement container(){
+        return getWebElement(By.className("gallery"));
+    }
+
     public WebElement footer() {
         return getWebElement(ExpectedConditions.elementToBeClickable(By.id("footer")));
     }
