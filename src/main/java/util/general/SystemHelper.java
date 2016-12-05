@@ -1,7 +1,10 @@
 package util.general;
 
 import java.awt.*;
+import java.io.File;
 import java.lang.reflect.Field;
+
+import static util.validator.Constants.TARGET_AUTOMOTION_JSON;
 
 public class SystemHelper {
     public static boolean isRetinaDisplay(Graphics2D g) {
@@ -52,5 +55,11 @@ public class SystemHelper {
 
             return String.format("rgb(%d,%d,%d)", intARGB[0], intARGB[1], intARGB[2]);
         }
+    }
+
+    public static boolean isAutomotionFolderExists(){
+        File file = new File(TARGET_AUTOMOTION_JSON);
+
+        return file != null && file.exists() && file.isDirectory() && file.list().length > 0;
     }
 }
