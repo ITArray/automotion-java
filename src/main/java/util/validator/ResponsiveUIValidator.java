@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static environment.EnvironmentFactory.isChrome;
+import static util.general.SystemHelper.isAutomotionFolderExists;
 import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;
 
@@ -473,7 +474,7 @@ public class ResponsiveUIValidator implements Validator {
 
     @Override
     public void generateReport() {
-        if (withReport && (boolean) jsonResults.get(ERROR_KEY)) {
+        if (withReport && isAutomotionFolderExists()) {
             try {
                 new HtmlReportBuilder().buildReport();
             } catch (IOException | ParseException | InterruptedException e) {
@@ -484,7 +485,7 @@ public class ResponsiveUIValidator implements Validator {
 
     @Override
     public void generateReport(String name) {
-        if (withReport && (boolean) jsonResults.get(ERROR_KEY)) {
+        if (withReport && isAutomotionFolderExists()) {
             try {
                 new HtmlReportBuilder().buildReport(name);
             } catch (IOException | ParseException | InterruptedException e) {
@@ -551,27 +552,30 @@ public class ResponsiveUIValidator implements Validator {
                 map.get(y).incrementAndGet();
             }
 
+            int mapSize = map.size();
             if (rows > 0) {
-                if (map.size() != rows) {
-                    putJsonDetailsWithoutElement("Elements in a grid are not aligned properly.");
+                if (mapSize != rows) {
+                    putJsonDetailsWithoutElement("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is " + rows + ". Actual is " + mapSize + "");
                 }
             }
 
             if (columns > 0) {
                 int rowCount = 1;
                 for (Map.Entry<Integer, AtomicLong> entry : map.entrySet()) {
-                    if (rowCount <= map.size()) {
-                        if (entry.getValue().intValue() != columns) {
-                            putJsonDetailsWithoutElement("Elements in a grid are not aligned properly in row #" + rowCount + ".");
+                    if (rowCount <= mapSize) {
+                        int actualInARow = entry.getValue().intValue();
+                        if (actualInARow != columns) {
+                            putJsonDetailsWithoutElement("Elements in a grid are not aligned properly in row #" + rowCount + ". Expected " + columns + " elements in a row. Actually it's " + actualInARow + "");
                         }
                         rowCount++;
                     }
                 }
-            } else {
-                if (map.size() == rootElements.size()) {
-                    putJsonDetailsWithoutElement("Elements are not aligned in a grid.");
-                }
             }
+//            else {
+//                if (map.size() == rootElements.size()) {
+//                    putJsonDetailsWithoutElement("Elements are not aligned in a grid.");
+//                }
+//            }
         }
 
 //        List<WebElement> row = new ArrayList<>();
@@ -728,17 +732,14 @@ public class ResponsiveUIValidator implements Validator {
     }
 
     private void validateSameSize(List<WebElement> elements) {
-        for (WebElement el1 : elements) {
-            for (WebElement el2 : elements) {
-                if (!el1.equals(el2)) {
-                    int h1 = el1.getSize().getHeight();
-                    int w1 = el1.getSize().getWidth();
-                    int h2 = el2.getSize().getHeight();
-                    int w2 = el2.getSize().getWidth();
-                    if (h1 != h2 || w1 != w2) {
-                        putJsonDetailsWithElement("Elements in a grid have different size.", el1);
-                    }
-                }
+        for (int i = 0; i < elements.size() - 1; i ++){
+            int h1 = elements.get(i).getSize().getHeight();
+            int w1 = elements.get(i).getSize().getWidth();
+            int h2 = elements.get(i + 1).getSize().getHeight();
+            int w2 = elements.get(i + 1).getSize().getWidth();
+            if (h1 != h2 || w1 != w2) {
+                putJsonDetailsWithElement("Elements in a grid have different size.", elements.get(i));
+                putJsonDetailsWithElement("Elements in a grid have different size.", elements.get(i + 1));
             }
         }
     }
