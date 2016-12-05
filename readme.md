@@ -8,7 +8,7 @@ This is JAVA library for the running of mobile, web or API automated tests.
                 <dependency>
                     <groupId>net.itarray</groupId>
                     <artifactId>automotion</artifactId>
-                    <version>1.4.0</version>
+                    <version>1.4.1</version>
                 </dependency>
 
 ### Steps of adding to the project ###

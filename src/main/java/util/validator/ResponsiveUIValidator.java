@@ -552,18 +552,20 @@ public class ResponsiveUIValidator implements Validator {
                 map.get(y).incrementAndGet();
             }
 
+            int mapSize = map.size();
             if (rows > 0) {
-                if (map.size() != rows) {
-                    putJsonDetailsWithoutElement("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is " + rows + ". Actual is " + map.size() + "");
+                if (mapSize != rows) {
+                    putJsonDetailsWithoutElement("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is " + rows + ". Actual is " + mapSize + "");
                 }
             }
 
             if (columns > 0) {
                 int rowCount = 1;
                 for (Map.Entry<Integer, AtomicLong> entry : map.entrySet()) {
-                    if (rowCount <= map.size()) {
-                        if (entry.getValue().intValue() != columns) {
-                            putJsonDetailsWithoutElement("Elements in a grid are not aligned properly in row #" + rowCount + ".");
+                    if (rowCount <= mapSize) {
+                        int actualInARow = entry.getValue().intValue();
+                        if (actualInARow != columns) {
+                            putJsonDetailsWithoutElement("Elements in a grid are not aligned properly in row #" + rowCount + ". Expected " + columns + " elements in a row. Actually it's " + actualInARow + "");
                         }
                         rowCount++;
                     }
