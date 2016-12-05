@@ -35,7 +35,6 @@ public class ResponsiveUIValidator implements Validator {
     private static final int MIN_OFFSET = -10000;
     private static boolean withReport = false;
     private static long startTime;
-    private static JSONObject jsonResults;
     private static String scenarioName = "Default";
     private WebDriver driver;
     private String rootElementReadableName = "Root Element";
@@ -410,7 +409,7 @@ public class ResponsiveUIValidator implements Validator {
 
     @Override
     public boolean validate() {
-        jsonResults = new JSONObject();
+        JSONObject jsonResults = new JSONObject();
         jsonResults.put(ERROR_KEY, false);
 
         if (rootElement != null) {
@@ -571,34 +570,7 @@ public class ResponsiveUIValidator implements Validator {
                     }
                 }
             }
-//            else {
-//                if (map.size() == rootElements.size()) {
-//                    putJsonDetailsWithoutElement("Elements are not aligned in a grid.");
-//                }
-//            }
         }
-
-//        List<WebElement> row = new ArrayList<>();
-//        for (int i = 0; i < rootElements.size(); i++) {
-//            while (columns % i != 0) {
-//                row.add(rootElements.get(i));
-//                if (columns % i == 0) {
-//                    row.add(rootElements.get(i));
-//                    if (!PageValidator.elementsAreAlignedHorizontally(row)) {
-//                        putJsonDetailsWithElement("Elements are not aligned properly in grid", rootElements.get(i));
-//                        break;
-//                    }
-//                    if (i + 1 <= rootElements.size()) {
-//                        row.add(rootElements.get(i + 1));
-//                        if (!PageValidator.elementsAreAlignedHorizontally(row)) {
-//                            putJsonDetailsWithElement("Elements are not aligned properly in grid", rootElements.get(i));
-//                            break;
-//                        }
-//                    }
-//                    row.clear();
-//                }
-//            }
-//        }
     }
 
     private void validateRightOffsetForElements(WebElement element, String readableName) {
@@ -732,7 +704,7 @@ public class ResponsiveUIValidator implements Validator {
     }
 
     private void validateSameSize(List<WebElement> elements) {
-        for (int i = 0; i < elements.size() - 1; i ++){
+        for (int i = 0; i < elements.size() - 1; i++) {
             int h1 = elements.get(i).getSize().getHeight();
             int w1 = elements.get(i).getSize().getWidth();
             int h2 = elements.get(i + 1).getSize().getHeight();
@@ -753,8 +725,8 @@ public class ResponsiveUIValidator implements Validator {
             if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
                 putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), element);
             }
-        }else{
-            for (WebElement el: rootElements){
+        } else {
+            for (WebElement el : rootElements) {
                 float xRoot = el.getLocation().x;
                 float yRoot = el.getLocation().y;
                 float widthRoot = el.getSize().width;
@@ -902,35 +874,35 @@ public class ResponsiveUIValidator implements Validator {
             g.drawRect(xRoot, yRoot, widthRoot, heightRoot);
         }
 
-        Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+        Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
         g.setStroke(dashed);
         g.setColor(Color.ORANGE);
         if (drawLeftOffsetLine) {
             if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
-                g.drawLine(2 * xRoot, 0, 2 * xRoot, 2 * pageHeight);
+                g.drawLine(2 * xRoot, 0, 2 * xRoot, 2 * img.getHeight());
             } else {
-                g.drawLine(xRoot, 0, xRoot, pageHeight);
+                g.drawLine(xRoot, 0, xRoot, img.getHeight());
             }
         }
         if (drawRightOffsetLine) {
             if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
-                g.drawLine(2 * (xRoot + widthRoot), 0, 2 * (xRoot + widthRoot), 2 * pageHeight);
+                g.drawLine(2 * (xRoot + widthRoot), 0, 2 * (xRoot + widthRoot), 2 * img.getHeight());
             } else {
-                g.drawLine(xRoot + widthRoot, 0, xRoot + widthRoot, pageHeight);
+                g.drawLine(xRoot + widthRoot, 0, xRoot + widthRoot, img.getHeight());
             }
         }
         if (drawTopOffsetLine) {
             if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
-                g.drawLine(0, 2 * yRoot, 2 * pageWidth, 2 * yRoot);
+                g.drawLine(0, 2 * yRoot, 2 * img.getWidth(), 2 * yRoot);
             } else {
-                g.drawLine(0, yRoot, pageWidth, yRoot);
+                g.drawLine(0, yRoot, img.getWidth(), yRoot);
             }
         }
         if (drawBottomOffsetLine) {
             if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
-                g.drawLine(0, 2 * (yRoot + heightRoot), 2 * pageWidth, 2 * (yRoot + heightRoot));
+                g.drawLine(0, 2 * (yRoot + heightRoot), 2 * img.getWidth(), 2 * (yRoot + heightRoot));
             } else {
-                g.drawLine(0, yRoot + heightRoot, pageWidth, yRoot + heightRoot);
+                g.drawLine(0, yRoot + heightRoot, img.getWidth(), yRoot + heightRoot);
             }
         }
     }
