@@ -36,6 +36,9 @@ public class ResponsiveUIValidator implements Validator {
     private static boolean withReport = false;
     private static long startTime;
     private static String scenarioName = "Default";
+    private static Color rootColor = Color.RED;
+    private static Color highlightedElementsColor = Color.MAGENTA;
+    private static Color linesColor = Color.ORANGE;
     private WebDriver driver;
     private String rootElementReadableName = "Root Element";
     private WebElement rootElement;
@@ -61,6 +64,18 @@ public class ResponsiveUIValidator implements Validator {
     public ResponsiveUIValidator(WebDriver driver) {
         this.driver = driver;
         errorMessage = new JSONArray();
+    }
+
+    public void setColorForRootElement(Color color) {
+        rootColor = color;
+    }
+
+    public void setColorForHighlightedElements(Color color) {
+        highlightedElementsColor = color;
+    }
+
+    public void setLinesColor(Color color) {
+        linesColor = color;
     }
 
     @Override
@@ -496,7 +511,7 @@ public class ResponsiveUIValidator implements Validator {
     private void drawScreenshot() {
         g = img.createGraphics();
 
-        drawRoot(Color.RED);
+        drawRoot(rootColor);
 
         for (Object obj : errorMessage) {
             JSONObject det = (JSONObject) obj;
@@ -509,9 +524,9 @@ public class ResponsiveUIValidator implements Validator {
                 float width = (float) numE.get(WIDTH);
                 float height = (float) numE.get(HEIGHT);
 
-                g.setColor(Color.MAGENTA);
+                g.setColor(highlightedElementsColor);
                 g.setStroke(new BasicStroke(2));
-                if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
+                if (SystemHelper.isRetinaDisplay() && isChrome()) {
                     g.drawRect(2 * (int) x, 2 * (int) y, 2 * (int) width, 2 * (int) height);
                 } else {
                     g.drawRect((int) x, (int) y, (int) width, (int) height);
@@ -710,8 +725,8 @@ public class ResponsiveUIValidator implements Validator {
             int h2 = elements.get(i + 1).getSize().getHeight();
             int w2 = elements.get(i + 1).getSize().getWidth();
             if (h1 != h2 || w1 != w2) {
-                putJsonDetailsWithElement("Elements in a grid have different size.", elements.get(i));
-                putJsonDetailsWithElement("Elements in a grid have different size.", elements.get(i + 1));
+                putJsonDetailsWithElement("Element #" + i + " has different size in a grid.", elements.get(i));
+                putJsonDetailsWithElement("Element #" + (i + 1) + " has different size in a grid.", elements.get(i + 1));
             }
         }
     }
@@ -812,17 +827,41 @@ public class ResponsiveUIValidator implements Validator {
         }
     }
 
+    private boolean elementsAreOverlappedOnBorder(WebElement rootElement, WebElement elementOverlapWith) {
+        Point elLoc = elementOverlapWith.getLocation();
+        Dimension elSize = elementOverlapWith.getSize();
+        int xRoot = rootElement.getLocation().x;
+        int yRoot = rootElement.getLocation().y;
+        int widthRoot = rootElement.getSize().width;
+        int heightRoot = rootElement.getSize().height;
+
+        int sqRootElement = (xRoot + widthRoot) * (yRoot + heightRoot);
+        int sqElement = (elLoc.x + elSize.width) * (elLoc.y + elSize.height);
+
+        int sqCommon = 0;
+        if ((xRoot < elLoc.x && yRoot == elLoc.y) || (yRoot < elLoc.y && xRoot == elLoc.x)) {
+            sqCommon = (xRoot + widthRoot + elSize.width) + (yRoot + heightRoot + elSize.height);
+        } else if ((elLoc.x < xRoot && yRoot == elLoc.y) || (elLoc.y < yRoot && xRoot == elLoc.x)) {
+            sqCommon = (elLoc.x + elSize.width + widthRoot) * (elLoc.y + elSize.height + heightRoot);
+        }
+
+        return sqCommon - sqElement >= sqRootElement;
+    }
+
     private boolean elementsAreOverlapped(WebElement elementOverlapWith) {
         Point elLoc = elementOverlapWith.getLocation();
         Dimension elSize = elementOverlapWith.getSize();
-        return ((xRoot > elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
+        return ((xRoot >= elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot + widthRoot > elLoc.x && yRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height)
-                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height)) ||
-                ((elLoc.x > xRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot)
-                        || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot)
-                        || (elLoc.x > xRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot + heightRoot)
-                        || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot + widthRoot));
+                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height))
+
+                || ((elLoc.x > xRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot)
+                || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot)
+                || (elLoc.x > xRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot + heightRoot)
+                || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot + widthRoot))
+
+                || elementsAreOverlappedOnBorder(rootElement, elementOverlapWith);
     }
 
     private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
@@ -836,11 +875,14 @@ public class ResponsiveUIValidator implements Validator {
         return ((xRoot > elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot + widthRoot > elLoc.x && yRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height)
-                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height)) ||
-                ((elLoc.x > xRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot)
-                        || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot)
-                        || (elLoc.x > xRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot + heightRoot)
-                        || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot + widthRoot));
+                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height))
+
+                || ((elLoc.x > xRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot)
+                || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot)
+                || (elLoc.x > xRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot + heightRoot)
+                || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot + widthRoot))
+
+                || elementsAreOverlappedOnBorder(rootElement, elementOverlapWith);
     }
 
     private boolean elementsHasEqualLeftRightOffset(boolean isLeft, WebElement elementToCompare) {
@@ -868,7 +910,7 @@ public class ResponsiveUIValidator implements Validator {
     private void drawRoot(Color color) {
         g.setColor(color);
         g.setStroke(new BasicStroke(2));
-        if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
+        if (SystemHelper.isRetinaDisplay() && isChrome()) {
             g.drawRect(2 * xRoot, 2 * yRoot, 2 * widthRoot, 2 * heightRoot);
         } else {
             g.drawRect(xRoot, yRoot, widthRoot, heightRoot);
@@ -876,30 +918,30 @@ public class ResponsiveUIValidator implements Validator {
 
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
         g.setStroke(dashed);
-        g.setColor(Color.ORANGE);
+        g.setColor(linesColor);
         if (drawLeftOffsetLine) {
-            if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
+            if (SystemHelper.isRetinaDisplay() && isChrome()) {
                 g.drawLine(2 * xRoot, 0, 2 * xRoot, 2 * img.getHeight());
             } else {
                 g.drawLine(xRoot, 0, xRoot, img.getHeight());
             }
         }
         if (drawRightOffsetLine) {
-            if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
+            if (SystemHelper.isRetinaDisplay() && isChrome()) {
                 g.drawLine(2 * (xRoot + widthRoot), 0, 2 * (xRoot + widthRoot), 2 * img.getHeight());
             } else {
                 g.drawLine(xRoot + widthRoot, 0, xRoot + widthRoot, img.getHeight());
             }
         }
         if (drawTopOffsetLine) {
-            if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
+            if (SystemHelper.isRetinaDisplay() && isChrome()) {
                 g.drawLine(0, 2 * yRoot, 2 * img.getWidth(), 2 * yRoot);
             } else {
                 g.drawLine(0, yRoot, img.getWidth(), yRoot);
             }
         }
         if (drawBottomOffsetLine) {
-            if (SystemHelper.isRetinaDisplay(g) && isChrome()) {
+            if (SystemHelper.isRetinaDisplay() && isChrome()) {
                 g.drawLine(0, 2 * (yRoot + heightRoot), 2 * img.getWidth(), 2 * (yRoot + heightRoot));
             } else {
                 g.drawLine(0, yRoot + heightRoot, img.getWidth(), yRoot + heightRoot);
