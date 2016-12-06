@@ -1,7 +1,7 @@
 # Automotion #
 This is JAVA library for the running of mobile, web or API automated tests.
 
-##### Example:##### https://github.com/ITArray/automotion-example
+##### Example: https://github.com/ITArray/automotion-example
 ### Steps to connect ###
  - Repo:
    * add dependecy:
