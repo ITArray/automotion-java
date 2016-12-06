@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
 import static util.validator.Constants.TARGET_AUTOMOTION_JSON;
 
 public class SystemHelper {
-    public static boolean isRetinaDisplay(Graphics2D g) {
+    public static boolean isRetinaDisplay() {
         boolean isRetina = false;
         try {
             GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
