@@ -66,14 +66,16 @@ public class LanguageChecker {
                 if (bodyTextLength >= (i + textBlockLength)) {
                     tempString = bodyText.substring(i, i + textBlockLength);
                     try {
-                        String detectedLanguage = getRecognisedLanguage(tempString).get().getLanguage();
+                        if (getRecognisedLanguage(tempString).isPresent()) {
+                            String detectedLanguage = getRecognisedLanguage(tempString).get().getLanguage();
 
-                        if (!detectedLanguage.toLowerCase().equals(lang.toLowerCase())) {
-                            LOG.info("\n!!! - Piece of text without translation: \n" + tempString + "\nExpected language is \"" + lang + "\"\n");
-                            LOG.info("\n!!! Current URL is " + driver.getCurrentUrl() + "\n-  !!!");
-                            LOG.info(String.format("\n!!! Characters are between %s and %s from %s full amount of characters \n", i, i + textBlockLength, bodyTextLength));
-                            isCorrectLang = false;
-                            break;
+                            if (!detectedLanguage.toLowerCase().equals(lang.toLowerCase())) {
+                                LOG.info("\n!!! - Piece of text without translation: \n" + tempString + "\nExpected language is \"" + lang + "\"\n");
+                                LOG.info("\n!!! Current URL is " + driver.getCurrentUrl() + "\n-  !!!");
+                                LOG.info(String.format("\n!!! Characters are between %s and %s from %s full amount of characters \n", i, i + textBlockLength, bodyTextLength));
+                                isCorrectLang = false;
+                                break;
+                            }
                         }
                     } catch (Exception e) {
                         LOG.info("\n!!! - Impossible to recognise the language of this piece of text: \n" + tempString + "\nExpected language is \"" + lang + "\"\n");

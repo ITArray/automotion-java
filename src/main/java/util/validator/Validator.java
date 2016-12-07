@@ -5,102 +5,77 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 interface Validator {
-    ResponsiveUIValidator init();
 
-    ResponsiveUIValidator init(String scenarioName);
+    UIValidator changeMetricsUnitsTo(UIValidator.Units units);
 
-    ResponsiveUIValidator findElement(WebElement element, String readableNameOfElement);
+    UIValidator withLeftElement(WebElement element);
 
-    ResponsiveUIValidator findElements(List<WebElement> elements);
+    UIValidator withLeftElement(WebElement element, int minMargin, int maxMargin);
 
-    ResponsiveUIValidator changeMetricsUnitsTo(ResponsiveUIValidator.Units units);
+    UIValidator withRightElement(WebElement element);
 
-    ResponsiveUIValidator withLeftElement(WebElement element);
+    UIValidator withRightElement(WebElement element, int minMargin, int maxMargin);
 
-    ResponsiveUIValidator withLeftElement(WebElement element, int minMargin, int maxMargin);
+    UIValidator withTopElement(WebElement element);
 
-    ResponsiveUIValidator withRightElement(WebElement element);
+    UIValidator withTopElement(WebElement element, int minMargin, int maxMargin);
 
-    ResponsiveUIValidator withRightElement(WebElement element, int minMargin, int maxMargin);
+    UIValidator withBottomElement(WebElement element);
 
-    ResponsiveUIValidator withTopElement(WebElement element);
+    UIValidator withBottomElement(WebElement element, int minMargin, int maxMargin);
 
-    ResponsiveUIValidator withTopElement(WebElement element, int minMargin, int maxMargin);
+    UIValidator notOverlapWith(WebElement element, String readableName);
 
-    ResponsiveUIValidator withBottomElement(WebElement element);
+    UIValidator overlapWith(WebElement element, String readableName);
 
-    ResponsiveUIValidator withBottomElement(WebElement element, int minMargin, int maxMargin);
+    UIValidator notOverlapWith(List<WebElement> elements);
 
-    ResponsiveUIValidator insideOf(WebElement element, String readableContainerName);
+    UIValidator sameOffsetLeftAs(WebElement element, String readableName);
 
-    ResponsiveUIValidator notOverlapWith(WebElement element, String readableName);
+    UIValidator sameOffsetLeftAs(List<WebElement> elements);
 
-    ResponsiveUIValidator overlapWith(WebElement element, String readableName);
+    UIValidator sameOffsetRightAs(WebElement element, String readableName);
 
-    ResponsiveUIValidator notOverlapWith(List<WebElement> elements);
+    UIValidator sameOffsetRightAs(List<WebElement> elements);
 
-    ResponsiveUIValidator sameOffsetLeftAs(WebElement element, String readableName);
+    UIValidator sameOffsetTopAs(WebElement element, String readableName);
 
-    ResponsiveUIValidator sameOffsetLeftAs(List<WebElement> elements);
+    UIValidator sameOffsetTopAs(List<WebElement> elements);
 
-    ResponsiveUIValidator sameOffsetRightAs(WebElement element, String readableName);
+    UIValidator sameOffsetBottomAs(WebElement element, String readableName);
 
-    ResponsiveUIValidator sameOffsetRightAs(List<WebElement> elements);
+    UIValidator sameOffsetBottomAs(List<WebElement> elements);
 
-    ResponsiveUIValidator sameOffsetTopAs(WebElement element, String readableName);
+    UIValidator sameWidthAs(WebElement element, String readableName);
 
-    ResponsiveUIValidator sameOffsetTopAs(List<WebElement> elements);
+    UIValidator sameWidthAs(List<WebElement> elements);
 
-    ResponsiveUIValidator sameOffsetBottomAs(WebElement element, String readableName);
+    UIValidator minWidth(int width);
 
-    ResponsiveUIValidator sameOffsetBottomAs(List<WebElement> elements);
+    UIValidator maxWidth(int width);
 
-    ResponsiveUIValidator sameWidthAs(WebElement element, String readableName);
+    UIValidator widthBetween(int min, int max);
 
-    ResponsiveUIValidator sameWidthAs(List<WebElement> elements);
+    UIValidator sameHeightAs(WebElement element, String readableName);
 
-    ResponsiveUIValidator minWidth(int width);
+    UIValidator sameHeightAs(List<WebElement> elements);
 
-    ResponsiveUIValidator maxWidth(int width);
+    UIValidator minHeight(int height);
 
-    ResponsiveUIValidator widthBetween(int min, int max);
+    UIValidator maxHeight(int height);
 
-    ResponsiveUIValidator sameHeightAs(WebElement element, String readableName);
+    UIValidator sameSizeAs(WebElement element, String readableName);
 
-    ResponsiveUIValidator sameHeightAs(List<WebElement> elements);
+    UIValidator sameSizeAs(List<WebElement> elements);
 
-    ResponsiveUIValidator minHeight(int height);
+    UIValidator heightBetween(int min, int max);
 
-    ResponsiveUIValidator maxHeight(int height);
+    UIValidator minOffset(int top, int right, int bottom, int left);
 
-    ResponsiveUIValidator sameSizeAs(WebElement element, String readableName);
+    UIValidator maxOffset(int top, int right, int bottom, int left);
 
-    ResponsiveUIValidator sameSizeAs(List<WebElement> elements);
+    UIValidator withCssValue(String cssProperty, String... args);
 
-    ResponsiveUIValidator heightBetween(int min, int max);
-
-    ResponsiveUIValidator minOffset(int top, int right, int bottom, int left);
-
-    ResponsiveUIValidator maxOffset(int top, int right, int bottom, int left);
-
-    ResponsiveUIValidator withCssValue(String cssProperty, String... args);
-
-    ResponsiveUIValidator withoutCssValue(String cssProperty, String... args);
-
-    ResponsiveUIValidator alignedAsGrid(int horizontalGridSize);
-
-    ResponsiveUIValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
-
-    ResponsiveUIValidator areNotOverlappedWithEachOther();
-
-    ResponsiveUIValidator withSameSize();
-
-    ResponsiveUIValidator drawMap();
-
-    boolean validate();
-
-    void generateReport();
-
-    void generateReport(String name);
+    UIValidator withoutCssValue(String cssProperty, String... args);
 
 }
