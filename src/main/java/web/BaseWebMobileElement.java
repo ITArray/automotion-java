@@ -4,21 +4,17 @@ import com.google.common.base.Function;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public abstract class BaseWebMobileElement{
-
-    private WebDriver driver;
+public abstract class BaseWebMobileElement {
 
     protected int timeOfWaiting = 600;
-
     protected FluentWait<WebDriver> wait;
+    private WebDriver driver;
 
     public BaseWebMobileElement(WebDriver driver) {
         this.driver = driver;

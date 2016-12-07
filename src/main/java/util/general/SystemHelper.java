@@ -17,7 +17,7 @@ public class SystemHelper {
                 if (field != null) {
                     field.setAccessible(true);
                     Object scale = field.get(graphicsDevice);
-                    if (scale instanceof Integer && ((Integer) scale).intValue() == 2) {
+                    if (scale instanceof Integer && (Integer) scale == 2) {
                         isRetina = true;
                     }
                 }
@@ -60,6 +60,6 @@ public class SystemHelper {
     public static boolean isAutomotionFolderExists(){
         File file = new File(TARGET_AUTOMOTION_JSON);
 
-        return file != null && file.exists() && file.isDirectory() && file.list().length > 0;
+        return file.exists() && file.isDirectory() && file.list() != null && file.list().length > 0;
     }
 }

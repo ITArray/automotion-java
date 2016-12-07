@@ -109,7 +109,7 @@ public class HtmlReportBuilder {
                                     String numE = (String) reason.get(MESSAGE);
 
                                     new Li(this) {{
-                                        new NoTag(this, numE.toString());
+                                        new NoTag(this, numE);
                                     }};
                                 }
                             }};
