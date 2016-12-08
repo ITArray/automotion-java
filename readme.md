@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ITArray/Automotion.svg?branch=1.4.2-update)](https://travis-ci.org/ITArray/Automotion)
 # Automotion #
 This is JAVA library for the running of mobile, web or API automated tests.
 
