@@ -1,13 +1,16 @@
+import http.helpers.EnvironmentHelper;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import util.driver.WebDriverFactory;
 import util.validator.ResponsiveUIValidator;
 
-import static util.validator.ResponsiveUIValidator.Units.PERCENT;
-import static util.validator.ResponsiveUIValidator.Units.PX;
+import java.util.HashMap;
+import java.util.Map;
 
 @Ignore
 public class ResponsiveValidatorTest {
@@ -16,65 +19,70 @@ public class ResponsiveValidatorTest {
 
     @Test
     public void testThatResponsiveValidatorWorks() {
-        System.setProperty("IS_LOCAL", "TRUE");
-        System.setProperty("BROWSER", "Firefox");
-
+        Map<String, String> sysProp = new HashMap<String, String>();
+        sysProp.put("BROWSER", "Chrome");
+        sysProp.put("IS_LOCAL", "true");
+        EnvironmentHelper.setEnv(sysProp);
         WebDriverFactory driverFactory = new WebDriverFactory();
         driver = driverFactory.getDriver();
-        driver.manage().window().maximize();
-
-        driver.get("https://www.facey.top");
+        driver.get("http:/visual.itarray.net");
 
         TestPage page = new TestPage(driver);
 
-        ResponsiveUIValidator responsiveValidator = new ResponsiveUIValidator(driver);
+        ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driver);
+        SoftAssertions softly = new SoftAssertions();
 
-        boolean res1 = responsiveValidator.init("Grid validation")
-                .findElements(page.images())
-                .alignedAsGrid(1, 3)
-                .areNotOverlappedWithEachOther()
+        boolean success1 = uiValidator.init("Validation of Top Slider Element")
+                .findElement(page.topSlider(), "Top Slider")
+                .sameOffsetLeftAs(page.gridContainer(), "Grid Container")
+                .sameOffsetBottomAs(page.topTextBlock(), "Text Block")
+                .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX)
+                .widthBetween(300, 500)
+                .drawMap()
+                .validate();
+
+        softly.assertThat(success1).isEqualTo(true).overridingErrorMessage("Failed validation of Top Slider element");
+
+        boolean success2 = uiValidator.init("Validation of Top Text block")
+                .findElement(page.topTextBlock(), "Top Text block")
+                .sameOffsetRightAs(page.gridContainer(), "Grid Container")
+                .sameOffsetTopAs(page.topSlider(), "Top Slider")
+                .drawMap()
+                .validate();
+
+        softly.assertThat(success2).isEqualTo(true).overridingErrorMessage("Failed validation of Top Text block");
+
+        boolean success3 = uiValidator.init("Validation of a grid view")
+                .findElements(page.gridElements())
+                .alignedAsGrid(4, 3)
                 .withSameSize()
-                .insideOf(page.container(), "List View container")
+                .areNotOverlappedWithEachOther()
+                .sameTopOffset()
                 .drawMap()
                 .validate();
 
-        responsiveValidator.init()
-                .findElement(page.newPhotos(), "New Photos")
-                .changeMetricsUnitsTo(PERCENT)
-                .widthBetween(30, 40)
-                .heightBetween(5, 8)
-                .changeMetricsUnitsTo(PX)
-                .minOffset(2, 30, 50, 30)
-                .maxOffset(5, 40, 70, 40)
-                .notOverlapWith(page.header(), "Header")
-                .notOverlapWith(page.myPhotos(), "My Photos")
-                .notOverlapWith(page.topPhotos(), "Top Photos")
-                .sameOffsetRightAs(page.logo(), "Logo")
-                .withTopElement(page.header())
-                .drawMap()
-                .validate();
+        softly.assertThat(success3).isEqualTo(true).overridingErrorMessage("Failed validation of Grid");
 
-        responsiveValidator.init()
-                .findElement(page.newPhotos(), "New Photos")
-                .widthBetween(300, 400)
-                .heightBetween(20, 50)
-                .minOffset(10, 500, 500, 600)
-                .maxOffset(200, 2000, 2000, 1000)
-                .notOverlapWith(page.header(), "Header")
-                .notOverlapWith(page.myPhotos(), "My Photos")
-                .notOverlapWith(page.topPhotos(), "Top Photos")
-                .sameOffsetRightAs(page.logo(), "Logo")
-                .drawMap()
-                .validate();
+        for (WebElement card : page.gridElements()) {
+            boolean success = uiValidator.init("Validation of style for each of cards in a grid view")
+                    .findElement(card.findElement(By.className("project-details")), "Project details block")
+                    .withCssValue("background", "#f8f8f8")
+                    .withCssValue("color", "#6f6f6f")
+                    .notOverlapWith(card.findElement(By.className("gallery-hover-4col")), "Image Container")
+                    .sameWidthAs(card.findElement(By.className("gallery-hover-4col")), "Image Container")
+                    .drawMap()
+                    .validate();
+            softly.assertThat(success).isEqualTo(true).overridingErrorMessage("Failed validation of Grid in a list");
+        }
 
-        responsiveValidator.generateReport("Base_Page");
+        uiValidator.generateReport("Home Page");
 
-        Assert.assertTrue("Validation is failed", res1);
+        softly.assertAll();
     }
 
     @After
-    public void tearDown(){
-        if (driver != null){
+    public void tearDown() {
+        if (driver != null) {
             driver.quit();
         }
     }

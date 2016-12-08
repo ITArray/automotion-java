@@ -12,42 +12,22 @@ import java.util.List;
 public class TestPage extends BaseWebMobileElement {
 
     public TestPage(WebDriver driver) {
-        super(driver);
+        super(driver, 10);
     }
 
-    public WebElement header() {
-        return getWebElement(By.id("navbar"));
+    public WebElement topSlider() {
+        return getWebElement(By.className("flexslider"));
     }
 
-    public WebElement logo() {
-        return getWebElement(By.id("main-logo"));
+    public WebElement topTextBlock() {
+        return getWebElement(By.className("span4"));
     }
 
-    public WebElement topPhotos() {
-        return getWebElement(By.id("top-photos"));
+    public WebElement gridContainer() {
+        return getWebElement(By.className("clearfix"));
     }
 
-    public WebElement newPhotos() {
-        return getWebElement(By.id("new-photos"));
-    }
-
-    public WebElement myPhotos() {
-        return getWebElement(By.id("my-photos"));
-    }
-
-    public WebElement container(){
-        return getWebElement(By.className("gallery"));
-    }
-
-    public WebElement footer() {
-        return getWebElement(ExpectedConditions.elementToBeClickable(By.id("footer")));
-    }
-
-    public WebElement contactForm() {
-        return getWebElement(By.id("contact-form"));
-    }
-
-    public List<WebElement> images() {
-        return getWebElements(By.className("image"));
+    public List<WebElement> gridElements() {
+        return getWebElements(By.className("gallery-item"));
     }
 }
