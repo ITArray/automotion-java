@@ -5,10 +5,9 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.*;
+import org.openqa.selenium.Point;
 import util.driver.PageValidator;
 import util.general.HtmlReportBuilder;
 import util.general.SystemHelper;
@@ -268,6 +267,38 @@ public class ResponsiveUIValidator {
         }
     }
 
+    void validateRightOffsetForChunk(List<WebElement> elements) {
+        for (int i = 0; i < elements.size() - 1; i++) {
+            if (!elementsHasEqualLeftRightOffset(false, elements.get(i), elements.get(i + 1))) {
+                putJsonDetailsWithElement("Element #" + (i + 1) + " has not the same right offset as element #" + (i + 2) + "", elements.get(i + 1));
+            }
+        }
+    }
+
+    void validateLeftOffsetForChunk(List<WebElement> elements) {
+        for (int i = 0; i < elements.size() - 1; i++) {
+            if (!elementsHasEqualLeftRightOffset(true, elements.get(i), elements.get(i + 1))) {
+                putJsonDetailsWithElement("Element #" + (i + 1) + " has not the same left offset as element #" + (i + 2) + "", elements.get(i + 1));
+            }
+        }
+    }
+
+    void validateTopOffsetForChunk(List<WebElement> elements) {
+        for (int i = 0; i < elements.size() - 1; i++) {
+            if (!elementsHasEqualTopBottomOffset(true, elements.get(i), elements.get(i + 1))) {
+                putJsonDetailsWithElement("Element #" + (i + 1) + " has not the same top offset as element #" + (i + 2) + "", elements.get(i + 1));
+            }
+        }
+    }
+
+    void validateBottomOffsetForChunk(List<WebElement> elements) {
+        for (int i = 0; i < elements.size() - 1; i++) {
+            if (!elementsHasEqualTopBottomOffset(false, elements.get(i), elements.get(i + 1))) {
+                putJsonDetailsWithElement("Element #" + (i + 1) + " has not the same bottom offset as element #" + (i + 2) + "", elements.get(i + 1));
+            }
+        }
+    }
+
     void validateRightOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
             if (!elementsHasEqualLeftRightOffset(false, element)) {
@@ -398,15 +429,30 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateSameSize(List<WebElement> elements) {
+    void validateSameSize(List<WebElement> elements, int type) {
         for (int i = 0; i < elements.size() - 1; i++) {
             int h1 = elements.get(i).getSize().getHeight();
             int w1 = elements.get(i).getSize().getWidth();
             int h2 = elements.get(i + 1).getSize().getHeight();
             int w2 = elements.get(i + 1).getSize().getWidth();
-            if (h1 != h2 || w1 != w2) {
-                putJsonDetailsWithElement("Element #" + i + " has different size.", elements.get(i));
-                putJsonDetailsWithElement("Element #" + (i + 1) + " has different size.", elements.get(i + 1));
+            switch (type) {
+                case 0:
+                    if (h1 != h2 || w1 != w2) {
+                        putJsonDetailsWithElement("Element #" + (i + 1) + " has different size.", elements.get(i));
+                        putJsonDetailsWithElement("Element #" + (i + 2) + " has different size.", elements.get(i + 1));
+                    }
+                    break;
+                case 1:
+                    if (w1 != w2) {
+                        putJsonDetailsWithElement("Element #" + (i + 1) + " has different width.", elements.get(i));
+                        putJsonDetailsWithElement("Element #" + (i + 2) + " has different width.", elements.get(i + 1));
+                    }
+                    break;
+                case 2:
+                    if (h1 != h2) {
+                        putJsonDetailsWithElement("Element #" + (i + 1) + " has different height.", elements.get(i));
+                        putJsonDetailsWithElement("Element #" + (i + 2) + " has different height.", elements.get(i + 1));
+                    }
             }
         }
     }
@@ -508,8 +554,8 @@ public class ResponsiveUIValidator {
     }
 
     boolean elementsAreOverlappedOnBorder(WebElement rootElement, WebElement elementOverlapWith) {
-        org.openqa.selenium.Point elLoc = elementOverlapWith.getLocation();
-        org.openqa.selenium.Dimension elSize = elementOverlapWith.getSize();
+        Point elLoc = elementOverlapWith.getLocation();
+        Dimension elSize = elementOverlapWith.getSize();
         int xRoot = rootElement.getLocation().x;
         int yRoot = rootElement.getLocation().y;
         int widthRoot = rootElement.getSize().width;
@@ -529,8 +575,8 @@ public class ResponsiveUIValidator {
     }
 
     boolean elementsAreOverlapped(WebElement elementOverlapWith) {
-        org.openqa.selenium.Point elLoc = elementOverlapWith.getLocation();
-        org.openqa.selenium.Dimension elSize = elementOverlapWith.getSize();
+        Point elLoc = elementOverlapWith.getLocation();
+        Dimension elSize = elementOverlapWith.getSize();
         return ((xRoot >= elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot + widthRoot > elLoc.x && yRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height)
@@ -545,8 +591,8 @@ public class ResponsiveUIValidator {
     }
 
     boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
-        org.openqa.selenium.Point elLoc = elementOverlapWith.getLocation();
-        org.openqa.selenium.Dimension elSize = elementOverlapWith.getSize();
+        Point elLoc = elementOverlapWith.getLocation();
+        Dimension elSize = elementOverlapWith.getSize();
         int xRoot = rootElement.getLocation().x;
         int yRoot = rootElement.getLocation().y;
         int widthRoot = rootElement.getSize().width;
@@ -566,8 +612,8 @@ public class ResponsiveUIValidator {
     }
 
     boolean elementsHasEqualLeftRightOffset(boolean isLeft, WebElement elementToCompare) {
-        org.openqa.selenium.Point elLoc = elementToCompare.getLocation();
-        org.openqa.selenium.Dimension elSize = elementToCompare.getSize();
+        Point elLoc = elementToCompare.getLocation();
+        Dimension elSize = elementToCompare.getSize();
 
         if (isLeft) {
             return xRoot == elLoc.getX();
@@ -576,9 +622,36 @@ public class ResponsiveUIValidator {
         }
     }
 
+    boolean elementsHasEqualLeftRightOffset(boolean isLeft, WebElement element, WebElement elementToCompare) {
+        Point elLoc = elementToCompare.getLocation();
+        Dimension elSize = elementToCompare.getSize();
+        int xRoot = element.getLocation().x;
+        int widthRoot = element.getSize().width;
+
+        if (isLeft) {
+            return xRoot == elLoc.getX();
+        } else {
+            return (pageWidth - xRoot + widthRoot) == (pageWidth - elLoc.getX() + elSize.getWidth());
+        }
+    }
+
+
     boolean elementsHasEqualTopBottomOffset(boolean isTop, WebElement elementToCompare) {
-        org.openqa.selenium.Point elLoc = elementToCompare.getLocation();
-        org.openqa.selenium.Dimension elSize = elementToCompare.getSize();
+        Point elLoc = elementToCompare.getLocation();
+        Dimension elSize = elementToCompare.getSize();
+
+        if (isTop) {
+            return yRoot == elLoc.getY();
+        } else {
+            return (pageHeight - yRoot + heightRoot) == (pageHeight - elLoc.getY() + elSize.getHeight());
+        }
+    }
+
+    boolean elementsHasEqualTopBottomOffset(boolean isTop, WebElement element, WebElement elementToCompare) {
+        Point elLoc = elementToCompare.getLocation();
+        Dimension elSize = elementToCompare.getSize();
+        int yRoot = element.getLocation().y;
+        int heightRoot = element.getSize().height;
 
         if (isTop) {
             return yRoot == elLoc.getY();

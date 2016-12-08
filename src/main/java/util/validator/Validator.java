@@ -6,7 +6,7 @@ import java.util.List;
 
 interface Validator {
 
-    UIValidator changeMetricsUnitsTo(UIValidator.Units units);
+    UIValidator changeMetricsUnitsTo(ResponsiveUIValidator.Units units);
 
     UIValidator withLeftElement(WebElement element);
 
