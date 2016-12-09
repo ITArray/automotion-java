@@ -78,4 +78,8 @@ interface Validator {
 
     UIValidator withoutCssValue(String cssProperty, String... args);
 
+    UIValidator equalLeftRightOffset();
+
+    UIValidator equalTopBottomOffset();
+
 }

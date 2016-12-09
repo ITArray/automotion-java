@@ -24,4 +24,8 @@ public interface ChunkValidator {
 
     ResponsiveUIChunkValidator sameBottomOffset();
 
+    ResponsiveUIChunkValidator equalLeftRightOffset();
+
+    ResponsiveUIChunkValidator equalTopBottomOffset();
+
 }

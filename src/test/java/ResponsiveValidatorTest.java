@@ -19,7 +19,7 @@ public class ResponsiveValidatorTest {
 
     @Test
     public void testThatResponsiveValidatorWorks() {
-        Map<String, String> sysProp = new HashMap<String, String>();
+        Map<String, String> sysProp = new HashMap<>();
         sysProp.put("BROWSER", "Chrome");
         sysProp.put("IS_LOCAL", "true");
         EnvironmentHelper.setEnv(sysProp);
@@ -38,10 +38,21 @@ public class ResponsiveValidatorTest {
                 .sameOffsetBottomAs(page.topTextBlock(), "Text Block")
                 .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX)
                 .widthBetween(300, 500)
+                .sameSizeAs(page.gridElements())
+                .equalLeftRightOffset()
+                .equalTopBottomOffset()
                 .drawMap()
                 .validate();
 
         softly.assertThat(success1).isEqualTo(true).overridingErrorMessage("Failed validation of Top Slider element");
+
+        boolean success0 = uiValidator.init("Validation of Top Slider Element")
+                .findElement(page.gridContainer(), "Grid Container")
+                .equalLeftRightOffset()
+                .drawMap()
+                .validate();
+
+        softly.assertThat(success0).isEqualTo(true).overridingErrorMessage("Failed validation of Grid Container");
 
         boolean success2 = uiValidator.init("Validation of Top Text block")
                 .findElement(page.topTextBlock(), "Top Text block")
@@ -58,6 +69,8 @@ public class ResponsiveValidatorTest {
                 .withSameSize()
                 .areNotOverlappedWithEachOther()
                 .sameTopOffset()
+                .equalLeftRightOffset()
+                .equalTopBottomOffset()
                 .drawMap()
                 .validate();
 
