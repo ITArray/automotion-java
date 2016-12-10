@@ -456,28 +456,6 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateInsideOfContainer(WebElement element, String readableContainerName) {
-        float xContainer = element.getLocation().x;
-        float yContainer = element.getLocation().y;
-        float widthContainer = element.getSize().width;
-        float heightContainer = element.getSize().height;
-        if (rootElements == null || rootElements.isEmpty()) {
-            if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
-                putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), element);
-            }
-        } else {
-            for (WebElement el : rootElements) {
-                float xRoot = el.getLocation().x;
-                float yRoot = el.getLocation().y;
-                float widthRoot = el.getSize().width;
-                float heightRoot = el.getSize().height;
-                if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
-                    putJsonDetailsWithElement(String.format("Element is not inside of '%s'", readableContainerName), element);
-                }
-            }
-        }
-    }
-
     void validateBelowElement(WebElement element, int minMargin, int maxMargin) {
         int yBelowElement = element.getLocation().getY();
         int marginBetweenRoot = yBelowElement - yRoot + heightRoot;
@@ -550,6 +528,172 @@ public class ResponsiveUIValidator {
         if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
             putJsonDetailsWithoutElement("Left element aligned not properly");
         }
+    }
+
+    void validateEqualLeftRightOffset(WebElement element, String rootElementReadableName) {
+        if (!elementHasEqualLeftRightOffset(element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElementReadableName, getLeftOffset(element), getRightOffset(element)), element);
+        }
+    }
+
+    void validateEqualTopBottomOffset(WebElement element, String rootElementReadableName) {
+        if (!elementHasEqualTopBottomOffset(element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElementReadableName, getTopOffset(element), getBottomOffset(element)), element);
+        }
+    }
+
+    void validateEqualLeftRightOffset(List<WebElement> elements) {
+        for (WebElement element : elements) {
+            if (!elementHasEqualLeftRightOffset(element)) {
+                putJsonDetailsWithElement(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", getFormattedMessage(element), getLeftOffset(element), getRightOffset(element)), element);
+            }
+        }
+    }
+
+    void validateEqualTopBottomOffset(List<WebElement> elements) {
+        for (WebElement element : elements) {
+            if (!elementHasEqualTopBottomOffset(element)) {
+                putJsonDetailsWithElement(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", getFormattedMessage(element), getTopOffset(element), getBottomOffset(element)), element);
+            }
+        }
+    }
+
+    void drawRoot(Color color) {
+        g.setColor(color);
+        g.setStroke(new BasicStroke(2));
+        g.drawRect(getRetinaValue(xRoot), getRetinaValue(yRoot), getRetinaValue(widthRoot), getRetinaValue(heightRoot));
+        //g.fillRect(getRetinaValue(xRoot), getRetinaValue((yRoot), getRetinaValue(widthRoot), getRetinaValue(heightRoot));
+
+        Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+        g.setStroke(dashed);
+        g.setColor(linesColor);
+        if (drawLeftOffsetLine) {
+            g.drawLine(getRetinaValue(xRoot), 0, getRetinaValue(xRoot), getRetinaValue(img.getHeight()));
+        }
+        if (drawRightOffsetLine) {
+            g.drawLine(getRetinaValue(xRoot + widthRoot), 0, getRetinaValue(xRoot + widthRoot), getRetinaValue(img.getHeight()));
+        }
+        if (drawTopOffsetLine) {
+            g.drawLine(0, getRetinaValue(yRoot), getRetinaValue(img.getWidth()), getRetinaValue(yRoot));
+        }
+        if (drawBottomOffsetLine) {
+            g.drawLine(0, getRetinaValue(yRoot + heightRoot), getRetinaValue(img.getWidth()), getRetinaValue(yRoot + heightRoot));
+        }
+    }
+
+    void putJsonDetailsWithoutElement(String message) {
+        JSONObject details = new JSONObject();
+        JSONObject mes = new JSONObject();
+        mes.put(MESSAGE, message);
+        details.put(REASON, mes);
+        errorMessage.add(details);
+    }
+
+    private void putJsonDetailsWithElement(String message, WebElement element) {
+        float xContainer = element.getLocation().getX();
+        float yContainer = element.getLocation().getY();
+        float widthContainer = element.getSize().getWidth();
+        float heightContainer = element.getSize().getHeight();
+
+        JSONObject details = new JSONObject();
+        JSONObject elDetails = new JSONObject();
+        elDetails.put(X, xContainer);
+        elDetails.put(Y, yContainer);
+        elDetails.put(WIDTH, widthContainer);
+        elDetails.put(HEIGHT, heightContainer);
+        JSONObject mes = new JSONObject();
+        mes.put(MESSAGE, message);
+        mes.put(ELEMENT, elDetails);
+        details.put(REASON, mes);
+        errorMessage.add(details);
+    }
+
+    int getConvertedInt(int i, boolean horizontal) {
+        if (units.equals(PX)) {
+            return i;
+        } else {
+            if (horizontal) {
+                return (i * pageWidth) / 100;
+            } else {
+                return (i * pageHeight) / 100;
+            }
+        }
+    }
+
+    String getFormattedMessage(WebElement element) {
+        return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
+                element.getTagName(),
+                element.getAttribute("id"),
+                element.getAttribute("class"),
+                element.getText().length() < 10 ? element.getText() : element.getText().substring(0, 10) + "...",
+                String.valueOf(element.getLocation().x),
+                String.valueOf(element.getLocation().y),
+                String.valueOf(element.getSize().width),
+                String.valueOf(element.getSize().height));
+    }
+
+    int getRetinaValue(int value) {
+        if (isRetinaDisplay() && isChrome()) {
+            return 2 * value;
+        } else {
+            return value;
+        }
+    }
+
+    long getPageWidth() {
+        if (!isMobile()) {
+            JavascriptExecutor executor = (JavascriptExecutor) driver;
+            return (long) executor.executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
+        } else {
+            return driver.manage().window().getSize().width;
+        }
+    }
+
+    long getPageHeight() {
+        if (!isMobile()) {
+            JavascriptExecutor executor = (JavascriptExecutor) driver;
+            return (long) executor.executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
+        } else {
+            return driver.manage().window().getSize().height;
+        }
+    }
+
+    private void validateInsideOfContainer(WebElement element, String readableContainerName) {
+        float xContainer = element.getLocation().x;
+        float yContainer = element.getLocation().y;
+        float widthContainer = element.getSize().width;
+        float heightContainer = element.getSize().height;
+        if (rootElements == null || rootElements.isEmpty()) {
+            if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
+                putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), element);
+            }
+        } else {
+            for (WebElement el : rootElements) {
+                float xRoot = el.getLocation().x;
+                float yRoot = el.getLocation().y;
+                float widthRoot = el.getSize().width;
+                float heightRoot = el.getSize().height;
+                if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
+                    putJsonDetailsWithElement(String.format("Element is not inside of '%s'", readableContainerName), element);
+                }
+            }
+        }
+    }
+
+    private int getLeftOffset(WebElement element) {
+        return element.getLocation().x;
+    }
+
+    private int getRightOffset(WebElement element) {
+        return pageWidth - (element.getLocation().x + element.getSize().width);
+    }
+
+    private int getTopOffset(WebElement element) {
+        return element.getLocation().y;
+    }
+
+    private int getBottomOffset(WebElement element) {
+        return pageHeight - (element.getLocation().y + element.getSize().height);
     }
 
     private boolean elementsAreOverlappedOnBorder(WebElement rootElement, WebElement elementOverlapWith) {
@@ -659,156 +803,12 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateEqualLeftRightOffset(WebElement element, String rootElementReadableName) {
-        if (!elementHasEqualLeftRightOffset(element)) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElementReadableName, getLeftOffset(element), getRightOffset(element)), element);
-        }
-    }
-
-    void validateEqualTopBottomOffset(WebElement element, String rootElementReadableName) {
-        if (!elementHasEqualTopBottomOffset(element)) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElementReadableName, getTopOffset(element), getBottomOffset(element)), element);
-        }
-    }
-
-    void validateEqualLeftRightOffset(List<WebElement> elements) {
-        for (WebElement element : elements) {
-            if (!elementHasEqualLeftRightOffset(element)) {
-                putJsonDetailsWithElement(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", getFormattedMessage(element), getLeftOffset(element), getRightOffset(element)), element);
-            }
-        }
-    }
-
-    void validateEqualTopBottomOffset(List<WebElement> elements) {
-        for (WebElement element : elements) {
-            if (!elementHasEqualTopBottomOffset(element)) {
-                putJsonDetailsWithElement(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", getFormattedMessage(element), getTopOffset(element), getBottomOffset(element)), element);
-            }
-        }
-    }
-
     private boolean elementHasEqualLeftRightOffset(WebElement element) {
         return getLeftOffset(element) == getRightOffset(element);
     }
 
     private boolean elementHasEqualTopBottomOffset(WebElement element) {
         return getTopOffset(element) == getBottomOffset(element);
-    }
-
-    void drawRoot(Color color) {
-        g.setColor(color);
-        g.setStroke(new BasicStroke(2));
-        g.drawRect(getRetinaValue(xRoot), getRetinaValue(yRoot), getRetinaValue(widthRoot), getRetinaValue(heightRoot));
-        //g.fillRect(getRetinaValue(xRoot), getRetinaValue((yRoot), getRetinaValue(widthRoot), getRetinaValue(heightRoot));
-
-        Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
-        g.setStroke(dashed);
-        g.setColor(linesColor);
-        if (drawLeftOffsetLine) {
-            g.drawLine(getRetinaValue(xRoot), 0, getRetinaValue(xRoot), getRetinaValue(img.getHeight()));
-        }
-        if (drawRightOffsetLine) {
-            g.drawLine(getRetinaValue(xRoot + widthRoot), 0, getRetinaValue(xRoot + widthRoot), getRetinaValue(img.getHeight()));
-        }
-        if (drawTopOffsetLine) {
-            g.drawLine(0, getRetinaValue(yRoot), getRetinaValue(img.getWidth()), getRetinaValue(yRoot));
-        }
-        if (drawBottomOffsetLine) {
-            g.drawLine(0, getRetinaValue(yRoot + heightRoot), getRetinaValue(img.getWidth()), getRetinaValue(yRoot + heightRoot));
-        }
-    }
-
-    void putJsonDetailsWithoutElement(String message) {
-        JSONObject details = new JSONObject();
-        JSONObject mes = new JSONObject();
-        mes.put(MESSAGE, message);
-        details.put(REASON, mes);
-        errorMessage.add(details);
-    }
-
-    private void putJsonDetailsWithElement(String message, WebElement element) {
-        float xContainer = element.getLocation().getX();
-        float yContainer = element.getLocation().getY();
-        float widthContainer = element.getSize().getWidth();
-        float heightContainer = element.getSize().getHeight();
-
-        JSONObject details = new JSONObject();
-        JSONObject elDetails = new JSONObject();
-        elDetails.put(X, xContainer);
-        elDetails.put(Y, yContainer);
-        elDetails.put(WIDTH, widthContainer);
-        elDetails.put(HEIGHT, heightContainer);
-        JSONObject mes = new JSONObject();
-        mes.put(MESSAGE, message);
-        mes.put(ELEMENT, elDetails);
-        details.put(REASON, mes);
-        errorMessage.add(details);
-    }
-
-    int getInt(int i, boolean horizontal) {
-        if (units.equals(PX)) {
-            return i;
-        } else {
-            if (horizontal) {
-                return (i * pageWidth) / 100;
-            } else {
-                return (i * pageHeight) / 100;
-            }
-        }
-    }
-
-    String getFormattedMessage(WebElement element) {
-        return String.format("with properties: tag='%s', id='%s', class='%s', text='%s', coord=[%s,%s], size=[%s,%s]",
-                element.getTagName(),
-                element.getAttribute("id"),
-                element.getAttribute("class"),
-                element.getText().length() < 10 ? element.getText() : element.getText().substring(0, 10) + "...",
-                String.valueOf(element.getLocation().x),
-                String.valueOf(element.getLocation().y),
-                String.valueOf(element.getSize().width),
-                String.valueOf(element.getSize().height));
-    }
-
-    int getRetinaValue(int value) {
-        if (isRetinaDisplay() && isChrome()) {
-            return 2 * value;
-        } else {
-            return value;
-        }
-    }
-
-    int getLeftOffset(WebElement element) {
-        return element.getLocation().x;
-    }
-
-    int getRightOffset(WebElement element) {
-        return pageWidth - (element.getLocation().x + element.getSize().width);
-    }
-
-    int getTopOffset(WebElement element) {
-        return element.getLocation().y;
-    }
-
-    int getBottomOffset(WebElement element) {
-        return pageHeight - (element.getLocation().y + element.getSize().height);
-    }
-
-    long getPageWidth() {
-        if (!isMobile()) {
-            JavascriptExecutor executor = (JavascriptExecutor) driver;
-            return (long) executor.executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
-        } else {
-            return driver.manage().window().getSize().width;
-        }
-    }
-
-    long getPageHeight() {
-        if (!isMobile()) {
-            JavascriptExecutor executor = (JavascriptExecutor) driver;
-            return (long) executor.executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
-        } else {
-            return driver.manage().window().getSize().height;
-        }
     }
 
     public enum Units {

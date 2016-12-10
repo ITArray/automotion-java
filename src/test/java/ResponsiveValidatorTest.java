@@ -6,9 +6,11 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import util.driver.WebDriverFactory;
 import util.validator.ResponsiveUIValidator;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +24,7 @@ public class ResponsiveValidatorTest {
         Map<String, String> sysProp = new HashMap<>();
         sysProp.put("BROWSER", "Chrome");
         sysProp.put("IS_LOCAL", "true");
+        //sysProp.put(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "/Users/ZayCo/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs");
         EnvironmentHelper.setEnv(sysProp);
         WebDriverFactory driverFactory = new WebDriverFactory();
         driver = driverFactory.getDriver();
@@ -30,6 +33,7 @@ public class ResponsiveValidatorTest {
         TestPage page = new TestPage(driver);
 
         ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driver);
+        uiValidator.setLinesColor(Color.BLACK);
         SoftAssertions softly = new SoftAssertions();
 
         boolean success1 = uiValidator.init("Validation of Top Slider Element")
