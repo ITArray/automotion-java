@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/ITArray/Automotion.svg?branch=1.4.2-update)](https://travis-ci.org/ITArray/Automotion)
+
 # Automotion #
 This is JAVA library for the running of mobile, web or API automated tests.
+![alt tag](http://visual.itarray.net/images/Automotion.jpg)
 
 ##### Example: https://github.com/ITArray/automotion-example
 ### Steps to connect ###
