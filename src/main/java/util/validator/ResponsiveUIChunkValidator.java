@@ -5,13 +5,16 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static environment.EnvironmentFactory.isChrome;
+import static util.general.SystemHelper.isRetinaDisplay;
+
 public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements ChunkValidator {
 
     ResponsiveUIChunkValidator(WebDriver driver, List<WebElement> elements) {
         super(driver);
         rootElements = elements;
-        pageWidth = driver.manage().window().getSize().getWidth();
-        pageHeight = driver.manage().window().getSize().getHeight();
+        pageWidth = (int) getPageWidth();
+        pageHeight = (int) getPageHeight();
         rootElement = rootElements.get(0);
         startTime = System.currentTimeMillis();
     }
@@ -79,6 +82,18 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
     @Override
     public ResponsiveUIChunkValidator sameBottomOffset() {
         validateBottomOffsetForChunk(rootElements);
+        return this;
+    }
+
+    @Override
+    public ResponsiveUIChunkValidator equalLeftRightOffset() {
+        validateEqualLeftRightOffset(rootElements);
+        return this;
+    }
+
+    @Override
+    public ResponsiveUIChunkValidator equalTopBottomOffset() {
+        validateEqualTopBottomOffset(rootElements);
         return this;
     }
 }

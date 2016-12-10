@@ -15,6 +15,10 @@ public class TestPage extends BaseWebMobileElement {
         super(driver, 10);
     }
 
+    public WebElement mainContainer() {
+        return getWebElement(By.className("container"));
+    }
+
     public WebElement topSlider() {
         return getWebElement(By.className("flexslider"));
     }
