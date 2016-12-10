@@ -46,13 +46,22 @@ public class ResponsiveValidatorTest {
 
         softly.assertThat(success1).isEqualTo(true).overridingErrorMessage("Failed validation of Top Slider element");
 
-        boolean success0 = uiValidator.init("Validation of Top Slider Element")
+        boolean success0 = uiValidator.init("Validation of Grid view")
                 .findElement(page.gridContainer(), "Grid Container")
                 .equalLeftRightOffset()
                 .drawMap()
                 .validate();
 
         softly.assertThat(success0).isEqualTo(true).overridingErrorMessage("Failed validation of Grid Container");
+
+        boolean success01 = uiValidator.init("Validation of Main container")
+                .findElement(page.mainContainer(), "Main Container")
+                .equalLeftRightOffset()
+                .drawMap()
+                .validate();
+
+        softly.assertThat(success01).isEqualTo(true).overridingErrorMessage("Failed validation of Main Container");
+
 
         boolean success2 = uiValidator.init("Validation of Top Text block")
                 .findElement(page.topTextBlock(), "Top Text block")

@@ -20,10 +20,9 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
         yRoot = rootElement.getLocation().getY();
         widthRoot = rootElement.getSize().getWidth();
         heightRoot = rootElement.getSize().getHeight();
-        pageWidth = isRetinaDisplay() && isChrome() ? 2 * driver.manage().window().getSize().getWidth() : driver.manage().window().getSize().getWidth();
-        pageHeight = isRetinaDisplay() && isChrome() ? 2 * driver.manage().window().getSize().getHeight() : driver.manage().window().getSize().getHeight();
-        rootElementRightOffset = pageWidth - xRoot + widthRoot;
-        rootElementBottomOffset = pageHeight - yRoot + heightRoot;
+        pageWidth = (int) getPageWidth();
+        pageHeight = (int) getPageHeight();
+        pageHeight = getRetinaValue(driver.manage().window().getSize().getHeight());
         startTime = System.currentTimeMillis();
     }
 

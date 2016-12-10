@@ -13,8 +13,8 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
     ResponsiveUIChunkValidator(WebDriver driver, List<WebElement> elements) {
         super(driver);
         rootElements = elements;
-        pageWidth = isRetinaDisplay() && isChrome() ? 2 * driver.manage().window().getSize().getWidth() : driver.manage().window().getSize().getWidth();
-        pageHeight = isRetinaDisplay() && isChrome() ? 2 * driver.manage().window().getSize().getHeight() : driver.manage().window().getSize().getHeight();
+        pageWidth = (int) getPageWidth();
+        pageHeight = (int) getPageHeight();
         rootElement = rootElements.get(0);
         startTime = System.currentTimeMillis();
     }

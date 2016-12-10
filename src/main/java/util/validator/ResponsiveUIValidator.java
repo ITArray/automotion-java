@@ -10,7 +10,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.Point;
 import util.driver.PageValidator;
 import util.general.HtmlReportBuilder;
-import util.general.SystemHelper;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -24,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static environment.EnvironmentFactory.isChrome;
+import static environment.EnvironmentFactory.isMobile;
 import static util.general.SystemHelper.isAutomotionFolderExists;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
@@ -44,6 +44,7 @@ public class ResponsiveUIValidator {
     private static File screenshot;
     private static BufferedImage img;
     private static Graphics2D g;
+    private static JSONArray errorMessage;
     String rootElementReadableName = "Root Element";
     List<WebElement> rootElements;
     boolean drawLeftOffsetLine = false;
@@ -57,9 +58,6 @@ public class ResponsiveUIValidator {
     int heightRoot;
     int pageWidth;
     int pageHeight;
-    int rootElementRightOffset;
-    int rootElementBottomOffset;
-    private JSONArray errorMessage;
 
     public ResponsiveUIValidator(WebDriver driver) {
         ResponsiveUIValidator.driver = driver;
@@ -206,13 +204,7 @@ public class ResponsiveUIValidator {
 
                 g.setColor(highlightedElementsColor);
                 g.setStroke(new BasicStroke(2));
-                if (isRetinaDisplay() && isChrome()) {
-                    g.drawRect(2 * (int) x, 2 * (int) y, 2 * (int) width, 2 * (int) height);
-                    //g.fillRect(2 * (int) x, 2 * (int) y, 2 * (int) width, 2 * (int) height);
-                } else {
-                    g.drawRect((int) x, (int) y, (int) width, (int) height);
-                    //g.fillRect(2 * (int) x, 2 * (int) y, 2 * (int) width, 2 * (int) height);
-                }
+                g.drawRect(getRetinaValue((int) x), getRetinaValue((int) y), getRetinaValue((int) width), getRetinaValue((int) height));
             }
         }
 
@@ -351,6 +343,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateMaxOffset(int top, int right, int bottom, int left) {
+        int rootElementRightOffset = getRightOffset(rootElement);
+        int rootElementBottomOffset = getBottomOffset(rootElement);
         if (xRoot > left) {
             putJsonDetailsWithoutElement(String.format("Expected max left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, xRoot));
         }
@@ -366,6 +360,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateMinOffset(int top, int right, int bottom, int left) {
+        int rootElementRightOffset = getRightOffset(rootElement);
+        int rootElementBottomOffset = getBottomOffset(rootElement);
         if (xRoot < left) {
             putJsonDetailsWithoutElement(String.format("Expected min left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, xRoot));
         }
@@ -556,7 +552,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    boolean elementsAreOverlappedOnBorder(WebElement rootElement, WebElement elementOverlapWith) {
+    private boolean elementsAreOverlappedOnBorder(WebElement rootElement, WebElement elementOverlapWith) {
         Point elLoc = elementOverlapWith.getLocation();
         Dimension elSize = elementOverlapWith.getSize();
         int xRoot = rootElement.getLocation().x;
@@ -577,7 +573,7 @@ public class ResponsiveUIValidator {
         return sqCommon - sqElement >= sqRootElement;
     }
 
-    boolean elementsAreOverlapped(WebElement elementOverlapWith) {
+    private boolean elementsAreOverlapped(WebElement elementOverlapWith) {
         Point elLoc = elementOverlapWith.getLocation();
         Dimension elSize = elementOverlapWith.getSize();
         return ((xRoot >= elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
@@ -593,7 +589,7 @@ public class ResponsiveUIValidator {
                 || elementsAreOverlappedOnBorder(rootElement, elementOverlapWith);
     }
 
-    boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
+    private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
         Point elLoc = elementOverlapWith.getLocation();
         Dimension elSize = elementOverlapWith.getSize();
         int xRoot = rootElement.getLocation().x;
@@ -614,7 +610,7 @@ public class ResponsiveUIValidator {
                 || elementsAreOverlappedOnBorder(rootElement, elementOverlapWith);
     }
 
-    boolean elementsHaveEqualLeftRightOffset(boolean isLeft, WebElement elementToCompare) {
+    private boolean elementsHaveEqualLeftRightOffset(boolean isLeft, WebElement elementToCompare) {
         Point elLoc = elementToCompare.getLocation();
         Dimension elSize = elementToCompare.getSize();
 
@@ -625,7 +621,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    boolean elementsHaveEqualLeftRightOffset(boolean isLeft, WebElement element, WebElement elementToCompare) {
+    private boolean elementsHaveEqualLeftRightOffset(boolean isLeft, WebElement element, WebElement elementToCompare) {
         Point elLoc = elementToCompare.getLocation();
         Dimension elSize = elementToCompare.getSize();
         int xRoot = element.getLocation().x;
@@ -639,7 +635,7 @@ public class ResponsiveUIValidator {
     }
 
 
-    boolean elementsHaveEqualTopBottomOffset(boolean isTop, WebElement elementToCompare) {
+    private boolean elementsHaveEqualTopBottomOffset(boolean isTop, WebElement elementToCompare) {
         Point elLoc = elementToCompare.getLocation();
         Dimension elSize = elementToCompare.getSize();
 
@@ -650,7 +646,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    boolean elementsHaveEqualTopBottomOffset(boolean isTop, WebElement element, WebElement elementToCompare) {
+    private boolean elementsHaveEqualTopBottomOffset(boolean isTop, WebElement element, WebElement elementToCompare) {
         Point elLoc = elementToCompare.getLocation();
         Dimension elSize = elementToCompare.getSize();
         int yRoot = element.getLocation().y;
@@ -663,83 +659,62 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateEqualLeftRightOffset(WebElement element, String rootElementReadableName){
-        if (!elementHasEqualLeftRightOffset(element)){
+    void validateEqualLeftRightOffset(WebElement element, String rootElementReadableName) {
+        if (!elementHasEqualLeftRightOffset(element)) {
             putJsonDetailsWithElement(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElementReadableName, getLeftOffset(element), getRightOffset(element)), element);
         }
     }
 
-    void validateEqualTopBottomOffset(WebElement element, String rootElementReadableName){
-        if (!elementHasEqualTopBottomOffset(element)){
+    void validateEqualTopBottomOffset(WebElement element, String rootElementReadableName) {
+        if (!elementHasEqualTopBottomOffset(element)) {
             putJsonDetailsWithElement(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElementReadableName, getTopOffset(element), getBottomOffset(element)), element);
         }
     }
 
-    void validateEqualLeftRightOffset(List<WebElement> elements){
-        for (WebElement element: elements) {
+    void validateEqualLeftRightOffset(List<WebElement> elements) {
+        for (WebElement element : elements) {
             if (!elementHasEqualLeftRightOffset(element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", getFormattedMessage(element), getLeftOffset(element), getRightOffset(element)), element);
             }
         }
     }
 
-    void validateEqualTopBottomOffset(List<WebElement> elements){
-        for (WebElement element: elements) {
+    void validateEqualTopBottomOffset(List<WebElement> elements) {
+        for (WebElement element : elements) {
             if (!elementHasEqualTopBottomOffset(element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", getFormattedMessage(element), getTopOffset(element), getBottomOffset(element)), element);
             }
         }
     }
 
-    boolean elementHasEqualLeftRightOffset(WebElement element) {
+    private boolean elementHasEqualLeftRightOffset(WebElement element) {
         return getLeftOffset(element) == getRightOffset(element);
     }
 
-    boolean elementHasEqualTopBottomOffset(WebElement element) {
+    private boolean elementHasEqualTopBottomOffset(WebElement element) {
         return getTopOffset(element) == getBottomOffset(element);
     }
 
     void drawRoot(Color color) {
         g.setColor(color);
         g.setStroke(new BasicStroke(2));
-        if (isRetinaDisplay() && isChrome()) {
-            g.drawRect(2 * xRoot, 2 * yRoot, 2 * widthRoot, 2 * heightRoot);
-            //g.fillRect(2 * xRoot, 2 * yRoot, 2 * widthRoot, 2 * heightRoot);
-        } else {
-            g.drawRect(xRoot, yRoot, widthRoot, heightRoot);
-            //g.fillRect(xRoot, yRoot, widthRoot, heightRoot);
-        }
+        g.drawRect(getRetinaValue(xRoot), getRetinaValue(yRoot), getRetinaValue(widthRoot), getRetinaValue(heightRoot));
+        //g.fillRect(getRetinaValue(xRoot), getRetinaValue((yRoot), getRetinaValue(widthRoot), getRetinaValue(heightRoot));
 
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
         g.setStroke(dashed);
         g.setColor(linesColor);
         if (drawLeftOffsetLine) {
-            if (isRetinaDisplay() && isChrome()) {
-                g.drawLine(2 * xRoot, 0, 2 * xRoot, 2 * img.getHeight());
-            } else {
-                g.drawLine(xRoot, 0, xRoot, img.getHeight());
-            }
+            g.drawLine(getRetinaValue(xRoot), 0, getRetinaValue(xRoot), getRetinaValue(img.getHeight()));
         }
         if (drawRightOffsetLine) {
-            if (isRetinaDisplay() && isChrome()) {
-                g.drawLine(2 * (xRoot + widthRoot), 0, 2 * (xRoot + widthRoot), 2 * img.getHeight());
-            } else {
-                g.drawLine(xRoot + widthRoot, 0, xRoot + widthRoot, img.getHeight());
-            }
+            g.drawLine(getRetinaValue(xRoot + widthRoot), 0, getRetinaValue(xRoot + widthRoot), getRetinaValue(img.getHeight()));
         }
         if (drawTopOffsetLine) {
-            if (isRetinaDisplay() && isChrome()) {
-                g.drawLine(0, 2 * yRoot, 2 * img.getWidth(), 2 * yRoot);
-            } else {
-                g.drawLine(0, yRoot, img.getWidth(), yRoot);
-            }
+            g.drawLine(0, getRetinaValue(yRoot), getRetinaValue(img.getWidth()), getRetinaValue(yRoot));
         }
         if (drawBottomOffsetLine) {
-            if (isRetinaDisplay() && isChrome()) {
-                g.drawLine(0, 2 * (yRoot + heightRoot), 2 * img.getWidth(), 2 * (yRoot + heightRoot));
-            } else {
-                g.drawLine(0, yRoot + heightRoot, img.getWidth(), yRoot + heightRoot);
-            }
+            g.drawLine(0, getRetinaValue(yRoot + heightRoot), getRetinaValue(img.getWidth()), getRetinaValue(yRoot + heightRoot));
         }
     }
 
@@ -751,7 +726,7 @@ public class ResponsiveUIValidator {
         errorMessage.add(details);
     }
 
-    void putJsonDetailsWithElement(String message, WebElement element) {
+    private void putJsonDetailsWithElement(String message, WebElement element) {
         float xContainer = element.getLocation().getX();
         float yContainer = element.getLocation().getY();
         float widthContainer = element.getSize().getWidth();
@@ -794,6 +769,14 @@ public class ResponsiveUIValidator {
                 String.valueOf(element.getSize().height));
     }
 
+    int getRetinaValue(int value) {
+        if (isRetinaDisplay() && isChrome()) {
+            return 2 * value;
+        } else {
+            return value;
+        }
+    }
+
     int getLeftOffset(WebElement element) {
         return element.getLocation().x;
     }
@@ -808,6 +791,24 @@ public class ResponsiveUIValidator {
 
     int getBottomOffset(WebElement element) {
         return pageHeight - (element.getLocation().y + element.getSize().height);
+    }
+
+    long getPageWidth() {
+        if (!isMobile()) {
+            JavascriptExecutor executor = (JavascriptExecutor) driver;
+            return (long) executor.executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
+        } else {
+            return driver.manage().window().getSize().width;
+        }
+    }
+
+    long getPageHeight() {
+        if (!isMobile()) {
+            JavascriptExecutor executor = (JavascriptExecutor) driver;
+            return (long) executor.executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
+        } else {
+            return driver.manage().window().getSize().height;
+        }
     }
 
     public enum Units {
