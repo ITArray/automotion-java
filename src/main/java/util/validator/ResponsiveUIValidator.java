@@ -22,8 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static environment.EnvironmentFactory.isChrome;
-import static environment.EnvironmentFactory.isMobile;
+import static environment.EnvironmentFactory.*;
 import static util.general.SystemHelper.isAutomotionFolderExists;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
@@ -698,12 +697,16 @@ public class ResponsiveUIValidator {
     }
 
     int getRetinaValue(int value) {
-        int zoom = Integer.valueOf(currentZoom.replace("%", ""));
-        if (zoom != 100){
-            value = (int) (value - (value * Math.abs(zoom - 100f) / 100f));
-        }
-        if (isRetinaDisplay() && isChrome()) {
-            return 2 * value;
+        if (!isMobile()) {
+            int zoom = Integer.valueOf(currentZoom.replace("%", ""));
+            if (zoom != 100) {
+                value = (int) (value - (value * Math.abs(zoom - 100f) / 100f));
+            }
+            if (isRetinaDisplay() && isChrome()) {
+                return 2 * value;
+            } else {
+                return value;
+            }
         } else {
             return value;
         }
@@ -712,8 +715,12 @@ public class ResponsiveUIValidator {
     long getPageWidth() {
         if (!isMobile()) {
             JavascriptExecutor executor = (JavascriptExecutor) driver;
-            currentZoom = (String) executor.executeScript("return document.body.style.zoom;");
-            if (currentZoom.equals("100%") || currentZoom.equals("")) {
+            if (isFirefox()) {
+                currentZoom = (String) executor.executeScript("document.body.style.MozTransform");
+            } else {
+                currentZoom = (String) executor.executeScript("return document.body.style.zoom;");
+            }
+            if (currentZoom == null || currentZoom.equals("100%") || currentZoom.equals("")) {
                 currentZoom = "100%";
                 return (long) executor.executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
             } else {
@@ -727,8 +734,12 @@ public class ResponsiveUIValidator {
     long getPageHeight() {
         if (!isMobile()) {
             JavascriptExecutor executor = (JavascriptExecutor) driver;
-            currentZoom = (String) executor.executeScript("return document.body.style.zoom;");
-            if (currentZoom.equals("100%") || currentZoom.equals("")) {
+            if (isFirefox()) {
+                currentZoom = (String) executor.executeScript("document.body.style.MozTransform");
+            } else {
+                currentZoom = (String) executor.executeScript("return document.body.style.zoom;");
+            }
+            if (currentZoom == null || currentZoom.equals("100%") || currentZoom.equals("")) {
                 currentZoom = "100%";
                 return (long) executor.executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
             } else {

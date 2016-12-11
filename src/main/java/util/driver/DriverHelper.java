@@ -156,7 +156,11 @@ public class DriverHelper {
     public static void zoomInOutPage(WebDriver driver, int zoomPercent) {
         if (zoomPercent > 0) {
             JavascriptExecutor jse = (JavascriptExecutor) driver;
-            jse.executeScript("document.body.style.zoom = '" + zoomPercent + "%'");
+            if (isFirefox()) {
+                jse.executeScript("document.body.style.MozTransform = 'scale(" + (zoomPercent / 100f) + ")';");
+            } else {
+                jse.executeScript("document.body.style.zoom = '" + zoomPercent + "%'");
+            }
         }
     }
 

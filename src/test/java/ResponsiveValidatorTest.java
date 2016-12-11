@@ -29,6 +29,7 @@ public class ResponsiveValidatorTest {
         WebDriverFactory driverFactory = new WebDriverFactory();
         driver = driverFactory.getDriver();
         driver.get("http:/visual.itarray.net");
+        driver.manage().window().maximize();
 
         TestPage page = new TestPage(driver);
 
