@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.org/ITArray/Automotion.svg?branch=1.4.2-update)](https://travis-ci.org/ITArray/Automotion)
+[![Build Status](https://travis-ci.org/ITArray/Automotion.svg?branch=master)](https://travis-ci.org/ITArray/Automotion)
 
 # Automotion #
-![alt tag](https://i0.wp.com/www.itarray.net/wp-content/uploads/2016/11/14-08-12_Responsive.jpg?w=1480&ssl=1)
+![alt tag](http://visual.itarray.net/images/Automotion.jpg)
 
 ##### Example: https://github.com/ITArray/automotion-example
 ### Steps to connect ###
