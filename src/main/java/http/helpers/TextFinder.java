@@ -10,6 +10,13 @@ public class TextFinder {
 
     private static double DERIVATION = 0.3;
 
+    /**
+     * Smart Text finder that allows to fins piece of corrupted text
+     *
+     * @param pattern
+     * @param text
+     * @return
+     */
     public static boolean textIsFound(String pattern, String text) {
         pattern = pattern.toLowerCase();
         text = text.toLowerCase();
@@ -81,10 +88,15 @@ public class TextFinder {
         }
     }
 
-    public static void setDerivation(int derivation){
-        if (derivation > 1){
+    /**
+     * Set derivation for text searching
+     *
+     * @param derivation
+     */
+    public static void setDerivation(int derivation) {
+        if (derivation > 1) {
             derivation = 1;
-        }else if (derivation < 0){
+        } else if (derivation < 0) {
             derivation = 0;
         }
         DERIVATION = derivation;
