@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import util.driver.DriverHelper;
 import util.driver.WebDriverFactory;
 import util.validator.ResponsiveUIValidator;
 
@@ -28,6 +29,7 @@ public class ResponsiveValidatorTest {
         WebDriverFactory driverFactory = new WebDriverFactory();
         driver = driverFactory.getDriver();
         driver.get("http:/visual.itarray.net");
+        driver.manage().window().maximize();
 
         TestPage page = new TestPage(driver);
 
@@ -98,6 +100,19 @@ public class ResponsiveValidatorTest {
                     .drawMap()
                     .validate();
             softly.assertThat(success).isEqualTo(true).overridingErrorMessage("Failed validation of Grid in a list");
+        }
+
+        int[] zoomRange = {50, 70, 100, 120, 150};
+
+        for (int val : zoomRange) {
+            DriverHelper.zoomInOutPage(driver, val);
+            boolean success = uiValidator.init("Validate on page zoom " + val + "%")
+                    .findElement(page.mainContainer(), "Main container")
+                    .equalLeftRightOffset()
+                    .drawMap()
+                    .validate();
+
+            softly.assertThat(success).isEqualTo(true).overridingErrorMessage("Failed validation of Container");
         }
 
         uiValidator.generateReport("Home Page");

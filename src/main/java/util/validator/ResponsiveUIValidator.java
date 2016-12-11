@@ -22,8 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static environment.EnvironmentFactory.isChrome;
-import static environment.EnvironmentFactory.isMobile;
+import static environment.EnvironmentFactory.*;
 import static util.general.SystemHelper.isAutomotionFolderExists;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
@@ -41,6 +40,7 @@ public class ResponsiveUIValidator {
     private static Color rootColor = new Color(255, 0, 0, 255);
     private static Color highlightedElementsColor = new Color(255, 0, 255, 255);
     private static Color linesColor = Color.ORANGE;
+    private static String currentZoom = "100%";
     private static File screenshot;
     private static BufferedImage img;
     private static Graphics2D g;
@@ -697,8 +697,16 @@ public class ResponsiveUIValidator {
     }
 
     int getRetinaValue(int value) {
-        if (isRetinaDisplay() && isChrome()) {
-            return 2 * value;
+        if (!isMobile()) {
+            int zoom = Integer.valueOf(currentZoom.replace("%", ""));
+            if (zoom != 100) {
+                value = (int) (value - (value * Math.abs(zoom - 100f) / 100f));
+            }
+            if (isRetinaDisplay() && isChrome()) {
+                return 2 * value;
+            } else {
+                return value;
+            }
         } else {
             return value;
         }
@@ -707,7 +715,17 @@ public class ResponsiveUIValidator {
     long getPageWidth() {
         if (!isMobile()) {
             JavascriptExecutor executor = (JavascriptExecutor) driver;
-            return (long) executor.executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
+            if (isFirefox()) {
+                currentZoom = (String) executor.executeScript("document.body.style.MozTransform");
+            } else {
+                currentZoom = (String) executor.executeScript("return document.body.style.zoom;");
+            }
+            if (currentZoom == null || currentZoom.equals("100%") || currentZoom.equals("")) {
+                currentZoom = "100%";
+                return (long) executor.executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
+            } else {
+                return (long) executor.executeScript("return document.getElementsByTagName('body')[0].offsetWidth");
+            }
         } else {
             return driver.manage().window().getSize().width;
         }
@@ -716,7 +734,17 @@ public class ResponsiveUIValidator {
     long getPageHeight() {
         if (!isMobile()) {
             JavascriptExecutor executor = (JavascriptExecutor) driver;
-            return (long) executor.executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
+            if (isFirefox()) {
+                currentZoom = (String) executor.executeScript("document.body.style.MozTransform");
+            } else {
+                currentZoom = (String) executor.executeScript("return document.body.style.zoom;");
+            }
+            if (currentZoom == null || currentZoom.equals("100%") || currentZoom.equals("")) {
+                currentZoom = "100%";
+                return (long) executor.executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
+            } else {
+                return (long) executor.executeScript("return document.getElementsByTagName('body')[0].offsetHeight");
+            }
         } else {
             return driver.manage().window().getSize().height;
         }
