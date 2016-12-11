@@ -129,118 +129,80 @@
     
             insideOf(WebElement containerElement, String readableContainerName); // Verify that element is located inside of specified element
          
-            
             withLeftElement(WebElement element); // Verify that element which located left to is correct
         
-            
             withLeftElement(WebElement element, int minMargin, int maxMargin); // Verify that element which located left to is correct with specified margins
         
-            
             withRightElement(WebElement element); // Verify that element which located right to is correct
         
-            
             withRightElement(WebElement element, int minMargin, int maxMargin); // Verify that element which located right to is correct with specified margins
         
-            
             withTopElement(WebElement element); // Verify that element which located top to is correct
         
-            
             withTopElement(WebElement element, int minMargin, int maxMargin); // Verify that element which located top to is correct with specified margins
         
-            
             withBottomElement(WebElement element); // Verify that element which located bottom to is correct
         
-            
             withBottomElement(WebElement element, int minMargin, int maxMargin); // Verify that element which located bottom to is correct with specified margins
         
-            
             notOverlapWith(WebElement element, String readableName); // Verify that element is NOT overlapped with specified element
         
-            
             overlapWith(WebElement element, String readableName); // Verify that element is overlapped with specified element
         
-            
             notOverlapWith(List<WebElement> elements); // Verify that element is NOT overlapped with every element is the list
         
-            
             sameOffsetLeftAs(WebElement element, String readableName); // Verify that element has the same left offset as specified element
         
-            
             sameOffsetLeftAs(List<WebElement> elements); // Verify that element has the same left offset as every element is the list
         
-            
             sameOffsetRightAs(WebElement element, String readableName); // Verify that element has the same right offset as specified element
         
-            
             sameOffsetRightAs(List<WebElement> elements); // Verify that element has the same right offset as every element is the list
         
-            
             sameOffsetTopAs(WebElement element, String readableName); // Verify that element has the same top offset as specified element
         
-            
             sameOffsetTopAs(List<WebElement> elements); // Verify that element has the same top offset as every element is the list
         
-            
             sameOffsetBottomAs(WebElement element, String readableName); // Verify that element has the same bottom offset as specified element
         
-            
             sameOffsetBottomAs(List<WebElement> elements); // Verify that element has the same bottom offset as every element is the list
         
-            
             sameWidthAs(WebElement element, String readableName); // Verify that element has the same width as specified element
         
-            
             sameWidthAs(List<WebElement> elements); // Verify that element has the same width as every element in the list
         
-            
             minWidth(int width); // Verify that width of element is not less than specified
         
-            
             maxWidth(int width); // Verify that width of element is not bigger than specified
         
-            
             widthBetween(int min, int max); // Verify that width of element is in range
         
-            
             sameHeightAs(WebElement element, String readableName); // Verify that element has the same height as specified element
         
-            
             sameHeightAs(List<WebElement> elements); // Verify that element has the same height as every element in the list
         
-            
             minHeight(int height); // Verify that height of element is not less than specified
         
-            
             maxHeight(int height); // Verify that height of element is not bigger than specified
         
-            
             sameSizeAs(WebElement element, String readableName); // Verify that element has the same size as specified element
         
-            
             sameSizeAs(List<WebElement> elements); // Verify that element has the same size as every element in the list
         
-            
             heightBetween(int min, int max); // Verify that height of element is in range
         
-            
             minOffset(int top, int right, int bottom, int left); // Verify that min offset of element is not less than (min value is -10000)
         
-            
             maxOffset(int top, int right, int bottom, int left); // Verify that max offset of element is not bigger than (min value is -10000)
         
-            
             withCssValue(String cssProperty, String... args); // Verify that element has correct CSS values
         
-            
             withoutCssValue(String cssProperty, String... args); // Verify that concrete CSS values are absent for specified element
         
-            
             equalLeftRightOffset(); // Verify that element has equal left and right offsets (e.g. Bootstrap container)
         
-            
             equalTopBottomOffset(); // Verify that element has equal top and bottom offset (aligned vertically in center)
          
-            
             changeMetricsUnitsTo(ResponsiveUIValidator.Units units); // Change units to Pixels or % (Units.PX, Units.PERCENT)
 
     * For list of elements findElements({element}):
