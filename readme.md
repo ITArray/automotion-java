@@ -82,7 +82,7 @@
 ### Responsive UI Validation ###
  - Responsive UI Validator allows to validate UI on web or mobile page using lots of criterias. Also it allows tu build thr HTMl report after validation.
             
-            ResponsiveUIValidator uiValidator = new    ResponsiveUIValidator(driver);
+            ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driver);
             
             
             boolean result = uiValidator.init()
