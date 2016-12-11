@@ -102,6 +102,13 @@ public class DriverHelper {
         LOG.info("Scroll up element " + element.getId());
     }
 
+    public static void zoomInOutPage(WebDriver driver, int zoomPercent) {
+        if (zoomPercent > 0) {
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript("document.body.style.zoom = '" + zoomPercent + "%'");
+        }
+    }
+
     public static void wait(int seconds) throws InterruptedException {
         sleep(1000 * seconds);
     }
@@ -135,7 +142,7 @@ public class DriverHelper {
             try {
                 driver.hideKeyboard();
                 driver.hideKeyboard();
-            }catch (Exception e){
+            } catch (Exception e) {
                 LOG.error("Cannot hide a keyboard: " + e.getMessage());
             }
         }

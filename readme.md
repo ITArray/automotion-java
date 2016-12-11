@@ -40,12 +40,12 @@
     * For Web local run:       
          
             IS_LOCAL=True
-            BROWSER=Firefox|Chrome|IE|Safari
+            BROWSER=Firefox|Chrome|IE|Safari|EDGE
 
     * For Web remote run:
 
             IS_REMOTE=True
-            BROWSER=Firefox|Chrome|IE|Safari
+            BROWSER=Firefox|Chrome|IE|Safari|EDGE
             EXECUTOR=http://{host}:{port}/wd/hub
             (optional available with Chrome only) MOBILE_DEVICE_EMULATION=Google Nexus 5|Apple iPhone 6|Samsung Galaxy S5
 
@@ -316,6 +316,7 @@
             DriverHelper.scrollUpMobileElement(AppiumDriver driver, MobileElement element)
             DriverHelper.scrollDownMobileElement(AppiumDriver driver, MobileElement element, int duration) - duration not less than 500ms
             DriverHelper.scrollUpMobileElement(AppiumDriver driver, MobileElement element, int duration) - duration not less than 500ms
+            DriverHelper.zoomInOutPage(WebDriver driver, int zoomPercent) - zoom In/Out the page
             
             DriverHelper.hideKeyboard(AppiumDriver driver) - super method that perform hiding of keyboard for Android and iOS
             
