@@ -22,6 +22,13 @@ public class LanguageChecker {
 
     private static final Logger LOG = Logger.getLogger(LanguageChecker.class);
 
+    /**
+     * Return recognized language on the page. E.g: 'en', 'es', ...
+     *
+     * @param text
+     * @return
+     * @throws IOException
+     */
     public static Optional<LdLocale> getRecognisedLanguage(String text) throws IOException {
         List<LanguageProfile> languageProfiles = new LanguageProfileReader().readAllBuiltIn();
 
@@ -36,6 +43,13 @@ public class LanguageChecker {
         return languageDetector.detect(textObject);
     }
 
+    /**
+     * Return recognized language on the page. E.g: 'en', 'es', ...
+     *
+     * @param driver
+     * @return
+     * @throws IOException
+     */
     public static Optional<LdLocale> getRecognisedLanguage(WebDriver driver) throws IOException {
         List<LanguageProfile> languageProfiles = new LanguageProfileReader().readAllBuiltIn();
 
@@ -50,6 +64,14 @@ public class LanguageChecker {
         return languageDetector.detect(textObject);
     }
 
+    /**
+     * Verify if correct language on the web/mobile page
+     *
+     * @param driver
+     * @param lang
+     * @return
+     * @throws IOException
+     */
     public static boolean isCorrectLanguageOnThePage(WebDriver driver, String lang) throws IOException {
         boolean isCorrectLang = true;
         String bodyText = getTextFromPage(driver);

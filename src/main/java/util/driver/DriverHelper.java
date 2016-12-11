@@ -22,6 +22,12 @@ public class DriverHelper {
 
     private final static Logger LOG = LoggerFactory.getLogger(DriverHelper.class);
 
+    /**
+     * Sending the keys into web element with click and clear
+     *
+     * @param element
+     * @param text
+     */
     public static void sendKeys(WebElement element, String text) {
         element.click();
         element.clear();
@@ -30,6 +36,13 @@ public class DriverHelper {
         LOG.info("Send text: " + text);
     }
 
+    /**
+     * Sending keys into mobile element with full clearing (iOS driver)
+     *
+     * @param driver
+     * @param element
+     * @param text
+     */
     public static void sendKeysFullClear(AndroidDriver driver, MobileElement element, String text) {
         MobileHelper.clearField(driver, element).sendKeys(text);
         driver.pressKeyCode(84);
@@ -37,24 +50,50 @@ public class DriverHelper {
         LOG.info("Send text: " + text);
     }
 
+    /**
+     * Scroll down web page for 1000px
+     *
+     * @param driver
+     */
     public static void scrollDownWeb(WebDriver driver) {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("window.scroll(0,1000)", "");
     }
 
+    /**
+     * Scroll up web page for 1000px
+     *
+     * @param driver
+     */
     public static void scrollUpWeb(WebDriver driver) {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("window.scroll(0,-1000)", "");
     }
 
+    /**
+     * Swipe down mobile page with duration 1sec
+     *
+     * @param driver
+     */
     public static void scrollDownMobile(AppiumDriver driver) {
         scrollDownMobile(driver, 1000);
     }
 
+    /**
+     * Swipe up mobile page with duration 1sec
+     *
+     * @param driver
+     */
     public static void scrollUpMobile(AppiumDriver driver) {
         scrollUpMobile(driver, 1000);
     }
 
+    /**
+     * Swipe down mobile page
+     *
+     * @param driver
+     * @param duration
+     */
     public static void scrollDownMobile(AppiumDriver driver, int duration) {
         Dimension dimensions = driver.manage().window().getSize();
         int screenHeightStart = dimensions.getHeight() / 2;
@@ -63,6 +102,12 @@ public class DriverHelper {
         driver.swipe(screenWidthStart, screenHeightStart, screenWidthStart, 0, duration);
     }
 
+    /**
+     * Swipe up mobile page
+     *
+     * @param driver
+     * @param duration
+     */
     public static void scrollUpMobile(AppiumDriver driver, int duration) {
         Dimension dimensions = driver.manage().window().getSize();
         int screenHeightStart = dimensions.getHeight() / 2;
@@ -102,6 +147,19 @@ public class DriverHelper {
         LOG.info("Scroll up element " + element.getId());
     }
 
+    /**
+     * zoom In/Out the page
+     *
+     * @param driver
+     * @param zoomPercent
+     */
+    public static void zoomInOutPage(WebDriver driver, int zoomPercent) {
+        if (zoomPercent > 0) {
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript("document.body.style.zoom = '" + zoomPercent + "%'");
+        }
+    }
+
     public static void wait(int seconds) throws InterruptedException {
         sleep(1000 * seconds);
     }
@@ -117,6 +175,11 @@ public class DriverHelper {
         return fullFileName;
     }
 
+    /**
+     * Hide keyboard for iOS and Android in single method
+     *
+     * @param driver
+     */
     public static void hideKeyboard(AppiumDriver driver) {
         if (isIOS()) {
             Dimension dimensions = driver.manage().window().getSize();
@@ -135,7 +198,7 @@ public class DriverHelper {
             try {
                 driver.hideKeyboard();
                 driver.hideKeyboard();
-            }catch (Exception e){
+            } catch (Exception e) {
                 LOG.error("Cannot hide a keyboard: " + e.getMessage());
             }
         }
@@ -157,6 +220,18 @@ public class DriverHelper {
         }
     }
 
+    /**
+     * Click web element by location using clickPoint:
+     * TOP_LEFT,
+     * TOP_RIGHT,
+     * BOTTOM_LEFT,
+     * BOTTOM_RIGHT,
+     * CENTER
+     *
+     * @param driver
+     * @param element
+     * @param clickPoint
+     */
     public static void clickByLocation(WebDriver driver, WebElement element, ClickPoint clickPoint) {
         Point location = element.getLocation();
         Dimension size = element.getSize();
@@ -183,6 +258,18 @@ public class DriverHelper {
         LOG.info("INFO", "Click on " + clickPoint + " point");
     }
 
+    /**
+     * Click mobile element by location using clickPoint:
+     * TOP_LEFT,
+     * TOP_RIGHT,
+     * BOTTOM_LEFT,
+     * BOTTOM_RIGHT,
+     * CENTER
+     *
+     * @param driver
+     * @param element
+     * @param clickPoint
+     */
     public static void clickByLocation(AppiumDriver driver, MobileElement element, ClickPoint clickPoint) {
         Point location = element.getLocation();
         Dimension size = element.getSize();
@@ -208,6 +295,12 @@ public class DriverHelper {
         LOG.info("INFO", "Click on " + clickPoint + " point");
     }
 
+    /**
+     * Click on element using JQuery click()
+     *
+     * @param driver
+     * @param element
+     */
     public static void clickJQuery(WebDriver driver, WebElement element) {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         if (!element.getAttribute("id").equals("")) {
@@ -217,6 +310,12 @@ public class DriverHelper {
         }
     }
 
+    /**
+     * Wait for Web page is loaded
+     *
+     * @param driver
+     * @return
+     */
     public static boolean waitForPageIsReady(WebDriver driver) {
 
         WebDriverWait wait = new WebDriverWait(driver, 30);

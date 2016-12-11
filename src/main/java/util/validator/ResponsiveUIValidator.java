@@ -64,45 +64,101 @@ public class ResponsiveUIValidator {
         errorMessage = new JSONArray();
     }
 
+    /**
+     * Set color for main element. This color will be used for highlighting element in results
+     *
+     * @param color
+     */
     public void setColorForRootElement(Color color) {
         rootColor = color;
     }
 
+    /**
+     * Set color for compared elements. This color will be used for highlighting elements in results
+     *
+     * @param color
+     */
     public void setColorForHighlightedElements(Color color) {
         highlightedElementsColor = color;
     }
 
+    /**
+     * Set color for grid lines. This color will be used for the lines of alignment grid in results
+     *
+     * @param color
+     */
     public void setLinesColor(Color color) {
         linesColor = color;
     }
 
+    /**
+     * Method that defines start of new validation. Needs to be called each time before calling findElement(), findElements()
+     *
+     * @return ResponsiveUIValidator
+     */
     public ResponsiveUIValidator init() {
         return new ResponsiveUIValidator(driver);
     }
 
+    /**
+     * Method that defines start of new validation with specified name of scenario. Needs to be called each time before calling findElement(), findElements()
+     *
+     * @param scenarioName
+     * @return ResponsiveUIValidator
+     */
     public ResponsiveUIValidator init(String scenarioName) {
         ResponsiveUIValidator.scenarioName = scenarioName;
         return new ResponsiveUIValidator(driver);
     }
 
+    /**
+     * Main method to specify which element we want to validate (can be called only findElement() OR findElements() for single validation)
+     *
+     * @param element
+     * @param readableNameOfElement
+     * @return UIValidator
+     */
     public UIValidator findElement(WebElement element, String readableNameOfElement) {
         return new UIValidator(driver, element, readableNameOfElement);
     }
 
+    /**
+     * Main method to specify the list of elements that we want to validate (can be called only findElement() OR findElements() for single validation)
+     *
+     * @param elements
+     * @return ResponsiveUIChunkValidator
+     */
     public ResponsiveUIChunkValidator findElements(java.util.List<WebElement> elements) {
         return new ResponsiveUIChunkValidator(driver, elements);
     }
 
-    public ResponsiveUIValidator insideOf(WebElement element, String readableContainerName) {
-        validateInsideOfContainer(element, readableContainerName);
+    /**
+     * Verify that element(s) is(are) located inside of specified element
+     *
+     * @param containerElement
+     * @param readableContainerName
+     * @return ResponsiveUIValidator
+     */
+    public ResponsiveUIValidator insideOf(WebElement containerElement, String readableContainerName) {
+        validateInsideOfContainer(containerElement, readableContainerName);
         return this;
     }
 
+    /**
+     * Methods needs to be called to collect all the results in JSON file and screenshots
+     *
+     * @return ResponsiveUIValidator
+     */
     public ResponsiveUIValidator drawMap() {
         withReport = true;
         return this;
     }
 
+    /**
+     * Call method to summarize and validate the results (can be called with drawMap(). In this case result will be only True or False)
+     *
+     * @return boolean
+     */
     public boolean validate() {
         JSONObject jsonResults = new JSONObject();
         jsonResults.put(ERROR_KEY, false);
@@ -166,6 +222,9 @@ public class ResponsiveUIValidator {
         return !((boolean) jsonResults.get(ERROR_KEY));
     }
 
+    /**
+     * Call method to generate HTML report
+     */
     public void generateReport() {
         if (withReport && isAutomotionFolderExists()) {
             try {
@@ -176,6 +235,11 @@ public class ResponsiveUIValidator {
         }
     }
 
+    /**
+     * Call method to generate HTML report with specified file report name
+     *
+     * @param name
+     */
     public void generateReport(String name) {
         if (withReport && isAutomotionFolderExists()) {
             try {

@@ -7,6 +7,12 @@ import java.lang.reflect.Field;
 import static util.validator.Constants.TARGET_AUTOMOTION_JSON;
 
 public class SystemHelper {
+
+    /**
+     * Verify is display is retina
+     *
+     * @return
+     */
     public static boolean isRetinaDisplay() {
         boolean isRetina = false;
         try {
@@ -30,6 +36,13 @@ public class SystemHelper {
         return isRetina;
     }
 
+    /**
+     * Convert hex color to rgb or rgba
+     *
+     * @param hexARGB
+     * @return
+     * @throws IllegalArgumentException
+     */
     public static String hexStringToARGB(String hexARGB) throws IllegalArgumentException {
 
         if (!hexARGB.startsWith("#") || !(hexARGB.length() == 7 || hexARGB.length() == 9)) {
@@ -57,7 +70,7 @@ public class SystemHelper {
         }
     }
 
-    public static boolean isAutomotionFolderExists(){
+    public static boolean isAutomotionFolderExists() {
         File file = new File(TARGET_AUTOMOTION_JSON);
 
         return file.exists() && file.isDirectory() && file.list() != null && file.list().length > 0;
