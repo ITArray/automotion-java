@@ -126,8 +126,9 @@
             findElements(List<WebElement> elements); // Main method to specify the list of elements that we want to validate (can be called only findElement() OR findElements() for single validation)
     
     * For single element findElement({element}, "name"):
-        
+    
             insideOf(WebElement containerElement, String readableContainerName); // Verify that element is located inside of specified element
+         
             
             withLeftElement(WebElement element); // Verify that element which located left to is correct
         
