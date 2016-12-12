@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import util.driver.DriverHelper;
 import util.driver.WebDriverFactory;
 import util.validator.ResponsiveUIValidator;
@@ -22,18 +23,21 @@ public class ResponsiveValidatorTest {
     @Test
     public void testThatResponsiveValidatorWorks() {
         Map<String, String> sysProp = new HashMap<>();
-        sysProp.put("BROWSER", "Chrome");
+        //sysProp.put("BROWSER", "phantomjs");
+        //sysProp.put("IS_HEADLESS", "true");
         sysProp.put("IS_LOCAL", "true");
-        //sysProp.put(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "/Users/ZayCo/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs");
+        sysProp.put("BROWSER", "Firefox");
+        sysProp.put(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "/Users/ZayCo/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs");
         EnvironmentHelper.setEnv(sysProp);
         WebDriverFactory driverFactory = new WebDriverFactory();
         driver = driverFactory.getDriver();
-        driver.get("http:/visual.itarray.net");
+        driver.get("http://visual.itarray.net");
         driver.manage().window().maximize();
 
         TestPage page = new TestPage(driver);
 
         ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driver);
+
         uiValidator.setLinesColor(Color.BLACK);
         SoftAssertions softly = new SoftAssertions();
 
@@ -109,6 +113,7 @@ public class ResponsiveValidatorTest {
             boolean success = uiValidator.init("Validate on page zoom " + val + "%")
                     .findElement(page.mainContainer(), "Main container")
                     .equalLeftRightOffset()
+                    .sameWidthAs(page.gridContainer(), "Grid Container")
                     .drawMap()
                     .validate();
 

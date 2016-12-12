@@ -82,4 +82,6 @@ interface Validator {
 
     UIValidator equalTopBottomOffset();
 
+    UIValidator insideOf(WebElement containerElement, String readableContainerName);
+
 }

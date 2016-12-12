@@ -162,4 +162,17 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
         validateEqualTopBottomOffset(rootElements);
         return this;
     }
+
+    /**
+     * Verify that element(s) is(are) located inside of specified element
+     *
+     * @param containerElement
+     * @param readableContainerName
+     * @return ResponsiveUIValidator
+     */
+    @Override
+    public ResponsiveUIChunkValidator insideOf(WebElement containerElement, String readableContainerName) {
+        validateInsideOfContainer(containerElement, readableContainerName);
+        return this;
+    }
 }
