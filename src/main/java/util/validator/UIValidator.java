@@ -557,4 +557,17 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
         validateEqualTopBottomOffset(rootElement, rootElementReadableName);
         return this;
     }
+
+    /**
+     * Verify that element(s) is(are) located inside of specified element
+     *
+     * @param containerElement
+     * @param readableContainerName
+     * @return ResponsiveUIValidator
+     */
+    @Override
+    public UIValidator insideOf(WebElement containerElement, String readableContainerName) {
+        validateInsideOfContainer(containerElement, readableContainerName);
+        return this;
+    }
 }

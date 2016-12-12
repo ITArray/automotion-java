@@ -133,14 +133,13 @@ public class ResponsiveUIValidator {
     }
 
     /**
-     * Verify that element(s) is(are) located inside of specified element
+     * Change units to Pixels or % (Units.PX, Units.PERCENT)
      *
-     * @param containerElement
-     * @param readableContainerName
-     * @return ResponsiveUIValidator
+     * @param units
+     * @return UIValidator
      */
-    public ResponsiveUIValidator insideOf(WebElement containerElement, String readableContainerName) {
-        validateInsideOfContainer(containerElement, readableContainerName);
+    public ResponsiveUIValidator changeMetricsUnitsTo(Units units) {
+        this.units = units;
         return this;
     }
 
@@ -699,7 +698,9 @@ public class ResponsiveUIValidator {
     int getRetinaValue(int value) {
         if (!isMobile()) {
             int zoom = Integer.valueOf(currentZoom.replace("%", ""));
-            if (zoom != 100) {
+            if (zoom > 100) {
+                value = (int) (value + (value * Math.abs(zoom - 100f) / 100f));
+            } else if (zoom < 100) {
                 value = (int) (value - (value * Math.abs(zoom - 100f) / 100f));
             }
             if (isRetinaDisplay() && isChrome()) {
@@ -750,7 +751,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    private void validateInsideOfContainer(WebElement element, String readableContainerName) {
+    void validateInsideOfContainer(WebElement element, String readableContainerName) {
         float xContainer = element.getLocation().x;
         float yContainer = element.getLocation().y;
         float widthContainer = element.getSize().width;

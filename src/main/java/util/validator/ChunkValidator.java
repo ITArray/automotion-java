@@ -1,5 +1,7 @@
 package util.validator;
 
+import org.openqa.selenium.WebElement;
+
 public interface ChunkValidator {
 
     ResponsiveUIChunkValidator changeMetricsUnitsTo(ResponsiveUIValidator.Units units);
@@ -27,5 +29,7 @@ public interface ChunkValidator {
     ResponsiveUIChunkValidator equalLeftRightOffset();
 
     ResponsiveUIChunkValidator equalTopBottomOffset();
+
+    ResponsiveUIChunkValidator insideOf(WebElement containerElement, String readableContainerName);
 
 }
