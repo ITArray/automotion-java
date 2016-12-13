@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/ITArray/Automotion.svg?branch=master)](https://travis-ci.org/ITArray/Automotion)
+[![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/~dzaiats/)
+
 
 # Automotion #
 ![alt tag](https://www.itarray.net/wp-content/uploads/2016/12/Automotion-2.jpg)
