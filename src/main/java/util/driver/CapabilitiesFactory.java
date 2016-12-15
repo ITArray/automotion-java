@@ -83,7 +83,8 @@ public class CapabilitiesFactory {
         capabilities.setJavascriptEnabled(true);
         capabilities.setCapability("takesScreenshot", true);
         capabilities.setCapability("browserName", "PhantomJS");
-        capabilities.setCapability("browser", getBrowserName().toLowerCase());
+        capabilities.setCapability("browser", "phantomjs");
+        capabilities.setCapability("phantomjs.page.settings.userAgent", getUserAgent());
         capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
                 getPhantomJsPath()
         );

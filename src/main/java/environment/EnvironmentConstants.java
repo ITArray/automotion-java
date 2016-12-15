@@ -11,6 +11,7 @@ public class EnvironmentConstants {
     public static final String EXECUTOR = "EXECUTOR";
     public static final String PLATFORM_VERSION = "PLATFORM_VERSION";
     public static final String PHANTOM_JS_PATH = "PHANTOM_JS_PATH";
+    public static final String USER_AGENT = "USER_AGENT";
     public static final String DEVICE = "DEVICE";
     public static final String MOBILE_DEVICE_EMULATION = "MOBILE_DEVICE_EMULATION";
     public static final String NAME = "NAME";

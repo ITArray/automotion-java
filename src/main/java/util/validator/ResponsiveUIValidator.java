@@ -797,17 +797,23 @@ public class ResponsiveUIValidator {
         int widthRoot = rootElement.getSize().width;
         int heightRoot = rootElement.getSize().height;
 
-        int sqRootElement = (xRoot + widthRoot) * (yRoot + heightRoot);
-        int sqElement = (elLoc.x + elSize.width) * (elLoc.y + elSize.height);
+        int sqRootElement = widthRoot * heightRoot;
+        int sqElement = elSize.width * elSize.height;
 
         int sqCommon = 0;
-        if ((xRoot < elLoc.x && yRoot == elLoc.y) || (yRoot < elLoc.y && xRoot == elLoc.x)) {
-            sqCommon = (xRoot + widthRoot + elSize.width) + (yRoot + heightRoot + elSize.height);
-        } else if ((elLoc.x < xRoot && yRoot == elLoc.y) || (elLoc.y < yRoot && xRoot == elLoc.x)) {
-            sqCommon = (elLoc.x + elSize.width + widthRoot) * (elLoc.y + elSize.height + heightRoot);
+        if (xRoot < elLoc.x && yRoot == elLoc.y) {
+            sqCommon = (widthRoot + (elLoc.x - (xRoot + widthRoot) + elSize.width)) * (heightRoot);
+        } else if (yRoot < elLoc.y && xRoot == elLoc.x) {
+            sqCommon = (heightRoot + (elLoc.y - (yRoot + heightRoot) + elSize.height)) * (widthRoot);
+        } else if ((elLoc.x < xRoot && yRoot == elLoc.y)) {
+            sqCommon = ((elSize.width) + (xRoot - (elLoc.x + elSize.width) + widthRoot)) * (elSize.height);
+        } else if (elLoc.y < yRoot && xRoot == elLoc.x) {
+            sqCommon = ((elSize.height) + (yRoot - (elLoc.y + elSize.height) + heightRoot)) * (elSize.width);
+        } else {
+            return false;
         }
 
-        return sqCommon - sqElement >= sqRootElement;
+        return sqCommon < sqRootElement + sqElement;
     }
 
     private boolean elementsAreOverlapped(WebElement elementOverlapWith) {

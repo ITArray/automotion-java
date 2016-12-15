@@ -81,6 +81,10 @@ public class EnvironmentFactory {
         return System.getenv(EnvironmentConstants.PHANTOM_JS_PATH) != null ? System.getenv(EnvironmentConstants.PHANTOM_JS_PATH) : System.getProperty(EnvironmentConstants.PHANTOM_JS_PATH);
     }
 
+    public static String getUserAgent() {
+        return System.getenv(EnvironmentConstants.USER_AGENT) != null ? System.getenv(EnvironmentConstants.USER_AGENT) : System.getProperty(EnvironmentConstants.USER_AGENT);
+    }
+
     public static String getDevice() {
         return System.getenv(EnvironmentConstants.DEVICE) != null ? System.getenv(EnvironmentConstants.DEVICE) : System.getProperty(EnvironmentConstants.DEVICE);
     }
