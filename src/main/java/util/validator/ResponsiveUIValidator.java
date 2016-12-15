@@ -802,7 +802,7 @@ public class ResponsiveUIValidator {
 
         int sqCommon = 0;
         if ((xRoot < elLoc.x && yRoot == elLoc.y) || (yRoot < elLoc.y && xRoot == elLoc.x)) {
-            sqCommon = (xRoot + widthRoot + elSize.width) + (yRoot + heightRoot + elSize.height);
+            sqCommon = (xRoot + widthRoot + elSize.width) * (yRoot + heightRoot + elSize.height);
         } else if ((elLoc.x < xRoot && yRoot == elLoc.y) || (elLoc.y < yRoot && xRoot == elLoc.x)) {
             sqCommon = (elLoc.x + elSize.width + widthRoot) * (elLoc.y + elSize.height + heightRoot);
         }
