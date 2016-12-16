@@ -709,7 +709,11 @@ public class ResponsiveUIValidator {
                 return value;
             }
         } else {
-            return value;
+            if (isIOS()) {
+                return 2 * value;
+            } else {
+                return value;
+            }
         }
     }
 
