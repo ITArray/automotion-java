@@ -34,12 +34,6 @@ public class WebDriverFactory {
     private RemoteWebDriver remoteWebDriver;
     private DesiredCapabilities capabilities;
 
-    public WebDriverFactory() {
-        capabilities = getCapabilities();
-        LOG.info("Using capabilities: " + capabilities.toString());
-        remoteUrlPath = getRemoteUrlPath();
-    }
-
     private static void setChromeDriver() {
         Platform platform = Platform.getCurrent();
         String chromeBinary = "src/main/resources/drivers/chromedriver"
@@ -65,6 +59,9 @@ public class WebDriverFactory {
     }
 
     public WebDriver getDriver() {
+        capabilities = getCapabilities();
+        LOG.info("Using capabilities: " + capabilities.toString());
+        remoteUrlPath = getRemoteUrlPath();
         if (isMobile()) {
             driver = getMobileDriver();
             LOG.info("Start Mobile driver");
