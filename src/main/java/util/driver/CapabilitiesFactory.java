@@ -67,7 +67,7 @@ public class CapabilitiesFactory {
         capabilities = getCommonMobileCapabilities();
         capabilities.setCapability("platformName", "iOS");
         capabilities.setCapability("udid", getUDIDDevice());
-        capabilities.setCapability("waitForAppScript", true);
+        capabilities.setCapability("waitForAppScript", "true");
 
         return capabilities;
     }

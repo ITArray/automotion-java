@@ -19,7 +19,6 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
         heightRoot = rootElement.getSize().getHeight();
         pageWidth = (int) getPageWidth();
         pageHeight = (int) getPageHeight();
-        pageHeight = getRetinaValue(driver.manage().window().getSize().getHeight());
         startTime = System.currentTimeMillis();
     }
 
