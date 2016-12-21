@@ -85,6 +85,8 @@ public class CapabilitiesFactory {
         capabilities.setCapability("browserName", "PhantomJS");
         capabilities.setCapability("browser", "phantomjs");
         capabilities.setCapability("phantomjs.page.settings.userAgent", getUserAgent());
+        capabilities.setCapability("acceptSslCerts", true);
+        capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {"--web-security=no", "--ignore-ssl-errors=yes","--ignore-ssl-errors=true","--ssl-protocol=tlsv1"});
         capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
                 getPhantomJsPath()
         );

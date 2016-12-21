@@ -21,6 +21,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static util.validator.Constants.*;
 
@@ -28,12 +29,15 @@ import static util.validator.Constants.*;
 public class HtmlReportBuilder {
 
     private final Logger LOG = Logger.getLogger(HtmlReportBuilder.class);
+    private List<String> jsonFiles;
 
-    public void buildReport(String reportName) throws IOException, ParseException, InterruptedException {
+    public void buildReport(String reportName, List<String> jsonFiles) throws IOException, ParseException, InterruptedException {
+        this.jsonFiles = jsonFiles;
         writeReport(reportName);
     }
 
-    public void buildReport() throws IOException, ParseException, InterruptedException {
+    public void buildReport(List<String> jsonFiles) throws IOException, ParseException, InterruptedException {
+        this.jsonFiles = jsonFiles;
         writeReport("result");
     }
 
@@ -84,7 +88,7 @@ public class HtmlReportBuilder {
 
                 if (listOfFiles != null) {
                     for (File file : listOfFiles) {
-                        if (file.isFile()) {
+                        if (file.isFile() && jsonFiles.contains(file.getName())) {
                             JSONParser parser = new JSONParser();
                             Object obj = parser.parse(new FileReader(file));
 
@@ -124,6 +128,7 @@ public class HtmlReportBuilder {
                                         new Style("width: 96%; margin-left:2%"));
                             }};
 
+                            jsonFiles.remove(file.getName());
                             while (!file.delete()) ;
                         }
                     }

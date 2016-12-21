@@ -35,22 +35,24 @@ public class ResponsiveUIValidator {
     protected static WebDriver driver;
     static WebElement rootElement;
     static long startTime;
+    private static boolean isMobileTopBar = false;
     private static boolean withReport = false;
     private static String scenarioName = "Default";
     private static Color rootColor = new Color(255, 0, 0, 255);
     private static Color highlightedElementsColor = new Color(255, 0, 255, 255);
     private static Color linesColor = Color.ORANGE;
     private static String currentZoom = "100%";
+    private static List<String> jsonFiles = new ArrayList<>();
     private static File screenshot;
     private static BufferedImage img;
     private static Graphics2D g;
     private static JSONArray errorMessage;
-    String rootElementReadableName = "Root Element";
-    List<WebElement> rootElements;
     boolean drawLeftOffsetLine = false;
     boolean drawRightOffsetLine = false;
     boolean drawTopOffsetLine = false;
     boolean drawBottomOffsetLine = false;
+    String rootElementReadableName = "Root Element";
+    List<WebElement> rootElements;
     ResponsiveUIValidator.Units units = PX;
     int xRoot;
     int yRoot;
@@ -89,6 +91,15 @@ public class ResponsiveUIValidator {
      */
     public void setLinesColor(Color color) {
         linesColor = color;
+    }
+
+    /**
+     * Set top bar mobile offset. Applicable only for native mobile testing
+     *
+     * @param state
+     */
+    public void setTopBarMobileOffset(boolean state) {
+        isMobileTopBar = state;
     }
 
     /**
@@ -191,11 +202,13 @@ public class ResponsiveUIValidator {
                 }
 
                 long ms = System.currentTimeMillis();
-                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json"), StandardCharsets.UTF_8))) {
+                String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json";
+                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
                     writer.write(jsonResults.toJSONString());
                 } catch (IOException ex) {
                     LOG.error("Cannot create json report: " + ex.getMessage());
                 }
+                jsonFiles.add(jsonFileName);
                 try {
                     File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json");
                     if (file.getParentFile().mkdirs()) {
@@ -225,9 +238,9 @@ public class ResponsiveUIValidator {
      * Call method to generate HTML report
      */
     public void generateReport() {
-        if (withReport && isAutomotionFolderExists()) {
+        if (withReport && !jsonFiles.isEmpty()) {
             try {
-                new HtmlReportBuilder().buildReport();
+                new HtmlReportBuilder().buildReport(jsonFiles);
             } catch (IOException | ParseException | InterruptedException e) {
                 e.printStackTrace();
             }
@@ -240,9 +253,9 @@ public class ResponsiveUIValidator {
      * @param name
      */
     public void generateReport(String name) {
-        if (withReport && isAutomotionFolderExists()) {
+        if (withReport && !jsonFiles.isEmpty()) {
             try {
-                new HtmlReportBuilder().buildReport(name);
+                new HtmlReportBuilder().buildReport(name, jsonFiles);
             } catch (IOException | ParseException | InterruptedException e) {
                 e.printStackTrace();
             }
@@ -267,7 +280,7 @@ public class ResponsiveUIValidator {
 
                 g.setColor(highlightedElementsColor);
                 g.setStroke(new BasicStroke(2));
-                g.drawRect(getRetinaValue((int) x), getRetinaValue((int) y), getRetinaValue((int) width), getRetinaValue((int) height));
+                g.drawRect(retinaValue((int) x), retinaValue(mobileY((int) y)), retinaValue((int) width), retinaValue((int) height));
             }
         }
 
@@ -624,23 +637,23 @@ public class ResponsiveUIValidator {
     void drawRoot(Color color) {
         g.setColor(color);
         g.setStroke(new BasicStroke(2));
-        g.drawRect(getRetinaValue(xRoot), getRetinaValue(yRoot), getRetinaValue(widthRoot), getRetinaValue(heightRoot));
-        //g.fillRect(getRetinaValue(xRoot), getRetinaValue((yRoot), getRetinaValue(widthRoot), getRetinaValue(heightRoot));
+        g.drawRect(retinaValue(xRoot), retinaValue(mobileY(yRoot)), retinaValue(widthRoot), retinaValue(heightRoot));
+        //g.fillRect(retinaValue(xRoot), retinaValue((yRoot), retinaValue(widthRoot), retinaValue(heightRoot));
 
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
         g.setStroke(dashed);
         g.setColor(linesColor);
         if (drawLeftOffsetLine) {
-            g.drawLine(getRetinaValue(xRoot), 0, getRetinaValue(xRoot), getRetinaValue(img.getHeight()));
+            g.drawLine(retinaValue(xRoot), 0, retinaValue(xRoot), retinaValue(img.getHeight()));
         }
         if (drawRightOffsetLine) {
-            g.drawLine(getRetinaValue(xRoot + widthRoot), 0, getRetinaValue(xRoot + widthRoot), getRetinaValue(img.getHeight()));
+            g.drawLine(retinaValue(xRoot + widthRoot), 0, retinaValue(xRoot + widthRoot), retinaValue(img.getHeight()));
         }
         if (drawTopOffsetLine) {
-            g.drawLine(0, getRetinaValue(yRoot), getRetinaValue(img.getWidth()), getRetinaValue(yRoot));
+            g.drawLine(0, retinaValue(mobileY(yRoot)), retinaValue(img.getWidth()), retinaValue(yRoot));
         }
         if (drawBottomOffsetLine) {
-            g.drawLine(0, getRetinaValue(yRoot + heightRoot), getRetinaValue(img.getWidth()), getRetinaValue(yRoot + heightRoot));
+            g.drawLine(0, retinaValue(mobileY(yRoot + heightRoot)), retinaValue(img.getWidth()), retinaValue(yRoot + heightRoot));
         }
     }
 
@@ -695,9 +708,9 @@ public class ResponsiveUIValidator {
                 String.valueOf(element.getSize().height));
     }
 
-    int getRetinaValue(int value) {
+    int retinaValue(int value) {
         if (!isMobile()) {
-            int zoom = Integer.valueOf(currentZoom.replace("%", ""));
+            int zoom = Integer.parseInt(currentZoom.replace("%", ""));
             if (zoom > 100) {
                 value = (int) (value + (value * Math.abs(zoom - 100f) / 100f));
             } else if (zoom < 100) {
@@ -714,6 +727,28 @@ public class ResponsiveUIValidator {
             } else {
                 return value;
             }
+        }
+    }
+
+    int mobileY(int value) {
+        if (isMobile()) {
+            if (isIOS()) {
+                if (isMobileTopBar) {
+                    return value + 20;
+                } else {
+                    return value;
+                }
+            } else if (isAndroid()) {
+                if (isMobileTopBar) {
+                    return value + 20;
+                } else {
+                    return value;
+                }
+            } else {
+                return value;
+            }
+        } else {
+            return value;
         }
     }
 
@@ -826,12 +861,12 @@ public class ResponsiveUIValidator {
         return ((xRoot >= elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot + widthRoot > elLoc.x && yRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height)
-                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height))
+                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height))
 
                 || ((elLoc.x > xRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot)
                 || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot)
                 || (elLoc.x > xRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot + heightRoot)
-                || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot + widthRoot))
+                || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot + heightRoot))
 
                 || elementsAreOverlappedOnBorder(rootElement, elementOverlapWith);
     }
@@ -847,12 +882,12 @@ public class ResponsiveUIValidator {
         return ((xRoot > elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot + widthRoot > elLoc.x && yRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height)
-                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height))
+                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height))
 
                 || ((elLoc.x > xRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot)
                 || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot)
                 || (elLoc.x > xRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot + heightRoot)
-                || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot + widthRoot))
+                || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot + heightRoot))
 
                 || elementsAreOverlappedOnBorder(rootElement, elementOverlapWith);
     }
