@@ -35,10 +35,6 @@ public class ResponsiveUIValidator {
     protected static WebDriver driver;
     static WebElement rootElement;
     static long startTime;
-    static boolean drawLeftOffsetLine = false;
-    static boolean drawRightOffsetLine = false;
-    static boolean drawTopOffsetLine = false;
-    static boolean drawBottomOffsetLine = false;
     private static boolean isMobileTopBar = false;
     private static boolean withReport = false;
     private static String scenarioName = "Default";
@@ -46,11 +42,15 @@ public class ResponsiveUIValidator {
     private static Color highlightedElementsColor = new Color(255, 0, 255, 255);
     private static Color linesColor = Color.ORANGE;
     private static String currentZoom = "100%";
+    private static List<String> jsonFiles = new ArrayList<>();
     private static File screenshot;
     private static BufferedImage img;
     private static Graphics2D g;
     private static JSONArray errorMessage;
-    private static List<String> jsonFiles = new ArrayList<>();
+    boolean drawLeftOffsetLine = false;
+    boolean drawRightOffsetLine = false;
+    boolean drawTopOffsetLine = false;
+    boolean drawBottomOffsetLine = false;
     String rootElementReadableName = "Root Element";
     List<WebElement> rootElements;
     ResponsiveUIValidator.Units units = PX;
@@ -861,7 +861,7 @@ public class ResponsiveUIValidator {
         return ((xRoot >= elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot + widthRoot > elLoc.x && yRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height)
-                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height))
+                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height))
 
                 || ((elLoc.x > xRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot)
                 || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot)
@@ -882,7 +882,7 @@ public class ResponsiveUIValidator {
         return ((xRoot > elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot + widthRoot > elLoc.x && yRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
                 || (xRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height)
-                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + widthRoot < elLoc.y + elSize.height))
+                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height))
 
                 || ((elLoc.x > xRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot)
                 || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot)
