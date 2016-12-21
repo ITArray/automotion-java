@@ -39,7 +39,7 @@ public class ResponsiveUIValidator {
     static boolean drawRightOffsetLine = false;
     static boolean drawTopOffsetLine = false;
     static boolean drawBottomOffsetLine = false;
-    static boolean isMobileTopBar = false;
+    private static boolean isMobileTopBar = false;
     private static boolean withReport = false;
     private static String scenarioName = "Default";
     private static Color rootColor = new Color(255, 0, 0, 255);
@@ -50,6 +50,7 @@ public class ResponsiveUIValidator {
     private static BufferedImage img;
     private static Graphics2D g;
     private static JSONArray errorMessage;
+    private static List<String> jsonFiles = new ArrayList<>();
     String rootElementReadableName = "Root Element";
     List<WebElement> rootElements;
     ResponsiveUIValidator.Units units = PX;
@@ -201,11 +202,13 @@ public class ResponsiveUIValidator {
                 }
 
                 long ms = System.currentTimeMillis();
-                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json"), StandardCharsets.UTF_8))) {
+                String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json";
+                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
                     writer.write(jsonResults.toJSONString());
                 } catch (IOException ex) {
                     LOG.error("Cannot create json report: " + ex.getMessage());
                 }
+                jsonFiles.add(jsonFileName);
                 try {
                     File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json");
                     if (file.getParentFile().mkdirs()) {
@@ -235,9 +238,9 @@ public class ResponsiveUIValidator {
      * Call method to generate HTML report
      */
     public void generateReport() {
-        if (withReport && isAutomotionFolderExists()) {
+        if (withReport && !jsonFiles.isEmpty()) {
             try {
-                new HtmlReportBuilder().buildReport();
+                new HtmlReportBuilder().buildReport(jsonFiles);
             } catch (IOException | ParseException | InterruptedException e) {
                 e.printStackTrace();
             }
@@ -250,9 +253,9 @@ public class ResponsiveUIValidator {
      * @param name
      */
     public void generateReport(String name) {
-        if (withReport && isAutomotionFolderExists()) {
+        if (withReport && !jsonFiles.isEmpty()) {
             try {
-                new HtmlReportBuilder().buildReport(name);
+                new HtmlReportBuilder().buildReport(name, jsonFiles);
             } catch (IOException | ParseException | InterruptedException e) {
                 e.printStackTrace();
             }
