@@ -1,5 +1,6 @@
 package util.validator;
 
+import http.helpers.Helper;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -23,7 +24,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static environment.EnvironmentFactory.*;
-import static util.general.SystemHelper.isAutomotionFolderExists;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;
@@ -202,7 +202,8 @@ public class ResponsiveUIValidator {
                 }
 
                 long ms = System.currentTimeMillis();
-                String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json";
+                String uuid = Helper.getGeneratedStringWithLength(7);
+                String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid  + ".json";
                 try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
                     writer.write(jsonResults.toJSONString());
                 } catch (IOException ex) {
@@ -210,7 +211,7 @@ public class ResponsiveUIValidator {
                 }
                 jsonFiles.add(jsonFileName);
                 try {
-                    File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json");
+                    File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json");
                     if (file.getParentFile().mkdirs()) {
                         if (file.createNewFile()) {
                             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
