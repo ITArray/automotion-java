@@ -405,7 +405,7 @@ public class ResponsiveUIValidator {
 
     void validateNotOverlappingWithElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (elementsAreOverlapped(element)) {
+            if (elementsAreOverlapped(rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' is overlapped with element '%s' but should not", rootElementReadableName, readableName), element);
             }
         }
@@ -413,7 +413,7 @@ public class ResponsiveUIValidator {
 
     void validateOverlappingWithElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsAreOverlapped(element)) {
+            if (!elementsAreOverlapped(rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' is not overlapped with element '%s' but should be", rootElementReadableName, readableName), element);
             }
         }
@@ -840,7 +840,7 @@ public class ResponsiveUIValidator {
         int sqRootElement = widthRoot * heightRoot;
         int sqElement = elSize.width * elSize.height;
 
-        int sqCommon = 0;
+        int sqCommon;
         if (xRoot < elLoc.x && yRoot == elLoc.y) {
             sqCommon = (widthRoot + (elLoc.x - (xRoot + widthRoot) + elSize.width)) * (heightRoot);
         } else if (yRoot < elLoc.y && xRoot == elLoc.x) {
@@ -854,22 +854,6 @@ public class ResponsiveUIValidator {
         }
 
         return sqCommon < sqRootElement + sqElement;
-    }
-
-    private boolean elementsAreOverlapped(WebElement elementOverlapWith) {
-        Point elLoc = elementOverlapWith.getLocation();
-        Dimension elSize = elementOverlapWith.getSize();
-        return ((xRoot >= elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
-                || (xRoot + widthRoot > elLoc.x && yRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
-                || (xRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height)
-                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height))
-
-                || ((elLoc.x > xRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot)
-                || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot)
-                || (elLoc.x > xRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot + heightRoot)
-                || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot + heightRoot))
-
-                || elementsAreOverlappedOnBorder(rootElement, elementOverlapWith);
     }
 
     private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
