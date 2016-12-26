@@ -373,7 +373,7 @@ public class ResponsiveUIValidator {
 
     void validateRightOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualLeftRightOffset(false, element)) {
+            if (!elementsHaveEqualLeftRightOffset(false, rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
             }
         }
@@ -381,7 +381,7 @@ public class ResponsiveUIValidator {
 
     void validateLeftOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualLeftRightOffset(true, element)) {
+            if (!elementsHaveEqualLeftRightOffset(true, rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), element);
             }
         }
@@ -389,7 +389,7 @@ public class ResponsiveUIValidator {
 
     void validateTopOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualTopBottomOffset(true, element)) {
+            if (!elementsHaveEqualTopBottomOffset(true, rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), element);
             }
         }
@@ -397,7 +397,7 @@ public class ResponsiveUIValidator {
 
     void validateBottomOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualTopBottomOffset(false, element)) {
+            if (!elementsHaveEqualTopBottomOffset(false, rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), element);
             }
         }
@@ -893,17 +893,6 @@ public class ResponsiveUIValidator {
                 || elementsAreOverlappedOnBorder(rootElement, elementOverlapWith);
     }
 
-    private boolean elementsHaveEqualLeftRightOffset(boolean isLeft, WebElement elementToCompare) {
-        Point elLoc = elementToCompare.getLocation();
-        Dimension elSize = elementToCompare.getSize();
-
-        if (isLeft) {
-            return xRoot == elLoc.getX();
-        } else {
-            return (pageWidth - xRoot + widthRoot) == (pageWidth - elLoc.getX() + elSize.getWidth());
-        }
-    }
-
     private boolean elementsHaveEqualLeftRightOffset(boolean isLeft, WebElement element, WebElement elementToCompare) {
         Point elLoc = elementToCompare.getLocation();
         Dimension elSize = elementToCompare.getSize();
@@ -914,18 +903,6 @@ public class ResponsiveUIValidator {
             return xRoot == elLoc.getX();
         } else {
             return (pageWidth - xRoot + widthRoot) == (pageWidth - elLoc.getX() + elSize.getWidth());
-        }
-    }
-
-
-    private boolean elementsHaveEqualTopBottomOffset(boolean isTop, WebElement elementToCompare) {
-        Point elLoc = elementToCompare.getLocation();
-        Dimension elSize = elementToCompare.getSize();
-
-        if (isTop) {
-            return yRoot == elLoc.getY();
-        } else {
-            return (pageHeight - yRoot + heightRoot) == (pageHeight - elLoc.getY() + elSize.getHeight());
         }
     }
 
