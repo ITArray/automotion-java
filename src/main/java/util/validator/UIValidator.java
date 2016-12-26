@@ -48,7 +48,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     }
 
     /**
-     * // Verify that element which located left to is correct with specified margins
+     * Verify that element which located left to is correct with specified margins
      *
      * @param element
      * @param minMargin

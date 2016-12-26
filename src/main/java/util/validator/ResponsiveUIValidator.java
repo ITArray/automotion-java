@@ -177,17 +177,15 @@ public class ResponsiveUIValidator {
             if (!errorMessage.isEmpty()) {
                 jsonResults.put(ERROR_KEY, true);
                 jsonResults.put(DETAILS, errorMessage);
-            }
 
-            if (withReport && !errorMessage.isEmpty()) {
-                try {
-                    screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-                    img = ImageIO.read(screenshot);
-                } catch (Exception e) {
-                    LOG.error("Failed to create screenshot file: " + e.getMessage());
-                }
+                if (withReport) {
+                    try {
+                        screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+                        img = ImageIO.read(screenshot);
+                    } catch (Exception e) {
+                        LOG.error("Failed to create screenshot file: " + e.getMessage());
+                    }
 
-                if (!errorMessage.isEmpty()) {
                     JSONObject rootDetails = new JSONObject();
                     rootDetails.put(X, xRoot);
                     rootDetails.put(Y, yRoot);
@@ -199,32 +197,32 @@ public class ResponsiveUIValidator {
                     jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
                     jsonResults.put(ELEMENT_NAME, rootElementReadableName);
                     jsonResults.put(SCREENSHOT, rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-                }
 
-                long ms = System.currentTimeMillis();
-                String uuid = Helper.getGeneratedStringWithLength(7);
-                String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid  + ".json";
-                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
-                    writer.write(jsonResults.toJSONString());
-                } catch (IOException ex) {
-                    LOG.error("Cannot create json report: " + ex.getMessage());
-                }
-                jsonFiles.add(jsonFileName);
-                try {
-                    File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json");
-                    if (file.getParentFile().mkdirs()) {
-                        if (file.createNewFile()) {
-                            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                            writer.write(jsonResults.toJSONString());
-                            writer.close();
-                        }
+                    long ms = System.currentTimeMillis();
+                    String uuid = Helper.getGeneratedStringWithLength(7);
+                    String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json";
+                    try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
+                        writer.write(jsonResults.toJSONString());
+                    } catch (IOException ex) {
+                        LOG.error("Cannot create json report: " + ex.getMessage());
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    jsonFiles.add(jsonFileName);
+                    try {
+                        File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json");
+                        if (file.getParentFile().mkdirs()) {
+                            if (file.createNewFile()) {
+                                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                                writer.write(jsonResults.toJSONString());
+                                writer.close();
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                if ((boolean) jsonResults.get(ERROR_KEY)) {
-                    drawScreenshot();
+                    if ((boolean) jsonResults.get(ERROR_KEY)) {
+                        drawScreenshot();
+                    }
                 }
             }
         } else {
@@ -320,7 +318,7 @@ public class ResponsiveUIValidator {
             int mapSize = map.size();
             if (rows > 0) {
                 if (mapSize != rows) {
-                    putJsonDetailsWithoutElement("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is " + rows + ". Actual is " + mapSize + "");
+                    putJsonDetailsWithoutElement(String.format("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is %d. Actual is %d", rows, mapSize));
                 }
             }
 
@@ -330,7 +328,7 @@ public class ResponsiveUIValidator {
                     if (rowCount <= mapSize) {
                         int actualInARow = entry.getValue().intValue();
                         if (actualInARow != columns) {
-                            putJsonDetailsWithoutElement("Elements in a grid are not aligned properly in row #" + rowCount + ". Expected " + columns + " elements in a row. Actually it's " + actualInARow + "");
+                            putJsonDetailsWithoutElement(String.format("Elements in a grid are not aligned properly in row #%d. Expected %d elements in a row. Actually it's %d", rowCount, columns, actualInARow));
                         }
                         rowCount++;
                     }
@@ -342,7 +340,7 @@ public class ResponsiveUIValidator {
     void validateRightOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             if (!elementsHaveEqualLeftRightOffset(false, elements.get(i), elements.get(i + 1))) {
-                putJsonDetailsWithElement("Element #" + (i + 1) + " has not the same right offset as element #" + (i + 2) + "", elements.get(i + 1));
+                putJsonDetailsWithElement(String.format("Element #%d has not the same right offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
     }
@@ -350,7 +348,7 @@ public class ResponsiveUIValidator {
     void validateLeftOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             if (!elementsHaveEqualLeftRightOffset(true, elements.get(i), elements.get(i + 1))) {
-                putJsonDetailsWithElement("Element #" + (i + 1) + " has not the same left offset as element #" + (i + 2) + "", elements.get(i + 1));
+                putJsonDetailsWithElement(String.format("Element #%d has not the same left offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
     }
@@ -358,7 +356,7 @@ public class ResponsiveUIValidator {
     void validateTopOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             if (!elementsHaveEqualTopBottomOffset(true, elements.get(i), elements.get(i + 1))) {
-                putJsonDetailsWithElement("Element #" + (i + 1) + " has not the same top offset as element #" + (i + 2) + "", elements.get(i + 1));
+                putJsonDetailsWithElement(String.format("Element #%d has not the same top offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
     }
@@ -366,7 +364,7 @@ public class ResponsiveUIValidator {
     void validateBottomOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             if (!elementsHaveEqualTopBottomOffset(false, elements.get(i), elements.get(i + 1))) {
-                putJsonDetailsWithElement("Element #" + (i + 1) + " has not the same bottom offset as element #" + (i + 2) + "", elements.get(i + 1));
+                putJsonDetailsWithElement(String.format("Element #%d has not the same bottom offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
     }
