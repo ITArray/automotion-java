@@ -1,5 +1,6 @@
 package util.validator;
 
+import http.helpers.Helper;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -23,7 +24,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static environment.EnvironmentFactory.*;
-import static util.general.SystemHelper.isAutomotionFolderExists;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;
@@ -177,17 +177,15 @@ public class ResponsiveUIValidator {
             if (!errorMessage.isEmpty()) {
                 jsonResults.put(ERROR_KEY, true);
                 jsonResults.put(DETAILS, errorMessage);
-            }
 
-            if (withReport && !errorMessage.isEmpty()) {
-                try {
-                    screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-                    img = ImageIO.read(screenshot);
-                } catch (Exception e) {
-                    LOG.error("Failed to create screenshot file: " + e.getMessage());
-                }
+                if (withReport) {
+                    try {
+                        screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+                        img = ImageIO.read(screenshot);
+                    } catch (Exception e) {
+                        LOG.error("Failed to create screenshot file: " + e.getMessage());
+                    }
 
-                if (!errorMessage.isEmpty()) {
                     JSONObject rootDetails = new JSONObject();
                     rootDetails.put(X, xRoot);
                     rootDetails.put(Y, yRoot);
@@ -199,31 +197,32 @@ public class ResponsiveUIValidator {
                     jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
                     jsonResults.put(ELEMENT_NAME, rootElementReadableName);
                     jsonResults.put(SCREENSHOT, rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-                }
 
-                long ms = System.currentTimeMillis();
-                String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json";
-                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
-                    writer.write(jsonResults.toJSONString());
-                } catch (IOException ex) {
-                    LOG.error("Cannot create json report: " + ex.getMessage());
-                }
-                jsonFiles.add(jsonFileName);
-                try {
-                    File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + ".json");
-                    if (file.getParentFile().mkdirs()) {
-                        if (file.createNewFile()) {
-                            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                            writer.write(jsonResults.toJSONString());
-                            writer.close();
-                        }
+                    long ms = System.currentTimeMillis();
+                    String uuid = Helper.getGeneratedStringWithLength(7);
+                    String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json";
+                    try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
+                        writer.write(jsonResults.toJSONString());
+                    } catch (IOException ex) {
+                        LOG.error("Cannot create json report: " + ex.getMessage());
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    jsonFiles.add(jsonFileName);
+                    try {
+                        File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json");
+                        if (file.getParentFile().mkdirs()) {
+                            if (file.createNewFile()) {
+                                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                                writer.write(jsonResults.toJSONString());
+                                writer.close();
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                if ((boolean) jsonResults.get(ERROR_KEY)) {
-                    drawScreenshot();
+                    if ((boolean) jsonResults.get(ERROR_KEY)) {
+                        drawScreenshot();
+                    }
                 }
             }
         } else {
@@ -319,7 +318,7 @@ public class ResponsiveUIValidator {
             int mapSize = map.size();
             if (rows > 0) {
                 if (mapSize != rows) {
-                    putJsonDetailsWithoutElement("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is " + rows + ". Actual is " + mapSize + "");
+                    putJsonDetailsWithoutElement(String.format("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is %d. Actual is %d", rows, mapSize));
                 }
             }
 
@@ -329,7 +328,7 @@ public class ResponsiveUIValidator {
                     if (rowCount <= mapSize) {
                         int actualInARow = entry.getValue().intValue();
                         if (actualInARow != columns) {
-                            putJsonDetailsWithoutElement("Elements in a grid are not aligned properly in row #" + rowCount + ". Expected " + columns + " elements in a row. Actually it's " + actualInARow + "");
+                            putJsonDetailsWithoutElement(String.format("Elements in a grid are not aligned properly in row #%d. Expected %d elements in a row. Actually it's %d", rowCount, columns, actualInARow));
                         }
                         rowCount++;
                     }
@@ -341,7 +340,7 @@ public class ResponsiveUIValidator {
     void validateRightOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             if (!elementsHaveEqualLeftRightOffset(false, elements.get(i), elements.get(i + 1))) {
-                putJsonDetailsWithElement("Element #" + (i + 1) + " has not the same right offset as element #" + (i + 2) + "", elements.get(i + 1));
+                putJsonDetailsWithElement(String.format("Element #%d has not the same right offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
     }
@@ -349,7 +348,7 @@ public class ResponsiveUIValidator {
     void validateLeftOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             if (!elementsHaveEqualLeftRightOffset(true, elements.get(i), elements.get(i + 1))) {
-                putJsonDetailsWithElement("Element #" + (i + 1) + " has not the same left offset as element #" + (i + 2) + "", elements.get(i + 1));
+                putJsonDetailsWithElement(String.format("Element #%d has not the same left offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
     }
@@ -357,7 +356,7 @@ public class ResponsiveUIValidator {
     void validateTopOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             if (!elementsHaveEqualTopBottomOffset(true, elements.get(i), elements.get(i + 1))) {
-                putJsonDetailsWithElement("Element #" + (i + 1) + " has not the same top offset as element #" + (i + 2) + "", elements.get(i + 1));
+                putJsonDetailsWithElement(String.format("Element #%d has not the same top offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
     }
@@ -365,14 +364,14 @@ public class ResponsiveUIValidator {
     void validateBottomOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             if (!elementsHaveEqualTopBottomOffset(false, elements.get(i), elements.get(i + 1))) {
-                putJsonDetailsWithElement("Element #" + (i + 1) + " has not the same bottom offset as element #" + (i + 2) + "", elements.get(i + 1));
+                putJsonDetailsWithElement(String.format("Element #%d has not the same bottom offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
     }
 
     void validateRightOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualLeftRightOffset(false, element)) {
+            if (!elementsHaveEqualLeftRightOffset(false, rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
             }
         }
@@ -380,7 +379,7 @@ public class ResponsiveUIValidator {
 
     void validateLeftOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualLeftRightOffset(true, element)) {
+            if (!elementsHaveEqualLeftRightOffset(true, rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), element);
             }
         }
@@ -388,7 +387,7 @@ public class ResponsiveUIValidator {
 
     void validateTopOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualTopBottomOffset(true, element)) {
+            if (!elementsHaveEqualTopBottomOffset(true, rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), element);
             }
         }
@@ -396,7 +395,7 @@ public class ResponsiveUIValidator {
 
     void validateBottomOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualTopBottomOffset(false, element)) {
+            if (!elementsHaveEqualTopBottomOffset(false, rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), element);
             }
         }
@@ -404,7 +403,7 @@ public class ResponsiveUIValidator {
 
     void validateNotOverlappingWithElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (elementsAreOverlapped(element)) {
+            if (elementsAreOverlapped(rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' is overlapped with element '%s' but should not", rootElementReadableName, readableName), element);
             }
         }
@@ -412,7 +411,7 @@ public class ResponsiveUIValidator {
 
     void validateOverlappingWithElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsAreOverlapped(element)) {
+            if (!elementsAreOverlapped(rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' is not overlapped with element '%s' but should be", rootElementReadableName, readableName), element);
             }
         }
@@ -839,7 +838,7 @@ public class ResponsiveUIValidator {
         int sqRootElement = widthRoot * heightRoot;
         int sqElement = elSize.width * elSize.height;
 
-        int sqCommon = 0;
+        int sqCommon;
         if (xRoot < elLoc.x && yRoot == elLoc.y) {
             sqCommon = (widthRoot + (elLoc.x - (xRoot + widthRoot) + elSize.width)) * (heightRoot);
         } else if (yRoot < elLoc.y && xRoot == elLoc.x) {
@@ -853,22 +852,6 @@ public class ResponsiveUIValidator {
         }
 
         return sqCommon < sqRootElement + sqElement;
-    }
-
-    private boolean elementsAreOverlapped(WebElement elementOverlapWith) {
-        Point elLoc = elementOverlapWith.getLocation();
-        Dimension elSize = elementOverlapWith.getSize();
-        return ((xRoot >= elLoc.x && yRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
-                || (xRoot + widthRoot > elLoc.x && yRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot < elLoc.y + elSize.height)
-                || (xRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height)
-                || (xRoot + widthRoot > elLoc.x && yRoot + heightRoot > elLoc.y && xRoot + widthRoot < elLoc.x + elSize.width && yRoot + heightRoot < elLoc.y + elSize.height))
-
-                || ((elLoc.x > xRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot)
-                || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot)
-                || (elLoc.x > xRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot && elLoc.y + elSize.height < yRoot + heightRoot)
-                || (elLoc.x > xRoot + widthRoot && elLoc.y > yRoot + heightRoot && elLoc.x + elSize.width < xRoot + widthRoot && elLoc.y + elSize.height < yRoot + heightRoot))
-
-                || elementsAreOverlappedOnBorder(rootElement, elementOverlapWith);
     }
 
     private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
@@ -892,17 +875,6 @@ public class ResponsiveUIValidator {
                 || elementsAreOverlappedOnBorder(rootElement, elementOverlapWith);
     }
 
-    private boolean elementsHaveEqualLeftRightOffset(boolean isLeft, WebElement elementToCompare) {
-        Point elLoc = elementToCompare.getLocation();
-        Dimension elSize = elementToCompare.getSize();
-
-        if (isLeft) {
-            return xRoot == elLoc.getX();
-        } else {
-            return (pageWidth - xRoot + widthRoot) == (pageWidth - elLoc.getX() + elSize.getWidth());
-        }
-    }
-
     private boolean elementsHaveEqualLeftRightOffset(boolean isLeft, WebElement element, WebElement elementToCompare) {
         Point elLoc = elementToCompare.getLocation();
         Dimension elSize = elementToCompare.getSize();
@@ -913,18 +885,6 @@ public class ResponsiveUIValidator {
             return xRoot == elLoc.getX();
         } else {
             return (pageWidth - xRoot + widthRoot) == (pageWidth - elLoc.getX() + elSize.getWidth());
-        }
-    }
-
-
-    private boolean elementsHaveEqualTopBottomOffset(boolean isTop, WebElement elementToCompare) {
-        Point elLoc = elementToCompare.getLocation();
-        Dimension elSize = elementToCompare.getSize();
-
-        if (isTop) {
-            return yRoot == elLoc.getY();
-        } else {
-            return (pageHeight - yRoot + heightRoot) == (pageHeight - elLoc.getY() + elSize.getHeight());
         }
     }
 
