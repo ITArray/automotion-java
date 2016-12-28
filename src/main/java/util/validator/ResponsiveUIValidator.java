@@ -1,6 +1,7 @@
 package util.validator;
 
 import http.helpers.Helper;
+import io.appium.java_client.AppiumDriver;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -752,8 +753,8 @@ public class ResponsiveUIValidator {
     }
 
     long getPageWidth() {
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
         if (!isMobile()) {
-            JavascriptExecutor executor = (JavascriptExecutor) driver;
             if (isFirefox()) {
                 currentZoom = (String) executor.executeScript("document.body.style.MozTransform");
             } else {
@@ -766,13 +767,17 @@ public class ResponsiveUIValidator {
                 return (long) executor.executeScript("return document.getElementsByTagName('body')[0].offsetWidth");
             }
         } else {
-            return driver.manage().window().getSize().width;
+            if (isNativeMobileContext() || isIOS()) {
+                return driver.manage().window().getSize().width;
+            } else {
+                return (long) executor.executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
+            }
         }
     }
 
     long getPageHeight() {
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
         if (!isMobile()) {
-            JavascriptExecutor executor = (JavascriptExecutor) driver;
             if (isFirefox()) {
                 currentZoom = (String) executor.executeScript("document.body.style.MozTransform");
             } else {
@@ -785,8 +790,16 @@ public class ResponsiveUIValidator {
                 return (long) executor.executeScript("return document.getElementsByTagName('body')[0].offsetHeight");
             }
         } else {
-            return driver.manage().window().getSize().height;
+            if (isNativeMobileContext() || isIOS()) {
+                return driver.manage().window().getSize().height;
+            } else {
+                return (long) executor.executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
+            }
         }
+    }
+
+    private boolean isNativeMobileContext() {
+        return ((AppiumDriver) driver).getContext().contains("NATIVE");
     }
 
     void validateInsideOfContainer(WebElement element, String readableContainerName) {
