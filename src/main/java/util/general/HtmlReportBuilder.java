@@ -80,7 +80,7 @@ public class HtmlReportBuilder {
 
                 new Div(this, new Style("width: 100%; background-color: rgb(0,191,255); color: white; padding: 10px")) {{
                     new H1(this) {{
-                        new NoTag(this, "Results from: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                        new NoTag(this, String.format("Results from: %s", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                     }};
                 }};
                 File folder = new File(TARGET_AUTOMOTION_JSON);
@@ -95,12 +95,12 @@ public class HtmlReportBuilder {
                             JSONObject jsonObject = (JSONObject) obj;
                             JSONArray details = (JSONArray) jsonObject.get(DETAILS);
                             new H1(this,
-                                    new Style("color: rgb(47,79,79); margin-top: 50px;")) {{
-                                new NoTag(this, "Scenario: \"" + jsonObject.get(SCENARIO) + "\"");
+                                    new Style("color: rgb(47,79,79); margin-top: 50px")) {{
+                                new NoTag(this, String.format("Scenario: \"%s\"", jsonObject.get(SCENARIO)));
                             }};
                             new H2(this,
-                                    new Style("color: rgb(0,139,139);")) {{
-                                new NoTag(this, "Element: \"" + jsonObject.get(ELEMENT_NAME) + "\"");
+                                    new Style("color: rgb(0,139,139)")) {{
+                                new NoTag(this, String.format("Element: \"%s\"", jsonObject.get(ELEMENT_NAME)));
                             }};
                             new H3(this,
                                     new Style("color: rgb(255,69,0)")) {{
@@ -119,11 +119,11 @@ public class HtmlReportBuilder {
                             }};
                             new H4(this,
                                     new Style("color: rgb(105,105,105)")) {{
-                                new NoTag(this, "Time execution: " + jsonObject.get(TIME_EXECUTION));
+                                new NoTag(this, String.format("Time execution: %s", jsonObject.get(TIME_EXECUTION)));
                             }};
                             new P(this) {{
                                 new Img(this,
-                                        new Src("img/" + jsonObject.get(SCREENSHOT)),
+                                        new Src(String.format("img/%s", jsonObject.get(SCREENSHOT))),
                                         new Alt("screenshot"),
                                         new Style("width: 96%; margin-left:2%"));
                             }};
