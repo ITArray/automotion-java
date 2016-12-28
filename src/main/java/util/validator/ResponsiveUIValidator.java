@@ -263,33 +263,37 @@ public class ResponsiveUIValidator {
     }
 
     void drawScreenshot() {
-        g = img.createGraphics();
+        if (img != null) {
+            g = img.createGraphics();
 
-        drawRoot(rootColor);
+            drawRoot(rootColor);
 
-        for (Object obj : errorMessage) {
-            JSONObject det = (JSONObject) obj;
-            JSONObject details = (JSONObject) det.get(REASON);
-            JSONObject numE = (JSONObject) details.get(ELEMENT);
+            for (Object obj : errorMessage) {
+                JSONObject det = (JSONObject) obj;
+                JSONObject details = (JSONObject) det.get(REASON);
+                JSONObject numE = (JSONObject) details.get(ELEMENT);
 
-            if (numE != null) {
-                float x = (float) numE.get(X);
-                float y = (float) numE.get(Y);
-                float width = (float) numE.get(WIDTH);
-                float height = (float) numE.get(HEIGHT);
+                if (numE != null) {
+                    float x = (float) numE.get(X);
+                    float y = (float) numE.get(Y);
+                    float width = (float) numE.get(WIDTH);
+                    float height = (float) numE.get(HEIGHT);
 
-                g.setColor(highlightedElementsColor);
-                g.setStroke(new BasicStroke(2));
-                g.drawRect(retinaValue((int) x), retinaValue(mobileY((int) y)), retinaValue((int) width), retinaValue((int) height));
+                    g.setColor(highlightedElementsColor);
+                    g.setStroke(new BasicStroke(2));
+                    g.drawRect(retinaValue((int) x), retinaValue(mobileY((int) y)), retinaValue((int) width), retinaValue((int) height));
+                }
             }
-        }
 
-        try {
-            ImageIO.write(img, "png", screenshot);
-            File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-            FileUtils.copyFile(screenshot, file);
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                ImageIO.write(img, "png", screenshot);
+                File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
+                FileUtils.copyFile(screenshot, file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            LOG.error("Taking of screenshot was failed for some reason.");
         }
     }
 
@@ -731,7 +735,7 @@ public class ResponsiveUIValidator {
     }
 
     int mobileY(int value) {
-        if (isMobile()) {
+        if (isMobile() && ((AppiumDriver)driver).getContext().startsWith("WEB")) {
             if (isIOS()) {
                 if (isMobileTopBar) {
                     return value + 20;
