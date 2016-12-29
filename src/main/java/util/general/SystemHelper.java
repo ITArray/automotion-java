@@ -3,23 +3,10 @@ package util.general;
 import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.Arrays;
 
-import static environment.EnvironmentFactory.*;
 import static util.validator.Constants.TARGET_AUTOMOTION_JSON;
 
 public class SystemHelper {
-
-    public final static String[] iOS_RETINA_DEVICES = {
-            "iPhone 4", "iPhone 4s",
-            "iPhone 5", "iPhone 5s",
-            "iPhone 6", "iPhone 6s",
-            "iPad Mini 2",
-            "iPad Mini 4",
-            "iPad Air 2",
-            "iPad Pro"
-    };
-
     /**
      * Verify is display is retina
      *
@@ -27,31 +14,23 @@ public class SystemHelper {
      */
     public static boolean isRetinaDisplay() {
         boolean isRetina = false;
-        if (isMobile()) {
-            if (isIOS()) {
-                if (Arrays.asList(iOS_RETINA_DEVICES).contains(getDevice())) {
-                    isRetina = true;
-                }
-            }
-        } else {
-            try {
-                GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        try {
+            GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
-                try {
-                    Field field = graphicsDevice.getClass().getDeclaredField("scale");
-                    if (field != null) {
-                        field.setAccessible(true);
-                        Object scale = field.get(graphicsDevice);
-                        if (scale instanceof Integer && (Integer) scale == 2) {
-                            isRetina = true;
-                        }
+            try {
+                Field field = graphicsDevice.getClass().getDeclaredField("scale");
+                if (field != null) {
+                    field.setAccessible(true);
+                    Object scale = field.get(graphicsDevice);
+                    if (scale instanceof Integer && (Integer) scale == 2) {
+                        isRetina = true;
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return isRetina;
     }

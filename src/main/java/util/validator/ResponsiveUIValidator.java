@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -726,7 +727,20 @@ public class ResponsiveUIValidator {
             }
         } else {
             if (isIOS()) {
-                return 2 * value;
+                String[] iOS_RETINA_DEVICES = {
+                        "iPhone 4", "iPhone 4s",
+                        "iPhone 5", "iPhone 5s",
+                        "iPhone 6", "iPhone 6s",
+                        "iPad Mini 2",
+                        "iPad Mini 4",
+                        "iPad Air 2",
+                        "iPad Pro"
+                };
+                if (Arrays.asList(iOS_RETINA_DEVICES).contains(getDevice())) {
+                    return 2 * value;
+                } else {
+                    return value;
+                }
             } else {
                 return value;
             }
@@ -734,7 +748,7 @@ public class ResponsiveUIValidator {
     }
 
     int mobileY(int value) {
-        if (isMobile() && ((AppiumDriver)driver).getContext().startsWith("WEB")) {
+        if (isMobile() && ((AppiumDriver) driver).getContext().startsWith("WEB")) {
             if (isIOS()) {
                 if (isMobileTopBar) {
                     return value + 20;
