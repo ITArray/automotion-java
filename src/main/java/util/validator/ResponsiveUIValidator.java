@@ -29,7 +29,6 @@ import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;
 
 public class ResponsiveUIValidator {
-
     static final int MIN_OFFSET = -10000;
     private final static Logger LOG = Logger.getLogger(ResponsiveUIValidator.class);
     protected static WebDriver driver;
