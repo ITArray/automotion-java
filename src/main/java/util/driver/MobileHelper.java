@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Set;
 
 public class MobileHelper {
     private final static Logger LOG = LoggerFactory.getLogger(MobileHelper.class);
@@ -129,4 +130,40 @@ public class MobileHelper {
 
         return element;
     }
+
+    public static String getWebContextName(AppiumDriver driver) {
+        return getContext(driver, "WEB");
+    }
+
+    public static String getNativeContextName(AppiumDriver driver) {
+        return getContext(driver, "NATIVE");
+    }
+
+    private static String getContext(AppiumDriver driver, String context) {
+        String contextName = "";
+        Set contexts = driver.getContextHandles();
+
+        while (contexts.size() < 2) {
+            if (contexts.size() > 1) {
+                break;
+            } else {
+                try {
+                    DriverHelper.wait(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                contexts = driver.getContextHandles();
+            }
+        }
+
+        for (Object c: contexts){
+            if (((String)c).contains(context)){
+                contextName = (String) c;
+                break;
+            }
+        }
+
+        return contextName;
+    }
+
 }
