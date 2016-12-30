@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static environment.EnvironmentFactory.*;
@@ -312,7 +313,7 @@ public class ResponsiveUIValidator {
 
     void validateGridAlignment(int columns, int rows) {
         if (rootElements != null) {
-            ConcurrentHashMap<Integer, AtomicLong> map = new ConcurrentHashMap<>();
+            ConcurrentSkipListMap<Integer, AtomicLong> map = new ConcurrentSkipListMap<>();
             for (WebElement el : rootElements) {
                 Integer y = el.getLocation().y;
 
