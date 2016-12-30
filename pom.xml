@@ -6,7 +6,7 @@
 
     <groupId>net.itarray</groupId>
     <artifactId>automotion</artifactId>
-    <version>1.4.2</version>
+    <version>1.4.3</version>
     <name>Automotion</name>
     <description>Library for automation testing</description>
     <url>https://www.itarray.net</url>
