@@ -328,12 +328,16 @@ public class ResponsiveUIValidator {
             }
 
             if (columns > 0) {
+                int errorLastLine = 0;
                 int rowCount = 1;
                 for (Map.Entry<Integer, AtomicLong> entry : map.entrySet()) {
                     if (rowCount <= mapSize) {
                         int actualInARow = entry.getValue().intValue();
                         if (actualInARow != columns) {
-                            putJsonDetailsWithoutElement(String.format("Elements in a grid are not aligned properly in row #%d. Expected %d elements in a row. Actually it's %d", rowCount, columns, actualInARow));
+                            errorLastLine ++;
+                            if (errorLastLine > 1) {
+                                putJsonDetailsWithoutElement(String.format("Elements in a grid are not aligned properly in row #%d. Expected %d elements in a row. Actually it's %d", rowCount, columns, actualInARow));
+                            }
                         }
                         rowCount++;
                     }
