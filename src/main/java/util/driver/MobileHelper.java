@@ -132,7 +132,7 @@ public class MobileHelper {
     }
 
     public static String getWebContextName(AppiumDriver driver) {
-        return getContext(driver, "WEB");
+        return getContext(driver, "WEBVIEW_0");
     }
 
     public static String getNativeContextName(AppiumDriver driver) {
