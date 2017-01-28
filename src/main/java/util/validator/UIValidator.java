@@ -440,6 +440,33 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     }
 
     /**
+     * Verify that element has not the same size as specified element
+     *
+     * @param element
+     * @param readableName
+     * @return UIValidator
+     */
+    @Override
+    public UIValidator notSameSizeAs(WebElement element, String readableName) {
+        validateNotSameSize(element, readableName);
+        return this;
+    }
+
+    /**
+     * Verify that element has not the same size as every element in the list
+     *
+     * @param elements
+     * @return UIValidator
+     */
+    @Override
+    public UIValidator notSameSizeAs(List<WebElement> elements) {
+        for (WebElement element : elements) {
+            validateNotSameSize(element, getFormattedMessage(element));
+        }
+        return this;
+    }
+
+    /**
      * Verify that height of element is in range
      *
      * @param min

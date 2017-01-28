@@ -18,6 +18,12 @@ public interface ChunkValidator {
 
     ResponsiveUIChunkValidator withSameHeight();
 
+    ResponsiveUIChunkValidator withNotSameSize();
+
+    ResponsiveUIChunkValidator withNotSameWidth();
+
+    ResponsiveUIChunkValidator withNotSameHeight();
+
     ResponsiveUIChunkValidator sameRightOffset();
 
     ResponsiveUIChunkValidator sameLeftOffset();

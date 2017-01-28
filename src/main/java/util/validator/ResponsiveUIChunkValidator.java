@@ -98,6 +98,39 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
     }
 
     /**
+     * Verify that elements in the list have not the same size
+     *
+     * @return ResponsiveUIChunkValidator
+     */
+    @Override
+    public ResponsiveUIChunkValidator withNotSameSize() {
+        validateNotSameSize(rootElements, 0);
+        return this;
+    }
+
+    /**
+     * Verify that elements in the list have not the same width
+     *
+     * @return ResponsiveUIChunkValidator
+     */
+    @Override
+    public ResponsiveUIChunkValidator withNotSameWidth() {
+        validateNotSameSize(rootElements, 1);
+        return this;
+    }
+
+    /**
+     * Verify that elements in the list have not the same height
+     *
+     * @return ResponsiveUIChunkValidator
+     */
+    @Override
+    public ResponsiveUIChunkValidator withNotSameHeight() {
+        validateNotSameSize(rootElements, 2);
+        return this;
+    }
+
+    /**
      * Verify that elements in the list have the right offset
      *
      * @return ResponsiveUIChunkValidator

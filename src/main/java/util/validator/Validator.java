@@ -68,6 +68,10 @@ interface Validator {
 
     UIValidator sameSizeAs(List<WebElement> elements);
 
+    UIValidator notSameSizeAs(WebElement element, String readableName);
+
+    UIValidator notSameSizeAs(List<WebElement> elements);
+
     UIValidator heightBetween(int min, int max);
 
     UIValidator minOffset(int top, int right, int bottom, int left);

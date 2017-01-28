@@ -541,6 +541,44 @@ public class ResponsiveUIValidator {
         }
     }
 
+    void validateNotSameSize(WebElement element, String readableName) {
+        if (!element.equals(rootElement)) {
+            int h = element.getSize().getHeight();
+            int w = element.getSize().getWidth();
+            if (h == heightRoot && w == widthRoot) {
+                putJsonDetailsWithElement(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, widthRoot, heightRoot, w, h), element);
+            }
+        }
+    }
+
+    void validateNotSameSize(List<WebElement> elements, int type) {
+        for (int i = 0; i < elements.size() - 1; i++) {
+            int h1 = elements.get(i).getSize().getHeight();
+            int w1 = elements.get(i).getSize().getWidth();
+            int h2 = elements.get(i + 1).getSize().getHeight();
+            int w2 = elements.get(i + 1).getSize().getWidth();
+            switch (type) {
+                case 0:
+                    if (h1 == h2 && w1 == w2) {
+                        putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 1), elements.get(i).getSize().width, elements.get(i).getSize().height), elements.get(i));
+                        putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().width, elements.get(i + 1).getSize().height), elements.get(i + 1));
+                    }
+                    break;
+                case 1:
+                    if (w1 == w2) {
+                        putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 1), elements.get(i).getSize().width, elements.get(i).getSize().height), elements.get(i));
+                        putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().width, elements.get(i + 1).getSize().height), elements.get(i + 1));
+                    }
+                    break;
+                case 2:
+                    if (h1 == h2) {
+                        putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 1), elements.get(i).getSize().width, elements.get(i).getSize().height), elements.get(i));
+                        putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().width, elements.get(i + 1).getSize().height), elements.get(i + 1));
+                    }
+            }
+        }
+    }
+
     void validateBelowElement(WebElement element, int minMargin, int maxMargin) {
         int yBelowElement = element.getLocation().getY();
         int marginBetweenRoot = yBelowElement - yRoot + heightRoot;
