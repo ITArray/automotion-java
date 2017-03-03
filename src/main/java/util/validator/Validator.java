@@ -1,6 +1,7 @@
 package util.validator;
 
 import org.openqa.selenium.WebElement;
+import util.validator.properties.Padding;
 
 import java.util.List;
 
@@ -87,5 +88,7 @@ interface Validator {
     UIValidator equalTopBottomOffset();
 
     UIValidator insideOf(WebElement containerElement, String readableContainerName);
+
+    UIValidator insideOf(WebElement containerElement, String readableContainerName, Padding padding);
 
 }

@@ -2,6 +2,7 @@ package util.validator;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import util.validator.properties.Padding;
 
 import java.util.List;
 

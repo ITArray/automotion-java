@@ -10,6 +10,7 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import util.driver.DriverHelper;
 import util.driver.WebDriverFactory;
 import util.validator.ResponsiveUIValidator;
+import util.validator.properties.Padding;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -49,6 +50,7 @@ public class ResponsiveValidatorTest {
                 .sameSizeAs(page.gridElements())
                 .equalLeftRightOffset()
                 .equalTopBottomOffset()
+                .insideOf(page.mainContainer(), "Main container", new Padding(10, 50, 10, 20))
                 .drawMap()
                 .validate();
 

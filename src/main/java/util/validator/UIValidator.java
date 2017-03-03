@@ -4,6 +4,7 @@ import http.helpers.TextFinder;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import util.general.SystemHelper;
+import util.validator.properties.Padding;
 
 import java.util.List;
 
@@ -43,7 +44,6 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator withLeftElement(WebElement element) {
         validateLeftElement(element);
-
         return this;
     }
 
@@ -58,7 +58,6 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator withLeftElement(WebElement element, int minMargin, int maxMargin) {
         validateLeftElement(element, getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true));
-
         return this;
     }
 
@@ -594,6 +593,12 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator insideOf(WebElement containerElement, String readableContainerName) {
         validateInsideOfContainer(containerElement, readableContainerName);
+        return this;
+    }
+
+    @Override
+    public UIValidator insideOf(WebElement containerElement, String readableContainerName, Padding padding) {
+        validateInsideOfContainer(containerElement, readableContainerName, padding);
         return this;
     }
 }

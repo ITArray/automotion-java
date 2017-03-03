@@ -12,6 +12,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.Point;
 import util.driver.PageValidator;
 import util.general.HtmlReportBuilder;
+import util.validator.properties.Padding;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -335,7 +335,7 @@ public class ResponsiveUIValidator {
                     if (rowCount <= mapSize) {
                         int actualInARow = entry.getValue().intValue();
                         if (actualInARow != columns) {
-                            errorLastLine ++;
+                            errorLastLine++;
                             if (errorLastLine > 1) {
                                 putJsonDetailsWithoutElement(String.format("Elements in a grid are not aligned properly in row #%d. Expected %d elements in a row. Actually it's %d", rowCount, columns, actualInARow));
                             }
@@ -580,7 +580,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateBelowElement(WebElement element, int minMargin, int maxMargin) {
-        int yBelowElement = element.getLocation().getY();
+        int yBelowElement = element.getLocation().y;
         int marginBetweenRoot = yBelowElement - yRoot + heightRoot;
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
@@ -598,8 +598,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateAboveElement(WebElement element, int minMargin, int maxMargin) {
-        int yAboveElement = element.getLocation().getY();
-        int heightAboveElement = element.getSize().getHeight();
+        int yAboveElement = element.getLocation().y;
+        int heightAboveElement = element.getSize().height;
         int marginBetweenRoot = yRoot - yAboveElement + heightAboveElement;
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
@@ -617,7 +617,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateRightElement(WebElement element, int minMargin, int maxMargin) {
-        int xRightElement = element.getLocation().getX();
+        int xRightElement = element.getLocation().x;
         int marginBetweenRoot = xRightElement - xRoot + widthRoot;
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
@@ -635,8 +635,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateLeftElement(WebElement leftElement, int minMargin, int maxMargin) {
-        int xLeftElement = leftElement.getLocation().getX();
-        int widthLeftElement = leftElement.getSize().getWidth();
+        int xLeftElement = leftElement.getLocation().x;
+        int widthLeftElement = leftElement.getSize().width;
         int marginBetweenRoot = xRoot - xLeftElement + widthLeftElement;
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), leftElement);
@@ -881,6 +881,27 @@ public class ResponsiveUIValidator {
                     putJsonDetailsWithElement(String.format("Element is not inside of '%s'", readableContainerName), element);
                 }
             }
+        }
+    }
+
+    void validateInsideOfContainer(WebElement element, String readableContainerName, Padding padding) {
+        validateInsideOfContainer(element, readableContainerName);
+        int paddingTop = element.getLocation().x - xRoot;
+        int paddingRight = element.getLocation().y - yRoot;
+        int paddingBottom = yRoot - element.getLocation().y;
+        int paddingLeft = xRoot - element.getLocation().x;
+
+        int top = getConvertedInt(padding.getTop(), false);
+        int right = getConvertedInt(padding.getRight(), true);
+        int bottom = getConvertedInt(padding.getBottom(), false);
+        int left = getConvertedInt(padding.getLeft(), true);
+
+        if ((paddingTop != top && top > -1)
+                || (paddingRight != right && right > -1)
+                || (paddingBottom != bottom && bottom > -1)
+                || (paddingLeft != left && left > -1)) {
+            putJsonDetailsWithElement(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
+                    rootElementReadableName, top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
         }
     }
 
