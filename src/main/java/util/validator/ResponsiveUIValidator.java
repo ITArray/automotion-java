@@ -581,7 +581,7 @@ public class ResponsiveUIValidator {
 
     void validateBelowElement(WebElement element, int minMargin, int maxMargin) {
         int yBelowElement = element.getLocation().y;
-        int marginBetweenRoot = yBelowElement - yRoot + heightRoot;
+        int marginBetweenRoot = yBelowElement - (yRoot + heightRoot);
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
         }
@@ -600,7 +600,7 @@ public class ResponsiveUIValidator {
     void validateAboveElement(WebElement element, int minMargin, int maxMargin) {
         int yAboveElement = element.getLocation().y;
         int heightAboveElement = element.getSize().height;
-        int marginBetweenRoot = yRoot - yAboveElement + heightAboveElement;
+        int marginBetweenRoot = yRoot - (yAboveElement + heightAboveElement);
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
         }
@@ -618,7 +618,7 @@ public class ResponsiveUIValidator {
 
     void validateRightElement(WebElement element, int minMargin, int maxMargin) {
         int xRightElement = element.getLocation().x;
-        int marginBetweenRoot = xRightElement - xRoot + widthRoot;
+        int marginBetweenRoot = xRightElement - (xRoot + widthRoot);
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
         }
@@ -637,7 +637,7 @@ public class ResponsiveUIValidator {
     void validateLeftElement(WebElement leftElement, int minMargin, int maxMargin) {
         int xLeftElement = leftElement.getLocation().x;
         int widthLeftElement = leftElement.getSize().width;
-        int marginBetweenRoot = xRoot - xLeftElement + widthLeftElement;
+        int marginBetweenRoot = xRoot - (xLeftElement + widthLeftElement);
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), leftElement);
         }
