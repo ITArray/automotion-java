@@ -3,6 +3,7 @@ package util.general;
 import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.Locale;
 
 import static util.validator.Constants.TARGET_AUTOMOTION_JSON;
 
@@ -58,7 +59,7 @@ public class SystemHelper {
             intARGB[2] = Integer.valueOf(hexARGB.substring(5, 7), 16); // green
             intARGB[3] = Integer.valueOf(hexARGB.substring(7), 16); // blue
 
-            return String.format("rgba(%d,%d,%d,%.1f)", intARGB[1], intARGB[2], intARGB[3], (float) Math.round((((float) intARGB[0] / 255) * 100)) / 100.f);
+            return String.format(Locale.US, "rgba(%d,%d,%d,%.1f)", intARGB[1], intARGB[2], intARGB[3], (float) Math.round((((float) intARGB[0] / 255) * 100)) / 100.f);
         } else {
             intARGB = new int[3];
             intARGB[0] = Integer.valueOf(hexARGB.substring(1, 3), 16); // red
