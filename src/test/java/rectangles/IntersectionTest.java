@@ -20,8 +20,11 @@ import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 // this contains edge cases (touching rectangles) as well as non edge case (disjoint coordinates)
+@Ignore
 @RunWith(Parameterized.class)
 public class IntersectionTest {
+
+    private boolean debug = false;
 
     private final DummyWebElement other;
 
@@ -58,16 +61,16 @@ public class IntersectionTest {
         ArrayList<Object[]> result = Lists.newArrayList();
 
         for (int xIndex1 = 0; xIndex1 + 1 < xValues.length; xIndex1++) {
-            int xValue1 = xValues[xIndex1];
+            int otherOriginX = xValues[xIndex1];
             for (int xIndex2 = xIndex1 + 1; xIndex2 < xValues.length; xIndex2++) {
-                int xValue2 = xValues[xIndex2];
+                int otherCornerX = xValues[xIndex2];
                 for (int yIndex1 = 0; yIndex1 + 1 < yValues.length; yIndex1++) {
-                    int yValue1 = yValues[yIndex1];
+                    int otherOriginY = yValues[yIndex1];
                     for (int yIndex2 = yIndex1 + 1; yIndex2 < yValues.length; yIndex2++) {
-                        int yValue2 = yValues[yIndex2];
-                        Rectangle2D.Double other = new Rectangle2D.Double(xValue1, yValue1, xValue2-xValue1, yValue2-yValue1);
+                        int otherCornerY = yValues[yIndex2];
+                        Rectangle2D.Double other = new Rectangle2D.Double(otherOriginX, otherOriginY, otherCornerX-otherOriginX, otherCornerY-otherOriginY);
                         boolean intersects = rectangle.intersects(other);
-                        Object[] values = {xValue1, yValue1, xValue2, yValue2, intersects};
+                        Object[] values = {otherOriginX, otherOriginY, otherCornerX, otherCornerY, intersects};
                         result.add(values);
                     }
                 }
@@ -92,7 +95,7 @@ public class IntersectionTest {
 
         validator.overlapWith(other, "Bla");
         assertThat(validator.validate())
-                .withFailMessage("%s and %s should %soverlap " + asSvg(), toString(root), toString(other), intersects ? "": "not ")
+                .withFailMessage(failMessage())
                 .isEqualTo(intersects);
     }
 
@@ -105,8 +108,16 @@ public class IntersectionTest {
 
         validator.notOverlapWith(other, "Bla");
         assertThat(validator.validate())
-                .withFailMessage("%s and %s should %soverlap", toString(root), toString(other), intersects ? "": "not ")
+                .withFailMessage(failMessage())
                 .isEqualTo(!intersects);
+    }
+
+    private String failMessage() {
+        return String.format("%s and %s should %soverlap%s",
+                toString(root),
+                toString(other),
+                intersects ? "": "not ",
+                debug ? asSvg() : "");
     }
 
     private static int up(int value) {
@@ -124,7 +135,7 @@ public class IntersectionTest {
                 new Dimension(cornerX-originX, cornerY-originY));
     }
 
-    public String toString(WebElement webElement) {
+    private String toString(WebElement webElement) {
         return String.format("[%s@%s-%s@%s]",
                 webElement.getLocation().getX(),
                 webElement.getLocation().getY(),
