@@ -922,33 +922,6 @@ public class ResponsiveUIValidator {
         return pageHeight - (element.getLocation().y + element.getSize().height);
     }
 
-    private boolean elementsAreOverlappedOnBorder(WebElement rootElement, WebElement elementOverlapWith) {
-        Point elLoc = elementOverlapWith.getLocation();
-        Dimension elSize = elementOverlapWith.getSize();
-        int xRoot = rootElement.getLocation().x;
-        int yRoot = rootElement.getLocation().y;
-        int widthRoot = rootElement.getSize().width;
-        int heightRoot = rootElement.getSize().height;
-
-        int sqRootElement = widthRoot * heightRoot;
-        int sqElement = elSize.width * elSize.height;
-
-        int sqCommon;
-        if (xRoot < elLoc.x && yRoot == elLoc.y) {
-            sqCommon = (widthRoot + (elLoc.x - (xRoot + widthRoot) + elSize.width)) * (heightRoot);
-        } else if (yRoot < elLoc.y && xRoot == elLoc.x) {
-            sqCommon = (heightRoot + (elLoc.y - (yRoot + heightRoot) + elSize.height)) * (widthRoot);
-        } else if ((elLoc.x < xRoot && yRoot == elLoc.y)) {
-            sqCommon = ((elSize.width) + (xRoot - (elLoc.x + elSize.width) + widthRoot)) * (elSize.height);
-        } else if (elLoc.y < yRoot && xRoot == elLoc.x) {
-            sqCommon = ((elSize.height) + (yRoot - (elLoc.y + elSize.height) + heightRoot)) * (elSize.width);
-        } else {
-            return false;
-        }
-
-        return sqCommon < sqRootElement + sqElement;
-    }
-
     private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
         Rectangle2D.Double rootRectangle = new Rectangle2D.Double(
                 rootElement.getLocation().getX(),
