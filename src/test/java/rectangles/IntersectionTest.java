@@ -20,7 +20,6 @@ import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 // this contains edge cases (touching rectangles) as well as non edge case (disjoint coordinates)
-@Ignore
 @RunWith(Parameterized.class)
 public class IntersectionTest {
 

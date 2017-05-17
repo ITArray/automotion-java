@@ -84,7 +84,6 @@ public class AlignmentTest {
 
 
 
-    @Ignore
     @Test
     public void isRightAlignedWithElementsWithEqualCornerX() {
         WebElement other = createElement(up(originX), up(originY), cornerX, down(cornerY));
@@ -108,7 +107,6 @@ public class AlignmentTest {
 
 
 
-    @Ignore
     @Test
     public void isBottomAlignedWithElementsWithEqualCornerY() {
         WebElement other = createElement(up(originX), up(originY), down(cornerX), cornerY);
