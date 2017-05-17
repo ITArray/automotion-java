@@ -20,7 +20,6 @@ import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 // this contains edge cases (touching rectangles) as well as non edge case (disjoint coordinates)
-@Ignore
 @RunWith(Parameterized.class)
 public class IntersectionTest {
 
@@ -66,7 +65,7 @@ public class IntersectionTest {
                     int yValue1 = yValues[yIndex1];
                     for (int yIndex2 = yIndex1 + 1; yIndex2 < yValues.length; yIndex2++) {
                         int yValue2 = yValues[yIndex2];
-                        Rectangle2D.Double other = new Rectangle2D.Double(xValue1, yValue1, xValue2, yValue2);
+                        Rectangle2D.Double other = new Rectangle2D.Double(xValue1, yValue1, xValue2-xValue1, yValue2-yValue1);
                         boolean intersects = rectangle.intersects(other);
                         Object[] values = {xValue1, yValue1, xValue2, yValue2, intersects};
                         result.add(values);
@@ -93,7 +92,7 @@ public class IntersectionTest {
 
         validator.overlapWith(other, "Bla");
         assertThat(validator.validate())
-                .withFailMessage("%s and %s should %soverlap", toString(root), toString(other), intersects ? "": "not ")
+                .withFailMessage("%s and %s should %soverlap " + asSvg(), toString(root), toString(other), intersects ? "": "not ")
                 .isEqualTo(intersects);
     }
 
@@ -132,6 +131,33 @@ public class IntersectionTest {
                 webElement.getLocation().getX() + webElement.getSize().getWidth(),
                 webElement.getLocation().getY() + webElement.getSize().getHeight());
 
+    }
+
+    private String asSvg() {
+        return String.format(
+                "\n" +
+                "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<body>\n" +
+                "\n" +
+                "<svg width=\"2000\" height=\"2000\">\n" +
+                "    <rect x=\"%s\" y=\"%s\" width=\"%s\" height=\"%s\"\n" +
+                "          style=\"fill:red;;stroke-width:0;fill-opacity:0.5\" />\n" +
+                "    <rect x=\"%s\" y=\"%s\" width=\"%s\" height=\"%s\"\n" +
+                "          style=\"fill:cyan;;stroke-width:0;fill-opacity:0.5\" />\n" +
+                "</svg>\n" +
+                "</body>\n" +
+                "\n" +
+                "</html>\n",
+                root.getLocation().getX(),
+                root.getLocation().getY(),
+                root.getSize().getWidth(),
+                root.getSize().getHeight(),
+                other.getLocation().getX(),
+                other.getLocation().getY(),
+                other.getSize().getWidth(),
+                other.getSize().getHeight()
+        );
     }
 
 }
