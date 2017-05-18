@@ -1,6 +1,5 @@
 package rectangles;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Dimension;
@@ -361,7 +360,6 @@ public class PositionTest {
         return validator.validate();
     }
 
-    @NotNull
     private DummyWebElement createElement(int originX, int originY, int cornerX, int cornerY) {
         return new DummyWebElement(
                 new Point(originX, originY),

@@ -1,6 +1,5 @@
 package rectangles;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -165,7 +164,6 @@ public class AlignmentTest {
         return validator.validate();
     }
 
-    @NotNull
     private DummyWebElement createElement(int originX, int originY, int cornerX, int cornerY) {
         return new DummyWebElement(
                 new Point(originX, originY),

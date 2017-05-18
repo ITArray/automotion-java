@@ -1,6 +1,5 @@
 package rectangles;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -79,7 +78,6 @@ public class IntersectionTest {
                 debug ? asSvg() : "");
     }
 
-    @NotNull
     private DummyWebElement createElement(int originX, int originY, int cornerX, int cornerY) {
         return new DummyWebElement(
                 new Point(originX, originY),
