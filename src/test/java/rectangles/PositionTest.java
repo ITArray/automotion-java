@@ -25,13 +25,13 @@ public class PositionTest {
 
     @Before
     public void setUp() {
-        originX = 100;
-        originY = 600;
-        cornerX = 300;
-        cornerY = 900;
+        originX = RectangleFixture.originX;
+        originY = RectangleFixture.originY;
+        cornerX = RectangleFixture.cornerX;
+        cornerY = RectangleFixture.cornerY;
         width = cornerX-originX;
         height= cornerY-originY;
-        root = createElement(originX, originY, cornerX, cornerY);
+        root = DummyWebElement.createRootElement();
         margin = 10;
         minMargin = down(margin);
         maxMargin = up(margin);

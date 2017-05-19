@@ -20,11 +20,11 @@ public class AlignmentTest {
 
     @Before
     public void setUp() {
-        originX = 100;
-        originY = 600;
-        cornerX = 300;
-        cornerY = 900;
-        root = createElement(originX, originY, cornerX, cornerY);
+        originX = RectangleFixture.originX;
+        originY = RectangleFixture.originY;
+        cornerX = RectangleFixture.cornerX;
+        cornerY = RectangleFixture.cornerY;
+        root = DummyWebElement.createRootElement();
     }
 
     @Test

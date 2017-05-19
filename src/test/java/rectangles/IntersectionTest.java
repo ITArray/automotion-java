@@ -20,11 +20,6 @@ public class IntersectionTest {
 
     private final WebElement other;
 
-    private static final int originX = RectangleFixture.originX;
-    private static final int cornerX = RectangleFixture.cornerX;
-    private static final int originY = RectangleFixture.originY;
-    private static final int cornerY = RectangleFixture.cornerY;
-
     private final WebElement root;
     private boolean intersects;
 
@@ -36,7 +31,7 @@ public class IntersectionTest {
 
     public IntersectionTest(int otherOriginX, int otherOriginY, int otherCornerX, int otherCornerY, boolean intersects) {
         this.intersects = intersects;
-        root = createElement(originX, originY, cornerX, cornerY);
+        root = DummyWebElement.createRootElement();
         other = createElement(otherOriginX, otherOriginY, otherCornerX, otherCornerY);
     }
 

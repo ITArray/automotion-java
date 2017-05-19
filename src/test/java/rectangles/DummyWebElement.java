@@ -111,4 +111,10 @@ public class DummyWebElement implements WebElement {
                 new Dimension(cornerX-originX, cornerY-originY));
     }
 
+    public static WebElement createRootElement() {
+        return new DummyWebElement(
+                new Point(RectangleFixture.originX, RectangleFixture.originY),
+                new Dimension(RectangleFixture.cornerX-RectangleFixture.originX, RectangleFixture.cornerY-RectangleFixture.originY));
+    }
+
 }
