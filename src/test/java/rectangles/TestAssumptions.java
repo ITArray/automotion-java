@@ -81,4 +81,32 @@ public class TestAssumptions {
     public static boolean sameHeightAs(WebElement root, WebElement other) {
         return validate(root, other, (uiValidator, webElement) -> uiValidator.sameHeightAs(webElement, "Blub"));
     }
+
+    public static boolean sameSizeAs(WebElement root, WebElement other) {
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.sameSizeAs(webElement, "Blub"));
+    }
+
+    public static boolean heightBetween(WebElement root, int min, int max) {
+        return validate(root, null, (uiValidator, webElement) -> uiValidator.heightBetween(min, max));
+    }
+
+    public static boolean widthBetween(WebElement root, int min, int max) {
+        return validate(root, null, (uiValidator, webElement) -> uiValidator.widthBetween(min, max));
+    }
+
+    public static boolean minWidth(WebElement root, int value) {
+        return validate(root, null, (uiValidator, webElement) -> uiValidator.minWidth(value));
+    }
+
+    public static boolean maxWidth(WebElement root, int value) {
+        return validate(root, null, (uiValidator, webElement) -> uiValidator.maxWidth(value));
+    }
+
+    public static boolean minHeight(WebElement root, int value) {
+        return validate(root, null, (uiValidator, webElement) -> uiValidator.minHeight(value));
+    }
+
+    public static boolean maxHeight(WebElement root, int value) {
+        return validate(root, null, (uiValidator, webElement) -> uiValidator.maxHeight(value));
+    }
 }
