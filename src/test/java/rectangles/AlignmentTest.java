@@ -2,22 +2,16 @@ package rectangles;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import util.validator.ResponsiveUIValidator;
-import util.validator.UIValidator;
-
-import java.util.function.BiConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
 import static rectangles.RectangleFixture.down;
 import static rectangles.RectangleFixture.up;
+import static rectangles.TestAssumptions.*;
 
 public class AlignmentTest {
 
-    private long windowWidth;
-    private long windowHeight;
     private int originX;
     private int originY;
     private int cornerX;
@@ -26,8 +20,6 @@ public class AlignmentTest {
 
     @Before
     public void setUp() {
-        windowWidth = 1920L;
-        windowHeight = 1080L;
         originX = 100;
         originY = 600;
         cornerX = 300;
@@ -126,30 +118,4 @@ public class AlignmentTest {
     }
 
 
-
-    private boolean leftAligned(WebElement root, WebElement other) {
-        return validate(root, other, (uiValidator, webElement) -> uiValidator.sameOffsetLeftAs(webElement, "Blub"));
-    }
-
-    private boolean rightAligned(WebElement root, WebElement other) {
-        return validate(root, other, (uiValidator, webElement) -> uiValidator.sameOffsetRightAs(webElement, "Blub"));
-    }
-
-    private boolean topAligned(WebElement root, WebElement other) {
-        return validate(root, other, (uiValidator, webElement) -> uiValidator.sameOffsetTopAs(webElement, "Blub"));
-    }
-
-    private boolean bottomAligned(WebElement root, WebElement other) {
-        return validate(root, other, (uiValidator, webElement) -> uiValidator.sameOffsetBottomAs(webElement, "Blub"));
-    }
-
-    private boolean validate(WebElement root, WebElement other, BiConsumer<UIValidator, WebElement> assumption) {
-        WebDriver driver = new DummyWebDriver(windowWidth, windowHeight);
-        ResponsiveUIValidator temporary = new ResponsiveUIValidator(driver).init();
-
-        UIValidator validator = temporary.findElement(root, "Bla");
-
-        assumption.accept(validator, other);
-        return validator.validate();
-    }
 }

@@ -25,8 +25,6 @@ public class IntersectionTest {
     private static final int cornerX = RectangleFixture.cornerX;
     private static final int originY = RectangleFixture.originY;
     private static final int cornerY = RectangleFixture.cornerY;
-    private static final long windowWidth = RectangleFixture.windowWidth;
-    private static final long windowHeight = RectangleFixture.windowHeight;
 
     private final WebElement root;
     private boolean intersects;
@@ -45,7 +43,7 @@ public class IntersectionTest {
 
     @Test
     public void shouldOverlap() {
-        WebDriver driver = new DummyWebDriver(windowWidth, windowHeight);
+        WebDriver driver = new DummyWebDriver();
         ResponsiveUIValidator temporary = new ResponsiveUIValidator(driver).init();
 
         UIValidator validator = temporary.findElement(root, "Bla");
@@ -58,7 +56,7 @@ public class IntersectionTest {
 
     @Test
     public void shouldNotOverlap() {
-        WebDriver driver = new DummyWebDriver(windowWidth, windowHeight);
+        WebDriver driver = new DummyWebDriver();
         ResponsiveUIValidator temporary = new ResponsiveUIValidator(driver).init();
 
         UIValidator validator = temporary.findElement(root, "Bla");

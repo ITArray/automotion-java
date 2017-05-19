@@ -18,6 +18,10 @@ public class DummyWebDriver implements WebDriver, JavascriptExecutor {
         this.windowHeight = windowHeight;
     }
 
+    public DummyWebDriver() {
+        this(RectangleFixture.windowWidth, RectangleFixture.windowHeight);
+    }
+
     @Override
     public void get(String s) {
 
