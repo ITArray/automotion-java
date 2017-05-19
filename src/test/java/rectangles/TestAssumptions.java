@@ -73,4 +73,12 @@ public class TestAssumptions {
     public static boolean notOverlapWith(WebElement root, WebElement other) {
         return validate(root, other, (uiValidator, webElement) -> uiValidator.notOverlapWith(webElement, "Blub"));
     }
+
+    public static boolean sameWidthAs(WebElement root, WebElement other) {
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.sameWidthAs(webElement, "Blub"));
+    }
+
+    public static boolean sameHeightAs(WebElement root, WebElement other) {
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.sameHeightAs(webElement, "Blub"));
+    }
 }
