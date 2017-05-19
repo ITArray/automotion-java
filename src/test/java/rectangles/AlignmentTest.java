@@ -1,10 +1,7 @@
 package rectangles;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIValidator;
@@ -14,6 +11,8 @@ import java.util.function.BiConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
+import static rectangles.RectangleFixture.down;
+import static rectangles.RectangleFixture.up;
 
 public class AlignmentTest {
 
@@ -23,7 +22,6 @@ public class AlignmentTest {
     private int originY;
     private int cornerX;
     private int cornerY;
-    private int delta;
     private WebElement root;
 
     @Before
@@ -34,7 +32,6 @@ public class AlignmentTest {
         originY = 600;
         cornerX = 300;
         cornerY = 900;
-        delta = 2;
         root = createElement(originX, originY, cornerX, cornerY);
     }
 
@@ -128,15 +125,6 @@ public class AlignmentTest {
         assertThat(bottomAligned(root, other)).isFalse();
     }
 
-
-
-    private int up(int value) {
-        return value+delta;
-    }
-
-    private int down(int value) {
-        return value-delta;
-    }
 
 
     private boolean leftAligned(WebElement root, WebElement other) {

@@ -1,7 +1,6 @@
 package rectangles;
 
 import com.google.common.collect.Lists;
-import org.junit.runners.Parameterized;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -9,7 +8,7 @@ import java.util.Collection;
 
 public class RectangleFixture {
 
-    private static int delta = 2;
+    public static int delta = 2;
     private static int w = 500;
     private static int h = 700;
     private static final int x0 = 100;
@@ -66,11 +65,12 @@ public class RectangleFixture {
         }
 
     }
-    private static int up(int value) {
+
+    public static int up(int value) {
         return value+delta;
     }
 
-    private static int down(int value) {
+    public static int down(int value) {
         return value-delta;
     }
 }

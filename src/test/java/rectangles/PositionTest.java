@@ -2,8 +2,6 @@ package rectangles;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIValidator;
@@ -13,6 +11,8 @@ import java.util.function.BiConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
+import static rectangles.RectangleFixture.down;
+import static rectangles.RectangleFixture.up;
 
 public class PositionTest {
     private long windowWidth;
@@ -23,7 +23,6 @@ public class PositionTest {
     private int cornerY;
     private int width;
     private int height;
-    private int delta;
     private WebElement root;
 
     private int margin;
@@ -40,7 +39,6 @@ public class PositionTest {
         cornerY = 900;
         width = cornerX-originX;
         height= cornerY-originY;
-        delta = 2;
         root = createElement(originX, originY, cornerX, cornerY);
         margin = 10;
         minMargin = down(margin);
@@ -309,14 +307,6 @@ public class PositionTest {
 
     private WebElement createMovedUpElement(int deltaY) {
         return createOffsetElement(0, -deltaY);
-    }
-
-    private int up(int value) {
-        return value+delta;
-    }
-
-    private int down(int value) {
-        return value-delta;
     }
 
     private boolean withBottomElementInMargins(WebElement other) {
