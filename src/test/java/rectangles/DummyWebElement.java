@@ -104,4 +104,11 @@ public class DummyWebElement implements WebElement {
     public <X> X getScreenshotAs(OutputType<X> outputType) throws WebDriverException {
         return null;
     }
+
+    public static WebElement createElement(int originX, int originY, int cornerX, int cornerY) {
+        return new DummyWebElement(
+                new Point(originX, originY),
+                new Dimension(cornerX-originX, cornerY-originY));
+    }
+
 }

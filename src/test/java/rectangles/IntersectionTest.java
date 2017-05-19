@@ -14,13 +14,14 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static rectangles.DummyWebElement.createElement;
 
 @RunWith(Parameterized.class)
 public class IntersectionTest {
 
     private boolean debug = false;
 
-    private final DummyWebElement other;
+    private final WebElement other;
 
     private static final int originX = IntersectionFixture.originX;
     private static final int cornerX = IntersectionFixture.cornerX;
@@ -29,7 +30,7 @@ public class IntersectionTest {
     private static final long windowWidth = IntersectionFixture.windowWidth;
     private static final long windowHeight = IntersectionFixture.windowHeight;
 
-    private final DummyWebElement root;
+    private final WebElement root;
     private boolean intersects;
 
 
@@ -76,12 +77,6 @@ public class IntersectionTest {
                 toString(other),
                 intersects ? "": "not ",
                 debug ? asSvg() : "");
-    }
-
-    private DummyWebElement createElement(int originX, int originY, int cornerX, int cornerY) {
-        return new DummyWebElement(
-                new Point(originX, originY),
-                new Dimension(cornerX-originX, cornerY-originY));
     }
 
     private String toString(WebElement webElement) {

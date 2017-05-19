@@ -12,6 +12,7 @@ import util.validator.UIValidator;
 import java.util.function.BiConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static rectangles.DummyWebElement.createElement;
 
 public class PositionTest {
     private long windowWidth;
@@ -358,12 +359,6 @@ public class PositionTest {
 
         assumption.accept(validator, other);
         return validator.validate();
-    }
-
-    private DummyWebElement createElement(int originX, int originY, int cornerX, int cornerY) {
-        return new DummyWebElement(
-                new Point(originX, originY),
-                new Dimension(cornerX-originX, cornerY-originY));
     }
 
 
