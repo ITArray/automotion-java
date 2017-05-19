@@ -15,7 +15,7 @@ public class DummyWebElement implements WebElement {
     private final Point location;
     private final Dimension size;
 
-    public DummyWebElement(Point location, Dimension size) {
+    private DummyWebElement(Point location, Dimension size) {
         this.location = location;
         this.size = size;
     }
