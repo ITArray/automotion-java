@@ -18,23 +18,23 @@ public class TestAssumptions {
         return validator.validate();
     }
 
-    public static boolean leftAligned(WebElement root, WebElement other) {
+    public static boolean sameOffsetLeftAs(WebElement root, WebElement other) {
         return validate(root, other, (uiValidator, webElement) -> uiValidator.sameOffsetLeftAs(webElement, "Blub"));
     }
 
-    public static boolean rightAligned(WebElement root, WebElement other) {
+    public static boolean sameOffsetRightAs(WebElement root, WebElement other) {
         return validate(root, other, (uiValidator, webElement) -> uiValidator.sameOffsetRightAs(webElement, "Blub"));
     }
 
-    public static boolean topAligned(WebElement root, WebElement other) {
+    public static boolean sameOffsetTopAs(WebElement root, WebElement other) {
         return validate(root, other, (uiValidator, webElement) -> uiValidator.sameOffsetTopAs(webElement, "Blub"));
     }
 
-    public static boolean bottomAligned(WebElement root, WebElement other) {
+    public static boolean sameOffsetBottomAs(WebElement root, WebElement other) {
         return validate(root, other, (uiValidator, webElement) -> uiValidator.sameOffsetBottomAs(webElement, "Blub"));
     }
 
-    public static boolean withBottomElementInMargins(WebElement root, WebElement other, int minMargin, int maxMargin) {
+    public static boolean withBottomElement(WebElement root, WebElement other, int minMargin, int maxMargin) {
         return validate(root, other, (uiValidator, webElement) -> uiValidator.withBottomElement(webElement, minMargin, maxMargin));
     }
 
@@ -42,7 +42,7 @@ public class TestAssumptions {
         return validate(root, other, UIValidator::withBottomElement);
     }
 
-    public static boolean withTopElementInMargins(WebElement root, WebElement other, int minMargin, int maxMargin) {
+    public static boolean withTopElement(WebElement root, WebElement other, int minMargin, int maxMargin) {
         return validate(root, other, (uiValidator, webElement) -> uiValidator.withTopElement(webElement, minMargin, maxMargin));
     }
 
@@ -50,7 +50,7 @@ public class TestAssumptions {
         return validate(root, other, UIValidator::withTopElement);
     }
 
-    public static boolean withLeftElementInMargins(WebElement root, WebElement other, int minMargin, int maxMargin) {
+    public static boolean withLeftElement(WebElement root, WebElement other, int minMargin, int maxMargin) {
         return validate(root, other, (uiValidator, webElement) -> uiValidator.withLeftElement(webElement, minMargin, maxMargin));
     }
 
@@ -58,7 +58,7 @@ public class TestAssumptions {
         return validate(root, other, UIValidator::withLeftElement);
     }
 
-    public static boolean withRightElementInMargins(WebElement root, WebElement other, int minMargin, int maxMargin) {
+    public static boolean withRightElement(WebElement root, WebElement other, int minMargin, int maxMargin) {
         return validate(root, other, (uiValidator, webElement) -> uiValidator.withRightElement(webElement, minMargin, maxMargin));
     }
 
