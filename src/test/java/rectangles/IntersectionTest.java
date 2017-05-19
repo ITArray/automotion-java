@@ -3,16 +3,15 @@ package rectangles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import util.validator.ResponsiveUIValidator;
-import util.validator.UIValidator;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
+import static rectangles.TestAssumptions.notOverlapWith;
+import static rectangles.TestAssumptions.overlapWith;
 
 @RunWith(Parameterized.class)
 public class IntersectionTest {
@@ -43,26 +42,14 @@ public class IntersectionTest {
 
     @Test
     public void shouldOverlap() {
-        WebDriver driver = new DummyWebDriver();
-        ResponsiveUIValidator temporary = new ResponsiveUIValidator(driver).init();
-
-        UIValidator validator = temporary.findElement(root, "Bla");
-
-        validator.overlapWith(other, "Bla");
-        assertThat(validator.validate())
+        assertThat(overlapWith(root, other))
                 .withFailMessage(failMessage())
                 .isEqualTo(intersects);
     }
 
     @Test
     public void shouldNotOverlap() {
-        WebDriver driver = new DummyWebDriver();
-        ResponsiveUIValidator temporary = new ResponsiveUIValidator(driver).init();
-
-        UIValidator validator = temporary.findElement(root, "Bla");
-
-        validator.notOverlapWith(other, "Bla");
-        assertThat(validator.validate())
+        assertThat(notOverlapWith(root, other))
                 .withFailMessage(failMessage())
                 .isEqualTo(!intersects);
     }

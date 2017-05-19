@@ -65,4 +65,12 @@ public class TestAssumptions {
     public static boolean withRightElement(WebElement root, WebElement other) {
         return validate(root, other, UIValidator::withRightElement);
     }
+
+    public static boolean overlapWith(WebElement root, WebElement other) {
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.overlapWith(webElement, "Blub"));
+    }
+
+    public static boolean notOverlapWith(WebElement root, WebElement other) {
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.notOverlapWith(webElement, "Blub"));
+    }
 }
