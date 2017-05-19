@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class IntersectionFixture {
+public class RectangleFixture {
 
     private static int delta = 2;
     private static int w = 500;

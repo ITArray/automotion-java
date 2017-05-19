@@ -3,8 +3,6 @@ package rectangles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIValidator;
@@ -23,12 +21,12 @@ public class IntersectionTest {
 
     private final WebElement other;
 
-    private static final int originX = IntersectionFixture.originX;
-    private static final int cornerX = IntersectionFixture.cornerX;
-    private static final int originY = IntersectionFixture.originY;
-    private static final int cornerY = IntersectionFixture.cornerY;
-    private static final long windowWidth = IntersectionFixture.windowWidth;
-    private static final long windowHeight = IntersectionFixture.windowHeight;
+    private static final int originX = RectangleFixture.originX;
+    private static final int cornerX = RectangleFixture.cornerX;
+    private static final int originY = RectangleFixture.originY;
+    private static final int cornerY = RectangleFixture.cornerY;
+    private static final long windowWidth = RectangleFixture.windowWidth;
+    private static final long windowHeight = RectangleFixture.windowHeight;
 
     private final WebElement root;
     private boolean intersects;
