@@ -9,16 +9,16 @@ import java.util.Collection;
 public class RectangleFixture {
 
     public static int delta = 2;
-    private static int w = 500;
-    private static int h = 700;
+    public static int width = 500;
+    public static int height = 700;
     private static final int x0 = 100;
-    public static final int originX = x0 + w;
-    public static final int cornerX = originX + w;
-    private static final int x3 = cornerX + w;
+    public static final int originX = x0 + width;
+    public static final int cornerX = originX + width;
+    private static final int x3 = cornerX + width;
     private static final int y0 = 300;
-    public static final int originY = y0 + h;
-    public static final int cornerY = originY + h;
-    private static final int y3 = cornerY + h;
+    public static final int originY = y0 + height;
+    public static final int cornerY = originY + height;
+    private static final int y3 = cornerY + height;
     private static int[] xValues = {
             x0,
             down(originX), originX, up(originX),

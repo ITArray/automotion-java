@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
+import static rectangles.DummyWebElement.createRootElement;
 import static rectangles.RectangleFixture.down;
 import static rectangles.RectangleFixture.up;
 import static rectangles.TestAssumptions.*;
@@ -24,7 +25,7 @@ public class AlignmentTest {
         originY = RectangleFixture.originY;
         cornerX = RectangleFixture.cornerX;
         cornerY = RectangleFixture.cornerY;
-        root = DummyWebElement.createRootElement();
+        root = createRootElement();
     }
 
     @Test
