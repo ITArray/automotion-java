@@ -15,7 +15,7 @@ public class DummyWebElement implements WebElement {
     private final Point location;
     private final Dimension size;
 
-    public DummyWebElement(Point location, Dimension size) {
+    private DummyWebElement(Point location, Dimension size) {
         this.location = location;
         this.size = size;
     }
@@ -103,5 +103,55 @@ public class DummyWebElement implements WebElement {
     @Override
     public <X> X getScreenshotAs(OutputType<X> outputType) throws WebDriverException {
         return null;
+    }
+
+    public static WebElement createElement(int originX, int originY, int cornerX, int cornerY) {
+        return new DummyWebElement(
+                new Point(originX, originY),
+                new Dimension(cornerX-originX, cornerY-originY));
+    }
+
+    public static WebElement createRootElement() {
+        return new DummyWebElement(
+                new Point(RectangleFixture.originX, RectangleFixture.originY),
+                new Dimension(RectangleFixture.cornerX-RectangleFixture.originX, RectangleFixture.cornerY-RectangleFixture.originY));
+    }
+
+    public static WebElement createOffsetElement(int deltaX, int deltaY) {
+        return createElement(
+                RectangleFixture.originX+deltaX, RectangleFixture.originY+deltaY,
+                RectangleFixture.cornerX+deltaX, RectangleFixture.cornerY+deltaY);
+    }
+
+    public static WebElement createElementMovedRightBy(int deltaX) {
+        return createOffsetElement(deltaX, 0);
+    }
+
+    public static WebElement createElementMovedRightByWidthPlus(int deltaX) {
+        return createElementMovedRightBy(RectangleFixture.width + deltaX);
+    }
+
+    public static WebElement createElementMovedLeftBy(int deltaX) {
+        return createOffsetElement(-deltaX, 0);
+    }
+
+    public static WebElement createElementMovedLeftByWidthPlus(int deltaX) {
+        return createElementMovedLeftBy(RectangleFixture.width+deltaX);
+    }
+
+    public static WebElement createElementMovedDownBy(int deltaY) {
+        return createOffsetElement(0, deltaY);
+    }
+
+    public static WebElement createElementMovedDownByHeightPLus(int deltaY) {
+        return createElementMovedDownBy(RectangleFixture.height+deltaY);
+    }
+
+    public static WebElement createElementMovedUpBy(int deltaY) {
+        return createOffsetElement(0, -deltaY);
+    }
+
+    public static WebElement createElementMovedUpByHeightPlus(int deltaY) {
+        return createElementMovedUpBy(RectangleFixture.height+deltaY);
     }
 }

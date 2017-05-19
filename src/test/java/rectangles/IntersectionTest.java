@@ -3,33 +3,24 @@ package rectangles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import util.validator.ResponsiveUIValidator;
-import util.validator.UIValidator;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static rectangles.DummyWebElement.createElement;
+import static rectangles.TestAssumptions.notOverlapWith;
+import static rectangles.TestAssumptions.overlapWith;
 
 @RunWith(Parameterized.class)
 public class IntersectionTest {
 
     private boolean debug = false;
 
-    private final DummyWebElement other;
+    private final WebElement other;
 
-    private static final int originX = IntersectionFixture.originX;
-    private static final int cornerX = IntersectionFixture.cornerX;
-    private static final int originY = IntersectionFixture.originY;
-    private static final int cornerY = IntersectionFixture.cornerY;
-    private static final long windowWidth = IntersectionFixture.windowWidth;
-    private static final long windowHeight = IntersectionFixture.windowHeight;
-
-    private final DummyWebElement root;
+    private final WebElement root;
     private boolean intersects;
 
 
@@ -40,32 +31,20 @@ public class IntersectionTest {
 
     public IntersectionTest(int otherOriginX, int otherOriginY, int otherCornerX, int otherCornerY, boolean intersects) {
         this.intersects = intersects;
-        root = createElement(originX, originY, cornerX, cornerY);
+        root = DummyWebElement.createRootElement();
         other = createElement(otherOriginX, otherOriginY, otherCornerX, otherCornerY);
     }
 
     @Test
     public void shouldOverlap() {
-        WebDriver driver = new DummyWebDriver(windowWidth, windowHeight);
-        ResponsiveUIValidator temporary = new ResponsiveUIValidator(driver).init();
-
-        UIValidator validator = temporary.findElement(root, "Bla");
-
-        validator.overlapWith(other, "Bla");
-        assertThat(validator.validate())
+        assertThat(overlapWith(root, other))
                 .withFailMessage(failMessage())
                 .isEqualTo(intersects);
     }
 
     @Test
     public void shouldNotOverlap() {
-        WebDriver driver = new DummyWebDriver(windowWidth, windowHeight);
-        ResponsiveUIValidator temporary = new ResponsiveUIValidator(driver).init();
-
-        UIValidator validator = temporary.findElement(root, "Bla");
-
-        validator.notOverlapWith(other, "Bla");
-        assertThat(validator.validate())
+        assertThat(notOverlapWith(root, other))
                 .withFailMessage(failMessage())
                 .isEqualTo(!intersects);
     }
@@ -76,12 +55,6 @@ public class IntersectionTest {
                 toString(other),
                 intersects ? "": "not ",
                 debug ? asSvg() : "");
-    }
-
-    private DummyWebElement createElement(int originX, int originY, int cornerX, int cornerY) {
-        return new DummyWebElement(
-                new Point(originX, originY),
-                new Dimension(cornerX-originX, cornerY-originY));
     }
 
     private String toString(WebElement webElement) {
