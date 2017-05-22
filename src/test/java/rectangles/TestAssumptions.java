@@ -96,6 +96,10 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.notOverlapWith(other, "Blub"));
     }
 
+    public static boolean insideOf(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.insideOf(other, "Blub"));
+    }
+
     public static boolean sameWidthAs(WebElement root, WebElement other) {
         return validate(root, uiValidator -> uiValidator.sameWidthAs(other, "Blub"));
     }

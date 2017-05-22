@@ -47,7 +47,8 @@ public class RectangleFixture {
                         int otherCornerY = yValues[yIndex2];
                         Rectangle2D.Double other = new Rectangle2D.Double(otherOriginX, otherOriginY, otherCornerX-otherOriginX, otherCornerY-otherOriginY);
                         boolean intersects = rectangle.intersects(other);
-                        Object[] values = {otherOriginX, otherOriginY, otherCornerX, otherCornerY, intersects};
+                        boolean otherContainsRoot = other.contains(rectangle);
+                        Object[] values = {otherOriginX, otherOriginY, otherCornerX, otherCornerY, intersects, otherContainsRoot};
                         result.add(values);
                     }
                 }
@@ -61,7 +62,7 @@ public class RectangleFixture {
 
         Collection<Object[]> data = data();
         for (Object[] datum : data) {
-            System.out.println(String.format("{%s, %s, %s, %s, %s},", datum[0], datum[1], datum[2], datum[3], datum[4]));
+            System.out.println(String.format("{%s, %s, %s, %s, %s, %s},", datum[0], datum[1], datum[2], datum[3], datum[4], datum[5]));
         }
 
     }
