@@ -2,6 +2,7 @@ package rectangles;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import util.validator.ResponsiveUIChunkValidator;
 import util.validator.ResponsiveUIValidator;
 import util.validator.UIValidator;
 import util.validator.properties.Padding;
@@ -38,6 +39,16 @@ public class TestAssumptions {
         UIValidator validator = temporary.findElement(root, "Bla");
 
         assumption.accept(validator, others);
+        return validator.validate();
+    }
+
+    public static boolean validate(List<WebElement> elements, Consumer<ResponsiveUIChunkValidator> assumption) {
+        WebDriver driver = new DummyWebDriver();
+        ResponsiveUIValidator temporary = new ResponsiveUIValidator(driver).init();
+
+        ResponsiveUIChunkValidator validator = temporary.findElements(elements);
+
+        assumption.accept(validator);
         return validator.validate();
     }
 
@@ -103,6 +114,10 @@ public class TestAssumptions {
 
     public static boolean insideOf(WebElement root, WebElement other, Padding padding) {
         return validate(root, uiValidator -> uiValidator.insideOf(other, "Blub", padding));
+    }
+
+    public static boolean insideOf(List<WebElement> elements, WebElement container) {
+        return validate(elements, validator -> validator.insideOf(container, "Bla"));
     }
 
     public static boolean sameWidthAs(WebElement root, WebElement other) {

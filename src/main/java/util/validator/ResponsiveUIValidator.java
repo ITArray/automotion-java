@@ -863,33 +863,30 @@ public class ResponsiveUIValidator {
         return ((AppiumDriver) driver).getContext().contains("NATIVE");
     }
 
-    void validateInsideOfContainer(WebElement element, String readableContainerName) {
-        float xContainer = element.getLocation().x;
-        float yContainer = element.getLocation().y;
-        float widthContainer = element.getSize().width;
-        float heightContainer = element.getSize().height;
+    void validateInsideOfContainer(WebElement containerElement, String readableContainerName) {
+        Rectangle2D.Double elementRectangle = new Rectangle2D.Double(
+                containerElement.getLocation().getX(),
+                containerElement.getLocation().getY(),
+                containerElement.getSize().getWidth(),
+                containerElement.getSize().getHeight());
         if (rootElements == null || rootElements.isEmpty()) {
             Rectangle2D.Double rootRectangle = new Rectangle2D.Double(
                     rootElement.getLocation().getX(),
                     rootElement.getLocation().getY(),
                     rootElement.getSize().getWidth(),
                     rootElement.getSize().getHeight());
-            Rectangle2D.Double elementRectangle = new Rectangle2D.Double(
-                    element.getLocation().getX(),
-                    element.getLocation().getY(),
-                    element.getSize().getWidth(),
-                    element.getSize().getHeight());
             if (!elementRectangle.contains(rootRectangle)) {
-                putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), element);
+                putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), containerElement);
             }
         } else {
             for (WebElement el : rootElements) {
-                float xRoot = el.getLocation().x;
-                float yRoot = el.getLocation().y;
-                float widthRoot = el.getSize().width;
-                float heightRoot = el.getSize().height;
-                if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
-                    putJsonDetailsWithElement(String.format("Element is not inside of '%s'", readableContainerName), element);
+                Rectangle2D.Double rootRectangle = new Rectangle2D.Double(
+                        el.getLocation().getX(),
+                        el.getLocation().getY(),
+                        el.getSize().getWidth(),
+                        el.getSize().getHeight());
+                if (!elementRectangle.contains(rootRectangle)) {
+                    putJsonDetailsWithElement(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
                 }
             }
         }

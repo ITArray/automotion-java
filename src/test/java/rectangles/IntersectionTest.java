@@ -10,6 +10,7 @@ import util.validator.properties.Padding;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
 import static rectangles.TestAssumptions.*;
@@ -60,6 +61,13 @@ public class IntersectionTest {
     @Test
     public void shouldBeInsideOf() {
         assertThat(insideOf(root, other))
+                .withFailMessage(failMessage(insideOfMessage()))
+                .isEqualTo(otherContainsRoot);
+    }
+
+    @Test
+    public void shouldBeInsideOfChunkVersion() {
+        assertThat(insideOf(singletonList(root), other))
                 .withFailMessage(failMessage(insideOfMessage()))
                 .isEqualTo(otherContainsRoot);
     }
