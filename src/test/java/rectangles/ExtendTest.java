@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.Collections;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createRootElement;
 import static rectangles.RectangleFixture.*;
@@ -24,6 +25,7 @@ public class ExtendTest {
         WebElement other = DummyWebElement.createElement(originX+10, originY+5, cornerX+10, cornerY+5);
 
         assertThat(sameWidthAs(root, other)).isTrue();
+        assertThat(sameWidthAs(root, singletonList(other))).isTrue();
     }
 
     @Test
@@ -31,6 +33,7 @@ public class ExtendTest {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX, cornerY+100);
 
         assertThat(sameWidthAs(root, other)).isTrue();
+        assertThat(sameWidthAs(root, singletonList(other))).isTrue();
     }
 
     @Test
@@ -38,6 +41,7 @@ public class ExtendTest {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX+100, cornerY);
 
         assertThat(sameWidthAs(root, other)).isFalse();
+        assertThat(sameWidthAs(root, singletonList(other))).isFalse();
     }
 
     @Test
@@ -45,7 +49,7 @@ public class ExtendTest {
         WebElement other = DummyWebElement.createElement(originX+10, originY+5, cornerX+10, cornerY+5);
 
         assertThat(sameHeightAs(root, other)).isTrue();
-        assertThat(sameHeightAs(root, Collections.singletonList(other))).isTrue();
+        assertThat(sameHeightAs(root, singletonList(other))).isTrue();
     }
 
     @Test
@@ -53,6 +57,7 @@ public class ExtendTest {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX+100, cornerY);
 
         assertThat(sameHeightAs(root, other)).isTrue();
+        assertThat(sameHeightAs(root, singletonList(other))).isTrue();
     }
 
     @Test
@@ -60,6 +65,7 @@ public class ExtendTest {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX, cornerY+100);
 
         assertThat(sameHeightAs(root, other)).isFalse();
+        assertThat(sameHeightAs(root, singletonList(other))).isFalse();
     }
 
     @Test
@@ -67,7 +73,9 @@ public class ExtendTest {
         WebElement other = DummyWebElement.createElement(originX+10, originY+5, cornerX+10, cornerY+5);
 
         assertThat(sameSizeAs(root, other)).isTrue();
+        assertThat(sameSizeAs(root, singletonList(other))).isTrue();
         assertThat(notSameSizeAs(root, other)).isFalse();
+        assertThat(notSameSizeAs(root, singletonList(other))).isFalse();
     }
 
     @Test
@@ -75,7 +83,9 @@ public class ExtendTest {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX, cornerY+100);
 
         assertThat(sameSizeAs(root, other)).isFalse();
+        assertThat(sameSizeAs(root, singletonList(other))).isFalse();
         assertThat(notSameSizeAs(root, other)).isTrue();
+        assertThat(notSameSizeAs(root, singletonList(other))).isTrue();
     }
 
     @Test
@@ -83,7 +93,9 @@ public class ExtendTest {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX, cornerY+100);
 
         assertThat(sameSizeAs(root, other)).isFalse();
+        assertThat(sameSizeAs(root, singletonList(other))).isFalse();
         assertThat(notSameSizeAs(root, other)).isTrue();
+        assertThat(notSameSizeAs(root, singletonList(other))).isTrue();
     }
 
     @Test

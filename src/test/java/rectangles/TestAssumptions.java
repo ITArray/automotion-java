@@ -100,6 +100,10 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.sameWidthAs(other, "Blub"));
     }
 
+    public static boolean sameWidthAs(WebElement root, List<WebElement> others) {
+        return validate(root, uiValidator -> uiValidator.sameWidthAs(others));
+    }
+
     public static boolean sameHeightAs(WebElement root, WebElement other) {
         return validate(root, uiValidator -> uiValidator.sameHeightAs(other, "Blub"));
     }
@@ -112,8 +116,16 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.sameSizeAs(other, "Blub"));
     }
 
+    public static boolean sameSizeAs(WebElement root, List<WebElement> others) {
+        return validate(root, uiValidator -> uiValidator.sameSizeAs(others));
+    }
+
     public static boolean notSameSizeAs(WebElement root, WebElement other) {
         return validate(root, uiValidator -> uiValidator.notSameSizeAs(other, "Blub"));
+    }
+
+    public static boolean notSameSizeAs(WebElement root, List<WebElement> others) {
+        return validate(root, uiValidator -> uiValidator.notSameSizeAs(others));
     }
 
     public static boolean heightBetween(WebElement root, int min, int max) {
