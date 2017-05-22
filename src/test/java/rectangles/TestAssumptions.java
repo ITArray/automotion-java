@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIValidator;
 import util.validator.UIValidator;
+import util.validator.properties.Padding;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -94,6 +95,14 @@ public class TestAssumptions {
 
     public static boolean notOverlapWith(WebElement root, WebElement other) {
         return validate(root, uiValidator -> uiValidator.notOverlapWith(other, "Blub"));
+    }
+
+    public static boolean insideOf(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.insideOf(other, "Blub"));
+    }
+
+    public static boolean insideOf(WebElement root, WebElement other, Padding padding) {
+        return validate(root, uiValidator -> uiValidator.insideOf(other, "Blub", padding));
     }
 
     public static boolean sameWidthAs(WebElement root, WebElement other) {
