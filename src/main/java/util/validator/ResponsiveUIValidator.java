@@ -869,7 +869,17 @@ public class ResponsiveUIValidator {
         float widthContainer = element.getSize().width;
         float heightContainer = element.getSize().height;
         if (rootElements == null || rootElements.isEmpty()) {
-            if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
+            Rectangle2D.Double rootRectangle = new Rectangle2D.Double(
+                    rootElement.getLocation().getX(),
+                    rootElement.getLocation().getY(),
+                    rootElement.getSize().getWidth(),
+                    rootElement.getSize().getHeight());
+            Rectangle2D.Double elementRectangle = new Rectangle2D.Double(
+                    element.getLocation().getX(),
+                    element.getLocation().getY(),
+                    element.getSize().getWidth(),
+                    element.getSize().getHeight());
+            if (!elementRectangle.contains(rootRectangle)) {
                 putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), element);
             }
         } else {
@@ -886,21 +896,33 @@ public class ResponsiveUIValidator {
     }
 
     void validateInsideOfContainer(WebElement element, String readableContainerName, Padding padding) {
-        validateInsideOfContainer(element, readableContainerName);
-        int paddingTop = element.getLocation().x - xRoot;
-        int paddingRight = element.getLocation().y - yRoot;
-        int paddingBottom = yRoot - element.getLocation().y;
-        int paddingLeft = xRoot - element.getLocation().x;
-
         int top = getConvertedInt(padding.getTop(), false);
         int right = getConvertedInt(padding.getRight(), true);
         int bottom = getConvertedInt(padding.getBottom(), false);
         int left = getConvertedInt(padding.getLeft(), true);
 
-        if ((paddingTop != top && top > -1)
-                || (paddingRight != right && right > -1)
-                || (paddingBottom != bottom && bottom > -1)
-                || (paddingLeft != left && left > -1)) {
+        Rectangle2D.Double paddedRootRectangle = new Rectangle2D.Double(
+                rootElement.getLocation().getX() - left,
+                rootElement.getLocation().getY() - top,
+                rootElement.getSize().getWidth() + left + right,
+                rootElement.getSize().getHeight() + top + bottom);
+        Rectangle2D.Double elementRectangle = new Rectangle2D.Double(
+                element.getLocation().getX(),
+                element.getLocation().getY(),
+                element.getSize().getWidth(),
+                element.getSize().getHeight());
+
+
+        int paddingTop = rootElement.getLocation().getY()
+                - element.getLocation().getY();
+        int paddingLeft = rootElement.getLocation().getX()
+                - element.getLocation().getX();
+        int paddingBottom = (element.getLocation().getY() + element.getSize().getHeight())
+                - (rootElement.getLocation().getY() + rootElement.getSize().getHeight());
+        int paddingRight = (element.getLocation().getX() + element.getSize().getWidth())
+                - (rootElement.getLocation().getX() + rootElement.getSize().getWidth());
+
+        if (!elementRectangle.contains(paddedRootRectangle)) {
             putJsonDetailsWithElement(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
                     rootElementReadableName, top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
         }
