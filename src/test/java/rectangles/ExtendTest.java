@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
+import java.util.Collections;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createRootElement;
 import static rectangles.RectangleFixture.*;
@@ -43,6 +45,7 @@ public class ExtendTest {
         WebElement other = DummyWebElement.createElement(originX+10, originY+5, cornerX+10, cornerY+5);
 
         assertThat(sameHeightAs(root, other)).isTrue();
+        assertThat(sameHeightAs(root, Collections.singletonList(other))).isTrue();
     }
 
     @Test
@@ -60,10 +63,11 @@ public class ExtendTest {
     }
 
     @Test
-    public void hasSameSizetAsATranslatedElement() {
+    public void hasSameSizeAsATranslatedElement() {
         WebElement other = DummyWebElement.createElement(originX+10, originY+5, cornerX+10, cornerY+5);
 
         assertThat(sameSizeAs(root, other)).isTrue();
+        assertThat(notSameSizeAs(root, other)).isFalse();
     }
 
     @Test
@@ -71,6 +75,7 @@ public class ExtendTest {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX, cornerY+100);
 
         assertThat(sameSizeAs(root, other)).isFalse();
+        assertThat(notSameSizeAs(root, other)).isTrue();
     }
 
     @Test
@@ -78,6 +83,7 @@ public class ExtendTest {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX, cornerY+100);
 
         assertThat(sameSizeAs(root, other)).isFalse();
+        assertThat(notSameSizeAs(root, other)).isTrue();
     }
 
     @Test
