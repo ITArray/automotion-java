@@ -1,9 +1,11 @@
 package rectangles;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebElement;
+import util.validator.properties.Padding;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -44,30 +46,43 @@ public class IntersectionTest {
     @Test
     public void shouldOverlap() {
         assertThat(overlapWith(root, other))
-                .withFailMessage(failMessage())
+                .withFailMessage(failMessage(intersectionExpectation()))
                 .isEqualTo(intersects);
     }
 
     @Test
     public void shouldNotOverlap() {
         assertThat(notOverlapWith(root, other))
-                .withFailMessage(failMessage())
+                .withFailMessage(failMessage(intersectionExpectation()))
                 .isEqualTo(!intersects);
     }
 
     @Test
     public void shouldBeInsideOf() {
         assertThat(insideOf(root, other))
-                .withFailMessage(failMessage())
+                .withFailMessage(failMessage("first should be inside of second"))
                 .isEqualTo(otherContainsRoot);
     }
 
-    private String failMessage() {
-        return String.format("%s and %s should %soverlap%s",
+    @Ignore
+    @Test
+    public void shouldBeInsideOfWithZeroPadding() {
+        Padding padding = new Padding(0);
+        assertThat(insideOf(root, other, padding))
+                .withFailMessage(failMessage("first should be inside of second with zero padding"))
+                .isEqualTo(otherContainsRoot);
+    }
+
+    private String failMessage(String expectation) {
+        return String.format("%s and %s %s%s",
                 toString(root),
                 toString(other),
-                intersects ? "": "not ",
+                expectation,
                 debug ? asSvg() : "");
+    }
+
+    private String intersectionExpectation() {
+        return String.format("should %soverlap", intersects ? "": "not ");
     }
 
     private String toString(WebElement webElement) {
