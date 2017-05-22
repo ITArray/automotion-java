@@ -62,7 +62,7 @@ public class DummyWebElement implements WebElement {
 
     @Override
     public String getText() {
-        return null;
+        return "";
     }
 
     @Override
