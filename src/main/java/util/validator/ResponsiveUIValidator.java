@@ -4,6 +4,7 @@ import http.helpers.Helper;
 import io.appium.java_client.AppiumDriver;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -864,28 +865,15 @@ public class ResponsiveUIValidator {
     }
 
     void validateInsideOfContainer(WebElement containerElement, String readableContainerName) {
-        Rectangle2D.Double elementRectangle = new Rectangle2D.Double(
-                containerElement.getLocation().getX(),
-                containerElement.getLocation().getY(),
-                containerElement.getSize().getWidth(),
-                containerElement.getSize().getHeight());
+        Rectangle2D.Double elementRectangle = rectangle(containerElement);
         if (rootElements == null || rootElements.isEmpty()) {
-            Rectangle2D.Double rootRectangle = new Rectangle2D.Double(
-                    rootElement.getLocation().getX(),
-                    rootElement.getLocation().getY(),
-                    rootElement.getSize().getWidth(),
-                    rootElement.getSize().getHeight());
+            Rectangle2D.Double rootRectangle = rectangle(rootElement);
             if (!elementRectangle.contains(rootRectangle)) {
                 putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), containerElement);
             }
         } else {
             for (WebElement el : rootElements) {
-                Rectangle2D.Double rootRectangle = new Rectangle2D.Double(
-                        el.getLocation().getX(),
-                        el.getLocation().getY(),
-                        el.getSize().getWidth(),
-                        el.getSize().getHeight());
-                if (!elementRectangle.contains(rootRectangle)) {
+                if (!elementRectangle.contains(rectangle(el))) {
                     putJsonDetailsWithElement(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
                 }
             }
@@ -903,12 +891,6 @@ public class ResponsiveUIValidator {
                 rootElement.getLocation().getY() - top,
                 rootElement.getSize().getWidth() + left + right,
                 rootElement.getSize().getHeight() + top + bottom);
-        Rectangle2D.Double elementRectangle = new Rectangle2D.Double(
-                element.getLocation().getX(),
-                element.getLocation().getY(),
-                element.getSize().getWidth(),
-                element.getSize().getHeight());
-
 
         int paddingTop = rootElement.getLocation().getY()
                 - element.getLocation().getY();
@@ -919,10 +901,18 @@ public class ResponsiveUIValidator {
         int paddingRight = (element.getLocation().getX() + element.getSize().getWidth())
                 - (rootElement.getLocation().getX() + rootElement.getSize().getWidth());
 
-        if (!elementRectangle.contains(paddedRootRectangle)) {
+        if (!rectangle(element).contains(paddedRootRectangle)) {
             putJsonDetailsWithElement(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
                     rootElementReadableName, top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
         }
+    }
+
+    private Rectangle2D.Double rectangle(WebElement element) {
+        return new Rectangle2D.Double(
+                    element.getLocation().getX(),
+                    element.getLocation().getY(),
+                    element.getSize().getWidth(),
+                    element.getSize().getHeight());
     }
 
     private int getLeftOffset(WebElement element) {
@@ -942,17 +932,7 @@ public class ResponsiveUIValidator {
     }
 
     private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
-        Rectangle2D.Double rootRectangle = new Rectangle2D.Double(
-                rootElement.getLocation().getX(),
-                rootElement.getLocation().getY(),
-                rootElement.getSize().getWidth(),
-                rootElement.getSize().getHeight());
-        Rectangle2D.Double elementRectangle = new Rectangle2D.Double(
-                elementOverlapWith.getLocation().getX(),
-                elementOverlapWith.getLocation().getY(),
-                elementOverlapWith.getSize().getWidth(),
-                elementOverlapWith.getSize().getHeight());
-        return rootRectangle.intersects(elementRectangle);
+        return rectangle(rootElement).intersects(rectangle(elementOverlapWith));
     }
 
     private boolean elementsHaveEqualLeftRightOffset(boolean isLeft, WebElement element, WebElement elementToCompare) {
