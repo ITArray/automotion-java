@@ -55,10 +55,6 @@ public class ResponsiveUIValidator {
     String rootElementReadableName = "Root Element";
     List<WebElement> rootElements;
     ResponsiveUIValidator.Units units = PX;
-    private int xRoot;
-    private int yRoot;
-    private int widthRoot;
-    private int heightRoot;
     int pageWidth;
     int pageHeight;
 
@@ -959,35 +955,19 @@ public class ResponsiveUIValidator {
     }
 
     protected int getxRoot() {
-        return xRoot;
-    }
-
-    protected void setxRoot(int xRoot) {
-        this.xRoot = xRoot;
+        return rootElement.getLocation().getX();
     }
 
     protected int getyRoot() {
-        return yRoot;
-    }
-
-    protected void setyRoot(int yRoot) {
-        this.yRoot = yRoot;
+        return rootElement.getLocation().getY();
     }
 
     protected int getWidthRoot() {
-        return widthRoot;
-    }
-
-    protected void setWidthRoot(int widthRoot) {
-        this.widthRoot = widthRoot;
+        return rootElement.getSize().getWidth();
     }
 
     protected int getHeightRoot() {
-        return heightRoot;
-    }
-
-    protected void setHeightRoot(int heightRoot) {
-        this.heightRoot = heightRoot;
+        return rootElement.getSize().getHeight();
     }
 
     public enum Units {
