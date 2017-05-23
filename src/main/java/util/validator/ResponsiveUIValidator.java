@@ -4,6 +4,7 @@ import http.helpers.Helper;
 import io.appium.java_client.AppiumDriver;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -863,47 +864,55 @@ public class ResponsiveUIValidator {
         return ((AppiumDriver) driver).getContext().contains("NATIVE");
     }
 
-    void validateInsideOfContainer(WebElement element, String readableContainerName) {
-        float xContainer = element.getLocation().x;
-        float yContainer = element.getLocation().y;
-        float widthContainer = element.getSize().width;
-        float heightContainer = element.getSize().height;
+    void validateInsideOfContainer(WebElement containerElement, String readableContainerName) {
+        Rectangle2D.Double elementRectangle = rectangle(containerElement);
         if (rootElements == null || rootElements.isEmpty()) {
-            if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
-                putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), element);
+            Rectangle2D.Double rootRectangle = rectangle(rootElement);
+            if (!elementRectangle.contains(rootRectangle)) {
+                putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), containerElement);
             }
         } else {
             for (WebElement el : rootElements) {
-                float xRoot = el.getLocation().x;
-                float yRoot = el.getLocation().y;
-                float widthRoot = el.getSize().width;
-                float heightRoot = el.getSize().height;
-                if (xRoot < xContainer || yRoot < yContainer || (xRoot + widthRoot) > (xContainer + widthContainer) || (yRoot + heightRoot) > (yContainer + heightContainer)) {
-                    putJsonDetailsWithElement(String.format("Element is not inside of '%s'", readableContainerName), element);
+                if (!elementRectangle.contains(rectangle(el))) {
+                    putJsonDetailsWithElement(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
                 }
             }
         }
     }
 
     void validateInsideOfContainer(WebElement element, String readableContainerName, Padding padding) {
-        validateInsideOfContainer(element, readableContainerName);
-        int paddingTop = element.getLocation().x - xRoot;
-        int paddingRight = element.getLocation().y - yRoot;
-        int paddingBottom = yRoot - element.getLocation().y;
-        int paddingLeft = xRoot - element.getLocation().x;
-
         int top = getConvertedInt(padding.getTop(), false);
         int right = getConvertedInt(padding.getRight(), true);
         int bottom = getConvertedInt(padding.getBottom(), false);
         int left = getConvertedInt(padding.getLeft(), true);
 
-        if ((paddingTop != top && top > -1)
-                || (paddingRight != right && right > -1)
-                || (paddingBottom != bottom && bottom > -1)
-                || (paddingLeft != left && left > -1)) {
+        Rectangle2D.Double paddedRootRectangle = new Rectangle2D.Double(
+                rootElement.getLocation().getX() - left,
+                rootElement.getLocation().getY() - top,
+                rootElement.getSize().getWidth() + left + right,
+                rootElement.getSize().getHeight() + top + bottom);
+
+        int paddingTop = rootElement.getLocation().getY()
+                - element.getLocation().getY();
+        int paddingLeft = rootElement.getLocation().getX()
+                - element.getLocation().getX();
+        int paddingBottom = (element.getLocation().getY() + element.getSize().getHeight())
+                - (rootElement.getLocation().getY() + rootElement.getSize().getHeight());
+        int paddingRight = (element.getLocation().getX() + element.getSize().getWidth())
+                - (rootElement.getLocation().getX() + rootElement.getSize().getWidth());
+
+        if (!rectangle(element).contains(paddedRootRectangle)) {
             putJsonDetailsWithElement(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
                     rootElementReadableName, top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
         }
+    }
+
+    private Rectangle2D.Double rectangle(WebElement element) {
+        return new Rectangle2D.Double(
+                    element.getLocation().getX(),
+                    element.getLocation().getY(),
+                    element.getSize().getWidth(),
+                    element.getSize().getHeight());
     }
 
     private int getLeftOffset(WebElement element) {
@@ -923,17 +932,7 @@ public class ResponsiveUIValidator {
     }
 
     private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
-        Rectangle2D.Double rootRectangle = new Rectangle2D.Double(
-                rootElement.getLocation().getX(),
-                rootElement.getLocation().getY(),
-                rootElement.getSize().getWidth(),
-                rootElement.getSize().getHeight());
-        Rectangle2D.Double elementRectangle = new Rectangle2D.Double(
-                elementOverlapWith.getLocation().getX(),
-                elementOverlapWith.getLocation().getY(),
-                elementOverlapWith.getSize().getWidth(),
-                elementOverlapWith.getSize().getHeight());
-        return rootRectangle.intersects(elementRectangle);
+        return rectangle(rootElement).intersects(rectangle(elementOverlapWith));
     }
 
     private boolean elementsHaveEqualLeftRightOffset(boolean isLeft, WebElement element, WebElement elementToCompare) {

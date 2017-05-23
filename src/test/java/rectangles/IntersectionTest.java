@@ -10,6 +10,7 @@ import util.validator.properties.Padding;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
 import static rectangles.TestAssumptions.*;
@@ -60,16 +61,44 @@ public class IntersectionTest {
     @Test
     public void shouldBeInsideOf() {
         assertThat(insideOf(root, other))
-                .withFailMessage(failMessage("first should be inside of second"))
+                .withFailMessage(failMessage(insideOfMessage()))
                 .isEqualTo(otherContainsRoot);
     }
 
-    @Ignore
+    @Test
+    public void shouldBeInsideOfChunkVersion() {
+        assertThat(insideOf(singletonList(root), other))
+                .withFailMessage(failMessage(insideOfMessage()))
+                .isEqualTo(otherContainsRoot);
+    }
+
+    private String insideOfMessage() {
+        return String.format("first %sshould be inside of second",
+                otherContainsRoot ? "" : "not ");
+    }
+
     @Test
     public void shouldBeInsideOfWithZeroPadding() {
         Padding padding = new Padding(0);
         assertThat(insideOf(root, other, padding))
-                .withFailMessage(failMessage("first should be inside of second with zero padding"))
+                .withFailMessage(failMessage(insideOfMessage() + " with zero padding"))
+                .isEqualTo(otherContainsRoot);
+    }
+
+    @Test
+    public void shouldBeInsideOfWithPadding() {
+        int paddingLeft = 7;
+        int paddingRight = 11;
+        int paddingTop = 13;
+        int paddingBottom = 17;
+        Padding padding = new Padding(paddingTop, paddingRight, paddingBottom, paddingLeft);
+        WebElement insetRoot = createElement(
+                RectangleFixture.originX + paddingLeft,
+                RectangleFixture.originY + paddingTop,
+                RectangleFixture.cornerX - paddingRight,
+                RectangleFixture.cornerY - paddingBottom);
+        assertThat(insideOf(insetRoot, other, padding))
+                .withFailMessage(failMessage(insideOfMessage() + " with non zero padding"))
                 .isEqualTo(otherContainsRoot);
     }
 
