@@ -502,31 +502,41 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateSameSize(List<WebElement> elements, int type) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            int h1 = getHeight(elements.get(i));
-            int w1 = getWidth(elements.get(i));
-            int h2 = getHeight(elements.get(i + 1));
-            int w2 = getWidth(elements.get(i + 1));
-            switch (type) {
-                case 0:
-                    if (h1 != h2 || w1 != w2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 1), getWidth(elements.get(i)), getHeight(elements.get(i))), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 2), getWidth(elements.get(i + 1)), getHeight(elements.get(i + 1))), elements.get(i + 1));
-                    }
-                    break;
-                case 1:
-                    if (w1 != w2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 1), getWidth(elements.get(i)), getHeight(elements.get(i))), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 2), getWidth(elements.get(i + 1)), getHeight(elements.get(i + 1))), elements.get(i + 1));
-                    }
-                    break;
-                case 2:
-                    if (h1 != h2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 1), getWidth(elements.get(i)), getHeight(elements.get(i))), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 2), getWidth(elements.get(i + 1)), getHeight(elements.get(i + 1))), elements.get(i + 1));
-                    }
+    void validateSameWidth() {
+        for (int i = 0; i < rootElements.size() - 1; i++) {
+            int w1 = getWidth(rootElements.get(i));
+            int w2 = getWidth(rootElements.get(i + 1));
+            if (w1 != w2) {
+                putJsonDetailsWithElement(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 1), getWidth(rootElements.get(i)), getHeight(rootElements.get(i))), rootElements.get(i));
+                putJsonDetailsWithElement(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 2), getWidth(rootElements.get(i + 1)), getHeight(rootElements.get(i + 1))), rootElements.get(i + 1));
             }
+        }
+    }
+
+    void validateSameHeight() {
+        for (int i = 0; i < rootElements.size() - 1; i++) {
+            int h1 = getHeight(rootElements.get(i));
+            int h2 = getHeight(rootElements.get(i + 1));
+            if (h1 != h2) {
+                putJsonDetailsWithElement(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 1), getWidth(rootElements.get(i)), getHeight(rootElements.get(i))), rootElements.get(i));
+                putJsonDetailsWithElement(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 2), getWidth(rootElements.get(i + 1)), getHeight(rootElements.get(i + 1))), rootElements.get(i + 1));
+            }
+        }
+    }
+
+
+
+    void validateSameSize() {
+        for (int i = 0; i < rootElements.size() - 1; i++) {
+            int h1 = getHeight(rootElements.get(i));
+            int w1 = getWidth(rootElements.get(i));
+            int h2 = getHeight(rootElements.get(i + 1));
+            int w2 = getWidth(rootElements.get(i + 1));
+            if (h1 != h2 || w1 != w2) {
+                putJsonDetailsWithElement(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 1), getWidth(rootElements.get(i)), getHeight(rootElements.get(i))), rootElements.get(i));
+                putJsonDetailsWithElement(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 2), getWidth(rootElements.get(i + 1)), getHeight(rootElements.get(i + 1))), rootElements.get(i + 1));
+            }
+
         }
     }
 
