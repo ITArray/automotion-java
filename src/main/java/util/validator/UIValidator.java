@@ -14,10 +14,10 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
         super(driver);
         rootElement = element;
         rootElementReadableName = readableNameOfElement;
-        xRoot = rootElement.getLocation().getX();
-        yRoot = rootElement.getLocation().getY();
-        widthRoot = rootElement.getSize().getWidth();
-        heightRoot = rootElement.getSize().getHeight();
+        setxRoot(rootElement.getLocation().getX());
+        setyRoot(rootElement.getLocation().getY());
+        setWidthRoot(rootElement.getSize().getWidth());
+        setHeightRoot(rootElement.getSize().getHeight());
         pageWidth = (int) getPageWidth();
         pageHeight = (int) getPageHeight();
         startTime = System.currentTimeMillis();
