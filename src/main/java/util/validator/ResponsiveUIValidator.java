@@ -316,7 +316,7 @@ public class ResponsiveUIValidator {
         if (rootElements != null) {
             ConcurrentSkipListMap<Integer, AtomicLong> map = new ConcurrentSkipListMap<>();
             for (WebElement el : rootElements) {
-                Integer y = el.getLocation().y;
+                Integer y = el.getLocation().getY();
 
                 map.putIfAbsent(y, new AtomicLong(0));
                 map.get(y).incrementAndGet();
@@ -523,20 +523,20 @@ public class ResponsiveUIValidator {
             switch (type) {
                 case 0:
                     if (h1 != h2 || w1 != w2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 1), elements.get(i).getSize().width, elements.get(i).getSize().height), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().width, elements.get(i + 1).getSize().height), elements.get(i + 1));
+                        putJsonDetailsWithElement(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 1), elements.get(i).getSize().getWidth(), elements.get(i).getSize().getHeight()), elements.get(i));
+                        putJsonDetailsWithElement(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().getWidth(), elements.get(i + 1).getSize().getHeight()), elements.get(i + 1));
                     }
                     break;
                 case 1:
                     if (w1 != w2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 1), elements.get(i).getSize().width, elements.get(i).getSize().height), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().width, elements.get(i + 1).getSize().height), elements.get(i + 1));
+                        putJsonDetailsWithElement(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 1), elements.get(i).getSize().getWidth(), elements.get(i).getSize().getHeight()), elements.get(i));
+                        putJsonDetailsWithElement(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().getWidth(), elements.get(i + 1).getSize().getHeight()), elements.get(i + 1));
                     }
                     break;
                 case 2:
                     if (h1 != h2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 1), elements.get(i).getSize().width, elements.get(i).getSize().height), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().width, elements.get(i + 1).getSize().height), elements.get(i + 1));
+                        putJsonDetailsWithElement(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 1), elements.get(i).getSize().getWidth(), elements.get(i).getSize().getHeight()), elements.get(i));
+                        putJsonDetailsWithElement(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().getWidth(), elements.get(i + 1).getSize().getHeight()), elements.get(i + 1));
                     }
             }
         }
@@ -561,27 +561,27 @@ public class ResponsiveUIValidator {
             switch (type) {
                 case 0:
                     if (h1 == h2 && w1 == w2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 1), elements.get(i).getSize().width, elements.get(i).getSize().height), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().width, elements.get(i + 1).getSize().height), elements.get(i + 1));
+                        putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 1), elements.get(i).getSize().getWidth(), elements.get(i).getSize().getHeight()), elements.get(i));
+                        putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().getWidth(), elements.get(i + 1).getSize().getHeight()), elements.get(i + 1));
                     }
                     break;
                 case 1:
                     if (w1 == w2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 1), elements.get(i).getSize().width, elements.get(i).getSize().height), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().width, elements.get(i + 1).getSize().height), elements.get(i + 1));
+                        putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 1), elements.get(i).getSize().getWidth(), elements.get(i).getSize().getHeight()), elements.get(i));
+                        putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().getWidth(), elements.get(i + 1).getSize().getHeight()), elements.get(i + 1));
                     }
                     break;
                 case 2:
                     if (h1 == h2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 1), elements.get(i).getSize().width, elements.get(i).getSize().height), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().width, elements.get(i + 1).getSize().height), elements.get(i + 1));
+                        putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 1), elements.get(i).getSize().getWidth(), elements.get(i).getSize().getHeight()), elements.get(i));
+                        putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 2), elements.get(i + 1).getSize().getWidth(), elements.get(i + 1).getSize().getHeight()), elements.get(i + 1));
                     }
             }
         }
     }
 
     void validateBelowElement(WebElement element, int minMargin, int maxMargin) {
-        int yBelowElement = element.getLocation().y;
+        int yBelowElement = element.getLocation().getY();
         int marginBetweenRoot = yBelowElement - (yRoot + heightRoot);
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
@@ -599,8 +599,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateAboveElement(WebElement element, int minMargin, int maxMargin) {
-        int yAboveElement = element.getLocation().y;
-        int heightAboveElement = element.getSize().height;
+        int yAboveElement = element.getLocation().getY();
+        int heightAboveElement = element.getSize().getHeight();
         int marginBetweenRoot = yRoot - (yAboveElement + heightAboveElement);
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
@@ -618,7 +618,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateRightElement(WebElement element, int minMargin, int maxMargin) {
-        int xRightElement = element.getLocation().x;
+        int xRightElement = element.getLocation().getX();
         int marginBetweenRoot = xRightElement - (xRoot + widthRoot);
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
@@ -636,8 +636,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateLeftElement(WebElement leftElement, int minMargin, int maxMargin) {
-        int xLeftElement = leftElement.getLocation().x;
-        int widthLeftElement = leftElement.getSize().width;
+        int xLeftElement = leftElement.getLocation().getX();
+        int widthLeftElement = leftElement.getSize().getWidth();
         int marginBetweenRoot = xRoot - (xLeftElement + widthLeftElement);
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), leftElement);
@@ -750,10 +750,10 @@ public class ResponsiveUIValidator {
                 element.getAttribute("id"),
                 element.getAttribute("class"),
                 element.getText().length() < 10 ? element.getText() : element.getText().substring(0, 10) + "...",
-                String.valueOf(element.getLocation().x),
-                String.valueOf(element.getLocation().y),
-                String.valueOf(element.getSize().width),
-                String.valueOf(element.getSize().height));
+                String.valueOf(element.getLocation().getX()),
+                String.valueOf(element.getLocation().getY()),
+                String.valueOf(element.getSize().getWidth()),
+                String.valueOf(element.getSize().getHeight()));
     }
 
     int retinaValue(int value) {
@@ -829,7 +829,7 @@ public class ResponsiveUIValidator {
             }
         } else {
             if (isNativeMobileContext() || isIOS()) {
-                return driver.manage().window().getSize().width;
+                return driver.manage().window().getSize().getWidth();
             } else {
                 return (long) executor.executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
             }
@@ -852,7 +852,7 @@ public class ResponsiveUIValidator {
             }
         } else {
             if (isNativeMobileContext() || isIOS()) {
-                return driver.manage().window().getSize().height;
+                return driver.manage().window().getSize().getHeight();
             } else {
                 return (long) executor.executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
             }
@@ -915,19 +915,19 @@ public class ResponsiveUIValidator {
     }
 
     private int getLeftOffset(WebElement element) {
-        return element.getLocation().x;
+        return element.getLocation().getX();
     }
 
     private int getRightOffset(WebElement element) {
-        return pageWidth - (element.getLocation().x + element.getSize().width);
+        return pageWidth - (element.getLocation().getX() + element.getSize().getWidth());
     }
 
     private int getTopOffset(WebElement element) {
-        return element.getLocation().y;
+        return element.getLocation().getY();
     }
 
     private int getBottomOffset(WebElement element) {
-        return pageHeight - (element.getLocation().y + element.getSize().height);
+        return pageHeight - (element.getLocation().getY() + element.getSize().getHeight());
     }
 
     private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
@@ -935,20 +935,20 @@ public class ResponsiveUIValidator {
     }
 
     private boolean elementsHaveEqualLeftOffset(WebElement element, WebElement elementToCompare) {
-        return element.getLocation().x == elementToCompare.getLocation().getX();
+        return element.getLocation().getX() == elementToCompare.getLocation().getX();
     }
 
     private boolean elementsHaveEqualRightOffset(WebElement element, WebElement elementToCompare) {
-        return element.getLocation().x + element.getSize().width ==
+        return element.getLocation().getX() + element.getSize().getWidth() ==
                 elementToCompare.getLocation().getX() + elementToCompare.getSize().getWidth();
     }
 
     private boolean elementsHaveEqualTopOffset(WebElement element, WebElement elementToCompare) {
-        return element.getLocation().y == elementToCompare.getLocation().getY();
+        return element.getLocation().getY() == elementToCompare.getLocation().getY();
     }
 
     private boolean elementsHaveEqualBottomOffset(WebElement element, WebElement elementToCompare) {
-        return element.getLocation().y + element.getSize().height ==
+        return element.getLocation().getY() + element.getSize().getHeight() ==
                 elementToCompare.getLocation().getY() + elementToCompare.getSize().getHeight();
     }
 
