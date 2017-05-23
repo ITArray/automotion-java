@@ -56,16 +56,32 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.sameOffsetLeftAs(other, "Blub"));
     }
 
+    public static boolean sameLeftOffset(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.sameLeftOffset());
+    }
+
     public static boolean sameOffsetRightAs(WebElement root, WebElement other) {
         return validate(root, uiValidator -> uiValidator.sameOffsetRightAs(other, "Blub"));
+    }
+
+    public static boolean sameRightOffset(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.sameRightOffset());
     }
 
     public static boolean sameOffsetTopAs(WebElement root, WebElement other) {
         return validate(root, uiValidator -> uiValidator.sameOffsetTopAs(other, "Blub"));
     }
 
+    public static boolean sameTopOffset(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.sameTopOffset());
+    }
+
     public static boolean sameOffsetBottomAs(WebElement root, WebElement other) {
         return validate(root, other, (uiValidator, webElement) -> uiValidator.sameOffsetBottomAs(other, "Blub"));
+    }
+
+    public static boolean sameBottomOffset(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.sameBottomOffset());
     }
 
     public static boolean withBottomElement(WebElement root, WebElement other, int minMargin, int maxMargin) {
@@ -108,6 +124,10 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.notOverlapWith(other, "Blub"));
     }
 
+    public static boolean areNotOverlappedWithEachOther(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.areNotOverlappedWithEachOther());
+    }
+
     public static boolean insideOf(WebElement root, WebElement other) {
         return validate(root, uiValidator -> uiValidator.insideOf(other, "Blub"));
     }
@@ -128,12 +148,28 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.sameWidthAs(others));
     }
 
+    public static boolean withSameWidth(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.withSameWidth());
+    }
+
+    public static boolean withNotSameWidth(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.withNotSameWidth());
+    }
+
     public static boolean sameHeightAs(WebElement root, WebElement other) {
         return validate(root, uiValidator -> uiValidator.sameHeightAs(other, "Blub"));
     }
 
     public static boolean sameHeightAs(WebElement root, List<WebElement> others) {
         return validate(root, others, UIValidator::sameHeightAs);
+    }
+
+    public static boolean withSameHeight(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.withSameHeight());
+    }
+
+    public static boolean withNotSameHeight(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.withNotSameHeight());
     }
 
     public static boolean sameSizeAs(WebElement root, WebElement other) {
@@ -144,12 +180,20 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.sameSizeAs(others));
     }
 
+    public static boolean withSameSize(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.withSameSize());
+    }
+
     public static boolean notSameSizeAs(WebElement root, WebElement other) {
         return validate(root, uiValidator -> uiValidator.notSameSizeAs(other, "Blub"));
     }
 
     public static boolean notSameSizeAs(WebElement root, List<WebElement> others) {
         return validate(root, uiValidator -> uiValidator.notSameSizeAs(others));
+    }
+
+    public static boolean withNotSameSize(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.withNotSameSize());
     }
 
     public static boolean heightBetween(WebElement root, int min, int max) {

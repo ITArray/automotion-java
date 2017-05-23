@@ -59,6 +59,13 @@ public class IntersectionTest {
     }
 
     @Test
+    public void areNotOverlapped() {
+        assertThat(areNotOverlappedWithEachOther(Arrays.asList(root, other)))
+                .withFailMessage(failMessage(intersectionExpectation()))
+                .isEqualTo(!intersects);
+    }
+
+    @Test
     public void shouldBeInsideOf() {
         assertThat(insideOf(root, other))
                 .withFailMessage(failMessage(insideOfMessage()))
