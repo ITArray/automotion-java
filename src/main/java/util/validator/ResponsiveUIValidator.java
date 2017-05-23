@@ -366,7 +366,7 @@ public class ResponsiveUIValidator {
 
     void validateTopOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!elementsHaveEqualTopBottomOffset(true, elements.get(i), elements.get(i + 1))) {
+            if (!elementsHaveEqualTopOffset(elements.get(i), elements.get(i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same top offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
@@ -374,7 +374,7 @@ public class ResponsiveUIValidator {
 
     void validateBottomOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!elementsHaveEqualTopBottomOffset(false, elements.get(i), elements.get(i + 1))) {
+            if (!elementsHaveEqualBottomOffset(elements.get(i), elements.get(i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same bottom offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
@@ -398,7 +398,7 @@ public class ResponsiveUIValidator {
 
     void validateTopOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualTopBottomOffset(true, rootElement, element)) {
+            if (!elementsHaveEqualTopOffset(rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), element);
             }
         }
@@ -406,7 +406,7 @@ public class ResponsiveUIValidator {
 
     void validateBottomOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualTopBottomOffset(false, rootElement, element)) {
+            if (!elementsHaveEqualBottomOffset(rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), element);
             }
         }
@@ -943,17 +943,13 @@ public class ResponsiveUIValidator {
                 elementToCompare.getLocation().getX() + elementToCompare.getSize().getWidth();
     }
 
-    private boolean elementsHaveEqualTopBottomOffset(boolean isTop, WebElement element, WebElement elementToCompare) {
-        Point elLoc = elementToCompare.getLocation();
-        Dimension elSize = elementToCompare.getSize();
-        int yRoot = element.getLocation().y;
-        int heightRoot = element.getSize().height;
+    private boolean elementsHaveEqualTopOffset(WebElement element, WebElement elementToCompare) {
+        return element.getLocation().y == elementToCompare.getLocation().getY();
+    }
 
-        if (isTop) {
-            return yRoot == elLoc.getY();
-        } else {
-            return yRoot + heightRoot == elLoc.getY() + elSize.getHeight();
-        }
+    private boolean elementsHaveEqualBottomOffset(WebElement element, WebElement elementToCompare) {
+        return element.getLocation().y + element.getSize().height ==
+                elementToCompare.getLocation().getY() + elementToCompare.getSize().getHeight();
     }
 
     private boolean elementHasEqualLeftRightOffset(WebElement element) {
