@@ -56,16 +56,32 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.sameOffsetLeftAs(other, "Blub"));
     }
 
+    public static boolean sameLeftOffset(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.sameLeftOffset());
+    }
+
     public static boolean sameOffsetRightAs(WebElement root, WebElement other) {
         return validate(root, uiValidator -> uiValidator.sameOffsetRightAs(other, "Blub"));
+    }
+
+    public static boolean sameRightOffset(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.sameRightOffset());
     }
 
     public static boolean sameOffsetTopAs(WebElement root, WebElement other) {
         return validate(root, uiValidator -> uiValidator.sameOffsetTopAs(other, "Blub"));
     }
 
+    public static boolean sameTopOffset(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.sameTopOffset());
+    }
+
     public static boolean sameOffsetBottomAs(WebElement root, WebElement other) {
         return validate(root, other, (uiValidator, webElement) -> uiValidator.sameOffsetBottomAs(other, "Blub"));
+    }
+
+    public static boolean sameBottomOffset(List<WebElement> elements) {
+        return validate(elements, uiValidator -> uiValidator.sameBottomOffset());
     }
 
     public static boolean withBottomElement(WebElement root, WebElement other, int minMargin, int maxMargin) {

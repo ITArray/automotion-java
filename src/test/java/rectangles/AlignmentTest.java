@@ -4,6 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
+import java.util.Arrays;
+
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
 import static rectangles.DummyWebElement.createRootElement;
@@ -33,6 +36,7 @@ public class AlignmentTest {
         WebElement other = createElement(originX, up(originY), up(cornerX), down(cornerY));
 
         assertThat(sameOffsetLeftAs(root, other)).isTrue();
+        assertThat(sameLeftOffset(asList(root, other))).isTrue();
     }
 
     @Test
@@ -40,6 +44,7 @@ public class AlignmentTest {
         WebElement other = createElement(down(originX), up(originY), down(cornerX), down(cornerY));
 
         assertThat(sameOffsetLeftAs(root, other)).isFalse();
+        assertThat(sameLeftOffset(asList(root, other))).isFalse();
     }
 
     @Test
@@ -47,6 +52,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), down(originY), down(cornerX), up(cornerY));
 
         assertThat(sameOffsetLeftAs(root, other)).isFalse();
+        assertThat(sameLeftOffset(asList(root, other))).isFalse();
     }
 
 
@@ -56,6 +62,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), originY, up(cornerX), down(cornerY));
 
         assertThat(sameOffsetTopAs(root, other)).isTrue();
+        assertThat(sameTopOffset(asList(root, other))).isTrue();
     }
 
     @Test
@@ -63,6 +70,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), down(originY), down(cornerX), down(cornerY));
 
         assertThat(sameOffsetTopAs(root, other)).isFalse();
+        assertThat(sameTopOffset(asList(root, other))).isFalse();
     }
 
     @Test
@@ -70,6 +78,7 @@ public class AlignmentTest {
         WebElement other = createElement(down(originX), up(originY), down(cornerX), up(cornerY));
 
         assertThat(sameOffsetTopAs(root, other)).isFalse();
+        assertThat(sameTopOffset(asList(root, other))).isFalse();
     }
 
 
@@ -79,6 +88,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), up(originY), cornerX, down(cornerY));
 
         assertThat(sameOffsetRightAs(root, other)).isTrue();
+        assertThat(sameRightOffset(asList(root, other))).isTrue();
     }
 
     @Test
@@ -86,6 +96,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), up(originY), down(cornerX), down(cornerY));
 
         assertThat(sameOffsetRightAs(root, other)).isFalse();
+        assertThat(sameRightOffset(asList(root, other))).isFalse();
     }
 
     @Test
@@ -93,6 +104,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), up(originY), up(cornerX), down(cornerY));
 
         assertThat(sameOffsetRightAs(root, other)).isFalse();
+        assertThat(sameRightOffset(asList(root, other))).isFalse();
     }
 
 
@@ -102,6 +114,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), up(originY), down(cornerX), cornerY);
 
         assertThat(sameOffsetBottomAs(root, other)).isTrue();
+        assertThat(sameBottomOffset(asList(root, other))).isTrue();
     }
 
     @Test
@@ -109,6 +122,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), up(originY), down(cornerX), down(cornerY));
 
         assertThat(sameOffsetBottomAs(root, other)).isFalse();
+        assertThat(sameBottomOffset(asList(root, other))).isFalse();
     }
 
     @Test
@@ -116,6 +130,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), up(originY), down(cornerX), up(cornerY));
 
         assertThat(sameOffsetBottomAs(root, other)).isFalse();
+        assertThat(sameBottomOffset(asList(root, other))).isFalse();
     }
 
 

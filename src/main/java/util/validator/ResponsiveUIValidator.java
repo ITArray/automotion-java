@@ -921,8 +921,7 @@ public class ResponsiveUIValidator {
     }
 
     private boolean elementsHaveEqualRightOffset(WebElement element, WebElement elementToCompare) {
-        return getCornerX(element) ==
-                getCornerX(elementToCompare);
+        return getCornerX(element) == getCornerX(elementToCompare);
     }
 
     private boolean elementsHaveEqualTopOffset(WebElement element, WebElement elementToCompare) {
@@ -930,8 +929,7 @@ public class ResponsiveUIValidator {
     }
 
     private boolean elementsHaveEqualBottomOffset(WebElement element, WebElement elementToCompare) {
-        return getCornerY(element) ==
-                getCornerY(elementToCompare);
+        return getCornerY(element) == getCornerY(elementToCompare);
     }
 
     private boolean elementHasEqualLeftRightOffset(WebElement element) {
