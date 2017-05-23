@@ -4,7 +4,6 @@ import http.helpers.Helper;
 import io.appium.java_client.AppiumDriver;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -351,7 +350,7 @@ public class ResponsiveUIValidator {
 
     void validateRightOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!elementsHaveEqualLeftRightOffset(false, elements.get(i), elements.get(i + 1))) {
+            if (!elementsHaveEqualRightOffset(elements.get(i), elements.get(i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same right offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
@@ -359,7 +358,7 @@ public class ResponsiveUIValidator {
 
     void validateLeftOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!elementsHaveEqualLeftRightOffset(true, elements.get(i), elements.get(i + 1))) {
+            if (!elementsHaveEqualLeftOffset(elements.get(i), elements.get(i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same left offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
@@ -383,7 +382,7 @@ public class ResponsiveUIValidator {
 
     void validateRightOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualLeftRightOffset(false, rootElement, element)) {
+            if (!elementsHaveEqualRightOffset(rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
             }
         }
@@ -391,7 +390,7 @@ public class ResponsiveUIValidator {
 
     void validateLeftOffsetForElements(WebElement element, String readableName) {
         if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualLeftRightOffset(true, rootElement, element)) {
+            if (!elementsHaveEqualLeftOffset(rootElement, element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), element);
             }
         }
@@ -935,17 +934,13 @@ public class ResponsiveUIValidator {
         return rectangle(rootElement).intersects(rectangle(elementOverlapWith));
     }
 
-    private boolean elementsHaveEqualLeftRightOffset(boolean isLeft, WebElement element, WebElement elementToCompare) {
-        Point elLoc = elementToCompare.getLocation();
-        Dimension elSize = elementToCompare.getSize();
-        int xRoot = element.getLocation().x;
-        int widthRoot = element.getSize().width;
+    private boolean elementsHaveEqualLeftOffset(WebElement element, WebElement elementToCompare) {
+        return element.getLocation().x == elementToCompare.getLocation().getX();
+    }
 
-        if (isLeft) {
-            return xRoot == elLoc.getX();
-        } else {
-            return xRoot + widthRoot == elLoc.getX() + elSize.getWidth();
-        }
+    private boolean elementsHaveEqualRightOffset(WebElement element, WebElement elementToCompare) {
+        return element.getLocation().x + element.getSize().width ==
+                elementToCompare.getLocation().getX() + elementToCompare.getSize().getWidth();
     }
 
     private boolean elementsHaveEqualTopBottomOffset(boolean isTop, WebElement element, WebElement elementToCompare) {
