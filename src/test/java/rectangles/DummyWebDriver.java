@@ -19,7 +19,7 @@ public class DummyWebDriver implements WebDriver, JavascriptExecutor {
     }
 
     public DummyWebDriver() {
-        this(RectangleFixture.windowWidth, RectangleFixture.windowHeight);
+        this(RectangleFixture.pageWidth, RectangleFixture.pageHeight);
     }
 
     @Override
