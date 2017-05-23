@@ -52,6 +52,14 @@ public class TestAssumptions {
         return validator.validate();
     }
 
+    public static boolean minOffset(WebElement root, int top, int right, int bottom, int left) {
+        return validate(root, uiValidator -> uiValidator.minOffset(top, right, bottom, left));
+    }
+
+    public static boolean maxOffset(WebElement root, int top, int right, int bottom, int left) {
+        return validate(root, uiValidator -> uiValidator.maxOffset(top, right, bottom, left));
+    }
+
     public static boolean equalLeftRightOffset(WebElement root) {
         return validate(root, UIValidator::equalLeftRightOffset);
     }

@@ -39,6 +39,26 @@ public class OffsetTest {
         assertThat(equalLeftRightOffset(singletonList(element))).isTrue();
         assertThat(equalTopBottomOffset(element)).isTrue();
         assertThat(equalTopBottomOffset(singletonList(element))).isTrue();
+
+        assertThat(minOffset(element, yOffset-1, xOffset, yOffset, xOffset)).isTrue();
+        assertThat(minOffset(element, yOffset, xOffset-1, yOffset, xOffset)).isTrue();
+        assertThat(minOffset(element, yOffset, xOffset, yOffset-1, xOffset)).isTrue();
+        assertThat(minOffset(element, yOffset, xOffset, yOffset, xOffset-1)).isTrue();
+        assertThat(minOffset(element, yOffset, xOffset, yOffset, xOffset)).isTrue();
+        assertThat(minOffset(element, yOffset+1, xOffset, yOffset, xOffset)).isFalse();
+        assertThat(minOffset(element, yOffset, xOffset+1, yOffset, xOffset)).isFalse();
+        assertThat(minOffset(element, yOffset, xOffset, yOffset+1, xOffset)).isFalse();
+        assertThat(minOffset(element, yOffset, xOffset, yOffset, xOffset+1)).isFalse();
+
+        assertThat(maxOffset(element, yOffset-1, xOffset, yOffset, xOffset)).isFalse();
+        assertThat(maxOffset(element, yOffset, xOffset-1, yOffset, xOffset)).isFalse();
+        assertThat(maxOffset(element, yOffset, xOffset, yOffset-1, xOffset)).isFalse();
+        assertThat(maxOffset(element, yOffset, xOffset, yOffset, xOffset-1)).isFalse();
+        assertThat(maxOffset(element, yOffset, xOffset, yOffset, xOffset)).isTrue();
+        assertThat(maxOffset(element, yOffset+1, xOffset, yOffset, xOffset)).isTrue();
+        assertThat(maxOffset(element, yOffset, xOffset+1, yOffset, xOffset)).isTrue();
+        assertThat(maxOffset(element, yOffset, xOffset, yOffset+1, xOffset)).isTrue();
+        assertThat(maxOffset(element, yOffset, xOffset, yOffset, xOffset+1)).isTrue();
     }
 
     @Test
