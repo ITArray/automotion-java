@@ -504,22 +504,22 @@ public class ResponsiveUIValidator {
 
     void validateSameWidth() {
         for (int i = 0; i < rootElements.size() - 1; i++) {
-            int w1 = getWidth(rootElements.get(i));
-            int w2 = getWidth(rootElements.get(i + 1));
-            if (w1 != w2) {
-                putJsonDetailsWithElement(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 1), getWidth(rootElements.get(i)), getHeight(rootElements.get(i))), rootElements.get(i));
-                putJsonDetailsWithElement(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 2), getWidth(rootElements.get(i + 1)), getHeight(rootElements.get(i + 1))), rootElements.get(i + 1));
+            WebElement element = rootElements.get(i);
+            WebElement nextElement = rootElements.get(i + 1);
+            if (getWidth(element) != getWidth(nextElement)) {
+                putJsonDetailsWithElement(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 1), getWidth(element), getHeight(element)), element);
+                putJsonDetailsWithElement(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 2), getWidth(nextElement), getHeight(nextElement)), nextElement);
             }
         }
     }
 
     void validateSameHeight() {
         for (int i = 0; i < rootElements.size() - 1; i++) {
-            int h1 = getHeight(rootElements.get(i));
-            int h2 = getHeight(rootElements.get(i + 1));
-            if (h1 != h2) {
-                putJsonDetailsWithElement(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 1), getWidth(rootElements.get(i)), getHeight(rootElements.get(i))), rootElements.get(i));
-                putJsonDetailsWithElement(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 2), getWidth(rootElements.get(i + 1)), getHeight(rootElements.get(i + 1))), rootElements.get(i + 1));
+            WebElement element = rootElements.get(i);
+            WebElement nextElement = rootElements.get(i + 1);
+            if (getHeight(element) != getHeight(nextElement)) {
+                putJsonDetailsWithElement(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 1), getWidth(element), getHeight(element)), element);
+                putJsonDetailsWithElement(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 2), getWidth(nextElement), getHeight(nextElement)), nextElement);
             }
         }
     }
@@ -528,13 +528,12 @@ public class ResponsiveUIValidator {
 
     void validateSameSize() {
         for (int i = 0; i < rootElements.size() - 1; i++) {
-            int h1 = getHeight(rootElements.get(i));
-            int w1 = getWidth(rootElements.get(i));
-            int h2 = getHeight(rootElements.get(i + 1));
-            int w2 = getWidth(rootElements.get(i + 1));
-            if (h1 != h2 || w1 != w2) {
-                putJsonDetailsWithElement(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 1), getWidth(rootElements.get(i)), getHeight(rootElements.get(i))), rootElements.get(i));
-                putJsonDetailsWithElement(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 2), getWidth(rootElements.get(i + 1)), getHeight(rootElements.get(i + 1))), rootElements.get(i + 1));
+            WebElement element = rootElements.get(i);
+            WebElement nextElement = rootElements.get(i + 1);
+            if (getHeight(element) != getHeight(nextElement) ||
+                    getWidth(element) != getWidth(nextElement)) {
+                putJsonDetailsWithElement(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 1), getWidth(element), getHeight(element)), element);
+                putJsonDetailsWithElement(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 2), getWidth(nextElement), getHeight(nextElement)), nextElement);
             }
 
         }
