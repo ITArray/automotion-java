@@ -29,8 +29,8 @@ public class RectangleFixture {
             down(originY), originY, up(originY),
             down(cornerY), cornerY, up(cornerY),
             y3};
-    public static long windowWidth = x3 + 1000;
-    public static long windowHeight = y3 + 1000;
+    public static int pageWidth = x3 + 1000;
+    public static int pageHeight = y3 + 1000;
 
 
     private static Collection<Object[]> data() {

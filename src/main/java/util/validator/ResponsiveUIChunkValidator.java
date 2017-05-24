@@ -2,7 +2,6 @@ package util.validator;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import util.validator.properties.Padding;
 
 import java.util.List;
 
@@ -72,7 +71,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator withSameSize() {
-        validateSameSize(rootElements, 0);
+        validateSameSize();
         return this;
     }
 
@@ -83,7 +82,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator withSameWidth() {
-        validateSameSize(rootElements, 1);
+        validateSameWidth();
         return this;
     }
 
@@ -94,7 +93,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator withSameHeight() {
-        validateSameSize(rootElements, 2);
+        validateSameHeight();
         return this;
     }
 
