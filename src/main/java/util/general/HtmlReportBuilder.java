@@ -48,8 +48,12 @@ public class HtmlReportBuilder {
 
         long ms = System.currentTimeMillis();
 
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION + reportName.replace(" ", "_") + "-" + ms + ".html"), StandardCharsets.UTF_8))) {
-            writer.write(html.toHtmlString());
+        try (FileOutputStream fos = new FileOutputStream(TARGET_AUTOMOTION
+                + reportName.replace(" ", "_") + "-" + ms + ".html");
+                BufferedOutputStream bos = new BufferedOutputStream(fos);) {
+
+            html.toOutputStream(bos);
+            bos.flush();
         } catch (IOException ex) {
             LOG.error("Cannot create html report: " + ex.getMessage());
         }
@@ -58,9 +62,14 @@ public class HtmlReportBuilder {
             File file = new File(TARGET_AUTOMOTION + "result" + ms + ".html");
             if (file.getParentFile().mkdirs()) {
                 if (file.createNewFile()) {
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                    writer.write(html.toHtmlString());
-                    writer.close();
+
+                    try (FileOutputStream fos = new FileOutputStream(file);
+                            BufferedOutputStream bos = new BufferedOutputStream(
+                                    fos);) {
+
+                        html.toOutputStream(bos);
+                        bos.flush();
+                    }
                 }
             }
         } catch (IOException e) {
