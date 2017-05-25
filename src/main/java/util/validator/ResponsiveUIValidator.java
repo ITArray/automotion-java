@@ -375,34 +375,26 @@ public class ResponsiveUIValidator {
     }
 
     void validateRightOffsetForElements(WebElement element, String readableName) {
-        if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualRightOffset(rootElement, element)) {
-                putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
-            }
+        if (!elementsHaveEqualRightOffset(rootElement, element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateLeftOffsetForElements(WebElement element, String readableName) {
-        if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualLeftOffset(rootElement, element)) {
-                putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), element);
-            }
+        if (!elementsHaveEqualLeftOffset(rootElement, element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateTopOffsetForElements(WebElement element, String readableName) {
-        if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualTopOffset(rootElement, element)) {
-                putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), element);
-            }
+        if (!elementsHaveEqualTopOffset(rootElement, element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateBottomOffsetForElements(WebElement element, String readableName) {
-        if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualBottomOffset(rootElement, element)) {
-                putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), element);
-            }
+        if (!elementsHaveEqualBottomOffset(rootElement, element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
