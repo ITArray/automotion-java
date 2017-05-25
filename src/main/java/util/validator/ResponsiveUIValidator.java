@@ -1,5 +1,6 @@
 package util.validator;
 
+import com.google.common.collect.Lists;
 import http.helpers.Helper;
 import io.appium.java_client.AppiumDriver;
 import org.apache.commons.io.FileUtils;
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static environment.EnvironmentFactory.*;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
@@ -578,9 +580,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateBelowElement(WebElement element) {
-        List<WebElement> elements = new ArrayList<>();
-        elements.add(rootElement);
-        elements.add(element);
+        List<WebElement> elements = newArrayList(rootElement, element);
 
         if (!PageValidator.elementsAreAlignedVertically(elements)) {
             putJsonDetailsWithoutElement("Below element aligned not properly");
@@ -597,9 +597,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateAboveElement(WebElement element) {
-        List<WebElement> elements = new ArrayList<>();
-        elements.add(element);
-        elements.add(rootElement);
+        List<WebElement> elements = newArrayList(element, rootElement);
 
         if (!PageValidator.elementsAreAlignedVertically(elements)) {
             putJsonDetailsWithoutElement("Above element aligned not properly");
@@ -615,9 +613,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateRightElement(WebElement element) {
-        List<WebElement> elements = new ArrayList<>();
-        elements.add(rootElement);
-        elements.add(element);
+        List<WebElement> elements = newArrayList(rootElement, element);
 
         if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
             putJsonDetailsWithoutElement("Right element aligned not properly");
@@ -634,9 +630,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateLeftElement(WebElement leftElement) {
-        List<WebElement> elements = new ArrayList<>();
-        elements.add(leftElement);
-        elements.add(rootElement);
+        List<WebElement> elements = newArrayList(leftElement, rootElement);
 
         if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
             putJsonDetailsWithoutElement("Left element aligned not properly");
