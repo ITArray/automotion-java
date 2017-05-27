@@ -1,6 +1,5 @@
 package util.validator;
 
-import com.google.common.collect.Lists;
 import http.helpers.Helper;
 import io.appium.java_client.AppiumDriver;
 import org.apache.commons.io.FileUtils;
@@ -543,30 +542,37 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateNotSameSize(List<WebElement> elements, int type) {
+    void validateNotSameSize(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            int h1 = getHeight(elements.get(i));
-            int w1 = getWidth(elements.get(i));
-            int h2 = getHeight(elements.get(i + 1));
-            int w2 = getWidth(elements.get(i + 1));
-            switch (type) {
-                case 0:
-                    if (h1 == h2 && w1 == w2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 1), getWidth(elements.get(i)), getHeight(elements.get(i))), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 2), getWidth(elements.get(i + 1)), getHeight(elements.get(i + 1))), elements.get(i + 1));
-                    }
-                    break;
-                case 1:
-                    if (w1 == w2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 1), getWidth(elements.get(i)), getHeight(elements.get(i))), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 2), getWidth(elements.get(i + 1)), getHeight(elements.get(i + 1))), elements.get(i + 1));
-                    }
-                    break;
-                case 2:
-                    if (h1 == h2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 1), getWidth(elements.get(i)), getHeight(elements.get(i))), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 2), getWidth(elements.get(i + 1)), getHeight(elements.get(i + 1))), elements.get(i + 1));
-                    }
+            WebElement element = elements.get(i);
+            WebElement nextElement = elements.get(i + 1);
+            if (getHeight(element) == getHeight(nextElement) && getWidth(element) == getWidth(nextElement)) {
+                putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 1), getWidth(element), getHeight(element)), element);
+                putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 2), getWidth(nextElement), getHeight(nextElement)), nextElement);
+            }
+
+        }
+    }
+
+    void validateNotSameWidth(List<WebElement> elements) {
+        for (int i = 0; i < elements.size() - 1; i++) {
+            WebElement element = elements.get(i);
+            WebElement nextElement = elements.get(i + 1);
+            if (getWidth(element) == getWidth(nextElement)) {
+                putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 1), getWidth(element), getHeight(element)), element);
+                putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 2), getWidth(nextElement), getHeight(nextElement)), nextElement);
+            }
+
+        }
+    }
+
+    void validateNotSameHeight(List<WebElement> elements) {
+        for (int i = 0; i < elements.size() - 1; i++) {
+            WebElement element = elements.get(i);
+            WebElement nextElement = elements.get(i + 1);
+            if (getHeight(element) == getHeight(nextElement)) {
+                putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 1), getWidth(element), getHeight(element)), element);
+                putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 2), getWidth(nextElement), getHeight(nextElement)), nextElement);
             }
         }
     }
