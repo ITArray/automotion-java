@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static environment.EnvironmentFactory.*;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
@@ -375,34 +376,26 @@ public class ResponsiveUIValidator {
     }
 
     void validateRightOffsetForElements(WebElement element, String readableName) {
-        if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualRightOffset(rootElement, element)) {
-                putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
-            }
+        if (!elementsHaveEqualRightOffset(rootElement, element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateLeftOffsetForElements(WebElement element, String readableName) {
-        if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualLeftOffset(rootElement, element)) {
-                putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), element);
-            }
+        if (!elementsHaveEqualLeftOffset(rootElement, element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateTopOffsetForElements(WebElement element, String readableName) {
-        if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualTopOffset(rootElement, element)) {
-                putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), element);
-            }
+        if (!elementsHaveEqualTopOffset(rootElement, element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateBottomOffsetForElements(WebElement element, String readableName) {
-        if (!element.equals(rootElement)) {
-            if (!elementsHaveEqualBottomOffset(rootElement, element)) {
-                putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), element);
-            }
+        if (!elementsHaveEqualBottomOffset(rootElement, element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
@@ -549,30 +542,37 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateNotSameSize(List<WebElement> elements, int type) {
+    void validateNotSameSize(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            int h1 = getHeight(elements.get(i));
-            int w1 = getWidth(elements.get(i));
-            int h2 = getHeight(elements.get(i + 1));
-            int w2 = getWidth(elements.get(i + 1));
-            switch (type) {
-                case 0:
-                    if (h1 == h2 && w1 == w2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 1), getWidth(elements.get(i)), getHeight(elements.get(i))), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 2), getWidth(elements.get(i + 1)), getHeight(elements.get(i + 1))), elements.get(i + 1));
-                    }
-                    break;
-                case 1:
-                    if (w1 == w2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 1), getWidth(elements.get(i)), getHeight(elements.get(i))), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 2), getWidth(elements.get(i + 1)), getHeight(elements.get(i + 1))), elements.get(i + 1));
-                    }
-                    break;
-                case 2:
-                    if (h1 == h2) {
-                        putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 1), getWidth(elements.get(i)), getHeight(elements.get(i))), elements.get(i));
-                        putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 2), getWidth(elements.get(i + 1)), getHeight(elements.get(i + 1))), elements.get(i + 1));
-                    }
+            WebElement element = elements.get(i);
+            WebElement nextElement = elements.get(i + 1);
+            if (getHeight(element) == getHeight(nextElement) && getWidth(element) == getWidth(nextElement)) {
+                putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 1), getWidth(element), getHeight(element)), element);
+                putJsonDetailsWithElement(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 2), getWidth(nextElement), getHeight(nextElement)), nextElement);
+            }
+
+        }
+    }
+
+    void validateNotSameWidth(List<WebElement> elements) {
+        for (int i = 0; i < elements.size() - 1; i++) {
+            WebElement element = elements.get(i);
+            WebElement nextElement = elements.get(i + 1);
+            if (getWidth(element) == getWidth(nextElement)) {
+                putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 1), getWidth(element), getHeight(element)), element);
+                putJsonDetailsWithElement(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 2), getWidth(nextElement), getHeight(nextElement)), nextElement);
+            }
+
+        }
+    }
+
+    void validateNotSameHeight(List<WebElement> elements) {
+        for (int i = 0; i < elements.size() - 1; i++) {
+            WebElement element = elements.get(i);
+            WebElement nextElement = elements.get(i + 1);
+            if (getHeight(element) == getHeight(nextElement)) {
+                putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 1), getWidth(element), getHeight(element)), element);
+                putJsonDetailsWithElement(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 2), getWidth(nextElement), getHeight(nextElement)), nextElement);
             }
         }
     }
@@ -586,9 +586,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateBelowElement(WebElement element) {
-        List<WebElement> elements = new ArrayList<>();
-        elements.add(rootElement);
-        elements.add(element);
+        List<WebElement> elements = newArrayList(rootElement, element);
 
         if (!PageValidator.elementsAreAlignedVertically(elements)) {
             putJsonDetailsWithoutElement("Below element aligned not properly");
@@ -605,9 +603,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateAboveElement(WebElement element) {
-        List<WebElement> elements = new ArrayList<>();
-        elements.add(element);
-        elements.add(rootElement);
+        List<WebElement> elements = newArrayList(element, rootElement);
 
         if (!PageValidator.elementsAreAlignedVertically(elements)) {
             putJsonDetailsWithoutElement("Above element aligned not properly");
@@ -623,9 +619,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateRightElement(WebElement element) {
-        List<WebElement> elements = new ArrayList<>();
-        elements.add(rootElement);
-        elements.add(element);
+        List<WebElement> elements = newArrayList(rootElement, element);
 
         if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
             putJsonDetailsWithoutElement("Right element aligned not properly");
@@ -642,9 +636,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateLeftElement(WebElement leftElement) {
-        List<WebElement> elements = new ArrayList<>();
-        elements.add(leftElement);
-        elements.add(rootElement);
+        List<WebElement> elements = newArrayList(leftElement, rootElement);
 
         if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
             putJsonDetailsWithoutElement("Left element aligned not properly");
