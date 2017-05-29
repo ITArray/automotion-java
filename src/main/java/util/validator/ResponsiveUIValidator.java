@@ -2,9 +2,10 @@ package util.validator;
 
 import http.helpers.Helper;
 import io.appium.java_client.AppiumDriver;
+import net.itarry.automotion.Element;
+import net.itarry.automotion.Errors;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.*;
@@ -35,7 +36,7 @@ public class ResponsiveUIValidator {
     static final int MIN_OFFSET = -10000;
     private final static Logger LOG = Logger.getLogger(ResponsiveUIValidator.class);
     protected static WebDriver driver;
-    static WebElement rootElement;
+    private static Element rootElement;
     static long startTime;
     private static boolean isMobileTopBar = false;
     private static boolean withReport = false;
@@ -48,7 +49,7 @@ public class ResponsiveUIValidator {
     private static File screenshot;
     private static BufferedImage img;
     private static Graphics2D g;
-    private static JSONArray errorMessage;
+    private static Errors errors;
     boolean drawLeftOffsetLine = false;
     boolean drawRightOffsetLine = false;
     boolean drawTopOffsetLine = false;
@@ -61,7 +62,15 @@ public class ResponsiveUIValidator {
 
     public ResponsiveUIValidator(WebDriver driver) {
         ResponsiveUIValidator.driver = driver;
-        errorMessage = new JSONArray();
+        ResponsiveUIValidator.errors = new Errors();
+    }
+
+    public static WebElement getRootElement() {
+        return rootElement.getWebElement();
+    }
+
+    public static void setRootElement(WebElement rootElement) {
+        ResponsiveUIValidator.rootElement = new Element(rootElement);
     }
 
     /**
@@ -171,10 +180,10 @@ public class ResponsiveUIValidator {
         JSONObject jsonResults = new JSONObject();
         jsonResults.put(ERROR_KEY, false);
 
-        if (rootElement != null) {
-            if (!errorMessage.isEmpty()) {
+        if (getRootElement() != null) {
+            if (errors.hasMessages()) {
                 jsonResults.put(ERROR_KEY, true);
-                jsonResults.put(DETAILS, errorMessage);
+                jsonResults.put(DETAILS, errors.getMessages());
 
                 if (withReport) {
                     try {
@@ -185,10 +194,10 @@ public class ResponsiveUIValidator {
                     }
 
                     JSONObject rootDetails = new JSONObject();
-                    rootDetails.put(X, getX(rootElement));
-                    rootDetails.put(Y, getY(rootElement));
-                    rootDetails.put(WIDTH, getWidth(rootElement));
-                    rootDetails.put(HEIGHT, getHeight(rootElement));
+                    rootDetails.put(X, rootElement.getX());
+                    rootDetails.put(Y, rootElement.getY());
+                    rootDetails.put(WIDTH, rootElement.getWidth());
+                    rootDetails.put(HEIGHT, rootElement.getHeight());
 
                     jsonResults.put(SCENARIO, scenarioName);
                     jsonResults.put(ROOT_ELEMENT, rootDetails);
@@ -265,7 +274,7 @@ public class ResponsiveUIValidator {
 
             drawRoot(rootColor);
 
-            for (Object obj : errorMessage) {
+            for (Object obj : errors.getMessages()) {
                 JSONObject det = (JSONObject) obj;
                 JSONObject details = (JSONObject) det.get(REASON);
                 JSONObject numE = (JSONObject) details.get(ELEMENT);
@@ -376,53 +385,53 @@ public class ResponsiveUIValidator {
     }
 
     void validateRightOffsetForElements(WebElement element, String readableName) {
-        if (!elementsHaveEqualRightOffset(rootElement, element)) {
+        if (!elementsHaveEqualRightOffset(getRootElement(), element)) {
             putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateLeftOffsetForElements(WebElement element, String readableName) {
-        if (!elementsHaveEqualLeftOffset(rootElement, element)) {
+        if (!elementsHaveEqualLeftOffset(getRootElement(), element)) {
             putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateTopOffsetForElements(WebElement element, String readableName) {
-        if (!elementsHaveEqualTopOffset(rootElement, element)) {
+        if (!elementsHaveEqualTopOffset(getRootElement(), element)) {
             putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateBottomOffsetForElements(WebElement element, String readableName) {
-        if (!elementsHaveEqualBottomOffset(rootElement, element)) {
+        if (!elementsHaveEqualBottomOffset(getRootElement(), element)) {
             putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateNotOverlappingWithElements(WebElement element, String readableName) {
-        if (!element.equals(rootElement)) {
-            if (elementsAreOverlapped(rootElement, element)) {
+        if (!element.equals(getRootElement())) {
+            if (elementsAreOverlapped(getRootElement(), element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' is overlapped with element '%s' but should not", rootElementReadableName, readableName), element);
             }
         }
     }
 
     void validateOverlappingWithElements(WebElement element, String readableName) {
-        if (!element.equals(rootElement)) {
-            if (!elementsAreOverlapped(rootElement, element)) {
+        if (!element.equals(getRootElement())) {
+            if (!elementsAreOverlapped(getRootElement(), element)) {
                 putJsonDetailsWithElement(String.format("Element '%s' is not overlapped with element '%s' but should be", rootElementReadableName, readableName), element);
             }
         }
     }
 
     void validateMaxOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = getRightOffset(rootElement);
-        int rootElementBottomOffset = getBottomOffset(rootElement);
-        if (getX(rootElement) > left) {
-            putJsonDetailsWithoutElement(String.format("Expected max left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, getX(rootElement)));
+        int rootElementRightOffset = getRightOffset(getRootElement());
+        int rootElementBottomOffset = getBottomOffset(getRootElement());
+        if (rootElement.getX() > left) {
+            putJsonDetailsWithoutElement(String.format("Expected max left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, rootElement.getX()));
         }
-        if (getY(rootElement) > top) {
-            putJsonDetailsWithoutElement(String.format("Expected max top offset of element '%s' is: %spx. Actual top offset is: %spx", rootElementReadableName, top, getY(rootElement)));
+        if (rootElement.getY() > top) {
+            putJsonDetailsWithoutElement(String.format("Expected max top offset of element '%s' is: %spx. Actual top offset is: %spx", rootElementReadableName, top, rootElement.getY()));
         }
         if (rootElementRightOffset > right) {
             putJsonDetailsWithoutElement(String.format("Expected max right offset of element  '%s' is: %spx. Actual right offset is: %spx", rootElementReadableName, right, rootElementRightOffset));
@@ -433,13 +442,13 @@ public class ResponsiveUIValidator {
     }
 
     void validateMinOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = getRightOffset(rootElement);
-        int rootElementBottomOffset = getBottomOffset(rootElement);
-        if (getX(rootElement) < left) {
-            putJsonDetailsWithoutElement(String.format("Expected min left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, getX(rootElement)));
+        int rootElementRightOffset = getRightOffset(getRootElement());
+        int rootElementBottomOffset = getBottomOffset(getRootElement());
+        if (rootElement.getX() < left) {
+            putJsonDetailsWithoutElement(String.format("Expected min left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, rootElement.getX()));
         }
-        if (getY(rootElement) < top) {
-            putJsonDetailsWithoutElement(String.format("Expected min top offset of element  '%s' is: %spx. Actual top offset is: %spx", rootElementReadableName, top, getY(rootElement)));
+        if (rootElement.getY() < top) {
+            putJsonDetailsWithoutElement(String.format("Expected min top offset of element  '%s' is: %spx. Actual top offset is: %spx", rootElementReadableName, top, rootElement.getY()));
         }
         if (rootElementRightOffset < right) {
             putJsonDetailsWithoutElement(String.format("Expected min top offset of element  '%s' is: %spx. Actual right offset is: %spx", rootElementReadableName, right, rootElementRightOffset));
@@ -450,48 +459,48 @@ public class ResponsiveUIValidator {
     }
 
     void validateMaxHeight(int height) {
-        if (getHeight(rootElement) > height) {
-            putJsonDetailsWithoutElement(String.format("Expected max height of element  '%s' is: %spx. Actual height is: %spx", rootElementReadableName, height, getHeight(rootElement)));
+        if (rootElement.getHeight() > height) {
+            putJsonDetailsWithoutElement(String.format("Expected max height of element  '%s' is: %spx. Actual height is: %spx", rootElementReadableName, height, rootElement.getHeight()));
         }
     }
 
     void validateMinHeight(int height) {
-        if (getHeight(rootElement) < height) {
-            putJsonDetailsWithoutElement(String.format("Expected min height of element '%s' is: %spx. Actual height is: %spx", rootElementReadableName, height, getHeight(rootElement)));
+        if (rootElement.getHeight() < height) {
+            putJsonDetailsWithoutElement(String.format("Expected min height of element '%s' is: %spx. Actual height is: %spx", rootElementReadableName, height, rootElement.getHeight()));
         }
     }
 
     void validateSameHeight(WebElement element, String readableName) {
         int h = getHeight(element);
-        if (h != getHeight(rootElement)) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same height as %s. Height of '%s' is %spx. Height of element is %spx", rootElementReadableName, readableName, rootElementReadableName, getHeight(rootElement), h), element);
+        if (h != rootElement.getHeight()) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same height as %s. Height of '%s' is %spx. Height of element is %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getHeight(), h), element);
         }
     }
 
     void validateMaxWidth(int width) {
-        if (getWidth(rootElement) > width) {
-            putJsonDetailsWithoutElement(String.format("Expected max width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, width, getWidth(rootElement)));
+        if (rootElement.getWidth() > width) {
+            putJsonDetailsWithoutElement(String.format("Expected max width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, width, rootElement.getWidth()));
         }
     }
 
     void validateMinWidth(int width) {
-        if (getWidth(rootElement) < width) {
-            putJsonDetailsWithoutElement(String.format("Expected min width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, width, getWidth(rootElement)));
+        if (rootElement.getWidth() < width) {
+            putJsonDetailsWithoutElement(String.format("Expected min width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, width, rootElement.getWidth()));
         }
     }
 
     void validateSameWidth(WebElement element, String readableName) {
         int w = getWidth(element);
-        if (w != getWidth(rootElement)) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same width as %s. Width of '%s' is %spx. Width of element is %spx", rootElementReadableName, readableName, rootElementReadableName, getWidth(rootElement), w), element);
+        if (w != rootElement.getWidth()) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same width as %s. Width of '%s' is %spx. Width of element is %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getWidth(), w), element);
         }
     }
 
     void validateSameSize(WebElement element, String readableName) {
         int w = getWidth(element);
         int h = getHeight(element);
-        if (h != getHeight(rootElement) || w != getWidth(rootElement)) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, getWidth(rootElement), getHeight(rootElement), w, h), element);
+        if (h != rootElement.getHeight() || w != rootElement.getWidth()) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getWidth(), rootElement.getHeight(), w, h), element);
         }
     }
 
@@ -533,11 +542,11 @@ public class ResponsiveUIValidator {
     }
 
     void validateNotSameSize(WebElement element, String readableName) {
-        if (!element.equals(rootElement)) {
+        if (!element.equals(getRootElement())) {
             int h = getHeight(element);
             int w = getWidth(element);
-            if (h == getHeight(rootElement) && w == getWidth(rootElement)) {
-                putJsonDetailsWithElement(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, getWidth(rootElement), getHeight(rootElement), w, h), element);
+            if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
+                putJsonDetailsWithElement(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getWidth(), rootElement.getHeight(), w, h), element);
             }
         }
     }
@@ -579,14 +588,14 @@ public class ResponsiveUIValidator {
 
     void validateBelowElement(WebElement element, int minMargin, int maxMargin) {
         int yBelowElement = getY(element);
-        int marginBetweenRoot = yBelowElement - (getY(rootElement) + getHeight(rootElement));
+        int marginBetweenRoot = yBelowElement - (rootElement.getY() + rootElement.getHeight());
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
         }
     }
 
     void validateBelowElement(WebElement element) {
-        List<WebElement> elements = newArrayList(rootElement, element);
+        List<WebElement> elements = newArrayList(getRootElement(), element);
 
         if (!PageValidator.elementsAreAlignedVertically(elements)) {
             putJsonDetailsWithoutElement("Below element aligned not properly");
@@ -596,14 +605,14 @@ public class ResponsiveUIValidator {
     void validateAboveElement(WebElement element, int minMargin, int maxMargin) {
         int yAboveElement = getY(element);
         int heightAboveElement = getHeight(element);
-        int marginBetweenRoot = getY(rootElement) - (yAboveElement + heightAboveElement);
+        int marginBetweenRoot = rootElement.getY() - (yAboveElement + heightAboveElement);
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
         }
     }
 
     void validateAboveElement(WebElement element) {
-        List<WebElement> elements = newArrayList(element, rootElement);
+        List<WebElement> elements = newArrayList(element, getRootElement());
 
         if (!PageValidator.elementsAreAlignedVertically(elements)) {
             putJsonDetailsWithoutElement("Above element aligned not properly");
@@ -612,14 +621,14 @@ public class ResponsiveUIValidator {
 
     void validateRightElement(WebElement element, int minMargin, int maxMargin) {
         int xRightElement = getX(element);
-        int marginBetweenRoot = xRightElement - (getX(rootElement) + getWidth(rootElement));
+        int marginBetweenRoot = xRightElement - (rootElement.getX() + rootElement.getWidth());
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
         }
     }
 
     void validateRightElement(WebElement element) {
-        List<WebElement> elements = newArrayList(rootElement, element);
+        List<WebElement> elements = newArrayList(getRootElement(), element);
 
         if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
             putJsonDetailsWithoutElement("Right element aligned not properly");
@@ -629,14 +638,14 @@ public class ResponsiveUIValidator {
     void validateLeftElement(WebElement leftElement, int minMargin, int maxMargin) {
         int xLeftElement = getX(leftElement);
         int widthLeftElement = getWidth(leftElement);
-        int marginBetweenRoot = getX(rootElement) - (xLeftElement + widthLeftElement);
+        int marginBetweenRoot = rootElement.getX() - (xLeftElement + widthLeftElement);
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             putJsonDetailsWithElement(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), leftElement);
         }
     }
 
     void validateLeftElement(WebElement leftElement) {
-        List<WebElement> elements = newArrayList(leftElement, rootElement);
+        List<WebElement> elements = newArrayList(leftElement, getRootElement());
 
         if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
             putJsonDetailsWithoutElement("Left element aligned not properly");
@@ -674,51 +683,32 @@ public class ResponsiveUIValidator {
     void drawRoot(Color color) {
         g.setColor(color);
         g.setStroke(new BasicStroke(2));
-        g.drawRect(retinaValue(getX(rootElement)), retinaValue(mobileY(getY(rootElement))), retinaValue(getWidth(rootElement)), retinaValue(getHeight(rootElement)));
+        g.drawRect(retinaValue(rootElement.getX()), retinaValue(mobileY(rootElement.getY())), retinaValue(rootElement.getWidth()), retinaValue(rootElement.getHeight()));
         //g.fillRect(retinaValue(xRoot), retinaValue((yRoot), retinaValue(widthRoot), retinaValue(heightRoot));
 
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
         g.setStroke(dashed);
         g.setColor(linesColor);
         if (drawLeftOffsetLine) {
-            g.drawLine(retinaValue(getX(rootElement)), 0, retinaValue(getX(rootElement)), retinaValue(img.getHeight()));
+            g.drawLine(retinaValue(rootElement.getX()), 0, retinaValue(rootElement.getX()), retinaValue(img.getHeight()));
         }
         if (drawRightOffsetLine) {
-            g.drawLine(retinaValue(getX(rootElement) + getWidth(rootElement)), 0, retinaValue(getX(rootElement) + getWidth(rootElement)), retinaValue(img.getHeight()));
+            g.drawLine(retinaValue(rootElement.getX() + rootElement.getWidth()), 0, retinaValue(rootElement.getX() + rootElement.getWidth()), retinaValue(img.getHeight()));
         }
         if (drawTopOffsetLine) {
-            g.drawLine(0, retinaValue(mobileY(getY(rootElement))), retinaValue(img.getWidth()), retinaValue(getY(rootElement)));
+            g.drawLine(0, retinaValue(mobileY(rootElement.getY())), retinaValue(img.getWidth()), retinaValue(rootElement.getY()));
         }
         if (drawBottomOffsetLine) {
-            g.drawLine(0, retinaValue(mobileY(getY(rootElement) + getHeight(rootElement))), retinaValue(img.getWidth()), retinaValue(getY(rootElement) + getHeight(rootElement)));
+            g.drawLine(0, retinaValue(mobileY(rootElement.getY() + rootElement.getHeight())), retinaValue(img.getWidth()), retinaValue(rootElement.getY() + rootElement.getHeight()));
         }
     }
 
     void putJsonDetailsWithoutElement(String message) {
-        JSONObject details = new JSONObject();
-        JSONObject mes = new JSONObject();
-        mes.put(MESSAGE, message);
-        details.put(REASON, mes);
-        errorMessage.add(details);
+        errors.add(message);
     }
 
     private void putJsonDetailsWithElement(String message, WebElement element) {
-        float xContainer = getX(element);
-        float yContainer = getY(element);
-        float widthContainer = getWidth(element);
-        float heightContainer = getHeight(element);
-
-        JSONObject details = new JSONObject();
-        JSONObject elDetails = new JSONObject();
-        elDetails.put(X, xContainer);
-        elDetails.put(Y, yContainer);
-        elDetails.put(WIDTH, widthContainer);
-        elDetails.put(HEIGHT, heightContainer);
-        JSONObject mes = new JSONObject();
-        mes.put(MESSAGE, message);
-        mes.put(ELEMENT, elDetails);
-        details.put(REASON, mes);
-        errorMessage.add(details);
+        errors.add(message, element);
     }
 
     int getConvertedInt(int i, boolean horizontal) {
@@ -855,7 +845,7 @@ public class ResponsiveUIValidator {
     void validateInsideOfContainer(WebElement containerElement, String readableContainerName) {
         Rectangle2D.Double elementRectangle = rectangle(containerElement);
         if (rootElements == null || rootElements.isEmpty()) {
-            Rectangle2D.Double rootRectangle = rectangle(rootElement);
+            Rectangle2D.Double rootRectangle = rectangle(getRootElement());
             if (!elementRectangle.contains(rootRectangle)) {
                 putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), containerElement);
             }
@@ -875,15 +865,15 @@ public class ResponsiveUIValidator {
         int left = getConvertedInt(padding.getLeft(), true);
 
         Rectangle2D.Double paddedRootRectangle = new Rectangle2D.Double(
-                getX(rootElement) - left,
-                getY(rootElement) - top,
-                getWidth(rootElement) + left + right,
-                getHeight(rootElement) + top + bottom);
+                rootElement.getX() - left,
+                rootElement.getY() - top,
+                rootElement.getWidth() + left + right,
+                rootElement.getHeight() + top + bottom);
 
-        int paddingTop = getY(rootElement) - getY(element);
-        int paddingLeft = getX(rootElement) - getX(element);
-        int paddingBottom = getCornerY(element) - getCornerY(rootElement);
-        int paddingRight = getCornerX(element) - getCornerX(rootElement);
+        int paddingTop = rootElement.getY() - getY(element);
+        int paddingLeft = rootElement.getX() - getX(element);
+        int paddingBottom = getCornerY(element) - rootElement.getCornerY();
+        int paddingRight = getCornerX(element) - rootElement.getCornerX();
 
         if (!rectangle(element).contains(paddedRootRectangle)) {
             putJsonDetailsWithElement(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",

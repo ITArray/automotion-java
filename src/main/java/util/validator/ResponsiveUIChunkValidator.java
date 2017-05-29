@@ -12,7 +12,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
         rootElements = elements;
         pageWidth = (int) getPageWidth();
         pageHeight = (int) getPageHeight();
-        rootElement = rootElements.get(0);
+        setRootElement(rootElements.get(0));
         startTime = System.currentTimeMillis();
     }
 
