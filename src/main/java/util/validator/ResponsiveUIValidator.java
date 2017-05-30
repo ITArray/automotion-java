@@ -6,6 +6,7 @@ import net.itarry.automotion.Element;
 import net.itarry.automotion.Errors;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.*;
@@ -70,7 +71,7 @@ public class ResponsiveUIValidator {
     }
 
     public static void setRootElement(WebElement rootElement) {
-        ResponsiveUIValidator.rootElement = new Element(rootElement);
+        ResponsiveUIValidator.rootElement = asElement(rootElement);
     }
 
     /**
@@ -926,27 +927,31 @@ public class ResponsiveUIValidator {
     }
 
     private int getX(WebElement element) {
-        return element.getLocation().getX();
+        return asElement(element).getX();
     }
 
     private int getY(WebElement element) {
-        return element.getLocation().getY();
+        return asElement(element).getY();
     }
 
     private int getWidth(WebElement element) {
-        return element.getSize().getWidth();
+        return asElement(element).getWidth();
     }
 
     private int getHeight(WebElement element) {
-        return element.getSize().getHeight();
+        return asElement(element).getHeight();
     }
 
     private int getCornerX(WebElement element) {
-        return getX(element) + getWidth(element);
+        return asElement(element).getCornerX();
     }
 
     private int getCornerY(WebElement element) {
-        return getY(element) + getHeight(element);
+        return asElement(element).getCornerY();
+    }
+
+    private static Element asElement(WebElement element) {
+        return new Element(element);
     }
 
     public enum Units {
