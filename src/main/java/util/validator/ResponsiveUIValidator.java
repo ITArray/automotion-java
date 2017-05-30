@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static environment.EnvironmentFactory.*;
+import static net.itarry.automotion.Element.asElement;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;
@@ -930,10 +931,6 @@ public class ResponsiveUIValidator {
 
     private int getCornerY(WebElement element) {
         return asElement(element).getCornerY();
-    }
-
-    private static Element asElement(WebElement element) {
-        return new Element(element);
     }
 
     public enum Units {

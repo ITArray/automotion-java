@@ -11,6 +11,10 @@ public class Element {
         this.webElement = webElement;
     }
 
+    public static Element asElement(WebElement element) {
+        return new Element(element);
+    }
+
     public WebElement getWebElement() {
         return webElement;
     }
