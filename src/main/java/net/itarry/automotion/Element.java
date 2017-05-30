@@ -39,6 +39,22 @@ public class Element {
         return getY() + getHeight();
     }
 
+    public boolean equalLeftOffsetAs(Element elementToCompare) {
+        return getX() == elementToCompare.getX();
+    }
+
+    public boolean equalRightOffsetAs(Element elementToCompare) {
+        return getCornerX() == elementToCompare.getCornerX();
+    }
+
+    public boolean equalTopOffsetAS(Element elementToCompare) {
+        return getY() == elementToCompare.getY();
+    }
+
+    public boolean equalBottomOffsetAS(Element elementToCompare) {
+        return getCornerY() == elementToCompare.getCornerY();
+    }
+
     public Rectangle2D.Double rectangle() {
         return new Rectangle2D.Double(
                 getX(),

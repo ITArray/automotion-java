@@ -354,7 +354,7 @@ public class ResponsiveUIValidator {
 
     void validateRightOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!elementsHaveEqualRightOffset(elements.get(i), elements.get(i + 1))) {
+            if (!get(elements, i).equalRightOffsetAs(get(elements, i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same right offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
@@ -362,7 +362,7 @@ public class ResponsiveUIValidator {
 
     void validateLeftOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!elementsHaveEqualLeftOffset(elements.get(i), elements.get(i + 1))) {
+            if (!get(elements, i).equalLeftOffsetAs(get(elements, i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same left offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
@@ -370,7 +370,7 @@ public class ResponsiveUIValidator {
 
     void validateTopOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!elementsHaveEqualTopOffset(elements.get(i), elements.get(i + 1))) {
+            if (!get(elements, i).equalTopOffsetAS(get(elements, i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same top offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
@@ -378,32 +378,32 @@ public class ResponsiveUIValidator {
 
     void validateBottomOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!elementsHaveEqualBottomOffset(elements.get(i), elements.get(i + 1))) {
+            if (!get(elements, i).equalBottomOffsetAS(get(elements, i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same bottom offset as element #%d", i + 1, i + 2), elements.get(i + 1));
             }
         }
     }
 
     void validateRightOffsetForElements(WebElement element, String readableName) {
-        if (!elementsHaveEqualRightOffset(getRootElement(), element)) {
+        if (!rootElement.equalRightOffsetAs(asElement(element))) {
             putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateLeftOffsetForElements(WebElement element, String readableName) {
-        if (!elementsHaveEqualLeftOffset(getRootElement(), element)) {
+        if (!rootElement.equalLeftOffsetAs(asElement(element))) {
             putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateTopOffsetForElements(WebElement element, String readableName) {
-        if (!elementsHaveEqualTopOffset(getRootElement(), element)) {
+        if (!rootElement.equalTopOffsetAS(asElement(element))) {
             putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateBottomOffsetForElements(WebElement element, String readableName) {
-        if (!elementsHaveEqualBottomOffset(getRootElement(), element)) {
+        if (!rootElement.equalBottomOffsetAS(asElement(element))) {
             putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
@@ -880,6 +880,10 @@ public class ResponsiveUIValidator {
         }
     }
 
+    private Element get(List<WebElement> elements, int i) {
+        return asElement(elements.get(i));
+    }
+
     private Rectangle2D.Double rectangle(WebElement element) {
         return asElement(element).rectangle();
     }
@@ -894,22 +898,6 @@ public class ResponsiveUIValidator {
 
     private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
         return asElement(rootElement).rectangle().intersects(asElement(elementOverlapWith).rectangle());
-    }
-
-    private boolean elementsHaveEqualLeftOffset(WebElement element, WebElement elementToCompare) {
-        return getX(element) == getX(elementToCompare);
-    }
-
-    private boolean elementsHaveEqualRightOffset(WebElement element, WebElement elementToCompare) {
-        return getCornerX(element) == getCornerX(elementToCompare);
-    }
-
-    private boolean elementsHaveEqualTopOffset(WebElement element, WebElement elementToCompare) {
-        return getY(element) == getY(elementToCompare);
-    }
-
-    private boolean elementsHaveEqualBottomOffset(WebElement element, WebElement elementToCompare) {
-        return getCornerY(element) == getCornerY(elementToCompare);
     }
 
     private boolean elementHasEqualLeftRightOffset(WebElement element) {
