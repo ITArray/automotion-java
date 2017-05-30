@@ -2,6 +2,8 @@ package net.itarry.automotion;
 
 import org.openqa.selenium.WebElement;
 
+import java.awt.geom.Rectangle2D;
+
 public class Element {
     private final WebElement webElement;
 
@@ -36,5 +38,14 @@ public class Element {
     public int getCornerY() {
         return getY() + getHeight();
     }
+
+    public Rectangle2D.Double rectangle() {
+        return new Rectangle2D.Double(
+                getX(),
+                getY(),
+                getWidth(),
+                getHeight());
+    }
+
 
 }

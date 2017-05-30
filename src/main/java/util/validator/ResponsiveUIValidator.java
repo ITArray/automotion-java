@@ -6,7 +6,6 @@ import net.itarry.automotion.Element;
 import net.itarry.automotion.Errors;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.*;
@@ -844,10 +843,9 @@ public class ResponsiveUIValidator {
     }
 
     void validateInsideOfContainer(WebElement containerElement, String readableContainerName) {
-        Rectangle2D.Double elementRectangle = rectangle(containerElement);
+        Rectangle2D.Double elementRectangle = asElement(containerElement).rectangle();
         if (rootElements == null || rootElements.isEmpty()) {
-            Rectangle2D.Double rootRectangle = rectangle(getRootElement());
-            if (!elementRectangle.contains(rootRectangle)) {
+            if (!elementRectangle.contains(rootElement.rectangle())) {
                 putJsonDetailsWithElement(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), containerElement);
             }
         } else {
@@ -883,11 +881,7 @@ public class ResponsiveUIValidator {
     }
 
     private Rectangle2D.Double rectangle(WebElement element) {
-        return new Rectangle2D.Double(
-                getX(element),
-                getY(element),
-                getWidth(element),
-                getHeight(element));
+        return asElement(element).rectangle();
     }
 
     private int getRightOffset(WebElement element) {
@@ -899,7 +893,7 @@ public class ResponsiveUIValidator {
     }
 
     private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
-        return rectangle(rootElement).intersects(rectangle(elementOverlapWith));
+        return asElement(rootElement).rectangle().intersects(asElement(elementOverlapWith).rectangle());
     }
 
     private boolean elementsHaveEqualLeftOffset(WebElement element, WebElement elementToCompare) {
