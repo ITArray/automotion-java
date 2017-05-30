@@ -8,6 +8,8 @@ import util.validator.properties.Padding;
 
 import java.util.List;
 
+import static net.itarry.automotion.Element.asElement;
+
 public class UIValidator extends ResponsiveUIValidator implements Validator {
 
     UIValidator(WebDriver driver, WebElement element, String readableNameOfElement) {
@@ -184,7 +186,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator sameOffsetLeftAs(WebElement element, String readableName) {
-        validateLeftOffsetForElements(element, readableName);
+        validateLeftOffsetForElements(asElement(element), readableName);
         drawLeftOffsetLine = true;
         return this;
     }
@@ -198,7 +200,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetLeftAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateLeftOffsetForElements(element, getFormattedMessage(element));
+            validateLeftOffsetForElements(asElement(element), getFormattedMessage(element));
         }
         drawLeftOffsetLine = true;
         return this;
@@ -213,7 +215,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator sameOffsetRightAs(WebElement element, String readableName) {
-        validateRightOffsetForElements(element, readableName);
+        validateRightOffsetForElements(asElement(element), readableName);
         drawRightOffsetLine = true;
         return this;
     }
@@ -227,7 +229,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetRightAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateRightOffsetForElements(element, getFormattedMessage(element));
+            validateRightOffsetForElements(asElement(element), getFormattedMessage(element));
         }
         drawRightOffsetLine = true;
         return this;
@@ -242,7 +244,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator sameOffsetTopAs(WebElement element, String readableName) {
-        validateTopOffsetForElements(element, readableName);
+        validateTopOffsetForElements(asElement(element), readableName);
         drawTopOffsetLine = true;
         return this;
     }
@@ -256,7 +258,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetTopAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateTopOffsetForElements(element, getFormattedMessage(element));
+            validateTopOffsetForElements(asElement(element), getFormattedMessage(element));
         }
         drawTopOffsetLine = true;
         return this;
@@ -271,7 +273,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator sameOffsetBottomAs(WebElement element, String readableName) {
-        validateBottomOffsetForElements(element, readableName);
+        validateBottomOffsetForElements(asElement(element), readableName);
         drawBottomOffsetLine = true;
         return this;
     }
@@ -285,7 +287,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetBottomAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateBottomOffsetForElements(element, getFormattedMessage(element));
+            validateBottomOffsetForElements(asElement(element), getFormattedMessage(element));
         }
         drawBottomOffsetLine = true;
         return this;

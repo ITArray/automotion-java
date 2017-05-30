@@ -371,7 +371,7 @@ public class ResponsiveUIValidator {
 
     void validateTopOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!get(elements, i).equalTopOffsetAS(get(elements, i + 1))) {
+            if (!get(elements, i).equalTopOffsetAs(get(elements, i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same top offset as element #%d", i + 1, i + 2), get(elements, i + 1));
             }
         }
@@ -379,33 +379,33 @@ public class ResponsiveUIValidator {
 
     void validateBottomOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!get(elements, i).equalBottomOffsetAS(get(elements, i + 1))) {
+            if (!get(elements, i).equalBottomOffsetAs(get(elements, i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same bottom offset as element #%d", i + 1, i + 2), get(elements, i + 1));
             }
         }
     }
 
-    void validateRightOffsetForElements(WebElement element, String readableName) {
-        if (!rootElement.equalRightOffsetAs(asElement(element))) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), asElement(element));
+    void validateRightOffsetForElements(Element element, String readableName) {
+        if (!rootElement.equalRightOffsetAs(element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
-    void validateLeftOffsetForElements(WebElement element, String readableName) {
-        if (!rootElement.equalLeftOffsetAs(asElement(element))) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), asElement(element));
+    void validateLeftOffsetForElements(Element element, String readableName) {
+        if (!rootElement.equalLeftOffsetAs(element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
-    void validateTopOffsetForElements(WebElement element, String readableName) {
-        if (!rootElement.equalTopOffsetAS(asElement(element))) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), asElement(element));
+    void validateTopOffsetForElements(Element element, String readableName) {
+        if (!rootElement.equalTopOffsetAs(element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
-    void validateBottomOffsetForElements(WebElement element, String readableName) {
-        if (!rootElement.equalBottomOffsetAS(asElement(element))) {
-            putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), asElement(element));
+    void validateBottomOffsetForElements(Element element, String readableName) {
+        if (!rootElement.equalBottomOffsetAs(element)) {
+            putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 

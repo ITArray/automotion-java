@@ -51,11 +51,11 @@ public class Element {
         return getCornerX() == elementToCompare.getCornerX();
     }
 
-    public boolean equalTopOffsetAS(Element elementToCompare) {
+    public boolean equalTopOffsetAs(Element elementToCompare) {
         return getY() == elementToCompare.getY();
     }
 
-    public boolean equalBottomOffsetAS(Element elementToCompare) {
+    public boolean equalBottomOffsetAs(Element elementToCompare) {
         return getCornerY() == elementToCompare.getCornerY();
     }
 
