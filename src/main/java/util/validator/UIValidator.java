@@ -526,11 +526,11 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
             for (String val : args) {
                 val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
                 if (!TextFinder.textIsFound(val, cssValue)) {
-                    putJsonDetailsWithoutElement(String.format("Expected value of '%s' is '%s'. Actual value is '%s'", cssProperty, val, cssValue));
+                    errors.add(String.format("Expected value of '%s' is '%s'. Actual value is '%s'", cssProperty, val, cssValue));
                 }
             }
         } else {
-            putJsonDetailsWithoutElement(String.format("Element '%s' does not have css property '%s'", rootElementReadableName, cssProperty));
+            errors.add(String.format("Element '%s' does not have css property '%s'", rootElementReadableName, cssProperty));
         }
         return this;
     }
@@ -550,11 +550,11 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
             for (String val : args) {
                 val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
                 if (TextFinder.textIsFound(val, cssValue)) {
-                    putJsonDetailsWithoutElement(String.format("CSS property '%s' should not contain value '%s'. Actual value is '%s'", cssProperty, val, cssValue));
+                    errors.add(String.format("CSS property '%s' should not contain value '%s'. Actual value is '%s'", cssProperty, val, cssValue));
                 }
             }
         } else {
-            putJsonDetailsWithoutElement(String.format("Element '%s' does not have css property '%s'", rootElementReadableName, cssProperty));
+            errors.add(String.format("Element '%s' does not have css property '%s'", rootElementReadableName, cssProperty));
         }
         return this;
     }
