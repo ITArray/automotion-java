@@ -43,19 +43,19 @@ public class Element {
         return getY() + getHeight();
     }
 
-    public boolean equalLeftOffsetAs(Element elementToCompare) {
+    public boolean hasEqualLeftOffsetAs(Element elementToCompare) {
         return getX() == elementToCompare.getX();
     }
 
-    public boolean equalRightOffsetAs(Element elementToCompare) {
+    public boolean hasEqualRightOffsetAs(Element elementToCompare) {
         return getCornerX() == elementToCompare.getCornerX();
     }
 
-    public boolean equalTopOffsetAs(Element elementToCompare) {
+    public boolean hasEqualTopOffsetAs(Element elementToCompare) {
         return getY() == elementToCompare.getY();
     }
 
-    public boolean equalBottomOffsetAs(Element elementToCompare) {
+    public boolean hasEqualBottomOffsetAs(Element elementToCompare) {
         return getCornerY() == elementToCompare.getCornerY();
     }
 

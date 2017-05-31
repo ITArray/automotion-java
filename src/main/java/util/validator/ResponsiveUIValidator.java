@@ -355,7 +355,7 @@ public class ResponsiveUIValidator {
 
     void validateRightOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!get(elements, i).equalRightOffsetAs(get(elements, i + 1))) {
+            if (!get(elements, i).hasEqualRightOffsetAs(get(elements, i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same right offset as element #%d", i + 1, i + 2), get(elements, i + 1));
             }
         }
@@ -363,7 +363,7 @@ public class ResponsiveUIValidator {
 
     void validateLeftOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!get(elements, i).equalLeftOffsetAs(get(elements, i + 1))) {
+            if (!get(elements, i).hasEqualLeftOffsetAs(get(elements, i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same left offset as element #%d", i + 1, i + 2), get(elements, i + 1));
             }
         }
@@ -371,7 +371,7 @@ public class ResponsiveUIValidator {
 
     void validateTopOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!get(elements, i).equalTopOffsetAs(get(elements, i + 1))) {
+            if (!get(elements, i).hasEqualTopOffsetAs(get(elements, i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same top offset as element #%d", i + 1, i + 2), get(elements, i + 1));
             }
         }
@@ -379,32 +379,32 @@ public class ResponsiveUIValidator {
 
     void validateBottomOffsetForChunk(List<WebElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!get(elements, i).equalBottomOffsetAs(get(elements, i + 1))) {
+            if (!get(elements, i).hasEqualBottomOffsetAs(get(elements, i + 1))) {
                 putJsonDetailsWithElement(String.format("Element #%d has not the same bottom offset as element #%d", i + 1, i + 2), get(elements, i + 1));
             }
         }
     }
 
     void validateRightOffsetForElements(Element element, String readableName) {
-        if (!rootElement.equalRightOffsetAs(element)) {
+        if (!rootElement.hasEqualRightOffsetAs(element)) {
             putJsonDetailsWithElement(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateLeftOffsetForElements(Element element, String readableName) {
-        if (!rootElement.equalLeftOffsetAs(element)) {
+        if (!rootElement.hasEqualLeftOffsetAs(element)) {
             putJsonDetailsWithElement(String.format("Element '%s' has not the same left offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateTopOffsetForElements(Element element, String readableName) {
-        if (!rootElement.equalTopOffsetAs(element)) {
+        if (!rootElement.hasEqualTopOffsetAs(element)) {
             putJsonDetailsWithElement(String.format("Element '%s' has not the same top offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
 
     void validateBottomOffsetForElements(Element element, String readableName) {
-        if (!rootElement.equalBottomOffsetAs(element)) {
+        if (!rootElement.hasEqualBottomOffsetAs(element)) {
             putJsonDetailsWithElement(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElementReadableName, readableName), element);
         }
     }
