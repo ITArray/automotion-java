@@ -83,4 +83,16 @@ public class Element {
     public boolean hasMinWidth(int width) {
         return getWidth() >= width;
     }
+
+    public boolean hasSameWidthAs(Element elementToCompare) {
+        return getWidth() == elementToCompare.getWidth();
+    }
+
+    public boolean hasSameHeightAs(Element element) {
+        return getHeight() == element.getHeight();
+    }
+
+    public boolean hasSameSizeAs(Element element) {
+        return hasSameHeightAs(element) && hasSameWidthAs(element);
+    }
 }

@@ -302,7 +302,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator sameWidthAs(WebElement element, String readableName) {
-        validateSameWidth(element, readableName);
+        validateSameWidth(asElement(element), readableName);
         return this;
     }
 
@@ -315,7 +315,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameWidthAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateSameWidth(element, getFormattedMessage(element));
+            validateSameWidth(asElement(element), getFormattedMessage(element));
         }
         return this;
     }
@@ -367,7 +367,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator sameHeightAs(WebElement element, String readableName) {
-        validateSameHeight(element, readableName);
+        validateSameHeight(asElement(element), readableName);
         return this;
     }
 
@@ -380,7 +380,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameHeightAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateSameHeight(element, getFormattedMessage(element));
+            validateSameHeight(asElement(element), getFormattedMessage(element));
         }
         return this;
     }
@@ -418,7 +418,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator sameSizeAs(WebElement element, String readableName) {
-        validateSameSize(element, readableName);
+        validateSameSize(asElement(element), readableName);
         return this;
     }
 
@@ -431,7 +431,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameSizeAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateSameSize(element, getFormattedMessage(element));
+            validateSameSize(asElement(element), getFormattedMessage(element));
         }
         return this;
     }

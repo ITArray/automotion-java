@@ -471,13 +471,6 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateSameHeight(WebElement element, String readableName) {
-        int h = getHeight(element);
-        if (h != rootElement.getHeight()) {
-            errors.add(String.format("Element '%s' has not the same height as %s. Height of '%s' is %spx. Height of element is %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getHeight(), h), asElement(element));
-        }
-    }
-
     void validateMaxWidth(int width) {
         if (!rootElement.hasMaxWidth(width)) {
             errors.add(String.format("Expected max width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, width, rootElement.getWidth()));
@@ -490,18 +483,21 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateSameWidth(WebElement element, String readableName) {
-        int w = getWidth(element);
-        if (w != rootElement.getWidth()) {
-            errors.add(String.format("Element '%s' has not the same width as %s. Width of '%s' is %spx. Width of element is %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getWidth(), w), asElement(element));
+    void validateSameWidth(Element element, String readableName) {
+        if (!rootElement.hasSameWidthAs(element)) {
+            errors.add(String.format("Element '%s' has not the same width as %s. Width of '%s' is %spx. Width of element is %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getWidth(), element.getWidth()), element);
         }
     }
 
-    void validateSameSize(WebElement element, String readableName) {
-        int w = getWidth(element);
-        int h = getHeight(element);
-        if (h != rootElement.getHeight() || w != rootElement.getWidth()) {
-            errors.add(String.format("Element '%s' has not the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getWidth(), rootElement.getHeight(), w, h), asElement(element));
+    void validateSameHeight(Element element, String readableName) {
+        if (!rootElement.hasSameHeightAs(element)) {
+            errors.add(String.format("Element '%s' has not the same height as %s. Height of '%s' is %spx. Height of element is %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getHeight(), element.getHeight()), element);
+        }
+    }
+
+    void validateSameSize(Element element, String readableName) {
+        if (!rootElement.hasSameSizeAs(element)) {
+            errors.add(String.format("Element '%s' has not the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getWidth(), rootElement.getHeight(), element.getWidth(), element.getHeight()), element);
         }
     }
 
