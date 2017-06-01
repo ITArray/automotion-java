@@ -550,37 +550,37 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateNotSameSize(List<WebElement> elements) {
+    void validateNotSameSize(List<Element> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            WebElement element = elements.get(i);
-            WebElement nextElement = elements.get(i + 1);
-            if (getHeight(element) == getHeight(nextElement) && getWidth(element) == getWidth(nextElement)) {
-                errors.add(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 1), getWidth(element), getHeight(element)), asElement(element));
-                errors.add(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 2), getWidth(nextElement), getHeight(nextElement)), asElement(nextElement));
+            Element element = elements.get(i);
+            Element elementToCompare = elements.get(i + 1);
+            if (element.hasSameSizeAs(elementToCompare)) {
+                errors.add(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
+                errors.add(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
             }
 
         }
     }
 
-    void validateNotSameWidth(List<WebElement> elements) {
+    void validateNotSameWidth(List<Element> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            WebElement element = elements.get(i);
-            WebElement nextElement = elements.get(i + 1);
-            if (getWidth(element) == getWidth(nextElement)) {
-                errors.add(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 1), getWidth(element), getHeight(element)), asElement(element));
-                errors.add(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 2), getWidth(nextElement), getHeight(nextElement)), asElement(nextElement));
+            Element element = elements.get(i);
+            Element elementToCompare = elements.get(i + 1);
+            if (element.hasSameWidthAs(elementToCompare)) {
+                errors.add(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
+                errors.add(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
             }
 
         }
     }
 
-    void validateNotSameHeight(List<WebElement> elements) {
+    void validateNotSameHeight(List<Element> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            WebElement element = elements.get(i);
-            WebElement nextElement = elements.get(i + 1);
-            if (getHeight(element) == getHeight(nextElement)) {
-                errors.add(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 1), getWidth(element), getHeight(element)), asElement(element));
-                errors.add(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 2), getWidth(nextElement), getHeight(nextElement)), asElement(nextElement));
+            Element element = elements.get(i);
+            Element elementToCompare = elements.get(i + 1);
+            if (element.hasSameHeightAs(elementToCompare)) {
+                errors.add(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
+                errors.add(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
             }
         }
     }
