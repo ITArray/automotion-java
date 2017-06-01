@@ -666,7 +666,7 @@ public class ResponsiveUIValidator {
     void validateEqualLeftRightOffset(List<WebElement> elements) {
         for (WebElement element : elements) {
             if (!asElement(element).hasEqualLeftRightOffset(pageSize)) {
-                errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", getFormattedMessage(element), getX(element), asElement(element).getRightOffset(pageSize)), asElement(element));
+                errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", getFormattedMessage(asElement(element)), getX(element), asElement(element).getRightOffset(pageSize)), asElement(element));
             }
         }
     }
@@ -674,7 +674,7 @@ public class ResponsiveUIValidator {
     void validateEqualTopBottomOffset(List<WebElement> elements) {
         for (WebElement element : elements) {
             if (!asElement(element).hasEqualTopBottomOffset(pageSize)) {
-                errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", getFormattedMessage(element), getY(element), asElement(element).getBottomOffset(pageSize)), asElement(element));
+                errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", getFormattedMessage(asElement(element)), getY(element), asElement(element).getBottomOffset(pageSize)), asElement(element));
             }
         }
     }
@@ -714,16 +714,16 @@ public class ResponsiveUIValidator {
         }
     }
 
-    String getFormattedMessage(WebElement element) {
+    String getFormattedMessage(Element element) {
         return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
-                element.getTagName(),
-                element.getAttribute("id"),
-                element.getAttribute("class"),
-                element.getText().length() < 10 ? element.getText() : element.getText().substring(0, 10) + "...",
-                String.valueOf(getX(element)),
-                String.valueOf(getY(element)),
-                String.valueOf(getWidth(element)),
-                String.valueOf(getHeight(element)));
+                element.getWebElement().getTagName(),
+                element.getWebElement().getAttribute("id"),
+                element.getWebElement().getAttribute("class"),
+                element.getWebElement().getText().length() < 10 ? element.getWebElement().getText() : element.getWebElement().getText().substring(0, 10) + "...",
+                String.valueOf(element.getX()),
+                String.valueOf(element.getY()),
+                String.valueOf(element.getWidth()),
+                String.valueOf(element.getHeight()));
     }
 
     int retinaValue(int value) {
