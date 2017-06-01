@@ -425,10 +425,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateOverlappingWithElements(WebElement element, String readableName) {
-        if (!element.equals(getRootElement())) {
-            if (!elementsAreOverlapped(getRootElement(), element)) {
-                errors.add(String.format("Element '%s' is not overlapped with element '%s' but should be", rootElementReadableName, readableName), asElement(element));
-            }
+        if (!elementsAreOverlapped(getRootElement(), element)) {
+            errors.add(String.format("Element '%s' is not overlapped with element '%s' but should be", rootElementReadableName, readableName), asElement(element));
         }
     }
 
