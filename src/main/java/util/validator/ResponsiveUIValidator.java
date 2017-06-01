@@ -590,11 +590,10 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateBelowElement(WebElement element, int minMargin, int maxMargin) {
-        int yBelowElement = asElement(element).getY();
-        int marginBetweenRoot = yBelowElement - (rootElement.getY() + rootElement.getHeight());
+    void validateBelowElement(Element element, int minMargin, int maxMargin) {
+        int marginBetweenRoot = element.getY() - rootElement.getCornerY();
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            errors.add(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), asElement(element));
+            errors.add(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
         }
     }
 
@@ -606,12 +605,10 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateAboveElement(WebElement element, int minMargin, int maxMargin) {
-        int yAboveElement = asElement(element).getY();
-        int heightAboveElement = asElement(element).getHeight();
-        int marginBetweenRoot = rootElement.getY() - (yAboveElement + heightAboveElement);
+    void validateAboveElement(Element element, int minMargin, int maxMargin) {
+        int marginBetweenRoot = rootElement.getY() - element.getCornerY();
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            errors.add(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), asElement(element));
+            errors.add(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
         }
     }
 
@@ -623,11 +620,10 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateRightElement(WebElement element, int minMargin, int maxMargin) {
-        int xRightElement = asElement(element).getX();
-        int marginBetweenRoot = xRightElement - (rootElement.getX() + rootElement.getWidth());
+    void validateRightElement(Element element, int minMargin, int maxMargin) {
+        int marginBetweenRoot = element.getX() - rootElement.getCornerX();
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            errors.add(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), asElement(element));
+            errors.add(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
         }
     }
 
@@ -639,12 +635,10 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateLeftElement(WebElement leftElement, int minMargin, int maxMargin) {
-        int xLeftElement = asElement(leftElement).getX();
-        int widthLeftElement = asElement(leftElement).getWidth();
-        int marginBetweenRoot = rootElement.getX() - (xLeftElement + widthLeftElement);
+    void validateLeftElement(Element leftElement, int minMargin, int maxMargin) {
+        int marginBetweenRoot = rootElement.getX() - leftElement.getCornerX();
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            errors.add(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), asElement(leftElement));
+            errors.add(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), leftElement);
         }
     }
 
@@ -697,13 +691,13 @@ public class ResponsiveUIValidator {
             g.drawLine(retinaValue(rootElement.getX()), 0, retinaValue(rootElement.getX()), retinaValue(img.getHeight()));
         }
         if (drawRightOffsetLine) {
-            g.drawLine(retinaValue(rootElement.getX() + rootElement.getWidth()), 0, retinaValue(rootElement.getX() + rootElement.getWidth()), retinaValue(img.getHeight()));
+            g.drawLine(retinaValue(rootElement.getCornerX()), 0, retinaValue(rootElement.getCornerX()), retinaValue(img.getHeight()));
         }
         if (drawTopOffsetLine) {
             g.drawLine(0, retinaValue(mobileY(rootElement.getY())), retinaValue(img.getWidth()), retinaValue(rootElement.getY()));
         }
         if (drawBottomOffsetLine) {
-            g.drawLine(0, retinaValue(mobileY(rootElement.getY() + rootElement.getHeight())), retinaValue(img.getWidth()), retinaValue(rootElement.getY() + rootElement.getHeight()));
+            g.drawLine(0, retinaValue(mobileY(rootElement.getCornerY())), retinaValue(img.getWidth()), retinaValue(rootElement.getCornerY()));
         }
     }
 

@@ -55,7 +55,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withLeftElement(WebElement element, int minMargin, int maxMargin) {
-        validateLeftElement(element, getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true));
+        validateLeftElement(asElement(element), getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true));
         return this;
     }
 
@@ -81,7 +81,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withRightElement(WebElement element, int minMargin, int maxMargin) {
-        validateRightElement(element, getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true));
+        validateRightElement(asElement(element), getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true));
         return this;
     }
 
@@ -107,7 +107,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withTopElement(WebElement element, int minMargin, int maxMargin) {
-        validateAboveElement(element, getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false));
+        validateAboveElement(asElement(element), getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false));
         return this;
     }
 
@@ -133,7 +133,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withBottomElement(WebElement element, int minMargin, int maxMargin) {
-        validateBelowElement(element, getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false));
+        validateBelowElement(asElement(element), getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false));
         return this;
     }
 
