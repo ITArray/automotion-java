@@ -30,7 +30,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import static com.google.common.collect.Lists.newArrayList;
 import static environment.EnvironmentFactory.*;
 import static net.itarry.automotion.Element.asElement;
-import static net.itarry.automotion.Element.asElements;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;
@@ -432,8 +431,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateMaxOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = getRightOffset(getRootElement());
-        int rootElementBottomOffset = getBottomOffset(getRootElement());
+        int rootElementRightOffset = asElement(getRootElement()).getRightOffset(pageSize);
+        int rootElementBottomOffset = rootElement.getBottomOffset(pageSize);
         if (rootElement.getX() > left) {
             errors.add(String.format("Expected max left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, rootElement.getX()));
         }
@@ -449,8 +448,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateMinOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = getRightOffset(getRootElement());
-        int rootElementBottomOffset = getBottomOffset(getRootElement());
+        int rootElementRightOffset = asElement(getRootElement()).getRightOffset(pageSize);
+        int rootElementBottomOffset = rootElement.getBottomOffset(pageSize);
         if (rootElement.getX() < left) {
             errors.add(String.format("Expected min left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, rootElement.getX()));
         }
@@ -653,29 +652,29 @@ public class ResponsiveUIValidator {
     }
 
     void validateEqualLeftRightOffset(WebElement element, String rootElementReadableName) {
-        if (!elementHasEqualLeftRightOffset(element)) {
-            errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElementReadableName, getX(element), getRightOffset(element)), asElement(element));
+        if (!asElement(element).hasEqualLeftRightOffset(pageSize)) {
+            errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElementReadableName, getX(element), asElement(element).getRightOffset(pageSize)), asElement(element));
         }
     }
 
     void validateEqualTopBottomOffset(WebElement element, String rootElementReadableName) {
-        if (!elementHasEqualTopBottomOffset(element)) {
-            errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElementReadableName, getY(element), getBottomOffset(element)), asElement(element));
+        if (!asElement(element).hasEqualTopBottomOffset(pageSize)) {
+            errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElementReadableName, getY(element), asElement(element).getBottomOffset(pageSize)), asElement(element));
         }
     }
 
     void validateEqualLeftRightOffset(List<WebElement> elements) {
         for (WebElement element : elements) {
-            if (!elementHasEqualLeftRightOffset(element)) {
-                errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", getFormattedMessage(element), getX(element), getRightOffset(element)), asElement(element));
+            if (!asElement(element).hasEqualLeftRightOffset(pageSize)) {
+                errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", getFormattedMessage(element), getX(element), asElement(element).getRightOffset(pageSize)), asElement(element));
             }
         }
     }
 
     void validateEqualTopBottomOffset(List<WebElement> elements) {
         for (WebElement element : elements) {
-            if (!elementHasEqualTopBottomOffset(element)) {
-                errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", getFormattedMessage(element), getY(element), getBottomOffset(element)), asElement(element));
+            if (!asElement(element).hasEqualTopBottomOffset(pageSize)) {
+                errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", getFormattedMessage(element), getY(element), asElement(element).getBottomOffset(pageSize)), asElement(element));
             }
         }
     }
@@ -708,9 +707,9 @@ public class ResponsiveUIValidator {
             return i;
         } else {
             if (horizontal) {
-                return (i * getPageWidth()) / 100;
+                return (i * pageSize.getWidth()) / 100;
             } else {
-                return (i * getPageHeight()) / 100;
+                return (i * pageSize.getHeight()) / 100;
             }
         }
     }
@@ -872,32 +871,12 @@ public class ResponsiveUIValidator {
         }
     }
 
-    private Element get(List<WebElement> elements, int i) {
-        return asElements(elements).get(i);
-    }
-
     private Rectangle2D.Double rectangle(WebElement element) {
         return asElement(element).rectangle();
     }
 
-    private int getRightOffset(WebElement element) {
-        return getPageWidth() - getCornerX(element);
-    }
-
-    private int getBottomOffset(WebElement element) {
-        return getPageHeight() - getCornerY(element);
-    }
-
     private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
         return asElement(rootElement).overlaps(asElement(elementOverlapWith));
-    }
-
-    private boolean elementHasEqualLeftRightOffset(WebElement element) {
-        return getX(element) == getRightOffset(element);
-    }
-
-    private boolean elementHasEqualTopBottomOffset(WebElement element) {
-        return getY(element) == getBottomOffset(element);
     }
 
     private int getX(WebElement element) {
@@ -922,14 +901,6 @@ public class ResponsiveUIValidator {
 
     private int getCornerY(WebElement element) {
         return asElement(element).getCornerY();
-    }
-
-    public int getPageWidth() {
-        return pageSize.getWidth();
-    }
-
-    public int getPageHeight() {
-        return pageSize.getHeight();
     }
 
     public enum Units {

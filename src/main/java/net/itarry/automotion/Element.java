@@ -1,5 +1,6 @@
 package net.itarry.automotion;
 
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 
 import java.awt.geom.Rectangle2D;
@@ -104,5 +105,29 @@ public class Element {
 
     public boolean overlaps(Element elementToCompare) {
         return rectangle().intersects(elementToCompare.rectangle());
+    }
+
+    public int getTopOffset() {
+        return getY();
+    }
+
+    public int getBottomOffset(Dimension pageSize) {
+        return pageSize.getHeight() - getCornerY();
+    }
+
+    public int getLeftOffset() {
+        return getX();
+    }
+
+    public int getRightOffset(Dimension pageSize) {
+        return pageSize.getWidth() - getCornerX();
+    }
+
+    public boolean hasEqualTopBottomOffset(Dimension pageSize) {
+        return getTopOffset() == getBottomOffset(pageSize);
+    }
+
+    public boolean hasEqualLeftRightOffset(Dimension pageSize) {
+        return getLeftOffset() == getRightOffset(pageSize);
     }
 }
