@@ -566,7 +566,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator equalLeftRightOffset() {
-        validateEqualLeftRightOffset(getRootElement(), rootElementReadableName);
+        validateEqualLeftRightOffset(asElement(getRootElement()), rootElementReadableName);
         return this;
     }
 
@@ -577,7 +577,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator equalTopBottomOffset() {
-        validateEqualTopBottomOffset(getRootElement(), rootElementReadableName);
+        validateEqualTopBottomOffset(asElement(getRootElement()), rootElementReadableName);
         return this;
     }
 

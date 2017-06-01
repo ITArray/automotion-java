@@ -181,7 +181,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator equalLeftRightOffset() {
-        validateEqualLeftRightOffset(rootElements);
+        validateEqualLeftRightOffset(asElements(rootElements));
         return this;
     }
 
@@ -192,7 +192,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator equalTopBottomOffset() {
-        validateEqualTopBottomOffset(rootElements);
+        validateEqualTopBottomOffset(asElements(rootElements));
         return this;
     }
 

@@ -322,7 +322,7 @@ public class ResponsiveUIValidator {
         if (rootElements != null) {
             ConcurrentSkipListMap<Integer, AtomicLong> map = new ConcurrentSkipListMap<>();
             for (WebElement el : rootElements) {
-                Integer y = getY(el);
+                Integer y = asElement(el).getY();
 
                 map.putIfAbsent(y, new AtomicLong(0));
                 map.get(y).incrementAndGet();
@@ -542,8 +542,8 @@ public class ResponsiveUIValidator {
 
     void validateNotSameSize(WebElement element, String readableName) {
         if (!element.equals(getRootElement())) {
-            int h = getHeight(element);
-            int w = getWidth(element);
+            int h = asElement(element).getHeight();
+            int w = asElement(element).getWidth();
             if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
                 errors.add(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getWidth(), rootElement.getHeight(), w, h), asElement(element));
             }
@@ -586,7 +586,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateBelowElement(WebElement element, int minMargin, int maxMargin) {
-        int yBelowElement = getY(element);
+        int yBelowElement = asElement(element).getY();
         int marginBetweenRoot = yBelowElement - (rootElement.getY() + rootElement.getHeight());
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             errors.add(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), asElement(element));
@@ -602,8 +602,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateAboveElement(WebElement element, int minMargin, int maxMargin) {
-        int yAboveElement = getY(element);
-        int heightAboveElement = getHeight(element);
+        int yAboveElement = asElement(element).getY();
+        int heightAboveElement = asElement(element).getHeight();
         int marginBetweenRoot = rootElement.getY() - (yAboveElement + heightAboveElement);
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             errors.add(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), asElement(element));
@@ -619,7 +619,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateRightElement(WebElement element, int minMargin, int maxMargin) {
-        int xRightElement = getX(element);
+        int xRightElement = asElement(element).getX();
         int marginBetweenRoot = xRightElement - (rootElement.getX() + rootElement.getWidth());
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             errors.add(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), asElement(element));
@@ -635,8 +635,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateLeftElement(WebElement leftElement, int minMargin, int maxMargin) {
-        int xLeftElement = getX(leftElement);
-        int widthLeftElement = getWidth(leftElement);
+        int xLeftElement = asElement(leftElement).getX();
+        int widthLeftElement = asElement(leftElement).getWidth();
         int marginBetweenRoot = rootElement.getX() - (xLeftElement + widthLeftElement);
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             errors.add(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), asElement(leftElement));
@@ -651,30 +651,30 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateEqualLeftRightOffset(WebElement element, String rootElementReadableName) {
-        if (!asElement(element).hasEqualLeftRightOffset(pageSize)) {
-            errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElementReadableName, getX(element), asElement(element).getRightOffset(pageSize)), asElement(element));
+    void validateEqualLeftRightOffset(Element element, String rootElementReadableName) {
+        if (!element.hasEqualLeftRightOffset(pageSize)) {
+            errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElementReadableName, element.getX(), element.getRightOffset(pageSize)), element);
         }
     }
 
-    void validateEqualTopBottomOffset(WebElement element, String rootElementReadableName) {
-        if (!asElement(element).hasEqualTopBottomOffset(pageSize)) {
-            errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElementReadableName, getY(element), asElement(element).getBottomOffset(pageSize)), asElement(element));
+    void validateEqualTopBottomOffset(Element element, String rootElementReadableName) {
+        if (!element.hasEqualTopBottomOffset(pageSize)) {
+            errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElementReadableName, element.getY(), element.getBottomOffset(pageSize)), element);
         }
     }
 
-    void validateEqualLeftRightOffset(List<WebElement> elements) {
-        for (WebElement element : elements) {
-            if (!asElement(element).hasEqualLeftRightOffset(pageSize)) {
-                errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", getFormattedMessage(asElement(element)), getX(element), asElement(element).getRightOffset(pageSize)), asElement(element));
+    void validateEqualLeftRightOffset(List<Element> elements) {
+        for (Element element : elements) {
+            if (!element.hasEqualLeftRightOffset(pageSize)) {
+                errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", getFormattedMessage(element), element.getX(), element.getRightOffset(pageSize)), element);
             }
         }
     }
 
-    void validateEqualTopBottomOffset(List<WebElement> elements) {
-        for (WebElement element : elements) {
-            if (!asElement(element).hasEqualTopBottomOffset(pageSize)) {
-                errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", getFormattedMessage(asElement(element)), getY(element), asElement(element).getBottomOffset(pageSize)), asElement(element));
+    void validateEqualTopBottomOffset(List<Element> elements) {
+        for (Element element : elements) {
+            if (!element.hasEqualTopBottomOffset(pageSize)) {
+                errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", getFormattedMessage(element), element.getY(), element.getBottomOffset(pageSize)), element);
             }
         }
     }
@@ -877,22 +877,6 @@ public class ResponsiveUIValidator {
 
     private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
         return asElement(rootElement).overlaps(asElement(elementOverlapWith));
-    }
-
-    private int getX(WebElement element) {
-        return asElement(element).getX();
-    }
-
-    private int getY(WebElement element) {
-        return asElement(element).getY();
-    }
-
-    private int getWidth(WebElement element) {
-        return asElement(element).getWidth();
-    }
-
-    private int getHeight(WebElement element) {
-        return asElement(element).getHeight();
     }
 
     public enum Units {
