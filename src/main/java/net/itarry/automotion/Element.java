@@ -68,4 +68,19 @@ public class Element {
     }
 
 
+    public boolean hasMaxHeight(int height) {
+        return getHeight() <= height;
+    }
+
+    public boolean hasMinHeight(int height) {
+        return getHeight() >= height;
+    }
+
+    public boolean hasMaxWidth(int width) {
+        return getWidth() <= width;
+    }
+
+    public boolean hasMinWidth(int width) {
+        return getWidth() >= width;
+    }
 }

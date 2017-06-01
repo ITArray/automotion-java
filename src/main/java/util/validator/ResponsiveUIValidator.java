@@ -460,13 +460,13 @@ public class ResponsiveUIValidator {
     }
 
     void validateMaxHeight(int height) {
-        if (rootElement.getHeight() > height) {
+        if (!rootElement.hasMaxHeight(height)) {
             errors.add(String.format("Expected max height of element  '%s' is: %spx. Actual height is: %spx", rootElementReadableName, height, rootElement.getHeight()));
         }
     }
 
     void validateMinHeight(int height) {
-        if (rootElement.getHeight() < height) {
+        if (!rootElement.hasMinHeight(height)) {
             errors.add(String.format("Expected min height of element '%s' is: %spx. Actual height is: %spx", rootElementReadableName, height, rootElement.getHeight()));
         }
     }
@@ -479,13 +479,13 @@ public class ResponsiveUIValidator {
     }
 
     void validateMaxWidth(int width) {
-        if (rootElement.getWidth() > width) {
+        if (!rootElement.hasMaxWidth(width)) {
             errors.add(String.format("Expected max width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, width, rootElement.getWidth()));
         }
     }
 
     void validateMinWidth(int width) {
-        if (rootElement.getWidth() < width) {
+        if (!rootElement.hasMinWidth(width)) {
             errors.add(String.format("Expected min width of element '%s' is: %spx. Actual width is: %spx", rootElementReadableName, width, rootElement.getWidth()));
         }
     }
