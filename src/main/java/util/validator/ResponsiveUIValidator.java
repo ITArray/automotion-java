@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.*;
+import org.openqa.selenium.Dimension;
 import util.driver.PageValidator;
 import util.general.HtmlReportBuilder;
 import util.validator.properties.Padding;
@@ -59,12 +60,12 @@ public class ResponsiveUIValidator {
     String rootElementReadableName = "Root Element";
     List<WebElement> rootElements;
     ResponsiveUIValidator.Units units = PX;
-    int pageWidth;
-    int pageHeight;
+    private Dimension pageSize;
 
     public ResponsiveUIValidator(WebDriver driver) {
         ResponsiveUIValidator.driver = driver;
         ResponsiveUIValidator.errors = new Errors();
+        pageSize = new Dimension((int) retrievePageWidth(), (int) retrievePageHeight());
     }
 
     public static WebElement getRootElement() {
@@ -707,9 +708,9 @@ public class ResponsiveUIValidator {
             return i;
         } else {
             if (horizontal) {
-                return (i * pageWidth) / 100;
+                return (i * getPageWidth()) / 100;
             } else {
-                return (i * pageHeight) / 100;
+                return (i * getPageHeight()) / 100;
             }
         }
     }
@@ -783,7 +784,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    long getPageWidth() {
+    long retrievePageWidth() {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         if (!isMobile()) {
             if (isFirefox()) {
@@ -806,7 +807,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    long getPageHeight() {
+    long retrievePageHeight() {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         if (!isMobile()) {
             if (isFirefox()) {
@@ -880,11 +881,11 @@ public class ResponsiveUIValidator {
     }
 
     private int getRightOffset(WebElement element) {
-        return pageWidth - getCornerX(element);
+        return getPageWidth() - getCornerX(element);
     }
 
     private int getBottomOffset(WebElement element) {
-        return pageHeight - getCornerY(element);
+        return getPageHeight() - getCornerY(element);
     }
 
     private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
@@ -921,6 +922,14 @@ public class ResponsiveUIValidator {
 
     private int getCornerY(WebElement element) {
         return asElement(element).getCornerY();
+    }
+
+    public int getPageWidth() {
+        return pageSize.getWidth();
+    }
+
+    public int getPageHeight() {
+        return pageSize.getHeight();
     }
 
     public enum Units {
