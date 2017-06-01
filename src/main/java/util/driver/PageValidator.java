@@ -9,12 +9,18 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+import static net.itarry.automotion.Element.asElements;
+
 public class PageValidator {
 
     private final static Logger LOG = LoggerFactory.getLogger(PageValidator.class);
 
 
-    public static boolean elementsAreAlignedHorizontally(List<Element> elements) {
+    public static boolean elementsAreAlignedHorizontally(List<WebElement> webElements) {
+        return privateElementsAreAlignedHorizontally(asElements(webElements));
+    }
+
+    public static boolean privateElementsAreAlignedHorizontally(List<Element> elements) {
         boolean aligned = false;
 
         for (int i = 1; i < elements.size(); i++) {
@@ -34,7 +40,11 @@ public class PageValidator {
         return aligned;
     }
 
-    public static boolean elementsAreAlignedVertically(List<Element> elements) {
+    public static boolean elementsAreAlignedVertically(List<WebElement> webElements) {
+        return privateElementsAreAlignedVertically(asElements(webElements));
+    }
+
+    public static boolean privateElementsAreAlignedVertically(List<Element> elements) {
         boolean aligned = false;
 
         for (int i = 1; i < elements.size(); i++) {
