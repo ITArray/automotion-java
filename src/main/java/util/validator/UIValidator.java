@@ -41,7 +41,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withLeftElement(WebElement element) {
-        validateLeftElement(element);
+        validateLeftElement(asElement(element));
         return this;
     }
 
@@ -67,7 +67,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withRightElement(WebElement element) {
-        validateRightElement(element);
+        validateRightElement(asElement(element));
         return this;
     }
 
@@ -93,7 +93,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withTopElement(WebElement element) {
-        validateAboveElement(element);
+        validateAboveElement(asElement(element));
         return this;
     }
 
@@ -119,7 +119,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withBottomElement(WebElement element) {
-        validateBelowElement(element);
+        validateBelowElement(asElement(element));
         return this;
     }
 
