@@ -418,15 +418,15 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateNotOverlappingWithElements(WebElement element, String readableName) {
-        if (elementsAreOverlapped(getRootElement(), element)) {
-            errors.add(String.format("Element '%s' is overlapped with element '%s' but should not", rootElementReadableName, readableName), asElement(element));
+    void validateNotOverlappingWithElements(Element element, String readableName) {
+        if (rootElement.overlaps(element)) {
+            errors.add(String.format("Element '%s' is overlapped with element '%s' but should not", rootElementReadableName, readableName), element);
         }
     }
 
-    void validateOverlappingWithElements(WebElement element, String readableName) {
-        if (!elementsAreOverlapped(getRootElement(), element)) {
-            errors.add(String.format("Element '%s' is not overlapped with element '%s' but should be", rootElementReadableName, readableName), asElement(element));
+    void validateOverlappingWithElements(String readableName, Element element) {
+        if (!rootElement.overlaps(element)) {
+            errors.add(String.format("Element '%s' is not overlapped with element '%s' but should be", rootElementReadableName, readableName), element);
         }
     }
 

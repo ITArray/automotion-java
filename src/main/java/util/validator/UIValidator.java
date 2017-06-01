@@ -146,7 +146,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator notOverlapWith(WebElement element, String readableName) {
-        validateNotOverlappingWithElements(element, readableName);
+        validateNotOverlappingWithElements(asElement(element), readableName);
         return this;
     }
 
@@ -159,7 +159,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator overlapWith(WebElement element, String readableName) {
-        validateOverlappingWithElements(element, readableName);
+        validateOverlappingWithElements(readableName, asElement(element));
         return this;
     }
 
@@ -172,7 +172,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator notOverlapWith(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateNotOverlappingWithElements(element, getFormattedMessage(element));
+            validateNotOverlappingWithElements(asElement(element), getFormattedMessage(element));
         }
         return this;
     }
