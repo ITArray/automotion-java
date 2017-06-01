@@ -38,7 +38,9 @@ public class ResponsiveUIValidator {
     static final int MIN_OFFSET = -10000;
     private final static Logger LOG = Logger.getLogger(ResponsiveUIValidator.class);
     protected static WebDriver driver;
+
     private static Element rootElement;
+
     static long startTime;
     private static boolean isMobileTopBar = false;
     private static boolean withReport = false;
@@ -60,15 +62,18 @@ public class ResponsiveUIValidator {
     List<WebElement> rootElements;
     ResponsiveUIValidator.Units units = PX;
     private Dimension pageSize;
-
     public ResponsiveUIValidator(WebDriver driver) {
         ResponsiveUIValidator.driver = driver;
         ResponsiveUIValidator.errors = new Errors();
         pageSize = new Dimension((int) retrievePageWidth(), (int) retrievePageHeight());
     }
 
-    public static WebElement getRootElement() {
-        return rootElement.getWebElement();
+    public static Element getRootElement() {
+        return rootElement;
+    }
+
+    public static WebElement getRootWebElement() {
+        return getRootElement().getWebElement();
     }
 
     public static void setRootElement(WebElement rootElement) {
@@ -182,7 +187,7 @@ public class ResponsiveUIValidator {
         JSONObject jsonResults = new JSONObject();
         jsonResults.put(ERROR_KEY, false);
 
-        if (getRootElement() != null) {
+        if (getRootWebElement() != null) {
             if (errors.hasMessages()) {
                 jsonResults.put(ERROR_KEY, true);
                 jsonResults.put(DETAILS, errors.getMessages());
@@ -431,7 +436,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateMaxOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = asElement(getRootElement()).getRightOffset(pageSize);
+        int rootElementRightOffset = asElement(getRootWebElement()).getRightOffset(pageSize);
         int rootElementBottomOffset = rootElement.getBottomOffset(pageSize);
         if (rootElement.getX() > left) {
             errors.add(String.format("Expected max left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, rootElement.getX()));
@@ -448,7 +453,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateMinOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = asElement(getRootElement()).getRightOffset(pageSize);
+        int rootElementRightOffset = asElement(getRootWebElement()).getRightOffset(pageSize);
         int rootElementBottomOffset = rootElement.getBottomOffset(pageSize);
         if (rootElement.getX() < left) {
             errors.add(String.format("Expected min left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, rootElement.getX()));
@@ -541,7 +546,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateNotSameSize(WebElement element, String readableName) {
-        if (!element.equals(getRootElement())) {
+        if (!element.equals(getRootWebElement())) {
             int h = asElement(element).getHeight();
             int w = asElement(element).getWidth();
             if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
@@ -594,7 +599,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateBelowElement(WebElement element) {
-        List<WebElement> elements = newArrayList(getRootElement(), element);
+        List<WebElement> elements = newArrayList(getRootWebElement(), element);
 
         if (!PageValidator.elementsAreAlignedVertically(elements)) {
             errors.add("Below element aligned not properly");
@@ -611,7 +616,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateAboveElement(WebElement element) {
-        List<WebElement> elements = newArrayList(element, getRootElement());
+        List<WebElement> elements = newArrayList(element, getRootWebElement());
 
         if (!PageValidator.elementsAreAlignedVertically(elements)) {
             errors.add("Above element aligned not properly");
@@ -627,7 +632,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateRightElement(WebElement element) {
-        List<WebElement> elements = newArrayList(getRootElement(), element);
+        List<WebElement> elements = newArrayList(getRootWebElement(), element);
 
         if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
             errors.add("Right element aligned not properly");
@@ -644,7 +649,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateLeftElement(WebElement leftElement) {
-        List<WebElement> elements = newArrayList(leftElement, getRootElement());
+        List<WebElement> elements = newArrayList(leftElement, getRootWebElement());
 
         if (!PageValidator.elementsAreAlignedHorizontally(elements)) {
             errors.add("Left element aligned not properly");

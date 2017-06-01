@@ -520,7 +520,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withCssValue(String cssProperty, String... args) {
-        String cssValue = getRootElement().getCssValue(cssProperty);
+        String cssValue = getRootWebElement().getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {
@@ -544,7 +544,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withoutCssValue(String cssProperty, String... args) {
-        String cssValue = getRootElement().getCssValue(cssProperty);
+        String cssValue = getRootWebElement().getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {
@@ -566,7 +566,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator equalLeftRightOffset() {
-        validateEqualLeftRightOffset(asElement(getRootElement()), rootElementReadableName);
+        validateEqualLeftRightOffset(getRootElement(), rootElementReadableName);
         return this;
     }
 
@@ -577,7 +577,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator equalTopBottomOffset() {
-        validateEqualTopBottomOffset(asElement(getRootElement()), rootElementReadableName);
+        validateEqualTopBottomOffset(getRootElement(), rootElementReadableName);
         return this;
     }
 
