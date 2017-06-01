@@ -73,7 +73,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator withSameSize() {
-        validateSameSize(rootElements);
+        validateSameSize(asElements(rootElements));
         return this;
     }
 
@@ -84,7 +84,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator withSameWidth() {
-        validateSameWidth(rootElements);
+        validateSameWidth(asElements(rootElements));
         return this;
     }
 
@@ -95,7 +95,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator withSameHeight() {
-        validateSameHeight(rootElements);
+        validateSameHeight(asElements(rootElements));
         return this;
     }
 

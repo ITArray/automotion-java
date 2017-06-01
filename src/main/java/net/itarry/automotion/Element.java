@@ -94,12 +94,12 @@ public class Element {
         return getWidth() == elementToCompare.getWidth();
     }
 
-    public boolean hasSameHeightAs(Element element) {
-        return getHeight() == element.getHeight();
+    public boolean hasSameHeightAs(Element elementToCompare) {
+        return getHeight() == elementToCompare.getHeight();
     }
 
-    public boolean hasSameSizeAs(Element element) {
-        return hasSameHeightAs(element) && hasSameWidthAs(element);
+    public boolean hasSameSizeAs(Element elementToCompare) {
+        return hasSameHeightAs(elementToCompare) && hasSameWidthAs(elementToCompare);
     }
 
     public boolean overlaps(Element elementToCompare) {
