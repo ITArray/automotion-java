@@ -594,7 +594,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
 
     @Override
     public UIValidator insideOf(WebElement containerElement, String readableContainerName, Padding padding) {
-        validateInsideOfContainer(containerElement, readableContainerName, padding);
+        validateInsideOfContainer(asElement(containerElement), readableContainerName, padding);
         return this;
     }
 }

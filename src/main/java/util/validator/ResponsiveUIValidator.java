@@ -848,7 +848,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateInsideOfContainer(WebElement element, String readableContainerName, Padding padding) {
+    void validateInsideOfContainer(Element element, String readableContainerName, Padding padding) {
         int top = getConvertedInt(padding.getTop(), false);
         int right = getConvertedInt(padding.getRight(), true);
         int bottom = getConvertedInt(padding.getBottom(), false);
@@ -860,14 +860,14 @@ public class ResponsiveUIValidator {
                 rootElement.getWidth() + left + right,
                 rootElement.getHeight() + top + bottom);
 
-        int paddingTop = rootElement.getY() - getY(element);
-        int paddingLeft = rootElement.getX() - getX(element);
-        int paddingBottom = getCornerY(element) - rootElement.getCornerY();
-        int paddingRight = getCornerX(element) - rootElement.getCornerX();
+        int paddingTop = rootElement.getY() - element.getY();
+        int paddingLeft = rootElement.getX() - element.getX();
+        int paddingBottom = element.getCornerY() - rootElement.getCornerY();
+        int paddingRight = element.getCornerX() - rootElement.getCornerX();
 
-        if (!rectangle(element).contains(paddedRootRectangle)) {
+        if (!element.rectangle().contains(paddedRootRectangle)) {
             errors.add(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
-                                rootElementReadableName, top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), asElement(element));
+                                rootElementReadableName, top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
         }
     }
 
@@ -893,14 +893,6 @@ public class ResponsiveUIValidator {
 
     private int getHeight(WebElement element) {
         return asElement(element).getHeight();
-    }
-
-    private int getCornerX(WebElement element) {
-        return asElement(element).getCornerX();
-    }
-
-    private int getCornerY(WebElement element) {
-        return asElement(element).getCornerY();
     }
 
     public enum Units {
