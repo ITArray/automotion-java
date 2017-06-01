@@ -895,7 +895,7 @@ public class ResponsiveUIValidator {
     }
 
     private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
-        return asElement(rootElement).rectangle().intersects(asElement(elementOverlapWith).rectangle());
+        return asElement(rootElement).overlaps(asElement(elementOverlapWith));
     }
 
     private boolean elementHasEqualLeftRightOffset(WebElement element) {

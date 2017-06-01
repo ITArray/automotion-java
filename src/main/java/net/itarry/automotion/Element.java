@@ -101,4 +101,8 @@ public class Element {
     public boolean hasSameSizeAs(Element element) {
         return hasSameHeightAs(element) && hasSameWidthAs(element);
     }
+
+    public boolean overlaps(Element elementToCompare) {
+        return rectangle().intersects(elementToCompare.rectangle());
+    }
 }
