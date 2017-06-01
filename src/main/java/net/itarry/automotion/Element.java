@@ -3,6 +3,8 @@ package net.itarry.automotion;
 import org.openqa.selenium.WebElement;
 
 import java.awt.geom.Rectangle2D;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Element {
     private final WebElement webElement;
@@ -13,6 +15,10 @@ public class Element {
 
     public static Element asElement(WebElement element) {
         return new Element(element);
+    }
+
+    public static List<Element> asElements(List<WebElement> webElements) {
+        return webElements.stream().map(Element::asElement).collect(Collectors.toList());
     }
 
     public WebElement getWebElement() {

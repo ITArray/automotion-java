@@ -29,6 +29,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import static com.google.common.collect.Lists.newArrayList;
 import static environment.EnvironmentFactory.*;
 import static net.itarry.automotion.Element.asElement;
+import static net.itarry.automotion.Element.asElements;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;
@@ -353,34 +354,42 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateRightOffsetForChunk(List<WebElement> elements) {
+    void validateRightOffsetForChunk(List<Element> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!get(elements, i).hasEqualRightOffsetAs(get(elements, i + 1))) {
-                errors.add(String.format("Element #%d has not the same right offset as element #%d", i + 1, i + 2), get(elements, i + 1));
+            Element element = elements.get(i);
+            Element elementToCompare = elements.get(i + 1);
+            if (!element.hasEqualRightOffsetAs(elementToCompare)) {
+                errors.add(String.format("Element #%d has not the same right offset as element #%d", i + 1, i + 2), elementToCompare);
             }
         }
     }
 
-    void validateLeftOffsetForChunk(List<WebElement> elements) {
+    void validateLeftOffsetForChunk(List<Element> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!get(elements, i).hasEqualLeftOffsetAs(get(elements, i + 1))) {
-                errors.add(String.format("Element #%d has not the same left offset as element #%d", i + 1, i + 2), get(elements, i + 1));
+            Element element = elements.get(i);
+            Element elementToCompare = elements.get(i + 1);
+            if (!element.hasEqualLeftOffsetAs(elementToCompare)) {
+                errors.add(String.format("Element #%d has not the same left offset as element #%d", i + 1, i + 2), elementToCompare);
             }
         }
     }
 
-    void validateTopOffsetForChunk(List<WebElement> elements) {
+    void validateTopOffsetForChunk(List<Element> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!get(elements, i).hasEqualTopOffsetAs(get(elements, i + 1))) {
-                errors.add(String.format("Element #%d has not the same top offset as element #%d", i + 1, i + 2), get(elements, i + 1));
+            Element element = elements.get(i);
+            Element elementToCompare = elements.get(i + 1);
+            if (!element.hasEqualTopOffsetAs(elementToCompare)) {
+                errors.add(String.format("Element #%d has not the same top offset as element #%d", i + 1, i + 2), elementToCompare);
             }
         }
     }
 
-    void validateBottomOffsetForChunk(List<WebElement> elements) {
+    void validateBottomOffsetForChunk(List<Element> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
-            if (!get(elements, i).hasEqualBottomOffsetAs(get(elements, i + 1))) {
-                errors.add(String.format("Element #%d has not the same bottom offset as element #%d", i + 1, i + 2), get(elements, i + 1));
+            Element element = elements.get(i);
+            Element elementToCompare = elements.get(i + 1);
+            if (!element.hasEqualBottomOffsetAs(elementToCompare)) {
+                errors.add(String.format("Element #%d has not the same bottom offset as element #%d", i + 1, i + 2), elementToCompare);
             }
         }
     }
@@ -870,7 +879,7 @@ public class ResponsiveUIValidator {
     }
 
     private Element get(List<WebElement> elements, int i) {
-        return asElement(elements.get(i));
+        return asElements(elements).get(i);
     }
 
     private Rectangle2D.Double rectangle(WebElement element) {
