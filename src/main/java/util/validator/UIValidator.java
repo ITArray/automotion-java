@@ -1,6 +1,7 @@
 package util.validator;
 
 import http.helpers.TextFinder;
+import net.itarry.automotion.Element;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import util.general.SystemHelper;
@@ -9,6 +10,7 @@ import util.validator.properties.Padding;
 import java.util.List;
 
 import static net.itarry.automotion.Element.asElement;
+import static net.itarry.automotion.Element.asElements;
 
 public class UIValidator extends ResponsiveUIValidator implements Validator {
 
@@ -16,8 +18,6 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
         super(driver);
         setRootElement(element);
         rootElementReadableName = readableNameOfElement;
-        pageWidth = (int) getPageWidth();
-        pageHeight = (int) getPageHeight();
         startTime = System.currentTimeMillis();
     }
 
@@ -41,7 +41,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withLeftElement(WebElement element) {
-        validateLeftElement(element);
+        validateLeftElement(asElement(element));
         return this;
     }
 
@@ -55,7 +55,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withLeftElement(WebElement element, int minMargin, int maxMargin) {
-        validateLeftElement(element, getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true));
+        validateLeftElement(asElement(element), getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true));
         return this;
     }
 
@@ -67,7 +67,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withRightElement(WebElement element) {
-        validateRightElement(element);
+        validateRightElement(asElement(element));
         return this;
     }
 
@@ -81,7 +81,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withRightElement(WebElement element, int minMargin, int maxMargin) {
-        validateRightElement(element, getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true));
+        validateRightElement(asElement(element), getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true));
         return this;
     }
 
@@ -93,7 +93,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withTopElement(WebElement element) {
-        validateAboveElement(element);
+        validateAboveElement(asElement(element));
         return this;
     }
 
@@ -107,7 +107,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withTopElement(WebElement element, int minMargin, int maxMargin) {
-        validateAboveElement(element, getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false));
+        validateAboveElement(asElement(element), getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false));
         return this;
     }
 
@@ -119,7 +119,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withBottomElement(WebElement element) {
-        validateBelowElement(element);
+        validateBelowElement(asElement(element));
         return this;
     }
 
@@ -133,7 +133,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withBottomElement(WebElement element, int minMargin, int maxMargin) {
-        validateBelowElement(element, getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false));
+        validateBelowElement(asElement(element), getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false));
         return this;
     }
 
@@ -159,7 +159,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator overlapWith(WebElement element, String readableName) {
-        validateOverlappingWithElements(readableName, asElement(element));
+        validateOverlappingWithElements(asElement(element), readableName);
         return this;
     }
 
@@ -172,7 +172,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator notOverlapWith(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateNotOverlappingWithElements(asElement(element), getFormattedMessage(element));
+            validateNotOverlappingWithElements(asElement(element), getFormattedMessage(asElement(element)));
         }
         return this;
     }
@@ -194,13 +194,13 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     /**
      * Verify that element has the same left offset as every element is the list
      *
-     * @param elements
+     * @param webElements
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetLeftAs(List<WebElement> elements) {
-        for (WebElement element : elements) {
-            validateLeftOffsetForElements(asElement(element), getFormattedMessage(element));
+    public UIValidator sameOffsetLeftAs(List<WebElement> webElements) {
+        for (Element element : asElements(webElements)) {
+            validateLeftOffsetForElements(element, getFormattedMessage(element));
         }
         drawLeftOffsetLine = true;
         return this;
@@ -229,7 +229,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetRightAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateRightOffsetForElements(asElement(element), getFormattedMessage(element));
+            validateRightOffsetForElements(asElement(element), getFormattedMessage(asElement(element)));
         }
         drawRightOffsetLine = true;
         return this;
@@ -258,7 +258,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetTopAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateTopOffsetForElements(asElement(element), getFormattedMessage(element));
+            validateTopOffsetForElements(asElement(element), getFormattedMessage(asElement(element)));
         }
         drawTopOffsetLine = true;
         return this;
@@ -287,7 +287,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetBottomAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateBottomOffsetForElements(asElement(element), getFormattedMessage(element));
+            validateBottomOffsetForElements(asElement(element), getFormattedMessage(asElement(element)));
         }
         drawBottomOffsetLine = true;
         return this;
@@ -315,7 +315,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameWidthAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateSameWidth(asElement(element), getFormattedMessage(element));
+            validateSameWidth(asElement(element), getFormattedMessage(asElement(element)));
         }
         return this;
     }
@@ -380,7 +380,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameHeightAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateSameHeight(asElement(element), getFormattedMessage(element));
+            validateSameHeight(asElement(element), getFormattedMessage(asElement(element)));
         }
         return this;
     }
@@ -431,7 +431,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameSizeAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateSameSize(asElement(element), getFormattedMessage(element));
+            validateSameSize(asElement(element), getFormattedMessage(asElement(element)));
         }
         return this;
     }
@@ -458,7 +458,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator notSameSizeAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateNotSameSize(element, getFormattedMessage(element));
+            validateNotSameSize(element, getFormattedMessage(asElement(element)));
         }
         return this;
     }
@@ -520,7 +520,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withCssValue(String cssProperty, String... args) {
-        String cssValue = getRootElement().getCssValue(cssProperty);
+        String cssValue = getRootWebElement().getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {
@@ -544,7 +544,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withoutCssValue(String cssProperty, String... args) {
-        String cssValue = getRootElement().getCssValue(cssProperty);
+        String cssValue = getRootWebElement().getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {
@@ -596,7 +596,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
 
     @Override
     public UIValidator insideOf(WebElement containerElement, String readableContainerName, Padding padding) {
-        validateInsideOfContainer(containerElement, readableContainerName, padding);
+        validateInsideOfContainer(asElement(containerElement), readableContainerName, padding);
         return this;
     }
 }

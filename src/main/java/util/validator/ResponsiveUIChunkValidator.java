@@ -12,8 +12,6 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
     ResponsiveUIChunkValidator(WebDriver driver, List<WebElement> elements) {
         super(driver);
         rootElements = elements;
-        pageWidth = (int) getPageWidth();
-        pageHeight = (int) getPageHeight();
         setRootElement(rootElements.get(0));
         startTime = System.currentTimeMillis();
     }
@@ -62,7 +60,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator areNotOverlappedWithEachOther() {
-        validateElementsAreNotOverlapped(rootElements);
+        validateElementsAreNotOverlapped(asElements(rootElements));
         return this;
     }
 
@@ -106,7 +104,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator withNotSameSize() {
-        validateNotSameSize(rootElements);
+        validateNotSameSize(asElements(rootElements));
         return this;
     }
 
@@ -117,7 +115,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator withNotSameWidth() {
-        validateNotSameWidth(rootElements);
+        validateNotSameWidth(asElements(rootElements));
         return this;
     }
 
@@ -128,7 +126,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator withNotSameHeight() {
-        validateNotSameHeight(rootElements);
+        validateNotSameHeight(asElements(rootElements));
         return this;
     }
 
@@ -183,7 +181,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator equalLeftRightOffset() {
-        validateEqualLeftRightOffset(rootElements);
+        validateEqualLeftRightOffset(asElements(rootElements));
         return this;
     }
 
@@ -194,7 +192,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator equalTopBottomOffset() {
-        validateEqualTopBottomOffset(rootElements);
+        validateEqualTopBottomOffset(asElements(rootElements));
         return this;
     }
 

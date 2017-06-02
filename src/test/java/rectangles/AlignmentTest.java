@@ -36,6 +36,7 @@ public class AlignmentTest {
         WebElement other = createElement(originX, up(originY), up(cornerX), down(cornerY));
 
         assertThat(sameOffsetLeftAs(root, other)).isTrue();
+        assertThat(sameOffsetLeftAs(root, asList(other))).isTrue();
         assertThat(sameLeftOffset(asList(root, other))).isTrue();
     }
 
@@ -62,6 +63,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), originY, up(cornerX), down(cornerY));
 
         assertThat(sameOffsetTopAs(root, other)).isTrue();
+        assertThat(sameOffsetTopAs(root, asList(other))).isTrue();
         assertThat(sameTopOffset(asList(root, other))).isTrue();
     }
 
@@ -70,6 +72,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), down(originY), down(cornerX), down(cornerY));
 
         assertThat(sameOffsetTopAs(root, other)).isFalse();
+        assertThat(sameOffsetTopAs(root, asList(other))).isFalse();
         assertThat(sameTopOffset(asList(root, other))).isFalse();
     }
 
@@ -78,6 +81,7 @@ public class AlignmentTest {
         WebElement other = createElement(down(originX), up(originY), down(cornerX), up(cornerY));
 
         assertThat(sameOffsetTopAs(root, other)).isFalse();
+        assertThat(sameOffsetTopAs(root, asList(other))).isFalse();
         assertThat(sameTopOffset(asList(root, other))).isFalse();
     }
 
@@ -87,6 +91,7 @@ public class AlignmentTest {
     public void isRightAlignedWithElementsWithEqualCornerX() {
         WebElement other = createElement(up(originX), up(originY), cornerX, down(cornerY));
 
+        assertThat(sameOffsetRightAs(root, asList(other))).isTrue();
         assertThat(sameOffsetRightAs(root, other)).isTrue();
         assertThat(sameRightOffset(asList(root, other))).isTrue();
     }
@@ -96,6 +101,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), up(originY), down(cornerX), down(cornerY));
 
         assertThat(sameOffsetRightAs(root, other)).isFalse();
+        assertThat(sameOffsetRightAs(root, asList(other))).isFalse();
         assertThat(sameRightOffset(asList(root, other))).isFalse();
     }
 
@@ -104,6 +110,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), up(originY), up(cornerX), down(cornerY));
 
         assertThat(sameOffsetRightAs(root, other)).isFalse();
+        assertThat(sameOffsetRightAs(root, asList(other))).isFalse();
         assertThat(sameRightOffset(asList(root, other))).isFalse();
     }
 
@@ -114,6 +121,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), up(originY), down(cornerX), cornerY);
 
         assertThat(sameOffsetBottomAs(root, other)).isTrue();
+        assertThat(sameOffsetBottomAs(root, asList(other))).isTrue();
         assertThat(sameBottomOffset(asList(root, other))).isTrue();
     }
 
@@ -122,6 +130,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), up(originY), down(cornerX), down(cornerY));
 
         assertThat(sameOffsetBottomAs(root, other)).isFalse();
+        assertThat(sameOffsetBottomAs(root, asList(other))).isFalse();
         assertThat(sameBottomOffset(asList(root, other))).isFalse();
     }
 
@@ -130,6 +139,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), up(originY), down(cornerX), up(cornerY));
 
         assertThat(sameOffsetBottomAs(root, other)).isFalse();
+        assertThat(sameOffsetBottomAs(root, asList(other))).isFalse();
         assertThat(sameBottomOffset(asList(root, other))).isFalse();
     }
 

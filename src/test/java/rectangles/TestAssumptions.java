@@ -80,12 +80,20 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.sameOffsetLeftAs(other, "Blub"));
     }
 
+    public static boolean sameOffsetLeftAs(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::sameOffsetLeftAs);
+    }
+
     public static boolean sameLeftOffset(List<WebElement> elements) {
         return validate(elements, ResponsiveUIChunkValidator::sameLeftOffset);
     }
 
     public static boolean sameOffsetRightAs(WebElement root, WebElement other) {
         return validate(root, uiValidator -> uiValidator.sameOffsetRightAs(other, "Blub"));
+    }
+
+    public static boolean sameOffsetRightAs(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::sameOffsetRightAs);
     }
 
     public static boolean sameRightOffset(List<WebElement> elements) {
@@ -96,12 +104,20 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.sameOffsetTopAs(other, "Blub"));
     }
 
+    public static boolean sameOffsetTopAs(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::sameOffsetTopAs);
+    }
+
     public static boolean sameTopOffset(List<WebElement> elements) {
         return validate(elements, ResponsiveUIChunkValidator::sameTopOffset);
     }
 
     public static boolean sameOffsetBottomAs(WebElement root, WebElement other) {
         return validate(root, other, (uiValidator, webElement) -> uiValidator.sameOffsetBottomAs(other, "Blub"));
+    }
+
+    public static boolean sameOffsetBottomAs(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::sameOffsetBottomAs);
     }
 
     public static boolean sameBottomOffset(List<WebElement> elements) {
