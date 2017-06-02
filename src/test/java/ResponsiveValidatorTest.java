@@ -27,7 +27,7 @@ public class ResponsiveValidatorTest {
         //sysProp.put("BROWSER", "Chrome");
         //sysProp.put("IS_LOCAL", "true");
         sysProp.put("IS_HEADLESS", "true");
-        sysProp.put(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "/Users/ZayCo/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs");
+        sysProp.put(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "/Users/" + System.getProperty("user.name") + "/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs");
         EnvironmentHelper.setEnv(sysProp);
         WebDriverFactory driverFactory = new WebDriverFactory();
         driver = driverFactory.getDriver();
