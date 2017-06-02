@@ -130,4 +130,22 @@ public class Element {
     public boolean hasEqualLeftRightOffset(Dimension pageSize) {
         return getLeftOffset() == getRightOffset(pageSize);
     }
+
+    public  boolean hasRightElement(Element rightElement) {
+        return getCornerX() <= rightElement.getX();
+    }
+
+    public  boolean hasLeftElement(Element leftElement) {
+        return leftElement.hasRightElement(this);
+    }
+
+    public boolean hasBelowElement(Element bottomElement) {
+        return getCornerY() <= bottomElement.getY();
+    }
+
+    public boolean hasAboveElement(Element aboveElement) {
+        return aboveElement.hasBelowElement(this);
+    }
+
+
 }

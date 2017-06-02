@@ -20,14 +20,14 @@ public class PageValidator {
         return privateElementsAreAlignedHorizontally(asElements(webElements));
     }
 
-    public static boolean privateElementsAreAlignedHorizontally(List<Element> elements) {
+    private static boolean privateElementsAreAlignedHorizontally(List<Element> elements) {
         boolean aligned = false;
 
         for (int i = 1; i < elements.size(); i++) {
             Element previousElement = elements.get(i - 1);
             Element currentElement = elements.get(i);
 
-            if (currentElement.getX() < previousElement.getX() + previousElement.getWidth()) {
+            if (!previousElement.hasRightElement(currentElement)) {
                 aligned = false;
                 LOG.debug("Wrong item on position: " + i + ".\nPrevious element text is: " + previousElement.getWebElement().getText() + ".\nCurrent element text is: " + currentElement.getWebElement().getText() +  ".\nCoord of previous item is [" + previousElement.getX() + "," + previousElement.getY() + "]." +
                         "\nCoord of current item is [" + currentElement.getX() + "," + currentElement.getY() + "]");
@@ -44,14 +44,14 @@ public class PageValidator {
         return privateElementsAreAlignedVertically(asElements(webElements));
     }
 
-    public static boolean privateElementsAreAlignedVertically(List<Element> elements) {
+    private static boolean privateElementsAreAlignedVertically(List<Element> elements) {
         boolean aligned = false;
 
         for (int i = 1; i < elements.size(); i++) {
             Element previousElement = elements.get(i - 1);
             Element currentElement = elements.get(i);
 
-            if (currentElement.getY() < previousElement.getY() + previousElement.getHeight()) {
+            if (!previousElement.hasBelowElement(currentElement)) {
                 aligned = false;
                 LOG.debug("Wrong item on position: " + i + ".\nPrevious element text is: " + currentElement.getWebElement().getText() + ".\nCurrent element text is: " + currentElement.getWebElement().getText() +  ".\nCoord of previous item is [" + previousElement.getX() + "," + previousElement.getY() + "]." +
                         "\nCoord of current item is [" + currentElement.getX() + "," + currentElement.getY() + "]");

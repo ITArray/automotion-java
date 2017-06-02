@@ -598,10 +598,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateBelowElement(Element belowElement) {
-        List<Element> elements = newArrayList(getRootElement(), belowElement);
-
-        if (!PageValidator.privateElementsAreAlignedVertically(elements)) {
-            errors.add("Below element aligned not properly");
+        if (!getRootElement().hasBelowElement(belowElement)) {
+            errors.add("Below element aligned not properly", belowElement);
         }
     }
 
@@ -613,10 +611,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateAboveElement(Element aboveElement) {
-        List<Element> elements = newArrayList(aboveElement, getRootElement());
-
-        if (!PageValidator.privateElementsAreAlignedVertically(elements)) {
-            errors.add("Above element aligned not properly");
+        if (!getRootElement().hasAboveElement(aboveElement)) {
+            errors.add("Above element aligned not properly", aboveElement);
         }
     }
 
@@ -628,10 +624,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateRightElement(Element rightElement) {
-        List<Element> elements = newArrayList(getRootElement(), rightElement);
-
-        if (!PageValidator.privateElementsAreAlignedHorizontally(elements)) {
-            errors.add("Right element aligned not properly");
+        if (!getRootElement().hasRightElement(rightElement)) {
+            errors.add("Right element aligned not properly", rightElement);
         }
     }
 
@@ -643,10 +637,8 @@ public class ResponsiveUIValidator {
     }
 
     void validateLeftElement(Element leftElement) {
-        List<Element> elements = newArrayList(leftElement, getRootElement());
-
-        if (!PageValidator.privateElementsAreAlignedHorizontally(elements)) {
-            errors.add("Left element aligned not properly");
+        if (!getRootElement().hasLeftElement(leftElement)) {
+            errors.add("Left element aligned not properly", leftElement);
         }
     }
 
