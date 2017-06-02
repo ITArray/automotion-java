@@ -310,13 +310,13 @@ public class ResponsiveUIValidator {
     }
 
     void validateElementsAreNotOverlapped(List<Element> elements) {
-        for (Element el1 : elements) {
-            for (Element el2 : elements) {
-                if (!el1.equals(el2)) {
-                    if (el1.overlaps(el2)) {
-                        errors.add("Elements are overlapped", el1);
-                        break;
-                    }
+        for (int firstIndex = 0; firstIndex < elements.size(); firstIndex++) {
+            Element first = elements.get(firstIndex);
+            for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
+                Element second = elements.get(secondIndex);
+                if (first.overlaps(second)) {
+                    errors.add("Elements are overlapped", first);
+                    break;
                 }
             }
         }
