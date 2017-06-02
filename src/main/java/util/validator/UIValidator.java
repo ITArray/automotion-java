@@ -159,7 +159,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator overlapWith(WebElement element, String readableName) {
-        validateOverlappingWithElements(readableName, asElement(element));
+        validateOverlappingWithElements(asElement(element), readableName);
         return this;
     }
 
