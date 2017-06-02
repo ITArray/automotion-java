@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static net.itarry.automotion.Element.asElements;
+
 public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements ChunkValidator {
 
     ResponsiveUIChunkValidator(WebDriver driver, List<WebElement> elements) {
@@ -12,7 +14,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
         rootElements = elements;
         pageWidth = (int) getPageWidth();
         pageHeight = (int) getPageHeight();
-        rootElement = rootElements.get(0);
+        setRootElement(rootElements.get(0));
         startTime = System.currentTimeMillis();
     }
 
@@ -71,7 +73,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator withSameSize() {
-        validateSameSize();
+        validateSameSize(asElements(rootElements));
         return this;
     }
 
@@ -82,7 +84,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator withSameWidth() {
-        validateSameWidth();
+        validateSameWidth(asElements(rootElements));
         return this;
     }
 
@@ -93,7 +95,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator withSameHeight() {
-        validateSameHeight();
+        validateSameHeight(asElements(rootElements));
         return this;
     }
 
@@ -137,7 +139,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator sameRightOffset() {
-        validateRightOffsetForChunk(rootElements);
+        validateRightOffsetForChunk(asElements(rootElements));
         return this;
     }
 
@@ -148,7 +150,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator sameLeftOffset() {
-        validateLeftOffsetForChunk(rootElements);
+        validateLeftOffsetForChunk(asElements(rootElements));
         return this;
     }
 
@@ -159,7 +161,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator sameTopOffset() {
-        validateTopOffsetForChunk(rootElements);
+        validateTopOffsetForChunk(asElements(rootElements));
         return this;
     }
 
@@ -170,7 +172,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator sameBottomOffset() {
-        validateBottomOffsetForChunk(rootElements);
+        validateBottomOffsetForChunk(asElements(rootElements));
         return this;
     }
 
