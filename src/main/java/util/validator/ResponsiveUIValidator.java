@@ -10,7 +10,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Dimension;
-import util.driver.PageValidator;
 import util.general.HtmlReportBuilder;
 import util.validator.properties.Padding;
 
@@ -310,12 +309,12 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateElementsAreNotOverlapped(List<WebElement> rootElements) {
-        for (WebElement el1 : rootElements) {
-            for (WebElement el2 : rootElements) {
+    void validateElementsAreNotOverlapped(List<Element> elements) {
+        for (Element el1 : elements) {
+            for (Element el2 : elements) {
                 if (!el1.equals(el2)) {
-                    if (elementsAreOverlapped(el1, el2)) {
-                        errors.add("Elements are overlapped", asElement(el1));
+                    if (el1.overlaps(el2)) {
+                        errors.add("Elements are overlapped", el1);
                         break;
                     }
                 }
@@ -864,10 +863,6 @@ public class ResponsiveUIValidator {
 
     private Rectangle2D.Double rectangle(WebElement element) {
         return asElement(element).rectangle();
-    }
-
-    private boolean elementsAreOverlapped(WebElement rootElement, WebElement elementOverlapWith) {
-        return asElement(rootElement).overlaps(asElement(elementOverlapWith));
     }
 
     public enum Units {

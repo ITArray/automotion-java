@@ -60,7 +60,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator areNotOverlappedWithEachOther() {
-        validateElementsAreNotOverlapped(rootElements);
+        validateElementsAreNotOverlapped(asElements(rootElements));
         return this;
     }
 
