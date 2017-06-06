@@ -36,7 +36,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator alignedAsGrid(int horizontalGridSize) {
-        validateGridAlignment(horizontalGridSize, 0);
+        validateGridAlignment(asElements(rootElements), horizontalGridSize, 0);
         return this;
     }
 
@@ -49,7 +49,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize) {
-        validateGridAlignment(horizontalGridSize, verticalGridSize);
+        validateGridAlignment(asElements(rootElements), horizontalGridSize, verticalGridSize);
         return this;
     }
 

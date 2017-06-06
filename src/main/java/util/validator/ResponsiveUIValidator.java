@@ -322,10 +322,10 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateGridAlignment(int columns, int rows) {
+    void validateGridAlignment(List<Element> elements, int columns, int rows) {
         ConcurrentSkipListMap<Integer, AtomicLong> map = new ConcurrentSkipListMap<>();
-        for (WebElement el : rootElements) {
-            Integer y = asElement(el).getY();
+        for (Element element : elements) {
+            Integer y = element.getY();
 
             map.putIfAbsent(y, new AtomicLong(0));
             map.get(y).incrementAndGet();
