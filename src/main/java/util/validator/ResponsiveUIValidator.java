@@ -323,36 +323,34 @@ public class ResponsiveUIValidator {
     }
 
     void validateGridAlignment(int columns, int rows) {
-        if (rootElements != null) {
-            ConcurrentSkipListMap<Integer, AtomicLong> map = new ConcurrentSkipListMap<>();
-            for (WebElement el : rootElements) {
-                Integer y = asElement(el).getY();
+        ConcurrentSkipListMap<Integer, AtomicLong> map = new ConcurrentSkipListMap<>();
+        for (WebElement el : rootElements) {
+            Integer y = asElement(el).getY();
 
-                map.putIfAbsent(y, new AtomicLong(0));
-                map.get(y).incrementAndGet();
+            map.putIfAbsent(y, new AtomicLong(0));
+            map.get(y).incrementAndGet();
+        }
+
+        int mapSize = map.size();
+        if (rows > 0) {
+            if (mapSize != rows) {
+                errors.add(String.format("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is %d. Actual is %d", rows, mapSize));
             }
+        }
 
-            int mapSize = map.size();
-            if (rows > 0) {
-                if (mapSize != rows) {
-                    errors.add(String.format("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is %d. Actual is %d", rows, mapSize));
-                }
-            }
-
-            if (columns > 0) {
-                int errorLastLine = 0;
-                int rowCount = 1;
-                for (Map.Entry<Integer, AtomicLong> entry : map.entrySet()) {
-                    if (rowCount <= mapSize) {
-                        int actualInARow = entry.getValue().intValue();
-                        if (actualInARow != columns) {
-                            errorLastLine++;
-                            if (errorLastLine > 1) {
-                                errors.add(String.format("Elements in a grid are not aligned properly in row #%d. Expected %d elements in a row. Actually it's %d", rowCount, columns, actualInARow));
-                            }
+        if (columns > 0) {
+            int errorLastLine = 0;
+            int rowCount = 1;
+            for (Map.Entry<Integer, AtomicLong> entry : map.entrySet()) {
+                if (rowCount <= mapSize) {
+                    int actualInARow = entry.getValue().intValue();
+                    if (actualInARow != columns) {
+                        errorLastLine++;
+                        if (errorLastLine > 1) {
+                            errors.add(String.format("Elements in a grid are not aligned properly in row #%d. Expected %d elements in a row. Actually it's %d", rowCount, columns, actualInARow));
                         }
-                        rowCount++;
                     }
+                    rowCount++;
                 }
             }
         }
