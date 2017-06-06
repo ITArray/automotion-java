@@ -12,7 +12,11 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
     ResponsiveUIChunkValidator(WebDriver driver, List<WebElement> elements) {
         super(driver);
         rootElements = elements;
-        setRootElement(rootElements.get(0));
+        if (!elements.isEmpty()) {
+            setRootElement(rootElements.get(0));
+        } else {
+            errors.add("Set root web element");
+        }
         startTime = System.currentTimeMillis();
     }
 
