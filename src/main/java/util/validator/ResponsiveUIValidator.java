@@ -186,61 +186,58 @@ public class ResponsiveUIValidator {
         JSONObject jsonResults = new JSONObject();
         jsonResults.put(ERROR_KEY, false);
 
-        if (getRootWebElement() != null) {
-            if (errors.hasMessages()) {
-                jsonResults.put(ERROR_KEY, true);
-                jsonResults.put(DETAILS, errors.getMessages());
+        if (errors.hasMessages()) {
+            jsonResults.put(ERROR_KEY, true);
+            jsonResults.put(DETAILS, errors.getMessages());
 
-                if (withReport) {
-                    try {
-                        screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-                        img = ImageIO.read(screenshot);
-                    } catch (Exception e) {
-                        LOG.error("Failed to create screenshot file: " + e.getMessage());
-                    }
+            if (withReport) {
+                try {
+                    screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+                    img = ImageIO.read(screenshot);
+                } catch (Exception e) {
+                    LOG.error("Failed to create screenshot file: " + e.getMessage());
+                }
 
-                    JSONObject rootDetails = new JSONObject();
+                JSONObject rootDetails = new JSONObject();
+                if (rootElement != null) {
                     rootDetails.put(X, rootElement.getX());
                     rootDetails.put(Y, rootElement.getY());
                     rootDetails.put(WIDTH, rootElement.getWidth());
                     rootDetails.put(HEIGHT, rootElement.getHeight());
+                }
 
-                    jsonResults.put(SCENARIO, scenarioName);
-                    jsonResults.put(ROOT_ELEMENT, rootDetails);
-                    jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
-                    jsonResults.put(ELEMENT_NAME, rootElementReadableName);
-                    jsonResults.put(SCREENSHOT, rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
+                jsonResults.put(SCENARIO, scenarioName);
+                jsonResults.put(ROOT_ELEMENT, rootDetails);
+                jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
+                jsonResults.put(ELEMENT_NAME, rootElementReadableName);
+                jsonResults.put(SCREENSHOT, rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
 
-                    long ms = System.currentTimeMillis();
-                    String uuid = Helper.getGeneratedStringWithLength(7);
-                    String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json";
-                    try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
-                        writer.write(jsonResults.toJSONString());
-                    } catch (IOException ex) {
-                        LOG.error("Cannot create json report: " + ex.getMessage());
-                    }
-                    jsonFiles.add(jsonFileName);
-                    try {
-                        File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json");
-                        if (file.getParentFile().mkdirs()) {
-                            if (file.createNewFile()) {
-                                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                                writer.write(jsonResults.toJSONString());
-                                writer.close();
-                            }
+                long ms = System.currentTimeMillis();
+                String uuid = Helper.getGeneratedStringWithLength(7);
+                String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json";
+                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
+                    writer.write(jsonResults.toJSONString());
+                } catch (IOException ex) {
+                    LOG.error("Cannot create json report: " + ex.getMessage());
+                }
+                jsonFiles.add(jsonFileName);
+                try {
+                    File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json");
+                    if (file.getParentFile().mkdirs()) {
+                        if (file.createNewFile()) {
+                            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                            writer.write(jsonResults.toJSONString());
+                            writer.close();
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-                    if ((boolean) jsonResults.get(ERROR_KEY)) {
-                        drawScreenshot();
-                    }
+                if ((boolean) jsonResults.get(ERROR_KEY)) {
+                    drawScreenshot();
                 }
             }
-        } else {
-            jsonResults.put(ERROR_KEY, true);
-            jsonResults.put(DETAILS, "Set root web element");
         }
 
         return !((boolean) jsonResults.get(ERROR_KEY));
@@ -322,37 +319,35 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateGridAlignment(int columns, int rows) {
-        if (rootElements != null) {
-            ConcurrentSkipListMap<Integer, AtomicLong> map = new ConcurrentSkipListMap<>();
-            for (WebElement el : rootElements) {
-                Integer y = asElement(el).getY();
+    void validateGridAlignment(List<Element> elements, int columns, int rows) {
+        ConcurrentSkipListMap<Integer, AtomicLong> map = new ConcurrentSkipListMap<>();
+        for (Element element : elements) {
+            Integer y = element.getY();
 
-                map.putIfAbsent(y, new AtomicLong(0));
-                map.get(y).incrementAndGet();
+            map.putIfAbsent(y, new AtomicLong(0));
+            map.get(y).incrementAndGet();
+        }
+
+        int mapSize = map.size();
+        if (rows > 0) {
+            if (mapSize != rows) {
+                errors.add(String.format("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is %d. Actual is %d", rows, mapSize));
             }
+        }
 
-            int mapSize = map.size();
-            if (rows > 0) {
-                if (mapSize != rows) {
-                    errors.add(String.format("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is %d. Actual is %d", rows, mapSize));
-                }
-            }
-
-            if (columns > 0) {
-                int errorLastLine = 0;
-                int rowCount = 1;
-                for (Map.Entry<Integer, AtomicLong> entry : map.entrySet()) {
-                    if (rowCount <= mapSize) {
-                        int actualInARow = entry.getValue().intValue();
-                        if (actualInARow != columns) {
-                            errorLastLine++;
-                            if (errorLastLine > 1) {
-                                errors.add(String.format("Elements in a grid are not aligned properly in row #%d. Expected %d elements in a row. Actually it's %d", rowCount, columns, actualInARow));
-                            }
+        if (columns > 0) {
+            int errorLastLine = 0;
+            int rowCount = 1;
+            for (Map.Entry<Integer, AtomicLong> entry : map.entrySet()) {
+                if (rowCount <= mapSize) {
+                    int actualInARow = entry.getValue().intValue();
+                    if (actualInARow != columns) {
+                        errorLastLine++;
+                        if (errorLastLine > 1) {
+                            errors.add(String.format("Elements in a grid are not aligned properly in row #%d. Expected %d elements in a row. Actually it's %d", rowCount, columns, actualInARow));
                         }
-                        rowCount++;
                     }
+                    rowCount++;
                 }
             }
         }
@@ -825,7 +820,7 @@ public class ResponsiveUIValidator {
 
     void validateInsideOfContainer(WebElement containerElement, String readableContainerName) {
         Rectangle2D.Double elementRectangle = asElement(containerElement).rectangle();
-        if (rootElements == null || rootElements.isEmpty()) {
+        if (rootElements == null) {
             if (!elementRectangle.contains(rootElement.rectangle())) {
                 errors.add(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), asElement(containerElement));
             }
