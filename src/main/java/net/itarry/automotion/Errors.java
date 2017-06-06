@@ -49,4 +49,9 @@ public class Errors {
     public JSONArray getMessages() {
         return messages;
     }
+
+    @Override
+    public String toString() {
+        return messages.toString();
+    }
 }
