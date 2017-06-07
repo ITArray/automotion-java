@@ -445,7 +445,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator notSameSizeAs(WebElement element, String readableName) {
-        validateNotSameSize(element, readableName);
+        validateNotSameSize(asElement(element), readableName);
         return this;
     }
 
@@ -458,7 +458,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator notSameSizeAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateNotSameSize(element, getFormattedMessage(asElement(element)));
+            validateNotSameSize(asElement(element), getFormattedMessage(asElement(element)));
         }
         return this;
     }

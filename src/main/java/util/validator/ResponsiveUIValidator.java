@@ -28,7 +28,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static environment.EnvironmentFactory.*;
-import static net.itarry.automotion.Element.asElement;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;
@@ -540,12 +539,12 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateNotSameSize(WebElement element, String readableName) {
-        if (!element.equals(getRootElement().getWebElement())) {
-            int h = asElement(element).getHeight();
-            int w = asElement(element).getWidth();
+    void validateNotSameSize(Element element, String readableName) {
+        if (!element.getWebElement().equals(getRootElement().getWebElement())) {
+            int h = element.getHeight();
+            int w = element.getWidth();
             if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
-                errors.add(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getWidth(), rootElement.getHeight(), w, h), asElement(element));
+                errors.add(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getWidth(), rootElement.getHeight(), w, h), element);
             }
         }
     }
