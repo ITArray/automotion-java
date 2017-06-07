@@ -743,12 +743,7 @@ public class ResponsiveUIValidator {
     }
 
     public static int applyZoom(int value, int zoom) {
-        if (zoom > 100) {
-            value = (int) (value + (value * Math.abs(zoom - 100f) / 100f));
-        } else if (zoom < 100) {
-            value = (int) (value - (value * Math.abs(zoom - 100f) / 100f));
-        }
-        return value;
+        return (value * zoom) / 100;
     }
 
     int mobileY(int value) {
