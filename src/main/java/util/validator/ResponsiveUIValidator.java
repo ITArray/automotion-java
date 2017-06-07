@@ -49,7 +49,6 @@ public class ResponsiveUIValidator {
     private static Color linesColor = Color.ORANGE;
     private static String currentZoom = "100%";
     private static List<String> jsonFiles = new ArrayList<>();
-    private static File screenshot;
     private static BufferedImage img;
     private static Graphics2D g;
     protected static Errors errors;
@@ -191,6 +190,7 @@ public class ResponsiveUIValidator {
             jsonResults.put(DETAILS, errors.getMessages());
 
             if (withReport) {
+                File screenshot = null;
                 try {
                     screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
                     img = ImageIO.read(screenshot);
@@ -235,7 +235,7 @@ public class ResponsiveUIValidator {
                 }
 
                 if ((boolean) jsonResults.get(ERROR_KEY)) {
-                    drawScreenshot();
+                    drawScreenshot(screenshot);
                 }
             }
         }
@@ -271,7 +271,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void drawScreenshot() {
+    void drawScreenshot(File output) {
         if (img != null) {
             g = img.createGraphics();
 
@@ -295,9 +295,9 @@ public class ResponsiveUIValidator {
             }
 
             try {
-                ImageIO.write(img, "png", screenshot);
-                File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-                FileUtils.copyFile(screenshot, file);
+                ImageIO.write(img, "png", output);
+                File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + output.getName());
+                FileUtils.copyFile(output, file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
