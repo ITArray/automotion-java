@@ -4,6 +4,7 @@ import http.helpers.Helper;
 import io.appium.java_client.AppiumDriver;
 import net.itarry.automotion.Element;
 import net.itarry.automotion.Errors;
+import net.itarry.automotion.Zoom;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -714,7 +715,7 @@ public class ResponsiveUIValidator {
     int retinaValue(int value) {
         if (!isMobile()) {
             int zoom = Integer.parseInt(currentZoom.replace("%", ""));
-            value = applyZoom(value, zoom);
+            value = Zoom.applyZoom(value, zoom);
             if (isRetinaDisplay() && isChrome()) {
                 return 2 * value;
             } else {
@@ -740,10 +741,6 @@ public class ResponsiveUIValidator {
                 return value;
             }
         }
-    }
-
-    public static int applyZoom(int value, int zoom) {
-        return (value * zoom) / 100;
     }
 
     int mobileY(int value) {
