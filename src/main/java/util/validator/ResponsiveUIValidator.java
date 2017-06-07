@@ -180,66 +180,72 @@ public class ResponsiveUIValidator {
      * @return boolean
      */
     public boolean validate() {
-        JSONObject jsonResults = new JSONObject();
-        jsonResults.put(ERROR_KEY, false);
 
         if (errors.hasMessages()) {
-            jsonResults.put(ERROR_KEY, true);
-            jsonResults.put(DETAILS, errors.getMessages());
-
-            if (withReport) {
-                File screenshot = null;
-                BufferedImage img = null;
-                try {
-                    screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-                    img = ImageIO.read(screenshot);
-                } catch (Exception e) {
-                    LOG.error("Failed to create screenshot file: " + e.getMessage());
-                }
-
-                JSONObject rootDetails = new JSONObject();
-                if (rootElement != null) {
-                    rootDetails.put(X, rootElement.getX());
-                    rootDetails.put(Y, rootElement.getY());
-                    rootDetails.put(WIDTH, rootElement.getWidth());
-                    rootDetails.put(HEIGHT, rootElement.getHeight());
-                }
-
-                jsonResults.put(SCENARIO, scenarioName);
-                jsonResults.put(ROOT_ELEMENT, rootDetails);
-                jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
-                jsonResults.put(ELEMENT_NAME, rootElementReadableName);
-                jsonResults.put(SCREENSHOT, rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-
-                long ms = System.currentTimeMillis();
-                String uuid = Helper.getGeneratedStringWithLength(7);
-                String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json";
-                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
-                    writer.write(jsonResults.toJSONString());
-                } catch (IOException ex) {
-                    LOG.error("Cannot create json report: " + ex.getMessage());
-                }
-                jsonFiles.add(jsonFileName);
-                try {
-                    File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json");
-                    if (file.getParentFile().mkdirs()) {
-                        if (file.createNewFile()) {
-                            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                            writer.write(jsonResults.toJSONString());
-                            writer.close();
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                if ((boolean) jsonResults.get(ERROR_KEY)) {
-                    drawScreenshot(screenshot, img);
-                }
-            }
+            compileValidationReport();
         }
 
-        return !((boolean) jsonResults.get(ERROR_KEY));
+        return !errors.hasMessages();
+    }
+
+    private void compileValidationReport() {
+        if (!withReport) {
+            return;
+        }
+
+        JSONObject jsonResults = new JSONObject();
+
+        jsonResults.put(ERROR_KEY, errors.hasMessages());
+        jsonResults.put(DETAILS, errors.getMessages());
+
+        File screenshot = null;
+        BufferedImage img = null;
+        try {
+            screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            img = ImageIO.read(screenshot);
+        } catch (Exception e) {
+            LOG.error("Failed to create screenshot file: " + e.getMessage());
+        }
+
+        JSONObject rootDetails = new JSONObject();
+        if (rootElement != null) {
+            rootDetails.put(X, rootElement.getX());
+            rootDetails.put(Y, rootElement.getY());
+            rootDetails.put(WIDTH, rootElement.getWidth());
+            rootDetails.put(HEIGHT, rootElement.getHeight());
+        }
+
+        jsonResults.put(SCENARIO, scenarioName);
+        jsonResults.put(ROOT_ELEMENT, rootDetails);
+        jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
+        jsonResults.put(ELEMENT_NAME, rootElementReadableName);
+        jsonResults.put(SCREENSHOT, rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
+
+        long ms = System.currentTimeMillis();
+        String uuid = Helper.getGeneratedStringWithLength(7);
+        String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json";
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
+            writer.write(jsonResults.toJSONString());
+        } catch (IOException ex) {
+            LOG.error("Cannot create json report: " + ex.getMessage());
+        }
+        jsonFiles.add(jsonFileName);
+        try {
+            File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json");
+            if (file.getParentFile().mkdirs()) {
+                if (file.createNewFile()) {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                    writer.write(jsonResults.toJSONString());
+                    writer.close();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if ((boolean) jsonResults.get(ERROR_KEY)) {
+            drawScreenshot(screenshot, img);
+        }
     }
 
     /**
