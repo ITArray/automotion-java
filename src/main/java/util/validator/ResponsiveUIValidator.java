@@ -49,7 +49,6 @@ public class ResponsiveUIValidator {
     private static Color linesColor = Color.ORANGE;
     private static String currentZoom = "100%";
     private static List<String> jsonFiles = new ArrayList<>();
-    private static BufferedImage img;
     protected static Errors errors;
     boolean drawLeftOffsetLine = false;
     boolean drawRightOffsetLine = false;
@@ -190,6 +189,7 @@ public class ResponsiveUIValidator {
 
             if (withReport) {
                 File screenshot = null;
+                BufferedImage img = null;
                 try {
                     screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
                     img = ImageIO.read(screenshot);
@@ -234,7 +234,7 @@ public class ResponsiveUIValidator {
                 }
 
                 if ((boolean) jsonResults.get(ERROR_KEY)) {
-                    drawScreenshot(screenshot);
+                    drawScreenshot(screenshot, img);
                 }
             }
         }
@@ -270,11 +270,11 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void drawScreenshot(File output) {
+    void drawScreenshot(File output, BufferedImage img) {
         if (img != null) {
             Graphics2D g = img.createGraphics();
 
-            drawRoot(rootColor, g);
+            drawRoot(rootColor, g, img);
 
             for (Object obj : errors.getMessages()) {
                 JSONObject det = (JSONObject) obj;
@@ -663,7 +663,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void drawRoot(Color color, Graphics2D g) {
+    void drawRoot(Color color, Graphics2D g, BufferedImage img) {
         g.setColor(color);
         g.setStroke(new BasicStroke(2));
         g.drawRect(retinaValue(rootElement.getX()), retinaValue(mobileY(rootElement.getY())), retinaValue(rootElement.getWidth()), retinaValue(rootElement.getHeight()));
