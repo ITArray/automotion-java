@@ -50,7 +50,6 @@ public class ResponsiveUIValidator {
     private static String currentZoom = "100%";
     private static List<String> jsonFiles = new ArrayList<>();
     private static BufferedImage img;
-    private static Graphics2D g;
     protected static Errors errors;
     boolean drawLeftOffsetLine = false;
     boolean drawRightOffsetLine = false;
@@ -273,9 +272,9 @@ public class ResponsiveUIValidator {
 
     void drawScreenshot(File output) {
         if (img != null) {
-            g = img.createGraphics();
+            Graphics2D g = img.createGraphics();
 
-            drawRoot(rootColor);
+            drawRoot(rootColor, g);
 
             for (Object obj : errors.getMessages()) {
                 JSONObject det = (JSONObject) obj;
@@ -664,7 +663,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void drawRoot(Color color) {
+    void drawRoot(Color color, Graphics2D g) {
         g.setColor(color);
         g.setStroke(new BasicStroke(2));
         g.drawRect(retinaValue(rootElement.getX()), retinaValue(mobileY(rootElement.getY())), retinaValue(rootElement.getWidth()), retinaValue(rootElement.getHeight()));
