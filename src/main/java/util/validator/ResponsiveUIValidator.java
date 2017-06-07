@@ -773,16 +773,11 @@ public class ResponsiveUIValidator {
         }
     }
 
-    long retrievePageWidth() {
+    private long retrievePageWidth() {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         if (!isMobile()) {
-            if (isFirefox()) {
-                currentZoom = (String) executor.executeScript("document.body.style.MozTransform");
-            } else {
-                currentZoom = (String) executor.executeScript("return document.body.style.zoom;");
-            }
-            if (currentZoom == null || currentZoom.equals("100%") || currentZoom.equals("")) {
-                currentZoom = "100%";
+            retrieveCurrentZoom();
+            if (currentZoom.equals("100%")) {
                 return (long) executor.executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
             } else {
                 return (long) executor.executeScript("return document.getElementsByTagName('body')[0].offsetWidth");
@@ -796,16 +791,11 @@ public class ResponsiveUIValidator {
         }
     }
 
-    long retrievePageHeight() {
+    private long retrievePageHeight() {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         if (!isMobile()) {
-            if (isFirefox()) {
-                currentZoom = (String) executor.executeScript("document.body.style.MozTransform");
-            } else {
-                currentZoom = (String) executor.executeScript("return document.body.style.zoom;");
-            }
-            if (currentZoom == null || currentZoom.equals("100%") || currentZoom.equals("")) {
-                currentZoom = "100%";
+            retrieveCurrentZoom();
+            if (currentZoom.equals("100%")) {
                 return (long) executor.executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
             } else {
                 return (long) executor.executeScript("return document.getElementsByTagName('body')[0].offsetHeight");
@@ -816,6 +806,18 @@ public class ResponsiveUIValidator {
             } else {
                 return (long) executor.executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
             }
+        }
+    }
+
+    private void retrieveCurrentZoom() {
+        JavascriptExecutor executor = (JavascriptExecutor) ResponsiveUIValidator.driver;
+        if (isFirefox()) {
+            currentZoom = (String) executor.executeScript("document.body.style.MozTransform");
+        } else {
+            currentZoom = (String) executor.executeScript("return document.body.style.zoom;");
+        }
+        if (currentZoom == null || currentZoom.equals("")) {
+            currentZoom = "100%";
         }
     }
 
