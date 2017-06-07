@@ -714,11 +714,7 @@ public class ResponsiveUIValidator {
     int retinaValue(int value) {
         if (!isMobile()) {
             int zoom = Integer.parseInt(currentZoom.replace("%", ""));
-            if (zoom > 100) {
-                value = (int) (value + (value * Math.abs(zoom - 100f) / 100f));
-            } else if (zoom < 100) {
-                value = (int) (value - (value * Math.abs(zoom - 100f) / 100f));
-            }
+            value = applyZoom(value, zoom);
             if (isRetinaDisplay() && isChrome()) {
                 return 2 * value;
             } else {
@@ -744,6 +740,15 @@ public class ResponsiveUIValidator {
                 return value;
             }
         }
+    }
+
+    public static int applyZoom(int value, int zoom) {
+        if (zoom > 100) {
+            value = (int) (value + (value * Math.abs(zoom - 100f) / 100f));
+        } else if (zoom < 100) {
+            value = (int) (value - (value * Math.abs(zoom - 100f) / 100f));
+        }
+        return value;
     }
 
     int mobileY(int value) {
