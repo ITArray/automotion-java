@@ -29,6 +29,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import static com.google.common.collect.Lists.newArrayList;
 import static environment.EnvironmentFactory.*;
 import static net.itarry.automotion.Element.asElement;
+import static net.itarry.automotion.Element.asElements;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;
@@ -825,16 +826,16 @@ public class ResponsiveUIValidator {
         return ((AppiumDriver) driver).getContext().contains("NATIVE");
     }
 
-    void validateInsideOfContainer(WebElement containerElement, String readableContainerName) {
-        Rectangle2D.Double elementRectangle = asElement(containerElement).rectangle();
+    void validateInsideOfContainer(Element containerElement, String readableContainerName) {
+        Rectangle2D.Double elementRectangle = containerElement.rectangle();
         if (rootElements == null) {
             if (!elementRectangle.contains(rootElement.rectangle())) {
-                errors.add(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), asElement(containerElement));
+                errors.add(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), containerElement);
             }
         } else {
-            for (WebElement el : rootElements) {
-                if (!elementRectangle.contains(rectangle(el))) {
-                    errors.add(String.format("Element is not inside of '%s'", readableContainerName), asElement(containerElement));
+            for (Element element : asElements(rootElements)) {
+                if (!elementRectangle.contains(element.rectangle())) {
+                    errors.add(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
                 }
             }
         }
@@ -861,10 +862,6 @@ public class ResponsiveUIValidator {
             errors.add(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
                                 rootElementReadableName, top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
         }
-    }
-
-    private Rectangle2D.Double rectangle(WebElement element) {
-        return asElement(element).rectangle();
     }
 
     public enum Units {

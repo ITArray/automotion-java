@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static net.itarry.automotion.Element.asElement;
 import static net.itarry.automotion.Element.asElements;
 
 public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements ChunkValidator {
@@ -209,7 +210,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator insideOf(WebElement containerElement, String readableContainerName) {
-        validateInsideOfContainer(containerElement, readableContainerName);
+        validateInsideOfContainer(asElement(containerElement), readableContainerName);
         return this;
     }
 }
