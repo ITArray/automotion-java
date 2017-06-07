@@ -14,9 +14,9 @@ import static net.itarry.automotion.Element.asElements;
 
 public class UIValidator extends ResponsiveUIValidator implements Validator {
 
-    UIValidator(WebDriver driver, WebElement element, String readableNameOfElement) {
+    UIValidator(WebDriver driver, WebElement webElement, String readableNameOfElement) {
         super(driver);
-        setRootElement(element);
+        setRootElement(asElement(webElement));
         rootElementReadableName = readableNameOfElement;
         startTime = System.currentTimeMillis();
     }
@@ -520,7 +520,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withCssValue(String cssProperty, String... args) {
-        String cssValue = getRootWebElement().getCssValue(cssProperty);
+        String cssValue = getRootElement().getWebElement().getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {
@@ -544,7 +544,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withoutCssValue(String cssProperty, String... args) {
-        String cssValue = getRootWebElement().getCssValue(cssProperty);
+        String cssValue = getRootElement().getWebElement().getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {

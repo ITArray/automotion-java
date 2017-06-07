@@ -29,7 +29,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import static com.google.common.collect.Lists.newArrayList;
 import static environment.EnvironmentFactory.*;
 import static net.itarry.automotion.Element.asElement;
-import static net.itarry.automotion.Element.asElements;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;
@@ -56,7 +55,7 @@ public class ResponsiveUIValidator {
     boolean drawTopOffsetLine = false;
     boolean drawBottomOffsetLine = false;
     String rootElementReadableName = "Root Element";
-    List<WebElement> rootElements;
+    protected List<Element> rootElements;
     ResponsiveUIValidator.Units units = PX;
     private Dimension pageSize;
     public ResponsiveUIValidator(WebDriver driver) {
@@ -65,16 +64,12 @@ public class ResponsiveUIValidator {
         pageSize = new Dimension((int) retrievePageWidth(), (int) retrievePageHeight());
     }
 
-    public static Element getRootElement() {
+    protected static Element getRootElement() {
         return rootElement;
     }
 
-    public static WebElement getRootWebElement() {
-        return getRootElement().getWebElement();
-    }
-
-    public static void setRootElement(WebElement rootElement) {
-        ResponsiveUIValidator.rootElement = asElement(rootElement);
+    protected static void setRootElement(Element element) {
+        ResponsiveUIValidator.rootElement = element;
     }
 
     /**
@@ -436,7 +431,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateMaxOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = asElement(getRootWebElement()).getRightOffset(pageSize);
+        int rootElementRightOffset = getRootElement().getRightOffset(pageSize);
         int rootElementBottomOffset = rootElement.getBottomOffset(pageSize);
         if (rootElement.getX() > left) {
             errors.add(String.format("Expected max left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, rootElement.getX()));
@@ -453,7 +448,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateMinOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = asElement(getRootWebElement()).getRightOffset(pageSize);
+        int rootElementRightOffset = getRootElement().getRightOffset(pageSize);
         int rootElementBottomOffset = rootElement.getBottomOffset(pageSize);
         if (rootElement.getX() < left) {
             errors.add(String.format("Expected min left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, rootElement.getX()));
@@ -546,7 +541,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateNotSameSize(WebElement element, String readableName) {
-        if (!element.equals(getRootWebElement())) {
+        if (!element.equals(getRootElement().getWebElement())) {
             int h = asElement(element).getHeight();
             int w = asElement(element).getWidth();
             if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
@@ -833,7 +828,7 @@ public class ResponsiveUIValidator {
                 errors.add(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), containerElement);
             }
         } else {
-            for (Element element : asElements(rootElements)) {
+            for (Element element : rootElements) {
                 if (!elementRectangle.contains(element.rectangle())) {
                     errors.add(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
                 }
