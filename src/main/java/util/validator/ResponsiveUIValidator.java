@@ -197,7 +197,7 @@ public class ResponsiveUIValidator {
         File screenshot = null;
         BufferedImage img = null;
         try {
-            screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            screenshot = takeScreenshot();
             img = ImageIO.read(screenshot);
         } catch (Exception e) {
             LOG.error("Failed to create screenshot file: " + e.getMessage());
@@ -242,6 +242,10 @@ public class ResponsiveUIValidator {
         if ((boolean) jsonResults.get(ERROR_KEY)) {
             drawScreenshot(screenshot, img);
         }
+    }
+
+    private File takeScreenshot() {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
     }
 
     /**
@@ -766,47 +770,49 @@ public class ResponsiveUIValidator {
     }
 
     private long retrievePageWidth() {
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
         if (!isMobile()) {
             retrieveCurrentZoom();
             if (currentZoom.equals("100%")) {
-                return (long) executor.executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
+                String script = "if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}";
+                return (long) executeScript(script);
             } else {
-                return (long) executor.executeScript("return document.getElementsByTagName('body')[0].offsetWidth");
+                return (long) executeScript("return document.getElementsByTagName('body')[0].offsetWidth");
             }
         } else {
             if (isNativeMobileContext() || isIOS()) {
                 return driver.manage().window().getSize().getWidth();
             } else {
-                return (long) executor.executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
+                return (long) executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
             }
         }
     }
 
+    private Object executeScript(String script) {
+        return ((JavascriptExecutor) driver).executeScript(script);
+    }
+
     private long retrievePageHeight() {
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
         if (!isMobile()) {
             retrieveCurrentZoom();
             if (currentZoom.equals("100%")) {
-                return (long) executor.executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
+                return (long) executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
             } else {
-                return (long) executor.executeScript("return document.getElementsByTagName('body')[0].offsetHeight");
+                return (long) executeScript("return document.getElementsByTagName('body')[0].offsetHeight");
             }
         } else {
             if (isNativeMobileContext() || isIOS()) {
                 return driver.manage().window().getSize().getHeight();
             } else {
-                return (long) executor.executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
+                return (long) executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
             }
         }
     }
 
     private void retrieveCurrentZoom() {
-        JavascriptExecutor executor = (JavascriptExecutor) ResponsiveUIValidator.driver;
         if (isFirefox()) {
-            currentZoom = (String) executor.executeScript("document.body.style.MozTransform");
+            currentZoom = (String) executeScript("document.body.style.MozTransform");
         } else {
-            currentZoom = (String) executor.executeScript("return document.body.style.zoom;");
+            currentZoom = (String) executeScript("return document.body.style.zoom;");
         }
         if (currentZoom == null || currentZoom.equals("")) {
             currentZoom = "100%";
