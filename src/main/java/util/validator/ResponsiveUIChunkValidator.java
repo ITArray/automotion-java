@@ -1,5 +1,6 @@
 package util.validator;
 
+import net.itarry.automotion.internal.DriverFacade;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -10,7 +11,7 @@ import static net.itarry.automotion.Element.asElements;
 
 public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements ChunkValidator {
 
-    ResponsiveUIChunkValidator(WebDriver driver, List<WebElement> webElements) {
+    ResponsiveUIChunkValidator(DriverFacade driver, List<WebElement> webElements) {
         super(driver);
         rootElements = asElements(webElements);
         if (!webElements.isEmpty()) {

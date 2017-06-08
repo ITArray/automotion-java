@@ -1,10 +1,10 @@
 package util.validator;
 
 import http.helpers.Helper;
-import io.appium.java_client.AppiumDriver;
 import net.itarry.automotion.Element;
 import net.itarry.automotion.Errors;
 import net.itarry.automotion.Zoom;
+import net.itarry.automotion.internal.DriverFacade;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static environment.EnvironmentFactory.*;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
@@ -37,7 +36,7 @@ public class ResponsiveUIValidator {
     static final int MIN_OFFSET = -10000;
     private final static Logger LOG = Logger.getLogger(ResponsiveUIValidator.class);
 
-    private final WebDriver driver;
+    private final DriverFacade driver;
 
     private static Element rootElement;
 
@@ -61,9 +60,14 @@ public class ResponsiveUIValidator {
     private Dimension pageSize;
 
     public ResponsiveUIValidator(WebDriver driver) {
+        this(new DriverFacade(driver));
+    }
+
+    protected ResponsiveUIValidator(DriverFacade driver) {
         this.driver = driver;
         ResponsiveUIValidator.errors = new Errors();
-        pageSize = new Dimension((int) retrievePageWidth(), (int) retrievePageHeight());
+        currentZoom = driver.getZoom();
+        pageSize = driver.retrievePageSize();
     }
 
     protected static Element getRootElement() {
@@ -199,7 +203,7 @@ public class ResponsiveUIValidator {
         File screenshot = null;
         BufferedImage img = null;
         try {
-            screenshot = takeScreenshot();
+            screenshot = driver.takeScreenshot();
             img = ImageIO.read(screenshot);
         } catch (Exception e) {
             LOG.error("Failed to create screenshot file: " + e.getMessage());
@@ -244,10 +248,6 @@ public class ResponsiveUIValidator {
         if ((boolean) jsonResults.get(ERROR_KEY)) {
             drawScreenshot(screenshot, img);
         }
-    }
-
-    private File takeScreenshot() {
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
     }
 
     /**
@@ -750,7 +750,7 @@ public class ResponsiveUIValidator {
     }
 
     int mobileY(int value) {
-        if (isMobile() && isAppiumWebContext()) {
+        if (isMobile() && driver.isAppiumWebContext()) {
             if (isIOS()) {
                 if (isMobileTopBar) {
                     return value + 20;
@@ -769,70 +769,6 @@ public class ResponsiveUIValidator {
         } else {
             return value;
         }
-    }
-
-    private boolean isAppiumWebContext() {
-        if (!(driver instanceof AppiumDriver)) {
-            return false;
-        }
-        return ((AppiumDriver) driver).getContext().startsWith("WEB");
-    }
-
-    private long retrievePageWidth() {
-        if (!isMobile()) {
-            retrieveCurrentZoom();
-            if (currentZoom.equals("100%")) {
-                String script = "if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}";
-                return (long) executeScript(script);
-            } else {
-                return (long) executeScript("return document.getElementsByTagName('body')[0].offsetWidth");
-            }
-        } else {
-            if (isAppiumNativeMobileContext() || isIOS()) {
-                return driver.manage().window().getSize().getWidth();
-            } else {
-                return (long) executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
-            }
-        }
-    }
-
-    private Object executeScript(String script) {
-        return ((JavascriptExecutor) driver).executeScript(script);
-    }
-
-    private long retrievePageHeight() {
-        if (!isMobile()) {
-            retrieveCurrentZoom();
-            if (currentZoom.equals("100%")) {
-                return (long) executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
-            } else {
-                return (long) executeScript("return document.getElementsByTagName('body')[0].offsetHeight");
-            }
-        } else {
-            if (isAppiumNativeMobileContext() || isIOS()) {
-                return driver.manage().window().getSize().getHeight();
-            } else {
-                return (long) executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
-            }
-        }
-    }
-
-    private void retrieveCurrentZoom() {
-        if (isFirefox()) {
-            currentZoom = (String) executeScript("document.body.style.MozTransform");
-        } else {
-            currentZoom = (String) executeScript("return document.body.style.zoom;");
-        }
-        if (currentZoom == null || currentZoom.equals("")) {
-            currentZoom = "100%";
-        }
-    }
-
-    private boolean isAppiumNativeMobileContext() {
-        if (!(driver instanceof AppiumDriver)) {
-            return false;
-        }
-        return ((AppiumDriver) driver).getContext().contains("NATIVE");
     }
 
     void validateInsideOfContainer(Element containerElement, String readableContainerName) {
