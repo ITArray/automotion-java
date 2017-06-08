@@ -36,7 +36,8 @@ import static util.validator.ResponsiveUIValidator.Units.PX;
 public class ResponsiveUIValidator {
     static final int MIN_OFFSET = -10000;
     private final static Logger LOG = Logger.getLogger(ResponsiveUIValidator.class);
-    protected static WebDriver driver;
+
+    private final WebDriver driver;
 
     private static Element rootElement;
 
@@ -58,8 +59,9 @@ public class ResponsiveUIValidator {
     protected List<Element> rootElements;
     ResponsiveUIValidator.Units units = PX;
     private Dimension pageSize;
+
     public ResponsiveUIValidator(WebDriver driver) {
-        ResponsiveUIValidator.driver = driver;
+        this.driver = driver;
         ResponsiveUIValidator.errors = new Errors();
         pageSize = new Dimension((int) retrievePageWidth(), (int) retrievePageHeight());
     }
