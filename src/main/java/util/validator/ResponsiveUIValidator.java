@@ -28,7 +28,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static environment.EnvironmentFactory.*;
-import static net.itarry.automotion.Element.asElement;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;
@@ -49,16 +48,13 @@ public class ResponsiveUIValidator {
     private static Color linesColor = Color.ORANGE;
     private static String currentZoom = "100%";
     private static List<String> jsonFiles = new ArrayList<>();
-    private static File screenshot;
-    private static BufferedImage img;
-    private static Graphics2D g;
     protected static Errors errors;
     boolean drawLeftOffsetLine = false;
     boolean drawRightOffsetLine = false;
     boolean drawTopOffsetLine = false;
     boolean drawBottomOffsetLine = false;
     String rootElementReadableName = "Root Element";
-    List<WebElement> rootElements;
+    protected List<Element> rootElements;
     ResponsiveUIValidator.Units units = PX;
     private Dimension pageSize;
     public ResponsiveUIValidator(WebDriver driver) {
@@ -67,16 +63,12 @@ public class ResponsiveUIValidator {
         pageSize = new Dimension((int) retrievePageWidth(), (int) retrievePageHeight());
     }
 
-    public static Element getRootElement() {
+    protected static Element getRootElement() {
         return rootElement;
     }
 
-    public static WebElement getRootWebElement() {
-        return getRootElement().getWebElement();
-    }
-
-    public static void setRootElement(WebElement rootElement) {
-        ResponsiveUIValidator.rootElement = asElement(rootElement);
+    protected static void setRootElement(Element element) {
+        ResponsiveUIValidator.rootElement = element;
     }
 
     /**
@@ -183,64 +175,72 @@ public class ResponsiveUIValidator {
      * @return boolean
      */
     public boolean validate() {
-        JSONObject jsonResults = new JSONObject();
-        jsonResults.put(ERROR_KEY, false);
 
         if (errors.hasMessages()) {
-            jsonResults.put(ERROR_KEY, true);
-            jsonResults.put(DETAILS, errors.getMessages());
-
-            if (withReport) {
-                try {
-                    screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-                    img = ImageIO.read(screenshot);
-                } catch (Exception e) {
-                    LOG.error("Failed to create screenshot file: " + e.getMessage());
-                }
-
-                JSONObject rootDetails = new JSONObject();
-                if (rootElement != null) {
-                    rootDetails.put(X, rootElement.getX());
-                    rootDetails.put(Y, rootElement.getY());
-                    rootDetails.put(WIDTH, rootElement.getWidth());
-                    rootDetails.put(HEIGHT, rootElement.getHeight());
-                }
-
-                jsonResults.put(SCENARIO, scenarioName);
-                jsonResults.put(ROOT_ELEMENT, rootDetails);
-                jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
-                jsonResults.put(ELEMENT_NAME, rootElementReadableName);
-                jsonResults.put(SCREENSHOT, rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-
-                long ms = System.currentTimeMillis();
-                String uuid = Helper.getGeneratedStringWithLength(7);
-                String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json";
-                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
-                    writer.write(jsonResults.toJSONString());
-                } catch (IOException ex) {
-                    LOG.error("Cannot create json report: " + ex.getMessage());
-                }
-                jsonFiles.add(jsonFileName);
-                try {
-                    File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json");
-                    if (file.getParentFile().mkdirs()) {
-                        if (file.createNewFile()) {
-                            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                            writer.write(jsonResults.toJSONString());
-                            writer.close();
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                if ((boolean) jsonResults.get(ERROR_KEY)) {
-                    drawScreenshot();
-                }
-            }
+            compileValidationReport();
         }
 
-        return !((boolean) jsonResults.get(ERROR_KEY));
+        return !errors.hasMessages();
+    }
+
+    private void compileValidationReport() {
+        if (!withReport) {
+            return;
+        }
+
+        JSONObject jsonResults = new JSONObject();
+
+        jsonResults.put(ERROR_KEY, errors.hasMessages());
+        jsonResults.put(DETAILS, errors.getMessages());
+
+        File screenshot = null;
+        BufferedImage img = null;
+        try {
+            screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            img = ImageIO.read(screenshot);
+        } catch (Exception e) {
+            LOG.error("Failed to create screenshot file: " + e.getMessage());
+        }
+
+        JSONObject rootDetails = new JSONObject();
+        if (rootElement != null) {
+            rootDetails.put(X, rootElement.getX());
+            rootDetails.put(Y, rootElement.getY());
+            rootDetails.put(WIDTH, rootElement.getWidth());
+            rootDetails.put(HEIGHT, rootElement.getHeight());
+        }
+
+        jsonResults.put(SCENARIO, scenarioName);
+        jsonResults.put(ROOT_ELEMENT, rootDetails);
+        jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
+        jsonResults.put(ELEMENT_NAME, rootElementReadableName);
+        jsonResults.put(SCREENSHOT, rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
+
+        long ms = System.currentTimeMillis();
+        String uuid = Helper.getGeneratedStringWithLength(7);
+        String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json";
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
+            writer.write(jsonResults.toJSONString());
+        } catch (IOException ex) {
+            LOG.error("Cannot create json report: " + ex.getMessage());
+        }
+        jsonFiles.add(jsonFileName);
+        try {
+            File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json");
+            if (file.getParentFile().mkdirs()) {
+                if (file.createNewFile()) {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                    writer.write(jsonResults.toJSONString());
+                    writer.close();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if ((boolean) jsonResults.get(ERROR_KEY)) {
+            drawScreenshot(screenshot, img);
+        }
     }
 
     /**
@@ -271,11 +271,11 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void drawScreenshot() {
+    void drawScreenshot(File output, BufferedImage img) {
         if (img != null) {
-            g = img.createGraphics();
+            Graphics2D g = img.createGraphics();
 
-            drawRoot(rootColor);
+            drawRoot(rootColor, g, img);
 
             for (Object obj : errors.getMessages()) {
                 JSONObject det = (JSONObject) obj;
@@ -295,9 +295,9 @@ public class ResponsiveUIValidator {
             }
 
             try {
-                ImageIO.write(img, "png", screenshot);
-                File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-                FileUtils.copyFile(screenshot, file);
+                ImageIO.write(img, "png", output);
+                File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + output.getName());
+                FileUtils.copyFile(output, file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -430,7 +430,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateMaxOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = asElement(getRootWebElement()).getRightOffset(pageSize);
+        int rootElementRightOffset = getRootElement().getRightOffset(pageSize);
         int rootElementBottomOffset = rootElement.getBottomOffset(pageSize);
         if (rootElement.getX() > left) {
             errors.add(String.format("Expected max left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, rootElement.getX()));
@@ -447,7 +447,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateMinOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = asElement(getRootWebElement()).getRightOffset(pageSize);
+        int rootElementRightOffset = getRootElement().getRightOffset(pageSize);
         int rootElementBottomOffset = rootElement.getBottomOffset(pageSize);
         if (rootElement.getX() < left) {
             errors.add(String.format("Expected min left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElementReadableName, left, rootElement.getX()));
@@ -539,12 +539,12 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateNotSameSize(WebElement element, String readableName) {
-        if (!element.equals(getRootWebElement())) {
-            int h = asElement(element).getHeight();
-            int w = asElement(element).getWidth();
+    void validateNotSameSize(Element element, String readableName) {
+        if (!element.getWebElement().equals(getRootElement().getWebElement())) {
+            int h = element.getHeight();
+            int w = element.getWidth();
             if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
-                errors.add(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getWidth(), rootElement.getHeight(), w, h), asElement(element));
+                errors.add(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getWidth(), rootElement.getHeight(), w, h), element);
             }
         }
     }
@@ -664,7 +664,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void drawRoot(Color color) {
+    void drawRoot(Color color, Graphics2D g, BufferedImage img) {
         g.setColor(color);
         g.setStroke(new BasicStroke(2));
         g.drawRect(retinaValue(rootElement.getX()), retinaValue(mobileY(rootElement.getY())), retinaValue(rootElement.getWidth()), retinaValue(rootElement.getHeight()));
@@ -768,16 +768,11 @@ public class ResponsiveUIValidator {
         }
     }
 
-    long retrievePageWidth() {
+    private long retrievePageWidth() {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         if (!isMobile()) {
-            if (isFirefox()) {
-                currentZoom = (String) executor.executeScript("document.body.style.MozTransform");
-            } else {
-                currentZoom = (String) executor.executeScript("return document.body.style.zoom;");
-            }
-            if (currentZoom == null || currentZoom.equals("100%") || currentZoom.equals("")) {
-                currentZoom = "100%";
+            retrieveCurrentZoom();
+            if (currentZoom.equals("100%")) {
                 return (long) executor.executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
             } else {
                 return (long) executor.executeScript("return document.getElementsByTagName('body')[0].offsetWidth");
@@ -791,16 +786,11 @@ public class ResponsiveUIValidator {
         }
     }
 
-    long retrievePageHeight() {
+    private long retrievePageHeight() {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         if (!isMobile()) {
-            if (isFirefox()) {
-                currentZoom = (String) executor.executeScript("document.body.style.MozTransform");
-            } else {
-                currentZoom = (String) executor.executeScript("return document.body.style.zoom;");
-            }
-            if (currentZoom == null || currentZoom.equals("100%") || currentZoom.equals("")) {
-                currentZoom = "100%";
+            retrieveCurrentZoom();
+            if (currentZoom.equals("100%")) {
                 return (long) executor.executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
             } else {
                 return (long) executor.executeScript("return document.getElementsByTagName('body')[0].offsetHeight");
@@ -814,20 +804,32 @@ public class ResponsiveUIValidator {
         }
     }
 
+    private void retrieveCurrentZoom() {
+        JavascriptExecutor executor = (JavascriptExecutor) ResponsiveUIValidator.driver;
+        if (isFirefox()) {
+            currentZoom = (String) executor.executeScript("document.body.style.MozTransform");
+        } else {
+            currentZoom = (String) executor.executeScript("return document.body.style.zoom;");
+        }
+        if (currentZoom == null || currentZoom.equals("")) {
+            currentZoom = "100%";
+        }
+    }
+
     private boolean isNativeMobileContext() {
         return ((AppiumDriver) driver).getContext().contains("NATIVE");
     }
 
-    void validateInsideOfContainer(WebElement containerElement, String readableContainerName) {
-        Rectangle2D.Double elementRectangle = asElement(containerElement).rectangle();
+    void validateInsideOfContainer(Element containerElement, String readableContainerName) {
+        Rectangle2D.Double elementRectangle = containerElement.rectangle();
         if (rootElements == null) {
             if (!elementRectangle.contains(rootElement.rectangle())) {
-                errors.add(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), asElement(containerElement));
+                errors.add(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), containerElement);
             }
         } else {
-            for (WebElement el : rootElements) {
-                if (!elementRectangle.contains(rectangle(el))) {
-                    errors.add(String.format("Element is not inside of '%s'", readableContainerName), asElement(containerElement));
+            for (Element element : rootElements) {
+                if (!elementRectangle.contains(element.rectangle())) {
+                    errors.add(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
                 }
             }
         }
@@ -854,10 +856,6 @@ public class ResponsiveUIValidator {
             errors.add(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
                                 rootElementReadableName, top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
         }
-    }
-
-    private Rectangle2D.Double rectangle(WebElement element) {
-        return asElement(element).rectangle();
     }
 
     public enum Units {

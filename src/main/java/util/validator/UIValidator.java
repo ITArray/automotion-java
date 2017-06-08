@@ -14,9 +14,9 @@ import static net.itarry.automotion.Element.asElements;
 
 public class UIValidator extends ResponsiveUIValidator implements Validator {
 
-    UIValidator(WebDriver driver, WebElement element, String readableNameOfElement) {
+    UIValidator(WebDriver driver, WebElement webElement, String readableNameOfElement) {
         super(driver);
-        setRootElement(element);
+        setRootElement(asElement(webElement));
         rootElementReadableName = readableNameOfElement;
         startTime = System.currentTimeMillis();
     }
@@ -445,7 +445,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator notSameSizeAs(WebElement element, String readableName) {
-        validateNotSameSize(element, readableName);
+        validateNotSameSize(asElement(element), readableName);
         return this;
     }
 
@@ -458,7 +458,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator notSameSizeAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateNotSameSize(element, getFormattedMessage(asElement(element)));
+            validateNotSameSize(asElement(element), getFormattedMessage(asElement(element)));
         }
         return this;
     }
@@ -520,7 +520,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withCssValue(String cssProperty, String... args) {
-        String cssValue = getRootWebElement().getCssValue(cssProperty);
+        String cssValue = getRootElement().getWebElement().getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {
@@ -544,7 +544,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withoutCssValue(String cssProperty, String... args) {
-        String cssValue = getRootWebElement().getCssValue(cssProperty);
+        String cssValue = getRootElement().getWebElement().getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {
@@ -590,7 +590,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator insideOf(WebElement containerElement, String readableContainerName) {
-        validateInsideOfContainer(containerElement, readableContainerName);
+        validateInsideOfContainer(asElement(containerElement), readableContainerName);
         return this;
     }
 
