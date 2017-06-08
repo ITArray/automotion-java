@@ -748,7 +748,7 @@ public class ResponsiveUIValidator {
     }
 
     int mobileY(int value) {
-        if (isMobile() && ((AppiumDriver) driver).getContext().startsWith("WEB")) {
+        if (isMobile() && isAppiumWebContext()) {
             if (isIOS()) {
                 if (isMobileTopBar) {
                     return value + 20;
@@ -769,6 +769,13 @@ public class ResponsiveUIValidator {
         }
     }
 
+    private boolean isAppiumWebContext() {
+        if (!(driver instanceof AppiumDriver)) {
+            return false;
+        }
+        return ((AppiumDriver) driver).getContext().startsWith("WEB");
+    }
+
     private long retrievePageWidth() {
         if (!isMobile()) {
             retrieveCurrentZoom();
@@ -779,7 +786,7 @@ public class ResponsiveUIValidator {
                 return (long) executeScript("return document.getElementsByTagName('body')[0].offsetWidth");
             }
         } else {
-            if (isNativeMobileContext() || isIOS()) {
+            if (isAppiumNativeMobileContext() || isIOS()) {
                 return driver.manage().window().getSize().getWidth();
             } else {
                 return (long) executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
@@ -800,7 +807,7 @@ public class ResponsiveUIValidator {
                 return (long) executeScript("return document.getElementsByTagName('body')[0].offsetHeight");
             }
         } else {
-            if (isNativeMobileContext() || isIOS()) {
+            if (isAppiumNativeMobileContext() || isIOS()) {
                 return driver.manage().window().getSize().getHeight();
             } else {
                 return (long) executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
@@ -819,7 +826,10 @@ public class ResponsiveUIValidator {
         }
     }
 
-    private boolean isNativeMobileContext() {
+    private boolean isAppiumNativeMobileContext() {
+        if (!(driver instanceof AppiumDriver)) {
+            return false;
+        }
         return ((AppiumDriver) driver).getContext().contains("NATIVE");
     }
 
