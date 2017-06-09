@@ -1,20 +1,20 @@
 package util.validator;
 
 import http.helpers.TextFinder;
-import net.itarry.automotion.Element;
-import org.openqa.selenium.WebDriver;
+import net.itarray.automotion.Element;
+import net.itarray.automotion.internal.DriverFacade;
 import org.openqa.selenium.WebElement;
 import util.general.SystemHelper;
 import util.validator.properties.Padding;
 
 import java.util.List;
 
-import static net.itarry.automotion.Element.asElement;
-import static net.itarry.automotion.Element.asElements;
+import static net.itarray.automotion.Element.asElement;
+import static net.itarray.automotion.Element.asElements;
 
 public class UIValidator extends ResponsiveUIValidator implements Validator {
 
-    UIValidator(WebDriver driver, WebElement webElement, String readableNameOfElement) {
+    UIValidator(DriverFacade driver, WebElement webElement, String readableNameOfElement) {
         super(driver);
         setRootElement(asElement(webElement));
         rootElementReadableName = readableNameOfElement;

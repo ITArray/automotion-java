@@ -1,6 +1,6 @@
 package util.driver;
 
-import net.itarry.automotion.Element;
+import net.itarray.automotion.Element;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static net.itarry.automotion.Element.asElements;
+import static net.itarray.automotion.Element.asElements;
 
 public class PageValidator {
 
