@@ -1,4 +1,4 @@
-package net.itarry.automotion;
+package net.itarray.automotion;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

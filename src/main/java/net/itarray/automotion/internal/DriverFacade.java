@@ -1,4 +1,4 @@
-package net.itarry.automotion.internal;
+package net.itarray.automotion.internal;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.Dimension;

@@ -1,9 +1,9 @@
-package net.itarry.automotion.tests;
+package net.itarray.automotion.tests;
 
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static net.itarry.automotion.Zoom.applyZoom;
+import static net.itarray.automotion.Zoom.applyZoom;
 
 public class ZoomTest {
 
