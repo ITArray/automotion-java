@@ -278,7 +278,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void drawScreenshot(File output, BufferedImage img) {
+    private void drawScreenshot(File output, BufferedImage img) {
         if (img != null) {
             Graphics2D g = img.createGraphics();
 
@@ -671,11 +671,10 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void drawRoot(Color color, Graphics2D g, BufferedImage img) {
+    private void drawRoot(Color color, Graphics2D g, BufferedImage img) {
         g.setColor(color);
         g.setStroke(new BasicStroke(2));
         drawRectByExtend(g, rootElement.getX(), rootElement.getY(), rootElement.getWidth(), rootElement.getHeight());
-        //g.fillRect(retinaValue(xRoot), retinaValue((yRoot), retinaValue(widthRoot), retinaValue(heightRoot));
 
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
         g.setStroke(dashed);
@@ -748,7 +747,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    int retinaValue(int value) {
+    private int retinaValue(int value) {
         if (!isMobile()) {
             int zoom = Integer.parseInt(currentZoom.replace("%", ""));
             value = Zoom.applyZoom(value, zoom);
