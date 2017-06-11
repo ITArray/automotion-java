@@ -695,7 +695,15 @@ public class ResponsiveUIValidator {
     }
 
     private void drawRectByExtend(Graphics2D g, int x, int y, int width, int height) {
-        g.drawRect(retinaValue(x), transformY(y), retinaValue(width), retinaValue(height));
+        int cornerX = x + width;
+        int cornerY = y + height;
+        int transformedX = transformX(x);
+        int transformedY = transformY(y);
+        int transformedCornerX = transformX(cornerX);
+        int transformedCornerY = transformY(cornerY);
+        int transformedWidth = transformedCornerX - transformedX;
+        int transformedHeight = transformedCornerY - transformedY;
+        g.drawRect(transformedX, transformedY, transformedWidth, transformedHeight);
     }
 
     private void drawVerticalLine(Graphics2D g, BufferedImage img, int x) {
