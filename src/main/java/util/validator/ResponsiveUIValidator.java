@@ -290,14 +290,14 @@ public class ResponsiveUIValidator {
                 JSONObject numE = (JSONObject) details.get(ELEMENT);
 
                 if (numE != null) {
-                    float x = (float) numE.get(X);
-                    float y = (float) numE.get(Y);
-                    float width = (float) numE.get(WIDTH);
-                    float height = (float) numE.get(HEIGHT);
+                    int x = (int) (float) numE.get(X);
+                    int y = (int) (float) numE.get(Y);
+                    int width = (int) (float) numE.get(WIDTH);
+                    int height = (int) (float) numE.get(HEIGHT);
 
                     g.setColor(highlightedElementsColor);
                     g.setStroke(new BasicStroke(2));
-                    g.drawRect(retinaValue((int) x), transformY((int) y), retinaValue((int) width), retinaValue((int) height));
+                    drawRectByExtend(g, x, y, width, height);
                 }
             }
 
@@ -674,7 +674,7 @@ public class ResponsiveUIValidator {
     void drawRoot(Color color, Graphics2D g, BufferedImage img) {
         g.setColor(color);
         g.setStroke(new BasicStroke(2));
-        g.drawRect(retinaValue(rootElement.getX()), transformY(rootElement.getY()), retinaValue(rootElement.getWidth()), retinaValue(rootElement.getHeight()));
+        drawRectByExtend(g, rootElement.getX(), rootElement.getY(), rootElement.getWidth(), rootElement.getHeight());
         //g.fillRect(retinaValue(xRoot), retinaValue((yRoot), retinaValue(widthRoot), retinaValue(heightRoot));
 
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
@@ -692,6 +692,10 @@ public class ResponsiveUIValidator {
         if (drawBottomOffsetLine) {
             drawHorizontalLine(g, img, rootElement.getCornerY());
         }
+    }
+
+    private void drawRectByExtend(Graphics2D g, int x, int y, int width, int height) {
+        g.drawRect(retinaValue(x), transformY(y), retinaValue(width), retinaValue(height));
     }
 
     private void drawVerticalLine(Graphics2D g, BufferedImage img, int x) {
