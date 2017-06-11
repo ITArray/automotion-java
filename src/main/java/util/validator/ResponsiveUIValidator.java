@@ -681,17 +681,27 @@ public class ResponsiveUIValidator {
         g.setStroke(dashed);
         g.setColor(linesColor);
         if (drawLeftOffsetLine) {
-            g.drawLine(transformX(rootElement.getX()), 0, transformX(rootElement.getX()), retinaValue(img.getHeight()));
+            drawVerticalLine(g, img, rootElement.getX());
         }
         if (drawRightOffsetLine) {
-            g.drawLine(transformX(rootElement.getCornerX()), 0, transformX(rootElement.getCornerX()), retinaValue(img.getHeight()));
+            drawVerticalLine(g, img, rootElement.getCornerX());
         }
         if (drawTopOffsetLine) {
-            g.drawLine(0, transformY(rootElement.getY()), retinaValue(img.getWidth()), transformY(rootElement.getY()));
+            drawHorizontalLine(g, img, rootElement.getY());
         }
         if (drawBottomOffsetLine) {
-            g.drawLine(0, transformY(rootElement.getCornerY()), retinaValue(img.getWidth()), transformY(rootElement.getCornerY()));
+            drawHorizontalLine(g, img, rootElement.getCornerY());
         }
+    }
+
+    private void drawVerticalLine(Graphics2D g, BufferedImage img, int x) {
+        int transformedX = transformX(x);
+        g.drawLine(transformedX, 0, transformedX, retinaValue(img.getHeight()));
+    }
+
+    private void drawHorizontalLine(Graphics2D g, BufferedImage img, int y) {
+        int transformedY = transformY(y);
+        g.drawLine(0, transformedY, retinaValue(img.getWidth()), transformedY);
     }
 
     private int transformX(int x) {
