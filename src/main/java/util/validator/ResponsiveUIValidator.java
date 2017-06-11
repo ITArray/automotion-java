@@ -695,8 +695,10 @@ public class ResponsiveUIValidator {
     }
 
     private void drawRectByExtend(Graphics2D g, int x, int y, int width, int height) {
-        int cornerX = x + width;
-        int cornerY = y + height;
+        drawRectByCorner(g, x, y, x + width, y + height);
+    }
+
+    private void drawRectByCorner(Graphics2D g, int x, int y, int cornerX, int cornerY) {
         int transformedX = transformX(x);
         int transformedY = transformY(y);
         int transformedCornerX = transformX(cornerX);
