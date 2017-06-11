@@ -297,7 +297,7 @@ public class ResponsiveUIValidator {
 
                     g.setColor(highlightedElementsColor);
                     g.setStroke(new BasicStroke(2));
-                    g.drawRect(retinaValue((int) x), retinaValue(mobileY((int) y)), retinaValue((int) width), retinaValue((int) height));
+                    g.drawRect(retinaValue((int) x), transformY((int) y), retinaValue((int) width), retinaValue((int) height));
                 }
             }
 
@@ -674,48 +674,54 @@ public class ResponsiveUIValidator {
     void drawRoot(Color color, Graphics2D g, BufferedImage img) {
         g.setColor(color);
         g.setStroke(new BasicStroke(2));
-        g.drawRect(retinaValue(rootElement.getX()), retinaValue(mobileY(rootElement.getY())), retinaValue(rootElement.getWidth()), retinaValue(rootElement.getHeight()));
+        g.drawRect(retinaValue(rootElement.getX()), transformY(rootElement.getY()), retinaValue(rootElement.getWidth()), retinaValue(rootElement.getHeight()));
         //g.fillRect(retinaValue(xRoot), retinaValue((yRoot), retinaValue(widthRoot), retinaValue(heightRoot));
 
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
         g.setStroke(dashed);
         g.setColor(linesColor);
         if (drawLeftOffsetLine) {
-            g.drawLine(retinaValue(rootElement.getX()), 0, retinaValue(rootElement.getX()), retinaValue(img.getHeight()));
+            g.drawLine(transformX(rootElement.getX()), 0, transformX(rootElement.getX()), retinaValue(img.getHeight()));
         }
         if (drawRightOffsetLine) {
-            g.drawLine(retinaValue(rootElement.getCornerX()), 0, retinaValue(rootElement.getCornerX()), retinaValue(img.getHeight()));
+            g.drawLine(transformX(rootElement.getCornerX()), 0, transformX(rootElement.getCornerX()), retinaValue(img.getHeight()));
         }
         if (drawTopOffsetLine) {
-            g.drawLine(0, retinaValue(mobileY(rootElement.getY())), retinaValue(img.getWidth()), retinaValue(rootElement.getY()));
+            g.drawLine(0, transformY(rootElement.getY()), retinaValue(img.getWidth()), retinaValue(rootElement.getY()));
         }
         if (drawBottomOffsetLine) {
-            g.drawLine(0, retinaValue(mobileY(rootElement.getCornerY())), retinaValue(img.getWidth()), retinaValue(rootElement.getCornerY()));
+            g.drawLine(0, transformY(rootElement.getCornerY()), retinaValue(img.getWidth()), retinaValue(rootElement.getCornerY()));
         }
     }
 
-    int getConvertedInt(int i, boolean horizontal) {
-        if (units.equals(PX)) {
-            return i;
-        } else {
-            if (horizontal) {
-                return (i * pageSize.getWidth()) / 100;
+    private int transformX(int x) {
+        return retinaValue(x);
+    }
+
+    private int transformY(int y) {
+        return retinaValue(mobileY(y));
+    }
+
+    private int mobileY(int value) {
+        if (isMobile() && driver.isAppiumWebContext()) {
+            if (isIOS()) {
+                if (isMobileTopBar) {
+                    return value + 20;
+                } else {
+                    return value;
+                }
+            } else if (isAndroid()) {
+                if (isMobileTopBar) {
+                    return value + 20;
+                } else {
+                    return value;
+                }
             } else {
-                return (i * pageSize.getHeight()) / 100;
+                return value;
             }
+        } else {
+            return value;
         }
-    }
-
-    String getFormattedMessage(Element element) {
-        return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
-                element.getWebElement().getTagName(),
-                element.getWebElement().getAttribute("id"),
-                element.getWebElement().getAttribute("class"),
-                element.getWebElement().getText().length() < 10 ? element.getWebElement().getText() : element.getWebElement().getText().substring(0, 10) + "...",
-                String.valueOf(element.getX()),
-                String.valueOf(element.getY()),
-                String.valueOf(element.getWidth()),
-                String.valueOf(element.getHeight()));
     }
 
     int retinaValue(int value) {
@@ -749,26 +755,28 @@ public class ResponsiveUIValidator {
         }
     }
 
-    int mobileY(int value) {
-        if (isMobile() && driver.isAppiumWebContext()) {
-            if (isIOS()) {
-                if (isMobileTopBar) {
-                    return value + 20;
-                } else {
-                    return value;
-                }
-            } else if (isAndroid()) {
-                if (isMobileTopBar) {
-                    return value + 20;
-                } else {
-                    return value;
-                }
-            } else {
-                return value;
-            }
+    int getConvertedInt(int i, boolean horizontal) {
+        if (units.equals(PX)) {
+            return i;
         } else {
-            return value;
+            if (horizontal) {
+                return (i * pageSize.getWidth()) / 100;
+            } else {
+                return (i * pageSize.getHeight()) / 100;
+            }
         }
+    }
+
+    String getFormattedMessage(Element element) {
+        return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
+                element.getWebElement().getTagName(),
+                element.getWebElement().getAttribute("id"),
+                element.getWebElement().getAttribute("class"),
+                element.getWebElement().getText().length() < 10 ? element.getWebElement().getText() : element.getWebElement().getText().substring(0, 10) + "...",
+                String.valueOf(element.getX()),
+                String.valueOf(element.getY()),
+                String.valueOf(element.getWidth()),
+                String.valueOf(element.getHeight()));
     }
 
     void validateInsideOfContainer(Element containerElement, String readableContainerName) {
