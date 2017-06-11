@@ -687,10 +687,10 @@ public class ResponsiveUIValidator {
             g.drawLine(transformX(rootElement.getCornerX()), 0, transformX(rootElement.getCornerX()), retinaValue(img.getHeight()));
         }
         if (drawTopOffsetLine) {
-            g.drawLine(0, transformY(rootElement.getY()), retinaValue(img.getWidth()), retinaValue(rootElement.getY()));
+            g.drawLine(0, transformY(rootElement.getY()), retinaValue(img.getWidth()), transformY(rootElement.getY()));
         }
         if (drawBottomOffsetLine) {
-            g.drawLine(0, transformY(rootElement.getCornerY()), retinaValue(img.getWidth()), retinaValue(rootElement.getCornerY()));
+            g.drawLine(0, transformY(rootElement.getCornerY()), retinaValue(img.getWidth()), transformY(rootElement.getCornerY()));
         }
     }
 
