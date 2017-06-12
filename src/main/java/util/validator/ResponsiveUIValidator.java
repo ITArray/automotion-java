@@ -278,7 +278,7 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void drawScreenshot(File output, BufferedImage img) {
+    private void drawScreenshot(File output, BufferedImage img) {
         if (img != null) {
             Graphics2D g = img.createGraphics();
 
@@ -290,14 +290,14 @@ public class ResponsiveUIValidator {
                 JSONObject numE = (JSONObject) details.get(ELEMENT);
 
                 if (numE != null) {
-                    float x = (float) numE.get(X);
-                    float y = (float) numE.get(Y);
-                    float width = (float) numE.get(WIDTH);
-                    float height = (float) numE.get(HEIGHT);
+                    int x = (int) (float) numE.get(X);
+                    int y = (int) (float) numE.get(Y);
+                    int width = (int) (float) numE.get(WIDTH);
+                    int height = (int) (float) numE.get(HEIGHT);
 
                     g.setColor(highlightedElementsColor);
                     g.setStroke(new BasicStroke(2));
-                    g.drawRect(retinaValue((int) x), retinaValue(mobileY((int) y)), retinaValue((int) width), retinaValue((int) height));
+                    drawRectByExtend(g, x, y, width, height);
                 }
             }
 
@@ -671,54 +671,83 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void drawRoot(Color color, Graphics2D g, BufferedImage img) {
+    private void drawRoot(Color color, Graphics2D g, BufferedImage img) {
         g.setColor(color);
         g.setStroke(new BasicStroke(2));
-        g.drawRect(retinaValue(rootElement.getX()), retinaValue(mobileY(rootElement.getY())), retinaValue(rootElement.getWidth()), retinaValue(rootElement.getHeight()));
-        //g.fillRect(retinaValue(xRoot), retinaValue((yRoot), retinaValue(widthRoot), retinaValue(heightRoot));
+        drawRectByExtend(g, rootElement.getX(), rootElement.getY(), rootElement.getWidth(), rootElement.getHeight());
 
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
         g.setStroke(dashed);
         g.setColor(linesColor);
         if (drawLeftOffsetLine) {
-            g.drawLine(retinaValue(rootElement.getX()), 0, retinaValue(rootElement.getX()), retinaValue(img.getHeight()));
+            drawVerticalLine(g, img, rootElement.getX());
         }
         if (drawRightOffsetLine) {
-            g.drawLine(retinaValue(rootElement.getCornerX()), 0, retinaValue(rootElement.getCornerX()), retinaValue(img.getHeight()));
+            drawVerticalLine(g, img, rootElement.getCornerX());
         }
         if (drawTopOffsetLine) {
-            g.drawLine(0, retinaValue(mobileY(rootElement.getY())), retinaValue(img.getWidth()), retinaValue(rootElement.getY()));
+            drawHorizontalLine(g, img, rootElement.getY());
         }
         if (drawBottomOffsetLine) {
-            g.drawLine(0, retinaValue(mobileY(rootElement.getCornerY())), retinaValue(img.getWidth()), retinaValue(rootElement.getCornerY()));
+            drawHorizontalLine(g, img, rootElement.getCornerY());
         }
     }
 
-    int getConvertedInt(int i, boolean horizontal) {
-        if (units.equals(PX)) {
-            return i;
-        } else {
-            if (horizontal) {
-                return (i * pageSize.getWidth()) / 100;
+    private void drawRectByExtend(Graphics2D g, int x, int y, int width, int height) {
+        drawRectByCorner(g, x, y, x + width, y + height);
+    }
+
+    private void drawRectByCorner(Graphics2D g, int x, int y, int cornerX, int cornerY) {
+        int transformedX = transformX(x);
+        int transformedY = transformY(y);
+        int transformedCornerX = transformX(cornerX);
+        int transformedCornerY = transformY(cornerY);
+        int transformedWidth = transformedCornerX - transformedX;
+        int transformedHeight = transformedCornerY - transformedY;
+        g.drawRect(transformedX, transformedY, transformedWidth, transformedHeight);
+    }
+
+    private void drawVerticalLine(Graphics2D g, BufferedImage img, int x) {
+        int transformedX = transformX(x);
+        g.drawLine(transformedX, 0, transformedX, retinaValue(img.getHeight()));
+    }
+
+    private void drawHorizontalLine(Graphics2D g, BufferedImage img, int y) {
+        int transformedY = transformY(y);
+        g.drawLine(0, transformedY, retinaValue(img.getWidth()), transformedY);
+    }
+
+    private int transformX(int x) {
+        return retinaValue(x);
+    }
+
+    private int transformY(int y) {
+        return retinaValue(mobileY(y));
+    }
+
+    private int mobileY(int value) {
+        if (isMobile() && driver.isAppiumWebContext()) {
+            if (isIOS()) {
+                if (isMobileTopBar) {
+                    return value + 20;
+                } else {
+                    return value;
+                }
+            } else if (isAndroid()) {
+                if (isMobileTopBar) {
+                    return value + 20;
+                } else {
+                    return value;
+                }
             } else {
-                return (i * pageSize.getHeight()) / 100;
+                return value;
             }
+        } else {
+            return value;
         }
     }
 
-    String getFormattedMessage(Element element) {
-        return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
-                element.getWebElement().getTagName(),
-                element.getWebElement().getAttribute("id"),
-                element.getWebElement().getAttribute("class"),
-                element.getWebElement().getText().length() < 10 ? element.getWebElement().getText() : element.getWebElement().getText().substring(0, 10) + "...",
-                String.valueOf(element.getX()),
-                String.valueOf(element.getY()),
-                String.valueOf(element.getWidth()),
-                String.valueOf(element.getHeight()));
-    }
-
-    int retinaValue(int value) {
+    private int retinaValue(int value) {
         if (!isMobile()) {
             int zoom = Integer.parseInt(currentZoom.replace("%", ""));
             value = Zoom.applyZoom(value, zoom);
@@ -749,26 +778,28 @@ public class ResponsiveUIValidator {
         }
     }
 
-    int mobileY(int value) {
-        if (isMobile() && driver.isAppiumWebContext()) {
-            if (isIOS()) {
-                if (isMobileTopBar) {
-                    return value + 20;
-                } else {
-                    return value;
-                }
-            } else if (isAndroid()) {
-                if (isMobileTopBar) {
-                    return value + 20;
-                } else {
-                    return value;
-                }
-            } else {
-                return value;
-            }
+    int getConvertedInt(int i, boolean horizontal) {
+        if (units.equals(PX)) {
+            return i;
         } else {
-            return value;
+            if (horizontal) {
+                return (i * pageSize.getWidth()) / 100;
+            } else {
+                return (i * pageSize.getHeight()) / 100;
+            }
         }
+    }
+
+    String getFormattedMessage(Element element) {
+        return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
+                element.getWebElement().getTagName(),
+                element.getWebElement().getAttribute("id"),
+                element.getWebElement().getAttribute("class"),
+                element.getWebElement().getText().length() < 10 ? element.getWebElement().getText() : element.getWebElement().getText().substring(0, 10) + "...",
+                String.valueOf(element.getX()),
+                String.valueOf(element.getY()),
+                String.valueOf(element.getWidth()),
+                String.valueOf(element.getHeight()));
     }
 
     void validateInsideOfContainer(Element containerElement, String readableContainerName) {
