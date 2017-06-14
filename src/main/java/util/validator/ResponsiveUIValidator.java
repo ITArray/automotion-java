@@ -50,10 +50,10 @@ public class ResponsiveUIValidator {
     private static String currentZoom = "100%";
     private static List<String> jsonFiles = new ArrayList<>();
     protected static Errors errors;
-    boolean drawLeftOffsetLine = false;
-    boolean drawRightOffsetLine = false;
-    boolean drawTopOffsetLine = false;
-    boolean drawBottomOffsetLine = false;
+    private boolean drawLeftOffsetLine = false;
+    private boolean drawRightOffsetLine = false;
+    private boolean drawTopOffsetLine = false;
+    private boolean drawBottomOffsetLine = false;
     String rootElementReadableName = "Root Element";
     protected List<Element> rootElements;
     ResponsiveUIValidator.Units units = PX;
@@ -275,7 +275,9 @@ public class ResponsiveUIValidator {
         if (img != null) {
             Graphics2D g = img.createGraphics();
 
-            drawRoot(rootColor, g, img);
+            drawRootElement(g);
+
+            drawOffsetLines(g, img);
 
             for (Object obj : errors.getMessages()) {
                 JSONObject det = (JSONObject) obj;
@@ -664,11 +666,13 @@ public class ResponsiveUIValidator {
         }
     }
 
-    private void drawRoot(Color color, Graphics2D g, BufferedImage img) {
-        g.setColor(color);
+    private void drawRootElement(Graphics2D g) {
+        g.setColor(rootColor);
         g.setStroke(new BasicStroke(2));
         drawRectByExtend(g, rootElement.getX(), rootElement.getY(), rootElement.getWidth(), rootElement.getHeight());
+    }
 
+    private void drawOffsetLines(Graphics2D g, BufferedImage img) {
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
         g.setStroke(dashed);
         g.setColor(linesColor);
@@ -833,6 +837,22 @@ public class ResponsiveUIValidator {
             errors.add(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
                                 rootElementReadableName, top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
         }
+    }
+
+    protected void drawLeftOffsetLine() {
+        drawLeftOffsetLine = true;
+    }
+
+    protected void drawRightOffsetLine() {
+        drawRightOffsetLine = true;
+    }
+
+    protected void drawTopOffsetLine() {
+        drawTopOffsetLine = true;
+    }
+
+    protected void drawBottomOffsetLine() {
+        drawBottomOffsetLine = true;
     }
 
     public enum Units {
