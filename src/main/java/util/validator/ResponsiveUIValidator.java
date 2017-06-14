@@ -2,8 +2,8 @@ package util.validator;
 
 import http.helpers.Helper;
 import net.itarray.automotion.Element;
-import net.itarray.automotion.Errors;
-import net.itarray.automotion.Zoom;
+import net.itarray.automotion.internal.Errors;
+import net.itarray.automotion.internal.Zoom;
 import net.itarray.automotion.internal.DriverFacade;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;

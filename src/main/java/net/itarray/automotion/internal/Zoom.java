@@ -1,4 +1,4 @@
-package net.itarray.automotion;
+package net.itarray.automotion.internal;
 
 public class Zoom {
     public static int applyZoom(int value, int zoom) {
