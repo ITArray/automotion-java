@@ -709,12 +709,14 @@ public class ResponsiveUIValidator {
 
     private void drawVerticalLine(Graphics2D g, BufferedImage img, int x) {
         int transformedX = transformX(x);
-        g.drawLine(transformedX, 0, transformedX, retinaValue(img.getHeight()));
+        int transformedHeight = transformY(img.getHeight()) - transformY(0);
+        g.drawLine(transformedX, 0, transformedX, transformedHeight);
     }
 
     private void drawHorizontalLine(Graphics2D g, BufferedImage img, int y) {
         int transformedY = transformY(y);
-        g.drawLine(0, transformedY, retinaValue(img.getWidth()), transformedY);
+        int transformedWidth = transformX(img.getWidth()) - transformX(0);
+        g.drawLine(0, transformedY, transformedWidth, transformedY);
     }
 
     private int transformX(int x) {
