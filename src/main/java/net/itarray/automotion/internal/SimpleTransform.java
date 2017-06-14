@@ -9,4 +9,12 @@ public class SimpleTransform {
         this.yOffset = yOffset;
         this.scaleFactor = scaleFactor;
     }
+
+    public int transformX(int x) {
+        return (int) (x * scaleFactor);
+    }
+
+    public int transformY(int y) {
+        return (int) ((y + yOffset) * scaleFactor);
+    }
 }

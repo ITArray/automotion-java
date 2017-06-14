@@ -695,33 +695,25 @@ public class ResponsiveUIValidator {
     }
 
     private void drawRectByCorner(Graphics2D g, int x, int y, int cornerX, int cornerY) {
-        int transformedX = transformX(x);
-        int transformedY = transformY(y);
-        int transformedCornerX = transformX(cornerX);
-        int transformedCornerY = transformY(cornerY);
+        int transformedX = getTransform().transformX(x);
+        int transformedY = getTransform().transformY(y);
+        int transformedCornerX = getTransform().transformX(cornerX);
+        int transformedCornerY = getTransform().transformY(cornerY);
         int transformedWidth = transformedCornerX - transformedX;
         int transformedHeight = transformedCornerY - transformedY;
         g.drawRect(transformedX, transformedY, transformedWidth, transformedHeight);
     }
 
     private void drawVerticalLine(Graphics2D g, BufferedImage img, int x) {
-        int transformedX = transformX(x);
-        int transformedHeight = transformY(img.getHeight()) - transformY(0);
+        int transformedX = getTransform().transformX(x);
+        int transformedHeight = getTransform().transformY(img.getHeight()) - getTransform().transformY(0);
         g.drawLine(transformedX, 0, transformedX, transformedHeight);
     }
 
     private void drawHorizontalLine(Graphics2D g, BufferedImage img, int y) {
-        int transformedY = transformY(y);
-        int transformedWidth = transformX(img.getWidth()) - transformX(0);
+        int transformedY = getTransform().transformY(y);
+        int transformedWidth = getTransform().transformX(img.getWidth()) - getTransform().transformX(0);
         g.drawLine(0, transformedY, transformedWidth, transformedY);
-    }
-
-    private int transformX(int x) {
-        return (int) (x * getTransform().scaleFactor);
-    }
-
-    private int transformY(int y) {
-        return (int) ((y + getTransform().yOffset) * getTransform().scaleFactor);
     }
 
     private int getYOffset() {
