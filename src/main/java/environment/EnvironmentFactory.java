@@ -1,5 +1,7 @@
 package environment;
 
+import java.util.Arrays;
+
 public class EnvironmentFactory {
 
     private static String BROWSER;
@@ -144,5 +146,18 @@ public class EnvironmentFactory {
 
     public static String getSlDesktopResolution() {
         return System.getenv(EnvironmentConstants.SL_DESKTOP_RESOLUTION) != null ? System.getenv(EnvironmentConstants.SL_DESKTOP_RESOLUTION) : System.getProperty(EnvironmentConstants.SL_DESKTOP_RESOLUTION);
+    }
+
+    public static boolean isIOSDevice() {
+        String[] iOS_RETINA_DEVICES = {
+                "iPhone 4", "iPhone 4s",
+                "iPhone 5", "iPhone 5s",
+                "iPhone 6", "iPhone 6s",
+                "iPad Mini 2",
+                "iPad Mini 4",
+                "iPad Air 2",
+                "iPad Pro"
+        };
+        return Arrays.asList(iOS_RETINA_DEVICES).contains(getDevice());
     }
 }

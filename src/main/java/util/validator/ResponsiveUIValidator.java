@@ -21,7 +21,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -738,34 +737,23 @@ public class ResponsiveUIValidator {
     }
 
     private int retinaValue(int value) {
-        if (!isMobile()) {
-            int zoom = Integer.parseInt(currentZoom.replace("%", ""));
-            value = Zoom.applyZoom(value, zoom);
-            if (isRetinaDisplay() && isChrome()) {
-                return 2 * value;
-            } else {
-                return value;
+        return (int) (value * getScaleFactor());
+    }
+
+    private double getScaleFactor() {
+        double factor = 1;
+        if (isMobile()) {
+            if (isIOS() && isIOSDevice()) {
+                factor = 2;
             }
         } else {
-            if (isIOS()) {
-                String[] iOS_RETINA_DEVICES = {
-                        "iPhone 4", "iPhone 4s",
-                        "iPhone 5", "iPhone 5s",
-                        "iPhone 6", "iPhone 6s",
-                        "iPad Mini 2",
-                        "iPad Mini 4",
-                        "iPad Air 2",
-                        "iPad Pro"
-                };
-                if (Arrays.asList(iOS_RETINA_DEVICES).contains(getDevice())) {
-                    return 2 * value;
-                } else {
-                    return value;
-                }
-            } else {
-                return value;
+            int zoom = Integer.parseInt(currentZoom.replace("%", ""));
+            factor = Zoom.getFactor(zoom);
+            if (isRetinaDisplay() && isChrome()) {
+                factor = factor * 2;
             }
         }
+        return factor;
     }
 
     int getConvertedInt(int i, boolean horizontal) {
