@@ -275,9 +275,11 @@ public class ResponsiveUIValidator {
         if (img != null) {
             Graphics2D g = img.createGraphics();
 
-            drawRootElement(g);
+            SimpleTransform transform = getTransform();
 
-            drawOffsetLines(g, img);
+            drawRootElement(g, transform);
+
+            drawOffsetLines(g, img, transform);
 
             for (Object obj : errors.getMessages()) {
                 JSONObject det = (JSONObject) obj;
@@ -292,7 +294,7 @@ public class ResponsiveUIValidator {
 
                     g.setColor(highlightedElementsColor);
                     g.setStroke(new BasicStroke(2));
-                    drawRectByExtend(g, x, y, width, height);
+                    drawRectByExtend(g, x, y, width, height, transform);
                 }
             }
 
@@ -666,53 +668,53 @@ public class ResponsiveUIValidator {
         }
     }
 
-    private void drawRootElement(Graphics2D g) {
+    private void drawRootElement(Graphics2D g, SimpleTransform transform) {
         g.setColor(rootColor);
         g.setStroke(new BasicStroke(2));
-        drawRectByExtend(g, rootElement.getX(), rootElement.getY(), rootElement.getWidth(), rootElement.getHeight());
+        drawRectByExtend(g, rootElement.getX(), rootElement.getY(), rootElement.getWidth(), rootElement.getHeight(), transform);
     }
 
-    private void drawOffsetLines(Graphics2D g, BufferedImage img) {
+    private void drawOffsetLines(Graphics2D g, BufferedImage img, SimpleTransform transform) {
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
         g.setStroke(dashed);
         g.setColor(linesColor);
         if (drawLeftOffsetLine) {
-            drawVerticalLine(g, img, rootElement.getX());
+            drawVerticalLine(g, img, rootElement.getX(), transform);
         }
         if (drawRightOffsetLine) {
-            drawVerticalLine(g, img, rootElement.getCornerX());
+            drawVerticalLine(g, img, rootElement.getCornerX(), transform);
         }
         if (drawTopOffsetLine) {
-            drawHorizontalLine(g, img, rootElement.getY());
+            drawHorizontalLine(g, img, rootElement.getY(), transform);
         }
         if (drawBottomOffsetLine) {
-            drawHorizontalLine(g, img, rootElement.getCornerY());
+            drawHorizontalLine(g, img, rootElement.getCornerY(), transform);
         }
     }
 
-    private void drawRectByExtend(Graphics2D g, int x, int y, int width, int height) {
-        drawRectByCorner(g, x, y, x + width, y + height);
+    private void drawRectByExtend(Graphics2D g, int x, int y, int width, int height, SimpleTransform transform) {
+        drawRectByCorner(g, x, y, x + width, y + height, transform);
     }
 
-    private void drawRectByCorner(Graphics2D g, int x, int y, int cornerX, int cornerY) {
-        int transformedX = getTransform().transformX(x);
-        int transformedY = getTransform().transformY(y);
-        int transformedCornerX = getTransform().transformX(cornerX);
-        int transformedCornerY = getTransform().transformY(cornerY);
+    private void drawRectByCorner(Graphics2D g, int x, int y, int cornerX, int cornerY, SimpleTransform transform) {
+        int transformedX = transform.transformX(x);
+        int transformedY = transform.transformY(y);
+        int transformedCornerX = transform.transformX(cornerX);
+        int transformedCornerY = transform.transformY(cornerY);
         int transformedWidth = transformedCornerX - transformedX;
         int transformedHeight = transformedCornerY - transformedY;
         g.drawRect(transformedX, transformedY, transformedWidth, transformedHeight);
     }
 
-    private void drawVerticalLine(Graphics2D g, BufferedImage img, int x) {
-        int transformedX = getTransform().transformX(x);
-        int transformedHeight = getTransform().transformY(img.getHeight()) - getTransform().transformY(0);
+    private void drawVerticalLine(Graphics2D g, BufferedImage img, int x, SimpleTransform transform) {
+        int transformedX = transform.transformX(x);
+        int transformedHeight = transform.transformY(img.getHeight()) - transform.transformY(0);
         g.drawLine(transformedX, 0, transformedX, transformedHeight);
     }
 
-    private void drawHorizontalLine(Graphics2D g, BufferedImage img, int y) {
-        int transformedY = getTransform().transformY(y);
-        int transformedWidth = getTransform().transformX(img.getWidth()) - getTransform().transformX(0);
+    private void drawHorizontalLine(Graphics2D g, BufferedImage img, int y, SimpleTransform transform) {
+        int transformedY = transform.transformY(y);
+        int transformedWidth = transform.transformX(img.getWidth()) - transform.transformX(0);
         g.drawLine(0, transformedY, transformedWidth, transformedY);
     }
 
