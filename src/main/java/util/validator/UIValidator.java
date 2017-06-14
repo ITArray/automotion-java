@@ -520,7 +520,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withCssValue(String cssProperty, String... args) {
-        String cssValue = getRootElement().getWebElement().getCssValue(cssProperty);
+        String cssValue = getRootElement().getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {
@@ -544,7 +544,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withoutCssValue(String cssProperty, String... args) {
-        String cssValue = getRootElement().getWebElement().getCssValue(cssProperty);
+        String cssValue = getRootElement().getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {

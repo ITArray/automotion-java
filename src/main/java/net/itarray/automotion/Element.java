@@ -22,10 +22,6 @@ public class Element {
         return webElements.stream().map(Element::asElement).collect(Collectors.toList());
     }
 
-    public WebElement getWebElement() {
-        return webElement;
-    }
-
     public int getX() {
         return webElement.getLocation().getX();
     }
@@ -147,5 +143,23 @@ public class Element {
         return aboveElement.hasBelowElement(this);
     }
 
+    public String getTagName() {
+        return webElement.getTagName();
+    }
 
+    public String getAttribute(String id) {
+        return webElement.getAttribute(id);
+    }
+
+    public String getText() {
+        return webElement.getText();
+    }
+
+    public String getCssValue(String cssProperty) {
+        return webElement.getCssValue(cssProperty);
+    }
+
+    public boolean hasEqualWebElement(Element other) {
+        return webElement.equals(other.webElement);
+    }
 }

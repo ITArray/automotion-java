@@ -540,7 +540,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateNotSameSize(Element element, String readableName) {
-        if (!element.getWebElement().equals(getRootElement().getWebElement())) {
+        if (!element.hasEqualWebElement(getRootElement())) {
             int h = element.getHeight();
             int w = element.getWidth();
             if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
@@ -787,10 +787,10 @@ public class ResponsiveUIValidator {
 
     String getFormattedMessage(Element element) {
         return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
-                element.getWebElement().getTagName(),
-                element.getWebElement().getAttribute("id"),
-                element.getWebElement().getAttribute("class"),
-                element.getWebElement().getText().length() < 10 ? element.getWebElement().getText() : element.getWebElement().getText().substring(0, 10) + "...",
+                element.getTagName(),
+                element.getAttribute("id"),
+                element.getAttribute("class"),
+                element.getText().length() < 10 ? element.getText() : element.getText().substring(0, 10) + "...",
                 String.valueOf(element.getX()),
                 String.valueOf(element.getY()),
                 String.valueOf(element.getWidth()),
