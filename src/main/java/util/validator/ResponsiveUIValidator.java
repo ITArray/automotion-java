@@ -725,25 +725,16 @@ public class ResponsiveUIValidator {
     }
 
     private int mobileY(int value) {
-        if (isMobile() && driver.isAppiumWebContext()) {
-            if (isIOS()) {
-                if (isMobileTopBar) {
-                    return value + 20;
-                } else {
-                    return value;
-                }
-            } else if (isAndroid()) {
-                if (isMobileTopBar) {
-                    return value + 20;
-                } else {
-                    return value;
-                }
-            } else {
-                return value;
+        return value + getYOffset();
+    }
+
+    private int getYOffset() {
+        if (isMobile() && driver.isAppiumWebContext() && isMobileTopBar) {
+            if (isIOS() || isAndroid()) {
+                return 20;
             }
-        } else {
-            return value;
         }
+        return 0;
     }
 
     private int retinaValue(int value) {
