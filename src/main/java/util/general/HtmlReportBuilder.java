@@ -18,6 +18,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -99,7 +100,7 @@ public class HtmlReportBuilder {
                     for (File file : listOfFiles) {
                         if (file.isFile() && jsonFiles.contains(file.getName())) {
                             JSONParser parser = new JSONParser();
-                            Object obj = parser.parse(new FileReader(file));
+                            Object obj = parser.parse(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
 
                             JSONObject jsonObject = (JSONObject) obj;
                             JSONArray details = (JSONArray) jsonObject.get(DETAILS);

@@ -226,24 +226,17 @@ public class ResponsiveUIValidator {
         long ms = System.currentTimeMillis();
         String uuid = Helper.getGeneratedStringWithLength(7);
         String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json";
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
+        File jsonFile = new File(TARGET_AUTOMOTION_JSON + jsonFileName);
+        jsonFile.getParentFile().mkdirs();
+        try (
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(jsonFile), StandardCharsets.UTF_8);
+                Writer writer = new BufferedWriter(outputStreamWriter))
+        {
             writer.write(jsonResults.toJSONString());
         } catch (IOException ex) {
             LOG.error("Cannot create json report: " + ex.getMessage());
         }
         jsonFiles.add(jsonFileName);
-        try {
-            File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json");
-            if (file.getParentFile().mkdirs()) {
-                if (file.createNewFile()) {
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                    writer.write(jsonResults.toJSONString());
-                    writer.close();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         if ((boolean) jsonResults.get(ERROR_KEY)) {
             drawScreenshot(screenshot, img);
