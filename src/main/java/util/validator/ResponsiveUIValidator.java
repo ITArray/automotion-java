@@ -3,6 +3,7 @@ package util.validator;
 import http.helpers.Helper;
 import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.Errors;
+import net.itarray.automotion.internal.SimpleTransform;
 import net.itarray.automotion.internal.Zoom;
 import net.itarray.automotion.internal.DriverFacade;
 import org.apache.commons.io.FileUtils;
@@ -716,15 +717,11 @@ public class ResponsiveUIValidator {
     }
 
     private int transformX(int x) {
-        return retinaValue(x);
+        return (int) (x * getTransform().scaleFactor);
     }
 
     private int transformY(int y) {
-        return retinaValue(mobileY(y));
-    }
-
-    private int mobileY(int value) {
-        return value + getYOffset();
+        return (int) ((y + getTransform().yOffset) * getTransform().scaleFactor);
     }
 
     private int getYOffset() {
@@ -736,8 +733,8 @@ public class ResponsiveUIValidator {
         return 0;
     }
 
-    private int retinaValue(int value) {
-        return (int) (value * getScaleFactor());
+    private SimpleTransform getTransform() {
+        return new SimpleTransform(getYOffset(), getScaleFactor());
     }
 
     private double getScaleFactor() {
