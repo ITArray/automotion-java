@@ -3,6 +3,7 @@ package util.validator;
 import http.helpers.Helper;
 import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.DrawableScreenshot;
+import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.Errors;
 import net.itarray.automotion.internal.OffsetLineCommands;
 import net.itarray.automotion.internal.SimpleTransform;
@@ -43,9 +44,7 @@ public class ResponsiveUIValidator {
     private static boolean isMobileTopBar = false;
     private static boolean withReport = false;
     private static String scenarioName = "Default";
-    private static Color rootColor = new Color(255, 0, 0, 255);
-    private static Color highlightedElementsColor = new Color(255, 0, 255, 255);
-    private static Color linesColor = Color.ORANGE;
+    private static DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
     private static String currentZoom = "100%";
     private static List<String> jsonFiles = new ArrayList<>();
     protected static Errors errors;
@@ -79,7 +78,7 @@ public class ResponsiveUIValidator {
      * @param color
      */
     public void setColorForRootElement(Color color) {
-        rootColor = color;
+        drawingConfiguration.setRootColor(color);
     }
 
     /**
@@ -88,7 +87,7 @@ public class ResponsiveUIValidator {
      * @param color
      */
     public void setColorForHighlightedElements(Color color) {
-        highlightedElementsColor = color;
+        drawingConfiguration.setHighlightedElementsColor(color);
     }
 
     /**
@@ -97,7 +96,7 @@ public class ResponsiveUIValidator {
      * @param color
      */
     public void setLinesColor(Color color) {
-        linesColor = color;
+        drawingConfiguration.setLinesColor(color);
     }
 
     /**
@@ -237,7 +236,7 @@ public class ResponsiveUIValidator {
 
         DrawableScreenshot drawableScreenshot = new DrawableScreenshot(driver, transform);
 
-        drawableScreenshot.drawScreenshot(rootElement, rootColor, linesColor, highlightedElementsColor, rootElementReadableName, errors, offsetLineCommands);
+        drawableScreenshot.drawScreenshot(rootElement, rootElementReadableName, errors, offsetLineCommands, drawingConfiguration);
 
         return drawableScreenshot.screenshot;
     }

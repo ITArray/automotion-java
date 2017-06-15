@@ -34,12 +34,12 @@ public class DrawableScreenshot {
         }
     }
 
-    public void drawScreenshot(Element rootElement, Color rootColor, Color linesColor, Color highlightedElementsColor, String rootElementReadableName, Errors errors, OffsetLineCommands offsetLineCommands) {
+    public void drawScreenshot(Element rootElement, String rootElementReadableName, Errors errors, OffsetLineCommands offsetLineCommands, DrawingConfiguration drawingConfiguration) {
         if (img != null) {
 
-            drawRootElement(rootElement, rootColor);
+            drawRootElement(rootElement, drawingConfiguration.rootColor);
 
-            drawOffsetLines(linesColor, rootElement, offsetLineCommands);
+            offsetLineCommands.draw(graphics, img, drawingConfiguration.linesColor, rootElement);
 
             for (Object obj : errors.getMessages()) {
                 JSONObject det = (JSONObject) obj;
@@ -52,7 +52,7 @@ public class DrawableScreenshot {
                     int width = (int) (float) numE.get(WIDTH);
                     int height = (int) (float) numE.get(HEIGHT);
 
-                    graphics.setColor(highlightedElementsColor);
+                    graphics.setColor(drawingConfiguration.highlightedElementsColor);
                     graphics.setStroke(new BasicStroke(2));
                     graphics.drawRectByExtend(x, y, width, height);
                 }
@@ -78,7 +78,4 @@ public class DrawableScreenshot {
         graphics.drawRectByExtend(x, y, rootElement.getWidth(), rootElement.getHeight());
     }
 
-    private void drawOffsetLines(Color linesColor, Element rootElement, OffsetLineCommands offsetLineCommands) {
-        offsetLineCommands.draw(graphics, img, linesColor, rootElement);
-    }
 }
