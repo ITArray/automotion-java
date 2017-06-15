@@ -234,9 +234,9 @@ public class ResponsiveUIValidator {
     private File drawScreenshot() {
         SimpleTransform transform = getTransform();
 
-        DrawableScreenshot drawableScreenshot = new DrawableScreenshot(driver, transform);
+        DrawableScreenshot drawableScreenshot = new DrawableScreenshot(driver, transform, drawingConfiguration);
 
-        drawableScreenshot.drawScreenshot(rootElement, rootElementReadableName, errors, offsetLineCommands, drawingConfiguration);
+        drawableScreenshot.drawScreenshot(rootElement, rootElementReadableName, errors, offsetLineCommands);
 
         return drawableScreenshot.screenshot;
     }

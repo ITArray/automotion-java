@@ -19,11 +19,13 @@ public class DrawableScreenshot {
     private final static Logger LOG = Logger.getLogger(ResponsiveUIValidator.class);
 
     public File screenshot;
+    private final DrawingConfiguration drawingConfiguration;
     private BufferedImage img;
     private TransformedGraphics graphics;
 
-    public DrawableScreenshot(DriverFacade driver, SimpleTransform transform) {
+    public DrawableScreenshot(DriverFacade driver, SimpleTransform transform, DrawingConfiguration drawingConfiguration) {
         screenshot = driver.takeScreenshot();
+        this.drawingConfiguration = drawingConfiguration;
         try {
             img = ImageIO.read(screenshot);
             Graphics2D g = img.createGraphics();
@@ -34,12 +36,12 @@ public class DrawableScreenshot {
         }
     }
 
-    public void drawScreenshot(Element rootElement, String rootElementReadableName, Errors errors, OffsetLineCommands offsetLineCommands, DrawingConfiguration drawingConfiguration) {
+    public void drawScreenshot(Element rootElement, String rootElementReadableName, Errors errors, OffsetLineCommands offsetLineCommands) {
         if (img != null) {
 
-            drawRootElement(rootElement, drawingConfiguration.rootColor);
+            drawRootElement(rootElement);
 
-            offsetLineCommands.draw(graphics, img, drawingConfiguration.linesColor, rootElement);
+            offsetLineCommands.draw(graphics, img, rootElement, drawingConfiguration);
 
             for (Object obj : errors.getMessages()) {
                 JSONObject det = (JSONObject) obj;
@@ -52,8 +54,7 @@ public class DrawableScreenshot {
                     int width = (int) (float) numE.get(WIDTH);
                     int height = (int) (float) numE.get(HEIGHT);
 
-                    graphics.setColor(drawingConfiguration.highlightedElementsColor);
-                    graphics.setStroke(new BasicStroke(2));
+                    drawingConfiguration.setHighlightedElementStyle(graphics);
                     graphics.drawRectByExtend(x, y, width, height);
                 }
             }
@@ -70,9 +71,8 @@ public class DrawableScreenshot {
         }
     }
 
-    private void drawRootElement(Element rootElement, Color rootColor) {
-        graphics.setColor(rootColor);
-        graphics.setStroke(new BasicStroke(2));
+    private void drawRootElement(Element rootElement) {
+        drawingConfiguration.setRootElementStyle(graphics);
         int x = rootElement.getX();
         int y = rootElement.getY();
         graphics.drawRectByExtend(x, y, rootElement.getWidth(), rootElement.getHeight());

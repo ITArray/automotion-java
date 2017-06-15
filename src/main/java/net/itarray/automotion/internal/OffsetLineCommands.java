@@ -1,9 +1,7 @@
 package net.itarray.automotion.internal;
 
 import net.itarray.automotion.Element;
-import util.validator.ResponsiveUIValidator;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class OffsetLineCommands {
@@ -28,10 +26,8 @@ public class OffsetLineCommands {
         drawBottomOffsetLine = true;
     }
 
-    public void draw(TransformedGraphics graphics, BufferedImage img, Color linesColor, Element rootElement) {
-        Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
-        graphics.setStroke(dashed);
-        graphics.setColor(linesColor);
+    public void draw(TransformedGraphics graphics, BufferedImage img, Element rootElement, DrawingConfiguration drawingConfiguration) {
+        drawingConfiguration.setLinesStyle(graphics);
         if (drawLeftOffsetLine) {
             graphics.drawVerticalLine(rootElement.getX(), img.getHeight());
         }
