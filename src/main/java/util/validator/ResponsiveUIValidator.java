@@ -655,7 +655,7 @@ public class ResponsiveUIValidator {
     void validateEqualLeftRightOffset(List<Element> elements) {
         for (Element element : elements) {
             if (!element.hasEqualLeftRightOffset(pageSize)) {
-                errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", getFormattedMessage(element), element.getX(), element.getRightOffset(pageSize)), element);
+                errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", element.getFormattedMessage(), element.getX(), element.getRightOffset(pageSize)), element);
             }
         }
     }
@@ -663,7 +663,7 @@ public class ResponsiveUIValidator {
     void validateEqualTopBottomOffset(List<Element> elements) {
         for (Element element : elements) {
             if (!element.hasEqualTopBottomOffset(pageSize)) {
-                errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", getFormattedMessage(element), element.getY(), element.getBottomOffset(pageSize)), element);
+                errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", element.getFormattedMessage(), element.getY(), element.getBottomOffset(pageSize)), element);
             }
         }
     }
@@ -757,18 +757,6 @@ public class ResponsiveUIValidator {
                 return (i * pageSize.getHeight()) / 100;
             }
         }
-    }
-
-    String getFormattedMessage(Element element) {
-        return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
-                element.getTagName(),
-                element.getAttribute("id"),
-                element.getAttribute("class"),
-                element.getText().length() < 10 ? element.getText() : element.getText().substring(0, 10) + "...",
-                String.valueOf(element.getX()),
-                String.valueOf(element.getY()),
-                String.valueOf(element.getWidth()),
-                String.valueOf(element.getHeight()));
     }
 
     void validateInsideOfContainer(Element containerElement, String readableContainerName) {

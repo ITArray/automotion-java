@@ -172,7 +172,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator notOverlapWith(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateNotOverlappingWithElements(asElement(element), getFormattedMessage(asElement(element)));
+            validateNotOverlappingWithElements(asElement(element), asElement(element).getFormattedMessage());
         }
         return this;
     }
@@ -200,7 +200,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetLeftAs(List<WebElement> webElements) {
         for (Element element : asElements(webElements)) {
-            validateLeftOffsetForElements(element, getFormattedMessage(element));
+            validateLeftOffsetForElements(element, element.getFormattedMessage());
         }
         drawLeftOffsetLine();
         return this;
@@ -229,7 +229,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetRightAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateRightOffsetForElements(asElement(element), getFormattedMessage(asElement(element)));
+            validateRightOffsetForElements(asElement(element), asElement(element).getFormattedMessage());
         }
         drawRightOffsetLine();
         return this;
@@ -258,7 +258,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetTopAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateTopOffsetForElements(asElement(element), getFormattedMessage(asElement(element)));
+            validateTopOffsetForElements(asElement(element), asElement(element).getFormattedMessage());
         }
         drawTopOffsetLine();
         return this;
@@ -287,7 +287,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetBottomAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateBottomOffsetForElements(asElement(element), getFormattedMessage(asElement(element)));
+            validateBottomOffsetForElements(asElement(element), asElement(element).getFormattedMessage());
         }
         drawBottomOffsetLine();
         return this;
@@ -315,7 +315,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameWidthAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateSameWidth(asElement(element), getFormattedMessage(asElement(element)));
+            validateSameWidth(asElement(element), asElement(element).getFormattedMessage());
         }
         return this;
     }
@@ -380,7 +380,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameHeightAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateSameHeight(asElement(element), getFormattedMessage(asElement(element)));
+            validateSameHeight(asElement(element), asElement(element).getFormattedMessage());
         }
         return this;
     }
@@ -431,7 +431,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameSizeAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateSameSize(asElement(element), getFormattedMessage(asElement(element)));
+            validateSameSize(asElement(element), asElement(element).getFormattedMessage());
         }
         return this;
     }
@@ -458,7 +458,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator notSameSizeAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateNotSameSize(asElement(element), getFormattedMessage(asElement(element)));
+            validateNotSameSize(asElement(element), asElement(element).getFormattedMessage());
         }
         return this;
     }
