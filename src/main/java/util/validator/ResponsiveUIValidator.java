@@ -742,15 +742,16 @@ public class ResponsiveUIValidator {
 
     void validateInsideOfContainer(Element containerElement, String readableContainerName) {
         Rectangle2D.Double elementRectangle = containerElement.rectangle();
-        if (rootElements == null) {
-            if (!elementRectangle.contains(rootElement.rectangle())) {
-                errors.add(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), containerElement);
-            }
-        } else {
-            for (Element element : rootElements) {
-                if (!elementRectangle.contains(element.rectangle())) {
-                    errors.add(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
-                }
+        if (!elementRectangle.contains(rootElement.rectangle())) {
+            errors.add(String.format("Element '%s' is not inside of '%s'", rootElementReadableName, readableContainerName), containerElement);
+        }
+    }
+
+    void validateInsideOfContainer(Element containerElement, String readableContainerName, List<Element> elements) {
+        Rectangle2D.Double elementRectangle = containerElement.rectangle();
+        for (Element element : elements) {
+            if (!elementRectangle.contains(element.rectangle())) {
+                errors.add(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
             }
         }
     }
