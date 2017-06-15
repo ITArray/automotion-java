@@ -2,12 +2,12 @@ package util.validator;
 
 import http.helpers.Helper;
 import net.itarray.automotion.Element;
+import net.itarray.automotion.internal.DrawableScreenshot;
 import net.itarray.automotion.internal.Errors;
+import net.itarray.automotion.internal.OffsetLineCommands;
 import net.itarray.automotion.internal.SimpleTransform;
-import net.itarray.automotion.internal.TransformedGraphics;
 import net.itarray.automotion.internal.Zoom;
 import net.itarray.automotion.internal.DriverFacade;
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -16,10 +16,8 @@ import org.openqa.selenium.Dimension;
 import util.general.HtmlReportBuilder;
 import util.validator.properties.Padding;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -51,10 +49,7 @@ public class ResponsiveUIValidator {
     private static String currentZoom = "100%";
     private static List<String> jsonFiles = new ArrayList<>();
     protected static Errors errors;
-    private boolean drawLeftOffsetLine = false;
-    private boolean drawRightOffsetLine = false;
-    private boolean drawTopOffsetLine = false;
-    private boolean drawBottomOffsetLine = false;
+    private OffsetLineCommands offsetLineCommands = new OffsetLineCommands();
     String rootElementReadableName = "Root Element";
     ResponsiveUIValidator.Units units = PX;
     private Dimension pageSize;
@@ -238,17 +233,13 @@ public class ResponsiveUIValidator {
     }
 
     private File drawScreenshot() {
-        File screenshot = null;
-        BufferedImage img = null;
-        try {
-            screenshot = driver.takeScreenshot();
-            img = ImageIO.read(screenshot);
-        } catch (Exception e) {
-            LOG.error("Failed to create screenshot file: " + e.getMessage());
-        }
+        SimpleTransform transform = getTransform();
 
-        drawScreenshot(screenshot, img);
-        return screenshot;
+        DrawableScreenshot drawableScreenshot = new DrawableScreenshot(driver, transform);
+
+        drawableScreenshot.drawScreenshot(rootElement, rootColor, linesColor, highlightedElementsColor, rootElementReadableName, errors, offsetLineCommands);
+
+        return drawableScreenshot.screenshot;
     }
 
     /**
@@ -276,45 +267,6 @@ public class ResponsiveUIValidator {
             } catch (IOException | ParseException | InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    private void drawScreenshot(File output, BufferedImage img) {
-        if (img != null) {
-            Graphics2D g = img.createGraphics();
-
-            TransformedGraphics graphics = graphics(g, getTransform());
-
-            drawRootElement(graphics);
-
-            drawOffsetLines(graphics, img);
-
-            for (Object obj : errors.getMessages()) {
-                JSONObject det = (JSONObject) obj;
-                JSONObject details = (JSONObject) det.get(REASON);
-                JSONObject numE = (JSONObject) details.get(ELEMENT);
-
-                if (numE != null) {
-                    int x = (int) (float) numE.get(X);
-                    int y = (int) (float) numE.get(Y);
-                    int width = (int) (float) numE.get(WIDTH);
-                    int height = (int) (float) numE.get(HEIGHT);
-
-                    graphics.setColor(highlightedElementsColor);
-                    graphics.setStroke(new BasicStroke(2));
-                    graphics.drawRectByExtend(x, y, width, height);
-                }
-            }
-
-            try {
-                ImageIO.write(img, "png", output);
-                File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + output.getName());
-                FileUtils.copyFile(output, file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            LOG.error("Taking of screenshot was failed for some reason.");
         }
     }
 
@@ -676,36 +628,6 @@ public class ResponsiveUIValidator {
         }
     }
 
-    private void drawRootElement(TransformedGraphics graphics) {
-        graphics.setColor(rootColor);
-        graphics.setStroke(new BasicStroke(2));
-        int x = rootElement.getX();
-        int y = rootElement.getY();
-        graphics.drawRectByExtend(x, y, rootElement.getWidth(), rootElement.getHeight());
-    }
-
-    private void drawOffsetLines(TransformedGraphics graphics, BufferedImage img) {
-        Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
-        graphics.setStroke(dashed);
-        graphics.setColor(linesColor);
-        if (drawLeftOffsetLine) {
-            graphics.drawVerticalLine(rootElement.getX(), img.getHeight());
-        }
-        if (drawRightOffsetLine) {
-            graphics.drawVerticalLine(rootElement.getCornerX(), img.getHeight());
-        }
-        if (drawTopOffsetLine) {
-            graphics.drawHorizontalLine(rootElement.getY(), img.getWidth());
-        }
-        if (drawBottomOffsetLine) {
-            graphics.drawHorizontalLine(rootElement.getCornerY(), img.getWidth());
-        }
-    }
-
-    private TransformedGraphics graphics(Graphics2D g, SimpleTransform transform) {
-        return new TransformedGraphics(g, transform);
-    }
-
     private int getYOffset() {
         if (isMobile() && driver.isAppiumWebContext() && isMobileTopBar) {
             if (isIOS() || isAndroid()) {
@@ -787,19 +709,19 @@ public class ResponsiveUIValidator {
     }
 
     protected void drawLeftOffsetLine() {
-        drawLeftOffsetLine = true;
+        offsetLineCommands.drawLeftOffsetLine();;
     }
 
     protected void drawRightOffsetLine() {
-        drawRightOffsetLine = true;
+        offsetLineCommands.drawRightOffsetLine();;
     }
 
     protected void drawTopOffsetLine() {
-        drawTopOffsetLine = true;
+        offsetLineCommands.drawTopOffsetLine();;
     }
 
     protected void drawBottomOffsetLine() {
-        drawBottomOffsetLine = true;
+        offsetLineCommands.drawBottomOffsetLine();;
     }
 
     public enum Units {
