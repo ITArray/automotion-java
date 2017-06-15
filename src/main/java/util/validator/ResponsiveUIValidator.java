@@ -4,6 +4,7 @@ import http.helpers.Helper;
 import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.Errors;
 import net.itarray.automotion.internal.SimpleTransform;
+import net.itarray.automotion.internal.TransformedGraphics;
 import net.itarray.automotion.internal.Zoom;
 import net.itarray.automotion.internal.DriverFacade;
 import org.apache.commons.io.FileUtils;
@@ -275,11 +276,11 @@ public class ResponsiveUIValidator {
         if (img != null) {
             Graphics2D g = img.createGraphics();
 
-            SimpleTransform transform = getTransform();
+            TransformedGraphics graphics = graphics(g, getTransform());
 
-            drawRootElement(g, transform);
+            drawRootElement(graphics);
 
-            drawOffsetLines(g, img, transform);
+            drawOffsetLines(graphics, img);
 
             for (Object obj : errors.getMessages()) {
                 JSONObject det = (JSONObject) obj;
@@ -292,9 +293,9 @@ public class ResponsiveUIValidator {
                     int width = (int) (float) numE.get(WIDTH);
                     int height = (int) (float) numE.get(HEIGHT);
 
-                    g.setColor(highlightedElementsColor);
-                    g.setStroke(new BasicStroke(2));
-                    drawRectByExtend(g, x, y, width, height, transform);
+                    graphics.setColor(highlightedElementsColor);
+                    graphics.setStroke(new BasicStroke(2));
+                    graphics.drawRectByExtend(x, y, width, height);
                 }
             }
 
@@ -655,7 +656,7 @@ public class ResponsiveUIValidator {
     void validateEqualLeftRightOffset(List<Element> elements) {
         for (Element element : elements) {
             if (!element.hasEqualLeftRightOffset(pageSize)) {
-                errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", getFormattedMessage(element), element.getX(), element.getRightOffset(pageSize)), element);
+                errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", element.getFormattedMessage(), element.getX(), element.getRightOffset(pageSize)), element);
             }
         }
     }
@@ -663,59 +664,39 @@ public class ResponsiveUIValidator {
     void validateEqualTopBottomOffset(List<Element> elements) {
         for (Element element : elements) {
             if (!element.hasEqualTopBottomOffset(pageSize)) {
-                errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", getFormattedMessage(element), element.getY(), element.getBottomOffset(pageSize)), element);
+                errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", element.getFormattedMessage(), element.getY(), element.getBottomOffset(pageSize)), element);
             }
         }
     }
 
-    private void drawRootElement(Graphics2D g, SimpleTransform transform) {
-        g.setColor(rootColor);
-        g.setStroke(new BasicStroke(2));
-        drawRectByExtend(g, rootElement.getX(), rootElement.getY(), rootElement.getWidth(), rootElement.getHeight(), transform);
+    private void drawRootElement(TransformedGraphics graphics) {
+        graphics.setColor(rootColor);
+        graphics.setStroke(new BasicStroke(2));
+        int x = rootElement.getX();
+        int y = rootElement.getY();
+        graphics.drawRectByExtend(x, y, rootElement.getWidth(), rootElement.getHeight());
     }
 
-    private void drawOffsetLines(Graphics2D g, BufferedImage img, SimpleTransform transform) {
+    private void drawOffsetLines(TransformedGraphics graphics, BufferedImage img) {
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
-        g.setStroke(dashed);
-        g.setColor(linesColor);
+        graphics.setStroke(dashed);
+        graphics.setColor(linesColor);
         if (drawLeftOffsetLine) {
-            drawVerticalLine(g, img, rootElement.getX(), transform);
+            graphics.drawVerticalLine(rootElement.getX(), img.getHeight());
         }
         if (drawRightOffsetLine) {
-            drawVerticalLine(g, img, rootElement.getCornerX(), transform);
+            graphics.drawVerticalLine(rootElement.getCornerX(), img.getHeight());
         }
         if (drawTopOffsetLine) {
-            drawHorizontalLine(g, img, rootElement.getY(), transform);
+            graphics.drawHorizontalLine(rootElement.getY(), img.getWidth());
         }
         if (drawBottomOffsetLine) {
-            drawHorizontalLine(g, img, rootElement.getCornerY(), transform);
+            graphics.drawHorizontalLine(rootElement.getCornerY(), img.getWidth());
         }
     }
 
-    private void drawRectByExtend(Graphics2D g, int x, int y, int width, int height, SimpleTransform transform) {
-        drawRectByCorner(g, x, y, x + width, y + height, transform);
-    }
-
-    private void drawRectByCorner(Graphics2D g, int x, int y, int cornerX, int cornerY, SimpleTransform transform) {
-        int transformedX = transform.transformX(x);
-        int transformedY = transform.transformY(y);
-        int transformedCornerX = transform.transformX(cornerX);
-        int transformedCornerY = transform.transformY(cornerY);
-        int transformedWidth = transformedCornerX - transformedX;
-        int transformedHeight = transformedCornerY - transformedY;
-        g.drawRect(transformedX, transformedY, transformedWidth, transformedHeight);
-    }
-
-    private void drawVerticalLine(Graphics2D g, BufferedImage img, int x, SimpleTransform transform) {
-        int transformedX = transform.transformX(x);
-        int transformedHeight = transform.transformY(img.getHeight()) - transform.transformY(0);
-        g.drawLine(transformedX, 0, transformedX, transformedHeight);
-    }
-
-    private void drawHorizontalLine(Graphics2D g, BufferedImage img, int y, SimpleTransform transform) {
-        int transformedY = transform.transformY(y);
-        int transformedWidth = transform.transformX(img.getWidth()) - transform.transformX(0);
-        g.drawLine(0, transformedY, transformedWidth, transformedY);
+    private TransformedGraphics graphics(Graphics2D g, SimpleTransform transform) {
+        return new TransformedGraphics(g, transform);
     }
 
     private int getYOffset() {
@@ -757,18 +738,6 @@ public class ResponsiveUIValidator {
                 return (i * pageSize.getHeight()) / 100;
             }
         }
-    }
-
-    String getFormattedMessage(Element element) {
-        return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
-                element.getTagName(),
-                element.getAttribute("id"),
-                element.getAttribute("class"),
-                element.getText().length() < 10 ? element.getText() : element.getText().substring(0, 10) + "...",
-                String.valueOf(element.getX()),
-                String.valueOf(element.getY()),
-                String.valueOf(element.getWidth()),
-                String.valueOf(element.getHeight()));
     }
 
     void validateInsideOfContainer(Element containerElement, String readableContainerName) {

@@ -70,10 +70,10 @@ public class Element {
                 getHeight());
     }
 
-
     public boolean hasMaxHeight(int height) {
         return getHeight() <= height;
     }
+
 
     public boolean hasMinHeight(int height) {
         return getHeight() >= height;
@@ -161,5 +161,26 @@ public class Element {
 
     public boolean hasEqualWebElement(Element other) {
         return webElement.equals(other.webElement);
+    }
+
+    public String getFormattedMessage() {
+        return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
+                getTagName(),
+                getAttribute("id"),
+                getAttribute("class"),
+                getShortendText(),
+                String.valueOf(getX()),
+                String.valueOf(getY()),
+                String.valueOf(getWidth()),
+                String.valueOf(getHeight()));
+    }
+
+    private String getShortendText() {
+        int maxLength = 13;
+        if (getText().length() <= maxLength) {
+            return getText();
+        }
+        String postfix = "...";
+        return getText().substring(0, maxLength-postfix.length()) + postfix;
     }
 }
