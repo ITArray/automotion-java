@@ -11,6 +11,14 @@ public class TransformedGraphics {
         this.transform = transform;
     }
 
+    public void setStroke(Stroke stroke) {
+        g.setStroke(stroke);
+    }
+
+    public void setColor(Color color) {
+        g.setColor(color);
+    }
+
     public void drawRectByExtend(int x, int y, int width, int height) {
         drawRectByCorner(x, y, x + width, y + height);
     }

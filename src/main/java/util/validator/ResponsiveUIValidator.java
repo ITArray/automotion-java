@@ -276,11 +276,11 @@ public class ResponsiveUIValidator {
         if (img != null) {
             Graphics2D g = img.createGraphics();
 
-            SimpleTransform transform = getTransform();
+            TransformedGraphics graphics = graphics(g, getTransform());
 
-            drawRootElement(g, transform);
+            drawRootElement(graphics);
 
-            drawOffsetLines(g, transform, img);
+            drawOffsetLines(graphics, img);
 
             for (Object obj : errors.getMessages()) {
                 JSONObject det = (JSONObject) obj;
@@ -293,9 +293,9 @@ public class ResponsiveUIValidator {
                     int width = (int) (float) numE.get(WIDTH);
                     int height = (int) (float) numE.get(HEIGHT);
 
-                    g.setColor(highlightedElementsColor);
-                    g.setStroke(new BasicStroke(2));
-                    graphics(g, transform).drawRectByExtend(x, y, width, height);
+                    graphics.setColor(highlightedElementsColor);
+                    graphics.setStroke(new BasicStroke(2));
+                    graphics.drawRectByExtend(x, y, width, height);
                 }
             }
 
@@ -669,29 +669,29 @@ public class ResponsiveUIValidator {
         }
     }
 
-    private void drawRootElement(Graphics2D g, SimpleTransform transform) {
-        g.setColor(rootColor);
-        g.setStroke(new BasicStroke(2));
+    private void drawRootElement(TransformedGraphics graphics) {
+        graphics.setColor(rootColor);
+        graphics.setStroke(new BasicStroke(2));
         int x = rootElement.getX();
         int y = rootElement.getY();
-        graphics(g, transform).drawRectByExtend(x, y, rootElement.getWidth(), rootElement.getHeight());
+        graphics.drawRectByExtend(x, y, rootElement.getWidth(), rootElement.getHeight());
     }
 
-    private void drawOffsetLines(Graphics2D g, SimpleTransform transform, BufferedImage img) {
+    private void drawOffsetLines(TransformedGraphics graphics, BufferedImage img) {
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
-        g.setStroke(dashed);
-        g.setColor(linesColor);
+        graphics.setStroke(dashed);
+        graphics.setColor(linesColor);
         if (drawLeftOffsetLine) {
-            graphics(g, transform).drawVerticalLine(rootElement.getX(), img.getHeight());
+            graphics.drawVerticalLine(rootElement.getX(), img.getHeight());
         }
         if (drawRightOffsetLine) {
-            graphics(g, transform).drawVerticalLine(rootElement.getCornerX(), img.getHeight());
+            graphics.drawVerticalLine(rootElement.getCornerX(), img.getHeight());
         }
         if (drawTopOffsetLine) {
-            graphics(g, transform).drawHorizontalLine(rootElement.getY(), img.getWidth());
+            graphics.drawHorizontalLine(rootElement.getY(), img.getWidth());
         }
         if (drawBottomOffsetLine) {
-            graphics(g, transform).drawHorizontalLine(rootElement.getCornerY(), img.getWidth());
+            graphics.drawHorizontalLine(rootElement.getCornerY(), img.getWidth());
         }
     }
 
