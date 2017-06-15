@@ -4,6 +4,7 @@ import http.helpers.Helper;
 import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.Errors;
 import net.itarray.automotion.internal.SimpleTransform;
+import net.itarray.automotion.internal.TransformedGraphics;
 import net.itarray.automotion.internal.Zoom;
 import net.itarray.automotion.internal.DriverFacade;
 import org.apache.commons.io.FileUtils;
@@ -294,7 +295,7 @@ public class ResponsiveUIValidator {
 
                     g.setColor(highlightedElementsColor);
                     g.setStroke(new BasicStroke(2));
-                    drawRectByExtend(g, transform, x, y, width, height);
+                    graphics(g, transform).drawRectByExtend(x, y, width, height);
                 }
             }
 
@@ -671,7 +672,9 @@ public class ResponsiveUIValidator {
     private void drawRootElement(Graphics2D g, SimpleTransform transform) {
         g.setColor(rootColor);
         g.setStroke(new BasicStroke(2));
-        drawRectByExtend(g, transform, rootElement.getX(), rootElement.getY(), rootElement.getWidth(), rootElement.getHeight());
+        int x = rootElement.getX();
+        int y = rootElement.getY();
+        graphics(g, transform).drawRectByExtend(x, y, rootElement.getWidth(), rootElement.getHeight());
     }
 
     private void drawOffsetLines(Graphics2D g, SimpleTransform transform, BufferedImage img) {
@@ -679,43 +682,21 @@ public class ResponsiveUIValidator {
         g.setStroke(dashed);
         g.setColor(linesColor);
         if (drawLeftOffsetLine) {
-            drawVerticalLine(g, transform, rootElement.getX(), img.getHeight());
+            graphics(g, transform).drawVerticalLine(rootElement.getX(), img.getHeight());
         }
         if (drawRightOffsetLine) {
-            drawVerticalLine(g, transform, rootElement.getCornerX(), img.getHeight());
+            graphics(g, transform).drawVerticalLine(rootElement.getCornerX(), img.getHeight());
         }
         if (drawTopOffsetLine) {
-            drawHorizontalLine(g, transform, rootElement.getY(), img.getWidth());
+            graphics(g, transform).drawHorizontalLine(rootElement.getY(), img.getWidth());
         }
         if (drawBottomOffsetLine) {
-            drawHorizontalLine(g, transform, rootElement.getCornerY(), img.getWidth());
+            graphics(g, transform).drawHorizontalLine(rootElement.getCornerY(), img.getWidth());
         }
     }
 
-    private void drawRectByExtend(Graphics2D g, SimpleTransform transform, int x, int y, int width, int height) {
-        drawRectByCorner(g, transform, x, y, x + width, y + height);
-    }
-
-    private void drawRectByCorner(Graphics2D g, SimpleTransform transform, int x, int y, int cornerX, int cornerY) {
-        int transformedX = transform.transformX(x);
-        int transformedY = transform.transformY(y);
-        int transformedCornerX = transform.transformX(cornerX);
-        int transformedCornerY = transform.transformY(cornerY);
-        int transformedWidth = transformedCornerX - transformedX;
-        int transformedHeight = transformedCornerY - transformedY;
-        g.drawRect(transformedX, transformedY, transformedWidth, transformedHeight);
-    }
-
-    private void drawVerticalLine(Graphics2D g, SimpleTransform transform, int x, int height) {
-        int transformedX = transform.transformX(x);
-        int transformedHeight = transform.transformY(height) - transform.transformY(0);
-        g.drawLine(transformedX, 0, transformedX, transformedHeight);
-    }
-
-    private void drawHorizontalLine(Graphics2D g, SimpleTransform transform, int y, int width) {
-        int transformedY = transform.transformY(y);
-        int transformedWidth = transform.transformX(width) - transform.transformX(0);
-        g.drawLine(0, transformedY, transformedWidth, transformedY);
+    private TransformedGraphics graphics(Graphics2D g, SimpleTransform transform) {
+        return new TransformedGraphics(g, transform);
     }
 
     private int getYOffset() {
