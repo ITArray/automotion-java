@@ -56,7 +56,6 @@ public class ResponsiveUIValidator {
     private boolean drawTopOffsetLine = false;
     private boolean drawBottomOffsetLine = false;
     String rootElementReadableName = "Root Element";
-    protected List<Element> rootElements;
     ResponsiveUIValidator.Units units = PX;
     private Dimension pageSize;
 

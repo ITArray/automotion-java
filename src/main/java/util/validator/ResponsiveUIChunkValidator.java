@@ -11,6 +11,8 @@ import static net.itarray.automotion.Element.asElements;
 
 public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements ChunkValidator {
 
+    private List<Element> rootElements;
+
     ResponsiveUIChunkValidator(DriverFacade driver, List<WebElement> webElements) {
         super(driver);
         rootElements = asElements(webElements);
