@@ -279,7 +279,7 @@ public class ResponsiveUIValidator {
 
             drawRootElement(g, transform);
 
-            drawOffsetLines(g, img, transform);
+            drawOffsetLines(g, transform, img);
 
             for (Object obj : errors.getMessages()) {
                 JSONObject det = (JSONObject) obj;
@@ -294,7 +294,7 @@ public class ResponsiveUIValidator {
 
                     g.setColor(highlightedElementsColor);
                     g.setStroke(new BasicStroke(2));
-                    drawRectByExtend(g, x, y, width, height, transform);
+                    drawRectByExtend(g, transform, x, y, width, height);
                 }
             }
 
@@ -671,32 +671,32 @@ public class ResponsiveUIValidator {
     private void drawRootElement(Graphics2D g, SimpleTransform transform) {
         g.setColor(rootColor);
         g.setStroke(new BasicStroke(2));
-        drawRectByExtend(g, rootElement.getX(), rootElement.getY(), rootElement.getWidth(), rootElement.getHeight(), transform);
+        drawRectByExtend(g, transform, rootElement.getX(), rootElement.getY(), rootElement.getWidth(), rootElement.getHeight());
     }
 
-    private void drawOffsetLines(Graphics2D g, BufferedImage img, SimpleTransform transform) {
+    private void drawOffsetLines(Graphics2D g, SimpleTransform transform, BufferedImage img) {
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
         g.setStroke(dashed);
         g.setColor(linesColor);
         if (drawLeftOffsetLine) {
-            drawVerticalLine(g, img, rootElement.getX(), transform);
+            drawVerticalLine(g, transform, rootElement.getX(), img.getHeight());
         }
         if (drawRightOffsetLine) {
-            drawVerticalLine(g, img, rootElement.getCornerX(), transform);
+            drawVerticalLine(g, transform, rootElement.getCornerX(), img.getHeight());
         }
         if (drawTopOffsetLine) {
-            drawHorizontalLine(g, img, rootElement.getY(), transform);
+            drawHorizontalLine(g, transform, rootElement.getY(), img.getWidth());
         }
         if (drawBottomOffsetLine) {
-            drawHorizontalLine(g, img, rootElement.getCornerY(), transform);
+            drawHorizontalLine(g, transform, rootElement.getCornerY(), img.getWidth());
         }
     }
 
-    private void drawRectByExtend(Graphics2D g, int x, int y, int width, int height, SimpleTransform transform) {
-        drawRectByCorner(g, x, y, x + width, y + height, transform);
+    private void drawRectByExtend(Graphics2D g, SimpleTransform transform, int x, int y, int width, int height) {
+        drawRectByCorner(g, transform, x, y, x + width, y + height);
     }
 
-    private void drawRectByCorner(Graphics2D g, int x, int y, int cornerX, int cornerY, SimpleTransform transform) {
+    private void drawRectByCorner(Graphics2D g, SimpleTransform transform, int x, int y, int cornerX, int cornerY) {
         int transformedX = transform.transformX(x);
         int transformedY = transform.transformY(y);
         int transformedCornerX = transform.transformX(cornerX);
@@ -706,15 +706,15 @@ public class ResponsiveUIValidator {
         g.drawRect(transformedX, transformedY, transformedWidth, transformedHeight);
     }
 
-    private void drawVerticalLine(Graphics2D g, BufferedImage img, int x, SimpleTransform transform) {
+    private void drawVerticalLine(Graphics2D g, SimpleTransform transform, int x, int height) {
         int transformedX = transform.transformX(x);
-        int transformedHeight = transform.transformY(img.getHeight()) - transform.transformY(0);
+        int transformedHeight = transform.transformY(height) - transform.transformY(0);
         g.drawLine(transformedX, 0, transformedX, transformedHeight);
     }
 
-    private void drawHorizontalLine(Graphics2D g, BufferedImage img, int y, SimpleTransform transform) {
+    private void drawHorizontalLine(Graphics2D g, SimpleTransform transform, int y, int width) {
         int transformedY = transform.transformY(y);
-        int transformedWidth = transform.transformX(img.getWidth()) - transform.transformX(0);
+        int transformedWidth = transform.transformX(width) - transform.transformX(0);
         g.drawLine(0, transformedY, transformedWidth, transformedY);
     }
 
