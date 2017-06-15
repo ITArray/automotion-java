@@ -195,19 +195,16 @@ public class ResponsiveUIValidator {
             return;
         }
 
+        File screenshot = drawScreenshot();
+
+        writeResults(screenshot);
+    }
+
+    private void writeResults(File screenshot) {
         JSONObject jsonResults = new JSONObject();
 
         jsonResults.put(ERROR_KEY, errors.hasMessages());
         jsonResults.put(DETAILS, errors.getMessages());
-
-        File screenshot = null;
-        BufferedImage img = null;
-        try {
-            screenshot = driver.takeScreenshot();
-            img = ImageIO.read(screenshot);
-        } catch (Exception e) {
-            LOG.error("Failed to create screenshot file: " + e.getMessage());
-        }
 
         JSONObject rootDetails = new JSONObject();
         if (rootElement != null) {
@@ -236,11 +233,22 @@ public class ResponsiveUIValidator {
         } catch (IOException ex) {
             LOG.error("Cannot create json report: " + ex.getMessage());
         }
-        jsonFiles.add(jsonFileName);
 
-        if ((boolean) jsonResults.get(ERROR_KEY)) {
-            drawScreenshot(screenshot, img);
+        jsonFiles.add(jsonFileName);
+    }
+
+    private File drawScreenshot() {
+        File screenshot = null;
+        BufferedImage img = null;
+        try {
+            screenshot = driver.takeScreenshot();
+            img = ImageIO.read(screenshot);
+        } catch (Exception e) {
+            LOG.error("Failed to create screenshot file: " + e.getMessage());
         }
+
+        drawScreenshot(screenshot, img);
+        return screenshot;
     }
 
     /**
