@@ -187,7 +187,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetLeftAs(WebElement element, String readableName) {
         validateLeftOffsetForElements(asElement(element), readableName);
-        drawLeftOffsetLine = true;
+        drawLeftOffsetLine();
         return this;
     }
 
@@ -202,7 +202,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
         for (Element element : asElements(webElements)) {
             validateLeftOffsetForElements(element, getFormattedMessage(element));
         }
-        drawLeftOffsetLine = true;
+        drawLeftOffsetLine();
         return this;
     }
 
@@ -216,7 +216,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetRightAs(WebElement element, String readableName) {
         validateRightOffsetForElements(asElement(element), readableName);
-        drawRightOffsetLine = true;
+        drawRightOffsetLine();
         return this;
     }
 
@@ -231,7 +231,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
         for (WebElement element : elements) {
             validateRightOffsetForElements(asElement(element), getFormattedMessage(asElement(element)));
         }
-        drawRightOffsetLine = true;
+        drawRightOffsetLine();
         return this;
     }
 
@@ -245,7 +245,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetTopAs(WebElement element, String readableName) {
         validateTopOffsetForElements(asElement(element), readableName);
-        drawTopOffsetLine = true;
+        drawTopOffsetLine();
         return this;
     }
 
@@ -260,7 +260,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
         for (WebElement element : elements) {
             validateTopOffsetForElements(asElement(element), getFormattedMessage(asElement(element)));
         }
-        drawTopOffsetLine = true;
+        drawTopOffsetLine();
         return this;
     }
 
@@ -274,7 +274,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     @Override
     public UIValidator sameOffsetBottomAs(WebElement element, String readableName) {
         validateBottomOffsetForElements(asElement(element), readableName);
-        drawBottomOffsetLine = true;
+        drawBottomOffsetLine();
         return this;
     }
 
@@ -289,7 +289,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
         for (WebElement element : elements) {
             validateBottomOffsetForElements(asElement(element), getFormattedMessage(asElement(element)));
         }
-        drawBottomOffsetLine = true;
+        drawBottomOffsetLine();
         return this;
     }
 
@@ -520,7 +520,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withCssValue(String cssProperty, String... args) {
-        String cssValue = getRootElement().getWebElement().getCssValue(cssProperty);
+        String cssValue = getRootElement().getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {
@@ -544,7 +544,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator withoutCssValue(String cssProperty, String... args) {
-        String cssValue = getRootElement().getWebElement().getCssValue(cssProperty);
+        String cssValue = getRootElement().getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {

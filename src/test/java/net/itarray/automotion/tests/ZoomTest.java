@@ -3,7 +3,7 @@ package net.itarray.automotion.tests;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static net.itarray.automotion.Zoom.applyZoom;
+import static net.itarray.automotion.internal.Zoom.applyZoom;
 
 public class ZoomTest {
 

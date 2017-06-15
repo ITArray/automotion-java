@@ -2,8 +2,9 @@ package util.validator;
 
 import http.helpers.Helper;
 import net.itarray.automotion.Element;
-import net.itarray.automotion.Errors;
-import net.itarray.automotion.Zoom;
+import net.itarray.automotion.internal.Errors;
+import net.itarray.automotion.internal.SimpleTransform;
+import net.itarray.automotion.internal.Zoom;
 import net.itarray.automotion.internal.DriverFacade;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -21,7 +22,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -50,10 +50,10 @@ public class ResponsiveUIValidator {
     private static String currentZoom = "100%";
     private static List<String> jsonFiles = new ArrayList<>();
     protected static Errors errors;
-    boolean drawLeftOffsetLine = false;
-    boolean drawRightOffsetLine = false;
-    boolean drawTopOffsetLine = false;
-    boolean drawBottomOffsetLine = false;
+    private boolean drawLeftOffsetLine = false;
+    private boolean drawRightOffsetLine = false;
+    private boolean drawTopOffsetLine = false;
+    private boolean drawBottomOffsetLine = false;
     String rootElementReadableName = "Root Element";
     protected List<Element> rootElements;
     ResponsiveUIValidator.Units units = PX;
@@ -226,24 +226,17 @@ public class ResponsiveUIValidator {
         long ms = System.currentTimeMillis();
         String uuid = Helper.getGeneratedStringWithLength(7);
         String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json";
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(TARGET_AUTOMOTION_JSON + jsonFileName), StandardCharsets.UTF_8))) {
+        File jsonFile = new File(TARGET_AUTOMOTION_JSON + jsonFileName);
+        jsonFile.getParentFile().mkdirs();
+        try (
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(jsonFile), StandardCharsets.UTF_8);
+                Writer writer = new BufferedWriter(outputStreamWriter))
+        {
             writer.write(jsonResults.toJSONString());
         } catch (IOException ex) {
             LOG.error("Cannot create json report: " + ex.getMessage());
         }
         jsonFiles.add(jsonFileName);
-        try {
-            File file = new File(TARGET_AUTOMOTION_JSON + rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json");
-            if (file.getParentFile().mkdirs()) {
-                if (file.createNewFile()) {
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                    writer.write(jsonResults.toJSONString());
-                    writer.close();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         if ((boolean) jsonResults.get(ERROR_KEY)) {
             drawScreenshot(screenshot, img);
@@ -282,7 +275,11 @@ public class ResponsiveUIValidator {
         if (img != null) {
             Graphics2D g = img.createGraphics();
 
-            drawRoot(rootColor, g, img);
+            SimpleTransform transform = getTransform();
+
+            drawRootElement(g, transform);
+
+            drawOffsetLines(g, img, transform);
 
             for (Object obj : errors.getMessages()) {
                 JSONObject det = (JSONObject) obj;
@@ -297,7 +294,7 @@ public class ResponsiveUIValidator {
 
                     g.setColor(highlightedElementsColor);
                     g.setStroke(new BasicStroke(2));
-                    drawRectByExtend(g, x, y, width, height);
+                    drawRectByExtend(g, x, y, width, height, transform);
                 }
             }
 
@@ -547,7 +544,7 @@ public class ResponsiveUIValidator {
     }
 
     void validateNotSameSize(Element element, String readableName) {
-        if (!element.getWebElement().equals(getRootElement().getWebElement())) {
+        if (!element.hasEqualWebElement(getRootElement())) {
             int h = element.getHeight();
             int w = element.getWidth();
             if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
@@ -671,111 +668,83 @@ public class ResponsiveUIValidator {
         }
     }
 
-    private void drawRoot(Color color, Graphics2D g, BufferedImage img) {
-        g.setColor(color);
+    private void drawRootElement(Graphics2D g, SimpleTransform transform) {
+        g.setColor(rootColor);
         g.setStroke(new BasicStroke(2));
-        drawRectByExtend(g, rootElement.getX(), rootElement.getY(), rootElement.getWidth(), rootElement.getHeight());
+        drawRectByExtend(g, rootElement.getX(), rootElement.getY(), rootElement.getWidth(), rootElement.getHeight(), transform);
+    }
 
+    private void drawOffsetLines(Graphics2D g, BufferedImage img, SimpleTransform transform) {
         Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
         g.setStroke(dashed);
         g.setColor(linesColor);
         if (drawLeftOffsetLine) {
-            drawVerticalLine(g, img, rootElement.getX());
+            drawVerticalLine(g, img, rootElement.getX(), transform);
         }
         if (drawRightOffsetLine) {
-            drawVerticalLine(g, img, rootElement.getCornerX());
+            drawVerticalLine(g, img, rootElement.getCornerX(), transform);
         }
         if (drawTopOffsetLine) {
-            drawHorizontalLine(g, img, rootElement.getY());
+            drawHorizontalLine(g, img, rootElement.getY(), transform);
         }
         if (drawBottomOffsetLine) {
-            drawHorizontalLine(g, img, rootElement.getCornerY());
+            drawHorizontalLine(g, img, rootElement.getCornerY(), transform);
         }
     }
 
-    private void drawRectByExtend(Graphics2D g, int x, int y, int width, int height) {
-        drawRectByCorner(g, x, y, x + width, y + height);
+    private void drawRectByExtend(Graphics2D g, int x, int y, int width, int height, SimpleTransform transform) {
+        drawRectByCorner(g, x, y, x + width, y + height, transform);
     }
 
-    private void drawRectByCorner(Graphics2D g, int x, int y, int cornerX, int cornerY) {
-        int transformedX = transformX(x);
-        int transformedY = transformY(y);
-        int transformedCornerX = transformX(cornerX);
-        int transformedCornerY = transformY(cornerY);
+    private void drawRectByCorner(Graphics2D g, int x, int y, int cornerX, int cornerY, SimpleTransform transform) {
+        int transformedX = transform.transformX(x);
+        int transformedY = transform.transformY(y);
+        int transformedCornerX = transform.transformX(cornerX);
+        int transformedCornerY = transform.transformY(cornerY);
         int transformedWidth = transformedCornerX - transformedX;
         int transformedHeight = transformedCornerY - transformedY;
         g.drawRect(transformedX, transformedY, transformedWidth, transformedHeight);
     }
 
-    private void drawVerticalLine(Graphics2D g, BufferedImage img, int x) {
-        int transformedX = transformX(x);
-        g.drawLine(transformedX, 0, transformedX, retinaValue(img.getHeight()));
+    private void drawVerticalLine(Graphics2D g, BufferedImage img, int x, SimpleTransform transform) {
+        int transformedX = transform.transformX(x);
+        int transformedHeight = transform.transformY(img.getHeight()) - transform.transformY(0);
+        g.drawLine(transformedX, 0, transformedX, transformedHeight);
     }
 
-    private void drawHorizontalLine(Graphics2D g, BufferedImage img, int y) {
-        int transformedY = transformY(y);
-        g.drawLine(0, transformedY, retinaValue(img.getWidth()), transformedY);
+    private void drawHorizontalLine(Graphics2D g, BufferedImage img, int y, SimpleTransform transform) {
+        int transformedY = transform.transformY(y);
+        int transformedWidth = transform.transformX(img.getWidth()) - transform.transformX(0);
+        g.drawLine(0, transformedY, transformedWidth, transformedY);
     }
 
-    private int transformX(int x) {
-        return retinaValue(x);
+    private int getYOffset() {
+        if (isMobile() && driver.isAppiumWebContext() && isMobileTopBar) {
+            if (isIOS() || isAndroid()) {
+                return 20;
+            }
+        }
+        return 0;
     }
 
-    private int transformY(int y) {
-        return retinaValue(mobileY(y));
+    private SimpleTransform getTransform() {
+        return new SimpleTransform(getYOffset(), getScaleFactor());
     }
 
-    private int mobileY(int value) {
-        if (isMobile() && driver.isAppiumWebContext()) {
-            if (isIOS()) {
-                if (isMobileTopBar) {
-                    return value + 20;
-                } else {
-                    return value;
-                }
-            } else if (isAndroid()) {
-                if (isMobileTopBar) {
-                    return value + 20;
-                } else {
-                    return value;
-                }
-            } else {
-                return value;
+    private double getScaleFactor() {
+        double factor = 1;
+        if (isMobile()) {
+            if (isIOS() && isIOSDevice()) {
+                factor = 2;
             }
         } else {
-            return value;
-        }
-    }
-
-    private int retinaValue(int value) {
-        if (!isMobile()) {
             int zoom = Integer.parseInt(currentZoom.replace("%", ""));
-            value = Zoom.applyZoom(value, zoom);
+            factor = Zoom.getFactor(zoom);
             if (isRetinaDisplay() && isChrome()) {
-                return 2 * value;
-            } else {
-                return value;
-            }
-        } else {
-            if (isIOS()) {
-                String[] iOS_RETINA_DEVICES = {
-                        "iPhone 4", "iPhone 4s",
-                        "iPhone 5", "iPhone 5s",
-                        "iPhone 6", "iPhone 6s",
-                        "iPad Mini 2",
-                        "iPad Mini 4",
-                        "iPad Air 2",
-                        "iPad Pro"
-                };
-                if (Arrays.asList(iOS_RETINA_DEVICES).contains(getDevice())) {
-                    return 2 * value;
-                } else {
-                    return value;
-                }
-            } else {
-                return value;
+                factor = factor * 2;
             }
         }
+        return factor;
     }
 
     int getConvertedInt(int i, boolean horizontal) {
@@ -792,10 +761,10 @@ public class ResponsiveUIValidator {
 
     String getFormattedMessage(Element element) {
         return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
-                element.getWebElement().getTagName(),
-                element.getWebElement().getAttribute("id"),
-                element.getWebElement().getAttribute("class"),
-                element.getWebElement().getText().length() < 10 ? element.getWebElement().getText() : element.getWebElement().getText().substring(0, 10) + "...",
+                element.getTagName(),
+                element.getAttribute("id"),
+                element.getAttribute("class"),
+                element.getText().length() < 10 ? element.getText() : element.getText().substring(0, 10) + "...",
                 String.valueOf(element.getX()),
                 String.valueOf(element.getY()),
                 String.valueOf(element.getWidth()),
@@ -838,6 +807,22 @@ public class ResponsiveUIValidator {
             errors.add(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
                                 rootElementReadableName, top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
         }
+    }
+
+    protected void drawLeftOffsetLine() {
+        drawLeftOffsetLine = true;
+    }
+
+    protected void drawRightOffsetLine() {
+        drawRightOffsetLine = true;
+    }
+
+    protected void drawTopOffsetLine() {
+        drawTopOffsetLine = true;
+    }
+
+    protected void drawBottomOffsetLine() {
+        drawBottomOffsetLine = true;
     }
 
     public enum Units {

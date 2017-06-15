@@ -1,6 +1,6 @@
 package rectangles;
 
-import net.itarray.automotion.Errors;
+import net.itarray.automotion.internal.Errors;
 import org.json.simple.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
