@@ -16,6 +16,7 @@ import static net.itarray.automotion.Element.asElements;
 
 public class UIValidator extends ResponsiveUIValidator implements Validator {
 
+    private static final int MIN_OFFSET = -10000;
 
     private final OffsetLineCommands offsetLineCommands = new OffsetLineCommands();
     private final String rootElementReadableName;

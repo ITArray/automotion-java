@@ -28,7 +28,6 @@ import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;
 
 public class ResponsiveUIValidator {
-    static final int MIN_OFFSET = -10000;
 
     private final DriverFacade driver;
 
