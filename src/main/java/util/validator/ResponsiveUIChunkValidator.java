@@ -402,9 +402,13 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
         }
     }
 
-    public OffsetLineCommands getOffsetLineCommands() {
+    @Override
+    protected OffsetLineCommands getOffsetLineCommands() {
         return new OffsetLineCommands();
     }
 
-
+    @Override
+    protected String getRootElementReadableName() {
+        return "Root Element";
+    }
 }

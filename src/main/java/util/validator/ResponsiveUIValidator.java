@@ -43,7 +43,6 @@ public class ResponsiveUIValidator {
     private static String currentZoom = "100%";
     private static List<String> jsonFiles = new ArrayList<>();
     protected static Errors errors;
-    String rootElementReadableName = "Root Element";
     ResponsiveUIValidator.Units units = PX;
     protected Dimension pageSize;
 
@@ -186,7 +185,7 @@ public class ResponsiveUIValidator {
 
         DrawableScreenshot screenshot = new DrawableScreenshot(driver, getTransform(), drawingConfiguration);
 
-        screenshot.drawScreenshot(rootElement, rootElementReadableName, errors, getOffsetLineCommands());
+        screenshot.drawScreenshot(rootElement, getRootElementReadableName(), errors, getOffsetLineCommands());
 
         writeResults(screenshot);
     }
@@ -208,12 +207,12 @@ public class ResponsiveUIValidator {
         jsonResults.put(SCENARIO, scenarioName);
         jsonResults.put(ROOT_ELEMENT, rootDetails);
         jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
-        jsonResults.put(ELEMENT_NAME, rootElementReadableName);
+        jsonResults.put(ELEMENT_NAME, getRootElementReadableName());
         jsonResults.put(SCREENSHOT, drawableScreenshot.getOutput().getName());
 
         long ms = System.currentTimeMillis();
         String uuid = Helper.getGeneratedStringWithLength(7);
-        String jsonFileName = rootElementReadableName.replace(" ", "") + "-automotion" + ms + uuid + ".json";
+        String jsonFileName = getRootElementReadableName().replace(" ", "") + "-automotion" + ms + uuid + ".json";
         File jsonFile = new File(TARGET_AUTOMOTION_JSON + jsonFileName);
         jsonFile.getParentFile().mkdirs();
         try (
@@ -299,7 +298,11 @@ public class ResponsiveUIValidator {
         }
     }
 
-    public OffsetLineCommands getOffsetLineCommands() {
+    protected OffsetLineCommands getOffsetLineCommands() {
+        throw new RuntimeException("should be overwritten");
+    }
+
+    protected String getRootElementReadableName() {
         throw new RuntimeException("should be overwritten");
     }
 
