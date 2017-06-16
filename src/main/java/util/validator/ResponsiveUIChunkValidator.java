@@ -1,5 +1,6 @@
 package util.validator;
 
+import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.DriverFacade;
 import org.openqa.selenium.WebElement;
 
@@ -9,6 +10,8 @@ import static net.itarray.automotion.Element.asElement;
 import static net.itarray.automotion.Element.asElements;
 
 public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements ChunkValidator {
+
+    private List<Element> rootElements;
 
     ResponsiveUIChunkValidator(DriverFacade driver, List<WebElement> webElements) {
         super(driver);
@@ -210,7 +213,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator insideOf(WebElement containerElement, String readableContainerName) {
-        validateInsideOfContainer(asElement(containerElement), readableContainerName);
+        validateInsideOfContainer(asElement(containerElement), readableContainerName, rootElements);
         return this;
     }
 }
