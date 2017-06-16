@@ -29,7 +29,6 @@ import static util.validator.ResponsiveUIValidator.Units.PX;
 
 public class ResponsiveUIValidator {
     static final int MIN_OFFSET = -10000;
-    private final static Logger LOG = Logger.getLogger(ResponsiveUIValidator.class);
 
     private final DriverFacade driver;
 
@@ -221,7 +220,7 @@ public class ResponsiveUIValidator {
         {
             writer.write(jsonResults.toJSONString());
         } catch (IOException ex) {
-            LOG.error("Cannot create json report: " + ex.getMessage());
+            throw new RuntimeException("Cannot create json report: " + jsonFile, ex);
         }
 
         jsonFiles.add(jsonFileName);
