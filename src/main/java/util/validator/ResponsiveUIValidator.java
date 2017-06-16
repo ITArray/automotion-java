@@ -15,17 +15,12 @@ import org.json.simple.parser.ParseException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Dimension;
 import util.general.HtmlReportBuilder;
-import util.validator.properties.Padding;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 import static environment.EnvironmentFactory.*;
 import static util.general.SystemHelper.isRetinaDisplay;
@@ -48,7 +43,6 @@ public class ResponsiveUIValidator {
     private static String currentZoom = "100%";
     private static List<String> jsonFiles = new ArrayList<>();
     protected static Errors errors;
-    private OffsetLineCommands offsetLineCommands = new OffsetLineCommands();
     String rootElementReadableName = "Root Element";
     ResponsiveUIValidator.Units units = PX;
     protected Dimension pageSize;
@@ -191,7 +185,7 @@ public class ResponsiveUIValidator {
 
         DrawableScreenshot screenshot = new DrawableScreenshot(driver, getTransform(), drawingConfiguration);
 
-        screenshot.drawScreenshot(rootElement, rootElementReadableName, errors, offsetLineCommands);
+        screenshot.drawScreenshot(rootElement, rootElementReadableName, errors, getOffsetLineCommands());
 
         writeResults(screenshot);
     }
@@ -304,20 +298,8 @@ public class ResponsiveUIValidator {
         }
     }
 
-    protected void drawLeftOffsetLine() {
-        offsetLineCommands.drawLeftOffsetLine();;
-    }
-
-    protected void drawRightOffsetLine() {
-        offsetLineCommands.drawRightOffsetLine();;
-    }
-
-    protected void drawTopOffsetLine() {
-        offsetLineCommands.drawTopOffsetLine();;
-    }
-
-    protected void drawBottomOffsetLine() {
-        offsetLineCommands.drawBottomOffsetLine();;
+    public OffsetLineCommands getOffsetLineCommands() {
+        throw new RuntimeException("should be overwritten");
     }
 
     public enum Units {

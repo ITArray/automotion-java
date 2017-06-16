@@ -3,6 +3,7 @@ package util.validator;
 import http.helpers.TextFinder;
 import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.DriverFacade;
+import net.itarray.automotion.internal.OffsetLineCommands;
 import org.openqa.selenium.WebElement;
 import util.general.SystemHelper;
 import util.validator.properties.Padding;
@@ -17,6 +18,9 @@ import static net.itarray.automotion.Element.asElement;
 import static net.itarray.automotion.Element.asElements;
 
 public class UIValidator extends ResponsiveUIValidator implements Validator {
+
+
+    private OffsetLineCommands offsetLineCommands = new OffsetLineCommands();
 
     UIValidator(DriverFacade driver, WebElement webElement, String readableNameOfElement) {
         super(driver);
@@ -820,6 +824,25 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
         }
     }
 
+    public OffsetLineCommands getOffsetLineCommands() {
+        return offsetLineCommands;
+    }
+
+    protected void drawLeftOffsetLine() {
+        getOffsetLineCommands().drawLeftOffsetLine();
+    }
+
+    protected void drawRightOffsetLine() {
+        getOffsetLineCommands().drawRightOffsetLine();
+    }
+
+    protected void drawTopOffsetLine() {
+        getOffsetLineCommands().drawTopOffsetLine();
+    }
+
+    protected void drawBottomOffsetLine() {
+        getOffsetLineCommands().drawBottomOffsetLine();
+    }
 
 
 }

@@ -2,6 +2,7 @@ package util.validator;
 
 import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.DriverFacade;
+import net.itarray.automotion.internal.OffsetLineCommands;
 import org.openqa.selenium.WebElement;
 
 import java.awt.geom.Rectangle2D;
@@ -402,6 +403,9 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
         }
     }
 
+    public OffsetLineCommands getOffsetLineCommands() {
+        return new OffsetLineCommands();
+    }
 
 
 }
