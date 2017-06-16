@@ -39,9 +39,11 @@ public class DrawableScreenshot {
         return output;
     }
 
-    public void drawScreenshot(Element rootElement, String rootElementReadableName, Errors errors, OffsetLineCommands offsetLineCommands) {
+    public void drawOffsets(Element rootElement, OffsetLineCommands offsetLineCommands) {
         offsetLineCommands.draw(graphics, img, rootElement, drawingConfiguration);
+    }
 
+    public void drawScreenshot(String rootElementReadableName, Errors errors) {
         for (Object obj : errors.getMessages()) {
             JSONObject det = (JSONObject) obj;
             JSONObject details = (JSONObject) det.get(REASON);

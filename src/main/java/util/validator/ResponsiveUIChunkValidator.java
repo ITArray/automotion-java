@@ -407,11 +407,6 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
     }
 
     @Override
-    protected OffsetLineCommands getOffsetLineCommands() {
-        return new OffsetLineCommands();
-    }
-
-    @Override
     protected String getRootElementReadableName() {
         return "Root Element";
     }
@@ -426,6 +421,11 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
             screenshot.drawRootElement(rootElements.get(0));
         }
     }
+
+    @Override
+    protected void drawOffsets(DrawableScreenshot screenshot) {
+    }
+
 
 
 }

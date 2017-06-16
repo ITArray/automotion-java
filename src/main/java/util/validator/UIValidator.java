@@ -827,11 +827,6 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     }
 
     @Override
-    protected OffsetLineCommands getOffsetLineCommands() {
-        return offsetLineCommands;
-    }
-
-    @Override
     protected String getRootElementReadableName() {
         return rootElementReadableName;
     }
@@ -849,23 +844,26 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
         screenshot.drawRootElement(getRootElement());
     }
 
-
+    @Override
+    protected void drawOffsets(DrawableScreenshot screenshot) {
+        screenshot.drawOffsets(getRootElement(), offsetLineCommands);
+    }
 
 
     private void drawLeftOffsetLine() {
-        getOffsetLineCommands().drawLeftOffsetLine();
+        offsetLineCommands.drawLeftOffsetLine();
     }
 
     private void drawRightOffsetLine() {
-        getOffsetLineCommands().drawRightOffsetLine();
+        offsetLineCommands.drawRightOffsetLine();
     }
 
     private void drawTopOffsetLine() {
-        getOffsetLineCommands().drawTopOffsetLine();
+        offsetLineCommands.drawTopOffsetLine();
     }
 
     private void drawBottomOffsetLine() {
-        getOffsetLineCommands().drawBottomOffsetLine();
+        offsetLineCommands.drawBottomOffsetLine();
     }
 
 

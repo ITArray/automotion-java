@@ -184,9 +184,15 @@ public class ResponsiveUIValidator {
 
         drawRootElement(screenshot);
 
-        screenshot.drawScreenshot(getRootElement(), getRootElementReadableName(), errors, getOffsetLineCommands());
+        drawOffsets(screenshot);
+
+        screenshot.drawScreenshot(getRootElementReadableName(), errors);
 
         writeResults(screenshot);
+    }
+
+    protected void drawOffsets(DrawableScreenshot screenshot) {
+        throw new RuntimeException("should be overwritten");
     }
 
     protected void drawRootElement(DrawableScreenshot screenshot) {
@@ -298,10 +304,6 @@ public class ResponsiveUIValidator {
                 return (i * pageSize.getHeight()) / 100;
             }
         }
-    }
-
-    protected OffsetLineCommands getOffsetLineCommands() {
-        throw new RuntimeException("should be overwritten");
     }
 
     protected String getRootElementReadableName() {
