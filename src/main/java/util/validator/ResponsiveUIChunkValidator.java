@@ -4,6 +4,7 @@ import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.DriverFacade;
 import org.openqa.selenium.WebElement;
 
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -375,4 +376,32 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
             }
         }
     }
+
+    private void validateEqualLeftRightOffset(List<Element> elements) {
+        for (Element element : elements) {
+            if (!element.hasEqualLeftRightOffset(pageSize)) {
+                errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", element.getFormattedMessage(), element.getX(), element.getRightOffset(pageSize)), element);
+            }
+        }
+    }
+
+    private void validateEqualTopBottomOffset(List<Element> elements) {
+        for (Element element : elements) {
+            if (!element.hasEqualTopBottomOffset(pageSize)) {
+                errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", element.getFormattedMessage(), element.getY(), element.getBottomOffset(pageSize)), element);
+            }
+        }
+    }
+
+    private void validateInsideOfContainer(Element containerElement, String readableContainerName, List<Element> elements) {
+        Rectangle2D.Double elementRectangle = containerElement.rectangle();
+        for (Element element : elements) {
+            if (!elementRectangle.contains(element.rectangle())) {
+                errors.add(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
+            }
+        }
+    }
+
+
+
 }
