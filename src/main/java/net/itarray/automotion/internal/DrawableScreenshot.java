@@ -16,9 +16,7 @@ import static util.validator.Constants.*;
 
 public class DrawableScreenshot {
 
-    private final static Logger LOG = Logger.getLogger(ResponsiveUIValidator.class);
-
-    public File screenshot;
+    public final File screenshot;
     private final DrawingConfiguration drawingConfiguration;
     private BufferedImage img;
     private TransformedGraphics graphics;
@@ -32,42 +30,41 @@ public class DrawableScreenshot {
 
             graphics = new TransformedGraphics(g, transform);
         } catch (Exception e) {
-            LOG.error("Failed to create screenshot file: " + e.getMessage());;
+            throw new RuntimeException("Failed to create screenshot file: " + screenshot, e);
         }
     }
 
     public void drawScreenshot(Element rootElement, String rootElementReadableName, Errors errors, OffsetLineCommands offsetLineCommands) {
-        if (img != null) {
+        drawRootElement(rootElement);
 
-            drawRootElement(rootElement);
+        offsetLineCommands.draw(graphics, img, rootElement, drawingConfiguration);
 
-            offsetLineCommands.draw(graphics, img, rootElement, drawingConfiguration);
+        for (Object obj : errors.getMessages()) {
+            JSONObject det = (JSONObject) obj;
+            JSONObject details = (JSONObject) det.get(REASON);
+            JSONObject numE = (JSONObject) details.get(ELEMENT);
 
-            for (Object obj : errors.getMessages()) {
-                JSONObject det = (JSONObject) obj;
-                JSONObject details = (JSONObject) det.get(REASON);
-                JSONObject numE = (JSONObject) details.get(ELEMENT);
+            if (numE != null) {
+                int x = (int) (float) numE.get(X);
+                int y = (int) (float) numE.get(Y);
+                int width = (int) (float) numE.get(WIDTH);
+                int height = (int) (float) numE.get(HEIGHT);
 
-                if (numE != null) {
-                    int x = (int) (float) numE.get(X);
-                    int y = (int) (float) numE.get(Y);
-                    int width = (int) (float) numE.get(WIDTH);
-                    int height = (int) (float) numE.get(HEIGHT);
-
-                    drawingConfiguration.setHighlightedElementStyle(graphics);
-                    graphics.drawRectByExtend(x, y, width, height);
-                }
+                drawingConfiguration.setHighlightedElementStyle(graphics);
+                graphics.drawRectByExtend(x, y, width, height);
             }
+        }
 
-            try {
-                ImageIO.write(img, "png", screenshot);
-                File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-                FileUtils.copyFile(screenshot, file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            LOG.error("Taking of screenshot was failed for some reason.");
+        try {
+            ImageIO.write(img, "png", screenshot);
+        } catch (IOException e) {
+            throw new RuntimeException("Writing file failed for " + screenshot , e);
+        }
+        File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
+        try {
+            FileUtils.copyFile(screenshot, file);
+        } catch (IOException e) {
+            throw new RuntimeException("copying file failed " + screenshot + " to " + file, e);
         }
     }
 
@@ -77,5 +74,4 @@ public class DrawableScreenshot {
         int y = rootElement.getY();
         graphics.drawRectByExtend(x, y, rootElement.getWidth(), rootElement.getHeight());
     }
-
 }
