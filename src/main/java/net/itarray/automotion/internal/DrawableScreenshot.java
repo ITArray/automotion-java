@@ -16,10 +16,11 @@ import static util.validator.Constants.*;
 
 public class DrawableScreenshot {
 
-    public final File screenshot;
+    private final File screenshot;
     private final DrawingConfiguration drawingConfiguration;
     private BufferedImage img;
     private TransformedGraphics graphics;
+    private File output;
 
     public DrawableScreenshot(DriverFacade driver, SimpleTransform transform, DrawingConfiguration drawingConfiguration) {
         screenshot = driver.takeScreenshot();
@@ -32,6 +33,10 @@ public class DrawableScreenshot {
         } catch (Exception e) {
             throw new RuntimeException("Failed to create screenshot file: " + screenshot, e);
         }
+    }
+
+    public File getOutput() {
+        return output;
     }
 
     public void drawScreenshot(Element rootElement, String rootElementReadableName, Errors errors, OffsetLineCommands offsetLineCommands) {
@@ -55,10 +60,10 @@ public class DrawableScreenshot {
             }
         }
 
-        File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-        file.getParentFile().mkdirs();
+        output = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
+        output.getParentFile().mkdirs();
         try {
-            ImageIO.write(img, "png", file);
+            ImageIO.write(img, "png", output);
         } catch (IOException e) {
             throw new RuntimeException("Writing file failed for " + screenshot , e);
         }

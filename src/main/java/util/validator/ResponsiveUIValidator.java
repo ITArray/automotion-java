@@ -189,12 +189,14 @@ public class ResponsiveUIValidator {
             return;
         }
 
-        File screenshot = drawScreenshot();
+        DrawableScreenshot screenshot = new DrawableScreenshot(driver, getTransform(), drawingConfiguration);
+
+        screenshot.drawScreenshot(rootElement, rootElementReadableName, errors, offsetLineCommands);
 
         writeResults(screenshot);
     }
 
-    private void writeResults(File screenshot) {
+    private void writeResults(DrawableScreenshot drawableScreenshot) {
         JSONObject jsonResults = new JSONObject();
 
         jsonResults.put(ERROR_KEY, errors.hasMessages());
@@ -212,7 +214,7 @@ public class ResponsiveUIValidator {
         jsonResults.put(ROOT_ELEMENT, rootDetails);
         jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
         jsonResults.put(ELEMENT_NAME, rootElementReadableName);
-        jsonResults.put(SCREENSHOT, rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
+        jsonResults.put(SCREENSHOT, drawableScreenshot.getOutput().getName());
 
         long ms = System.currentTimeMillis();
         String uuid = Helper.getGeneratedStringWithLength(7);
@@ -229,16 +231,6 @@ public class ResponsiveUIValidator {
         }
 
         jsonFiles.add(jsonFileName);
-    }
-
-    private File drawScreenshot() {
-        SimpleTransform transform = getTransform();
-
-        DrawableScreenshot drawableScreenshot = new DrawableScreenshot(driver, transform, drawingConfiguration);
-
-        drawableScreenshot.drawScreenshot(rootElement, rootElementReadableName, errors, offsetLineCommands);
-
-        return drawableScreenshot.screenshot;
     }
 
     /**
