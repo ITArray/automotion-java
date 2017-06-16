@@ -25,9 +25,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
     ResponsiveUIChunkValidator(DriverFacade driver, List<WebElement> webElements) {
         super(driver);
         rootElements = asElements(webElements);
-        if (!webElements.isEmpty()) {
-            setRootElement(rootElements.get(0));
-        } else {
+        if (webElements.isEmpty()) {
             errors.add("Set root web element");
         }
     }

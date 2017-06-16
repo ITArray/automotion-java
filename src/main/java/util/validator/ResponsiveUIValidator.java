@@ -30,8 +30,6 @@ public class ResponsiveUIValidator {
 
     private final DriverFacade driver;
 
-    private static Element rootElement;
-
     private static long startTime;
     private static boolean isMobileTopBar = false;
     private static boolean withReport = false;
@@ -55,13 +53,6 @@ public class ResponsiveUIValidator {
         startTime = System.currentTimeMillis();
     }
 
-    protected static Element getRootElement() {
-        return rootElement;
-    }
-
-    protected static void setRootElement(Element element) {
-        ResponsiveUIValidator.rootElement = element;
-    }
 
     /**
      * Set color for main element. This color will be used for highlighting element in results
