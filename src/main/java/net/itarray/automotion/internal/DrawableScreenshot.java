@@ -55,16 +55,12 @@ public class DrawableScreenshot {
             }
         }
 
+        File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
+        file.getParentFile().mkdirs();
         try {
-            ImageIO.write(img, "png", screenshot);
+            ImageIO.write(img, "png", file);
         } catch (IOException e) {
             throw new RuntimeException("Writing file failed for " + screenshot , e);
-        }
-        File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-        try {
-            FileUtils.copyFile(screenshot, file);
-        } catch (IOException e) {
-            throw new RuntimeException("copying file failed " + screenshot + " to " + file, e);
         }
     }
 
