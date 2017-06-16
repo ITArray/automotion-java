@@ -1,8 +1,10 @@
 package util.validator;
 
 import net.itarray.automotion.Element;
+import net.itarray.automotion.internal.DrawableScreenshot;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.OffsetLineCommands;
+import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 
 import java.awt.geom.Rectangle2D;
@@ -13,6 +15,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static net.itarray.automotion.Element.asElement;
 import static net.itarray.automotion.Element.asElements;
+import static util.validator.Constants.*;
+import static util.validator.Constants.HEIGHT;
 
 public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements ChunkValidator {
 
@@ -411,4 +415,17 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
     protected String getRootElementReadableName() {
         return "Root Element";
     }
+
+    @Override
+    protected void storeRootDetails(JSONObject rootDetails) {
+    }
+
+    @Override
+    protected void drawRootElement(DrawableScreenshot screenshot) {
+        if (!rootElements.isEmpty()) {
+            screenshot.drawRootElement(rootElements.get(0));
+        }
+    }
+
+
 }

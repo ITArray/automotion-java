@@ -2,8 +2,10 @@ package util.validator;
 
 import http.helpers.TextFinder;
 import net.itarray.automotion.Element;
+import net.itarray.automotion.internal.DrawableScreenshot;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.OffsetLineCommands;
+import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 import util.general.SystemHelper;
 import util.validator.properties.Padding;
@@ -13,6 +15,8 @@ import java.util.List;
 
 import static net.itarray.automotion.Element.asElement;
 import static net.itarray.automotion.Element.asElements;
+import static util.validator.Constants.*;
+import static util.validator.Constants.HEIGHT;
 
 public class UIValidator extends ResponsiveUIValidator implements Validator {
 
@@ -831,6 +835,21 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
     protected String getRootElementReadableName() {
         return rootElementReadableName;
     }
+
+    @Override
+    protected void storeRootDetails(JSONObject rootDetails) {
+        rootDetails.put(X, getRootElement().getX());
+        rootDetails.put(Y, getRootElement().getY());
+        rootDetails.put(WIDTH, getRootElement().getWidth());
+        rootDetails.put(HEIGHT, getRootElement().getHeight());
+    }
+
+    @Override
+    protected void drawRootElement(DrawableScreenshot screenshot) {
+        screenshot.drawRootElement(getRootElement());
+    }
+
+
 
 
     private void drawLeftOffsetLine() {

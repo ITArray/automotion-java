@@ -9,7 +9,6 @@ import net.itarray.automotion.internal.OffsetLineCommands;
 import net.itarray.automotion.internal.SimpleTransform;
 import net.itarray.automotion.internal.Zoom;
 import net.itarray.automotion.internal.DriverFacade;
-import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.*;
@@ -183,9 +182,15 @@ public class ResponsiveUIValidator {
 
         DrawableScreenshot screenshot = new DrawableScreenshot(driver, getTransform(), drawingConfiguration);
 
-        screenshot.drawScreenshot(rootElement, getRootElementReadableName(), errors, getOffsetLineCommands());
+        drawRootElement(screenshot);
+
+        screenshot.drawScreenshot(getRootElement(), getRootElementReadableName(), errors, getOffsetLineCommands());
 
         writeResults(screenshot);
+    }
+
+    protected void drawRootElement(DrawableScreenshot screenshot) {
+        throw new RuntimeException("should be overwritten");
     }
 
     private void writeResults(DrawableScreenshot drawableScreenshot) {
@@ -195,12 +200,7 @@ public class ResponsiveUIValidator {
         jsonResults.put(DETAILS, errors.getMessages());
 
         JSONObject rootDetails = new JSONObject();
-        if (rootElement != null) {
-            rootDetails.put(X, rootElement.getX());
-            rootDetails.put(Y, rootElement.getY());
-            rootDetails.put(WIDTH, rootElement.getWidth());
-            rootDetails.put(HEIGHT, rootElement.getHeight());
-        }
+        storeRootDetails(rootDetails);
 
         jsonResults.put(SCENARIO, scenarioName);
         jsonResults.put(ROOT_ELEMENT, rootDetails);
@@ -223,6 +223,10 @@ public class ResponsiveUIValidator {
         }
 
         jsonFiles.add(jsonFileName);
+    }
+
+    protected void storeRootDetails(JSONObject rootDetails) {
+        throw new RuntimeException("should be overwritten");
     }
 
     /**

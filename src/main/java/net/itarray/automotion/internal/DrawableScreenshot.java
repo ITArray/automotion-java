@@ -40,8 +40,6 @@ public class DrawableScreenshot {
     }
 
     public void drawScreenshot(Element rootElement, String rootElementReadableName, Errors errors, OffsetLineCommands offsetLineCommands) {
-        drawRootElement(rootElement);
-
         offsetLineCommands.draw(graphics, img, rootElement, drawingConfiguration);
 
         for (Object obj : errors.getMessages()) {
@@ -69,7 +67,7 @@ public class DrawableScreenshot {
         }
     }
 
-    private void drawRootElement(Element rootElement) {
+    public void drawRootElement(Element rootElement) {
         drawingConfiguration.setRootElementStyle(graphics);
         int x = rootElement.getX();
         int y = rootElement.getY();
