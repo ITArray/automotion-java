@@ -261,93 +261,6 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateElementsAreNotOverlapped(List<Element> elements) {
-        for (int firstIndex = 0; firstIndex < elements.size(); firstIndex++) {
-            Element first = elements.get(firstIndex);
-            for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
-                Element second = elements.get(secondIndex);
-                if (first.overlaps(second)) {
-                    errors.add("Elements are overlapped", first);
-                    break;
-                }
-            }
-        }
-    }
-
-    void validateGridAlignment(List<Element> elements, int columns, int rows) {
-        ConcurrentSkipListMap<Integer, AtomicLong> map = new ConcurrentSkipListMap<>();
-        for (Element element : elements) {
-            Integer y = element.getY();
-
-            map.putIfAbsent(y, new AtomicLong(0));
-            map.get(y).incrementAndGet();
-        }
-
-        int mapSize = map.size();
-        if (rows > 0) {
-            if (mapSize != rows) {
-                errors.add(String.format("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is %d. Actual is %d", rows, mapSize));
-            }
-        }
-
-        if (columns > 0) {
-            int errorLastLine = 0;
-            int rowCount = 1;
-            for (Map.Entry<Integer, AtomicLong> entry : map.entrySet()) {
-                if (rowCount <= mapSize) {
-                    int actualInARow = entry.getValue().intValue();
-                    if (actualInARow != columns) {
-                        errorLastLine++;
-                        if (errorLastLine > 1) {
-                            errors.add(String.format("Elements in a grid are not aligned properly in row #%d. Expected %d elements in a row. Actually it's %d", rowCount, columns, actualInARow));
-                        }
-                    }
-                    rowCount++;
-                }
-            }
-        }
-    }
-
-    void validateRightOffsetForChunk(List<Element> elements) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            Element element = elements.get(i);
-            Element elementToCompare = elements.get(i + 1);
-            if (!element.hasEqualRightOffsetAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has not the same right offset as element #%d", i + 1, i + 2), elementToCompare);
-            }
-        }
-    }
-
-    void validateLeftOffsetForChunk(List<Element> elements) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            Element element = elements.get(i);
-            Element elementToCompare = elements.get(i + 1);
-            if (!element.hasEqualLeftOffsetAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has not the same left offset as element #%d", i + 1, i + 2), elementToCompare);
-            }
-        }
-    }
-
-    void validateTopOffsetForChunk(List<Element> elements) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            Element element = elements.get(i);
-            Element elementToCompare = elements.get(i + 1);
-            if (!element.hasEqualTopOffsetAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has not the same top offset as element #%d", i + 1, i + 2), elementToCompare);
-            }
-        }
-    }
-
-    void validateBottomOffsetForChunk(List<Element> elements) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            Element element = elements.get(i);
-            Element elementToCompare = elements.get(i + 1);
-            if (!element.hasEqualBottomOffsetAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has not the same bottom offset as element #%d", i + 1, i + 2), elementToCompare);
-            }
-        }
-    }
-
     void validateRightOffsetForElements(Element element, String readableName) {
         if (!rootElement.hasEqualRightOffsetAs(element)) {
             errors.add(String.format("Element '%s' has not the same right offset as element '%s'", rootElementReadableName, readableName), element);
@@ -460,81 +373,12 @@ public class ResponsiveUIValidator {
         }
     }
 
-    void validateSameWidth(List<Element> elements) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            Element element = elements.get(i);
-            Element elementToCompare = elements.get(i + 1);
-            if (!element.hasSameWidthAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                errors.add(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
-            }
-        }
-    }
-
-    void validateSameHeight(List<Element> elements) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            Element element = elements.get(i);
-            Element elementToCompare = elements.get(i + 1);
-            if (!element.hasSameHeightAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                errors.add(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
-            }
-        }
-    }
-
-    void validateSameSize(List<Element> elements) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            Element element = elements.get(i);
-            Element elementToCompare = elements.get(i + 1);
-            if (!element.hasSameSizeAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                errors.add(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
-            }
-
-        }
-    }
-
     void validateNotSameSize(Element element, String readableName) {
         if (!element.hasEqualWebElement(getRootElement())) {
             int h = element.getHeight();
             int w = element.getWidth();
             if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
                 errors.add(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElementReadableName, readableName, rootElementReadableName, rootElement.getWidth(), rootElement.getHeight(), w, h), element);
-            }
-        }
-    }
-
-    void validateNotSameSize(List<Element> elements) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            Element element = elements.get(i);
-            Element elementToCompare = elements.get(i + 1);
-            if (element.hasSameSizeAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                errors.add(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
-            }
-
-        }
-    }
-
-    void validateNotSameWidth(List<Element> elements) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            Element element = elements.get(i);
-            Element elementToCompare = elements.get(i + 1);
-            if (element.hasSameWidthAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                errors.add(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
-            }
-
-        }
-    }
-
-    void validateNotSameHeight(List<Element> elements) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            Element element = elements.get(i);
-            Element elementToCompare = elements.get(i + 1);
-            if (element.hasSameHeightAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                errors.add(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
             }
         }
     }
