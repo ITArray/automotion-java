@@ -26,7 +26,6 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
         } else {
             errors.add("Set root web element");
         }
-        startTime = System.currentTimeMillis();
     }
 
     /**

@@ -26,7 +26,6 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
         super(driver);
         setRootElement(asElement(webElement));
         rootElementReadableName = readableNameOfElement;
-        startTime = System.currentTimeMillis();
     }
 
     /**
