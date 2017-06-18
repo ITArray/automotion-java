@@ -1,11 +1,9 @@
 package util.validator;
 
 import http.helpers.Helper;
-import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.DrawableScreenshot;
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.Errors;
-import net.itarray.automotion.internal.OffsetLineCommands;
 import net.itarray.automotion.internal.SimpleTransform;
 import net.itarray.automotion.internal.Zoom;
 import net.itarray.automotion.internal.DriverFacade;
@@ -35,10 +33,11 @@ public class ResponsiveUIValidator {
     private static boolean withReport = false;
     private static String scenarioName = "Default";
     private static DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
-    private static String currentZoom = "100%";
     private static List<String> jsonFiles = new ArrayList<>();
     protected static Errors errors;
     ResponsiveUIValidator.Units units = PX;
+
+    private final Zoom zoom;
     protected Dimension pageSize;
 
     public ResponsiveUIValidator(WebDriver driver) {
@@ -48,7 +47,7 @@ public class ResponsiveUIValidator {
     protected ResponsiveUIValidator(DriverFacade driver) {
         this.driver = driver;
         ResponsiveUIValidator.errors = new Errors();
-        currentZoom = driver.getZoom();
+        zoom = new Zoom(driver);
         pageSize = driver.retrievePageSize();
         startTime = System.currentTimeMillis();
     }
@@ -276,8 +275,7 @@ public class ResponsiveUIValidator {
                 factor = 2;
             }
         } else {
-            int zoom = Integer.parseInt(currentZoom.replace("%", ""));
-            factor = Zoom.getFactor(zoom);
+            factor = zoom.getFactor();
             if (isRetinaDisplay() && isChrome()) {
                 factor = factor * 2;
             }
