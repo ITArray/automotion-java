@@ -1,14 +1,11 @@
 package util.validator;
 
-import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.DrawingConfiguration;
-import net.itarray.automotion.internal.Errors;
-import net.itarray.automotion.internal.Zoom;
+import net.itarray.automotion.internal.Scenario;
 import net.itarray.automotion.internal.DriverFacade;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.*;
-import org.openqa.selenium.Dimension;
 import util.general.HtmlReportBuilder;
 
 import java.awt.*;
@@ -22,9 +19,8 @@ public class ResponsiveUIValidator {
 
     protected final DriverFacade driver;
 
-    protected static boolean isMobileTopBar = false;
+    protected static boolean hasMobileTopBarOffset = false;
     protected static boolean withReport = false;
-    protected static String scenarioName = "Default";
     protected static DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
     protected static List<String> jsonFiles = new ArrayList<>();
     protected ResponsiveUIValidator.Units units = PX;
@@ -71,7 +67,7 @@ public class ResponsiveUIValidator {
      * @param state
      */
     public void setTopBarMobileOffset(boolean state) {
-        isMobileTopBar = state;
+        hasMobileTopBarOffset = state;
     }
 
     /**
@@ -80,7 +76,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator init() {
-        return new ResponsiveUIValidator(driver);
+        return new Scenario(driver, "Default", this);
     }
 
     /**
@@ -90,8 +86,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator init(String scenarioName) {
-        ResponsiveUIValidator.scenarioName = scenarioName;
-        return new ResponsiveUIValidator(driver);
+        return new Scenario(driver, scenarioName, this);
     }
 
     /**
@@ -102,7 +97,7 @@ public class ResponsiveUIValidator {
      * @return UIValidator
      */
     public UIValidator findElement(WebElement element, String readableNameOfElement) {
-        return new UIValidator(driver, element, readableNameOfElement);
+        return init().findElement(element, readableNameOfElement);
     }
 
     /**
@@ -112,7 +107,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIChunkValidator
      */
     public ResponsiveUIChunkValidator findElements(java.util.List<WebElement> elements) {
-        return new ResponsiveUIChunkValidator(driver, elements);
+        return init().findElements(elements);
     }
 
     /**

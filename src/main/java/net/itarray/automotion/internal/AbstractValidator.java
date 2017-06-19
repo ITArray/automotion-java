@@ -27,9 +27,11 @@ public class AbstractValidator extends ResponsiveUIValidator{
     private final Zoom zoom;
     private final long startTime;
     protected final Dimension pageSize;
+    private final Scenario scenario;
 
-    protected AbstractValidator(DriverFacade driver) {
+    protected AbstractValidator(Scenario scenario, DriverFacade driver) {
         super(driver);
+        this.scenario = scenario;
         this.errors = new Errors();
         this.zoom = new Zoom(driver);
         this.pageSize = driver.retrievePageSize();
@@ -102,7 +104,7 @@ public class AbstractValidator extends ResponsiveUIValidator{
     }
 
     private int getYOffset() {
-        if (isMobile() && driver.isAppiumWebContext() && isMobileTopBar) {
+        if (isMobile() && driver.isAppiumWebContext() && hasMobileTopBarOffset) {
             if (isIOS() || isAndroid()) {
                 return 20;
             }
@@ -119,7 +121,7 @@ public class AbstractValidator extends ResponsiveUIValidator{
         JSONObject rootDetails = new JSONObject();
         storeRootDetails(rootDetails);
 
-        jsonResults.put(SCENARIO, scenarioName);
+        jsonResults.put(SCENARIO, scenario.getName());
         jsonResults.put(ROOT_ELEMENT, rootDetails);
         jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
         jsonResults.put(ELEMENT_NAME, getRootElementReadableName());
@@ -149,4 +151,10 @@ public class AbstractValidator extends ResponsiveUIValidator{
     protected void drawRootElement(DrawableScreenshot screenshot) {
         throw new RuntimeException("should be overwritten");
     }
+
+    @Deprecated()
+    public void setTopBarMobileOffset(boolean state) {
+        scenario.setTopBarMobileOffset(state);
+    }
+
 }
