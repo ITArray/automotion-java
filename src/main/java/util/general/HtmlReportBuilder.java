@@ -29,7 +29,6 @@ import static util.validator.Constants.*;
 
 public class HtmlReportBuilder {
 
-    private final Logger LOG = Logger.getLogger(HtmlReportBuilder.class);
     private List<String> jsonFiles;
 
     public void buildReport(String reportName, List<String> jsonFiles) throws IOException, ParseException, InterruptedException {
@@ -55,26 +54,20 @@ public class HtmlReportBuilder {
 
             html.toOutputStream(bos);
             bos.flush();
-        } catch (IOException ex) {
-            LOG.error("Cannot create html report: " + ex.getMessage());
         }
 
-        try {
-            File file = new File(TARGET_AUTOMOTION + "result" + ms + ".html");
-            if (file.getParentFile().mkdirs()) {
-                if (file.createNewFile()) {
+        File file = new File(TARGET_AUTOMOTION + "result" + ms + ".html");
+        if (file.getParentFile().mkdirs()) {
+            if (file.createNewFile()) {
 
-                    try (FileOutputStream fos = new FileOutputStream(file);
-                            BufferedOutputStream bos = new BufferedOutputStream(
-                                    fos);) {
+                try (FileOutputStream fos = new FileOutputStream(file);
+                     BufferedOutputStream bos = new BufferedOutputStream(
+                             fos);) {
 
-                        html.toOutputStream(bos);
-                        bos.flush();
-                    }
+                    html.toOutputStream(bos);
+                    bos.flush();
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

@@ -158,7 +158,7 @@ public class ResponsiveUIValidator {
             try {
                 new HtmlReportBuilder().buildReport(jsonFiles);
             } catch (IOException | ParseException | InterruptedException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }
@@ -173,7 +173,7 @@ public class ResponsiveUIValidator {
             try {
                 new HtmlReportBuilder().buildReport(name, jsonFiles);
             } catch (IOException | ParseException | InterruptedException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }
