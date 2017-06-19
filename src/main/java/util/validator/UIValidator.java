@@ -41,7 +41,7 @@ public class UIValidator extends ResponsiveUIValidator implements Validator {
      */
     @Override
     public UIValidator changeMetricsUnitsTo(Units units) {
-        this.units = units;
+        super.changeMetricsUnitsTo(units);
         return this;
     }
 

@@ -38,7 +38,7 @@ public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements
      */
     @Override
     public ResponsiveUIChunkValidator changeMetricsUnitsTo(Units units) {
-        this.units = units;
+        super.changeMetricsUnitsTo(units);
         return this;
     }
 

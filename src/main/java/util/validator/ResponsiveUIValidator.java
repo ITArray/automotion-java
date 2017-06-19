@@ -35,7 +35,7 @@ public class ResponsiveUIValidator {
     private static DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
     private static List<String> jsonFiles = new ArrayList<>();
     protected static Errors errors;
-    ResponsiveUIValidator.Units units = PX;
+    private ResponsiveUIValidator.Units units = PX;
 
     private final Zoom zoom;
     protected Dimension pageSize;
