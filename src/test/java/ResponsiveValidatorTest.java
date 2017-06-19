@@ -21,6 +21,15 @@ public class ResponsiveValidatorTest {
 
     private static WebDriver driver;
 
+    public static void main(String[] args) {
+        ResponsiveValidatorTest test = new ResponsiveValidatorTest();
+        try {
+            test.testThatResponsiveValidatorWorks();
+        } finally {
+            test.tearDown();
+        }
+    }
+    
     @Test
     public void testThatResponsiveValidatorWorks() {
         Map<String, String> sysProp = new HashMap<>();
