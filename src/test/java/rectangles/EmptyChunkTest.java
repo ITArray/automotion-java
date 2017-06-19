@@ -1,5 +1,6 @@
 package rectangles;
 
+import net.itarray.automotion.internal.AbstractValidator;
 import net.itarray.automotion.internal.Errors;
 import org.json.simple.JSONObject;
 import org.junit.Before;
@@ -54,7 +55,7 @@ public class EmptyChunkTest {
     private Errors getErrors(ResponsiveUIChunkValidator validator) {
         try {
             Field errorField = null;
-            Field[] fields = ResponsiveUIValidator.class.getDeclaredFields();
+            Field[] fields = AbstractValidator.class.getDeclaredFields();
             for (int i = 0; i < fields.length; i++) {
                 Field field = fields[i];
                 if ("errors".equals(field.getName())) {

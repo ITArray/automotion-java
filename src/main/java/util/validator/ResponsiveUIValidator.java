@@ -1,11 +1,8 @@
 package util.validator;
 
-import http.helpers.Helper;
 import net.itarray.automotion.Element;
-import net.itarray.automotion.internal.DrawableScreenshot;
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.Errors;
-import net.itarray.automotion.internal.SimpleTransform;
 import net.itarray.automotion.internal.Zoom;
 import net.itarray.automotion.internal.DriverFacade;
 import org.json.simple.JSONObject;
@@ -16,30 +13,21 @@ import util.general.HtmlReportBuilder;
 
 import java.awt.*;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import static environment.EnvironmentFactory.*;
-import static util.general.SystemHelper.isRetinaDisplay;
-import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;
 
 public class ResponsiveUIValidator {
 
-    private final DriverFacade driver;
+    protected final DriverFacade driver;
 
-    private static boolean isMobileTopBar = false;
-    private static boolean withReport = false;
-    private static String scenarioName = "Default";
-    private static DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
-    private static List<String> jsonFiles = new ArrayList<>();
-    private final Errors errors;
-    private ResponsiveUIValidator.Units units = PX;
-
-    private final Zoom zoom;
-    private final long startTime;
-    protected Dimension pageSize;
+    protected static boolean isMobileTopBar = false;
+    protected static boolean withReport = false;
+    protected static String scenarioName = "Default";
+    protected static DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
+    protected static List<String> jsonFiles = new ArrayList<>();
+    protected ResponsiveUIValidator.Units units = PX;
 
     public ResponsiveUIValidator(WebDriver driver) {
         this(new DriverFacade(driver));
@@ -47,10 +35,6 @@ public class ResponsiveUIValidator {
 
     protected ResponsiveUIValidator(DriverFacade driver) {
         this.driver = driver;
-        this.errors = new Errors();
-        this.zoom = new Zoom(driver);
-        this.pageSize = driver.retrievePageSize();
-        this.startTime = System.currentTimeMillis();
     }
 
 
@@ -131,10 +115,6 @@ public class ResponsiveUIValidator {
         return new ResponsiveUIChunkValidator(driver, elements);
     }
 
-    protected void addError(String message) {
-        errors.add(message);
-    }
-
     /**
      * Change units to Pixels or % (Units.PX, Units.PERCENT)
      *
@@ -162,69 +142,9 @@ public class ResponsiveUIValidator {
      * @return boolean
      */
     public boolean validate() {
-
-        if (errors.hasMessages()) {
-            compileValidationReport();
-        }
-
-        return !errors.hasMessages();
+        return true; // nothing to validate in a factory or scenario
     }
 
-    private void compileValidationReport() {
-        if (!withReport) {
-            return;
-        }
-
-        DrawableScreenshot screenshot = new DrawableScreenshot(driver, getTransform(), drawingConfiguration);
-
-        drawRootElement(screenshot);
-
-        drawOffsets(screenshot);
-
-        screenshot.drawScreenshot(getRootElementReadableName(), errors);
-
-        writeResults(screenshot);
-    }
-
-    protected void drawOffsets(DrawableScreenshot screenshot) {
-        throw new RuntimeException("should be overwritten");
-    }
-
-    protected void drawRootElement(DrawableScreenshot screenshot) {
-        throw new RuntimeException("should be overwritten");
-    }
-
-    private void writeResults(DrawableScreenshot drawableScreenshot) {
-        JSONObject jsonResults = new JSONObject();
-
-        jsonResults.put(ERROR_KEY, errors.hasMessages());
-        jsonResults.put(DETAILS, errors.getMessages());
-
-        JSONObject rootDetails = new JSONObject();
-        storeRootDetails(rootDetails);
-
-        jsonResults.put(SCENARIO, scenarioName);
-        jsonResults.put(ROOT_ELEMENT, rootDetails);
-        jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
-        jsonResults.put(ELEMENT_NAME, getRootElementReadableName());
-        jsonResults.put(SCREENSHOT, drawableScreenshot.getOutput().getName());
-
-        long ms = System.currentTimeMillis();
-        String uuid = Helper.getGeneratedStringWithLength(7);
-        String jsonFileName = getRootElementReadableName().replace(" ", "") + "-automotion" + ms + uuid + ".json";
-        File jsonFile = new File(TARGET_AUTOMOTION_JSON + jsonFileName);
-        jsonFile.getParentFile().mkdirs();
-        try (
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(jsonFile), StandardCharsets.UTF_8);
-                Writer writer = new BufferedWriter(outputStreamWriter))
-        {
-            writer.write(jsonResults.toJSONString());
-        } catch (IOException ex) {
-            throw new RuntimeException("Cannot create json report: " + jsonFile, ex);
-        }
-
-        jsonFiles.add(jsonFileName);
-    }
 
     protected void storeRootDetails(JSONObject rootDetails) {
         throw new RuntimeException("should be overwritten");
@@ -256,52 +176,6 @@ public class ResponsiveUIValidator {
                 e.printStackTrace();
             }
         }
-    }
-
-
-
-    private int getYOffset() {
-        if (isMobile() && driver.isAppiumWebContext() && isMobileTopBar) {
-            if (isIOS() || isAndroid()) {
-                return 20;
-            }
-        }
-        return 0;
-    }
-
-    private SimpleTransform getTransform() {
-        return new SimpleTransform(getYOffset(), getScaleFactor());
-    }
-
-    private double getScaleFactor() {
-        double factor = 1;
-        if (isMobile()) {
-            if (isIOS() && isIOSDevice()) {
-                factor = 2;
-            }
-        } else {
-            factor = zoom.getFactor();
-            if (isRetinaDisplay() && isChrome()) {
-                factor = factor * 2;
-            }
-        }
-        return factor;
-    }
-
-    protected int getConvertedInt(int i, boolean horizontal) {
-        if (units.equals(PX)) {
-            return i;
-        } else {
-            if (horizontal) {
-                return (i * pageSize.getWidth()) / 100;
-            } else {
-                return (i * pageSize.getHeight()) / 100;
-            }
-        }
-    }
-
-    protected void addError(String message, Element element) {
-        errors.add(message, element);
     }
 
     protected String getRootElementReadableName() {
