@@ -288,7 +288,7 @@ public class ResponsiveUIValidator {
         return factor;
     }
 
-    int getConvertedInt(int i, boolean horizontal) {
+    protected int getConvertedInt(int i, boolean horizontal) {
         if (units.equals(PX)) {
             return i;
         } else {

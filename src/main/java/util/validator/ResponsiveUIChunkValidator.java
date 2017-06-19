@@ -1,6 +1,7 @@
 package util.validator;
 
 import net.itarray.automotion.Element;
+import net.itarray.automotion.internal.AbstractValidator;
 import net.itarray.automotion.internal.DrawableScreenshot;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.OffsetLineCommands;
@@ -18,7 +19,7 @@ import static net.itarray.automotion.Element.asElements;
 import static util.validator.Constants.*;
 import static util.validator.Constants.HEIGHT;
 
-public class ResponsiveUIChunkValidator extends ResponsiveUIValidator implements ChunkValidator {
+public class ResponsiveUIChunkValidator extends AbstractValidator implements ChunkValidator {
 
     private List<Element> rootElements;
 
