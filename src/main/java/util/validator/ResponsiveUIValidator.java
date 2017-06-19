@@ -1,6 +1,7 @@
 package util.validator;
 
 import http.helpers.Helper;
+import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.DrawableScreenshot;
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.Errors;
@@ -34,7 +35,7 @@ public class ResponsiveUIValidator {
     private static String scenarioName = "Default";
     private static DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
     private static List<String> jsonFiles = new ArrayList<>();
-    protected static Errors errors;
+    private final Errors errors;
     private ResponsiveUIValidator.Units units = PX;
 
     private final Zoom zoom;
@@ -46,9 +47,9 @@ public class ResponsiveUIValidator {
 
     protected ResponsiveUIValidator(DriverFacade driver) {
         this.driver = driver;
-        ResponsiveUIValidator.errors = new Errors();
-        zoom = new Zoom(driver);
-        pageSize = driver.retrievePageSize();
+        this.errors = new Errors();
+        this.zoom = new Zoom(driver);
+        this.pageSize = driver.retrievePageSize();
         startTime = System.currentTimeMillis();
     }
 
@@ -128,6 +129,10 @@ public class ResponsiveUIValidator {
      */
     public ResponsiveUIChunkValidator findElements(java.util.List<WebElement> elements) {
         return new ResponsiveUIChunkValidator(driver, elements);
+    }
+
+    protected void addError(String message) {
+        errors.add(message);
     }
 
     /**
@@ -293,6 +298,10 @@ public class ResponsiveUIValidator {
                 return (i * pageSize.getHeight()) / 100;
             }
         }
+    }
+
+    protected void addError(String message, Element element) {
+        errors.add(message, element);
     }
 
     protected String getRootElementReadableName() {

@@ -62,7 +62,7 @@ public class EmptyChunkTest {
                 }
             }
             errorField.setAccessible(true);
-            return (Errors) errorField.get(null);
+            return (Errors) errorField.get(validator);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
