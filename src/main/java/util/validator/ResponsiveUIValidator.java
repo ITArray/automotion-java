@@ -29,7 +29,6 @@ public class ResponsiveUIValidator {
 
     private final DriverFacade driver;
 
-    private static long startTime;
     private static boolean isMobileTopBar = false;
     private static boolean withReport = false;
     private static String scenarioName = "Default";
@@ -39,6 +38,7 @@ public class ResponsiveUIValidator {
     private ResponsiveUIValidator.Units units = PX;
 
     private final Zoom zoom;
+    private final long startTime;
     protected Dimension pageSize;
 
     public ResponsiveUIValidator(WebDriver driver) {
@@ -50,7 +50,7 @@ public class ResponsiveUIValidator {
         this.errors = new Errors();
         this.zoom = new Zoom(driver);
         this.pageSize = driver.retrievePageSize();
-        startTime = System.currentTimeMillis();
+        this.startTime = System.currentTimeMillis();
     }
 
 
