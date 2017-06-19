@@ -19,11 +19,12 @@ public class ResponsiveUIValidator {
 
     protected final DriverFacade driver;
 
-    protected static boolean hasMobileTopBarOffset = false;
     protected static boolean withReport = false;
-    protected static DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
     protected static List<String> jsonFiles = new ArrayList<>();
     protected ResponsiveUIValidator.Units units = PX;
+
+    private boolean mobileTopBarOffset = false;
+    private final DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
 
     public ResponsiveUIValidator(WebDriver driver) {
         this(new DriverFacade(driver));
@@ -61,13 +62,21 @@ public class ResponsiveUIValidator {
         drawingConfiguration.setLinesColor(color);
     }
 
+    protected DrawingConfiguration getDrawingConfiguration() {
+        return drawingConfiguration;
+    }
+
     /**
      * Set top bar mobile offset. Applicable only for native mobile testing
      *
      * @param state
      */
     public void setTopBarMobileOffset(boolean state) {
-        hasMobileTopBarOffset = state;
+        mobileTopBarOffset = state;
+    }
+
+    public boolean isMobileTopBarOffset() {
+        return mobileTopBarOffset;
     }
 
     /**
