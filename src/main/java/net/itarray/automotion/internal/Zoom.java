@@ -1,11 +1,19 @@
 package net.itarray.automotion.internal;
 
 public class Zoom {
-    public static int applyZoom(int value, int zoom) {
-        return (int) (value * getFactor(zoom));
+    private final DriverFacade driver;
+
+    public Zoom(DriverFacade driver) {
+
+        this.driver = driver;
     }
 
-    public static double getFactor(int zoom) {
-        return zoom / 100d;
+    public int applyZoom(int value) {
+        return (int) (value * getFactor());
+    }
+
+    public double getFactor() {
+        String currentZoom = driver.getZoom();
+        return Integer.parseInt(currentZoom.replace("%", "")) / 100d;
     }
 }

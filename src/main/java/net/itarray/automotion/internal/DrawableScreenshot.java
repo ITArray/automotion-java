@@ -16,12 +16,11 @@ import static util.validator.Constants.*;
 
 public class DrawableScreenshot {
 
-    private final static Logger LOG = Logger.getLogger(ResponsiveUIValidator.class);
-
-    public File screenshot;
+    private final File screenshot;
     private final DrawingConfiguration drawingConfiguration;
     private BufferedImage img;
     private TransformedGraphics graphics;
+    private File output;
 
     public DrawableScreenshot(DriverFacade driver, SimpleTransform transform, DrawingConfiguration drawingConfiguration) {
         screenshot = driver.takeScreenshot();
@@ -32,50 +31,48 @@ public class DrawableScreenshot {
 
             graphics = new TransformedGraphics(g, transform);
         } catch (Exception e) {
-            LOG.error("Failed to create screenshot file: " + e.getMessage());;
+            throw new RuntimeException("Failed to create screenshot file: " + screenshot, e);
         }
     }
 
-    public void drawScreenshot(Element rootElement, String rootElementReadableName, Errors errors, OffsetLineCommands offsetLineCommands) {
-        if (img != null) {
+    public File getOutput() {
+        return output;
+    }
 
-            drawRootElement(rootElement);
+    public void drawOffsets(Element rootElement, OffsetLineCommands offsetLineCommands) {
+        offsetLineCommands.draw(graphics, img, rootElement, drawingConfiguration);
+    }
 
-            offsetLineCommands.draw(graphics, img, rootElement, drawingConfiguration);
+    public void drawScreenshot(String rootElementReadableName, Errors errors) {
+        for (Object obj : errors.getMessages()) {
+            JSONObject det = (JSONObject) obj;
+            JSONObject details = (JSONObject) det.get(REASON);
+            JSONObject numE = (JSONObject) details.get(ELEMENT);
 
-            for (Object obj : errors.getMessages()) {
-                JSONObject det = (JSONObject) obj;
-                JSONObject details = (JSONObject) det.get(REASON);
-                JSONObject numE = (JSONObject) details.get(ELEMENT);
+            if (numE != null) {
+                int x = (int) (float) numE.get(X);
+                int y = (int) (float) numE.get(Y);
+                int width = (int) (float) numE.get(WIDTH);
+                int height = (int) (float) numE.get(HEIGHT);
 
-                if (numE != null) {
-                    int x = (int) (float) numE.get(X);
-                    int y = (int) (float) numE.get(Y);
-                    int width = (int) (float) numE.get(WIDTH);
-                    int height = (int) (float) numE.get(HEIGHT);
-
-                    drawingConfiguration.setHighlightedElementStyle(graphics);
-                    graphics.drawRectByExtend(x, y, width, height);
-                }
+                drawingConfiguration.setHighlightedElementStyle(graphics);
+                graphics.drawRectByExtend(x, y, width, height);
             }
+        }
 
-            try {
-                ImageIO.write(img, "png", screenshot);
-                File file = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-                FileUtils.copyFile(screenshot, file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            LOG.error("Taking of screenshot was failed for some reason.");
+        output = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
+        output.getParentFile().mkdirs();
+        try {
+            ImageIO.write(img, "png", output);
+        } catch (IOException e) {
+            throw new RuntimeException("Writing file failed for " + screenshot , e);
         }
     }
 
-    private void drawRootElement(Element rootElement) {
+    public void drawRootElement(Element rootElement) {
         drawingConfiguration.setRootElementStyle(graphics);
         int x = rootElement.getX();
         int y = rootElement.getY();
         graphics.drawRectByExtend(x, y, rootElement.getWidth(), rootElement.getHeight());
     }
-
 }
