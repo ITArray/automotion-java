@@ -10,6 +10,7 @@ import com.webfirmframework.wffweb.tag.html.lists.Ol;
 import com.webfirmframework.wffweb.tag.html.metainfo.Head;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
+import http.helpers.Helper;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
@@ -37,19 +38,17 @@ public class HtmlReportBuilder {
     }
 
     public void buildReport(List<String> jsonFiles) throws IOException, ParseException, InterruptedException {
-        this.jsonFiles = jsonFiles;
-        writeReport("result");
+        buildReport("result", jsonFiles);
     }
 
     private void writeReport(String reportName) throws InterruptedException, IOException, ParseException {
-        Thread.sleep(3000);
-
         Html html = buildHtml();
 
         long ms = System.currentTimeMillis();
+        String uuid = Helper.getGeneratedStringWithLength(7);
 
         try (FileOutputStream fos = new FileOutputStream(TARGET_AUTOMOTION
-                + reportName.replace(" ", "_") + "-" + ms + ".html");
+                + reportName.replace(" ", "_") + "-" + ms + uuid + ".html");
                 BufferedOutputStream bos = new BufferedOutputStream(fos);) {
 
             html.toOutputStream(bos);
