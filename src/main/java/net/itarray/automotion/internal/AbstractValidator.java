@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
 import util.validator.ResponsiveUIValidator;
 
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -61,7 +62,7 @@ public class AbstractValidator extends ResponsiveUIValidator{
             return;
         }
 
-        DrawableScreenshot screenshot = new DrawableScreenshot(driver, getTransform(), drawingConfiguration);
+        DrawableScreenshot screenshot = new DrawableScreenshot(driver, getTransform(), getDrawingConfiguration());
 
         drawRootElement(screenshot);
 
@@ -104,7 +105,7 @@ public class AbstractValidator extends ResponsiveUIValidator{
     }
 
     private int getYOffset() {
-        if (isMobile() && driver.isAppiumWebContext() && hasMobileTopBarOffset) {
+        if (isMobile() && driver.isAppiumWebContext() && isMobileTopBarOffset()) {
             if (isIOS() || isAndroid()) {
                 return 20;
             }
@@ -152,9 +153,36 @@ public class AbstractValidator extends ResponsiveUIValidator{
         throw new RuntimeException("should be overwritten");
     }
 
+    /**
+     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#setTopBarMobileOffset(boolean)}
+     */
     @Deprecated()
     public void setTopBarMobileOffset(boolean state) {
         scenario.setTopBarMobileOffset(state);
+    }
+
+    /**
+     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#setColorForRootElement(java.awt.Color)}
+     */
+    @Deprecated()
+    public void setColorForRootElement(Color color) {
+        scenario.setColorForRootElement(color);
+    }
+
+    /**
+     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#setColorForHighlightedElements(java.awt.Color)}
+     */
+    @Deprecated()
+    public void setColorForHighlightedElements(Color color) {
+        scenario.setColorForHighlightedElements(color);
+    }
+
+    /**
+     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#setLinesColor(java.awt.Color)}
+     */
+    @Deprecated()
+    public void setLinesColor(Color color) {
+        scenario.setLinesColor(color);
     }
 
 }
