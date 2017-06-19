@@ -150,10 +150,6 @@ public class ResponsiveUIValidator {
     }
 
 
-    protected void storeRootDetails(JSONObject rootDetails) {
-        throw new RuntimeException("should be overwritten");
-    }
-
     /**
      * Call method to generate HTML report
      */
@@ -180,10 +176,6 @@ public class ResponsiveUIValidator {
                 e.printStackTrace();
             }
         }
-    }
-
-    protected String getRootElementReadableName() {
-        throw new RuntimeException("should be overwritten");
     }
 
     public enum Units {

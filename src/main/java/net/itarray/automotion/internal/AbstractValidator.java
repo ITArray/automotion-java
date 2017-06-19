@@ -22,7 +22,7 @@ import static util.validator.Constants.*;
 import static util.validator.Constants.TARGET_AUTOMOTION_JSON;
 import static util.validator.ResponsiveUIValidator.Units.PX;
 
-public class AbstractValidator extends ResponsiveUIValidator{
+public abstract class AbstractValidator extends ResponsiveUIValidator{
 
     private final Errors errors;
     private final Zoom zoom;
@@ -56,6 +56,8 @@ public class AbstractValidator extends ResponsiveUIValidator{
 
         return !errors.hasMessages();
     }
+
+    protected abstract String getRootElementReadableName();
 
     private void compileValidationReport() {
         if (!withReport) {
@@ -112,6 +114,8 @@ public class AbstractValidator extends ResponsiveUIValidator{
         }
         return 0;
     }
+
+    protected abstract void storeRootDetails(JSONObject rootDetails);
 
     private void writeResults(DrawableScreenshot drawableScreenshot) {
         JSONObject jsonResults = new JSONObject();
