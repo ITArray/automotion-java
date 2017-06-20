@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
 import util.validator.ResponsiveUIValidator;
 
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,15 +22,17 @@ import static util.validator.Constants.*;
 import static util.validator.Constants.TARGET_AUTOMOTION_JSON;
 import static util.validator.ResponsiveUIValidator.Units.PX;
 
-public class AbstractValidator extends ResponsiveUIValidator{
+public abstract class AbstractValidator extends ResponsiveUIValidator{
 
     private final Errors errors;
     private final Zoom zoom;
     private final long startTime;
     protected final Dimension pageSize;
+    private final Scenario scenario;
 
-    protected AbstractValidator(DriverFacade driver) {
+    protected AbstractValidator(Scenario scenario, DriverFacade driver) {
         super(driver);
+        this.scenario = scenario;
         this.errors = new Errors();
         this.zoom = new Zoom(driver);
         this.pageSize = driver.retrievePageSize();
@@ -54,12 +57,14 @@ public class AbstractValidator extends ResponsiveUIValidator{
         return !errors.hasMessages();
     }
 
+    protected abstract String getRootElementReadableName();
+
     private void compileValidationReport() {
         if (!withReport) {
             return;
         }
 
-        DrawableScreenshot screenshot = new DrawableScreenshot(driver, getTransform(), drawingConfiguration);
+        DrawableScreenshot screenshot = new DrawableScreenshot(driver, getTransform(), getDrawingConfiguration());
 
         drawRootElement(screenshot);
 
@@ -102,13 +107,15 @@ public class AbstractValidator extends ResponsiveUIValidator{
     }
 
     private int getYOffset() {
-        if (isMobile() && driver.isAppiumWebContext() && isMobileTopBar) {
+        if (isMobile() && driver.isAppiumWebContext() && isMobileTopBarOffset()) {
             if (isIOS() || isAndroid()) {
                 return 20;
             }
         }
         return 0;
     }
+
+    protected abstract void storeRootDetails(JSONObject rootDetails);
 
     private void writeResults(DrawableScreenshot drawableScreenshot) {
         JSONObject jsonResults = new JSONObject();
@@ -119,7 +126,7 @@ public class AbstractValidator extends ResponsiveUIValidator{
         JSONObject rootDetails = new JSONObject();
         storeRootDetails(rootDetails);
 
-        jsonResults.put(SCENARIO, scenarioName);
+        jsonResults.put(SCENARIO, scenario.getName());
         jsonResults.put(ROOT_ELEMENT, rootDetails);
         jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
         jsonResults.put(ELEMENT_NAME, getRootElementReadableName());
@@ -148,5 +155,42 @@ public class AbstractValidator extends ResponsiveUIValidator{
 
     protected void drawRootElement(DrawableScreenshot screenshot) {
         throw new RuntimeException("should be overwritten");
+    }
+
+    /**
+     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#setTopBarMobileOffset(boolean)}
+     */
+    @Deprecated()
+    public void setTopBarMobileOffset(boolean state) {
+        scenario.setTopBarMobileOffset(state);
+    }
+
+    /**
+     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#setColorForRootElement(java.awt.Color)}
+     */
+    @Deprecated()
+    public void setColorForRootElement(Color color) {
+        scenario.setColorForRootElement(color);
+    }
+
+    /**
+     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#setColorForHighlightedElements(java.awt.Color)}
+     */
+    @Deprecated()
+    public void setColorForHighlightedElements(Color color) {
+        scenario.setColorForHighlightedElements(color);
+    }
+
+    /**
+     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#setLinesColor(java.awt.Color)}
+     */
+    @Deprecated()
+    public void setLinesColor(Color color) {
+        scenario.setLinesColor(color);
+    }
+
+    @Override
+    public DrawingConfiguration getDrawingConfiguration() {
+        return scenario.getDrawingConfiguration();
     }
 }

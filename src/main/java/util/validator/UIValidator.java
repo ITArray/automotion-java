@@ -6,6 +6,7 @@ import net.itarray.automotion.internal.AbstractValidator;
 import net.itarray.automotion.internal.DrawableScreenshot;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.OffsetLineCommands;
+import net.itarray.automotion.internal.Scenario;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 import util.general.SystemHelper;
@@ -28,8 +29,8 @@ public class UIValidator extends AbstractValidator implements Validator {
     private final Element rootElement;
 
 
-    UIValidator(DriverFacade driver, WebElement webElement, String readableNameOfElement) {
-        super(driver);
+    public UIValidator(Scenario scenario, DriverFacade driver, WebElement webElement, String readableNameOfElement) {
+        super(scenario, driver);
         this.rootElement = asElement(webElement);
         this.rootElementReadableName = readableNameOfElement;
     }

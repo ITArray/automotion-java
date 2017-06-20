@@ -4,7 +4,7 @@ import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.AbstractValidator;
 import net.itarray.automotion.internal.DrawableScreenshot;
 import net.itarray.automotion.internal.DriverFacade;
-import net.itarray.automotion.internal.OffsetLineCommands;
+import net.itarray.automotion.internal.Scenario;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 
@@ -16,15 +16,13 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static net.itarray.automotion.Element.asElement;
 import static net.itarray.automotion.Element.asElements;
-import static util.validator.Constants.*;
-import static util.validator.Constants.HEIGHT;
 
 public class ResponsiveUIChunkValidator extends AbstractValidator implements ChunkValidator {
 
-    private List<Element> rootElements;
+    private final List<Element> rootElements;
 
-    ResponsiveUIChunkValidator(DriverFacade driver, List<WebElement> webElements) {
-        super(driver);
+    public ResponsiveUIChunkValidator(Scenario scenario, DriverFacade driver, List<WebElement> webElements) {
+        super(scenario, driver);
         rootElements = asElements(webElements);
         if (webElements.isEmpty()) {
             String message = "Set root web element";

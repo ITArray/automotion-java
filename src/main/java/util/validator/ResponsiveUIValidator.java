@@ -1,18 +1,15 @@
 package util.validator;
 
-import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.DrawingConfiguration;
-import net.itarray.automotion.internal.Errors;
-import net.itarray.automotion.internal.Zoom;
 import net.itarray.automotion.internal.DriverFacade;
-import org.json.simple.JSONObject;
+import net.itarray.automotion.internal.Scenario;
 import org.json.simple.parser.ParseException;
-import org.openqa.selenium.*;
-import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import util.general.HtmlReportBuilder;
 
 import java.awt.*;
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +19,12 @@ public class ResponsiveUIValidator {
 
     protected final DriverFacade driver;
 
-    protected static boolean isMobileTopBar = false;
     protected static boolean withReport = false;
-    protected static String scenarioName = "Default";
-    protected static DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
     protected static List<String> jsonFiles = new ArrayList<>();
     protected ResponsiveUIValidator.Units units = PX;
+
+    private boolean mobileTopBarOffset = false;
+    private final DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
 
     public ResponsiveUIValidator(WebDriver driver) {
         this(new DriverFacade(driver));
@@ -65,13 +62,21 @@ public class ResponsiveUIValidator {
         drawingConfiguration.setLinesColor(color);
     }
 
+    public DrawingConfiguration getDrawingConfiguration() {
+        return drawingConfiguration;
+    }
+
     /**
      * Set top bar mobile offset. Applicable only for native mobile testing
      *
      * @param state
      */
     public void setTopBarMobileOffset(boolean state) {
-        isMobileTopBar = state;
+        mobileTopBarOffset = state;
+    }
+
+    public boolean isMobileTopBarOffset() {
+        return mobileTopBarOffset;
     }
 
     /**
@@ -80,7 +85,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator init() {
-        return new ResponsiveUIValidator(driver);
+        return new Scenario(driver, "Default", this);
     }
 
     /**
@@ -90,8 +95,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator init(String scenarioName) {
-        ResponsiveUIValidator.scenarioName = scenarioName;
-        return new ResponsiveUIValidator(driver);
+        return new Scenario(driver, scenarioName, this);
     }
 
     /**
@@ -102,7 +106,7 @@ public class ResponsiveUIValidator {
      * @return UIValidator
      */
     public UIValidator findElement(WebElement element, String readableNameOfElement) {
-        return new UIValidator(driver, element, readableNameOfElement);
+        return init().findElement(element, readableNameOfElement);
     }
 
     /**
@@ -112,7 +116,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIChunkValidator
      */
     public ResponsiveUIChunkValidator findElements(java.util.List<WebElement> elements) {
-        return new ResponsiveUIChunkValidator(driver, elements);
+        return init().findElements(elements);
     }
 
     /**
@@ -146,10 +150,6 @@ public class ResponsiveUIValidator {
     }
 
 
-    protected void storeRootDetails(JSONObject rootDetails) {
-        throw new RuntimeException("should be overwritten");
-    }
-
     /**
      * Call method to generate HTML report
      */
@@ -158,7 +158,7 @@ public class ResponsiveUIValidator {
             try {
                 new HtmlReportBuilder().buildReport(jsonFiles);
             } catch (IOException | ParseException | InterruptedException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }
@@ -173,13 +173,9 @@ public class ResponsiveUIValidator {
             try {
                 new HtmlReportBuilder().buildReport(name, jsonFiles);
             } catch (IOException | ParseException | InterruptedException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
-    }
-
-    protected String getRootElementReadableName() {
-        throw new RuntimeException("should be overwritten");
     }
 
     public enum Units {
