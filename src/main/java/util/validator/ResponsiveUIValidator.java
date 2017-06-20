@@ -1,15 +1,15 @@
 package util.validator;
 
 import net.itarray.automotion.internal.DrawingConfiguration;
-import net.itarray.automotion.internal.Scenario;
 import net.itarray.automotion.internal.DriverFacade;
-import org.json.simple.JSONObject;
+import net.itarray.automotion.internal.Scenario;
 import org.json.simple.parser.ParseException;
-import org.openqa.selenium.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import util.general.HtmlReportBuilder;
 
 import java.awt.*;
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +62,7 @@ public class ResponsiveUIValidator {
         drawingConfiguration.setLinesColor(color);
     }
 
-    protected DrawingConfiguration getDrawingConfiguration() {
+    public DrawingConfiguration getDrawingConfiguration() {
         return drawingConfiguration;
     }
 

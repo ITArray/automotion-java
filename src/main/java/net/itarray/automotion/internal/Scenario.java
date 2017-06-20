@@ -62,4 +62,8 @@ public class Scenario extends ResponsiveUIValidator {
         factory.setLinesColor(color);
     }
 
+    @Override
+    public DrawingConfiguration getDrawingConfiguration() {
+        return factory.getDrawingConfiguration();
+    }
 }

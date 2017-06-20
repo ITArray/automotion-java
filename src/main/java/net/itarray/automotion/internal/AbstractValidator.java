@@ -189,4 +189,8 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
         scenario.setLinesColor(color);
     }
 
+    @Override
+    public DrawingConfiguration getDrawingConfiguration() {
+        return scenario.getDrawingConfiguration();
+    }
 }
