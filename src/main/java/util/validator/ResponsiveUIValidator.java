@@ -17,7 +17,7 @@ public class ResponsiveUIValidator {
 
     protected final DriverFacade driver;
 
-    protected static boolean withReport = false;
+    private boolean withReport = false;
     protected static List<String> jsonFiles = new ArrayList<>();
     protected ResponsiveUIValidator.Units units = PX;
 
@@ -32,6 +32,13 @@ public class ResponsiveUIValidator {
         this.driver = driver;
     }
 
+    public boolean isWithReport() {
+        return withReport;
+    }
+
+    public List<String> getJsonFiles() {
+        return jsonFiles;
+    }
 
     /**
      * Set color for main element. This color will be used for highlighting element in results
@@ -161,7 +168,7 @@ public class ResponsiveUIValidator {
      * @param name
      */
     public void generateReport(String name) {
-        if (withReport && !jsonFiles.isEmpty()) {
+        if (isWithReport() && !jsonFiles.isEmpty()) {
             new HtmlReportBuilder().buildReport(name, jsonFiles);
         }
     }

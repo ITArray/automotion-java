@@ -18,6 +18,20 @@ public class Scenario extends ResponsiveUIValidator {
         this.factory = factory;
     }
 
+    @Override
+    public boolean isWithReport() {
+        return factory.isWithReport();
+    }
+
+    /**
+     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#drawMap()}
+     */
+    @Deprecated()
+    public Scenario drawMap() {
+        factory.drawMap();
+        return this;
+    }
+
     public UIValidator findElement(WebElement element, String readableNameOfElement) {
         return new UIValidator(this, driver, element, readableNameOfElement);
     }

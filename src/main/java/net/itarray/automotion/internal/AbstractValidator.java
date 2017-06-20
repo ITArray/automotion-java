@@ -39,6 +39,21 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
         this.startTime = System.currentTimeMillis();
     }
 
+    @Override
+    public boolean isWithReport() {
+        return scenario.isWithReport();
+    }
+
+    /**
+     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#drawMap()}
+     */
+    @Deprecated()
+    public AbstractValidator drawMap() {
+        scenario.drawMap();
+        return this;
+    }
+
+
     protected void addError(String message) {
         errors.add(message);
     }
@@ -60,7 +75,7 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
     protected abstract String getRootElementReadableName();
 
     private void compileValidationReport() {
-        if (!withReport) {
+        if (!isWithReport()) {
             return;
         }
 
