@@ -79,7 +79,7 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
             return;
         }
 
-        DrawableScreenshot screenshot = new DrawableScreenshot(driver, getTransform(), getDrawingConfiguration());
+        DrawableScreenshot screenshot = new DrawableScreenshot(getDriver(), getTransform(), getDrawingConfiguration());
 
         drawRootElement(screenshot);
 
@@ -110,7 +110,7 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
     }
 
     protected int getConvertedInt(int i, boolean horizontal) {
-        if (units.equals(PX)) {
+        if (getUnits().equals(PX)) {
             return i;
         } else {
             if (horizontal) {
@@ -122,7 +122,7 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
     }
 
     private int getYOffset() {
-        if (isMobile() && driver.isAppiumWebContext() && isMobileTopBarOffset()) {
+        if (isMobile() && getDriver().isAppiumWebContext() && isMobileTopBarOffset()) {
             if (isIOS() || isAndroid()) {
                 return 20;
             }

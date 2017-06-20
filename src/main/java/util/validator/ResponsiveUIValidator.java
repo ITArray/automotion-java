@@ -1,46 +1,33 @@
 package util.validator;
 
+import net.itarray.automotion.Report;
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.Scenario;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import net.itarray.automotion.internal.HtmlReportBuilder;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import static util.validator.ResponsiveUIValidator.Units.PX;
 
 public class ResponsiveUIValidator {
 
-    protected final DriverFacade driver;
-
-    private boolean withReport = false;
-    private final List<String> jsonFiles = new ArrayList<>();
-    protected ResponsiveUIValidator.Units units = PX;
-
-    private boolean mobileTopBarOffset = false;
-    private final DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
+    private final Report report;
 
     public ResponsiveUIValidator(WebDriver driver) {
         this(new DriverFacade(driver));
     }
 
     protected ResponsiveUIValidator(DriverFacade driver) {
-        this.driver = driver;
+        this.report = new Report(driver);
     }
 
     public boolean isWithReport() {
-        return withReport;
+        return report.isWithReport();
     }
 
     public void addJsonFile(String jsonFileName) {
-        jsonFiles.add(jsonFileName);
+        report.addJsonFile(jsonFileName);
     }
-
-
 
     /**
      * Set color for main element. This color will be used for highlighting element in results
@@ -48,7 +35,7 @@ public class ResponsiveUIValidator {
      * @param color
      */
     public void setColorForRootElement(Color color) {
-        drawingConfiguration.setRootColor(color);
+        report.setColorForRootElement(color);
     }
 
     /**
@@ -57,7 +44,7 @@ public class ResponsiveUIValidator {
      * @param color
      */
     public void setColorForHighlightedElements(Color color) {
-        drawingConfiguration.setHighlightedElementsColor(color);
+        report.setColorForHighlightedElements(color);
     }
 
     /**
@@ -66,11 +53,11 @@ public class ResponsiveUIValidator {
      * @param color
      */
     public void setLinesColor(Color color) {
-        drawingConfiguration.setLinesColor(color);
+        report.setLinesColor(color);
     }
 
     public DrawingConfiguration getDrawingConfiguration() {
-        return drawingConfiguration;
+        return report.getDrawingConfiguration();
     }
 
     /**
@@ -79,11 +66,11 @@ public class ResponsiveUIValidator {
      * @param state
      */
     public void setTopBarMobileOffset(boolean state) {
-        mobileTopBarOffset = state;
+        report.setTopBarMobileOffset(state);
     }
 
     public boolean isMobileTopBarOffset() {
-        return mobileTopBarOffset;
+        return report.isMobileTopBarOffset();
     }
 
     /**
@@ -92,7 +79,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator init() {
-        return new Scenario(driver, "Default", this);
+        return new Scenario(getDriver(), "Default", this);
     }
 
     /**
@@ -102,7 +89,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator init(String scenarioName) {
-        return new Scenario(driver, scenarioName, this);
+        return new Scenario(getDriver(), scenarioName, this);
     }
 
     /**
@@ -133,8 +120,12 @@ public class ResponsiveUIValidator {
      * @return UIValidator
      */
     public ResponsiveUIValidator changeMetricsUnitsTo(Units units) {
-        this.units = units;
+        report.setUnits(units);
         return this;
+    }
+
+    protected Units getUnits() {
+        return report.getUnits();
     }
 
     /**
@@ -143,7 +134,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator drawMap() {
-        withReport = true;
+        report.drawMap();
         return this;
     }
 
@@ -161,7 +152,7 @@ public class ResponsiveUIValidator {
      * Call method to generate HTML report
      */
     public void generateReport() {
-        generateReport("result");
+        report.generateReport();
     }
 
     /**
@@ -170,9 +161,11 @@ public class ResponsiveUIValidator {
      * @param name
      */
     public void generateReport(String name) {
-        if (isWithReport() && !jsonFiles.isEmpty()) {
-            new HtmlReportBuilder().buildReport(name, jsonFiles);
-        }
+        report.generateReport(name);
+    }
+
+    public DriverFacade getDriver() {
+        return report.getDriver();
     }
 
     public enum Units {

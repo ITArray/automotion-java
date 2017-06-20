@@ -37,11 +37,11 @@ public class Scenario extends ResponsiveUIValidator {
     }
 
     public UIValidator findElement(WebElement element, String readableNameOfElement) {
-        return new UIValidator(this, driver, element, readableNameOfElement);
+        return new UIValidator(this, getDriver(), element, readableNameOfElement);
     }
 
     public ResponsiveUIChunkValidator findElements(java.util.List<WebElement> elements) {
-        return new ResponsiveUIChunkValidator(this, driver, elements);
+        return new ResponsiveUIChunkValidator(this, getDriver(), elements);
     }
 
     public String getName() {
