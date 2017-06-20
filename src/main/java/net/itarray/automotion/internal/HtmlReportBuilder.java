@@ -11,15 +11,12 @@ import com.webfirmframework.wffweb.tag.html.metainfo.Head;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import http.helpers.Helper;
-import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,7 +54,6 @@ public class HtmlReportBuilder {
         }
     }
 
-    @NotNull
     private Html buildHtml() throws IOException, ParseException {
         return new Html(null, new Style("background-color: rgb(255,250,250)")) {{
             new Head(this) {{
