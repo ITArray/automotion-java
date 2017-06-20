@@ -161,7 +161,11 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
             throw new RuntimeException("Cannot create json report: " + jsonFile, ex);
         }
 
-        jsonFiles.add(jsonFileName);
+        addJsonFile(jsonFileName);
+    }
+
+    public void addJsonFile(String jsonFileName) {
+        scenario.addJsonFile(jsonFileName);
     }
 
     protected void drawOffsets(DrawableScreenshot screenshot) {

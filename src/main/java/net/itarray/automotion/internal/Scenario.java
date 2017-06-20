@@ -32,6 +32,10 @@ public class Scenario extends ResponsiveUIValidator {
         return this;
     }
 
+    public void addJsonFile(String jsonFileName) {
+        factory.addJsonFile(jsonFileName);
+    }
+
     public UIValidator findElement(WebElement element, String readableNameOfElement) {
         return new UIValidator(this, driver, element, readableNameOfElement);
     }

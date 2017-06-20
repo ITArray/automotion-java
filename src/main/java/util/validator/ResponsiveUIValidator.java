@@ -18,7 +18,7 @@ public class ResponsiveUIValidator {
     protected final DriverFacade driver;
 
     private boolean withReport = false;
-    protected static List<String> jsonFiles = new ArrayList<>();
+    private final List<String> jsonFiles = new ArrayList<>();
     protected ResponsiveUIValidator.Units units = PX;
 
     private boolean mobileTopBarOffset = false;
@@ -36,9 +36,11 @@ public class ResponsiveUIValidator {
         return withReport;
     }
 
-    public List<String> getJsonFiles() {
-        return jsonFiles;
+    public void addJsonFile(String jsonFileName) {
+        jsonFiles.add(jsonFileName);
     }
+
+
 
     /**
      * Set color for main element. This color will be used for highlighting element in results
