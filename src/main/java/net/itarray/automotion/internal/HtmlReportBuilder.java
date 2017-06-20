@@ -1,4 +1,4 @@
-package util.general;
+package net.itarray.automotion.internal;
 
 import com.webfirmframework.wffweb.tag.html.*;
 import com.webfirmframework.wffweb.tag.html.attribute.Alt;

@@ -6,7 +6,7 @@ import net.itarray.automotion.internal.Scenario;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import util.general.HtmlReportBuilder;
+import net.itarray.automotion.internal.HtmlReportBuilder;
 
 import java.awt.*;
 import java.io.IOException;
