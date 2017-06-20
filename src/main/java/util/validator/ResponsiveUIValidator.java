@@ -154,13 +154,7 @@ public class ResponsiveUIValidator {
      * Call method to generate HTML report
      */
     public void generateReport() {
-        if (withReport && !jsonFiles.isEmpty()) {
-            try {
-                new HtmlReportBuilder().buildReport(jsonFiles);
-            } catch (IOException | ParseException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        generateReport("result");
     }
 
     /**
@@ -170,11 +164,7 @@ public class ResponsiveUIValidator {
      */
     public void generateReport(String name) {
         if (withReport && !jsonFiles.isEmpty()) {
-            try {
-                new HtmlReportBuilder().buildReport(name, jsonFiles);
-            } catch (IOException | ParseException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            new HtmlReportBuilder().buildReport(name, jsonFiles);
         }
     }
 

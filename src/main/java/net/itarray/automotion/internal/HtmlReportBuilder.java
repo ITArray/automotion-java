@@ -32,16 +32,16 @@ public class HtmlReportBuilder {
 
     private List<String> jsonFiles;
 
-    public void buildReport(String reportName, List<String> jsonFiles) throws IOException, ParseException, InterruptedException {
+    public void buildReport(String reportName, List<String> jsonFiles) {
         this.jsonFiles = jsonFiles;
-        writeReport(reportName);
+        try {
+            writeReport(reportName);
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void buildReport(List<String> jsonFiles) throws IOException, ParseException, InterruptedException {
-        buildReport("result", jsonFiles);
-    }
-
-    private void writeReport(String reportName) throws InterruptedException, IOException, ParseException {
+    private void writeReport(String reportName) throws IOException, ParseException {
         Html html = buildHtml();
 
         long ms = System.currentTimeMillis();
