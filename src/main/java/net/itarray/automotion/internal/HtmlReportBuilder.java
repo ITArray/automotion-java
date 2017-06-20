@@ -47,8 +47,9 @@ public class HtmlReportBuilder {
         long ms = System.currentTimeMillis();
         String uuid = Helper.getGeneratedStringWithLength(7);
 
-        try (FileOutputStream fos = new FileOutputStream(TARGET_AUTOMOTION
-                + reportName.replace(" ", "_") + "-" + ms + uuid + ".html");
+        File report = new File(TARGET_AUTOMOTION + reportName.replace(" ", "_") + "-" + ms + uuid + ".html");
+        report.getParentFile().mkdirs();
+        try (FileOutputStream fos = new FileOutputStream(report);
                 BufferedOutputStream bos = new BufferedOutputStream(fos);) {
 
             html.toOutputStream(bos);
