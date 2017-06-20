@@ -21,6 +21,10 @@ public class ResponsiveUIValidator {
         this.report = new Report(driver);
     }
 
+    protected ResponsiveUIValidator(Report report) {
+        this.report = report;
+    }
+
     public boolean isWithReport() {
         return report.isWithReport();
     }
@@ -79,7 +83,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator init() {
-        return new Scenario(getDriver(), "Default", this);
+        return new Scenario(report, "Default");
     }
 
     /**
@@ -89,7 +93,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator init(String scenarioName) {
-        return new Scenario(getDriver(), scenarioName, this);
+        return new Scenario(report, scenarioName);
     }
 
     /**
