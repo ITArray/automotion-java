@@ -54,20 +54,6 @@ public class HtmlReportBuilder {
             html.toOutputStream(bos);
             bos.flush();
         }
-
-        File file = new File(TARGET_AUTOMOTION + "result" + ms + ".html");
-        if (file.getParentFile().mkdirs()) {
-            if (file.createNewFile()) {
-
-                try (FileOutputStream fos = new FileOutputStream(file);
-                     BufferedOutputStream bos = new BufferedOutputStream(
-                             fos);) {
-
-                    html.toOutputStream(bos);
-                    bos.flush();
-                }
-            }
-        }
     }
 
     @NotNull
