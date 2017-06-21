@@ -1,4 +1,4 @@
-package net.itarray.automotion;
+package net.itarray.automotion.internal;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;

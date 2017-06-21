@@ -1,7 +1,6 @@
 package net.itarray.automotion.internal;
 
 import net.itarray.automotion.NewChunkValidator;
-import net.itarray.automotion.Element;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIValidator;
@@ -12,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static net.itarray.automotion.Element.*;
+import static net.itarray.automotion.internal.Element.*;
 
 public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase implements NewChunkValidator {
 

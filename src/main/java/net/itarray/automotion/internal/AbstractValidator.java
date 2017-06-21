@@ -1,26 +1,8 @@
 package net.itarray.automotion.internal;
 
-import http.helpers.Helper;
-import net.itarray.automotion.Element;
-import org.json.simple.JSONObject;
-import org.openqa.selenium.Dimension;
 import util.validator.ResponsiveUIValidator;
 
 import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
-
-import static environment.EnvironmentFactory.*;
-import static environment.EnvironmentFactory.isChrome;
-import static util.general.SystemHelper.isRetinaDisplay;
-import static util.validator.Constants.*;
-import static util.validator.Constants.TARGET_AUTOMOTION_JSON;
-import static util.validator.ResponsiveUIValidator.Units.PX;
 
 public abstract class AbstractValidator extends ResponsiveUIValidator{
 

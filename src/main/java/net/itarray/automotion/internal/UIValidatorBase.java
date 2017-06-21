@@ -1,7 +1,6 @@
 package net.itarray.automotion.internal;
 
 import http.helpers.TextFinder;
-import net.itarray.automotion.Element;
 import net.itarray.automotion.NewValidator;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
@@ -12,7 +11,7 @@ import util.validator.properties.Padding;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-import static net.itarray.automotion.Element.*;
+import static net.itarray.automotion.internal.Element.*;
 import static util.validator.Constants.*;
 
 public class UIValidatorBase extends ResponsiveUIValidatorBase implements NewValidator {

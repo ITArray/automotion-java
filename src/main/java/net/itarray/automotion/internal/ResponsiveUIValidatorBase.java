@@ -1,7 +1,6 @@
 package net.itarray.automotion.internal;
 
 import http.helpers.Helper;
-import net.itarray.automotion.Element;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
 import util.validator.ResponsiveUIValidator;
@@ -59,7 +58,7 @@ public abstract class ResponsiveUIValidatorBase {
         scenario.drawMap();
         return this;
     }
-    
+
     protected void addError(String message) {
         errors.add(message);
     }

@@ -1,26 +1,13 @@
 package util.validator;
 
-import http.helpers.TextFinder;
-import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.AbstractValidator;
-import net.itarray.automotion.internal.DrawableScreenshot;
 import net.itarray.automotion.internal.DriverFacade;
-import net.itarray.automotion.internal.OffsetLineCommands;
-import net.itarray.automotion.internal.ResponsiveUIValidatorBase;
 import net.itarray.automotion.internal.Scenario;
 import net.itarray.automotion.internal.UIValidatorBase;
-import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
-import util.general.SystemHelper;
 import util.validator.properties.Padding;
 
-import java.awt.geom.Rectangle2D;
 import java.util.List;
-
-import static net.itarray.automotion.Element.asElement;
-import static net.itarray.automotion.Element.asElements;
-import static util.validator.Constants.*;
-import static util.validator.Constants.HEIGHT;
 
 public class UIValidator extends AbstractValidator implements Validator {
 

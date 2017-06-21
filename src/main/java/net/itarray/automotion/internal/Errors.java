@@ -1,6 +1,5 @@
 package net.itarray.automotion.internal;
 
-import net.itarray.automotion.Element;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;

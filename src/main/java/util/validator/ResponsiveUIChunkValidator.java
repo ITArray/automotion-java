@@ -1,23 +1,12 @@
 package util.validator;
 
-import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.AbstractValidator;
-import net.itarray.automotion.internal.DrawableScreenshot;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.ResponsiveUIChunkValidatorBase;
 import net.itarray.automotion.internal.Scenario;
-import net.itarray.automotion.internal.UIValidatorBase;
-import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 
-import java.awt.geom.Rectangle2D;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static net.itarray.automotion.Element.asElement;
-import static net.itarray.automotion.Element.asElements;
 
 public class ResponsiveUIChunkValidator extends AbstractValidator implements ChunkValidator {
 
