@@ -1,11 +1,12 @@
 package util.validator;
 
+import net.itarray.automotion.ValidatorBase;
 import org.openqa.selenium.WebElement;
 import util.validator.properties.Padding;
 
 import java.util.List;
 
-interface Validator {
+public interface Validator extends ValidatorBase {
 
     UIValidator changeMetricsUnitsTo(ResponsiveUIValidator.Units units);
 

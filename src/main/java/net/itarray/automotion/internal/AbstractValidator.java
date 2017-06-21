@@ -24,19 +24,19 @@ import static util.validator.ResponsiveUIValidator.Units.PX;
 
 public abstract class AbstractValidator extends ResponsiveUIValidator{
 
-    private final Errors errors;
-    private final Zoom zoom;
-    private final long startTime;
     protected final Dimension pageSize;
     private final Scenario scenario;
+    private final ResponsiveUIValidatorBase base;
 
-    protected AbstractValidator(Scenario scenario, DriverFacade driver) {
+    protected AbstractValidator(Scenario scenario, DriverFacade driver, ResponsiveUIValidatorBase base) {
         super(driver);
         this.scenario = scenario;
-        this.errors = new Errors();
-        this.zoom = new Zoom(driver);
+        this.base = base;
         this.pageSize = driver.retrievePageSize();
-        this.startTime = System.currentTimeMillis();
+    }
+
+    protected ResponsiveUIValidatorBase getBase() {
+        return base;
     }
 
     @Override
@@ -49,65 +49,25 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
      */
     @Deprecated()
     public AbstractValidator drawMap() {
-        scenario.drawMap();
+        getBase().drawMap();
         return this;
     }
 
 
     protected void addError(String message) {
-        errors.add(message);
+        getBase().addError(message);
     }
 
     protected void addError(String message, Element element) {
-        errors.add(message, element);
+        getBase().addError(message, element);
     }
 
     @Override
     public boolean validate() {
-
-        if (errors.hasMessages()) {
-            compileValidationReport();
-        }
-
-        return !errors.hasMessages();
+        return getBase().validate();
     }
 
     protected abstract String getRootElementReadableName();
-
-    private void compileValidationReport() {
-        if (!isWithReport()) {
-            return;
-        }
-
-        DrawableScreenshot screenshot = new DrawableScreenshot(getDriver(), getTransform(), getDrawingConfiguration());
-
-        drawRootElement(screenshot);
-
-        drawOffsets(screenshot);
-
-        screenshot.drawScreenshot(getRootElementReadableName(), errors);
-
-        writeResults(screenshot);
-    }
-
-    private SimpleTransform getTransform() {
-        return new SimpleTransform(getYOffset(), getScaleFactor());
-    }
-
-    private double getScaleFactor() {
-        double factor = 1;
-        if (isMobile()) {
-            if (isIOS() && isIOSDevice()) {
-                factor = 2;
-            }
-        } else {
-            factor = zoom.getFactor();
-            if (isRetinaDisplay() && isChrome()) {
-                factor = factor * 2;
-            }
-        }
-        return factor;
-    }
 
     protected int getConvertedInt(int i, boolean horizontal) {
         if (getUnits().equals(PX)) {
@@ -121,48 +81,7 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
         }
     }
 
-    private int getYOffset() {
-        if (isMobile() && getDriver().isAppiumWebContext() && isMobileTopBarOffset()) {
-            if (isIOS() || isAndroid()) {
-                return 20;
-            }
-        }
-        return 0;
-    }
-
     protected abstract void storeRootDetails(JSONObject rootDetails);
-
-    private void writeResults(DrawableScreenshot drawableScreenshot) {
-        JSONObject jsonResults = new JSONObject();
-
-        jsonResults.put(ERROR_KEY, errors.hasMessages());
-        jsonResults.put(DETAILS, errors.getMessages());
-
-        JSONObject rootDetails = new JSONObject();
-        storeRootDetails(rootDetails);
-
-        jsonResults.put(SCENARIO, scenario.getName());
-        jsonResults.put(ROOT_ELEMENT, rootDetails);
-        jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
-        jsonResults.put(ELEMENT_NAME, getRootElementReadableName());
-        jsonResults.put(SCREENSHOT, drawableScreenshot.getOutput().getName());
-
-        long ms = System.currentTimeMillis();
-        String uuid = Helper.getGeneratedStringWithLength(7);
-        String jsonFileName = getRootElementReadableName().replace(" ", "") + "-automotion" + ms + uuid + ".json";
-        File jsonFile = new File(TARGET_AUTOMOTION_JSON + jsonFileName);
-        jsonFile.getParentFile().mkdirs();
-        try (
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(jsonFile), StandardCharsets.UTF_8);
-                Writer writer = new BufferedWriter(outputStreamWriter))
-        {
-            writer.write(jsonResults.toJSONString());
-        } catch (IOException ex) {
-            throw new RuntimeException("Cannot create json report: " + jsonFile, ex);
-        }
-
-        addJsonFile(jsonFileName);
-    }
 
     public void addJsonFile(String jsonFileName) {
         scenario.addJsonFile(jsonFileName);

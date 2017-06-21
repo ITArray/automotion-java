@@ -128,7 +128,7 @@ public class ResponsiveUIValidator {
         return this;
     }
 
-    protected Units getUnits() {
+    public Units getUnits() {
         return report.getUnits();
     }
 

@@ -6,8 +6,6 @@ import util.validator.ResponsiveUIChunkValidator;
 import util.validator.ResponsiveUIValidator;
 import util.validator.UIValidator;
 
-import java.awt.*;
-
 public class Scenario extends ResponsiveUIValidator {
 
     private final String name;

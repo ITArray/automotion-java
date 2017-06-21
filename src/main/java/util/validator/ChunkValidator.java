@@ -1,8 +1,9 @@
 package util.validator;
 
+import net.itarray.automotion.ChunkValidatorBase;
 import org.openqa.selenium.WebElement;
 
-public interface ChunkValidator {
+public interface ChunkValidator extends ChunkValidatorBase {
 
     ResponsiveUIChunkValidator changeMetricsUnitsTo(ResponsiveUIValidator.Units units);
 
