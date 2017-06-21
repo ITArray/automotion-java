@@ -1,6 +1,6 @@
 package http.helpers;
 
-import environment.EnvironmentConstants;
+import net.itarray.automotion.tools.environment.EnvironmentConstants;
 
 import java.util.Map;
 
