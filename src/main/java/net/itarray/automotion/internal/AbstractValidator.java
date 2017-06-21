@@ -39,6 +39,21 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
         this.startTime = System.currentTimeMillis();
     }
 
+    @Override
+    public boolean isWithReport() {
+        return scenario.isWithReport();
+    }
+
+    /**
+     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#drawMap()}
+     */
+    @Deprecated()
+    public AbstractValidator drawMap() {
+        scenario.drawMap();
+        return this;
+    }
+
+
     protected void addError(String message) {
         errors.add(message);
     }
@@ -60,7 +75,7 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
     protected abstract String getRootElementReadableName();
 
     private void compileValidationReport() {
-        if (!withReport) {
+        if (!isWithReport()) {
             return;
         }
 
@@ -146,7 +161,11 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
             throw new RuntimeException("Cannot create json report: " + jsonFile, ex);
         }
 
-        jsonFiles.add(jsonFileName);
+        addJsonFile(jsonFileName);
+    }
+
+    public void addJsonFile(String jsonFileName) {
+        scenario.addJsonFile(jsonFileName);
     }
 
     protected void drawOffsets(DrawableScreenshot screenshot) {

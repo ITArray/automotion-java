@@ -3,13 +3,11 @@ package util.validator;
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.Scenario;
-import org.json.simple.parser.ParseException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import util.general.HtmlReportBuilder;
+import net.itarray.automotion.internal.HtmlReportBuilder;
 
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +17,8 @@ public class ResponsiveUIValidator {
 
     protected final DriverFacade driver;
 
-    protected static boolean withReport = false;
-    protected static List<String> jsonFiles = new ArrayList<>();
+    private boolean withReport = false;
+    private final List<String> jsonFiles = new ArrayList<>();
     protected ResponsiveUIValidator.Units units = PX;
 
     private boolean mobileTopBarOffset = false;
@@ -33,6 +31,15 @@ public class ResponsiveUIValidator {
     protected ResponsiveUIValidator(DriverFacade driver) {
         this.driver = driver;
     }
+
+    public boolean isWithReport() {
+        return withReport;
+    }
+
+    public void addJsonFile(String jsonFileName) {
+        jsonFiles.add(jsonFileName);
+    }
+
 
 
     /**
@@ -154,13 +161,7 @@ public class ResponsiveUIValidator {
      * Call method to generate HTML report
      */
     public void generateReport() {
-        if (withReport && !jsonFiles.isEmpty()) {
-            try {
-                new HtmlReportBuilder().buildReport(jsonFiles);
-            } catch (IOException | ParseException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        generateReport("result");
     }
 
     /**
@@ -169,12 +170,8 @@ public class ResponsiveUIValidator {
      * @param name
      */
     public void generateReport(String name) {
-        if (withReport && !jsonFiles.isEmpty()) {
-            try {
-                new HtmlReportBuilder().buildReport(name, jsonFiles);
-            } catch (IOException | ParseException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        if (isWithReport() && !jsonFiles.isEmpty()) {
+            new HtmlReportBuilder().buildReport(name, jsonFiles);
         }
     }
 

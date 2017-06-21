@@ -1,4 +1,4 @@
-package util.general;
+package net.itarray.automotion.internal;
 
 import com.webfirmframework.wffweb.tag.html.*;
 import com.webfirmframework.wffweb.tag.html.attribute.Alt;
@@ -11,15 +11,12 @@ import com.webfirmframework.wffweb.tag.html.metainfo.Head;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import http.helpers.Helper;
-import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,45 +29,31 @@ public class HtmlReportBuilder {
 
     private List<String> jsonFiles;
 
-    public void buildReport(String reportName, List<String> jsonFiles) throws IOException, ParseException, InterruptedException {
+    public void buildReport(String reportName, List<String> jsonFiles) {
         this.jsonFiles = jsonFiles;
-        writeReport(reportName);
+        try {
+            writeReport(reportName);
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void buildReport(List<String> jsonFiles) throws IOException, ParseException, InterruptedException {
-        buildReport("result", jsonFiles);
-    }
-
-    private void writeReport(String reportName) throws InterruptedException, IOException, ParseException {
+    private void writeReport(String reportName) throws IOException, ParseException {
         Html html = buildHtml();
 
         long ms = System.currentTimeMillis();
         String uuid = Helper.getGeneratedStringWithLength(7);
 
-        try (FileOutputStream fos = new FileOutputStream(TARGET_AUTOMOTION
-                + reportName.replace(" ", "_") + "-" + ms + uuid + ".html");
+        File report = new File(TARGET_AUTOMOTION + reportName.replace(" ", "_") + "-" + ms + uuid + ".html");
+        report.getParentFile().mkdirs();
+        try (FileOutputStream fos = new FileOutputStream(report);
                 BufferedOutputStream bos = new BufferedOutputStream(fos);) {
 
             html.toOutputStream(bos);
             bos.flush();
         }
-
-        File file = new File(TARGET_AUTOMOTION + "result" + ms + ".html");
-        if (file.getParentFile().mkdirs()) {
-            if (file.createNewFile()) {
-
-                try (FileOutputStream fos = new FileOutputStream(file);
-                     BufferedOutputStream bos = new BufferedOutputStream(
-                             fos);) {
-
-                    html.toOutputStream(bos);
-                    bos.flush();
-                }
-            }
-        }
     }
 
-    @NotNull
     private Html buildHtml() throws IOException, ParseException {
         return new Html(null, new Style("background-color: rgb(255,250,250)")) {{
             new Head(this) {{
