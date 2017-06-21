@@ -24,17 +24,8 @@ import static util.validator.Constants.HEIGHT;
 
 public class UIValidator extends AbstractValidator implements Validator {
 
-    private static final int MIN_OFFSET = -10000;
-
-    private final OffsetLineCommands offsetLineCommands = new OffsetLineCommands();
-    private final String rootElementReadableName;
-    private final Element rootElement;
-
-
     public UIValidator(Scenario scenario, DriverFacade driver, WebElement webElement, String readableNameOfElement) {
         super(scenario, driver, new UIValidatorBase(scenario, driver, webElement, readableNameOfElement));
-        this.rootElement = asElement(webElement);
-        this.rootElementReadableName = readableNameOfElement;
     }
 
     protected UIValidatorBase getBase() {
@@ -565,29 +556,4 @@ public class UIValidator extends AbstractValidator implements Validator {
         getBase().insideOf(containerElement, readableContainerName, padding);
         return this;
     }
-
-    @Override
-    protected String getRootElementReadableName() {
-        return rootElementReadableName;
-    }
-
-    @Override
-    protected void storeRootDetails(JSONObject rootDetails) {
-        rootDetails.put(X, rootElement.getX());
-        rootDetails.put(Y, rootElement.getY());
-        rootDetails.put(WIDTH, rootElement.getWidth());
-        rootDetails.put(HEIGHT, rootElement.getHeight());
-    }
-
-    @Override
-    protected void drawRootElement(DrawableScreenshot screenshot) {
-        screenshot.drawRootElement(rootElement);
-    }
-
-    @Override
-    protected void drawOffsets(DrawableScreenshot screenshot) {
-        screenshot.drawOffsets(rootElement, offsetLineCommands);
-    }
-
-
 }

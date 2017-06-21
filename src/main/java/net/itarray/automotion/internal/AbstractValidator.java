@@ -24,7 +24,6 @@ import static util.validator.ResponsiveUIValidator.Units.PX;
 
 public abstract class AbstractValidator extends ResponsiveUIValidator{
 
-    protected final Dimension pageSize;
     private final Scenario scenario;
     private final ResponsiveUIValidatorBase base;
 
@@ -32,7 +31,6 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
         super(driver);
         this.scenario = scenario;
         this.base = base;
-        this.pageSize = driver.retrievePageSize();
     }
 
     protected ResponsiveUIValidatorBase getBase() {
@@ -58,41 +56,13 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
         getBase().addError(message);
     }
 
-    protected void addError(String message, Element element) {
-        getBase().addError(message, element);
-    }
-
     @Override
     public boolean validate() {
         return getBase().validate();
     }
 
-    protected abstract String getRootElementReadableName();
-
-    protected int getConvertedInt(int i, boolean horizontal) {
-        if (getUnits().equals(PX)) {
-            return i;
-        } else {
-            if (horizontal) {
-                return (i * pageSize.getWidth()) / 100;
-            } else {
-                return (i * pageSize.getHeight()) / 100;
-            }
-        }
-    }
-
-    protected abstract void storeRootDetails(JSONObject rootDetails);
-
     public void addJsonFile(String jsonFileName) {
         scenario.addJsonFile(jsonFileName);
-    }
-
-    protected void drawOffsets(DrawableScreenshot screenshot) {
-        throw new RuntimeException("should be overwritten");
-    }
-
-    protected void drawRootElement(DrawableScreenshot screenshot) {
-        throw new RuntimeException("should be overwritten");
     }
 
     /**

@@ -21,11 +21,8 @@ import static net.itarray.automotion.Element.asElements;
 
 public class ResponsiveUIChunkValidator extends AbstractValidator implements ChunkValidator {
 
-    private final List<Element> rootElements;
-
     public ResponsiveUIChunkValidator(Scenario scenario, DriverFacade driver, List<WebElement> webElements) {
         super(scenario, driver, new ResponsiveUIChunkValidatorBase(scenario, driver, webElements));
-        rootElements = asElements(webElements);
         if (webElements.isEmpty()) {
             String message = "Set root web element";
             addError(message);
@@ -35,8 +32,6 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
     protected ResponsiveUIChunkValidatorBase getBase() {
         return (ResponsiveUIChunkValidatorBase) super.getBase();
     }
-
-
 
     /**
      * Change units to Pixels or % (Units.PX, Units.PERCENT)
@@ -230,27 +225,4 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
         getBase().insideOf(containerElement, readableContainerName);
         return this;
     }
-
-    @Override
-    protected String getRootElementReadableName() {
-        return "Root Element";
-    }
-
-    @Override
-    protected void storeRootDetails(JSONObject rootDetails) {
-    }
-
-    @Override
-    protected void drawRootElement(DrawableScreenshot screenshot) {
-        if (!rootElements.isEmpty()) {
-            screenshot.drawRootElement(rootElements.get(0));
-        }
-    }
-
-    @Override
-    protected void drawOffsets(DrawableScreenshot screenshot) {
-    }
-
-
-
 }
