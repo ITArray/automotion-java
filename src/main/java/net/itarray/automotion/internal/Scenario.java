@@ -1,6 +1,6 @@
 package net.itarray.automotion.internal;
 
-import net.itarray.automotion.Report;
+import net.itarray.automotion.validation.Report;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIChunkValidator;
 import util.validator.ResponsiveUIValidator;

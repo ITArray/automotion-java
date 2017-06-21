@@ -1,6 +1,6 @@
 package util.validator;
 
-import net.itarray.automotion.Report;
+import net.itarray.automotion.validation.Report;
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.Scenario;

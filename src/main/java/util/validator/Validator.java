@@ -1,6 +1,6 @@
 package util.validator;
 
-import net.itarray.automotion.NewValidator;
+import net.itarray.automotion.validation.NewValidator;
 import org.openqa.selenium.WebElement;
 import util.validator.properties.Padding;
 

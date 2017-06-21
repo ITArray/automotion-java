@@ -1,6 +1,6 @@
 package util.validator;
 
-import net.itarray.automotion.NewChunkValidator;
+import net.itarray.automotion.validation.NewChunkValidator;
 import org.openqa.selenium.WebElement;
 
 public interface ChunkValidator extends NewChunkValidator {

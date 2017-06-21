@@ -1,4 +1,4 @@
-package net.itarray.automotion;
+package net.itarray.automotion.validation;
 
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;

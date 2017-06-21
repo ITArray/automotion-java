@@ -1,7 +1,7 @@
 package net.itarray.automotion.internal;
 
 import http.helpers.TextFinder;
-import net.itarray.automotion.NewValidator;
+import net.itarray.automotion.validation.NewValidator;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 import util.general.SystemHelper;

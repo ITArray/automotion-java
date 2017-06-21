@@ -1,4 +1,4 @@
-package net.itarray.automotion;
+package net.itarray.automotion.validation;
 
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIValidator;

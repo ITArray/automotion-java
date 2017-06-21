@@ -1,6 +1,6 @@
 package net.itarray.automotion.internal;
 
-import net.itarray.automotion.NewChunkValidator;
+import net.itarray.automotion.validation.NewChunkValidator;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIValidator;
