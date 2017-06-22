@@ -2,7 +2,7 @@ package net.itarray.automotion.validation;
 
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIValidator;
-import util.validator.properties.Padding;
+import net.itarray.automotion.validation.properties.Padding;
 
 import java.util.List;
 

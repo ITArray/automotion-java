@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 import util.general.SystemHelper;
 import util.validator.ResponsiveUIValidator;
-import util.validator.properties.Padding;
+import net.itarray.automotion.validation.properties.Padding;
 
 import java.awt.geom.Rectangle2D;
 import java.util.List;

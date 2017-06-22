@@ -5,7 +5,7 @@ import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.Scenario;
 import net.itarray.automotion.internal.UIValidatorBase;
 import org.openqa.selenium.WebElement;
-import util.validator.properties.Padding;
+import net.itarray.automotion.validation.properties.Padding;
 
 import java.util.List;
 
