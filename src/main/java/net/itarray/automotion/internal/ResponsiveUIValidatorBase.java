@@ -1,6 +1,7 @@
 package net.itarray.automotion.internal;
 
 import net.itarray.automotion.tools.helpers.Helper;
+import net.itarray.automotion.validation.Scene;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
 import util.validator.ResponsiveUIValidator;
@@ -26,10 +27,12 @@ public abstract class ResponsiveUIValidatorBase {
     private final long startTime;
     protected final Dimension pageSize;
     protected final Scenario scenario;
+    private final Scene scene;
     private final DriverFacade driver;
 
-    public ResponsiveUIValidatorBase(Scenario scenario, DriverFacade driver) {
+    public ResponsiveUIValidatorBase(Scenario scenario, Scene scene, DriverFacade driver) {
         this.scenario = scenario;
+        this.scene = scene;
         this.driver = driver;
         this.errors = new Errors();
         this.zoom = new Zoom(driver);

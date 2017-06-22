@@ -9,4 +9,20 @@ public class Scene {
         this.report = report;
         this.name = name;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public Report getReport() {
+        return report;
+    }
+
+    public NewValidator findElement() {
+        return null;
+    }
+
+    public NewChunkValidator findElements() {
+        return null;
+    }
 }

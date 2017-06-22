@@ -1,6 +1,7 @@
 package net.itarray.automotion.internal;
 
 import net.itarray.automotion.validation.NewChunkValidator;
+import net.itarray.automotion.validation.Scene;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIValidator;
@@ -17,8 +18,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     private final List<Element> rootElements;
 
-    public ResponsiveUIChunkValidatorBase(Scenario scenario, DriverFacade driver, List<WebElement> webElements) {
-        super(scenario, driver);
+    public ResponsiveUIChunkValidatorBase(Scene scene, Scenario scenario, DriverFacade driver, List<WebElement> webElements) {
+        super(scenario, scene, driver);
         rootElements = asElements(webElements);
         if (webElements.isEmpty()) {
             String message = "Set root web element";

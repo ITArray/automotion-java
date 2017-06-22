@@ -4,6 +4,7 @@ import net.itarray.automotion.validation.Report;
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.Scenario;
+import net.itarray.automotion.validation.Scene;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -83,7 +84,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator init() {
-        return new Scenario(report, "Default");
+        return init("Default");
     }
 
     /**
@@ -93,7 +94,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator init(String scenarioName) {
-        return new Scenario(report, scenarioName);
+        return new Scenario(new Scene(report, scenarioName));
     }
 
     /**

@@ -11,7 +11,7 @@ import java.util.List;
 public class ResponsiveUIChunkValidator extends AbstractValidator implements ChunkValidator {
 
     public ResponsiveUIChunkValidator(Scenario scenario, DriverFacade driver, List<WebElement> webElements) {
-        super(scenario, driver, new ResponsiveUIChunkValidatorBase(scenario, driver, webElements));
+        super(scenario, driver, new ResponsiveUIChunkValidatorBase(null, scenario, driver, webElements));
         if (webElements.isEmpty()) {
             String message = "Set root web element";
             addError(message);
