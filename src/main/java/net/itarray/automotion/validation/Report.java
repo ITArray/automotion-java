@@ -34,6 +34,14 @@ public class Report {
         this.driver = driver;
     }
 
+    public Scene scene(String name) {
+        return new Scene(this, name);
+    }
+
+    public Scene scene() {
+        return scene("Default");
+    }
+
     public boolean isWithReport() {
         return withReport;
     }
