@@ -1,6 +1,7 @@
 package net.itarray.automotion.internal;
 
 import net.itarray.automotion.tools.helpers.Helper;
+import net.itarray.automotion.validation.Report;
 import net.itarray.automotion.validation.Scene;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
@@ -26,12 +27,10 @@ public abstract class ResponsiveUIValidatorBase {
     private final Zoom zoom;
     private final long startTime;
     protected final Dimension pageSize;
-    protected final Scenario scenario;
     private final Scene scene;
     private final DriverFacade driver;
 
-    public ResponsiveUIValidatorBase(Scenario scenario, Scene scene, DriverFacade driver) {
-        this.scenario = scenario;
+    public ResponsiveUIValidatorBase(Scene scene, DriverFacade driver) {
         this.scene = scene;
         this.driver = driver;
         this.errors = new Errors();
@@ -45,12 +44,16 @@ public abstract class ResponsiveUIValidatorBase {
     }
 
     public ResponsiveUIValidator.Units getUnits() {
-        return scenario.getUnits();
+        return getReport().getUnits();
+    }
+
+    protected Report getReport() {
+        return scene.getReport();
     }
 
 
     public boolean isWithReport() {
-        return scenario.isWithReport();
+        return getReport().isWithReport();
     }
 
     /**
@@ -58,7 +61,7 @@ public abstract class ResponsiveUIValidatorBase {
      */
     @Deprecated()
     public ResponsiveUIValidatorBase drawMap() {
-        scenario.drawMap();
+        getReport().drawMap();
         return this;
     }
 
@@ -129,7 +132,7 @@ public abstract class ResponsiveUIValidatorBase {
     }
 
     private int getYOffset() {
-        if (isMobile() && getDriver().isAppiumWebContext() && scenario.isMobileTopBarOffset()) {
+        if (isMobile() && getDriver().isAppiumWebContext() && getReport().isMobileTopBarOffset()) {
             if (isIOS() || isAndroid()) {
                 return 20;
             }
@@ -148,7 +151,7 @@ public abstract class ResponsiveUIValidatorBase {
         JSONObject rootDetails = new JSONObject();
         storeRootDetails(rootDetails);
 
-        jsonResults.put(SCENARIO, scenario.getName());
+        jsonResults.put(SCENARIO, scene.getName());
         jsonResults.put(ROOT_ELEMENT, rootDetails);
         jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
         jsonResults.put(ELEMENT_NAME, getRootElementReadableName());
@@ -172,7 +175,7 @@ public abstract class ResponsiveUIValidatorBase {
     }
 
     public void addJsonFile(String jsonFileName) {
-        scenario.addJsonFile(jsonFileName);
+        getReport().addJsonFile(jsonFileName);
     }
 
     protected void drawOffsets(DrawableScreenshot screenshot) {
@@ -188,7 +191,7 @@ public abstract class ResponsiveUIValidatorBase {
      */
     @Deprecated()
     public void setTopBarMobileOffset(boolean state) {
-        scenario.setTopBarMobileOffset(state);
+        getReport().setTopBarMobileOffset(state);
     }
 
     /**
@@ -196,7 +199,7 @@ public abstract class ResponsiveUIValidatorBase {
      */
     @Deprecated()
     public void setColorForRootElement(Color color) {
-        scenario.setColorForRootElement(color);
+        getReport().setColorForRootElement(color);
     }
 
     /**
@@ -204,7 +207,7 @@ public abstract class ResponsiveUIValidatorBase {
      */
     @Deprecated()
     public void setColorForHighlightedElements(Color color) {
-        scenario.setColorForHighlightedElements(color);
+        getReport().setColorForHighlightedElements(color);
     }
 
     /**
@@ -212,10 +215,10 @@ public abstract class ResponsiveUIValidatorBase {
      */
     @Deprecated()
     public void setLinesColor(Color color) {
-        scenario.setLinesColor(color);
+        getReport().setLinesColor(color);
     }
 
     public DrawingConfiguration getDrawingConfiguration() {
-        return scenario.getDrawingConfiguration();
+        return getReport().getDrawingConfiguration();
     }
 }

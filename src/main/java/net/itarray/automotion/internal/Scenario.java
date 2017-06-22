@@ -25,11 +25,11 @@ public class Scenario extends ResponsiveUIValidator {
     }
 
     public UIValidator findElement(WebElement element, String readableNameOfElement) {
-        return new UIValidator(this, getDriver(), element, readableNameOfElement);
+        return new UIValidator(scene, getDriver(), element, readableNameOfElement);
     }
 
     public ResponsiveUIChunkValidator findElements(java.util.List<WebElement> elements) {
-        return new ResponsiveUIChunkValidator(this, getDriver(), elements);
+        return new ResponsiveUIChunkValidator(scene, this, getDriver(), elements);
     }
 
     public String getName() {

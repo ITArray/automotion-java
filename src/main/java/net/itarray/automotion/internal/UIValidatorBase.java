@@ -2,6 +2,7 @@ package net.itarray.automotion.internal;
 
 import http.helpers.TextFinder;
 import net.itarray.automotion.validation.NewValidator;
+import net.itarray.automotion.validation.Scene;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 import util.general.SystemHelper;
@@ -23,8 +24,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements NewVal
     private final Element rootElement;
 
 
-    public UIValidatorBase(Scenario scenario, DriverFacade driver, WebElement webElement, String readableNameOfElement) {
-        super(scenario, null, driver);
+    public UIValidatorBase(Scene scene, DriverFacade driver, WebElement webElement, String readableNameOfElement) {
+        super(scene, driver);
         this.rootElement = asElement(webElement);
         this.rootElementReadableName = readableNameOfElement;
     }
@@ -37,7 +38,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements NewVal
      */
     @Override
     public UIValidatorBase changeMetricsUnitsTo(ResponsiveUIValidator.Units units) {
-        scenario.changeMetricsUnitsTo(units);
+        getReport().setUnits(units);
         return this;
     }
 

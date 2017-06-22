@@ -6,12 +6,10 @@ import java.awt.*;
 
 public abstract class AbstractValidator extends ResponsiveUIValidator{
 
-    private final Scenario scenario;
     private final ResponsiveUIValidatorBase base;
 
-    protected AbstractValidator(Scenario scenario, DriverFacade driver, ResponsiveUIValidatorBase base) {
+    protected AbstractValidator(DriverFacade driver, ResponsiveUIValidatorBase base) {
         super(driver);
-        this.scenario = scenario;
         this.base = base;
     }
 
@@ -21,7 +19,7 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
 
     @Override
     public boolean isWithReport() {
-        return scenario.isWithReport();
+        return getBase().isWithReport();
     }
 
     /**
@@ -44,7 +42,7 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
     }
 
     public void addJsonFile(String jsonFileName) {
-        scenario.addJsonFile(jsonFileName);
+        getBase().addJsonFile(jsonFileName);
     }
 
     /**
@@ -52,7 +50,7 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
      */
     @Deprecated()
     public void setTopBarMobileOffset(boolean state) {
-        scenario.setTopBarMobileOffset(state);
+        getBase().setTopBarMobileOffset(state);
     }
 
     /**
@@ -60,7 +58,7 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
      */
     @Deprecated()
     public void setColorForRootElement(Color color) {
-        scenario.setColorForRootElement(color);
+        getBase().setColorForRootElement(color);
     }
 
     /**
@@ -68,7 +66,7 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
      */
     @Deprecated()
     public void setColorForHighlightedElements(Color color) {
-        scenario.setColorForHighlightedElements(color);
+        getBase().setColorForHighlightedElements(color);
     }
 
     /**
@@ -76,11 +74,11 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
      */
     @Deprecated()
     public void setLinesColor(Color color) {
-        scenario.setLinesColor(color);
+        getBase().setLinesColor(color);
     }
 
     @Override
     public DrawingConfiguration getDrawingConfiguration() {
-        return scenario.getDrawingConfiguration();
+        return getBase().getDrawingConfiguration();
     }
 }

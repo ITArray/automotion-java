@@ -18,8 +18,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     private final List<Element> rootElements;
 
-    public ResponsiveUIChunkValidatorBase(Scene scene, Scenario scenario, DriverFacade driver, List<WebElement> webElements) {
-        super(scenario, scene, driver);
+    public ResponsiveUIChunkValidatorBase(Scene scene, DriverFacade driver, List<WebElement> webElements) {
+        super(scene, driver);
         rootElements = asElements(webElements);
         if (webElements.isEmpty()) {
             String message = "Set root web element";
@@ -35,7 +35,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      */
     @Override
     public ResponsiveUIChunkValidatorBase changeMetricsUnitsTo(ResponsiveUIValidator.Units units) {
-        scenario.changeMetricsUnitsTo(units);
+        getReport().setUnits(units);
         return this;
     }
 
