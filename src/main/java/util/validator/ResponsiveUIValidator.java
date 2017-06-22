@@ -1,5 +1,6 @@
 package util.validator;
 
+import net.itarray.automotion.validation.NewUnits;
 import net.itarray.automotion.validation.Report;
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
@@ -173,8 +174,20 @@ public class ResponsiveUIValidator {
     }
 
     public enum Units {
-        PX,
-        PERCENT
+        PX {
+            @Override
+            net.itarray.automotion.validation.NewUnits asNewUnits() {
+                return net.itarray.automotion.validation.NewUnits.PX;
+            }
+        },
+        PERCENT {
+            @Override
+            net.itarray.automotion.validation.NewUnits asNewUnits() {
+                return net.itarray.automotion.validation.NewUnits.PERCENT;
+            }
+        };
+
+        abstract net.itarray.automotion.validation.NewUnits asNewUnits();
     }
 
 }
