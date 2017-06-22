@@ -24,8 +24,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements NewVal
     private final Element rootElement;
 
 
-    public UIValidatorBase(Scene scene, DriverFacade driver, WebElement webElement, String readableNameOfElement) {
-        super(scene, driver);
+    public UIValidatorBase(Scene scene, WebElement webElement, String readableNameOfElement) {
+        super(scene);
         this.rootElement = asElement(webElement);
         this.rootElementReadableName = readableNameOfElement;
     }

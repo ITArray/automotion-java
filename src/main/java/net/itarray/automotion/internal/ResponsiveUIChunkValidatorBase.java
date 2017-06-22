@@ -18,8 +18,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     private final List<Element> rootElements;
 
-    public ResponsiveUIChunkValidatorBase(Scene scene, DriverFacade driver, List<WebElement> webElements) {
-        super(scene, driver);
+    public ResponsiveUIChunkValidatorBase(Scene scene, List<WebElement> webElements) {
+        super(scene);
         rootElements = asElements(webElements);
         if (webElements.isEmpty()) {
             String message = "Set root web element";

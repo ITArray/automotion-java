@@ -30,12 +30,12 @@ public abstract class ResponsiveUIValidatorBase {
     private final Scene scene;
     private final DriverFacade driver;
 
-    public ResponsiveUIValidatorBase(Scene scene, DriverFacade driver) {
+    protected ResponsiveUIValidatorBase(Scene scene) {
         this.scene = scene;
-        this.driver = driver;
+        this.driver = scene.getReport().getDriver();
         this.errors = new Errors();
-        this.zoom = new Zoom(driver);
-        this.pageSize = driver.retrievePageSize();
+        this.zoom = new Zoom(this.driver);
+        this.pageSize = this.driver.retrievePageSize();
         this.startTime = System.currentTimeMillis();
     }
 

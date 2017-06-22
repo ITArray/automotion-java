@@ -3,7 +3,6 @@ package util.validator;
 import net.itarray.automotion.internal.AbstractValidator;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.ResponsiveUIChunkValidatorBase;
-import net.itarray.automotion.internal.Scenario;
 import net.itarray.automotion.validation.Scene;
 import org.openqa.selenium.WebElement;
 
@@ -12,7 +11,7 @@ import java.util.List;
 public class ResponsiveUIChunkValidator extends AbstractValidator implements ChunkValidator {
 
     public ResponsiveUIChunkValidator(Scene scene, DriverFacade driver, List<WebElement> webElements) {
-        super(driver, new ResponsiveUIChunkValidatorBase(scene, driver, webElements));
+        super(driver, new ResponsiveUIChunkValidatorBase(scene, webElements));
         if (webElements.isEmpty()) {
             String message = "Set root web element";
             addError(message);

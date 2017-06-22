@@ -2,7 +2,6 @@ package util.validator;
 
 import net.itarray.automotion.internal.AbstractValidator;
 import net.itarray.automotion.internal.DriverFacade;
-import net.itarray.automotion.internal.Scenario;
 import net.itarray.automotion.internal.UIValidatorBase;
 import net.itarray.automotion.validation.Scene;
 import org.openqa.selenium.WebElement;
@@ -13,7 +12,7 @@ import java.util.List;
 public class UIValidator extends AbstractValidator implements Validator {
 
     public UIValidator(Scene scene, DriverFacade driver, WebElement webElement, String readableNameOfElement) {
-        super(driver, new UIValidatorBase(scene, driver, webElement, readableNameOfElement));
+        super(driver, new UIValidatorBase(scene, webElement, readableNameOfElement));
     }
 
     protected UIValidatorBase getBase() {

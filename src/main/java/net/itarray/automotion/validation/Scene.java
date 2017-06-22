@@ -25,10 +25,10 @@ public class Scene {
     }
 
     public NewValidator findElement(WebElement webElement, String readableNameOfElement) {
-        return new UIValidatorBase(this, this.getReport().getDriver(), webElement, readableNameOfElement);
+        return new UIValidatorBase(this, webElement, readableNameOfElement);
     }
 
     public NewChunkValidator findElements(List<WebElement> webElements) {
-        return new ResponsiveUIChunkValidatorBase(this, this.getReport().getDriver(), webElements);
+        return new ResponsiveUIChunkValidatorBase(this, webElements);
     }
 }
