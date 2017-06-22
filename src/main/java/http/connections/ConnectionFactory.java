@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * @deprecated As of release 2.0, replaced by{@link net.itarray.automotion.tools.http.connections.ConnectionFactory}
  */
-@Deprecated()
+@Deprecated
 public class ConnectionFactory {
 
     private final net.itarray.automotion.tools.http.connections.ConnectionFactory delegatee;

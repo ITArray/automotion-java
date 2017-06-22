@@ -7,6 +7,7 @@ import io.appium.java_client.android.AndroidDriver;
 /**
  * @deprecated As of release 2.0, replaced by{@link net.itarray.automotion.tools.util.driver.MobileHelper}
  */
+@Deprecated
 public class MobileHelper {
 
     public MobileHelper(){

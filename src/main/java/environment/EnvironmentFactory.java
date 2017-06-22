@@ -3,7 +3,7 @@ package environment;
 /**
  * @deprecated As of release 2.0, replaced by{@link net.itarray.automotion.tools.environment.EnvironmentFactory}
  */
-@Deprecated()
+@Deprecated
 public class EnvironmentFactory {
 
     public static boolean isMobile() {

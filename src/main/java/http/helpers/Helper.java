@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.tools.helpers.EnvironmentHelper}
  */
-@Deprecated()
+@Deprecated
 public class Helper {
 
     public static String getGeneratedStringWithLength(int length) {

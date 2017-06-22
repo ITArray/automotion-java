@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * @deprecated As of release 2.0, replaced by{@link net.itarray.automotion.tools.util.driver.DriverHelper}
  */
+@Deprecated
 public class DriverHelper {
 
     private final static Logger LOG = LoggerFactory.getLogger(DriverHelper.class);

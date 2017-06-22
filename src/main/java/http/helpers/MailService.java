@@ -5,7 +5,7 @@ import javax.mail.*;
 /**
  * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.tools.helpers.MailService}
  */
-@Deprecated()
+@Deprecated
 public class MailService {
 
     private final net.itarray.automotion.tools.helpers.MailService delegatee;

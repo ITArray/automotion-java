@@ -7,6 +7,7 @@ import java.util.Map;
 /**
  * @deprecated As of release 2.0, replaced by{@link net.itarray.automotion.tools.util.driver.CapabilitiesFactory}
  */
+@Deprecated
 public class CapabilitiesFactory {
 
     private static DesiredCapabilities capabilities = new DesiredCapabilities();

@@ -3,6 +3,7 @@ package util.property;
 /**
  * @deprecated As of release 2.0, replaced by{@link net.itarray.automotion.tools.util.property.PropertyLoader}
  */
+@Deprecated
 public class PropertyLoader {
 
     private final net.itarray.automotion.tools.util.property.PropertyLoader delegatee;

@@ -3,7 +3,7 @@ package environment;
 /**
  * @deprecated As of release 2.0, replaced by{@link net.itarray.automotion.tools.environment.EnvironmentConstants}
  */
-@Deprecated()
+@Deprecated
 public class EnvironmentConstants {
     public static final String IS_MOBILE = net.itarray.automotion.tools.environment.EnvironmentConstants.IS_MOBILE;
     public static final String IS_LOCAL = net.itarray.automotion.tools.environment.EnvironmentConstants.IS_LOCAL;
