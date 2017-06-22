@@ -1,6 +1,6 @@
 package net.itarray.automotion.internal;
 
-import net.itarray.automotion.tools.http.helpers.Helper;
+import net.itarray.automotion.tools.helpers.Helper;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
 import util.validator.ResponsiveUIValidator;

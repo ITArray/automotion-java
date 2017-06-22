@@ -10,28 +10,28 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.tools.http.helpers.Parser}
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.tools.helpers.Parser}
  */
 @Deprecated()
 public class Parser {
 
     public static String getJSONValue(String jsonData, String key) throws ParseException {
-        return net.itarray.automotion.tools.http.helpers.Parser.getJSONValue(jsonData, key);
+        return net.itarray.automotion.tools.helpers.Parser.getJSONValue(jsonData, key);
     }
 
     public static String getDataValue(String json, String key) throws ParseException {
-        return net.itarray.automotion.tools.http.helpers.Parser.getDataValue(json, key);
+        return net.itarray.automotion.tools.helpers.Parser.getDataValue(json, key);
     }
 
     public static String getXMLValue(String xml, String selector) throws ParserConfigurationException, XPathExpressionException, IOException, SAXException {
-        return net.itarray.automotion.tools.http.helpers.Parser.getXMLValue(xml, selector);
+        return net.itarray.automotion.tools.helpers.Parser.getXMLValue(xml, selector);
     }
 
     public static JsonArray jsonToJsonArray(String jsonArray) throws ParseException {
-        return net.itarray.automotion.tools.http.helpers.Parser.jsonToJsonArray(jsonArray);
+        return net.itarray.automotion.tools.helpers.Parser.jsonToJsonArray(jsonArray);
     }
 
     public static List<String> getXMLValues(String xml, String selector) throws ParserConfigurationException, XPathExpressionException, IOException, SAXException {
-        return net.itarray.automotion.tools.http.helpers.Parser.getXMLValues(xml, selector);
+        return net.itarray.automotion.tools.helpers.Parser.getXMLValues(xml, selector);
     }
 }

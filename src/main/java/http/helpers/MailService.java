@@ -3,14 +3,14 @@ package http.helpers;
 import javax.mail.*;
 
 /**
- * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.tools.http.helpers.MailService}
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.tools.helpers.MailService}
  */
 @Deprecated()
 public class MailService {
 
-    private final net.itarray.automotion.tools.http.helpers.MailService delegatee;
+    private final net.itarray.automotion.tools.helpers.MailService delegatee;
     public MailService() {
-        delegatee = new net.itarray.automotion.tools.http.helpers.MailService();
+        delegatee = new net.itarray.automotion.tools.helpers.MailService();
     }
 
     public boolean isLoggedIn() {
@@ -47,13 +47,13 @@ public class MailService {
     public MailService setFolder(MailFolder folder){
         switch (folder) {
             case INBOX:
-                delegatee.setFolder(net.itarray.automotion.tools.http.helpers.MailService.MailFolder.INBOX);
+                delegatee.setFolder(net.itarray.automotion.tools.helpers.MailService.MailFolder.INBOX);
                 break;
             case SPAM:
-                delegatee.setFolder(net.itarray.automotion.tools.http.helpers.MailService.MailFolder.SPAM);
+                delegatee.setFolder(net.itarray.automotion.tools.helpers.MailService.MailFolder.SPAM);
                 break;
             case TRASH:
-                delegatee.setFolder(net.itarray.automotion.tools.http.helpers.MailService.MailFolder.TRASH);
+                delegatee.setFolder(net.itarray.automotion.tools.helpers.MailService.MailFolder.TRASH);
                 break;
         }
         return this;

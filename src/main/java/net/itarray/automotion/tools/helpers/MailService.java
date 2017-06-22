@@ -1,4 +1,4 @@
-package net.itarray.automotion.tools.http.helpers;
+package net.itarray.automotion.tools.helpers;
 
 import javax.mail.*;
 import java.util.Properties;

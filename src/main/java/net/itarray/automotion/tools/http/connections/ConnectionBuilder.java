@@ -1,6 +1,6 @@
 package net.itarray.automotion.tools.http.connections;
 
-import net.itarray.automotion.tools.http.helpers.Helper;
+import net.itarray.automotion.tools.helpers.Helper;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.*;
 import org.apache.http.config.Registry;

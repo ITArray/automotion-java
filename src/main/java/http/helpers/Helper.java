@@ -5,20 +5,20 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.tools.http.helpers.EnvironmentHelper}
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.tools.helpers.EnvironmentHelper}
  */
 @Deprecated()
 public class Helper {
 
     public static String getGeneratedStringWithLength(int length) {
-        return net.itarray.automotion.tools.http.helpers.Helper.getGeneratedStringWithLength(length);
+        return net.itarray.automotion.tools.helpers.Helper.getGeneratedStringWithLength(length);
     }
 
     public static String getTodayDate() {
-        return net.itarray.automotion.tools.http.helpers.Helper.getTodayDate();
+        return net.itarray.automotion.tools.helpers.Helper.getTodayDate();
     }
 
     public static File createFile(String filename) throws IOException, AWTException {
-        return net.itarray.automotion.tools.http.helpers.Helper.createFile(filename);
+        return net.itarray.automotion.tools.helpers.Helper.createFile(filename);
     }
 }

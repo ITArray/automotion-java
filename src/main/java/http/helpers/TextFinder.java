@@ -1,7 +1,7 @@
 package http.helpers;
 
 /**
- * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.tools.http.helpers.TextFinder}
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.tools.helpers.TextFinder}
  */
 @Deprecated()
 public class TextFinder {
@@ -14,7 +14,7 @@ public class TextFinder {
      * @return
      */
     public static boolean textIsFound(String pattern, String text) {
-        return net.itarray.automotion.tools.http.helpers.TextFinder.textIsFound(pattern, text);
+        return net.itarray.automotion.tools.helpers.TextFinder.textIsFound(pattern, text);
     }
 
     /**
@@ -23,6 +23,6 @@ public class TextFinder {
      * @param derivation
      */
     public static void setDerivation(int derivation) {
-        net.itarray.automotion.tools.http.helpers.TextFinder.setDerivation(derivation);
+        net.itarray.automotion.tools.helpers.TextFinder.setDerivation(derivation);
     }
 }
