@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver;
 
 import java.io.File;
 
-import static environment.EnvironmentFactory.*;
+import static net.itarray.automotion.tools.environment.EnvironmentFactory.*;
 
 public class DriverFacade {
     private final WebDriver driver;

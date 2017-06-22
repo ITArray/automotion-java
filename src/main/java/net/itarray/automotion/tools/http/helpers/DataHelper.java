@@ -1,11 +1,7 @@
-package http.helpers;
+package net.itarray.automotion.tools.http.helpers;
 
 import java.util.HashMap;
 
-/**
- * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.tools.http.helpers.DataHelper}
- */
-@Deprecated()
 public class DataHelper {
 
     private static HashMap<String, Object> map = new HashMap<String, Object>();

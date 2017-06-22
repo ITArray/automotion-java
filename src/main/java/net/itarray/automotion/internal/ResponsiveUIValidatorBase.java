@@ -1,6 +1,6 @@
 package net.itarray.automotion.internal;
 
-import http.helpers.Helper;
+import net.itarray.automotion.tools.http.helpers.Helper;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
 import util.validator.ResponsiveUIValidator;
@@ -14,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
-import static environment.EnvironmentFactory.*;
+import static net.itarray.automotion.tools.environment.EnvironmentFactory.*;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
 import static util.validator.ResponsiveUIValidator.Units.PX;

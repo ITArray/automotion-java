@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.List;
 
-import static environment.EnvironmentFactory.*;
+import static net.itarray.automotion.tools.environment.EnvironmentFactory.*;
 import static java.lang.Thread.sleep;
 
 public class DriverHelper {

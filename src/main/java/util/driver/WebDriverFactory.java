@@ -21,7 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
-import static environment.EnvironmentFactory.*;
+import static net.itarray.automotion.tools.environment.EnvironmentFactory.*;
 import static util.driver.CapabilitiesFactory.getCapabilities;
 
 public class WebDriverFactory {

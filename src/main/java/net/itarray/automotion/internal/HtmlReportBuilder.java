@@ -10,7 +10,7 @@ import com.webfirmframework.wffweb.tag.html.lists.Ol;
 import com.webfirmframework.wffweb.tag.html.metainfo.Head;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
-import http.helpers.Helper;
+import net.itarray.automotion.tools.http.helpers.Helper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

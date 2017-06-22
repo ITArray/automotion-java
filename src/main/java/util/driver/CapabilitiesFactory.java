@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static environment.EnvironmentFactory.*;
+import static net.itarray.automotion.tools.environment.EnvironmentFactory.*;
 
 public class CapabilitiesFactory {
 
