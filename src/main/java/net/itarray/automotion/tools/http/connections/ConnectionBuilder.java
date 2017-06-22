@@ -1,4 +1,4 @@
-package http.connections;
+package net.itarray.automotion.tools.http.connections;
 
 import http.helpers.Helper;
 import org.apache.http.client.HttpClient;
