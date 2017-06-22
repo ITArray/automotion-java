@@ -1,5 +1,11 @@
 package net.itarray.automotion.validation;
 
+import net.itarray.automotion.internal.ResponsiveUIChunkValidatorBase;
+import net.itarray.automotion.internal.UIValidatorBase;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
+
 public class Scene {
 
     private final Report report;
@@ -18,11 +24,11 @@ public class Scene {
         return report;
     }
 
-    public NewValidator findElement() {
-        return null;
+    public NewValidator findElement(WebElement webElement, String readableNameOfElement) {
+        return new UIValidatorBase(this, this.getReport().getDriver(), webElement, readableNameOfElement);
     }
 
-    public NewChunkValidator findElements() {
-        return null;
+    public NewChunkValidator findElements(List<WebElement> webElements) {
+        return new ResponsiveUIChunkValidatorBase(this, this.getReport().getDriver(), webElements);
     }
 }

@@ -29,7 +29,7 @@ public class Scenario extends ResponsiveUIValidator {
     }
 
     public ResponsiveUIChunkValidator findElements(java.util.List<WebElement> elements) {
-        return new ResponsiveUIChunkValidator(scene, this, getDriver(), elements);
+        return new ResponsiveUIChunkValidator(scene, getDriver(), elements);
     }
 
     public String getName() {
