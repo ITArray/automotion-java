@@ -9,6 +9,9 @@ import net.itarray.automotion.validation.properties.Padding;
 
 import java.util.List;
 
+/**
+ */
+@Deprecated
 public class UIValidator extends AbstractValidator implements Validator {
 
     public UIValidator(Scene scene, DriverFacade driver, WebElement webElement, String readableNameOfElement) {

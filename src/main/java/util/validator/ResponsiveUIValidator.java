@@ -10,6 +10,10 @@ import org.openqa.selenium.WebElement;
 
 import java.awt.*;
 
+/**
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.ResponsiveUIValidator}
+ */
+@Deprecated
 public class ResponsiveUIValidator {
 
     private final Report report;

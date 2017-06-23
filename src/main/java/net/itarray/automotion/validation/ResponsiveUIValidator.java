@@ -13,7 +13,10 @@ import java.awt.*;
  *  - {@link util.validator.ResponsiveUIValidator#findElements(java.util.List)}
  *  - {@link util.validator.ResponsiveUIValidator#validate()}
  *
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.Report}
  */
+@Deprecated
+
 public class ResponsiveUIValidator {
 
     private final Report report;

@@ -5,6 +5,10 @@ import net.itarray.automotion.validation.properties.Padding;
 
 import java.util.List;
 
+/**
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.Validator}
+ */
+@Deprecated
 public interface Validator extends net.itarray.automotion.validation.Validator {
 
     UIValidator changeMetricsUnitsTo(util.validator.ResponsiveUIValidator.Units units);

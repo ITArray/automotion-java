@@ -9,6 +9,10 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+/**
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.internal.ResponsiveUIChunkValidatorBase}
+ */
+@Deprecated
 public class ResponsiveUIChunkValidator extends AbstractValidator implements ChunkValidator {
 
     public ResponsiveUIChunkValidator(Scene scene, DriverFacade driver, List<WebElement> webElements) {
