@@ -47,11 +47,11 @@ public class ResponsiveUIValidator {
     }
 
     public void generateReport() {
-        report.generateReport();
+        report.generateHtml();
     }
 
     public void generateReport(String name) {
-        report.generateReport(name);
+        report.generateHtml(name);
     }
 
 

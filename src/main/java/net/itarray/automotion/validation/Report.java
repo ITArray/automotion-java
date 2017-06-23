@@ -53,8 +53,8 @@ public class Report {
     /**
      * Call method to generate HTML report
      */
-    public void generateReport() {
-        generateReport("result");
+    public void generateHtml() {
+        generateHtml("result");
     }
 
     /**
@@ -62,7 +62,7 @@ public class Report {
      *
      * @param name
      */
-    public void generateReport(String name) {
+    public void generateHtml(String name) {
         if (isWithReport() && !jsonFiles.isEmpty()) {
             new HtmlReportBuilder().buildReport(name, jsonFiles);
         }

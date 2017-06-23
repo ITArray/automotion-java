@@ -153,7 +153,7 @@ public class ResponsiveUIValidator {
      * Call method to generate HTML report
      */
     public void generateReport() {
-        report.generateReport();
+        report.generateHtml();
     }
 
     /**
@@ -162,7 +162,7 @@ public class ResponsiveUIValidator {
      * @param name
      */
     public void generateReport(String name) {
-        report.generateReport(name);
+        report.generateHtml(name);
     }
 
     public DriverFacade getDriver() {
