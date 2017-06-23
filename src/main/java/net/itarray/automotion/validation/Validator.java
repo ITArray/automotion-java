@@ -7,10 +7,6 @@ import java.util.List;
 
 public interface Validator {
 
-    /**
-     * @deprecated As of release 2.0, replaced by {@link Report#drawMap()}
-     */
-    @Deprecated
     Validator drawMap();
 
     boolean validate();

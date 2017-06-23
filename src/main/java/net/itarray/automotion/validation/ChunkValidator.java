@@ -4,10 +4,6 @@ import org.openqa.selenium.WebElement;
 
 public interface ChunkValidator {
 
-    /**
-     * @deprecated As of release 2.0, replaced by {@link Report#drawMap()}
-     */
-    @Deprecated
     ChunkValidator drawMap();
 
     boolean validate();
