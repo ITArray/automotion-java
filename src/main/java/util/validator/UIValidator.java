@@ -28,6 +28,12 @@ public class UIValidator extends AbstractValidator implements Validator {
         return this;
     }
 
+    @Override
+    public UIValidator dontDrawMap() {
+        super.dontDrawMap();
+        return this;
+    }
+
     /**
      * Change units to Pixels or % (Units.PX, Units.PERCENT)
      *

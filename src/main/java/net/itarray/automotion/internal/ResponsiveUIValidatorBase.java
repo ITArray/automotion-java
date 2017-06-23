@@ -64,12 +64,13 @@ public abstract class ResponsiveUIValidatorBase {
         return this;
     }
 
-    /**
-     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#drawMap()}
-     */
-    @Deprecated()
     public ResponsiveUIValidatorBase drawMap() {
         getReport().drawMap();
+        return this;
+    }
+
+    public ResponsiveUIValidatorBase dontDrawMap() {
+        getReport().dontDrawMap();
         return this;
     }
 

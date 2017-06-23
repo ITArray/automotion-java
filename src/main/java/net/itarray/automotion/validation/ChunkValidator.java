@@ -6,6 +6,8 @@ public interface ChunkValidator {
 
     ChunkValidator drawMap();
 
+    ChunkValidator dontDrawMap();
+
     boolean validate();
 
     /**

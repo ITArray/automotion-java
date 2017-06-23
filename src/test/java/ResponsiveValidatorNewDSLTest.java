@@ -61,7 +61,6 @@ public class ResponsiveValidatorNewDSLTest {
                 .equalLeftRightOffset()
                 .equalTopBottomOffset()
                 .insideOf(page.mainContainer(), "Main container", new Padding(10, 50, 10, 20))
-                .drawMap()
                 .validate();
 
         softly.assertThat(success1).isEqualTo(true).overridingErrorMessage("Failed validation of Top Slider element");
@@ -69,7 +68,6 @@ public class ResponsiveValidatorNewDSLTest {
         boolean success0 = report.scene("Validation of Grid view")
                 .findElement(page.gridContainer(), "Grid Container")
                 .equalLeftRightOffset()
-                .drawMap()
                 .validate();
 
         softly.assertThat(success0).isEqualTo(true).overridingErrorMessage("Failed validation of Grid Container");
@@ -77,7 +75,6 @@ public class ResponsiveValidatorNewDSLTest {
         boolean success01 = report.scene("Validation of Main container")
                 .findElement(page.mainContainer(), "Main Container")
                 .equalLeftRightOffset()
-                .drawMap()
                 .validate();
 
         softly.assertThat(success01).isEqualTo(true).overridingErrorMessage("Failed validation of Main Container");
@@ -87,7 +84,6 @@ public class ResponsiveValidatorNewDSLTest {
                 .findElement(page.topTextBlock(), "Top Text block")
                 .sameOffsetRightAs(page.gridContainer(), "Grid Container")
                 .sameOffsetTopAs(page.topSlider(), "Top Slider")
-                .drawMap()
                 .validate();
 
         softly.assertThat(success2).isEqualTo(true).overridingErrorMessage("Failed validation of Top Text block");
@@ -100,7 +96,6 @@ public class ResponsiveValidatorNewDSLTest {
                 .sameTopOffset()
                 .equalLeftRightOffset()
                 .equalTopBottomOffset()
-                .drawMap()
                 .validate();
 
         softly.assertThat(success3).isEqualTo(true).overridingErrorMessage("Failed validation of Grid");
@@ -112,7 +107,6 @@ public class ResponsiveValidatorNewDSLTest {
                     .withCssValue("color", "#6f6f6f")
                     .notOverlapWith(card.findElement(By.className("gallery-hover-4col")), "Image Container")
                     .sameWidthAs(card.findElement(By.className("gallery-hover-4col")), "Image Container")
-                    .drawMap()
                     .validate();
             softly.assertThat(success).isEqualTo(true).overridingErrorMessage("Failed validation of Grid in a list");
         }
@@ -125,7 +119,6 @@ public class ResponsiveValidatorNewDSLTest {
                     .findElement(page.mainContainer(), "Main container")
                     .equalLeftRightOffset()
                     .sameWidthAs(page.gridContainer(), "Grid Container")
-                    .drawMap()
                     .validate();
 
             softly.assertThat(success).isEqualTo(true).overridingErrorMessage("Failed validation of Container");

@@ -29,6 +29,12 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
         return this;
     }
 
+    @Override
+    public ResponsiveUIChunkValidator dontDrawMap() {
+        super.dontDrawMap();
+        return this;
+    }
+
     protected ResponsiveUIChunkValidatorBase getBase() {
         return (ResponsiveUIChunkValidatorBase) super.getBase();
     }

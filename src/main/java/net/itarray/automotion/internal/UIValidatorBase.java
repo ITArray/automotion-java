@@ -37,6 +37,12 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements Valida
         return this;
     }
 
+    @Override
+    public UIValidatorBase dontDrawMap() {
+        super.dontDrawMap();
+        return this;
+    }
+
     /**
      * Change units to Pixels or % (Units.PX, Units.PERCENT)
      *

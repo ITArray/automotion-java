@@ -34,6 +34,12 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         return this;
     }
 
+    @Override
+    public ResponsiveUIChunkValidatorBase dontDrawMap() {
+        super.dontDrawMap();
+        return this;
+    }
+
     /**
      * Change units to Pixels or % (Units.PX, Units.PERCENT)
      *

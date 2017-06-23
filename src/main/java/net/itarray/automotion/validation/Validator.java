@@ -9,6 +9,8 @@ public interface Validator {
 
     Validator drawMap();
 
+    Validator dontDrawMap();
+
     boolean validate();
 
     /**

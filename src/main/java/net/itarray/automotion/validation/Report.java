@@ -25,6 +25,7 @@ public class Report {
 
     public Report(WebDriver driver) {
         this(new DriverFacade(driver));
+        drawMap();
     }
 
     public Report(DriverFacade driver) {
@@ -45,6 +46,10 @@ public class Report {
 
     public void drawMap() {
         withReport = true;
+    }
+
+    public void dontDrawMap() {
+        withReport = false;
     }
 
     public void addJsonFile(String jsonFileName) {
