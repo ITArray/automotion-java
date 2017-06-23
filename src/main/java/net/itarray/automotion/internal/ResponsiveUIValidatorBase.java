@@ -3,9 +3,9 @@ package net.itarray.automotion.internal;
 import net.itarray.automotion.tools.helpers.Helper;
 import net.itarray.automotion.validation.Report;
 import net.itarray.automotion.validation.Scene;
+import net.itarray.automotion.validation.Units;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
-import util.validator.ResponsiveUIValidator;
 
 import java.awt.*;
 import java.io.BufferedWriter;
@@ -19,7 +19,6 @@ import java.nio.charset.StandardCharsets;
 import static net.itarray.automotion.tools.environment.EnvironmentFactory.*;
 import static util.general.SystemHelper.isRetinaDisplay;
 import static util.validator.Constants.*;
-import static util.validator.ResponsiveUIValidator.Units.PX;
 
 public abstract class ResponsiveUIValidatorBase {
 
@@ -43,7 +42,7 @@ public abstract class ResponsiveUIValidatorBase {
         return driver;
     }
 
-    public ResponsiveUIValidator.Units getUnits() {
+    public Units getUnits() {
         return getReport().getUnits();
     }
 
@@ -54,6 +53,15 @@ public abstract class ResponsiveUIValidatorBase {
 
     public boolean isWithReport() {
         return getReport().isWithReport();
+    }
+
+    /**
+     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#changeMetricsUnitsTo(util.validator.ResponsiveUIValidator.Units)} ()}
+     */
+    @Deprecated()
+    protected ResponsiveUIValidatorBase setUnits(Units units) {
+        scene.getReport().setUnits(units);
+        return this;
     }
 
     /**
@@ -120,7 +128,7 @@ public abstract class ResponsiveUIValidatorBase {
     }
 
     protected int getConvertedInt(int i, boolean horizontal) {
-        if (getUnits().equals(PX)) {
+        if (getUnits().equals(net.itarray.automotion.validation.Units.PX)) {
             return i;
         } else {
             if (horizontal) {

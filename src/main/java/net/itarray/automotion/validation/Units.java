@@ -1,6 +1,6 @@
 package net.itarray.automotion.validation;
 
-public enum NewUnits {
+public enum Units {
     PX,
     PERCENT
 }

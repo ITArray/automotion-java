@@ -4,13 +4,10 @@ import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.HtmlReportBuilder;
 import org.openqa.selenium.WebDriver;
-import util.validator.ResponsiveUIValidator;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static util.validator.ResponsiveUIValidator.Units.PX;
 
 /**
  * This is just a working name - needs discussion
@@ -21,7 +18,7 @@ public class Report {
 
     private boolean withReport = false;
     private final List<String> jsonFiles = new ArrayList<>();
-    private ResponsiveUIValidator.Units units = PX;
+    private Units units = Units.PX;
 
     private boolean mobileTopBarOffset = false;
     private final DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
@@ -71,11 +68,11 @@ public class Report {
         }
     }
 
-    public ResponsiveUIValidator.Units getUnits() {
+    public Units getUnits() {
         return units;
     }
 
-    public void setUnits(ResponsiveUIValidator.Units units) {
+    public void setUnits(Units units) {
         this.units = units;
     }
 

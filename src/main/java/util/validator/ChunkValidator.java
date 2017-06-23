@@ -1,11 +1,12 @@
 package util.validator;
 
-import net.itarray.automotion.validation.NewChunkValidator;
 import org.openqa.selenium.WebElement;
 
-public interface ChunkValidator extends NewChunkValidator {
+public interface ChunkValidator extends net.itarray.automotion.validation.ChunkValidator {
 
     ResponsiveUIChunkValidator changeMetricsUnitsTo(ResponsiveUIValidator.Units units);
+
+    ResponsiveUIChunkValidator changeMetricsUnitsTo(net.itarray.automotion.validation.Units units);
 
     ResponsiveUIChunkValidator alignedAsGrid(int horizontalGridSize);
 

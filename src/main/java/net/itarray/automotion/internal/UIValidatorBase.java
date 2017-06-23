@@ -1,7 +1,8 @@
 package net.itarray.automotion.internal;
 
 import http.helpers.TextFinder;
-import net.itarray.automotion.validation.NewValidator;
+import net.itarray.automotion.validation.Units;
+import net.itarray.automotion.validation.Validator;
 import net.itarray.automotion.validation.Scene;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
@@ -15,7 +16,7 @@ import java.util.List;
 import static net.itarray.automotion.internal.Element.*;
 import static util.validator.Constants.*;
 
-public class UIValidatorBase extends ResponsiveUIValidatorBase implements NewValidator {
+public class UIValidatorBase extends ResponsiveUIValidatorBase implements Validator {
 
     private static final int MIN_OFFSET = -10000;
 
@@ -30,15 +31,25 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements NewVal
         this.rootElementReadableName = readableNameOfElement;
     }
 
+    @Override
+    public UIValidatorBase drawMap() {
+        super.drawMap();
+        return this;
+    }
+
     /**
      * Change units to Pixels or % (Units.PX, Units.PERCENT)
      *
      * @param units
      * @return UIValidator
      */
-    @Override
-    public UIValidatorBase changeMetricsUnitsTo(ResponsiveUIValidator.Units units) {
+    public UIValidatorBase changeMetricsUnitsTo(Units units) {
         getReport().setUnits(units);
+        return this;
+    }
+
+    public UIValidatorBase changeMetricsUnitsTo(util.validator.ResponsiveUIValidator.Units units) {
+        getReport().setUnits(units.asNewUnits());
         return this;
     }
 

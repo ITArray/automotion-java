@@ -24,11 +24,11 @@ public class Scene {
         return report;
     }
 
-    public NewValidator findElement(WebElement webElement, String readableNameOfElement) {
+    public Validator findElement(WebElement webElement, String readableNameOfElement) {
         return new UIValidatorBase(this, webElement, readableNameOfElement);
     }
 
-    public NewChunkValidator findElements(List<WebElement> webElements) {
+    public ChunkValidator findElements(List<WebElement> webElements) {
         return new ResponsiveUIChunkValidatorBase(this, webElements);
     }
 }

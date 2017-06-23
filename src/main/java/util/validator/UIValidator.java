@@ -19,6 +19,12 @@ public class UIValidator extends AbstractValidator implements Validator {
         return (UIValidatorBase) super.getBase();
     }
 
+    @Override
+    public UIValidator drawMap() {
+        super.drawMap();
+        return this;
+    }
+
     /**
      * Change units to Pixels or % (Units.PX, Units.PERCENT)
      *
@@ -27,6 +33,12 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator changeMetricsUnitsTo(Units units) {
+        getBase().changeMetricsUnitsTo(units);
+        return this;
+    }
+
+    @Override
+    public UIValidator changeMetricsUnitsTo(net.itarray.automotion.validation.Units units) {
         getBase().changeMetricsUnitsTo(units);
         return this;
     }

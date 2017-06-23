@@ -1,7 +1,8 @@
 package net.itarray.automotion.internal;
 
-import net.itarray.automotion.validation.NewChunkValidator;
+import net.itarray.automotion.validation.ChunkValidator;
 import net.itarray.automotion.validation.Scene;
+import net.itarray.automotion.validation.Units;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIValidator;
@@ -14,7 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static net.itarray.automotion.internal.Element.*;
 
-public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase implements NewChunkValidator {
+public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase implements ChunkValidator {
 
     private final List<Element> rootElements;
 
@@ -27,6 +28,12 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         }
     }
 
+    @Override
+    public ResponsiveUIChunkValidatorBase drawMap() {
+        super.drawMap();
+        return this;
+    }
+
     /**
      * Change units to Pixels or % (Units.PX, Units.PERCENT)
      *
@@ -35,6 +42,11 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      */
     @Override
     public ResponsiveUIChunkValidatorBase changeMetricsUnitsTo(ResponsiveUIValidator.Units units) {
+        return changeMetricsUnitsTo(units.asNewUnits());
+    }
+
+    @Override
+    public ResponsiveUIChunkValidatorBase changeMetricsUnitsTo(Units units) {
         getReport().setUnits(units);
         return this;
     }

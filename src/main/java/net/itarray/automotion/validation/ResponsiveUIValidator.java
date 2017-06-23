@@ -2,7 +2,7 @@ package net.itarray.automotion.validation;
 
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
-import util.validator.ResponsiveUIValidator;
+import org.openqa.selenium.WebDriver;
 
 import java.awt.*;
 
@@ -14,12 +14,16 @@ import java.awt.*;
  *  - {@link util.validator.ResponsiveUIValidator#validate()}
  *
  */
-public class CompatibleResponsiveUIValidator {
+public class ResponsiveUIValidator {
 
     private final Report report;
 
-    public CompatibleResponsiveUIValidator(Report report) {
+    public ResponsiveUIValidator(Report report) {
         this.report = report;
+    }
+
+    public ResponsiveUIValidator(WebDriver driver) {
+        this(new Report(driver));
     }
 
     public Scene init(String name) {
@@ -50,12 +54,9 @@ public class CompatibleResponsiveUIValidator {
         report.generateReport(name);
     }
 
-    public ResponsiveUIValidator.Units getUnits() {
-        return report.getUnits();
-    }
 
-    public CompatibleResponsiveUIValidator changeMetricsUnitsTo(ResponsiveUIValidator.Units units) {
-        report.setUnits(units);
+    public ResponsiveUIValidator changeMetricsUnitsTo(util.validator.ResponsiveUIValidator.Units units) {
+        report.setUnits(units.asNewUnits());
         return this;
     }
 
@@ -85,5 +86,10 @@ public class CompatibleResponsiveUIValidator {
 
     public DriverFacade getDriver() {
         return report.getDriver();
+    }
+
+    public static class Units {
+        public static net.itarray.automotion.validation.Units PX = net.itarray.automotion.validation.Units.PX;
+        public static net.itarray.automotion.validation.Units PERCENT = net.itarray.automotion.validation.Units.PERCENT;
     }
 }

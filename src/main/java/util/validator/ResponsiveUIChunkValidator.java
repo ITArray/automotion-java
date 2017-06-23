@@ -4,6 +4,7 @@ import net.itarray.automotion.internal.AbstractValidator;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.ResponsiveUIChunkValidatorBase;
 import net.itarray.automotion.validation.Scene;
+import net.itarray.automotion.validation.Units;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -16,6 +17,12 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
             String message = "Set root web element";
             addError(message);
         }
+    }
+
+    @Override
+    public ResponsiveUIChunkValidator drawMap() {
+        super.drawMap();
+        return this;
     }
 
     protected ResponsiveUIChunkValidatorBase getBase() {
@@ -33,6 +40,14 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
         getBase().changeMetricsUnitsTo(units);
         return this;
     }
+
+    @Override
+    public ResponsiveUIChunkValidator changeMetricsUnitsTo(net.itarray.automotion.validation.Units units) {
+        getBase().changeMetricsUnitsTo(units);
+        return this;
+    }
+
+
 
     /**
      * Verify that elements are aligned in a grid view width specified amount of columns

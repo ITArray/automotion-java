@@ -125,12 +125,8 @@ public class ResponsiveUIValidator {
      * @return UIValidator
      */
     public ResponsiveUIValidator changeMetricsUnitsTo(Units units) {
-        report.setUnits(units);
+        report.setUnits(units.asNewUnits());
         return this;
-    }
-
-    public Units getUnits() {
-        return report.getUnits();
     }
 
     /**
@@ -176,18 +172,18 @@ public class ResponsiveUIValidator {
     public enum Units {
         PX {
             @Override
-            net.itarray.automotion.validation.NewUnits asNewUnits() {
-                return net.itarray.automotion.validation.NewUnits.PX;
+            public net.itarray.automotion.validation.Units asNewUnits() {
+                return net.itarray.automotion.validation.Units.PX;
             }
         },
         PERCENT {
             @Override
-            net.itarray.automotion.validation.NewUnits asNewUnits() {
-                return net.itarray.automotion.validation.NewUnits.PERCENT;
+            public net.itarray.automotion.validation.Units asNewUnits() {
+                return net.itarray.automotion.validation.Units.PERCENT;
             }
         };
 
-        abstract net.itarray.automotion.validation.NewUnits asNewUnits();
+        public abstract net.itarray.automotion.validation.Units asNewUnits();
     }
 
 }
