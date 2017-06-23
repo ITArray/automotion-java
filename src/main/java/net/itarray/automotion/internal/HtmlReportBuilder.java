@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static util.validator.Constants.*;
+import static net.itarray.automotion.validation.Constants.*;
 
 
 public class HtmlReportBuilder {

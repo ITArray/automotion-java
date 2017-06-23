@@ -14,7 +14,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import static net.itarray.automotion.internal.Element.*;
-import static util.validator.Constants.*;
+import static net.itarray.automotion.validation.Constants.*;
 
 public class UIValidatorBase extends ResponsiveUIValidatorBase implements Validator {
 

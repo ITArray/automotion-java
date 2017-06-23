@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static util.validator.Constants.*;
+import static net.itarray.automotion.validation.Constants.*;
 
 public class DrawableScreenshot {
 

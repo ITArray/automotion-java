@@ -4,7 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 
-import static util.validator.Constants.*;
+import static net.itarray.automotion.validation.Constants.*;
 
 public class Errors {
 
