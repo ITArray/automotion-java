@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement;
 import java.awt.*;
 
 /**
- * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.ResponsiveUIValidator}
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.Report}
  */
 @Deprecated
 public class ResponsiveUIValidator {
@@ -23,11 +23,12 @@ public class ResponsiveUIValidator {
     }
 
     protected ResponsiveUIValidator(DriverFacade driver) {
-        this.report = new Report(driver);
+        this(new Report(driver));
     }
 
     protected ResponsiveUIValidator(Report report) {
         this.report = report;
+        report.dontDrawMap();
     }
 
     public boolean isWithReport() {
@@ -129,7 +130,7 @@ public class ResponsiveUIValidator {
      * @return UIValidator
      */
     public ResponsiveUIValidator changeMetricsUnitsTo(Units units) {
-        report.setUnits(units.asNewUnits());
+        report.changeMetricsUnitsTo(units.asNewUnits());
         return this;
     }
 
@@ -157,7 +158,7 @@ public class ResponsiveUIValidator {
      * Call method to generate HTML report
      */
     public void generateReport() {
-        report.generateHtml();
+        report.generateReport();
     }
 
     /**
@@ -166,7 +167,7 @@ public class ResponsiveUIValidator {
      * @param name
      */
     public void generateReport(String name) {
-        report.generateHtml(name);
+        report.generateReport(name);
     }
 
     public DriverFacade getDriver() {

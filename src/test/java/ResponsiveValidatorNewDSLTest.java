@@ -10,7 +10,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import util.driver.DriverHelper;
 import util.driver.WebDriverFactory;
-import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.properties.Padding;
 
 import java.awt.*;
@@ -55,7 +54,7 @@ public class ResponsiveValidatorNewDSLTest {
                 .findElement(page.topSlider(), "Top Slider")
                 .sameOffsetLeftAs(page.gridContainer(), "Grid Container")
                 .sameOffsetBottomAs(page.topTextBlock(), "Text Block")
-                .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX)
+                .changeMetricsUnitsTo(Report.Units.PX)
                 .widthBetween(300, 500)
                 .sameSizeAs(page.gridElements())
                 .equalLeftRightOffset()
@@ -124,7 +123,7 @@ public class ResponsiveValidatorNewDSLTest {
             softly.assertThat(success).isEqualTo(true).overridingErrorMessage("Failed validation of Container");
         }
 
-        report.generateHtml("Home Page");
+        report.generateReport("Home Page");
 
         softly.assertAll();
     }

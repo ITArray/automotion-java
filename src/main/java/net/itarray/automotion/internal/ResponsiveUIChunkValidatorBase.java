@@ -53,7 +53,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     @Override
     public ResponsiveUIChunkValidatorBase changeMetricsUnitsTo(Units units) {
-        getReport().setUnits(units);
+        getReport().changeMetricsUnitsTo(units);
         return this;
     }
 

@@ -4,6 +4,7 @@ import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.HtmlReportBuilder;
 import org.openqa.selenium.WebDriver;
+import util.validator.ResponsiveUIValidator;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,9 +17,9 @@ public class Report {
 
     protected final DriverFacade driver;
 
-    private boolean withReport = false;
+    private boolean withReport = true;
     private final List<String> jsonFiles = new ArrayList<>();
-    private Units units = Units.PX;
+    private net.itarray.automotion.validation.Units units = net.itarray.automotion.validation.Units.PX;
 
     private boolean mobileTopBarOffset = false;
     private final DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
@@ -40,6 +41,14 @@ public class Report {
         return scene("Default");
     }
 
+    public Scene init(String name) {
+        return scene(name);
+    }
+
+    public Scene init() {
+        return scene();
+    }
+
     public boolean isWithReport() {
         return withReport;
     }
@@ -58,8 +67,8 @@ public class Report {
     /**
      * Call method to generate HTML report
      */
-    public void generateHtml() {
-        generateHtml("result");
+    public void generateReport() {
+        generateReport("result");
     }
 
     /**
@@ -67,18 +76,23 @@ public class Report {
      *
      * @param name
      */
-    public void generateHtml(String name) {
+    public void generateReport(String name) {
         if (isWithReport() && !jsonFiles.isEmpty()) {
             new HtmlReportBuilder().buildReport(name, jsonFiles);
         }
     }
 
-    public Units getUnits() {
+    public net.itarray.automotion.validation.Units getUnits() {
         return units;
     }
 
-    public void setUnits(Units units) {
+    public Report changeMetricsUnitsTo(net.itarray.automotion.validation.Units units) {
         this.units = units;
+        return this;
+    }
+
+    public Report changeMetricsUnitsTo(ResponsiveUIValidator.Units units) {
+        return changeMetricsUnitsTo(units.asNewUnits());
     }
 
     /**
@@ -129,6 +143,10 @@ public class Report {
         return driver;
     }
 
+    public static class Units {
+        public static net.itarray.automotion.validation.Units PX = net.itarray.automotion.validation.Units.PX;
+        public static net.itarray.automotion.validation.Units PERCENT = net.itarray.automotion.validation.Units.PERCENT;
+    }
 
 
 }

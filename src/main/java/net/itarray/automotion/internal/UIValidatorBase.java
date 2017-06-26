@@ -7,7 +7,6 @@ import net.itarray.automotion.validation.Scene;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 import util.general.SystemHelper;
-import util.validator.ResponsiveUIValidator;
 import net.itarray.automotion.validation.properties.Padding;
 
 import java.awt.geom.Rectangle2D;
@@ -50,12 +49,12 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements Valida
      * @return UIValidator
      */
     public UIValidatorBase changeMetricsUnitsTo(Units units) {
-        getReport().setUnits(units);
+        getReport().changeMetricsUnitsTo(units);
         return this;
     }
 
     public UIValidatorBase changeMetricsUnitsTo(util.validator.ResponsiveUIValidator.Units units) {
-        getReport().setUnits(units.asNewUnits());
+        getReport().changeMetricsUnitsTo(units.asNewUnits());
         return this;
     }
 

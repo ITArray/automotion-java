@@ -60,7 +60,7 @@ public abstract class ResponsiveUIValidatorBase {
      */
     @Deprecated()
     protected ResponsiveUIValidatorBase setUnits(Units units) {
-        scene.getReport().setUnits(units);
+        scene.getReport().changeMetricsUnitsTo(units);
         return this;
     }
 
