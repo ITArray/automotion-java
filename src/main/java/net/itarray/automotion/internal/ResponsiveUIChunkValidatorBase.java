@@ -1,6 +1,6 @@
 package net.itarray.automotion.internal;
 
-import net.itarray.automotion.validation.ChunkValidator;
+import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
 import org.json.simple.JSONObject;
@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static net.itarray.automotion.internal.UIElement.*;
 
-public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase implements ChunkValidator {
+public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase implements ChunkUIElementValidator {
 
     private final List<UIElement> rootElements;
 
