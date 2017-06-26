@@ -55,4 +55,9 @@ public class ResolutionImpl implements Resolution {
     public void applyTo(DriverFacade driver) {
         driver.setResolution(extend);
     }
+
+    @Override
+    public Resolution queryIfUnkown(DriverFacade driver) {
+        return this;
+    }
 }

@@ -54,6 +54,10 @@ public class ResponsiveUIValidator {
         return ResolutionImpl.of(driver.getResolution());
     }
 
+    private Zoom getZoom() {
+        return new ZoomUnkown().queryIfUnkown(driver);
+    }
+
     public UISnapshot snapshot() {
         return snapshot("Default");
     }

@@ -2,6 +2,7 @@ package net.itarray.automotion.validation;
 
 import net.itarray.automotion.internal.ResponsiveUIChunkValidatorBase;
 import net.itarray.automotion.internal.UIValidatorBase;
+import net.itarray.automotion.internal.ZoomQuery;
 import net.itarray.automotion.validation.properties.Resolution;
 import net.itarray.automotion.validation.properties.Zoom;
 import org.openqa.selenium.WebElement;
@@ -18,14 +19,18 @@ public class UISnapshot {
     public UISnapshot(ResponsiveUIValidator responsiveUIValidator, String name, Resolution resolution, Zoom zoom) {
         this.responsiveUIValidator = responsiveUIValidator;
         this.name = name;
-        this.resolution = resolution;
-        this.zoom = zoom;
+        this.resolution = resolution.queryIfUnkown(responsiveUIValidator.driver);
+        this.zoom = zoom.queryIfUnkown(responsiveUIValidator.driver);
         resolution.applyTo(responsiveUIValidator.driver);
         zoom.applyTo(responsiveUIValidator.driver);
     }
 
     public String getName() {
         return name;
+    }
+
+    public double getZoomFactor() {
+        return zoom.getFactor(responsiveUIValidator.getDriver());
     }
 
     public String getDescription() {

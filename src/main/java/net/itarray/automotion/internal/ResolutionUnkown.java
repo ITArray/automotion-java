@@ -9,6 +9,11 @@ public class ResolutionUnkown implements Resolution{
     }
 
     @Override
+    public Resolution queryIfUnkown(DriverFacade driver) {
+        return ResolutionImpl.of(driver.getResolution());
+    }
+
+    @Override
     public int hashCode() {
         return ResolutionUnkown.class.hashCode();
     }

@@ -22,4 +22,14 @@ public class ZoomUnkown implements Zoom {
     @Override
     public void applyTo(DriverFacade driver) {
     }
+
+    @Override
+    public double getFactor(DriverFacade driver) {
+        return queryIfUnkown(driver).getFactor(driver);
+    }
+
+    public Zoom queryIfUnkown(DriverFacade driver) {
+        int percentage = Integer.parseInt(driver.getZoom().replace("%", ""));
+        return ZoomImpl.of(percentage);
+    }
 }

@@ -23,17 +23,17 @@ import static net.itarray.automotion.validation.Constants.*;
 public abstract class ResponsiveUIValidatorBase {
 
     private final Errors errors;
-    private final ZoomQuery zoomQuery;
     private final long startTime;
     protected final Dimension pageSize;
     private final UISnapshot snapshot;
     private final DriverFacade driver;
+    private final double zoomFactor;
 
     protected ResponsiveUIValidatorBase(UISnapshot snapshot) {
         this.snapshot = snapshot;
         this.driver = snapshot.getResponsiveUIValidator().getDriver();
         this.errors = new Errors();
-        this.zoomQuery = new ZoomQuery(this.driver);
+        this.zoomFactor = snapshot.getZoomFactor();
         this.pageSize = this.driver.retrievePageSize();
         this.startTime = System.currentTimeMillis();
     }
@@ -120,7 +120,7 @@ public abstract class ResponsiveUIValidatorBase {
                 factor = 2;
             }
         } else {
-            factor = zoomQuery.getFactor();
+            factor = zoomFactor;
             if (isRetinaDisplay() && isChrome()) {
                 factor = factor * 2;
             }

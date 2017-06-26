@@ -15,6 +15,11 @@ public class ZoomImpl implements Zoom {
         driver.setZoom(percentage);
     }
 
+    @Override
+    public double getFactor(DriverFacade driver) {
+        return percentage / 100d;
+    }
+
     public static Zoom of(int percentage) {
         return new ZoomImpl(percentage);
     }
@@ -37,5 +42,7 @@ public class ZoomImpl implements Zoom {
         return String.format("%s%%", percentage);
     }
 
-
+    public Zoom queryIfUnkown(DriverFacade driver) {
+        return this;
+    }
 }
