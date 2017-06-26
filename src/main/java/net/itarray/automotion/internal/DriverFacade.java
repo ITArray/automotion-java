@@ -97,4 +97,17 @@ public class DriverFacade {
     public void setResolution(Dimension resolution) {
         driver.manage().window().setSize(resolution);
     }
+
+    public void setZoom(int percentage) {
+        if (percentage <= 0) {
+            throw new IllegalArgumentException(String.format("illegal zoom percentage %s - should be greater than zero", percentage));
+        }
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        if (isFirefox()) {
+            jse.executeScript("document.body.style.MozTransform = 'scale(" + (percentage / 100f) + ")';");
+        } else {
+            jse.executeScript("document.body.style.zoom = '" + percentage + "%'");
+        }
+
+    }
 }

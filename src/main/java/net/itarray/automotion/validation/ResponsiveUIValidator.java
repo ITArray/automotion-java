@@ -4,7 +4,9 @@ import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.HtmlReportBuilder;
 import net.itarray.automotion.internal.ResolutionUnkown;
+import net.itarray.automotion.internal.ZoomUnkown;
 import net.itarray.automotion.validation.properties.Resolution;
+import net.itarray.automotion.validation.properties.Zoom;
 import org.openqa.selenium.WebDriver;
 
 import java.awt.*;
@@ -31,32 +33,40 @@ public class ResponsiveUIValidator {
         this.driver = driver;
     }
 
-    public UISnapshot snaphost(String name) {
+    public UISnapshot snapshot(String name) {
         return snapshot(name, new ResolutionUnkown());
     }
 
     public UISnapshot snapshot(String name, Resolution resolution) {
-        return new UISnapshot(this, name, resolution);
+        return snapshot(name, resolution, new ZoomUnkown());
     }
 
-    public UISnapshot snaphost() {
-        return snaphost("Default");
+    public UISnapshot snapshot(String name, Resolution resolution, Zoom zoom) {
+        return new UISnapshot(this, name, resolution, zoom);
+    }
+
+    public UISnapshot snapshot(String name, Zoom zoom) {
+        return snapshot(name, new ResolutionUnkown(), zoom);
+    }
+
+    public UISnapshot snapshot() {
+        return snapshot("Default");
     }
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link ResponsiveUIValidator#snaphost(String)}
+     * @deprecated As of release 2.0, replaced by {@link ResponsiveUIValidator#snapshot(String)}
      */
     @Deprecated
     public UISnapshot init(String name) {
-        return snaphost(name);
+        return snapshot(name);
     }
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link ResponsiveUIValidator#snaphost()}
+     * @deprecated As of release 2.0, replaced by {@link ResponsiveUIValidator#snapshot()}
      */
     @Deprecated
     public UISnapshot init() {
-        return snaphost();
+        return snapshot();
     }
 
     public boolean isWithReport() {

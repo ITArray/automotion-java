@@ -4,6 +4,7 @@ import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.ResolutionUnkown;
 import net.itarray.automotion.internal.Scenario;
+import net.itarray.automotion.internal.ZoomUnkown;
 import net.itarray.automotion.validation.UISnapshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -99,7 +100,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator init(String scenarioName) {
-        return new Scenario(new UISnapshot(responsiveUIValidator, scenarioName, new ResolutionUnkown()));
+        return new Scenario(new UISnapshot(responsiveUIValidator, scenarioName, new ResolutionUnkown(), new ZoomUnkown()));
     }
 
     /**
