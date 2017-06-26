@@ -1,38 +1,31 @@
 package util.validator;
 
-import http.helpers.TextFinder;
-import net.itarray.automotion.Element;
 import net.itarray.automotion.internal.AbstractValidator;
-import net.itarray.automotion.internal.DrawableScreenshot;
 import net.itarray.automotion.internal.DriverFacade;
-import net.itarray.automotion.internal.OffsetLineCommands;
-import net.itarray.automotion.internal.Scenario;
-import org.json.simple.JSONObject;
+import net.itarray.automotion.internal.UIValidatorBase;
+import net.itarray.automotion.validation.Scene;
 import org.openqa.selenium.WebElement;
-import util.general.SystemHelper;
-import util.validator.properties.Padding;
+import net.itarray.automotion.validation.properties.Padding;
 
-import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-import static net.itarray.automotion.Element.asElement;
-import static net.itarray.automotion.Element.asElements;
-import static util.validator.Constants.*;
-import static util.validator.Constants.HEIGHT;
-
+/**
+ */
+@Deprecated
 public class UIValidator extends AbstractValidator implements Validator {
 
-    private static final int MIN_OFFSET = -10000;
+    public UIValidator(Scene scene, DriverFacade driver, WebElement webElement, String readableNameOfElement) {
+        super(driver, new UIValidatorBase(scene, webElement, readableNameOfElement));
+    }
 
-    private final OffsetLineCommands offsetLineCommands = new OffsetLineCommands();
-    private final String rootElementReadableName;
-    private final Element rootElement;
+    protected UIValidatorBase getBase() {
+        return (UIValidatorBase) super.getBase();
+    }
 
-
-    public UIValidator(Scenario scenario, DriverFacade driver, WebElement webElement, String readableNameOfElement) {
-        super(scenario, driver);
-        this.rootElement = asElement(webElement);
-        this.rootElementReadableName = readableNameOfElement;
+    @Override
+    public UIValidator drawMap() {
+        super.drawMap();
+        return this;
     }
 
     /**
@@ -43,7 +36,13 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator changeMetricsUnitsTo(Units units) {
-        super.changeMetricsUnitsTo(units);
+        getBase().changeMetricsUnitsTo(units);
+        return this;
+    }
+
+    @Override
+    public UIValidator changeMetricsUnitsTo(net.itarray.automotion.validation.Units units) {
+        getBase().changeMetricsUnitsTo(units);
         return this;
     }
 
@@ -55,7 +54,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator withLeftElement(WebElement element) {
-        validateLeftElement(asElement(element));
+        getBase().withLeftElement(element);
         return this;
     }
 
@@ -69,7 +68,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator withLeftElement(WebElement element, int minMargin, int maxMargin) {
-        validateLeftElement(asElement(element), getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true));
+        getBase().withLeftElement(element, minMargin, maxMargin);
         return this;
     }
 
@@ -81,7 +80,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator withRightElement(WebElement element) {
-        validateRightElement(asElement(element));
+        getBase().withRightElement(element);
         return this;
     }
 
@@ -95,7 +94,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator withRightElement(WebElement element, int minMargin, int maxMargin) {
-        validateRightElement(asElement(element), getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true));
+        getBase().withRightElement(element, minMargin, maxMargin);
         return this;
     }
 
@@ -107,7 +106,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator withTopElement(WebElement element) {
-        validateAboveElement(asElement(element));
+        getBase().withTopElement(element);
         return this;
     }
 
@@ -121,7 +120,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator withTopElement(WebElement element, int minMargin, int maxMargin) {
-        validateAboveElement(asElement(element), getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false));
+        getBase().withTopElement(element, minMargin, maxMargin);
         return this;
     }
 
@@ -133,7 +132,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator withBottomElement(WebElement element) {
-        validateBelowElement(asElement(element));
+        getBase().withBottomElement(element);
         return this;
     }
 
@@ -147,7 +146,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator withBottomElement(WebElement element, int minMargin, int maxMargin) {
-        validateBelowElement(asElement(element), getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false));
+        getBase().withBottomElement(element, minMargin, maxMargin);
         return this;
     }
 
@@ -160,7 +159,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator notOverlapWith(WebElement element, String readableName) {
-        validateNotOverlappingWithElements(asElement(element), readableName);
+        getBase().notOverlapWith(element, readableName);
         return this;
     }
 
@@ -173,7 +172,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator overlapWith(WebElement element, String readableName) {
-        validateOverlappingWithElements(asElement(element), readableName);
+        getBase().overlapWith(element, readableName);
         return this;
     }
 
@@ -185,9 +184,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator notOverlapWith(List<WebElement> elements) {
-        for (WebElement element : elements) {
-            validateNotOverlappingWithElements(asElement(element), asElement(element).getFormattedMessage());
-        }
+        getBase().notOverlapWith(elements);
         return this;
     }
 
@@ -200,8 +197,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameOffsetLeftAs(WebElement element, String readableName) {
-        validateLeftOffsetForElements(asElement(element), readableName);
-        drawLeftOffsetLine();
+        getBase().sameOffsetLeftAs(element, readableName);
         return this;
     }
 
@@ -213,10 +209,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameOffsetLeftAs(List<WebElement> webElements) {
-        for (Element element : asElements(webElements)) {
-            validateLeftOffsetForElements(element, element.getFormattedMessage());
-        }
-        drawLeftOffsetLine();
+        getBase().sameOffsetLeftAs(webElements);
         return this;
     }
 
@@ -229,8 +222,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameOffsetRightAs(WebElement element, String readableName) {
-        validateRightOffsetForElements(asElement(element), readableName);
-        drawRightOffsetLine();
+        getBase().sameOffsetRightAs(element, readableName);
         return this;
     }
 
@@ -242,10 +234,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameOffsetRightAs(List<WebElement> elements) {
-        for (WebElement element : elements) {
-            validateRightOffsetForElements(asElement(element), asElement(element).getFormattedMessage());
-        }
-        drawRightOffsetLine();
+        getBase().sameOffsetRightAs(elements);
         return this;
     }
 
@@ -258,8 +247,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameOffsetTopAs(WebElement element, String readableName) {
-        validateTopOffsetForElements(asElement(element), readableName);
-        drawTopOffsetLine();
+        getBase().sameOffsetTopAs(element, readableName);
         return this;
     }
 
@@ -271,10 +259,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameOffsetTopAs(List<WebElement> elements) {
-        for (WebElement element : elements) {
-            validateTopOffsetForElements(asElement(element), asElement(element).getFormattedMessage());
-        }
-        drawTopOffsetLine();
+        getBase().sameOffsetTopAs(elements);
         return this;
     }
 
@@ -287,8 +272,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameOffsetBottomAs(WebElement element, String readableName) {
-        validateBottomOffsetForElements(asElement(element), readableName);
-        drawBottomOffsetLine();
+        getBase().sameOffsetBottomAs(element, readableName);
         return this;
     }
 
@@ -300,10 +284,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameOffsetBottomAs(List<WebElement> elements) {
-        for (WebElement element : elements) {
-            validateBottomOffsetForElements(asElement(element), asElement(element).getFormattedMessage());
-        }
-        drawBottomOffsetLine();
+        getBase().sameOffsetBottomAs(elements);
         return this;
     }
 
@@ -316,7 +297,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameWidthAs(WebElement element, String readableName) {
-        validateSameWidth(asElement(element), readableName);
+        getBase().sameWidthAs(element, readableName);
         return this;
     }
 
@@ -328,9 +309,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameWidthAs(List<WebElement> elements) {
-        for (WebElement element : elements) {
-            validateSameWidth(asElement(element), asElement(element).getFormattedMessage());
-        }
+        getBase().sameWidthAs(elements);
         return this;
     }
 
@@ -342,7 +321,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator minWidth(int width) {
-        validateMinWidth(getConvertedInt(width, true));
+        getBase().minWidth(width);
         return this;
     }
 
@@ -354,7 +333,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator maxWidth(int width) {
-        validateMaxWidth(getConvertedInt(width, true));
+        getBase().maxWidth(width);
         return this;
     }
 
@@ -367,8 +346,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator widthBetween(int min, int max) {
-        validateMinWidth(getConvertedInt(min, true));
-        validateMaxWidth(getConvertedInt(max, true));
+        getBase().widthBetween(min, max);
         return this;
     }
 
@@ -381,7 +359,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameHeightAs(WebElement element, String readableName) {
-        validateSameHeight(asElement(element), readableName);
+        getBase().sameHeightAs(element, readableName);
         return this;
     }
 
@@ -393,9 +371,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameHeightAs(List<WebElement> elements) {
-        for (WebElement element : elements) {
-            validateSameHeight(asElement(element), asElement(element).getFormattedMessage());
-        }
+        getBase().sameHeightAs(elements);
         return this;
     }
 
@@ -407,7 +383,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator minHeight(int height) {
-        validateMinHeight(getConvertedInt(height, false));
+        getBase().minHeight(height);
         return this;
     }
 
@@ -419,7 +395,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator maxHeight(int height) {
-        validateMaxHeight(getConvertedInt(height, false));
+        getBase().maxHeight(height);
         return this;
     }
 
@@ -432,7 +408,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameSizeAs(WebElement element, String readableName) {
-        validateSameSize(asElement(element), readableName);
+        getBase().sameSizeAs(element, readableName);
         return this;
     }
 
@@ -444,9 +420,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator sameSizeAs(List<WebElement> elements) {
-        for (WebElement element : elements) {
-            validateSameSize(asElement(element), asElement(element).getFormattedMessage());
-        }
+        getBase().sameSizeAs(elements);
         return this;
     }
 
@@ -459,7 +433,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator notSameSizeAs(WebElement element, String readableName) {
-        validateNotSameSize(asElement(element), readableName);
+        getBase().notSameSizeAs(element, readableName);
         return this;
     }
 
@@ -471,9 +445,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator notSameSizeAs(List<WebElement> elements) {
-        for (WebElement element : elements) {
-            validateNotSameSize(asElement(element), asElement(element).getFormattedMessage());
-        }
+        getBase().notSameSizeAs(elements);
         return this;
     }
 
@@ -486,8 +458,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator heightBetween(int min, int max) {
-        validateMinHeight(getConvertedInt(min, false));
-        validateMaxHeight(getConvertedInt(max, false));
+        getBase().heightBetween(min, max);
         return this;
     }
 
@@ -502,9 +473,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator minOffset(int top, int right, int bottom, int left) {
-        if (getConvertedInt(top, false) > MIN_OFFSET && getConvertedInt(right, true) > MIN_OFFSET && getConvertedInt(bottom, false) > MIN_OFFSET && getConvertedInt(left, true) > MIN_OFFSET) {
-            validateMinOffset(getConvertedInt(top, false), getConvertedInt(right, true), getConvertedInt(bottom, false), getConvertedInt(left, true));
-        }
+        getBase().minOffset(top, right, bottom, left);
         return this;
     }
 
@@ -519,9 +488,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator maxOffset(int top, int right, int bottom, int left) {
-        if (getConvertedInt(top, false) > MIN_OFFSET && getConvertedInt(right, true) > MIN_OFFSET && getConvertedInt(bottom, false) > MIN_OFFSET && getConvertedInt(left, true) > MIN_OFFSET) {
-            validateMaxOffset(getConvertedInt(top, false), getConvertedInt(right, true), getConvertedInt(bottom, false), getConvertedInt(left, true));
-        }
+        getBase().maxOffset(top, right, bottom, left);
         return this;
     }
 
@@ -534,18 +501,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator withCssValue(String cssProperty, String... args) {
-        String cssValue = rootElement.getCssValue(cssProperty);
-
-        if (!cssValue.equals("")) {
-            for (String val : args) {
-                val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
-                if (!TextFinder.textIsFound(val, cssValue)) {
-                    addError(String.format("Expected value of '%s' is '%s'. Actual value is '%s'", cssProperty, val, cssValue));
-                }
-            }
-        } else {
-            addError(String.format("Element '%s' does not have css property '%s'", getRootElementReadableName(), cssProperty));
-        }
+        getBase().withCssValue(cssProperty, args);
         return this;
     }
 
@@ -558,18 +514,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator withoutCssValue(String cssProperty, String... args) {
-        String cssValue = rootElement.getCssValue(cssProperty);
-
-        if (!cssValue.equals("")) {
-            for (String val : args) {
-                val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
-                if (TextFinder.textIsFound(val, cssValue)) {
-                    addError(String.format("CSS property '%s' should not contain value '%s'. Actual value is '%s'", cssProperty, val, cssValue));
-                }
-            }
-        } else {
-            addError(String.format("Element '%s' does not have css property '%s'", getRootElementReadableName(), cssProperty));
-        }
+        getBase().withoutCssValue(cssProperty, args);
         return this;
     }
 
@@ -580,7 +525,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator equalLeftRightOffset() {
-        validateEqualLeftRightOffset(rootElement, getRootElementReadableName());
+        getBase().equalLeftRightOffset();
         return this;
     }
 
@@ -591,7 +536,7 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator equalTopBottomOffset() {
-        validateEqualTopBottomOffset(rootElement, getRootElementReadableName());
+        getBase().equalTopBottomOffset();
         return this;
     }
 
@@ -604,271 +549,13 @@ public class UIValidator extends AbstractValidator implements Validator {
      */
     @Override
     public UIValidator insideOf(WebElement containerElement, String readableContainerName) {
-        validateInsideOfContainer(asElement(containerElement), readableContainerName);
+        getBase().insideOf(containerElement, readableContainerName);
         return this;
     }
 
     @Override
     public UIValidator insideOf(WebElement containerElement, String readableContainerName, Padding padding) {
-        validateInsideOfContainer(asElement(containerElement), readableContainerName, padding);
+        getBase().insideOf(containerElement, readableContainerName, padding);
         return this;
     }
-
-    private void validateRightOffsetForElements(Element element, String readableName) {
-        if (!rootElement.hasEqualRightOffsetAs(element)) {
-            addError(String.format("Element '%s' has not the same right offset as element '%s'", getRootElementReadableName(), readableName), element);
-        }
-    }
-
-    private void validateLeftOffsetForElements(Element element, String readableName) {
-        if (!rootElement.hasEqualLeftOffsetAs(element)) {
-            addError(String.format("Element '%s' has not the same left offset as element '%s'", getRootElementReadableName(), readableName), element);
-        }
-    }
-
-    private void validateTopOffsetForElements(Element element, String readableName) {
-        if (!rootElement.hasEqualTopOffsetAs(element)) {
-            addError(String.format("Element '%s' has not the same top offset as element '%s'", getRootElementReadableName(), readableName), element);
-        }
-    }
-
-    private void validateBottomOffsetForElements(Element element, String readableName) {
-        if (!rootElement.hasEqualBottomOffsetAs(element)) {
-            addError(String.format("Element '%s' has not the same bottom offset as element '%s'", getRootElementReadableName(), readableName), element);
-        }
-    }
-
-    private void validateNotOverlappingWithElements(Element element, String readableName) {
-        if (rootElement.overlaps(element)) {
-            addError(String.format("Element '%s' is overlapped with element '%s' but should not", getRootElementReadableName(), readableName), element);
-        }
-    }
-
-    private void validateOverlappingWithElements(Element element, String readableName) {
-        if (!rootElement.overlaps(element)) {
-            addError(String.format("Element '%s' is not overlapped with element '%s' but should be", getRootElementReadableName(), readableName), element);
-        }
-    }
-
-    private void validateMaxOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = rootElement.getRightOffset(pageSize);
-        int rootElementBottomOffset = rootElement.getBottomOffset(pageSize);
-        if (rootElement.getX() > left) {
-            addError(String.format("Expected max left offset of element  '%s' is: %spx. Actual left offset is: %spx", getRootElementReadableName(), left, rootElement.getX()));
-        }
-        if (rootElement.getY() > top) {
-            addError(String.format("Expected max top offset of element '%s' is: %spx. Actual top offset is: %spx", getRootElementReadableName(), top, rootElement.getY()));
-        }
-        if (rootElementRightOffset > right) {
-            addError(String.format("Expected max right offset of element  '%s' is: %spx. Actual right offset is: %spx", getRootElementReadableName(), right, rootElementRightOffset));
-        }
-        if (rootElementBottomOffset > bottom) {
-            addError(String.format("Expected max bottom offset of element  '%s' is: %spx. Actual bottom offset is: %spx", getRootElementReadableName(), bottom, rootElementBottomOffset));
-        }
-    }
-
-    private void validateMinOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = rootElement.getRightOffset(pageSize);
-        int rootElementBottomOffset = rootElement.getBottomOffset(pageSize);
-        if (rootElement.getX() < left) {
-            addError(String.format("Expected min left offset of element  '%s' is: %spx. Actual left offset is: %spx", getRootElementReadableName(), left, rootElement.getX()));
-        }
-        if (rootElement.getY() < top) {
-            addError(String.format("Expected min top offset of element  '%s' is: %spx. Actual top offset is: %spx", getRootElementReadableName(), top, rootElement.getY()));
-        }
-        if (rootElementRightOffset < right) {
-            addError(String.format("Expected min top offset of element  '%s' is: %spx. Actual right offset is: %spx", getRootElementReadableName(), right, rootElementRightOffset));
-        }
-        if (rootElementBottomOffset < bottom) {
-            addError(String.format("Expected min bottom offset of element  '%s' is: %spx. Actual bottom offset is: %spx", getRootElementReadableName(), bottom, rootElementBottomOffset));
-        }
-    }
-
-    private void validateMaxHeight(int height) {
-        if (!rootElement.hasMaxHeight(height)) {
-            addError(String.format("Expected max height of element  '%s' is: %spx. Actual height is: %spx", getRootElementReadableName(), height, rootElement.getHeight()));
-        }
-    }
-
-    private void validateMinHeight(int height) {
-        if (!rootElement.hasMinHeight(height)) {
-            addError(String.format("Expected min height of element '%s' is: %spx. Actual height is: %spx", getRootElementReadableName(), height, rootElement.getHeight()));
-        }
-    }
-
-    private void validateMaxWidth(int width) {
-        if (!rootElement.hasMaxWidth(width)) {
-            addError(String.format("Expected max width of element '%s' is: %spx. Actual width is: %spx", getRootElementReadableName(), width, rootElement.getWidth()));
-        }
-    }
-
-    private void validateMinWidth(int width) {
-        if (!rootElement.hasMinWidth(width)) {
-            addError(String.format("Expected min width of element '%s' is: %spx. Actual width is: %spx", getRootElementReadableName(), width, rootElement.getWidth()));
-        }
-    }
-
-    private void validateSameWidth(Element element, String readableName) {
-        if (!rootElement.hasSameWidthAs(element)) {
-            addError(String.format("Element '%s' has not the same width as %s. Width of '%s' is %spx. Width of element is %spx", getRootElementReadableName(), readableName, getRootElementReadableName(), rootElement.getWidth(), element.getWidth()), element);
-        }
-    }
-
-    private void validateSameHeight(Element element, String readableName) {
-        if (!rootElement.hasSameHeightAs(element)) {
-            addError(String.format("Element '%s' has not the same height as %s. Height of '%s' is %spx. Height of element is %spx", getRootElementReadableName(), readableName, getRootElementReadableName(), rootElement.getHeight(), element.getHeight()), element);
-        }
-    }
-
-    private void validateSameSize(Element element, String readableName) {
-        if (!rootElement.hasSameSizeAs(element)) {
-            addError(String.format("Element '%s' has not the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", getRootElementReadableName(), readableName, getRootElementReadableName(), rootElement.getWidth(), rootElement.getHeight(), element.getWidth(), element.getHeight()), element);
-        }
-    }
-
-    private void validateNotSameSize(Element element, String readableName) {
-        if (!element.hasEqualWebElement(rootElement)) {
-            int h = element.getHeight();
-            int w = element.getWidth();
-            if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
-                addError(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", getRootElementReadableName(), readableName, getRootElementReadableName(), rootElement.getWidth(), rootElement.getHeight(), w, h), element);
-            }
-        }
-    }
-
-    private void validateBelowElement(Element element, int minMargin, int maxMargin) {
-        int marginBetweenRoot = element.getY() - rootElement.getCornerY();
-        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            addError(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
-        }
-    }
-
-    private void validateBelowElement(Element belowElement) {
-        if (!rootElement.hasBelowElement(belowElement)) {
-            addError("Below element aligned not properly", belowElement);
-        }
-    }
-
-    private void validateAboveElement(Element element, int minMargin, int maxMargin) {
-        int marginBetweenRoot = rootElement.getY() - element.getCornerY();
-        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            addError(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
-        }
-    }
-
-    private void validateAboveElement(Element aboveElement) {
-        if (!rootElement.hasAboveElement(aboveElement)) {
-            addError("Above element aligned not properly", aboveElement);
-        }
-    }
-
-    private void validateRightElement(Element element, int minMargin, int maxMargin) {
-        int marginBetweenRoot = element.getX() - rootElement.getCornerX();
-        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            addError(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
-        }
-    }
-
-    private void validateRightElement(Element rightElement) {
-        if (!rootElement.hasRightElement(rightElement)) {
-            addError("Right element aligned not properly", rightElement);
-        }
-    }
-
-    private void validateLeftElement(Element leftElement, int minMargin, int maxMargin) {
-        int marginBetweenRoot = rootElement.getX() - leftElement.getCornerX();
-        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            addError(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), leftElement);
-        }
-    }
-
-    private void validateLeftElement(Element leftElement) {
-        if (!rootElement.hasLeftElement(leftElement)) {
-            addError("Left element aligned not properly", leftElement);
-        }
-    }
-
-    private void validateEqualLeftRightOffset(Element element, String rootElementReadableName) {
-        if (!element.hasEqualLeftRightOffset(pageSize)) {
-            addError(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElementReadableName, element.getX(), element.getRightOffset(pageSize)), element);
-        }
-    }
-
-    private void validateEqualTopBottomOffset(Element element, String rootElementReadableName) {
-        if (!element.hasEqualTopBottomOffset(pageSize)) {
-            addError(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElementReadableName, element.getY(), element.getBottomOffset(pageSize)), element);
-        }
-    }
-
-    private void validateInsideOfContainer(Element containerElement, String readableContainerName) {
-        Rectangle2D.Double elementRectangle = containerElement.rectangle();
-        if (!elementRectangle.contains(rootElement.rectangle())) {
-            addError(String.format("Element '%s' is not inside of '%s'", getRootElementReadableName(), readableContainerName), containerElement);
-        }
-    }
-
-    private void validateInsideOfContainer(Element element, String readableContainerName, Padding padding) {
-        int top = getConvertedInt(padding.getTop(), false);
-        int right = getConvertedInt(padding.getRight(), true);
-        int bottom = getConvertedInt(padding.getBottom(), false);
-        int left = getConvertedInt(padding.getLeft(), true);
-
-        Rectangle2D.Double paddedRootRectangle = new Rectangle2D.Double(
-                rootElement.getX() - left,
-                rootElement.getY() - top,
-                rootElement.getWidth() + left + right,
-                rootElement.getHeight() + top + bottom);
-
-        int paddingTop = rootElement.getY() - element.getY();
-        int paddingLeft = rootElement.getX() - element.getX();
-        int paddingBottom = element.getCornerY() - rootElement.getCornerY();
-        int paddingRight = element.getCornerX() - rootElement.getCornerX();
-
-        if (!element.rectangle().contains(paddedRootRectangle)) {
-            addError(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
-                    getRootElementReadableName(), top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
-        }
-    }
-
-    @Override
-    protected String getRootElementReadableName() {
-        return rootElementReadableName;
-    }
-
-    @Override
-    protected void storeRootDetails(JSONObject rootDetails) {
-        rootDetails.put(X, rootElement.getX());
-        rootDetails.put(Y, rootElement.getY());
-        rootDetails.put(WIDTH, rootElement.getWidth());
-        rootDetails.put(HEIGHT, rootElement.getHeight());
-    }
-
-    @Override
-    protected void drawRootElement(DrawableScreenshot screenshot) {
-        screenshot.drawRootElement(rootElement);
-    }
-
-    @Override
-    protected void drawOffsets(DrawableScreenshot screenshot) {
-        screenshot.drawOffsets(rootElement, offsetLineCommands);
-    }
-
-
-    private void drawLeftOffsetLine() {
-        offsetLineCommands.drawLeftOffsetLine();
-    }
-
-    private void drawRightOffsetLine() {
-        offsetLineCommands.drawRightOffsetLine();
-    }
-
-    private void drawTopOffsetLine() {
-        offsetLineCommands.drawTopOffsetLine();
-    }
-
-    private void drawBottomOffsetLine() {
-        offsetLineCommands.drawBottomOffsetLine();
-    }
-
-
 }

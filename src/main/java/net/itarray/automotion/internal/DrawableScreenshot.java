@@ -1,10 +1,6 @@
 package net.itarray.automotion.internal;
 
-import net.itarray.automotion.Element;
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import util.validator.ResponsiveUIValidator;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

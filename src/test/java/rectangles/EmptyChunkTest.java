@@ -1,6 +1,5 @@
 package rectangles;
 
-import net.itarray.automotion.internal.AbstractValidator;
 import net.itarray.automotion.internal.Errors;
 import org.json.simple.JSONObject;
 import org.junit.Before;
@@ -53,17 +52,24 @@ public class EmptyChunkTest {
     }
 
     private Errors getErrors(ResponsiveUIChunkValidator validator) {
+        return (Errors) getField(getField(validator, "base"), "errors");
+    }
+
+    private Object getField(Object object, String name) {
         try {
-            Field errorField = null;
-            Field[] fields = AbstractValidator.class.getDeclaredFields();
-            for (int i = 0; i < fields.length; i++) {
-                Field field = fields[i];
-                if ("errors".equals(field.getName())) {
-                    errorField = field;
+            Class<?> theClass = object.getClass();
+            while (theClass != null) {
+                Field[] fields = theClass.getDeclaredFields();
+                for (int i = 0; i < fields.length; i++) {
+                    Field field = fields[i];
+                    if (name.equals(field.getName())) {
+                        field.setAccessible(true);
+                        return field.get(object);
+                    }
                 }
+                theClass = theClass.getSuperclass();
             }
-            errorField.setAccessible(true);
-            return (Errors) errorField.get(validator);
+            throw new RuntimeException("no such field " + name + " in " + object);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }

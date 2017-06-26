@@ -1,13 +1,19 @@
 package util.validator;
 
 import org.openqa.selenium.WebElement;
-import util.validator.properties.Padding;
+import net.itarray.automotion.validation.properties.Padding;
 
 import java.util.List;
 
-interface Validator {
+/**
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.Validator}
+ */
+@Deprecated
+public interface Validator extends net.itarray.automotion.validation.Validator {
 
-    UIValidator changeMetricsUnitsTo(ResponsiveUIValidator.Units units);
+    UIValidator changeMetricsUnitsTo(util.validator.ResponsiveUIValidator.Units units);
+
+    UIValidator changeMetricsUnitsTo(net.itarray.automotion.validation.Units units);
 
     UIValidator withLeftElement(WebElement element);
 

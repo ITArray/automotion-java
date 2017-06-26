@@ -1,7 +1,5 @@
 package net.itarray.automotion.internal;
 
-import net.itarray.automotion.Element;
-
 import java.awt.image.BufferedImage;
 
 public class OffsetLineCommands {
