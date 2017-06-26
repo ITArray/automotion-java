@@ -7,19 +7,19 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Element {
+public class UIElement {
     private final WebElement webElement;
 
-    public Element(WebElement webElement) {
+    public UIElement(WebElement webElement) {
         this.webElement = webElement;
     }
 
-    public static Element asElement(WebElement element) {
-        return new Element(element);
+    public static UIElement asElement(WebElement element) {
+        return new UIElement(element);
     }
 
-    public static List<Element> asElements(List<WebElement> webElements) {
-        return webElements.stream().map(Element::asElement).collect(Collectors.toList());
+    public static List<UIElement> asElements(List<WebElement> webElements) {
+        return webElements.stream().map(UIElement::asElement).collect(Collectors.toList());
     }
 
     public int getX() {
@@ -46,19 +46,19 @@ public class Element {
         return getY() + getHeight();
     }
 
-    public boolean hasEqualLeftOffsetAs(Element elementToCompare) {
+    public boolean hasEqualLeftOffsetAs(UIElement elementToCompare) {
         return getX() == elementToCompare.getX();
     }
 
-    public boolean hasEqualRightOffsetAs(Element elementToCompare) {
+    public boolean hasEqualRightOffsetAs(UIElement elementToCompare) {
         return getCornerX() == elementToCompare.getCornerX();
     }
 
-    public boolean hasEqualTopOffsetAs(Element elementToCompare) {
+    public boolean hasEqualTopOffsetAs(UIElement elementToCompare) {
         return getY() == elementToCompare.getY();
     }
 
-    public boolean hasEqualBottomOffsetAs(Element elementToCompare) {
+    public boolean hasEqualBottomOffsetAs(UIElement elementToCompare) {
         return getCornerY() == elementToCompare.getCornerY();
     }
 
@@ -87,19 +87,19 @@ public class Element {
         return getWidth() >= width;
     }
 
-    public boolean hasSameWidthAs(Element elementToCompare) {
+    public boolean hasSameWidthAs(UIElement elementToCompare) {
         return getWidth() == elementToCompare.getWidth();
     }
 
-    public boolean hasSameHeightAs(Element elementToCompare) {
+    public boolean hasSameHeightAs(UIElement elementToCompare) {
         return getHeight() == elementToCompare.getHeight();
     }
 
-    public boolean hasSameSizeAs(Element elementToCompare) {
+    public boolean hasSameSizeAs(UIElement elementToCompare) {
         return hasSameHeightAs(elementToCompare) && hasSameWidthAs(elementToCompare);
     }
 
-    public boolean overlaps(Element elementToCompare) {
+    public boolean overlaps(UIElement elementToCompare) {
         return rectangle().intersects(elementToCompare.rectangle());
     }
 
@@ -127,19 +127,19 @@ public class Element {
         return getLeftOffset() == getRightOffset(pageSize);
     }
 
-    public  boolean hasRightElement(Element rightElement) {
+    public  boolean hasRightElement(UIElement rightElement) {
         return getCornerX() <= rightElement.getX();
     }
 
-    public  boolean hasLeftElement(Element leftElement) {
+    public  boolean hasLeftElement(UIElement leftElement) {
         return leftElement.hasRightElement(this);
     }
 
-    public boolean hasBelowElement(Element bottomElement) {
+    public boolean hasBelowElement(UIElement bottomElement) {
         return getCornerY() <= bottomElement.getY();
     }
 
-    public boolean hasAboveElement(Element aboveElement) {
+    public boolean hasAboveElement(UIElement aboveElement) {
         return aboveElement.hasBelowElement(this);
     }
 
@@ -159,7 +159,7 @@ public class Element {
         return webElement.getCssValue(cssProperty);
     }
 
-    public boolean hasEqualWebElement(Element other) {
+    public boolean hasEqualWebElement(UIElement other) {
         return webElement.equals(other.webElement);
     }
 

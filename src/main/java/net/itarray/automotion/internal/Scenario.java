@@ -1,6 +1,6 @@
 package net.itarray.automotion.internal;
 
-import net.itarray.automotion.validation.Scene;
+import net.itarray.automotion.validation.UISnapshot;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIChunkValidator;
 import util.validator.ResponsiveUIValidator;
@@ -8,11 +8,11 @@ import util.validator.UIValidator;
 
 public class Scenario extends ResponsiveUIValidator {
 
-    private final Scene scene;
+    private final UISnapshot snapshot;
 
-    public Scenario(Scene scene) {
-        super(scene.getReport());
-        this.scene = scene;
+    public Scenario(UISnapshot snapshot) {
+        super(snapshot.getResponsiveUIValidator());
+        this.snapshot = snapshot;
     }
 
     /**
@@ -25,14 +25,14 @@ public class Scenario extends ResponsiveUIValidator {
     }
 
     public UIValidator findElement(WebElement element, String readableNameOfElement) {
-        return new UIValidator(scene, getDriver(), element, readableNameOfElement);
+        return new UIValidator(snapshot, getDriver(), element, readableNameOfElement);
     }
 
     public ResponsiveUIChunkValidator findElements(java.util.List<WebElement> elements) {
-        return new ResponsiveUIChunkValidator(scene, getDriver(), elements);
+        return new ResponsiveUIChunkValidator(snapshot, getDriver(), elements);
     }
 
     public String getName() {
-        return scene.getName();
+        return snapshot.getName();
     }
 }

@@ -22,12 +22,13 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
         return getBase().isWithReport();
     }
 
-    /**
-     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#drawMap()}
-     */
-    @Deprecated()
     public AbstractValidator drawMap() {
         getBase().drawMap();
+        return this;
+    }
+
+    public AbstractValidator dontDrawMap() {
+        getBase().dontDrawMap();
         return this;
     }
 

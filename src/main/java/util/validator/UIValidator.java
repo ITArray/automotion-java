@@ -3,7 +3,7 @@ package util.validator;
 import net.itarray.automotion.internal.AbstractValidator;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.UIValidatorBase;
-import net.itarray.automotion.validation.Scene;
+import net.itarray.automotion.validation.UISnapshot;
 import org.openqa.selenium.WebElement;
 import net.itarray.automotion.validation.properties.Padding;
 
@@ -14,8 +14,8 @@ import java.util.List;
 @Deprecated
 public class UIValidator extends AbstractValidator implements Validator {
 
-    public UIValidator(Scene scene, DriverFacade driver, WebElement webElement, String readableNameOfElement) {
-        super(driver, new UIValidatorBase(scene, webElement, readableNameOfElement));
+    public UIValidator(UISnapshot snapshot, DriverFacade driver, WebElement webElement, String readableNameOfElement) {
+        super(driver, new UIValidatorBase(snapshot, webElement, readableNameOfElement));
     }
 
     protected UIValidatorBase getBase() {
@@ -25,6 +25,12 @@ public class UIValidator extends AbstractValidator implements Validator {
     @Override
     public UIValidator drawMap() {
         super.drawMap();
+        return this;
+    }
+
+    @Override
+    public UIValidator dontDrawMap() {
+        super.dontDrawMap();
         return this;
     }
 

@@ -1,8 +1,8 @@
 package net.itarray.automotion.internal;
 
 import net.itarray.automotion.tools.helpers.Helper;
-import net.itarray.automotion.validation.Report;
-import net.itarray.automotion.validation.Scene;
+import net.itarray.automotion.validation.ResponsiveUIValidator;
+import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 
 import static net.itarray.automotion.tools.environment.EnvironmentFactory.*;
 import static util.general.SystemHelper.isRetinaDisplay;
-import static util.validator.Constants.*;
+import static net.itarray.automotion.validation.Constants.*;
 
 public abstract class ResponsiveUIValidatorBase {
 
@@ -26,12 +26,12 @@ public abstract class ResponsiveUIValidatorBase {
     private final Zoom zoom;
     private final long startTime;
     protected final Dimension pageSize;
-    private final Scene scene;
+    private final UISnapshot snapshot;
     private final DriverFacade driver;
 
-    protected ResponsiveUIValidatorBase(Scene scene) {
-        this.scene = scene;
-        this.driver = scene.getReport().getDriver();
+    protected ResponsiveUIValidatorBase(UISnapshot snapshot) {
+        this.snapshot = snapshot;
+        this.driver = snapshot.getResponsiveUIValidator().getDriver();
         this.errors = new Errors();
         this.zoom = new Zoom(this.driver);
         this.pageSize = this.driver.retrievePageSize();
@@ -46,8 +46,8 @@ public abstract class ResponsiveUIValidatorBase {
         return getReport().getUnits();
     }
 
-    protected Report getReport() {
-        return scene.getReport();
+    protected ResponsiveUIValidator getReport() {
+        return snapshot.getResponsiveUIValidator();
     }
 
 
@@ -60,16 +60,17 @@ public abstract class ResponsiveUIValidatorBase {
      */
     @Deprecated()
     protected ResponsiveUIValidatorBase setUnits(Units units) {
-        scene.getReport().setUnits(units);
+        snapshot.getResponsiveUIValidator().changeMetricsUnitsTo(units);
         return this;
     }
 
-    /**
-     * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#drawMap()}
-     */
-    @Deprecated()
     public ResponsiveUIValidatorBase drawMap() {
         getReport().drawMap();
+        return this;
+    }
+
+    public ResponsiveUIValidatorBase dontDrawMap() {
+        getReport().dontDrawMap();
         return this;
     }
 
@@ -77,7 +78,7 @@ public abstract class ResponsiveUIValidatorBase {
         errors.add(message);
     }
 
-    protected void addError(String message, Element element) {
+    protected void addError(String message, UIElement element) {
         errors.add(message, element);
     }
 
@@ -159,7 +160,7 @@ public abstract class ResponsiveUIValidatorBase {
         JSONObject rootDetails = new JSONObject();
         storeRootDetails(rootDetails);
 
-        jsonResults.put(SCENARIO, scene.getName());
+        jsonResults.put(SCENARIO, snapshot.getName());
         jsonResults.put(ROOT_ELEMENT, rootDetails);
         jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
         jsonResults.put(ELEMENT_NAME, getRootElementReadableName());

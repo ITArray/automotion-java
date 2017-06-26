@@ -5,7 +5,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Locale;
 
-import static util.validator.Constants.TARGET_AUTOMOTION_JSON;
+import static net.itarray.automotion.validation.Constants.TARGET_AUTOMOTION_JSON;
 
 public class SystemHelper {
     /**

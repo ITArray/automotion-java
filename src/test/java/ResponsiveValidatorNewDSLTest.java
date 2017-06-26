@@ -1,6 +1,5 @@
 import http.helpers.EnvironmentHelper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
-import net.itarray.automotion.validation.properties.Padding;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Ignore;
@@ -11,18 +10,19 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import util.driver.DriverHelper;
 import util.driver.WebDriverFactory;
+import net.itarray.automotion.validation.properties.Padding;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 @Ignore
-public class ResponsiveValidatorNewNamesTest {
+public class ResponsiveValidatorNewDSLTest {
 
     private static WebDriver driver;
 
     public static void main(String[] args) {
-        ResponsiveValidatorNewNamesTest test = new ResponsiveValidatorNewNamesTest();
+        ResponsiveValidatorNewDSLTest test = new ResponsiveValidatorNewDSLTest();
         try {
             test.testThatResponsiveValidatorWorks();
         } finally {
@@ -45,12 +45,12 @@ public class ResponsiveValidatorNewNamesTest {
 
         TestPage page = new TestPage(driver);
 
-        ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driver);
+        ResponsiveUIValidator responsiveUIValidator = new ResponsiveUIValidator(driver);
 
-        uiValidator.setLinesColor(Color.BLACK);
+        responsiveUIValidator.setLinesColor(Color.BLACK);
         SoftAssertions softly = new SoftAssertions();
 
-        boolean success1 = uiValidator.init("Validation of Top Slider Element")
+        boolean success1 = responsiveUIValidator.snaphost("Validation of Top Slider Element")
                 .findElement(page.topSlider(), "Top Slider")
                 .sameOffsetLeftAs(page.gridContainer(), "Grid Container")
                 .sameOffsetBottomAs(page.topTextBlock(), "Text Block")
@@ -60,38 +60,34 @@ public class ResponsiveValidatorNewNamesTest {
                 .equalLeftRightOffset()
                 .equalTopBottomOffset()
                 .insideOf(page.mainContainer(), "Main container", new Padding(10, 50, 10, 20))
-                .drawMap()
                 .validate();
 
         softly.assertThat(success1).isEqualTo(true).overridingErrorMessage("Failed validation of Top Slider element");
 
-        boolean success0 = uiValidator.init("Validation of Grid view")
+        boolean success0 = responsiveUIValidator.snaphost("Validation of Grid view")
                 .findElement(page.gridContainer(), "Grid Container")
                 .equalLeftRightOffset()
-                .drawMap()
                 .validate();
 
         softly.assertThat(success0).isEqualTo(true).overridingErrorMessage("Failed validation of Grid Container");
 
-        boolean success01 = uiValidator.init("Validation of Main container")
+        boolean success01 = responsiveUIValidator.snaphost("Validation of Main container")
                 .findElement(page.mainContainer(), "Main Container")
                 .equalLeftRightOffset()
-                .drawMap()
                 .validate();
 
         softly.assertThat(success01).isEqualTo(true).overridingErrorMessage("Failed validation of Main Container");
 
 
-        boolean success2 = uiValidator.init("Validation of Top Text block")
+        boolean success2 = responsiveUIValidator.snaphost("Validation of Top Text block")
                 .findElement(page.topTextBlock(), "Top Text block")
                 .sameOffsetRightAs(page.gridContainer(), "Grid Container")
                 .sameOffsetTopAs(page.topSlider(), "Top Slider")
-                .drawMap()
                 .validate();
 
         softly.assertThat(success2).isEqualTo(true).overridingErrorMessage("Failed validation of Top Text block");
 
-        boolean success3 = uiValidator.init("Validation of a grid view")
+        boolean success3 = responsiveUIValidator.snaphost("Validation of a grid view")
                 .findElements(page.gridElements())
                 .alignedAsGrid(4, 3)
                 .withSameSize()
@@ -99,19 +95,17 @@ public class ResponsiveValidatorNewNamesTest {
                 .sameTopOffset()
                 .equalLeftRightOffset()
                 .equalTopBottomOffset()
-                .drawMap()
                 .validate();
 
         softly.assertThat(success3).isEqualTo(true).overridingErrorMessage("Failed validation of Grid");
 
         for (WebElement card : page.gridElements()) {
-            boolean success = uiValidator.init("Validation of style for each of cards in a grid view")
+            boolean success = responsiveUIValidator.snaphost("Validation of style for each of cards in a grid view")
                     .findElement(card.findElement(By.className("project-details")), "Project details block")
                     .withCssValue("background", "#f8f8f8")
                     .withCssValue("color", "#6f6f6f")
                     .notOverlapWith(card.findElement(By.className("gallery-hover-4col")), "Image Container")
                     .sameWidthAs(card.findElement(By.className("gallery-hover-4col")), "Image Container")
-                    .drawMap()
                     .validate();
             softly.assertThat(success).isEqualTo(true).overridingErrorMessage("Failed validation of Grid in a list");
         }
@@ -120,17 +114,16 @@ public class ResponsiveValidatorNewNamesTest {
 
         for (int val : zoomRange) {
             DriverHelper.zoomInOutPage(driver, val);
-            boolean success = uiValidator.init("Validate on page zoom " + val + "%")
+            boolean success = responsiveUIValidator.snaphost("Validate on page zoom " + val + "%")
                     .findElement(page.mainContainer(), "Main container")
                     .equalLeftRightOffset()
                     .sameWidthAs(page.gridContainer(), "Grid Container")
-                    .drawMap()
                     .validate();
 
             softly.assertThat(success).isEqualTo(true).overridingErrorMessage("Failed validation of Container");
         }
 
-        uiValidator.generateReport("Home Page");
+        responsiveUIValidator.generateReport("Home Page");
 
         softly.assertAll();
     }

@@ -6,13 +6,13 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class Scene {
+public class UISnapshot {
 
-    private final Report report;
+    private final ResponsiveUIValidator responsiveUIValidator;
     private final String name;
 
-    public Scene(Report report, String name) {
-        this.report = report;
+    public UISnapshot(ResponsiveUIValidator responsiveUIValidator, String name) {
+        this.responsiveUIValidator = responsiveUIValidator;
         this.name = name;
     }
 
@@ -20,15 +20,15 @@ public class Scene {
         return name;
     }
 
-    public Report getReport() {
-        return report;
+    public ResponsiveUIValidator getResponsiveUIValidator() {
+        return responsiveUIValidator;
     }
 
-    public Validator findElement(WebElement webElement, String readableNameOfElement) {
+    public UIElementValidator findElement(WebElement webElement, String readableNameOfElement) {
         return new UIValidatorBase(this, webElement, readableNameOfElement);
     }
 
-    public ChunkValidator findElements(List<WebElement> webElements) {
+    public ChunkUIElementValidator findElements(List<WebElement> webElements) {
         return new ResponsiveUIChunkValidatorBase(this, webElements);
     }
 }

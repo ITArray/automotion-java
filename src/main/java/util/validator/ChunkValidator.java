@@ -1,12 +1,13 @@
 package util.validator;
 
+import net.itarray.automotion.validation.ChunkUIElementValidator;
 import org.openqa.selenium.WebElement;
 
 /**
- * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.ChunkValidator}
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.ChunkUIElementValidator}
  */
 @Deprecated
-public interface ChunkValidator extends net.itarray.automotion.validation.ChunkValidator {
+public interface ChunkValidator extends ChunkUIElementValidator {
 
     ResponsiveUIChunkValidator changeMetricsUnitsTo(ResponsiveUIValidator.Units units);
 

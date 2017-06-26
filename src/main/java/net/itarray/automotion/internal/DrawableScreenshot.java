@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static util.validator.Constants.*;
+import static net.itarray.automotion.validation.Constants.*;
 
 public class DrawableScreenshot {
 
@@ -35,7 +35,7 @@ public class DrawableScreenshot {
         return output;
     }
 
-    public void drawOffsets(Element rootElement, OffsetLineCommands offsetLineCommands) {
+    public void drawOffsets(UIElement rootElement, OffsetLineCommands offsetLineCommands) {
         offsetLineCommands.draw(graphics, img, rootElement, drawingConfiguration);
     }
 
@@ -65,7 +65,7 @@ public class DrawableScreenshot {
         }
     }
 
-    public void drawRootElement(Element rootElement) {
+    public void drawRootElement(UIElement rootElement) {
         drawingConfiguration.setRootElementStyle(graphics);
         int x = rootElement.getX();
         int y = rootElement.getY();
