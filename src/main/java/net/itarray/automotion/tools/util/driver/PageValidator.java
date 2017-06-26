@@ -1,6 +1,6 @@
 package net.itarray.automotion.tools.util.driver;
 
-import net.itarray.automotion.internal.Element;
+import net.itarray.automotion.internal.UIElement;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static net.itarray.automotion.internal.Element.asElements;
+import static net.itarray.automotion.internal.UIElement.asElements;
 
 public class PageValidator {
 
@@ -19,12 +19,12 @@ public class PageValidator {
         return privateElementsAreAlignedHorizontally(asElements(webElements));
     }
 
-    private static boolean privateElementsAreAlignedHorizontally(List<Element> elements) {
+    private static boolean privateElementsAreAlignedHorizontally(List<UIElement> elements) {
         boolean aligned = false;
 
         for (int i = 1; i < elements.size(); i++) {
-            Element previousElement = elements.get(i - 1);
-            Element currentElement = elements.get(i);
+            UIElement previousElement = elements.get(i - 1);
+            UIElement currentElement = elements.get(i);
 
             if (!previousElement.hasRightElement(currentElement)) {
                 aligned = false;
@@ -43,12 +43,12 @@ public class PageValidator {
         return privateElementsAreAlignedVertically(asElements(webElements));
     }
 
-    private static boolean privateElementsAreAlignedVertically(List<Element> elements) {
+    private static boolean privateElementsAreAlignedVertically(List<UIElement> elements) {
         boolean aligned = false;
 
         for (int i = 1; i < elements.size(); i++) {
-            Element previousElement = elements.get(i - 1);
-            Element currentElement = elements.get(i);
+            UIElement previousElement = elements.get(i - 1);
+            UIElement currentElement = elements.get(i);
 
             if (!previousElement.hasBelowElement(currentElement)) {
                 aligned = false;

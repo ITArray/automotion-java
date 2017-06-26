@@ -19,10 +19,10 @@ public class Errors {
     }
 
     public void add(String message, WebElement webElement) {
-        add(message, new Element(webElement));
+        add(message, new UIElement(webElement));
     }
 
-    public void add(String message, Element element) {
+    public void add(String message, UIElement element) {
         float xContainer = element.getX();
         float yContainer = element.getY();
         float widthContainer = element.getWidth();

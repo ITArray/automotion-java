@@ -24,7 +24,7 @@ public class OffsetLineCommands {
         drawBottomOffsetLine = true;
     }
 
-    public void draw(TransformedGraphics graphics, BufferedImage img, Element rootElement, DrawingConfiguration drawingConfiguration) {
+    public void draw(TransformedGraphics graphics, BufferedImage img, UIElement rootElement, DrawingConfiguration drawingConfiguration) {
         drawingConfiguration.setLinesStyle(graphics);
         if (drawLeftOffsetLine) {
             graphics.drawVerticalLine(rootElement.getX(), img.getHeight());

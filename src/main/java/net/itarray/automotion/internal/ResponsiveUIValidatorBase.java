@@ -78,7 +78,7 @@ public abstract class ResponsiveUIValidatorBase {
         errors.add(message);
     }
 
-    protected void addError(String message, Element element) {
+    protected void addError(String message, UIElement element) {
         errors.add(message, element);
     }
 

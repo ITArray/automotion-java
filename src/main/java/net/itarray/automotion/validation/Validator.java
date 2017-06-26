@@ -7,8 +7,16 @@ import java.util.List;
 
 public interface Validator {
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.ResponsiveUIValidator#drawMap()}
+     */
+    @Deprecated
     Validator drawMap();
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.ResponsiveUIValidator#dontDrawMap()}
+     */
+    @Deprecated
     Validator dontDrawMap();
 
     boolean validate();
