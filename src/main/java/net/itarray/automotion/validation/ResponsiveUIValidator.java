@@ -3,6 +3,7 @@ package net.itarray.automotion.validation;
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.HtmlReportBuilder;
+import net.itarray.automotion.internal.ResolutionImpl;
 import net.itarray.automotion.internal.ResolutionUnkown;
 import net.itarray.automotion.internal.ZoomUnkown;
 import net.itarray.automotion.validation.properties.Resolution;
@@ -34,7 +35,7 @@ public class ResponsiveUIValidator {
     }
 
     public UISnapshot snapshot(String name) {
-        return snapshot(name, new ResolutionUnkown());
+        return snapshot(name, getResolution());
     }
 
     public UISnapshot snapshot(String name, Resolution resolution) {
@@ -46,7 +47,11 @@ public class ResponsiveUIValidator {
     }
 
     public UISnapshot snapshot(String name, Zoom zoom) {
-        return snapshot(name, new ResolutionUnkown(), zoom);
+        return snapshot(name, getResolution(), zoom);
+    }
+
+    private Resolution getResolution() {
+        return ResolutionImpl.of(driver.getResolution());
     }
 
     public UISnapshot snapshot() {

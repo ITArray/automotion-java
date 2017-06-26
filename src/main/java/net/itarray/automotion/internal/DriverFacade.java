@@ -98,6 +98,10 @@ public class DriverFacade {
         driver.manage().window().setSize(resolution);
     }
 
+    public Dimension getResolution() {
+        return driver.manage().window().getSize();
+    }
+
     public void setZoom(int percentage) {
         if (percentage <= 0) {
             throw new IllegalArgumentException(String.format("illegal zoom percentage %s - should be greater than zero", percentage));

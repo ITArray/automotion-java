@@ -33,6 +33,10 @@ public class ResolutionImpl implements Resolution {
         return String.format("%sx%s", extend.getWidth(), extend.getHeight());
     }
 
+    public static Resolution of(Dimension extend) {
+        return new ResolutionImpl(extend);
+    }
+
     public static Resolution of(int width, int height) {
         return new ResolutionImpl(new Dimension(width, height));
     }
