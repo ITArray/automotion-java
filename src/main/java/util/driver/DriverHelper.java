@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * @deprecated As of release 2.0, replaced by{@link net.itarray.automotion.tools.util.driver.DriverHelper}
+ * @deprecated As of release 2.0, replaced by{@link net.itarray.automotion.tools.driver.DriverHelper}
  */
 @Deprecated
 public class DriverHelper {
@@ -24,7 +24,7 @@ public class DriverHelper {
      * @param text
      */
     public static void sendKeys(WebElement element, String text) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.sendKeys(element, text);
+        net.itarray.automotion.tools.driver.DriverHelper.sendKeys(element, text);
     }
 
     /**
@@ -35,7 +35,7 @@ public class DriverHelper {
      * @param text
      */
     public static void sendKeysFullClear(AndroidDriver driver, MobileElement element, String text) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.sendKeysFullClear(driver, element, text);
+        net.itarray.automotion.tools.driver.DriverHelper.sendKeysFullClear(driver, element, text);
     }
 
     /**
@@ -44,7 +44,7 @@ public class DriverHelper {
      * @param driver
      */
     public static void scrollDownWeb(WebDriver driver) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.scrollDownWeb(driver);
+        net.itarray.automotion.tools.driver.DriverHelper.scrollDownWeb(driver);
     }
 
     /**
@@ -53,7 +53,7 @@ public class DriverHelper {
      * @param driver
      */
     public static void scrollUpWeb(WebDriver driver) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.scrollUpWeb(driver);
+        net.itarray.automotion.tools.driver.DriverHelper.scrollUpWeb(driver);
     }
 
     /**
@@ -62,7 +62,7 @@ public class DriverHelper {
      * @param driver
      */
     public static void scrollDownMobile(AppiumDriver driver) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.scrollDownMobile(driver);
+        net.itarray.automotion.tools.driver.DriverHelper.scrollDownMobile(driver);
     }
 
     /**
@@ -71,7 +71,7 @@ public class DriverHelper {
      * @param driver
      */
     public static void scrollUpMobile(AppiumDriver driver) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.scrollUpMobile(driver);
+        net.itarray.automotion.tools.driver.DriverHelper.scrollUpMobile(driver);
     }
 
     /**
@@ -81,7 +81,7 @@ public class DriverHelper {
      * @param duration
      */
     public static void scrollDownMobile(AppiumDriver driver, int duration) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.scrollDownMobile(driver, duration);
+        net.itarray.automotion.tools.driver.DriverHelper.scrollDownMobile(driver, duration);
     }
 
     /**
@@ -91,23 +91,23 @@ public class DriverHelper {
      * @param duration
      */
     public static void scrollUpMobile(AppiumDriver driver, int duration) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.scrollUpMobile(driver, duration);
+        net.itarray.automotion.tools.driver.DriverHelper.scrollUpMobile(driver, duration);
     }
 
     public static void scrollDownMobileElement(AppiumDriver driver, MobileElement element) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.scrollDownMobileElement(driver, element);
+        net.itarray.automotion.tools.driver.DriverHelper.scrollDownMobileElement(driver, element);
     }
 
     public static void scrollUpMobileElement(AppiumDriver driver, MobileElement element) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.scrollUpMobileElement(driver, element);
+        net.itarray.automotion.tools.driver.DriverHelper.scrollUpMobileElement(driver, element);
     }
 
     public static void scrollDownMobileElement(AppiumDriver driver, MobileElement element, int duration) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.scrollDownMobileElement(driver, element, duration);
+        net.itarray.automotion.tools.driver.DriverHelper.scrollDownMobileElement(driver, element, duration);
     }
 
     public static void scrollUpMobileElement(AppiumDriver driver, MobileElement element, int duration) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.scrollUpMobileElement(driver, element, duration);
+        net.itarray.automotion.tools.driver.DriverHelper.scrollUpMobileElement(driver, element, duration);
     }
 
     /**
@@ -117,15 +117,15 @@ public class DriverHelper {
      * @param zoomPercent
      */
     public static void zoomInOutPage(WebDriver driver, int zoomPercent) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.zoomInOutPage(driver, zoomPercent);
+        net.itarray.automotion.tools.driver.DriverHelper.zoomInOutPage(driver, zoomPercent);
     }
 
     public static void wait(int seconds) throws InterruptedException {
-        net.itarray.automotion.tools.util.driver.DriverHelper.wait(seconds);
+        net.itarray.automotion.tools.driver.DriverHelper.wait(seconds);
     }
 
     public static String takeScreenshot(WebDriver driver) throws Exception {
-        return net.itarray.automotion.tools.util.driver.DriverHelper.takeScreenshot(driver);
+        return net.itarray.automotion.tools.driver.DriverHelper.takeScreenshot(driver);
     }
 
     /**
@@ -134,11 +134,11 @@ public class DriverHelper {
      * @param driver
      */
     public static void hideKeyboard(AppiumDriver driver) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.hideKeyboard(driver);
+        net.itarray.automotion.tools.driver.DriverHelper.hideKeyboard(driver);
     }
 
     public static void click(WebDriver driver, WebElement element) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.click(driver, element);
+        net.itarray.automotion.tools.driver.DriverHelper.click(driver, element);
     }
 
     /**
@@ -154,7 +154,7 @@ public class DriverHelper {
      * @param clickPoint
      */
     public static void clickByLocation(WebDriver driver, WebElement element, ClickPoint clickPoint) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.clickByLocation(driver, element, convert(clickPoint));
+        net.itarray.automotion.tools.driver.DriverHelper.clickByLocation(driver, element, convert(clickPoint));
     }
 
     /**
@@ -170,21 +170,21 @@ public class DriverHelper {
      * @param clickPoint
      */
     public static void clickByLocation(AppiumDriver driver, MobileElement element, ClickPoint clickPoint) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.clickByLocation(driver, element, convert(clickPoint));
+        net.itarray.automotion.tools.driver.DriverHelper.clickByLocation(driver, element, convert(clickPoint));
     }
 
-    private static net.itarray.automotion.tools.util.driver.DriverHelper.ClickPoint convert(ClickPoint clickPoint) {
+    private static net.itarray.automotion.tools.driver.DriverHelper.ClickPoint convert(ClickPoint clickPoint) {
         switch (clickPoint) {
             case CENTER:
-                return net.itarray.automotion.tools.util.driver.DriverHelper.ClickPoint.CENTER;
+                return net.itarray.automotion.tools.driver.DriverHelper.ClickPoint.CENTER;
             case BOTTOM_LEFT:
-                return net.itarray.automotion.tools.util.driver.DriverHelper.ClickPoint.BOTTOM_LEFT;
+                return net.itarray.automotion.tools.driver.DriverHelper.ClickPoint.BOTTOM_LEFT;
             case BOTTOM_RIGHT:
-                return net.itarray.automotion.tools.util.driver.DriverHelper.ClickPoint.BOTTOM_RIGHT;
+                return net.itarray.automotion.tools.driver.DriverHelper.ClickPoint.BOTTOM_RIGHT;
             case TOP_LEFT:
-                return net.itarray.automotion.tools.util.driver.DriverHelper.ClickPoint.TOP_LEFT;
+                return net.itarray.automotion.tools.driver.DriverHelper.ClickPoint.TOP_LEFT;
             case TOP_RIGHT:
-                return net.itarray.automotion.tools.util.driver.DriverHelper.ClickPoint.TOP_RIGHT;
+                return net.itarray.automotion.tools.driver.DriverHelper.ClickPoint.TOP_RIGHT;
             default:
                 throw new RuntimeException("Should not happen");
         }
@@ -196,7 +196,7 @@ public class DriverHelper {
      * @param element
      */
     public static void clickJQuery(WebDriver driver, WebElement element) {
-        net.itarray.automotion.tools.util.driver.DriverHelper.clickJQuery(driver, element);
+        net.itarray.automotion.tools.driver.DriverHelper.clickJQuery(driver, element);
     }
 
     /**
@@ -206,11 +206,11 @@ public class DriverHelper {
      * @return
      */
     public static boolean waitForPageIsReady(WebDriver driver) {
-        return net.itarray.automotion.tools.util.driver.DriverHelper.waitForPageIsReady(driver);
+        return net.itarray.automotion.tools.driver.DriverHelper.waitForPageIsReady(driver);
     }
 
     public boolean elementsArePresented(WebDriver driver, List<String> selectorsList) {
-        return net.itarray.automotion.tools.util.driver.DriverHelper.waitForPageIsReady(driver);
+        return net.itarray.automotion.tools.driver.DriverHelper.waitForPageIsReady(driver);
     }
 
     public enum ClickPoint {

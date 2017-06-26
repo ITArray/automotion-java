@@ -1,4 +1,4 @@
-package net.itarray.automotion.tools.util.driver;
+package net.itarray.automotion.tools.driver;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.Map;
 
 import static net.itarray.automotion.tools.environment.EnvironmentFactory.*;
-import static net.itarray.automotion.tools.util.driver.CapabilitiesFactory.getCapabilities;
+import static net.itarray.automotion.tools.driver.CapabilitiesFactory.getCapabilities;
 
 public class WebDriverFactory {
     private final Logger LOG = LoggerFactory.getLogger(WebDriverFactory.class);

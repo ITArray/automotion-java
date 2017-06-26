@@ -1,4 +1,4 @@
-package net.itarray.automotion.tools.util.property;
+package net.itarray.automotion.tools.property;
 
 import java.io.BufferedReader;
 import java.io.IOException;

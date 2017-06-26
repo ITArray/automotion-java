@@ -1,4 +1,4 @@
-package net.itarray.automotion.tools.util.general;
+package net.itarray.automotion.tools.general;
 
 import java.awt.*;
 import java.io.File;
