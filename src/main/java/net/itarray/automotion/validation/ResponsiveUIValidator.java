@@ -4,16 +4,12 @@ import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.HtmlReportBuilder;
 import org.openqa.selenium.WebDriver;
-import util.validator.ResponsiveUIValidator;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This is just a working name - needs discussion
- */
-public class Report {
+public class ResponsiveUIValidator {
 
     protected final DriverFacade driver;
 
@@ -24,12 +20,12 @@ public class Report {
     private boolean mobileTopBarOffset = false;
     private final DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
 
-    public Report(WebDriver driver) {
+    public ResponsiveUIValidator(WebDriver driver) {
         this(new DriverFacade(driver));
         drawMap();
     }
 
-    public Report(DriverFacade driver) {
+    public ResponsiveUIValidator(DriverFacade driver) {
         this.driver = driver;
     }
 
@@ -86,12 +82,12 @@ public class Report {
         return units;
     }
 
-    public Report changeMetricsUnitsTo(net.itarray.automotion.validation.Units units) {
+    public ResponsiveUIValidator changeMetricsUnitsTo(net.itarray.automotion.validation.Units units) {
         this.units = units;
         return this;
     }
 
-    public Report changeMetricsUnitsTo(ResponsiveUIValidator.Units units) {
+    public ResponsiveUIValidator changeMetricsUnitsTo(util.validator.ResponsiveUIValidator.Units units) {
         return changeMetricsUnitsTo(units.asNewUnits());
     }
 

@@ -1,6 +1,5 @@
 package util.validator;
 
-import net.itarray.automotion.validation.Report;
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.Scenario;
@@ -11,32 +10,32 @@ import org.openqa.selenium.WebElement;
 import java.awt.*;
 
 /**
- * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.Report}
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.ResponsiveUIValidator}
  */
 @Deprecated
 public class ResponsiveUIValidator {
 
-    private final Report report;
+    private final net.itarray.automotion.validation.ResponsiveUIValidator responsiveUIValidator;
 
     public ResponsiveUIValidator(WebDriver driver) {
         this(new DriverFacade(driver));
     }
 
     protected ResponsiveUIValidator(DriverFacade driver) {
-        this(new Report(driver));
+        this(new net.itarray.automotion.validation.ResponsiveUIValidator(driver));
     }
 
-    protected ResponsiveUIValidator(Report report) {
-        this.report = report;
-        report.dontDrawMap();
+    protected ResponsiveUIValidator(net.itarray.automotion.validation.ResponsiveUIValidator responsiveUIValidator) {
+        this.responsiveUIValidator = responsiveUIValidator;
+        responsiveUIValidator.dontDrawMap();
     }
 
     public boolean isWithReport() {
-        return report.isWithReport();
+        return responsiveUIValidator.isWithReport();
     }
 
     public void addJsonFile(String jsonFileName) {
-        report.addJsonFile(jsonFileName);
+        responsiveUIValidator.addJsonFile(jsonFileName);
     }
 
     /**
@@ -45,7 +44,7 @@ public class ResponsiveUIValidator {
      * @param color
      */
     public void setColorForRootElement(Color color) {
-        report.setColorForRootElement(color);
+        responsiveUIValidator.setColorForRootElement(color);
     }
 
     /**
@@ -54,7 +53,7 @@ public class ResponsiveUIValidator {
      * @param color
      */
     public void setColorForHighlightedElements(Color color) {
-        report.setColorForHighlightedElements(color);
+        responsiveUIValidator.setColorForHighlightedElements(color);
     }
 
     /**
@@ -63,11 +62,11 @@ public class ResponsiveUIValidator {
      * @param color
      */
     public void setLinesColor(Color color) {
-        report.setLinesColor(color);
+        responsiveUIValidator.setLinesColor(color);
     }
 
     public DrawingConfiguration getDrawingConfiguration() {
-        return report.getDrawingConfiguration();
+        return responsiveUIValidator.getDrawingConfiguration();
     }
 
     /**
@@ -76,11 +75,11 @@ public class ResponsiveUIValidator {
      * @param state
      */
     public void setTopBarMobileOffset(boolean state) {
-        report.setTopBarMobileOffset(state);
+        responsiveUIValidator.setTopBarMobileOffset(state);
     }
 
     public boolean isMobileTopBarOffset() {
-        return report.isMobileTopBarOffset();
+        return responsiveUIValidator.isMobileTopBarOffset();
     }
 
     /**
@@ -99,7 +98,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator init(String scenarioName) {
-        return new Scenario(new Scene(report, scenarioName));
+        return new Scenario(new Scene(responsiveUIValidator, scenarioName));
     }
 
     /**
@@ -130,7 +129,7 @@ public class ResponsiveUIValidator {
      * @return UIValidator
      */
     public ResponsiveUIValidator changeMetricsUnitsTo(Units units) {
-        report.changeMetricsUnitsTo(units.asNewUnits());
+        responsiveUIValidator.changeMetricsUnitsTo(units.asNewUnits());
         return this;
     }
 
@@ -140,7 +139,7 @@ public class ResponsiveUIValidator {
      * @return ResponsiveUIValidator
      */
     public ResponsiveUIValidator drawMap() {
-        report.drawMap();
+        responsiveUIValidator.drawMap();
         return this;
     }
 
@@ -158,7 +157,7 @@ public class ResponsiveUIValidator {
      * Call method to generate HTML report
      */
     public void generateReport() {
-        report.generateReport();
+        responsiveUIValidator.generateReport();
     }
 
     /**
@@ -167,11 +166,11 @@ public class ResponsiveUIValidator {
      * @param name
      */
     public void generateReport(String name) {
-        report.generateReport(name);
+        responsiveUIValidator.generateReport(name);
     }
 
     public DriverFacade getDriver() {
-        return report.getDriver();
+        return responsiveUIValidator.getDriver();
     }
 
     public enum Units {

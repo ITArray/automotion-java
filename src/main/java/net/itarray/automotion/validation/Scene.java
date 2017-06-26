@@ -8,11 +8,11 @@ import java.util.List;
 
 public class Scene {
 
-    private final Report report;
+    private final ResponsiveUIValidator responsiveUIValidator;
     private final String name;
 
-    public Scene(Report report, String name) {
-        this.report = report;
+    public Scene(ResponsiveUIValidator responsiveUIValidator, String name) {
+        this.responsiveUIValidator = responsiveUIValidator;
         this.name = name;
     }
 
@@ -20,8 +20,8 @@ public class Scene {
         return name;
     }
 
-    public Report getReport() {
-        return report;
+    public ResponsiveUIValidator getResponsiveUIValidator() {
+        return responsiveUIValidator;
     }
 
     public Validator findElement(WebElement webElement, String readableNameOfElement) {

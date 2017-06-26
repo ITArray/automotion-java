@@ -1,7 +1,7 @@
 package net.itarray.automotion.internal;
 
 import net.itarray.automotion.tools.helpers.Helper;
-import net.itarray.automotion.validation.Report;
+import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.Scene;
 import net.itarray.automotion.validation.Units;
 import org.json.simple.JSONObject;
@@ -31,7 +31,7 @@ public abstract class ResponsiveUIValidatorBase {
 
     protected ResponsiveUIValidatorBase(Scene scene) {
         this.scene = scene;
-        this.driver = scene.getReport().getDriver();
+        this.driver = scene.getResponsiveUIValidator().getDriver();
         this.errors = new Errors();
         this.zoom = new Zoom(this.driver);
         this.pageSize = this.driver.retrievePageSize();
@@ -46,8 +46,8 @@ public abstract class ResponsiveUIValidatorBase {
         return getReport().getUnits();
     }
 
-    protected Report getReport() {
-        return scene.getReport();
+    protected ResponsiveUIValidator getReport() {
+        return scene.getResponsiveUIValidator();
     }
 
 
@@ -60,7 +60,7 @@ public abstract class ResponsiveUIValidatorBase {
      */
     @Deprecated()
     protected ResponsiveUIValidatorBase setUnits(Units units) {
-        scene.getReport().changeMetricsUnitsTo(units);
+        scene.getResponsiveUIValidator().changeMetricsUnitsTo(units);
         return this;
     }
 

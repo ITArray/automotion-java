@@ -11,7 +11,7 @@ public class Scenario extends ResponsiveUIValidator {
     private final Scene scene;
 
     public Scenario(Scene scene) {
-        super(scene.getReport());
+        super(scene.getResponsiveUIValidator());
         this.scene = scene;
     }
 

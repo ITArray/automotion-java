@@ -1,5 +1,5 @@
 import http.helpers.EnvironmentHelper;
-import net.itarray.automotion.validation.Report;
+import net.itarray.automotion.validation.ResponsiveUIValidator;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Ignore;
@@ -45,16 +45,16 @@ public class ResponsiveValidatorNewDSLTest {
 
         TestPage page = new TestPage(driver);
 
-        Report report = new Report(driver);
+        ResponsiveUIValidator responsiveUIValidator = new ResponsiveUIValidator(driver);
 
-        report.setLinesColor(Color.BLACK);
+        responsiveUIValidator.setLinesColor(Color.BLACK);
         SoftAssertions softly = new SoftAssertions();
 
-        boolean success1 = report.scene("Validation of Top Slider Element")
+        boolean success1 = responsiveUIValidator.scene("Validation of Top Slider Element")
                 .findElement(page.topSlider(), "Top Slider")
                 .sameOffsetLeftAs(page.gridContainer(), "Grid Container")
                 .sameOffsetBottomAs(page.topTextBlock(), "Text Block")
-                .changeMetricsUnitsTo(Report.Units.PX)
+                .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX)
                 .widthBetween(300, 500)
                 .sameSizeAs(page.gridElements())
                 .equalLeftRightOffset()
@@ -64,14 +64,14 @@ public class ResponsiveValidatorNewDSLTest {
 
         softly.assertThat(success1).isEqualTo(true).overridingErrorMessage("Failed validation of Top Slider element");
 
-        boolean success0 = report.scene("Validation of Grid view")
+        boolean success0 = responsiveUIValidator.scene("Validation of Grid view")
                 .findElement(page.gridContainer(), "Grid Container")
                 .equalLeftRightOffset()
                 .validate();
 
         softly.assertThat(success0).isEqualTo(true).overridingErrorMessage("Failed validation of Grid Container");
 
-        boolean success01 = report.scene("Validation of Main container")
+        boolean success01 = responsiveUIValidator.scene("Validation of Main container")
                 .findElement(page.mainContainer(), "Main Container")
                 .equalLeftRightOffset()
                 .validate();
@@ -79,7 +79,7 @@ public class ResponsiveValidatorNewDSLTest {
         softly.assertThat(success01).isEqualTo(true).overridingErrorMessage("Failed validation of Main Container");
 
 
-        boolean success2 = report.scene("Validation of Top Text block")
+        boolean success2 = responsiveUIValidator.scene("Validation of Top Text block")
                 .findElement(page.topTextBlock(), "Top Text block")
                 .sameOffsetRightAs(page.gridContainer(), "Grid Container")
                 .sameOffsetTopAs(page.topSlider(), "Top Slider")
@@ -87,7 +87,7 @@ public class ResponsiveValidatorNewDSLTest {
 
         softly.assertThat(success2).isEqualTo(true).overridingErrorMessage("Failed validation of Top Text block");
 
-        boolean success3 = report.scene("Validation of a grid view")
+        boolean success3 = responsiveUIValidator.scene("Validation of a grid view")
                 .findElements(page.gridElements())
                 .alignedAsGrid(4, 3)
                 .withSameSize()
@@ -100,7 +100,7 @@ public class ResponsiveValidatorNewDSLTest {
         softly.assertThat(success3).isEqualTo(true).overridingErrorMessage("Failed validation of Grid");
 
         for (WebElement card : page.gridElements()) {
-            boolean success = report.scene("Validation of style for each of cards in a grid view")
+            boolean success = responsiveUIValidator.scene("Validation of style for each of cards in a grid view")
                     .findElement(card.findElement(By.className("project-details")), "Project details block")
                     .withCssValue("background", "#f8f8f8")
                     .withCssValue("color", "#6f6f6f")
@@ -114,7 +114,7 @@ public class ResponsiveValidatorNewDSLTest {
 
         for (int val : zoomRange) {
             DriverHelper.zoomInOutPage(driver, val);
-            boolean success = report.scene("Validate on page zoom " + val + "%")
+            boolean success = responsiveUIValidator.scene("Validate on page zoom " + val + "%")
                     .findElement(page.mainContainer(), "Main container")
                     .equalLeftRightOffset()
                     .sameWidthAs(page.gridContainer(), "Grid Container")
@@ -123,7 +123,7 @@ public class ResponsiveValidatorNewDSLTest {
             softly.assertThat(success).isEqualTo(true).overridingErrorMessage("Failed validation of Container");
         }
 
-        report.generateReport("Home Page");
+        responsiveUIValidator.generateReport("Home Page");
 
         softly.assertAll();
     }

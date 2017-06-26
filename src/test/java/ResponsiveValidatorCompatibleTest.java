@@ -1,5 +1,5 @@
 import http.helpers.EnvironmentHelper;
-import net.itarray.automotion.validation.Report;
+import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.properties.Padding;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
@@ -45,7 +45,7 @@ public class ResponsiveValidatorCompatibleTest {
 
         TestPage page = new TestPage(driver);
 
-        Report uiValidator = new Report(driver);
+        ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driver);
 
         uiValidator.setLinesColor(Color.BLACK);
         SoftAssertions softly = new SoftAssertions();
@@ -54,7 +54,7 @@ public class ResponsiveValidatorCompatibleTest {
                 .findElement(page.topSlider(), "Top Slider")
                 .sameOffsetLeftAs(page.gridContainer(), "Grid Container")
                 .sameOffsetBottomAs(page.topTextBlock(), "Text Block")
-                .changeMetricsUnitsTo(Report.Units.PX)
+                .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX)
                 .widthBetween(300, 500)
                 .sameSizeAs(page.gridElements())
                 .equalLeftRightOffset()
