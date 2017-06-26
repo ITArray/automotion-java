@@ -24,7 +24,7 @@ public class UISnapshot {
         return responsiveUIValidator;
     }
 
-    public Validator findElement(WebElement webElement, String readableNameOfElement) {
+    public UIElementValidator findElement(WebElement webElement, String readableNameOfElement) {
         return new UIValidatorBase(this, webElement, readableNameOfElement);
     }
 

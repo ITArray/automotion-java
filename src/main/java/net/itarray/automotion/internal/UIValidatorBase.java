@@ -2,7 +2,7 @@ package net.itarray.automotion.internal;
 
 import http.helpers.TextFinder;
 import net.itarray.automotion.validation.Units;
-import net.itarray.automotion.validation.Validator;
+import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
@@ -15,7 +15,7 @@ import java.util.List;
 import static net.itarray.automotion.internal.UIElement.*;
 import static net.itarray.automotion.validation.Constants.*;
 
-public class UIValidatorBase extends ResponsiveUIValidatorBase implements Validator {
+public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElementValidator {
 
     private static final int MIN_OFFSET = -10000;
 
