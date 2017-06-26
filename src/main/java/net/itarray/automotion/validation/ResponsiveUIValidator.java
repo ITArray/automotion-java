@@ -29,20 +29,28 @@ public class ResponsiveUIValidator {
         this.driver = driver;
     }
 
-    public Scene scene(String name) {
-        return new Scene(this, name);
+    public UISnapshot snaphost(String name) {
+        return new UISnapshot(this, name);
     }
 
-    public Scene scene() {
-        return scene("Default");
+    public UISnapshot snaphost() {
+        return snaphost("Default");
     }
 
-    public Scene init(String name) {
-        return scene(name);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ResponsiveUIValidator#snaphost(String)}
+     */
+    @Deprecated
+    public UISnapshot init(String name) {
+        return snaphost(name);
     }
 
-    public Scene init() {
-        return scene();
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ResponsiveUIValidator#snaphost()}
+     */
+    @Deprecated
+    public UISnapshot init() {
+        return snaphost();
     }
 
     public boolean isWithReport() {

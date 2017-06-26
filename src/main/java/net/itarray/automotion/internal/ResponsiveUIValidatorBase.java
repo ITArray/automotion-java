@@ -2,7 +2,7 @@ package net.itarray.automotion.internal;
 
 import net.itarray.automotion.tools.helpers.Helper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
-import net.itarray.automotion.validation.Scene;
+import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
@@ -26,12 +26,12 @@ public abstract class ResponsiveUIValidatorBase {
     private final Zoom zoom;
     private final long startTime;
     protected final Dimension pageSize;
-    private final Scene scene;
+    private final UISnapshot snapshot;
     private final DriverFacade driver;
 
-    protected ResponsiveUIValidatorBase(Scene scene) {
-        this.scene = scene;
-        this.driver = scene.getResponsiveUIValidator().getDriver();
+    protected ResponsiveUIValidatorBase(UISnapshot snapshot) {
+        this.snapshot = snapshot;
+        this.driver = snapshot.getResponsiveUIValidator().getDriver();
         this.errors = new Errors();
         this.zoom = new Zoom(this.driver);
         this.pageSize = this.driver.retrievePageSize();
@@ -47,7 +47,7 @@ public abstract class ResponsiveUIValidatorBase {
     }
 
     protected ResponsiveUIValidator getReport() {
-        return scene.getResponsiveUIValidator();
+        return snapshot.getResponsiveUIValidator();
     }
 
 
@@ -60,7 +60,7 @@ public abstract class ResponsiveUIValidatorBase {
      */
     @Deprecated()
     protected ResponsiveUIValidatorBase setUnits(Units units) {
-        scene.getResponsiveUIValidator().changeMetricsUnitsTo(units);
+        snapshot.getResponsiveUIValidator().changeMetricsUnitsTo(units);
         return this;
     }
 
@@ -160,7 +160,7 @@ public abstract class ResponsiveUIValidatorBase {
         JSONObject rootDetails = new JSONObject();
         storeRootDetails(rootDetails);
 
-        jsonResults.put(SCENARIO, scene.getName());
+        jsonResults.put(SCENARIO, snapshot.getName());
         jsonResults.put(ROOT_ELEMENT, rootDetails);
         jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
         jsonResults.put(ELEMENT_NAME, getRootElementReadableName());

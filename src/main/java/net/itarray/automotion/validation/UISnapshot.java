@@ -6,12 +6,12 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class Scene {
+public class UISnapshot {
 
     private final ResponsiveUIValidator responsiveUIValidator;
     private final String name;
 
-    public Scene(ResponsiveUIValidator responsiveUIValidator, String name) {
+    public UISnapshot(ResponsiveUIValidator responsiveUIValidator, String name) {
         this.responsiveUIValidator = responsiveUIValidator;
         this.name = name;
     }

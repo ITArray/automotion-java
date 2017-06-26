@@ -3,7 +3,7 @@ package net.itarray.automotion.internal;
 import http.helpers.TextFinder;
 import net.itarray.automotion.validation.Units;
 import net.itarray.automotion.validation.Validator;
-import net.itarray.automotion.validation.Scene;
+import net.itarray.automotion.validation.UISnapshot;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 import util.general.SystemHelper;
@@ -24,8 +24,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements Valida
     private final UIElement rootElement;
 
 
-    public UIValidatorBase(Scene scene, WebElement webElement, String readableNameOfElement) {
-        super(scene);
+    public UIValidatorBase(UISnapshot snapshot, WebElement webElement, String readableNameOfElement) {
+        super(snapshot);
         this.rootElement = asElement(webElement);
         this.rootElementReadableName = readableNameOfElement;
     }
