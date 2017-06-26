@@ -160,7 +160,7 @@ public abstract class ResponsiveUIValidatorBase {
         JSONObject rootDetails = new JSONObject();
         storeRootDetails(rootDetails);
 
-        jsonResults.put(SCENARIO, snapshot.getName());
+        jsonResults.put(SCENARIO, snapshot.getDescription());
         jsonResults.put(ROOT_ELEMENT, rootDetails);
         jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
         jsonResults.put(ELEMENT_NAME, getRootElementReadableName());

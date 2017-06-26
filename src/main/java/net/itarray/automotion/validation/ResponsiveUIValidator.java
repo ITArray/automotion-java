@@ -3,6 +3,8 @@ package net.itarray.automotion.validation;
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.HtmlReportBuilder;
+import net.itarray.automotion.internal.ResolutionUnkown;
+import net.itarray.automotion.validation.properties.Resolution;
 import org.openqa.selenium.WebDriver;
 
 import java.awt.*;
@@ -30,7 +32,11 @@ public class ResponsiveUIValidator {
     }
 
     public UISnapshot snaphost(String name) {
-        return new UISnapshot(this, name);
+        return snapshot(name, new ResolutionUnkown());
+    }
+
+    public UISnapshot snapshot(String name, Resolution resolution) {
+        return new UISnapshot(this, name, resolution);
     }
 
     public UISnapshot snaphost() {

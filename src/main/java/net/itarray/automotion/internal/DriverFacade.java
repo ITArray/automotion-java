@@ -93,4 +93,8 @@ public class DriverFacade {
     public Dimension retrievePageSize() {
         return new Dimension((int) retrievePageWidth(), (int) retrievePageHeight());
     }
+
+    public void setResolution(Dimension resolution) {
+        driver.manage().window().setSize(resolution);
+    }
 }
