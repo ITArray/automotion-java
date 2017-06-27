@@ -23,17 +23,17 @@ import static net.itarray.automotion.validation.Constants.*;
 public abstract class ResponsiveUIValidatorBase {
 
     private final Errors errors;
-    private final Zoom zoom;
     private final long startTime;
     protected final Dimension pageSize;
     private final UISnapshot snapshot;
     private final DriverFacade driver;
+    private final double zoomFactor;
 
     protected ResponsiveUIValidatorBase(UISnapshot snapshot) {
         this.snapshot = snapshot;
         this.driver = snapshot.getResponsiveUIValidator().getDriver();
         this.errors = new Errors();
-        this.zoom = new Zoom(this.driver);
+        this.zoomFactor = snapshot.getZoomFactor();
         this.pageSize = this.driver.retrievePageSize();
         this.startTime = System.currentTimeMillis();
     }
@@ -120,7 +120,7 @@ public abstract class ResponsiveUIValidatorBase {
                 factor = 2;
             }
         } else {
-            factor = zoom.getFactor();
+            factor = zoomFactor;
             if (isRetinaDisplay() && isChrome()) {
                 factor = factor * 2;
             }
@@ -160,7 +160,7 @@ public abstract class ResponsiveUIValidatorBase {
         JSONObject rootDetails = new JSONObject();
         storeRootDetails(rootDetails);
 
-        jsonResults.put(SCENARIO, snapshot.getName());
+        jsonResults.put(SCENARIO, snapshot.getDescription());
         jsonResults.put(ROOT_ELEMENT, rootDetails);
         jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
         jsonResults.put(ELEMENT_NAME, getRootElementReadableName());

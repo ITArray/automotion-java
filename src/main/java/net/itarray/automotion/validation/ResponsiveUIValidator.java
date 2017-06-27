@@ -3,6 +3,11 @@ package net.itarray.automotion.validation;
 import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.HtmlReportBuilder;
+import net.itarray.automotion.internal.ResolutionImpl;
+import net.itarray.automotion.internal.ResolutionUnkown;
+import net.itarray.automotion.internal.ZoomUnkown;
+import net.itarray.automotion.validation.properties.Resolution;
+import net.itarray.automotion.validation.properties.Zoom;
 import org.openqa.selenium.WebDriver;
 
 import java.awt.*;
@@ -29,28 +34,48 @@ public class ResponsiveUIValidator {
         this.driver = driver;
     }
 
-    public UISnapshot snaphost(String name) {
-        return new UISnapshot(this, name);
+    public UISnapshot snapshot(String name) {
+        return snapshot(name, getResolution());
     }
 
-    public UISnapshot snaphost() {
-        return snaphost("Default");
+    public UISnapshot snapshot(String name, Resolution resolution) {
+        return snapshot(name, resolution, new ZoomUnkown());
+    }
+
+    public UISnapshot snapshot(String name, Resolution resolution, Zoom zoom) {
+        return new UISnapshot(this, name, resolution, zoom);
+    }
+
+    public UISnapshot snapshot(String name, Zoom zoom) {
+        return snapshot(name, getResolution(), zoom);
+    }
+
+    private Resolution getResolution() {
+        return ResolutionImpl.of(driver.getResolution());
+    }
+
+    private Zoom getZoom() {
+        return new ZoomUnkown().queryIfUnkown(driver);
+    }
+
+    public UISnapshot snapshot() {
+        return snapshot("Default");
     }
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link ResponsiveUIValidator#snaphost(String)}
+     * @deprecated As of release 2.0, replaced by {@link ResponsiveUIValidator#snapshot(String)}
      */
     @Deprecated
     public UISnapshot init(String name) {
-        return snaphost(name);
+        return snapshot(name);
     }
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link ResponsiveUIValidator#snaphost()}
+     * @deprecated As of release 2.0, replaced by {@link ResponsiveUIValidator#snapshot()}
      */
     @Deprecated
     public UISnapshot init() {
-        return snaphost();
+        return snapshot();
     }
 
     public boolean isWithReport() {

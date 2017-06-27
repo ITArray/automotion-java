@@ -1,4 +1,4 @@
-package net.itarray.automotion.tools.util.driver;
+package net.itarray.automotion.tools.driver;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;

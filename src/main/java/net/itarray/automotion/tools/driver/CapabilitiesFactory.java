@@ -1,4 +1,4 @@
-package net.itarray.automotion.tools.util.driver;
+package net.itarray.automotion.tools.driver;
 
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;

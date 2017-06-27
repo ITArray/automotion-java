@@ -1,9 +1,9 @@
 package net.itarray.automotion.internal;
 
-public class Zoom {
+public class ZoomQuery {
     private final DriverFacade driver;
 
-    public Zoom(DriverFacade driver) {
+    public ZoomQuery(DriverFacade driver) {
 
         this.driver = driver;
     }

@@ -1,12 +1,12 @@
 package net.itarray.automotion.tests;
 
 import net.itarray.automotion.internal.DriverFacade;
-import net.itarray.automotion.internal.Zoom;
+import net.itarray.automotion.internal.ZoomQuery;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ZoomTest {
+public class ZoomQueryTest {
 
     @Test
     public void applyZoomShouldWork() {
@@ -19,12 +19,12 @@ public class ZoomTest {
     }
 
     private int applyZoom(int size, int percentage) {
-        Zoom zoom = new Zoom(new DriverFacade(null) {
+        ZoomQuery zoomQuery = new ZoomQuery(new DriverFacade(null) {
             @Override
             public String getZoom() {
                 return percentage+"%";
             }
         });
-        return zoom.applyZoom(size);
+        return zoomQuery.applyZoom(size);
     }
 }
