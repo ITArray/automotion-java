@@ -4,7 +4,6 @@ import net.itarray.automotion.internal.Errors;
 import org.json.simple.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIChunkValidator;
 import util.validator.ResponsiveUIValidator;
@@ -13,6 +12,7 @@ import java.lang.reflect.Field;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static rectangles.DummyDriverFacade.createWebDriver;
 import static rectangles.DummyWebElement.createRootElement;
 
 public class EmptyChunkTest {
@@ -21,8 +21,7 @@ public class EmptyChunkTest {
 
     @Before
     public void setUp() {
-        WebDriver driver = new DummyWebDriver();
-        ResponsiveUIValidator temporary = new ResponsiveUIValidator(driver).init();
+        ResponsiveUIValidator temporary = new ResponsiveUIValidator(createWebDriver()).init();
 
         empty = temporary.findElements(emptyList());
 

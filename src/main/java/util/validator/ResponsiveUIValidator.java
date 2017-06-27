@@ -23,7 +23,7 @@ public class ResponsiveUIValidator {
         this(new DriverFacade(driver));
     }
 
-    protected ResponsiveUIValidator(DriverFacade driver) {
+    public ResponsiveUIValidator(DriverFacade driver) {
         this(new net.itarray.automotion.validation.ResponsiveUIValidator(driver));
     }
 
