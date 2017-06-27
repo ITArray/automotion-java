@@ -14,79 +14,14 @@
                     <artifactId>automotion</artifactId>
                     <version>LATEST</version>
                 </dependency>
-
-### Steps of adding to the project ###
-
-- Create instance of WebDriverFactory and call getDriver:
-
-            WebDriverFactory driverFactory = new WebDriverFactory();
-            WebDriver driver = driverFactory.getDriver();
-            
-- Extend Your page classes from BaseWebMobileElement class to have access to methods:
-
-            getWebElement(final By by)
-            getWebElement(ExpectedCondition<WebElement> expectedCondition)
-            
-            getMobileElement(final By by, int timeOfWaiting)
-            getMobileElement(final By by)
-            
-            getWebElements(final By by)
-            getWebElements(ExpectedCondition<List<WebElement>> expectedCondition)  
-
-### Steps of using during test run ###
-
-#### ! Do not forget to put Chrome and Gecko drivers into Your project src/test/resources/drivers ! ####
-
- - Specify env variables or system properties (example):
-    * For Web local run:       
-         
-            IS_LOCAL=True
-            BROWSER=Firefox|Chrome|IE|Safari|EDGE
-
-    * For Web remote run:
-
-            IS_REMOTE=True
-            BROWSER=Firefox|Chrome|IE|Safari|EDGE
-            EXECUTOR=http://{host}:{port}/wd/hub
-            (optional available with Chrome only) MOBILE_DEVICE_EMULATION=Google Nexus 5|Apple iPhone 6|Samsung Galaxy S5
-
-    * For Web Mobile run:
-
-            IS_MOBILE=True
-            PLATFORM=Android|iOS
-            BROWSER=Chrome|Safari
-            EXECUTOR=http://{host}:{port}/wd/hub
-            DEVICE=Device name
-            
-    * For Web Headless run (with PhantomJS without browser):
-
-            IS_HEADLESS=True
-            BROWSER=Firefox|Chrome|IE|Safari
-            PHANTOM_JS_PATH=C://phantomjs.exe
-
-    * For Native Mobile run:
-
-            IS_MOBILE=True
-            PLATFORM=Android|iOS
-            APP={path_to_app}
-            EXECUTOR=http://{host}:{port}/wd/hub
-            DEVICE=Device name
-
-    * For Windows UWP:
-
-            IS_MOBILE=True
-            PLATFORM=Windows
-            APP={path_to_app}
-            EXECUTOR=http://{host}:{port}/wd/hub
-            DEVICE=Device name or ID
-
+                
 ### Responsive UI Validation ###
  - Responsive UI Validator allows to validate UI on web or mobile page using lots of criterias. Also it allows tu build thr HTMl report after validation.
             
             ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driver);
             
             
-            boolean result = uiValidator.init()
+            boolean result = uiValidator.snapshot("Scenario name", Literals.zoom(75), Literals.resolution("1366x768"))
                    .findElement({rootEelement}, "Name of element")
                    .sameOffsetLeftAs({element} "Panel 1")
                    .sameOffsetLeftAs({element} "Button 1")
@@ -99,10 +34,8 @@
                    .insideOf({element}, "Container")
                    .notOverlapWith({element}, "Other element")
                    .withTopElement({element}, 10, 15)
-                   .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PERCENT)
                    .widthBetween(50, 55)
                    .heightBetween(90, 95)
-                   .drawMap()
                    .validate();
             
             
@@ -111,10 +44,12 @@
  - Description for each methods available in the framework:
     
     * Init method:
-    
-            init(); // Method that defines start of new validation. Needs to be called each time before calling findElement(), findElements()
+                
+            snapshot("Scenario name"); // Method that defines start of new validation with specified name of scenario. Needs to be called each time before calling findElement(), findElements()
             
-            init("Scenario name"); // Method that defines start of new validation with specified name of scenario. Needs to be called each time before calling findElement(), findElements()
+            snapshot("Scenario name", Literals.zoom(90)); // Method that defines start of new validation with specified name of scenario. Needs to be called each time before calling findElement(), findElements()
+            
+            snapshot("Scenario name", Literals.zoom(90), Literals.resolution("1366x768")); // Method that defines start of new validation with specified name of scenario. Needs to be called each time before calling findElement(), findElements()
             
             setColorForRootElement(Color color); // Set color for main element. This color will be used for highlighting element in results
             
@@ -238,13 +173,79 @@
            
     * Generating results:
     
-            drawMap(); // Methods needs to be called to collect all the results in JSON file and screenshots
+            dontDrawMap(); // Methods needs to be called if don't want to callect JSON report files and screenshot.
             
             validate(); // Call method to summarize and validate the results (can be called with drawMap(). In this case result will be only True or False)
             
             generateReport(); // Call method to generate HTML report
             
             generateReport("file report name"); // Call method to generate HTML report with specified file report name
+
+
+### Steps of adding to the project ###
+
+- Create instance of WebDriverFactory and call getDriver:
+
+            WebDriverFactory driverFactory = new WebDriverFactory();
+            WebDriver driver = driverFactory.getDriver();
+            
+- Extend Your page classes from BaseWebMobileElement class to have access to methods:
+
+            getWebElement(final By by)
+            getWebElement(ExpectedCondition<WebElement> expectedCondition)
+            
+            getMobileElement(final By by, int timeOfWaiting)
+            getMobileElement(final By by)
+            
+            getWebElements(final By by)
+            getWebElements(ExpectedCondition<List<WebElement>> expectedCondition)  
+
+### Steps of using during test run ###
+
+#### ! Do not forget to put Chrome and Gecko drivers into Your project src/test/resources/drivers ! ####
+
+ - Specify env variables or system properties (example):
+    * For Web local run:       
+         
+            IS_LOCAL=True
+            BROWSER=Firefox|Chrome|IE|Safari|EDGE
+
+    * For Web remote run:
+
+            IS_REMOTE=True
+            BROWSER=Firefox|Chrome|IE|Safari|EDGE
+            EXECUTOR=http://{host}:{port}/wd/hub
+            (optional available with Chrome only) MOBILE_DEVICE_EMULATION=Google Nexus 5|Apple iPhone 6|Samsung Galaxy S5
+
+    * For Web Mobile run:
+
+            IS_MOBILE=True
+            PLATFORM=Android|iOS
+            BROWSER=Chrome|Safari
+            EXECUTOR=http://{host}:{port}/wd/hub
+            DEVICE=Device name
+            
+    * For Web Headless run (with PhantomJS without browser):
+
+            IS_HEADLESS=True
+            BROWSER=Firefox|Chrome|IE|Safari
+            PHANTOM_JS_PATH=C://phantomjs.exe
+
+    * For Native Mobile run:
+
+            IS_MOBILE=True
+            PLATFORM=Android|iOS
+            APP={path_to_app}
+            EXECUTOR=http://{host}:{port}/wd/hub
+            DEVICE=Device name
+
+    * For Windows UWP:
+
+            IS_MOBILE=True
+            PLATFORM=Windows
+            APP={path_to_app}
+            EXECUTOR=http://{host}:{port}/wd/hub
+            DEVICE=Device name or ID
 
 ### Possibilities ###
  - Verification that elements are aligned correctly on the web or mobile page
