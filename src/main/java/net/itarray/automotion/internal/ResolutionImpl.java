@@ -57,7 +57,7 @@ public class ResolutionImpl implements Resolution {
     }
 
     @Override
-    public Resolution queryIfUnkown(DriverFacade driver) {
+    public Resolution queryIfUnknown(DriverFacade driver) {
         return this;
     }
 }

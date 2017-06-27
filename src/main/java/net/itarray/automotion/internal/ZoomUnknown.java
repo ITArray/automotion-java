@@ -2,7 +2,7 @@ package net.itarray.automotion.internal;
 
 import net.itarray.automotion.validation.properties.Zoom;
 
-public class ZoomUnkown implements Zoom {
+public class ZoomUnknown implements Zoom {
 
     @Override
     public String toString() {
@@ -11,12 +11,12 @@ public class ZoomUnkown implements Zoom {
 
     @Override
     public int hashCode() {
-        return ZoomUnkown.class.hashCode();
+        return ZoomUnknown.class.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof ZoomUnkown;
+        return obj instanceof ZoomUnknown;
     }
 
     @Override
@@ -25,10 +25,10 @@ public class ZoomUnkown implements Zoom {
 
     @Override
     public double getFactor(DriverFacade driver) {
-        return queryIfUnkown(driver).getFactor(driver);
+        return queryIfUnknown(driver).getFactor(driver);
     }
 
-    public Zoom queryIfUnkown(DriverFacade driver) {
+    public Zoom queryIfUnknown(DriverFacade driver) {
         int percentage = Integer.parseInt(driver.getZoom().replace("%", ""));
         return ZoomImpl.of(percentage);
     }

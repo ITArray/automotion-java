@@ -4,8 +4,7 @@ import net.itarray.automotion.internal.DrawingConfiguration;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.HtmlReportBuilder;
 import net.itarray.automotion.internal.ResolutionImpl;
-import net.itarray.automotion.internal.ResolutionUnkown;
-import net.itarray.automotion.internal.ZoomUnkown;
+import net.itarray.automotion.internal.ZoomUnknown;
 import net.itarray.automotion.validation.properties.Resolution;
 import net.itarray.automotion.validation.properties.Zoom;
 import org.openqa.selenium.WebDriver;
@@ -39,7 +38,7 @@ public class ResponsiveUIValidator {
     }
 
     public UISnapshot snapshot(String name, Resolution resolution) {
-        return snapshot(name, resolution, new ZoomUnkown());
+        return snapshot(name, resolution, new ZoomUnknown());
     }
 
     public UISnapshot snapshot(String name, Resolution resolution, Zoom zoom) {
@@ -55,7 +54,7 @@ public class ResponsiveUIValidator {
     }
 
     private Zoom getZoom() {
-        return new ZoomUnkown().queryIfUnkown(driver);
+        return new ZoomUnknown().queryIfUnknown(driver);
     }
 
     public UISnapshot snapshot() {
