@@ -9,13 +9,19 @@ import java.util.stream.Collectors;
 
 public class UIElement {
     private final WebElement webElement;
+    private final String name;
 
-    private UIElement(WebElement webElement) {
+    private UIElement(WebElement webElement, String name) {
         this.webElement = webElement;
+        this.name = name;
     }
 
     public static UIElement asElement(WebElement element) {
-        return new UIElement(element);
+        return asElement(element, "an Element");
+    }
+
+    public static UIElement asElement(WebElement element, String name) {
+        return new UIElement(element, name);
     }
 
     public static List<UIElement> asElements(List<WebElement> webElements) {
@@ -182,5 +188,9 @@ public class UIElement {
         }
         String postfix = "...";
         return getText().substring(0, maxLength-postfix.length()) + postfix;
+    }
+
+    public String getName() {
+        return name;
     }
 }
