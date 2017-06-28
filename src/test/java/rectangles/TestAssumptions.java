@@ -1,6 +1,5 @@
 package rectangles;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIChunkValidator;
 import util.validator.ResponsiveUIValidator;
@@ -11,10 +10,11 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import static rectangles.DummyDriverFacade.createWebDriver;
+
 public class TestAssumptions {
     public static boolean validate(WebElement root, Consumer<UIValidator> assumption) {
-        WebDriver driver = new DummyWebDriver();
-        ResponsiveUIValidator temporary = new ResponsiveUIValidator(driver).init();
+        ResponsiveUIValidator temporary = new ResponsiveUIValidator(createWebDriver()).init();
 
         UIValidator validator = temporary.findElement(root, "Bla");
 
@@ -23,8 +23,7 @@ public class TestAssumptions {
     }
 
     public static boolean validate(WebElement root, WebElement other, BiConsumer<UIValidator, WebElement> assumption) {
-        WebDriver driver = new DummyWebDriver();
-        ResponsiveUIValidator temporary = new ResponsiveUIValidator(driver).init();
+        ResponsiveUIValidator temporary = new ResponsiveUIValidator(createWebDriver()).init();
 
         UIValidator validator = temporary.findElement(root, "Bla");
 
@@ -33,8 +32,7 @@ public class TestAssumptions {
     }
 
     public static boolean validate(WebElement root, List<WebElement> others, BiConsumer<UIValidator, List<WebElement>> assumption) {
-        WebDriver driver = new DummyWebDriver();
-        ResponsiveUIValidator temporary = new ResponsiveUIValidator(driver).init();
+        ResponsiveUIValidator temporary = new ResponsiveUIValidator(createWebDriver()).init();
 
         UIValidator validator = temporary.findElement(root, "Bla");
 
@@ -43,8 +41,7 @@ public class TestAssumptions {
     }
 
     public static boolean validate(List<WebElement> elements, Consumer<ResponsiveUIChunkValidator> assumption) {
-        WebDriver driver = new DummyWebDriver();
-        ResponsiveUIValidator temporary = new ResponsiveUIValidator(driver).init();
+        ResponsiveUIValidator temporary = new ResponsiveUIValidator(createWebDriver()).init();
 
         ResponsiveUIChunkValidator validator = temporary.findElements(elements);
 

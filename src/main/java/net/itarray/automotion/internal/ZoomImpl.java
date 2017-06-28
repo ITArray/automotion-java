@@ -42,7 +42,7 @@ public class ZoomImpl implements Zoom {
         return String.format("%s%%", percentage);
     }
 
-    public Zoom queryIfUnkown(DriverFacade driver) {
+    public Zoom queryIfUnknown(DriverFacade driver) {
         return this;
     }
 }
