@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 
+import static net.itarray.automotion.internal.UIElement.asElement;
 import static net.itarray.automotion.validation.Constants.*;
 
 public class Errors {
@@ -19,7 +20,7 @@ public class Errors {
     }
 
     public void add(String message, WebElement webElement) {
-        add(message, new UIElement(webElement));
+        add(message, asElement(webElement));
     }
 
     public void add(String message, UIElement element) {

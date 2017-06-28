@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class UIElement {
     private final WebElement webElement;
 
-    public UIElement(WebElement webElement) {
+    private UIElement(WebElement webElement) {
         this.webElement = webElement;
     }
 
