@@ -840,7 +840,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     @Override
-    protected String getRootElementReadableName() {
+    protected String getNameOfToBeValidated() {
         return rootElement.getName();
     }
 

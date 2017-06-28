@@ -420,7 +420,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     }
 
     @Override
-    protected String getRootElementReadableName() {
+    protected String getNameOfToBeValidated() {
         return "Root Element";
     }
 
