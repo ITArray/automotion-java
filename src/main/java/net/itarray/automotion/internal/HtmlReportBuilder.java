@@ -20,7 +20,9 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static net.itarray.automotion.validation.Constants.*;
 
@@ -68,12 +70,11 @@ public class HtmlReportBuilder {
                         new NoTag(this, String.format("Results from: %s", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                     }};
                 }};
-                File folder = new File(TARGET_AUTOMOTION_JSON);
-                File[] listOfFiles = folder.listFiles();
-
-                if (listOfFiles != null) {
-                    for (File file : listOfFiles) {
-                        if (file.isFile() && jsonFiles.contains(file.getName())) {
+                Map<String, File> filesByName = jsonFilesByNameInTargetJsonDirectory();
+                for (String jsonFile : jsonFiles) {
+                    if (filesByName.containsKey(jsonFile)) {
+                        File file = filesByName.get(jsonFile);
+                        if (file.isFile()) {
                             JSONParser parser = new JSONParser();
                             Object obj = parser.parse(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
 
@@ -113,12 +114,25 @@ public class HtmlReportBuilder {
                                         new Style("width: 96%; margin-left:2%"));
                             }};
 
-                            jsonFiles.remove(file.getName());
                             while (!file.delete()) ;
                         }
+
                     }
                 }
+                jsonFiles.clear();
             }};
         }};
+    }
+
+    private Map<String, File> jsonFilesByNameInTargetJsonDirectory() {
+        File folder = new File(TARGET_AUTOMOTION_JSON);
+        File[] listOfFiles = folder.listFiles();
+        Map<String, File> filesByName = new HashMap<>();
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                filesByName.put(file.getName(), file);
+            }
+        }
+        return filesByName;
     }
 }
