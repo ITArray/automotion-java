@@ -20,14 +20,12 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     private static final int MIN_OFFSET = -10000;
 
     private final OffsetLineCommands offsetLineCommands = new OffsetLineCommands();
-    private final String rootElementReadableName;
     private final UIElement rootElement;
 
 
     public UIValidatorBase(UISnapshot snapshot, WebElement webElement, String readableNameOfElement) {
         super(snapshot);
-        this.rootElement = asElement(webElement);
-        this.rootElementReadableName = readableNameOfElement;
+        this.rootElement = asElement(webElement, readableNameOfElement);
     }
 
     @Override
@@ -843,7 +841,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     @Override
     protected String getRootElementReadableName() {
-        return rootElementReadableName;
+        return rootElement.getName();
     }
 
     @Override
