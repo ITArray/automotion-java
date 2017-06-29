@@ -17,7 +17,7 @@ public class UIElement {
     }
 
     public static UIElement asElement(WebElement element) {
-        return asElement(element, "an Element");
+        return asElement(element, null);
     }
 
     public static UIElement asElement(WebElement element, String name) {
@@ -191,6 +191,6 @@ public class UIElement {
     }
 
     public String getName() {
-        return name;
+        return name != null ? name : getFormattedMessage();
     }
 }
