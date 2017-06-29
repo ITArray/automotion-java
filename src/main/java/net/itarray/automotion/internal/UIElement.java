@@ -169,7 +169,7 @@ public class UIElement {
         return webElement.equals(other.webElement);
     }
 
-    public String getFormattedMessage() {
+    private String getFormattedMessage() {
         return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
                 getTagName(),
                 getAttribute("id"),

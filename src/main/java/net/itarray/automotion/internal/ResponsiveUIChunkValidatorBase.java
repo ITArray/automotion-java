@@ -397,7 +397,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     private void validateEqualLeftRightOffset(List<UIElement> elements) {
         for (UIElement element : elements) {
             if (!element.hasEqualLeftRightOffset(pageSize)) {
-                addError(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", element.getFormattedMessage(), element.getX(), element.getRightOffset(pageSize)), element);
+                addError(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", element.getName(), element.getX(), element.getRightOffset(pageSize)), element);
             }
         }
     }
@@ -405,7 +405,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     private void validateEqualTopBottomOffset(List<UIElement> elements) {
         for (UIElement element : elements) {
             if (!element.hasEqualTopBottomOffset(pageSize)) {
-                addError(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", element.getFormattedMessage(), element.getY(), element.getBottomOffset(pageSize)), element);
+                addError(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", element.getName(), element.getY(), element.getBottomOffset(pageSize)), element);
             }
         }
     }
