@@ -91,7 +91,7 @@ public abstract class ResponsiveUIValidatorBase {
         return !errors.hasMessages();
     }
 
-    protected abstract String getRootElementReadableName();
+    protected abstract String getNameOfToBeValidated();
 
     private void compileValidationReport() {
         if (!isWithReport()) {
@@ -104,7 +104,7 @@ public abstract class ResponsiveUIValidatorBase {
 
         drawOffsets(screenshot);
 
-        screenshot.drawScreenshot(getRootElementReadableName(), errors);
+        screenshot.drawScreenshot(getNameOfToBeValidated(), errors);
 
         writeResults(screenshot);
     }
@@ -163,12 +163,12 @@ public abstract class ResponsiveUIValidatorBase {
         jsonResults.put(SCENARIO, snapshot.getDescription());
         jsonResults.put(ROOT_ELEMENT, rootDetails);
         jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
-        jsonResults.put(ELEMENT_NAME, getRootElementReadableName());
+        jsonResults.put(ELEMENT_NAME, getNameOfToBeValidated());
         jsonResults.put(SCREENSHOT, drawableScreenshot.getOutput().getName());
 
         long ms = System.currentTimeMillis();
         String uuid = Helper.getGeneratedStringWithLength(7);
-        String jsonFileName = getRootElementReadableName().replace(" ", "") + "-automotion" + ms + uuid + ".json";
+        String jsonFileName = getNameOfToBeValidated().replace(" ", "") + "-automotion" + ms + uuid + ".json";
         File jsonFile = new File(TARGET_AUTOMOTION_JSON + jsonFileName);
         jsonFile.getParentFile().mkdirs();
         try (
