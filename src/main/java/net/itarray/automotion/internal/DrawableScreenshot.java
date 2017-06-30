@@ -1,5 +1,6 @@
 package net.itarray.automotion.internal;
 
+import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONObject;
 
 import javax.imageio.ImageIO;
@@ -17,15 +18,22 @@ public class DrawableScreenshot {
     private BufferedImage img;
     private TransformedGraphics graphics;
     private File output;
+    private File drawingsOutput;
+    private BufferedImage drawings;
 
     public DrawableScreenshot(DriverFacade driver, SimpleTransform transform, DrawingConfiguration drawingConfiguration) {
         screenshot = driver.takeScreenshot();
         this.drawingConfiguration = drawingConfiguration;
         try {
             img = ImageIO.read(screenshot);
-            Graphics2D g = img.createGraphics();
 
-            graphics = new TransformedGraphics(g, transform);
+            drawings = new BufferedImage(img.getWidth(), img.getHeight(),
+                    BufferedImage.TYPE_INT_ARGB);
+
+            Graphics2D g2d = drawings.createGraphics();
+
+            graphics = new TransformedGraphics(g2d, transform);
+
         } catch (Exception e) {
             throw new RuntimeException("Failed to create screenshot file: " + screenshot, e);
         }
@@ -33,6 +41,10 @@ public class DrawableScreenshot {
 
     public File getOutput() {
         return output;
+    }
+
+    public File getDrawingsOutput() {
+        return drawingsOutput;
     }
 
     public void drawOffsets(UIElement rootElement, OffsetLineCommands offsetLineCommands) {
@@ -57,12 +69,21 @@ public class DrawableScreenshot {
         }
 
         output = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-        output.getParentFile().mkdirs();
         try {
-            ImageIO.write(img, "png", output);
+            FileUtils.moveFile(screenshot, output);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        drawingsOutput = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-trans-" + screenshot.getName());
+        try {
+            ImageIO.write(drawings, "png", drawingsOutput);
         } catch (IOException e) {
             throw new RuntimeException("Writing file failed for " + screenshot , e);
         }
+
+        drawings.getGraphics().dispose();
+
     }
 
     public void drawRootElement(UIElement rootElement) {
