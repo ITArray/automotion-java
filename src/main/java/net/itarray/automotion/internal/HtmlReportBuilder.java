@@ -108,10 +108,18 @@ public class HtmlReportBuilder {
                                 new NoTag(this, String.format("Time execution: %s", jsonObject.get(TIME_EXECUTION)));
                             }};
                             new P(this) {{
-                                new Img(this,
-                                        new Src(String.format("img/%s", jsonObject.get(SCREENSHOT))),
-                                        new Alt("screenshot"),
-                                        new Style("width: 96%; margin-left:2%"));
+                                        new Div(this,
+                                                new Style("position:relative; left: 0; top:0; width: 96%; margin-left:2%")) {{
+                                            new Img(this,
+                                                    new Style("position:relative; left: 0; top:0"),
+                                                new Src(String.format("img/%s", jsonObject.get(SCREENSHOT))),
+                                                new Alt("screenshot"));
+                                            new Img(this,
+                                                new Style("position:absolute; left: 0; top:0"),
+                                                new Src(String.format("img/%s", jsonObject.get(DRAWINGS))),
+                                                new Alt("screenshot"));
+                                        }};
+
                             }};
 
                             while (!file.delete()) ;

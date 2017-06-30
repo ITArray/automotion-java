@@ -165,6 +165,7 @@ public abstract class ResponsiveUIValidatorBase {
         jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
         jsonResults.put(ELEMENT_NAME, getNameOfToBeValidated());
         jsonResults.put(SCREENSHOT, drawableScreenshot.getOutput().getName());
+        jsonResults.put(DRAWINGS, drawableScreenshot.getDrawingsOutput().getName());
 
         long ms = System.currentTimeMillis();
         String uuid = Helper.getGeneratedStringWithLength(7);

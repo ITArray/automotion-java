@@ -11,6 +11,7 @@ public class Constants {
     public static final Object REASON = "reason";
     public static final String ELEMENT = "element";
     public static final String SCREENSHOT = "screenshot";
+    public static final String DRAWINGS = "drawings";
     public static final String ELEMENT_NAME = "elementName";
     public static final String ROOT_ELEMENT = "rootElement";
     public static final String SCENARIO = "scenario";
