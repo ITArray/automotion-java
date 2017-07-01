@@ -8,6 +8,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static net.itarray.automotion.internal.Direction.*;
+
 public class UIElement {
     private final WebElement webElement;
     private final String name;
@@ -39,6 +41,18 @@ public class UIElement {
         return webElements.stream().map(UIElement::asElement).collect(Collectors.toList());
         }
 
+    public int getBegin(Direction direction) {
+        return direction.begin(this);
+    }
+
+    public int getEnd(Direction direction) {
+        return direction.oposite().begin(this);
+    }
+
+    public int getExtend(Direction direction) {
+        return getEnd(direction) - getBegin(direction);
+    }
+
     public int getX() {
         return originX;
     }
@@ -48,11 +62,11 @@ public class UIElement {
     }
 
     public int getWidth() {
-        return cornerX - originX;
+        return getExtend(RIGHT);
     }
 
     public int getHeight() {
-        return cornerY - originY;
+        return getExtend(DOWN);
     }
 
     public int getCornerX() {
@@ -63,20 +77,24 @@ public class UIElement {
         return cornerY;
     }
 
-    public boolean hasEqualLeftOffsetAs(UIElement elementToCompare) {
-        return getX() == elementToCompare.getX();
+    public boolean hasEqualBegin(Direction direction, UIElement other) {
+        return getBegin(direction) == other.getBegin(direction);
     }
 
-    public boolean hasEqualRightOffsetAs(UIElement elementToCompare) {
-        return getCornerX() == elementToCompare.getCornerX();
+    public boolean hasEqualLeftOffsetAs(UIElement other) {
+        return hasEqualBegin(RIGHT, other);
     }
 
-    public boolean hasEqualTopOffsetAs(UIElement elementToCompare) {
-        return getY() == elementToCompare.getY();
+    public boolean hasEqualRightOffsetAs(UIElement other) {
+        return hasEqualBegin(LEFT, other);
     }
 
-    public boolean hasEqualBottomOffsetAs(UIElement elementToCompare) {
-        return getCornerY() == elementToCompare.getCornerY();
+    public boolean hasEqualTopOffsetAs(UIElement other) {
+        return hasEqualBegin(DOWN, other);
+    }
+
+    public boolean hasEqualBottomOffsetAs(UIElement other) {
+        return hasEqualBegin(UP, other);
     }
 
     public Rectangle2D.Double rectangle() {
@@ -87,53 +105,65 @@ public class UIElement {
                 getHeight());
     }
 
-    public boolean hasMaxHeight(int height) {
-        return getHeight() <= height;
+
+    public boolean hasMaxExtend(Direction direction, int extend) {
+        return getExtend(direction) <= extend;
     }
 
+    public boolean hasMinExtend(Direction direction, int extend) {
+        return extend <= getExtend(direction);
+    }
+
+    public boolean hasMaxHeight(int height) {
+        return hasMaxExtend(DOWN, height);
+    }
 
     public boolean hasMinHeight(int height) {
-        return getHeight() >= height;
+        return hasMinExtend(DOWN, height);
     }
 
     public boolean hasMaxWidth(int width) {
-        return getWidth() <= width;
+        return hasMaxExtend(RIGHT, width);
     }
 
     public boolean hasMinWidth(int width) {
-        return getWidth() >= width;
+        return hasMinExtend(RIGHT, width);
     }
 
-    public boolean hasSameWidthAs(UIElement elementToCompare) {
-        return getWidth() == elementToCompare.getWidth();
+    public boolean hasEqualExtendAs(Direction direction, UIElement other) {
+        return getExtend(direction) == other.getExtend(direction);
     }
 
-    public boolean hasSameHeightAs(UIElement elementToCompare) {
-        return getHeight() == elementToCompare.getHeight();
+    public boolean hasSameWidthAs(UIElement other) {
+        return hasEqualExtendAs(RIGHT, other);
     }
 
-    public boolean hasSameSizeAs(UIElement elementToCompare) {
-        return hasSameHeightAs(elementToCompare) && hasSameWidthAs(elementToCompare);
+    public boolean hasSameHeightAs(UIElement other) {
+        return hasEqualExtendAs(DOWN, other);
     }
 
-    public boolean overlaps(UIElement elementToCompare) {
-        return rectangle().intersects(elementToCompare.rectangle());
+    public boolean hasSameSizeAs(UIElement other) {
+        return hasEqualExtendAs(DOWN, other) && hasEqualExtendAs(RIGHT, other);
+    }
+
+    public boolean overlaps(UIElement other) {
+        return rectangle().intersects(other.rectangle());
     }
 
     public int getTopOffset() {
-        return getY();
+        return getBegin(DOWN);
     }
 
     public int getBottomOffset(Dimension pageSize) {
-        return pageSize.getHeight() - getCornerY();
+        return pageSize.getHeight() - getEnd(DOWN);
     }
 
     public int getLeftOffset() {
-        return getX();
+        return getBegin(RIGHT);
     }
 
     public int getRightOffset(Dimension pageSize) {
-        return pageSize.getWidth() - getCornerX();
+        return pageSize.getWidth() - getEnd(RIGHT);
     }
 
     public boolean hasEqualTopBottomOffset(Dimension pageSize) {
@@ -144,20 +174,24 @@ public class UIElement {
         return getLeftOffset() == getRightOffset(pageSize);
     }
 
+    public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
+        return getEnd(direction) <= possibleSuccessor.getBegin(direction);
+    }
+
     public  boolean hasRightElement(UIElement rightElement) {
-        return getCornerX() <= rightElement.getX();
+        return hasSuccessor(RIGHT, rightElement);
     }
 
     public  boolean hasLeftElement(UIElement leftElement) {
-        return leftElement.hasRightElement(this);
+        return leftElement.hasSuccessor(RIGHT, this);
     }
 
     public boolean hasBelowElement(UIElement bottomElement) {
-        return getCornerY() <= bottomElement.getY();
+        return hasSuccessor(DOWN, bottomElement);
     }
 
     public boolean hasAboveElement(UIElement aboveElement) {
-        return aboveElement.hasBelowElement(this);
+        return aboveElement.hasSuccessor(DOWN, this);
     }
 
     public String getTagName() {
@@ -203,17 +237,5 @@ public class UIElement {
 
     public String getName() {
         return name != null ? name : getFormattedMessage();
-    }
-
-    public int getBegin(Direction direction) {
-        return direction.begin(this);
-    }
-
-    public int getEnd(Direction direction) {
-        return direction.oposite().begin(this);
-    }
-
-    public int getExtend(Direction direction) {
-        return getEnd(direction) - getBegin(direction);
     }
 }
