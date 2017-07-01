@@ -26,7 +26,7 @@ public class UIElement {
 
     public static List<UIElement> asElements(List<WebElement> webElements) {
         return webElements.stream().map(UIElement::asElement).collect(Collectors.toList());
-    }
+        }
 
     public int getX() {
         return webElement.getLocation().getX();
@@ -192,5 +192,13 @@ public class UIElement {
 
     public String getName() {
         return name != null ? name : getFormattedMessage();
+    }
+
+    public int getBegin(Direction direction) {
+        return direction.begin(this);
+    }
+
+    public int getEnd(Direction direction) {
+        return direction.oposite().begin(this);
     }
 }
