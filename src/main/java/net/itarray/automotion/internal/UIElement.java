@@ -1,6 +1,7 @@
 package net.itarray.automotion.internal;
 
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import java.awt.geom.Rectangle2D;
@@ -10,10 +11,20 @@ import java.util.stream.Collectors;
 public class UIElement {
     private final WebElement webElement;
     private final String name;
+    private final int originX;
+    private final int originY;
+    private final int cornerX;
+    private final int cornerY;
 
     private UIElement(WebElement webElement, String name) {
         this.webElement = webElement;
         this.name = name;
+        Point location = webElement.getLocation();
+        this.originX = location.getX();
+        this.originY = location.getY();
+        Dimension size = webElement.getSize();
+        this.cornerX = originX + size.getWidth();
+        this.cornerY = originY + size.getHeight();
     }
 
     public static UIElement asElement(WebElement element) {
@@ -29,27 +40,27 @@ public class UIElement {
         }
 
     public int getX() {
-        return webElement.getLocation().getX();
+        return originX;
     }
 
     public int getY() {
-        return webElement.getLocation().getY();
+        return originY;
     }
 
     public int getWidth() {
-        return webElement.getSize().getWidth();
+        return cornerX - originX;
     }
 
     public int getHeight() {
-        return webElement.getSize().getHeight();
+        return cornerY - originY;
     }
 
     public int getCornerX() {
-        return getX() + getWidth();
+        return cornerX;
     }
 
     public int getCornerY() {
-        return getY() + getHeight();
+        return cornerY;
     }
 
     public boolean hasEqualLeftOffsetAs(UIElement elementToCompare) {
