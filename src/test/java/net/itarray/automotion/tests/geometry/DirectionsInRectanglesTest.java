@@ -63,4 +63,24 @@ public class DirectionsInRectanglesTest {
         assertThat(rectangle.getEnd(UP)).isEqualTo(originY);
     }
 
+    @Test
+    public void rightExtendIsWidth() {
+        assertThat(rectangle.getExtend(RIGHT)).isEqualTo(35);
+    }
+
+    @Test
+    public void leftExtendIsNegativeWidth() {
+        assertThat(rectangle.getExtend(LEFT)).isEqualTo(-35);
+    }
+
+    @Test
+    public void downExtendIsHeight() {
+        assertThat(rectangle.getExtend(DOWN)).isEqualTo(104);
+    }
+
+    @Test
+    public void upExtendIsNegativeHeight() {
+        assertThat(rectangle.getExtend(UP)).isEqualTo(-104);
+    }
+
 }

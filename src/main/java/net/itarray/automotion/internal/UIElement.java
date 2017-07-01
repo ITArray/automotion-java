@@ -201,4 +201,8 @@ public class UIElement {
     public int getEnd(Direction direction) {
         return direction.oposite().begin(this);
     }
+
+    public int getExtend(Direction direction) {
+        return getEnd(direction) - getBegin(direction);
+    }
 }
