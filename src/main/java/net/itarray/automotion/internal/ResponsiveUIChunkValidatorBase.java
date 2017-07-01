@@ -7,7 +7,6 @@ import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIValidator;
 
-import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -411,9 +410,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     }
 
     private void validateInsideOfContainer(UIElement containerElement, String readableContainerName, List<UIElement> elements) {
-        Rectangle2D.Double elementRectangle = containerElement.rectangle();
         for (UIElement element : elements) {
-            if (!elementRectangle.contains(element.rectangle())) {
+            if (!containerElement.contains(element)) {
                 addError(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
             }
         }

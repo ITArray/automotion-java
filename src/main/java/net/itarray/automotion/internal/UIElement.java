@@ -226,4 +226,8 @@ public class UIElement {
         String postfix = "...";
         return text.substring(0, maxLength-postfix.length()) + postfix;
     }
+
+    public boolean contains(UIElement element) {
+        return rectangle().contains(element.rectangle());
+    }
 }

@@ -810,8 +810,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateInsideOfContainer(UIElement containerElement) {
-        Rectangle2D.Double elementRectangle = containerElement.rectangle();
-        if (!elementRectangle.contains(rootElement.rectangle())) {
+        if (!containerElement.contains(rootElement)) {
             addError(String.format("Element '%s' is not inside of '%s'", rootElement.getName(), containerElement.getName()), containerElement);
         }
     }
