@@ -20,13 +20,25 @@ public class UIElement {
 
     private UIElement(WebElement webElement, String name) {
         this.webElement = webElement;
-        this.name = name;
         Point location = webElement.getLocation();
         this.originX = location.getX();
         this.originY = location.getY();
         Dimension size = webElement.getSize();
         this.cornerX = originX + size.getWidth();
         this.cornerY = originY + size.getHeight();
+        if (name != null) {
+            this.name = name;
+        } else {
+            this.name = String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
+                    webElement.getTagName(),
+                    webElement.getAttribute("id"),
+                    webElement.getAttribute("class"),
+                    getShortenedText(webElement.getText()),
+                    String.valueOf(location.getX()),
+                    String.valueOf(location.getY()),
+                    String.valueOf(size.getWidth()),
+                    String.valueOf(size.getHeight()));
+        }
     }
 
     public static UIElement asElement(WebElement element) {
@@ -194,18 +206,6 @@ public class UIElement {
         return aboveElement.hasSuccessor(DOWN, this);
     }
 
-    public String getTagName() {
-        return webElement.getTagName();
-    }
-
-    public String getAttribute(String id) {
-        return webElement.getAttribute(id);
-    }
-
-    public String getText() {
-        return webElement.getText();
-    }
-
     public String getCssValue(String cssProperty) {
         return webElement.getCssValue(cssProperty);
     }
@@ -214,28 +214,16 @@ public class UIElement {
         return webElement.equals(other.webElement);
     }
 
-    private String getFormattedMessage() {
-        return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
-                getTagName(),
-                getAttribute("id"),
-                getAttribute("class"),
-                getShortendText(),
-                String.valueOf(getX()),
-                String.valueOf(getY()),
-                String.valueOf(getWidth()),
-                String.valueOf(getHeight()));
+    public String getName() {
+        return name;
     }
 
-    private String getShortendText() {
+    private static String getShortenedText(String text) {
         int maxLength = 13;
-        if (getText().length() <= maxLength) {
-            return getText();
+        if (text.length() <= maxLength) {
+            return text;
         }
         String postfix = "...";
-        return getText().substring(0, maxLength-postfix.length()) + postfix;
-    }
-
-    public String getName() {
-        return name != null ? name : getFormattedMessage();
+        return text.substring(0, maxLength-postfix.length()) + postfix;
     }
 }
