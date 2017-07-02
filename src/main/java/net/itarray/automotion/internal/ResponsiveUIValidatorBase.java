@@ -134,9 +134,9 @@ public abstract class ResponsiveUIValidatorBase {
             return i;
         } else {
             if (horizontal) {
-                return (i * getPageSize().getWidth()) / 100;
+                return (i * page.getExtend(Direction.RIGHT)) / 100;
             } else {
-                return (i * getPageSize().getHeight()) / 100;
+                return (i * page.getExtend(Direction.DOWN)) / 100;
             }
         }
     }
@@ -233,7 +233,4 @@ public abstract class ResponsiveUIValidatorBase {
         return getReport().getDrawingConfiguration();
     }
 
-    public Dimension getPageSize() {
-        return new Dimension(page.getExtend(Direction.RIGHT), page.getExtend(Direction.DOWN));
-    }
 }
