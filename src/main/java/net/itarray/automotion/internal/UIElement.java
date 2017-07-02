@@ -10,12 +10,12 @@ import java.util.stream.Collectors;
 import static net.itarray.automotion.internal.Direction.*;
 
 public class UIElement {
-    private final WebElement webElement;
     private final String name;
     private final Rectangle rectangle;
+    private final CSSSource cssSource;
 
     private UIElement(WebElement webElement, String name) {
-        this.webElement = webElement;
+        this.cssSource = new SeleniumCSSSource(webElement);
         this.rectangle = Rectangle.rectangle(webElement);
         if (name != null) {
             this.name = name;
@@ -191,11 +191,7 @@ public class UIElement {
     }
 
     public String getCssValue(String cssProperty) {
-        return webElement.getCssValue(cssProperty);
-    }
-
-    public boolean hasEqualWebElement(UIElement other) {
-        return webElement.equals(other.webElement);
+        return cssSource.getCssValue(cssProperty);
     }
 
     public String getName() {
