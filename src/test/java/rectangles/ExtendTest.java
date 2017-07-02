@@ -94,6 +94,18 @@ public class ExtendTest {
     }
 
     @Test
+    public void hasSameSizeAsItSelf() {
+        WebElement other = root;
+
+        assertThat(sameSizeAs(root, other)).isTrue();
+        assertThat(sameSizeAs(root, singletonList(other))).isTrue();
+        assertThat(withSameSize(asList(root, other))).isTrue();
+        assertThat(notSameSizeAs(root, other)).isFalse();
+        assertThat(notSameSizeAs(root, singletonList(other))).isFalse();
+        assertThat(withNotSameSize(asList(root, other))).isFalse();
+    }
+
+    @Test
     public void doesNotHaveSameSizeAsAHorinzotallyStretchedElement() {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX, cornerY+100);
 

@@ -735,12 +735,10 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateNotSameSize(UIElement element) {
-        if (!element.hasEqualWebElement(rootElement)) {
-            int h = element.getHeight();
-            int w = element.getWidth();
-            if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
-                addError(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getWidth(), rootElement.getHeight(), w, h), element);
-            }
+        int h = element.getHeight();
+        int w = element.getWidth();
+        if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
+            addError(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getWidth(), rootElement.getHeight(), w, h), element);
         }
     }
 
