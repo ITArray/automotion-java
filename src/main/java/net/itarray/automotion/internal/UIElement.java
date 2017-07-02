@@ -13,22 +13,16 @@ import static net.itarray.automotion.internal.Direction.*;
 public class UIElement {
     private final WebElement webElement;
     private final String name;
-    private final int originX;
-    private final int originY;
-    private final int cornerX;
-    private final int cornerY;
+    private final Rectangle rectangle;
 
     private UIElement(WebElement webElement, String name) {
         this.webElement = webElement;
-        Point location = webElement.getLocation();
-        this.originX = location.getX();
-        this.originY = location.getY();
-        Dimension size = webElement.getSize();
-        this.cornerX = originX + size.getWidth();
-        this.cornerY = originY + size.getHeight();
+        this.rectangle = Rectangle.rectangle(webElement);
         if (name != null) {
             this.name = name;
         } else {
+            Point location = webElement.getLocation();
+            Dimension size = webElement.getSize();
             this.name = String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
                     webElement.getTagName(),
                     webElement.getAttribute("id"),
@@ -54,39 +48,39 @@ public class UIElement {
         }
 
     public int getBegin(Direction direction) {
-        return direction.begin(this);
+        return rectangle.getBegin(direction);
     }
 
     public int getEnd(Direction direction) {
-        return direction.oposite().begin(this);
+        return rectangle.getEnd(direction);
     }
 
     public int getExtend(Direction direction) {
-        return getEnd(direction) - getBegin(direction);
+        return rectangle.getExtend(direction);
     }
 
     public int getX() {
-        return originX;
+        return rectangle.getOriginX();
     }
 
     public int getY() {
-        return originY;
+        return rectangle.getOriginY();
     }
 
     public int getWidth() {
-        return getExtend(RIGHT);
+        return rectangle.getExtend(RIGHT);
     }
 
     public int getHeight() {
-        return getExtend(DOWN);
+        return rectangle.getExtend(DOWN);
     }
 
     public int getCornerX() {
-        return cornerX;
+        return rectangle.getCornerX();
     }
 
     public int getCornerY() {
-        return cornerY;
+        return rectangle.getCornerY();
     }
 
     public boolean hasEqualBegin(Direction direction, UIElement other) {

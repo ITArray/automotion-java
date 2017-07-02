@@ -11,6 +11,10 @@ public enum Direction {
         public int begin(UIElement element) {
             return element.getY();
         }
+        @Override
+        public int begin(Rectangle element) {
+            return element.getOriginY();
+        }
     },
     UP {
         @Override
@@ -20,6 +24,10 @@ public enum Direction {
 
         @Override
         public int begin(UIElement element) {
+            return element.getCornerY();
+        }
+        @Override
+        public int begin(Rectangle element) {
             return element.getCornerY();
         }
     },
@@ -33,6 +41,10 @@ public enum Direction {
         public int begin(UIElement element) {
             return element.getX();
         }
+        @Override
+        public int begin(Rectangle element) {
+            return element.getOriginX();
+        }
     },
     LEFT {
         @Override
@@ -44,9 +56,15 @@ public enum Direction {
         public int begin(UIElement element) {
             return element.getCornerX();
         }
+
+        @Override
+        public int begin(Rectangle element) {
+            return element.getCornerX();
+        }
     };
 
     public abstract Direction oposite();
 
     public abstract int begin(UIElement element);
+    public abstract int begin(Rectangle element);
 }
