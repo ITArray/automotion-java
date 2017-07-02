@@ -51,4 +51,20 @@ public class Rectangle {
         return getEnd(direction) - getBegin(direction);
     }
 
+    public boolean intersects(Direction direction, Rectangle other) {
+        return getBegin(direction) < other.getEnd(direction) && other.getBegin(direction) < getEnd(direction);
+    }
+
+    public boolean intersects(Rectangle other) {
+        return intersects(Direction.RIGHT, other) && intersects(Direction.DOWN, other);
+    }
+
+    public boolean contains(Direction direction, Rectangle other) {
+        return getBegin(direction) <= other.getBegin(direction) && other.getEnd(direction) <= getEnd(direction);
+    }
+
+    public boolean contains(Rectangle other) {
+        return contains(Direction.RIGHT, other) && contains(Direction.DOWN, other);
+    }
+
 }

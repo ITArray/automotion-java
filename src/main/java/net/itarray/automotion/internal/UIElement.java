@@ -4,7 +4,6 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
-import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -103,15 +102,6 @@ public class UIElement {
         return hasEqualBegin(UP, other);
     }
 
-    public Rectangle2D.Double rectangle() {
-        return new Rectangle2D.Double(
-                getX(),
-                getY(),
-                getWidth(),
-                getHeight());
-    }
-
-
     public boolean hasMaxExtend(Direction direction, int extend) {
         return getExtend(direction) <= extend;
     }
@@ -153,7 +143,7 @@ public class UIElement {
     }
 
     public boolean overlaps(UIElement other) {
-        return rectangle().intersects(other.rectangle());
+        return rectangle.intersects(other.rectangle);
     }
 
     private int getTopOffset(Rectangle page) {
@@ -221,7 +211,11 @@ public class UIElement {
         return text.substring(0, maxLength-postfix.length()) + postfix;
     }
 
-    public boolean contains(UIElement element) {
-        return rectangle().contains(element.rectangle());
+    public boolean contains(UIElement other) {
+        return rectangle.contains(other.rectangle);
+    }
+
+    public boolean contains(Rectangle other) {
+        return rectangle.contains(other);
     }
 }

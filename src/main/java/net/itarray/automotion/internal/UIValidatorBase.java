@@ -9,7 +9,6 @@ import org.openqa.selenium.WebElement;
 import util.general.SystemHelper;
 import net.itarray.automotion.validation.properties.Padding;
 
-import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import static net.itarray.automotion.internal.UIElement.*;
@@ -821,18 +820,18 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         int bottom = getConvertedInt(padding.getBottom(), false);
         int left = getConvertedInt(padding.getLeft(), true);
 
-        Rectangle2D.Double paddedRootRectangle = new Rectangle2D.Double(
+        Rectangle paddedRoot = new Rectangle(
                 rootElement.getX() - left,
                 rootElement.getY() - top,
-                rootElement.getWidth() + left + right,
-                rootElement.getHeight() + top + bottom);
+                rootElement.getCornerX() + right,
+                rootElement.getCornerY() + bottom);
 
         int paddingTop = rootElement.getY() - element.getY();
         int paddingLeft = rootElement.getX() - element.getX();
         int paddingBottom = element.getCornerY() - rootElement.getCornerY();
         int paddingRight = element.getCornerX() - rootElement.getCornerX();
 
-        if (!element.rectangle().contains(paddedRootRectangle)) {
+        if (!element.contains(paddedRoot)) {
             addError(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
                     rootElement.getName(), top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
         }
