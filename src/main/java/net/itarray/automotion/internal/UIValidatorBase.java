@@ -660,8 +660,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateMaxOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = rootElement.getRightOffset(pageSize);
-        int rootElementBottomOffset = rootElement.getBottomOffset(pageSize);
+        int rootElementRightOffset = rootElement.getRightOffset(getPageSize());
+        int rootElementBottomOffset = rootElement.getBottomOffset(getPageSize());
         if (rootElement.getX() > left) {
             addError(String.format("Expected max left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElement.getName(), left, rootElement.getX()));
         }
@@ -677,8 +677,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateMinOffset(int top, int right, int bottom, int left) {
-        int rootElementRightOffset = rootElement.getRightOffset(pageSize);
-        int rootElementBottomOffset = rootElement.getBottomOffset(pageSize);
+        int rootElementRightOffset = rootElement.getRightOffset(getPageSize());
+        int rootElementBottomOffset = rootElement.getBottomOffset(getPageSize());
         if (rootElement.getX() < left) {
             addError(String.format("Expected min left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElement.getName(), left, rootElement.getX()));
         }
@@ -798,14 +798,14 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateEqualLeftRightOffset(UIElement element) {
-        if (!element.hasEqualLeftRightOffset(pageSize)) {
-            addError(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElement.getName(), element.getX(), element.getRightOffset(pageSize)), element);
+        if (!element.hasEqualLeftRightOffset(getPageSize())) {
+            addError(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElement.getName(), element.getX(), element.getRightOffset(getPageSize())), element);
         }
     }
 
     private void validateEqualTopBottomOffset(UIElement element) {
-        if (!element.hasEqualTopBottomOffset(pageSize)) {
-            addError(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElement.getName(), element.getY(), element.getBottomOffset(pageSize)), element);
+        if (!element.hasEqualTopBottomOffset(getPageSize())) {
+            addError(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElement.getName(), element.getY(), element.getBottomOffset(getPageSize())), element);
         }
     }
 

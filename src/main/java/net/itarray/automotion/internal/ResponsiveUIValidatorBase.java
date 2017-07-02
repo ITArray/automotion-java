@@ -24,17 +24,18 @@ public abstract class ResponsiveUIValidatorBase {
 
     private final Errors errors;
     private final long startTime;
-    protected final Dimension pageSize;
     private final UISnapshot snapshot;
     private final DriverFacade driver;
     private final double zoomFactor;
+    protected final Rectangle page;
 
     protected ResponsiveUIValidatorBase(UISnapshot snapshot) {
         this.snapshot = snapshot;
         this.driver = snapshot.getResponsiveUIValidator().getDriver();
         this.errors = new Errors();
         this.zoomFactor = snapshot.getZoomFactor();
-        this.pageSize = this.driver.retrievePageSize();
+        Dimension dimension = this.driver.retrievePageSize();
+        page = new Rectangle(0, 0, dimension.getWidth(), dimension.getHeight());
         this.startTime = System.currentTimeMillis();
     }
 
@@ -133,9 +134,9 @@ public abstract class ResponsiveUIValidatorBase {
             return i;
         } else {
             if (horizontal) {
-                return (i * pageSize.getWidth()) / 100;
+                return (i * getPageSize().getWidth()) / 100;
             } else {
-                return (i * pageSize.getHeight()) / 100;
+                return (i * getPageSize().getHeight()) / 100;
             }
         }
     }
@@ -230,5 +231,9 @@ public abstract class ResponsiveUIValidatorBase {
 
     public DrawingConfiguration getDrawingConfiguration() {
         return getReport().getDrawingConfiguration();
+    }
+
+    public Dimension getPageSize() {
+        return new Dimension(page.getExtend(Direction.RIGHT), page.getExtend(Direction.DOWN));
     }
 }
