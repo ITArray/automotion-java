@@ -34,7 +34,7 @@ public class UIElement {
 
     public static List<UIElement> asElements(List<WebElement> webElements) {
         return webElements.stream().map(UIElement::asElement).collect(Collectors.toList());
-        }
+    }
 
     private static String defaultName(WebElement webElement) {
         Point location = webElement.getLocation();
@@ -150,27 +150,27 @@ public class UIElement {
         return rectangle.intersects(other.rectangle);
     }
 
-    private int getTopOffset(Rectangle page) {
+    private int getTopOffset(UIElement page) {
         return getEnd(UP) - page.getEnd(UP);
     }
 
-    public int getBottomOffset(Rectangle page) {
+    public int getBottomOffset(UIElement page) {
         return page.getEnd(DOWN) - getEnd(DOWN);
     }
 
-    private int getLeftOffset(Rectangle page) {
+    private int getLeftOffset(UIElement page) {
         return getEnd(LEFT) - page.getEnd(LEFT);
     }
 
-    public int getRightOffset(Rectangle page) {
+    public int getRightOffset(UIElement page) {
         return page.getEnd(RIGHT) - getEnd(RIGHT);
     }
 
-    public boolean hasEqualTopBottomOffset(Rectangle page) {
+    public boolean hasEqualTopBottomOffset(UIElement page) {
         return getTopOffset(page) == getBottomOffset(page);
     }
 
-    public boolean hasEqualLeftRightOffset(Rectangle page) {
+    public boolean hasEqualLeftRightOffset(UIElement page) {
         return getLeftOffset(page) == getRightOffset(page);
     }
 
