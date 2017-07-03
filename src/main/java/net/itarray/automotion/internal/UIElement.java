@@ -14,37 +14,41 @@ public class UIElement {
     private final Rectangle rectangle;
     private final CSSSource cssSource;
 
-    private UIElement(WebElement webElement, String name) {
-        this.cssSource = new SeleniumCSSSource(webElement);
-        this.rectangle = Rectangle.rectangle(webElement);
-        if (name != null) {
-            this.name = name;
-        } else {
-            Point location = webElement.getLocation();
-            Dimension size = webElement.getSize();
-            this.name = String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
-                    webElement.getTagName(),
-                    webElement.getAttribute("id"),
-                    webElement.getAttribute("class"),
-                    getShortenedText(webElement.getText()),
-                    String.valueOf(location.getX()),
-                    String.valueOf(location.getY()),
-                    String.valueOf(size.getWidth()),
-                    String.valueOf(size.getHeight()));
-        }
+    private UIElement(String name, Rectangle rectangle, CSSSource cssSource) {
+        this.name = name;
+        this.rectangle = rectangle;
+        this.cssSource = cssSource;
     }
 
-    public static UIElement asElement(WebElement element) {
-        return asElement(element, null);
+    public static UIElement asElement(WebElement webElement) {
+        return new UIElement(defaultName(webElement), Rectangle.rectangle(webElement), new SeleniumCSSSource(webElement));
     }
 
-    public static UIElement asElement(WebElement element, String name) {
-        return new UIElement(element, name);
+    public static UIElement asElement(WebElement webElement, String name) {
+        return new UIElement(name, Rectangle.rectangle(webElement), new SeleniumCSSSource(webElement));
+    }
+
+    public static UIElement asElement(Rectangle rectangle, String name) {
+        return new UIElement(name, rectangle, new NoCSSSource());
     }
 
     public static List<UIElement> asElements(List<WebElement> webElements) {
         return webElements.stream().map(UIElement::asElement).collect(Collectors.toList());
         }
+
+    private static String defaultName(WebElement webElement) {
+        Point location = webElement.getLocation();
+        Dimension size = webElement.getSize();
+        return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
+                webElement.getTagName(),
+                webElement.getAttribute("id"),
+                webElement.getAttribute("class"),
+                getShortenedText(webElement.getText()),
+                String.valueOf(location.getX()),
+                String.valueOf(location.getY()),
+                String.valueOf(size.getWidth()),
+                String.valueOf(size.getHeight()));
+    }
 
     public int getBegin(Direction direction) {
         return rectangle.getBegin(direction);
