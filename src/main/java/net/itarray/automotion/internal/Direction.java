@@ -3,14 +3,10 @@ package net.itarray.automotion.internal;
 public enum Direction {
     DOWN{
         @Override
-        public Direction oposite() {
+        public Direction opposite() {
             return UP;
         }
 
-        @Override
-        public int begin(UIElement element) {
-            return element.getY();
-        }
         @Override
         public int begin(Rectangle element) {
             return element.getOriginY();
@@ -18,14 +14,10 @@ public enum Direction {
     },
     UP {
         @Override
-        public Direction oposite() {
+        public Direction opposite() {
             return DOWN;
         }
 
-        @Override
-        public int begin(UIElement element) {
-            return element.getCornerY();
-        }
         @Override
         public int begin(Rectangle element) {
             return element.getCornerY();
@@ -33,14 +25,10 @@ public enum Direction {
     },
     RIGHT {
         @Override
-        public Direction oposite() {
+        public Direction opposite() {
             return LEFT;
         }
 
-        @Override
-        public int begin(UIElement element) {
-            return element.getX();
-        }
         @Override
         public int begin(Rectangle element) {
             return element.getOriginX();
@@ -48,13 +36,8 @@ public enum Direction {
     },
     LEFT {
         @Override
-        public Direction oposite() {
+        public Direction opposite() {
             return RIGHT;
-        }
-
-        @Override
-        public int begin(UIElement element) {
-            return element.getCornerX();
         }
 
         @Override
@@ -63,8 +46,11 @@ public enum Direction {
         }
     };
 
-    public abstract Direction oposite();
+    public abstract Direction opposite();
 
-    public abstract int begin(UIElement element);
     public abstract int begin(Rectangle element);
+
+    public int end(Rectangle rectangle) {
+        return opposite().begin(rectangle);
+    }
 }

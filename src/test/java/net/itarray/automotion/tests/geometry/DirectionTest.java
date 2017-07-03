@@ -9,21 +9,21 @@ public class DirectionTest {
 
     @Test
     public void upIsDownsOposite() {
-        assertThat(Direction.DOWN.oposite()).isEqualTo(Direction.UP);
+        assertThat(Direction.DOWN.opposite()).isEqualTo(Direction.UP);
     }
 
     @Test
     public void downIsUpsOposite() {
-        assertThat(Direction.UP.oposite()).isEqualTo(Direction.DOWN);
+        assertThat(Direction.UP.opposite()).isEqualTo(Direction.DOWN);
     }
 
     @Test
     public void leftIsRightsOposite() {
-        assertThat(Direction.RIGHT.oposite()).isEqualTo(Direction.LEFT);
+        assertThat(Direction.RIGHT.opposite()).isEqualTo(Direction.LEFT);
     }
 
     @Test
     public void rightIsLeftsOposite() {
-        assertThat(Direction.LEFT.oposite()).isEqualTo(Direction.RIGHT);
+        assertThat(Direction.LEFT.opposite()).isEqualTo(Direction.RIGHT);
     }
 }

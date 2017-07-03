@@ -44,7 +44,7 @@ public class Rectangle {
     }
 
     public int getEnd(Direction direction) {
-        return direction.oposite().begin(this);
+        return direction.end(this);
     }
 
     public int getExtend(Direction direction) {
