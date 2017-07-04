@@ -623,9 +623,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateRightOffsetForElements(UIElement element) {
-        if (!rootElement.hasEqualRightOffsetAs(element)) {
-            errors.add(String.format("Element '%s' has not the same right offset as element '%s'", rootElement.getName(), element.getName()), element);
-        }
+        UIElement root = this.rootElement;
+        root.validateEqualRightOffset(element, this.errors);
     }
 
     private void validateLeftOffsetForElements(UIElement element) {

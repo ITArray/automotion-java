@@ -240,4 +240,10 @@ public class UIElement {
             errors.add(String.format("Element %s has not the same left offset as element %s", getQuotedName(), element.getQuotedName()), element);
         }
     }
+
+    public void validateEqualRightOffset(UIElement element, Errors errors) {
+        if (!hasEqualRightOffsetAs(element)) {
+            errors.add(String.format("Element %s has not the same right offset as element %s", getQuotedName(), element.getQuotedName()), element);
+        }
+    }
 }

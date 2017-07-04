@@ -68,4 +68,30 @@ public class ErrorMessagesRegressionTest {
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same left offset as element #2");
     }
+
+    @Test
+    public void sameOffsetRightAs() {
+        createElementValidator().sameOffsetRightAs(createElement(100, 200, 505, 400), "specifying");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not the same right offset as element 'specifying'");
+    }
+
+    @Test
+    public void sameOffsetRightAsWithList() {
+        createElementValidator().sameOffsetRightAs(Collections.singletonList(createElement(100, 200, 505, 400)));
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not the same right offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,200]'");
+    }
+
+    @Test
+    public void sameOffsetRightAsWithChunk() {
+        createChunkValidator(createElement(100, 200, 505, 400)).sameRightOffset();
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element #1 has not the same right offset as element #2");
+    }
+
+
 }

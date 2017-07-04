@@ -165,7 +165,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      */
     @Override
     public ResponsiveUIChunkValidatorBase sameRightOffset() {
-        validateRightOffsetForChunk(rootElements);
+        validateRightOffsetForChunk(asNumberedList(rootElements));
         return this;
     }
 
@@ -288,9 +288,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            if (!element.hasEqualRightOffsetAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has not the same right offset as element #%d", i + 1, i + 2), elementToCompare);
-            }
+            element.validateEqualRightOffset(elementToCompare, errors);
         }
     }
 
