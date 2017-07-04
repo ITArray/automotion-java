@@ -236,26 +236,29 @@ public class UIElement {
     }
 
     public void validateEqualLeftOffset(UIElement element, Errors errors) {
-        if (!hasEqualLeftOffsetAs(element)) {
-            errors.add(String.format("Element %s has not the same left offset as element %s", getQuotedName(), element.getQuotedName()), element);
-        }
+        validateEqualBeginOffset(RIGHT, element, errors);
     }
 
     public void validateEqualRightOffset(UIElement element, Errors errors) {
-        if (!hasEqualRightOffsetAs(element)) {
-            errors.add(String.format("Element %s has not the same right offset as element %s", getQuotedName(), element.getQuotedName()), element);
-        }
+        validateEqualBeginOffset(LEFT, element, errors);
     }
 
-    public void validateEqualTopOffset(UIElement elementToCompare, Errors errors) {
-        if (!hasEqualTopOffsetAs(elementToCompare)) {
-            errors.add(String.format("Element %s has not the same top offset as element %s", getQuotedName(), elementToCompare.getQuotedName()), elementToCompare);
-        }
+    public void validateEqualTopOffset(UIElement element, Errors errors) {
+        validateEqualBeginOffset(DOWN, element, errors);
     }
 
-    public void validateEqualBottomOffset(UIElement elementToCompare, Errors errors) {
-        if (!hasEqualBottomOffsetAs(elementToCompare)) {
-            errors.add(String.format("Element %s has not the same bottom offset as element %s", getQuotedName(), elementToCompare.getQuotedName()), elementToCompare);
+    public void validateEqualBottomOffset(UIElement element, Errors errors) {
+        validateEqualBeginOffset(UP, element, errors);
+    }
+
+    public void validateEqualBeginOffset(Direction direction, UIElement element, Errors errors) {
+        if (!hasEqualBegin(direction, element)) {
+            errors.add(
+                    String.format("Element %s has not the same %s offset as element %s",
+                            getQuotedName(),
+                            direction.beginName(),
+                            element.getQuotedName()),
+                    element);
         }
     }
 }
