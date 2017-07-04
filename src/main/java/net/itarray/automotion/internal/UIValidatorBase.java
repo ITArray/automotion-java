@@ -632,15 +632,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateTopOffsetForElements(UIElement element) {
-        if (!rootElement.hasEqualTopOffsetAs(element)) {
-            errors.add(String.format("Element %s has not the same top offset as element %s", rootElement.getQuotedName(), element.getQuotedName()), element);
-        }
+        rootElement.validateEqualTopOffset(element, errors);
     }
 
     private void validateBottomOffsetForElements(UIElement element) {
-        if (!rootElement.hasEqualBottomOffsetAs(element)) {
-            errors.add(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElement.getName(), element.getName()), element);
-        }
+        rootElement.validateEqualBottomOffset(element, errors);
     }
 
     private void validateNotOverlappingWithElements(UIElement element) {

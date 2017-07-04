@@ -198,7 +198,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      */
     @Override
     public ResponsiveUIChunkValidatorBase sameBottomOffset() {
-        validateBottomOffsetForChunk(rootElements);
+        validateBottomOffsetForChunk(asNumberedList(rootElements));
         return this;
     }
 
@@ -304,9 +304,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            if (!element.hasEqualTopOffsetAs(elementToCompare)) {
-                errors.add(String.format("Element %s has not the same top offset as element %s", element.getQuotedName(), elementToCompare.getQuotedName()), elementToCompare);
-            }
+            element.validateEqualTopOffset(elementToCompare, errors);
         }
     }
 
@@ -314,9 +312,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            if (!element.hasEqualBottomOffsetAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has not the same bottom offset as element #%d", i + 1, i + 2), elementToCompare);
-            }
+            element.validateEqualBottomOffset(elementToCompare, this.errors);
         }
     }
 

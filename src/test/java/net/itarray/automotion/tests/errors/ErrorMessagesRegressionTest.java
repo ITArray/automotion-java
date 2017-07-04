@@ -116,4 +116,28 @@ public class ErrorMessagesRegressionTest {
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same top offset as element #2");
     }
+
+    @Test
+    public void sameOffsetBottomAs() {
+        createElementValidator().sameOffsetBottomAs(createElement(100, 200, 500, 405), "specifying");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not the same bottom offset as element 'specifying'");
+    }
+
+    @Test
+    public void sameOffsetBottomAsWithList() {
+        createElementValidator().sameOffsetBottomAs(Collections.singletonList(createElement(100, 200, 500, 405)));
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not the same bottom offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,205]'");
+    }
+
+    @Test
+    public void sameOffsetBottomAsWithChunk() {
+        createChunkValidator(createElement(100, 200, 500, 405)).sameBottomOffset();
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element #1 has not the same bottom offset as element #2");
+    }
 }

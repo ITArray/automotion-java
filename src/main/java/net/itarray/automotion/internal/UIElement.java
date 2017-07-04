@@ -246,4 +246,16 @@ public class UIElement {
             errors.add(String.format("Element %s has not the same right offset as element %s", getQuotedName(), element.getQuotedName()), element);
         }
     }
+
+    public void validateEqualTopOffset(UIElement elementToCompare, Errors errors) {
+        if (!hasEqualTopOffsetAs(elementToCompare)) {
+            errors.add(String.format("Element %s has not the same top offset as element %s", getQuotedName(), elementToCompare.getQuotedName()), elementToCompare);
+        }
+    }
+
+    public void validateEqualBottomOffset(UIElement elementToCompare, Errors errors) {
+        if (!hasEqualBottomOffsetAs(elementToCompare)) {
+            errors.add(String.format("Element %s has not the same bottom offset as element %s", getQuotedName(), elementToCompare.getQuotedName()), elementToCompare);
+        }
+    }
 }
