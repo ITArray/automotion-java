@@ -624,19 +624,19 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     private void validateRightOffsetForElements(UIElement element) {
         UIElement root = this.rootElement;
-        root.validateEqualRightOffset(element, this.errors);
+        root.validateEqualRight(element, this.errors);
     }
 
     private void validateLeftOffsetForElements(UIElement element) {
-        rootElement.validateEqualLeftOffset(element, this.errors);
+        rootElement.validateEqualLeft(element, this.errors);
     }
 
     private void validateTopOffsetForElements(UIElement element) {
-        rootElement.validateEqualTopOffset(element, errors);
+        rootElement.validateEqualTop(element, errors);
     }
 
     private void validateBottomOffsetForElements(UIElement element) {
-        rootElement.validateEqualBottomOffset(element, errors);
+        rootElement.validateEqualBottom(element, errors);
     }
 
     private void validateNotOverlappingWithElements(UIElement element) {

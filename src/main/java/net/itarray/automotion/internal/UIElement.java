@@ -239,23 +239,23 @@ public class UIElement {
         return rectangle.contains(other);
     }
 
-    public void validateEqualLeftOffset(UIElement element, Errors errors) {
-        validateEqualEndOffset(LEFT, element, errors);
+    public void validateEqualLeft(UIElement element, Errors errors) {
+        validateEqualEnd(LEFT, element, errors);
     }
 
-    public void validateEqualRightOffset(UIElement element, Errors errors) {
-        validateEqualEndOffset(RIGHT, element, errors);
+    public void validateEqualRight(UIElement element, Errors errors) {
+        validateEqualEnd(RIGHT, element, errors);
     }
 
-    public void validateEqualTopOffset(UIElement element, Errors errors) {
-        validateEqualEndOffset(UP, element, errors);
+    public void validateEqualTop(UIElement element, Errors errors) {
+        validateEqualEnd(UP, element, errors);
     }
 
-    public void validateEqualBottomOffset(UIElement element, Errors errors) {
-        validateEqualEndOffset(DOWN, element, errors);
+    public void validateEqualBottom(UIElement element, Errors errors) {
+        validateEqualEnd(DOWN, element, errors);
     }
 
-    public void validateEqualEndOffset(Direction direction, UIElement element, Errors errors) {
+    public void validateEqualEnd(Direction direction, UIElement element, Errors errors) {
         if (!hasEqualEnd(direction, element)) {
             errors.add(
                     String.format("Element %s has not the same %s offset as element %s",
