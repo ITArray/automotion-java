@@ -633,7 +633,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     private void validateTopOffsetForElements(UIElement element) {
         if (!rootElement.hasEqualTopOffsetAs(element)) {
-            errors.add(String.format("Element '%s' has not the same top offset as element '%s'", rootElement.getName(), element.getName()), element);
+            errors.add(String.format("Element %s has not the same top offset as element %s", rootElement.getQuotedName(), element.getQuotedName()), element);
         }
     }
 

@@ -93,5 +93,27 @@ public class ErrorMessagesRegressionTest {
                 .isEqualTo("Element #1 has not the same right offset as element #2");
     }
 
+    @Test
+    public void sameOffsetTopAs() {
+        createElementValidator().sameOffsetTopAs(createElement(100, 205, 500, 400), "specifying");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not the same top offset as element 'specifying'");
+    }
 
+    @Test
+    public void sameOffsetTopAsWithList() {
+        createElementValidator().sameOffsetTopAs(Collections.singletonList(createElement(100, 205, 500, 400)));
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not the same top offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,205], size=[400,195]'");
+    }
+
+    @Test
+    public void sameOffsetTopAsWithChunk() {
+        createChunkValidator(createElement(100, 205, 500, 400)).sameTopOffset();
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element #1 has not the same top offset as element #2");
+    }
 }
