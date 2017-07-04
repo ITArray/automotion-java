@@ -102,6 +102,10 @@ public class UIElement {
         return getBegin(direction) == other.getBegin(direction);
     }
 
+    public boolean hasEqualEnd(Direction direction, UIElement other) {
+        return getEnd(direction) == other.getEnd(direction);
+    }
+
     public boolean hasEqualLeftOffsetAs(UIElement other) {
         return hasEqualBegin(RIGHT, other);
     }
@@ -236,27 +240,27 @@ public class UIElement {
     }
 
     public void validateEqualLeftOffset(UIElement element, Errors errors) {
-        validateEqualBeginOffset(RIGHT, element, errors);
+        validateEqualEndOffset(LEFT, element, errors);
     }
 
     public void validateEqualRightOffset(UIElement element, Errors errors) {
-        validateEqualBeginOffset(LEFT, element, errors);
+        validateEqualEndOffset(RIGHT, element, errors);
     }
 
     public void validateEqualTopOffset(UIElement element, Errors errors) {
-        validateEqualBeginOffset(DOWN, element, errors);
+        validateEqualEndOffset(UP, element, errors);
     }
 
     public void validateEqualBottomOffset(UIElement element, Errors errors) {
-        validateEqualBeginOffset(UP, element, errors);
+        validateEqualEndOffset(DOWN, element, errors);
     }
 
-    public void validateEqualBeginOffset(Direction direction, UIElement element, Errors errors) {
-        if (!hasEqualBegin(direction, element)) {
+    public void validateEqualEndOffset(Direction direction, UIElement element, Errors errors) {
+        if (!hasEqualEnd(direction, element)) {
             errors.add(
                     String.format("Element %s has not the same %s offset as element %s",
                             getQuotedName(),
-                            direction.beginName(),
+                            direction.endName(),
                             element.getQuotedName()),
                     element);
         }

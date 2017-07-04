@@ -77,4 +77,8 @@ public enum Direction {
     public String beginName() {
         return "begin";
     }
+
+    public String endName() {
+        return opposite().beginName();
+    }
 }
