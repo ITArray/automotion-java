@@ -4,6 +4,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,29 +12,40 @@ import static net.itarray.automotion.internal.Direction.*;
 
 public class UIElement {
     private final String name;
+    private final boolean quoteName;
     private final Rectangle rectangle;
     private final CSSSource cssSource;
 
-    private UIElement(String name, Rectangle rectangle, CSSSource cssSource) {
+    private UIElement(String name, Rectangle rectangle, CSSSource cssSource, boolean quoteName) {
         this.name = name;
+        this.quoteName = quoteName;
         this.rectangle = rectangle;
         this.cssSource = cssSource;
     }
 
     public static UIElement asElement(WebElement webElement) {
-        return new UIElement(defaultName(webElement), Rectangle.rectangle(webElement), new SeleniumCSSSource(webElement));
+        return new UIElement(defaultName(webElement), Rectangle.rectangle(webElement), new SeleniumCSSSource(webElement), true);
     }
 
     public static UIElement asElement(WebElement webElement, String name) {
-        return new UIElement(name, Rectangle.rectangle(webElement), new SeleniumCSSSource(webElement));
+        return new UIElement(name, Rectangle.rectangle(webElement), new SeleniumCSSSource(webElement), true);
     }
 
     public static UIElement asElement(Rectangle rectangle, String name) {
-        return new UIElement(name, rectangle, new NoCSSSource());
+        return new UIElement(name, rectangle, new NoCSSSource(), true);
     }
 
     public static List<UIElement> asElements(List<WebElement> webElements) {
         return webElements.stream().map(UIElement::asElement).collect(Collectors.toList());
+    }
+
+    public static List<UIElement> asNumberedList(List<UIElement> elements) {
+        ArrayList<UIElement> numbered = new ArrayList<>(elements.size());
+        for (int i = 0; i < elements.size(); i++) {
+            UIElement element = elements.get(i);
+            numbered.add(new UIElement(String.format("#%d", i+1), element.rectangle, element.cssSource, false));
+        }
+        return numbered;
     }
 
     private static String defaultName(WebElement webElement) {
@@ -202,6 +214,10 @@ public class UIElement {
         return name;
     }
 
+    public String getQuotedName() {
+        return quoteName ? String.format("'%s'", name) : name;
+    }
+
     private static String getShortenedText(String text) {
         int maxLength = 13;
         if (text.length() <= maxLength) {
@@ -217,5 +233,11 @@ public class UIElement {
 
     public boolean contains(Rectangle other) {
         return rectangle.contains(other);
+    }
+
+    public void validateEqualLeftOffset(UIElement element, Errors errors) {
+        if (!hasEqualLeftOffsetAs(element)) {
+            errors.add(String.format("Element %s has not the same left offset as element %s", getQuotedName(), element.getQuotedName()), element);
+        }
     }
 }

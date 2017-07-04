@@ -6,8 +6,12 @@ import org.openqa.selenium.Dimension;
 import java.io.File;
 
 public class DummyDriverFacade extends DriverFacade {
+
+    private Dimension resolution;
+
     public DummyDriverFacade() {
         super(null);
+        resolution = new Dimension(1280, 1080);
     }
 
     public static DriverFacade createWebDriver() {
@@ -46,12 +50,12 @@ public class DummyDriverFacade extends DriverFacade {
 
     @Override
     public void setResolution(Dimension resolution) {
-        throw new RuntimeException("should not happen");
+        this.resolution = new Dimension(resolution.getWidth(), resolution.getHeight());
     }
 
     @Override
     public Dimension getResolution() {
-        return new Dimension(RectangleFixture.pageWidth, RectangleFixture.pageHeight);
+        return resolution;
     }
 
     @Override

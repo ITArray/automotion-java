@@ -10,8 +10,20 @@ import static net.itarray.automotion.validation.Constants.*;
 public class Errors {
 
     private final JSONArray messages = new JSONArray();
+    private String lastMessage;
+    private UIElement lastElement;
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public UIElement getLastElement() {
+        return lastElement;
+    }
 
     public void add(String message) {
+        lastMessage = message;
+        lastElement = null;
         JSONObject details = new JSONObject();
         JSONObject messageObject = new JSONObject();
         messageObject.put(MESSAGE, message);
@@ -19,11 +31,9 @@ public class Errors {
         messages.add(details);
     }
 
-    public void add(String message, WebElement webElement) {
-        add(message, asElement(webElement));
-    }
-
     public void add(String message, UIElement element) {
+        lastMessage = message;
+        lastElement = element;
         float xContainer = element.getX();
         float yContainer = element.getY();
         float widthContainer = element.getWidth();

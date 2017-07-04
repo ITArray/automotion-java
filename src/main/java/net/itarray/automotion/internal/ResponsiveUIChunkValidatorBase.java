@@ -176,7 +176,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      */
     @Override
     public ResponsiveUIChunkValidatorBase sameLeftOffset() {
-        validateLeftOffsetForChunk(rootElements);
+        validateLeftOffsetForChunk(asNumberedList(rootElements));
         return this;
     }
 
@@ -243,7 +243,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
                 UIElement second = elements.get(secondIndex);
                 if (first.overlaps(second)) {
-                    addError("Elements are overlapped", first);
+                    errors.add("Elements are overlapped", first);
                     break;
                 }
             }
@@ -289,7 +289,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             if (!element.hasEqualRightOffsetAs(elementToCompare)) {
-                addError(String.format("Element #%d has not the same right offset as element #%d", i + 1, i + 2), elementToCompare);
+                errors.add(String.format("Element #%d has not the same right offset as element #%d", i + 1, i + 2), elementToCompare);
             }
         }
     }
@@ -298,9 +298,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            if (!element.hasEqualLeftOffsetAs(elementToCompare)) {
-                addError(String.format("Element #%d has not the same left offset as element #%d", i + 1, i + 2), elementToCompare);
-            }
+            element.validateEqualLeftOffset(elementToCompare, errors);
         }
     }
 
@@ -309,7 +307,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             if (!element.hasEqualTopOffsetAs(elementToCompare)) {
-                addError(String.format("Element #%d has not the same top offset as element #%d", i + 1, i + 2), elementToCompare);
+                errors.add(String.format("Element #%d has not the same top offset as element #%d", i + 1, i + 2), elementToCompare);
             }
         }
     }
@@ -319,7 +317,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             if (!element.hasEqualBottomOffsetAs(elementToCompare)) {
-                addError(String.format("Element #%d has not the same bottom offset as element #%d", i + 1, i + 2), elementToCompare);
+                errors.add(String.format("Element #%d has not the same bottom offset as element #%d", i + 1, i + 2), elementToCompare);
             }
         }
     }
@@ -329,8 +327,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             if (!element.hasSameWidthAs(elementToCompare)) {
-                addError(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                addError(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
+                errors.add(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
+                errors.add(String.format("Element #%d has different width. Element width is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
             }
         }
     }
@@ -340,8 +338,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             if (!element.hasSameHeightAs(elementToCompare)) {
-                addError(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                addError(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
+                errors.add(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
+                errors.add(String.format("Element #%d has different height. Element height is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
             }
         }
     }
@@ -351,8 +349,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             if (!element.hasSameSizeAs(elementToCompare)) {
-                addError(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                addError(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
+                errors.add(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
+                errors.add(String.format("Element #%d has different size. Element size is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
             }
 
         }
@@ -363,8 +361,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             if (element.hasSameSizeAs(elementToCompare)) {
-                addError(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                addError(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
+                errors.add(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
+                errors.add(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
             }
 
         }
@@ -375,8 +373,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             if (element.hasSameWidthAs(elementToCompare)) {
-                addError(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                addError(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
+                errors.add(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
+                errors.add(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
             }
 
         }
@@ -387,8 +385,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             if (element.hasSameHeightAs(elementToCompare)) {
-                addError(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                addError(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
+                errors.add(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
+                errors.add(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
             }
         }
     }
@@ -396,7 +394,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     private void validateEqualLeftRightOffset(List<UIElement> elements) {
         for (UIElement element : elements) {
             if (!element.hasEqualLeftRightOffset(page)) {
-                addError(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", element.getName(), element.getX(), element.getRightOffset(page)), element);
+                errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", element.getName(), element.getX(), element.getRightOffset(page)), element);
             }
         }
     }
@@ -404,7 +402,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     private void validateEqualTopBottomOffset(List<UIElement> elements) {
         for (UIElement element : elements) {
             if (!element.hasEqualTopBottomOffset(page)) {
-                addError(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", element.getName(), element.getY(), element.getBottomOffset(page)), element);
+                errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", element.getName(), element.getY(), element.getBottomOffset(page)), element);
             }
         }
     }
@@ -412,7 +410,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     private void validateInsideOfContainer(UIElement containerElement, String readableContainerName, List<UIElement> elements) {
         for (UIElement element : elements) {
             if (!containerElement.contains(element)) {
-                addError(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
+                errors.add(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
             }
         }
     }

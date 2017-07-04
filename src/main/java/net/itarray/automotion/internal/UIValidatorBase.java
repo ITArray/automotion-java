@@ -624,37 +624,35 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     private void validateRightOffsetForElements(UIElement element) {
         if (!rootElement.hasEqualRightOffsetAs(element)) {
-            addError(String.format("Element '%s' has not the same right offset as element '%s'", rootElement.getName(), element.getName()), element);
+            errors.add(String.format("Element '%s' has not the same right offset as element '%s'", rootElement.getName(), element.getName()), element);
         }
     }
 
     private void validateLeftOffsetForElements(UIElement element) {
-        if (!rootElement.hasEqualLeftOffsetAs(element)) {
-            addError(String.format("Element '%s' has not the same left offset as element '%s'", rootElement.getName(), element.getName()), element);
-        }
+        rootElement.validateEqualLeftOffset(element, this.errors);
     }
 
     private void validateTopOffsetForElements(UIElement element) {
         if (!rootElement.hasEqualTopOffsetAs(element)) {
-            addError(String.format("Element '%s' has not the same top offset as element '%s'", rootElement.getName(), element.getName()), element);
+            errors.add(String.format("Element '%s' has not the same top offset as element '%s'", rootElement.getName(), element.getName()), element);
         }
     }
 
     private void validateBottomOffsetForElements(UIElement element) {
         if (!rootElement.hasEqualBottomOffsetAs(element)) {
-            addError(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElement.getName(), element.getName()), element);
+            errors.add(String.format("Element '%s' has not the same bottom offset as element '%s'", rootElement.getName(), element.getName()), element);
         }
     }
 
     private void validateNotOverlappingWithElements(UIElement element) {
         if (rootElement.overlaps(element)) {
-            addError(String.format("Element '%s' is overlapped with element '%s' but should not", rootElement.getName(), element.getName()), element);
+            errors.add(String.format("Element '%s' is overlapped with element '%s' but should not", rootElement.getName(), element.getName()), element);
         }
     }
 
     private void validateOverlappingWithElements(UIElement element) {
         if (!rootElement.overlaps(element)) {
-            addError(String.format("Element '%s' is not overlapped with element '%s' but should be", rootElement.getName(), element.getName()), element);
+            errors.add(String.format("Element '%s' is not overlapped with element '%s' but should be", rootElement.getName(), element.getName()), element);
         }
     }
 
@@ -718,19 +716,19 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     private void validateSameWidth(UIElement element) {
         if (!rootElement.hasSameWidthAs(element)) {
-            addError(String.format("Element '%s' has not the same width as %s. Width of '%s' is %spx. Width of element is %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getWidth(), element.getWidth()), element);
+            errors.add(String.format("Element '%s' has not the same width as %s. Width of '%s' is %spx. Width of element is %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getWidth(), element.getWidth()), element);
         }
     }
 
     private void validateSameHeight(UIElement element) {
         if (!rootElement.hasSameHeightAs(element)) {
-            addError(String.format("Element '%s' has not the same height as %s. Height of '%s' is %spx. Height of element is %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getHeight(), element.getHeight()), element);
+            errors.add(String.format("Element '%s' has not the same height as %s. Height of '%s' is %spx. Height of element is %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getHeight(), element.getHeight()), element);
         }
     }
 
     private void validateSameSize(UIElement element) {
         if (!rootElement.hasSameSizeAs(element)) {
-            addError(String.format("Element '%s' has not the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getWidth(), rootElement.getHeight(), element.getWidth(), element.getHeight()), element);
+            errors.add(String.format("Element '%s' has not the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getWidth(), rootElement.getHeight(), element.getWidth(), element.getHeight()), element);
         }
     }
 
@@ -738,77 +736,77 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         int h = element.getHeight();
         int w = element.getWidth();
         if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
-            addError(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getWidth(), rootElement.getHeight(), w, h), element);
+            errors.add(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getWidth(), rootElement.getHeight(), w, h), element);
         }
     }
 
     private void validateBelowElement(UIElement element, int minMargin, int maxMargin) {
         int marginBetweenRoot = element.getY() - rootElement.getCornerY();
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            addError(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
+            errors.add(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
         }
     }
 
     private void validateBelowElement(UIElement belowElement) {
         if (!rootElement.hasBelowElement(belowElement)) {
-            addError("Below element aligned not properly", belowElement);
+            errors.add("Below element aligned not properly", belowElement);
         }
     }
 
     private void validateAboveElement(UIElement element, int minMargin, int maxMargin) {
         int marginBetweenRoot = rootElement.getY() - element.getCornerY();
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            addError(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
+            errors.add(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
         }
     }
 
     private void validateAboveElement(UIElement aboveElement) {
         if (!rootElement.hasAboveElement(aboveElement)) {
-            addError("Above element aligned not properly", aboveElement);
+            errors.add("Above element aligned not properly", aboveElement);
         }
     }
 
     private void validateRightElement(UIElement element, int minMargin, int maxMargin) {
         int marginBetweenRoot = element.getX() - rootElement.getCornerX();
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            addError(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
+            errors.add(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
         }
     }
 
     private void validateRightElement(UIElement rightElement) {
         if (!rootElement.hasRightElement(rightElement)) {
-            addError("Right element aligned not properly", rightElement);
+            errors.add("Right element aligned not properly", rightElement);
         }
     }
 
     private void validateLeftElement(UIElement leftElement, int minMargin, int maxMargin) {
         int marginBetweenRoot = rootElement.getX() - leftElement.getCornerX();
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            addError(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), leftElement);
+            errors.add(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), leftElement);
         }
     }
 
     private void validateLeftElement(UIElement leftElement) {
         if (!rootElement.hasLeftElement(leftElement)) {
-            addError("Left element aligned not properly", leftElement);
+            errors.add("Left element aligned not properly", leftElement);
         }
     }
 
     private void validateEqualLeftRightOffset(UIElement element) {
         if (!element.hasEqualLeftRightOffset(page)) {
-            addError(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElement.getName(), element.getX(), element.getRightOffset(page)), element);
+            errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElement.getName(), element.getX(), element.getRightOffset(page)), element);
         }
     }
 
     private void validateEqualTopBottomOffset(UIElement element) {
         if (!element.hasEqualTopBottomOffset(page)) {
-            addError(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElement.getName(), element.getY(), element.getBottomOffset(page)), element);
+            errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElement.getName(), element.getY(), element.getBottomOffset(page)), element);
         }
     }
 
     private void validateInsideOfContainer(UIElement containerElement) {
         if (!containerElement.contains(rootElement)) {
-            addError(String.format("Element '%s' is not inside of '%s'", rootElement.getName(), containerElement.getName()), containerElement);
+            errors.add(String.format("Element '%s' is not inside of '%s'", rootElement.getName(), containerElement.getName()), containerElement);
         }
     }
 
@@ -830,8 +828,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         int paddingRight = element.getCornerX() - rootElement.getCornerX();
 
         if (!element.contains(paddedRoot)) {
-            addError(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
-                    rootElement.getName(), top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
+            errors.add(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
+                        rootElement.getName(), top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
         }
     }
 

@@ -22,7 +22,7 @@ import static net.itarray.automotion.validation.Constants.*;
 
 public abstract class ResponsiveUIValidatorBase {
 
-    private final Errors errors;
+    protected final Errors errors;
     private final long startTime;
     private final UISnapshot snapshot;
     private final DriverFacade driver;
@@ -37,6 +37,10 @@ public abstract class ResponsiveUIValidatorBase {
         Dimension dimension = this.driver.retrievePageSize();
         page = UIElement.asElement(new Rectangle(0, 0, dimension.getWidth(), dimension.getHeight()), "page");
         this.startTime = System.currentTimeMillis();
+    }
+
+    public Errors getErrors() {
+        return errors;
     }
 
     public DriverFacade getDriver() {
@@ -77,10 +81,6 @@ public abstract class ResponsiveUIValidatorBase {
 
     protected void addError(String message) {
         errors.add(message);
-    }
-
-    protected void addError(String message, UIElement element) {
-        errors.add(message, element);
     }
 
     public boolean validate() {
