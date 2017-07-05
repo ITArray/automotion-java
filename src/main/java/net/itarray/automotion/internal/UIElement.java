@@ -191,7 +191,7 @@ public class UIElement {
     }
 
     public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
-        return getEnd(direction) <= possibleSuccessor.getBegin(direction);
+        return direction.beforeOrEqual(getEnd(direction), possibleSuccessor.getBegin(direction));
     }
 
     public  boolean hasRightElement(UIElement rightElement) {
@@ -263,6 +263,28 @@ public class UIElement {
                             direction.endName(),
                             element.getQuotedName()),
                     element);
+        }
+    }
+
+    public void validateLeftElement(UIElement leftElement, Errors errors) {
+        validateBefore(RIGHT, leftElement, errors);
+    }
+
+    public void validateRightElement(UIElement rightElement, Errors errors) {
+        validateBefore(LEFT, rightElement, errors);
+    }
+
+    public void validateAboveElement(UIElement aboveElement, Errors errors) {
+        validateBefore(DOWN, aboveElement, errors);
+    }
+
+    public void validateBelowElement(UIElement belowElement, Errors errors) {
+        validateBefore(UP, belowElement, errors);
+    }
+
+    public void validateBefore(Direction direction, UIElement leftElement, Errors errors) {
+        if (!leftElement.hasSuccessor(direction, this)) {
+            errors.add(String.format("%s element aligned not properly", direction.beforeName()), leftElement);
         }
     }
 }

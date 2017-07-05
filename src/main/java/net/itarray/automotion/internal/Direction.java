@@ -3,6 +3,15 @@ package net.itarray.automotion.internal;
 public enum Direction {
     DOWN{
         @Override
+        public boolean beforeOrEqual(int p1, int p2) {
+            return p1 <= p2;
+        }
+
+        public String beforeName() {
+            return "Above";
+        }
+
+        @Override
         public Direction opposite() {
             return UP;
         }
@@ -18,6 +27,15 @@ public enum Direction {
         }
     },
     UP {
+        @Override
+        public boolean beforeOrEqual(int p1, int p2) {
+            return p2 <= p1;
+        }
+
+        public String beforeName() {
+            return "Below";
+        }
+
         @Override
         public Direction opposite() {
             return DOWN;
@@ -35,6 +53,15 @@ public enum Direction {
     },
     RIGHT {
         @Override
+        public boolean beforeOrEqual(int p1, int p2) {
+            return p1 <= p2;
+        }
+
+        public String beforeName() {
+            return "Left";
+        }
+
+        @Override
         public Direction opposite() {
             return LEFT;
         }
@@ -50,6 +77,15 @@ public enum Direction {
         }
     },
     LEFT {
+        @Override
+        public boolean beforeOrEqual(int p1, int p2) {
+            return p2 <= p1;
+        }
+
+        public String beforeName() {
+            return "Right";
+        }
+
         @Override
         public Direction opposite() {
             return RIGHT;
@@ -81,4 +117,8 @@ public enum Direction {
     public String endName() {
         return opposite().beginName();
     }
+
+    public abstract String beforeName();
+
+    public abstract boolean beforeOrEqual(int p1, int p2);
 }

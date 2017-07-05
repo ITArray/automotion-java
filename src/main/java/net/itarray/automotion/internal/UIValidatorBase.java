@@ -743,9 +743,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateBelowElement(UIElement belowElement) {
-        if (!rootElement.hasBelowElement(belowElement)) {
-            errors.add("Below element aligned not properly", belowElement);
-        }
+        rootElement.validateBelowElement(belowElement, errors);
     }
 
     private void validateAboveElement(UIElement element, int minMargin, int maxMargin) {
@@ -756,9 +754,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateAboveElement(UIElement aboveElement) {
-        if (!rootElement.hasAboveElement(aboveElement)) {
-            errors.add("Above element aligned not properly", aboveElement);
-        }
+        rootElement.validateAboveElement(aboveElement, errors);
     }
 
     private void validateRightElement(UIElement element, int minMargin, int maxMargin) {
@@ -769,9 +765,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateRightElement(UIElement rightElement) {
-        if (!rootElement.hasRightElement(rightElement)) {
-            errors.add("Right element aligned not properly", rightElement);
-        }
+        rootElement.validateRightElement(rightElement, errors);
     }
 
     private void validateLeftElement(UIElement leftElement, int minMargin, int maxMargin) {
@@ -782,9 +776,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateLeftElement(UIElement leftElement) {
-        if (!rootElement.hasLeftElement(leftElement)) {
-            errors.add("Left element aligned not properly", leftElement);
-        }
+        rootElement.validateLeftElement(leftElement, errors);
     }
 
     private void validateEqualLeftRightOffset(UIElement element) {

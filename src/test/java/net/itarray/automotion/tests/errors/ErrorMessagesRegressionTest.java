@@ -140,4 +140,36 @@ public class ErrorMessagesRegressionTest {
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same bottom offset as element #2");
     }
+
+    @Test
+    public void withLeftElement() {
+        createElementValidator().withLeftElement(createElement(105, 205, 505, 405));
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Left element aligned not properly");
+    }
+
+    @Test
+    public void withRightElement() {
+        createElementValidator().withRightElement(createElement(105, 205, 505, 405));
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Right element aligned not properly");
+    }
+
+    @Test
+    public void withTopElement() {
+        createElementValidator().withTopElement(createElement(105, 205, 505, 405));
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Above element aligned not properly");
+    }
+
+    @Test
+    public void withBottomElement() {
+        createElementValidator().withBottomElement(createElement(105, 205, 505, 405));
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Below element aligned not properly");
+    }
 }
