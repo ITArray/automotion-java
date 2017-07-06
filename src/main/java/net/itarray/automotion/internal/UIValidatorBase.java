@@ -324,7 +324,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase sameWidthAs(WebElement element, String readableName) {
-        validateSameWidth(asElement(element, readableName));
+        rootElement.validateSameWidth(asElement(element, readableName), errors);
         return this;
     }
 
@@ -337,7 +337,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase sameWidthAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateSameWidth(asElement(element));
+            rootElement.validateSameWidth(asElement(element), errors);
         }
         return this;
     }
@@ -389,7 +389,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase sameHeightAs(WebElement element, String readableName) {
-        validateSameHeight(asElement(element, readableName));
+        rootElement.validateSameHeight(asElement(element, readableName), errors);
         return this;
     }
 
@@ -402,7 +402,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase sameHeightAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateSameHeight(asElement(element));
+            rootElement.validateSameHeight(asElement(element), errors);
         }
         return this;
     }
@@ -440,7 +440,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase sameSizeAs(WebElement element, String readableName) {
-        validateSameSize(asElement(element, readableName));
+        rootElement.validateSameSize(asElement(element, readableName), errors);
         return this;
     }
 
@@ -453,7 +453,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase sameSizeAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateSameSize(asElement(element));
+            rootElement.validateSameSize(asElement(element), errors);
         }
         return this;
     }
@@ -689,24 +689,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     private void validateMinWidth(int width) {
         if (!rootElement.hasMinWidth(width)) {
             addError(String.format("Expected min width of element '%s' is: %spx. Actual width is: %spx", rootElement.getName(), width, rootElement.getWidth()));
-        }
-    }
-
-    private void validateSameWidth(UIElement element) {
-        if (!rootElement.hasSameWidthAs(element)) {
-            errors.add(String.format("Element %s has not the same width as element %s. Width of '%s' is %spx. Width of element is %spx", rootElement.getQuotedName(), element.getQuotedName(), rootElement.getName(), rootElement.getWidth(), element.getWidth()), element);
-        }
-    }
-
-    private void validateSameHeight(UIElement element) {
-        if (!rootElement.hasSameHeightAs(element)) {
-            errors.add(String.format("Element %s has not the same height as element %s. Height of '%s' is %spx. Height of element is %spx", rootElement.getQuotedName(), element.getQuotedName(), rootElement.getName(), rootElement.getHeight(), element.getHeight()), element);
-        }
-    }
-
-    private void validateSameSize(UIElement element) {
-        if (!rootElement.hasSameSizeAs(element)) {
-            errors.add(String.format("Element %s has not the same size as element %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElement.getQuotedName(), element.getQuotedName(), rootElement.getName(), rootElement.getWidth(), rootElement.getHeight(), element.getWidth(), element.getHeight()), element);
         }
     }
 

@@ -290,4 +290,22 @@ public class UIElement {
                     leftElement);
         }
     }
+
+    public void validateSameSize(UIElement element, Errors errors) {
+        if (!hasSameSizeAs(element)) {
+            errors.add(String.format("Element %s has not the same size as element %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", getQuotedName(), element.getQuotedName(), getName(), getWidth(), getHeight(), element.getWidth(), element.getHeight()), element);
+        }
+    }
+
+    public void validateSameHeight(UIElement element, Errors errors) {
+        if (!hasSameHeightAs(element)) {
+            errors.add(String.format("Element %s has not the same height as element %s. Height of '%s' is %spx. Height of element is %spx", getQuotedName(), element.getQuotedName(), getName(), getHeight(), element.getHeight()), element);
+        }
+    }
+
+    public void validateSameWidth(UIElement element, Errors errors) {
+        if (!hasSameWidthAs(element)) {
+            errors.add(String.format("Element %s has not the same width as element %s. Width of '%s' is %spx. Width of element is %spx", getQuotedName(), element.getQuotedName(), getName(), getWidth(), element.getWidth()), element);
+        }
+    }
 }
