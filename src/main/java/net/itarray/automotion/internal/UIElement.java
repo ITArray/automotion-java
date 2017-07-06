@@ -284,7 +284,10 @@ public class UIElement {
 
     public void validateBefore(Direction direction, UIElement leftElement, Errors errors) {
         if (!leftElement.hasSuccessor(direction, this)) {
-            errors.add(String.format("%s element aligned not properly", direction.beforeName()), leftElement);
+            errors.add(
+                    String.format("%s element aligned not properly",
+                            direction.beforeName()),
+                    leftElement);
         }
     }
 }

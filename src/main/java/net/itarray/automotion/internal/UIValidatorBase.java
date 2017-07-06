@@ -63,7 +63,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase withLeftElement(WebElement element) {
-        validateLeftElement(asElement(element));
+        rootElement.validateLeftElement(asElement(element), errors);
         return this;
     }
 
@@ -89,7 +89,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase withRightElement(WebElement element) {
-        validateRightElement(asElement(element));
+        rootElement.validateRightElement(asElement(element), errors);
         return this;
     }
 
@@ -115,7 +115,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase withTopElement(WebElement element) {
-        validateAboveElement(asElement(element));
+        rootElement.validateAboveElement(asElement(element), errors);
         return this;
     }
 
@@ -141,7 +141,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase withBottomElement(WebElement element) {
-        validateBelowElement(asElement(element));
+        rootElement.validateBelowElement(asElement(element), errors);
         return this;
     }
 
@@ -208,7 +208,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase sameOffsetLeftAs(WebElement element, String readableName) {
-        validateLeftOffsetForElements(asElement(element, readableName));
+        rootElement.validateEqualLeft(asElement(element, readableName), errors);
         drawLeftOffsetLine();
         return this;
     }
@@ -222,7 +222,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase sameOffsetLeftAs(List<WebElement> webElements) {
         for (UIElement element : asElements(webElements)) {
-            validateLeftOffsetForElements(element);
+            rootElement.validateEqualLeft(element, errors);
         }
         drawLeftOffsetLine();
         return this;
@@ -237,7 +237,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase sameOffsetRightAs(WebElement element, String readableName) {
-        validateRightOffsetForElements(asElement(element, readableName));
+        rootElement.validateEqualRight(asElement(element, readableName), errors);
         drawRightOffsetLine();
         return this;
     }
@@ -251,7 +251,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase sameOffsetRightAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateRightOffsetForElements(asElement(element));
+            rootElement.validateEqualRight(asElement(element), errors);
         }
         drawRightOffsetLine();
         return this;
@@ -266,7 +266,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase sameOffsetTopAs(WebElement element, String readableName) {
-        validateTopOffsetForElements(asElement(element, readableName));
+        rootElement.validateEqualTop(asElement(element, readableName), errors);
         drawTopOffsetLine();
         return this;
     }
@@ -280,7 +280,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase sameOffsetTopAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateTopOffsetForElements(asElement(element));
+            rootElement.validateEqualTop(asElement(element), errors);
         }
         drawTopOffsetLine();
         return this;
@@ -295,7 +295,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase sameOffsetBottomAs(WebElement element, String readableName) {
-        validateBottomOffsetForElements(asElement(element, readableName));
+        rootElement.validateEqualBottom(asElement(element, readableName), errors);
         drawBottomOffsetLine();
         return this;
     }
@@ -309,7 +309,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase sameOffsetBottomAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateBottomOffsetForElements(asElement(element));
+            rootElement.validateEqualBottom(asElement(element), errors);
         }
         drawBottomOffsetLine();
         return this;
@@ -622,23 +622,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         return this;
     }
 
-    private void validateRightOffsetForElements(UIElement element) {
-        UIElement root = this.rootElement;
-        root.validateEqualRight(element, this.errors);
-    }
-
-    private void validateLeftOffsetForElements(UIElement element) {
-        rootElement.validateEqualLeft(element, this.errors);
-    }
-
-    private void validateTopOffsetForElements(UIElement element) {
-        rootElement.validateEqualTop(element, errors);
-    }
-
-    private void validateBottomOffsetForElements(UIElement element) {
-        rootElement.validateEqualBottom(element, errors);
-    }
-
     private void validateNotOverlappingWithElements(UIElement element) {
         if (rootElement.overlaps(element)) {
             errors.add(String.format("Element '%s' is overlapped with element '%s' but should not", rootElement.getName(), element.getName()), element);
@@ -742,19 +725,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         }
     }
 
-    private void validateBelowElement(UIElement belowElement) {
-        rootElement.validateBelowElement(belowElement, errors);
-    }
-
     private void validateAboveElement(UIElement element, int minMargin, int maxMargin) {
         int marginBetweenRoot = rootElement.getY() - element.getCornerY();
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             errors.add(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
         }
-    }
-
-    private void validateAboveElement(UIElement aboveElement) {
-        rootElement.validateAboveElement(aboveElement, errors);
     }
 
     private void validateRightElement(UIElement element, int minMargin, int maxMargin) {
@@ -764,19 +739,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         }
     }
 
-    private void validateRightElement(UIElement rightElement) {
-        rootElement.validateRightElement(rightElement, errors);
-    }
-
     private void validateLeftElement(UIElement leftElement, int minMargin, int maxMargin) {
         int marginBetweenRoot = rootElement.getX() - leftElement.getCornerX();
         if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
             errors.add(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), leftElement);
         }
-    }
-
-    private void validateLeftElement(UIElement leftElement) {
-        rootElement.validateLeftElement(leftElement, errors);
     }
 
     private void validateEqualLeftRightOffset(UIElement element) {
