@@ -179,7 +179,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().sameWidthAs(createElement(100, 200, 505, 405), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has not the same width as specifying. Width of 'under test' is 400px. Width of element is 405px");
+                .isEqualTo("Element 'under test' has not the same width as element 'specifying'. Width of 'under test' is 400px. Width of element is 405px");
     }
 
     @Test
@@ -187,7 +187,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().sameWidthAs(singletonList(createElement(100, 200, 505, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has not the same width as with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]. Width of 'under test' is 400px. Width of element is 405px");
+                .isEqualTo("Element 'under test' has not the same width as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]'. Width of 'under test' is 400px. Width of element is 405px");
     }
 
     @Test
@@ -195,7 +195,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().sameHeightAs(createElement(100, 200, 505, 405), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has not the same height as specifying. Height of 'under test' is 200px. Height of element is 205px");
+                .isEqualTo("Element 'under test' has not the same height as element 'specifying'. Height of 'under test' is 200px. Height of element is 205px");
     }
 
     @Test
@@ -203,7 +203,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().sameHeightAs(singletonList(createElement(100, 200, 505, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has not the same height as with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]. Height of 'under test' is 200px. Height of element is 205px");
+                .isEqualTo("Element 'under test' has not the same height as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]'. Height of 'under test' is 200px. Height of element is 205px");
     }
 
     @Test
@@ -211,14 +211,14 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().sameSizeAs(createElement(100, 200, 505, 405), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has not the same size as specifying. Size of 'under test' is 400px x 200px. Size of element is 405px x 205px");
+                .isEqualTo("Element 'under test' has not the same size as element 'specifying'. Size of 'under test' is 400px x 200px. Size of element is 405px x 205px");
     }
     @Test
     public void sameSizeAsWithList() {
         createElementValidator().sameSizeAs(singletonList(createElement(100, 200, 505, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has not the same size as with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]. Size of 'under test' is 400px x 200px. Size of element is 405px x 205px");
+                .isEqualTo("Element 'under test' has not the same size as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]'. Size of 'under test' is 400px x 200px. Size of element is 405px x 205px");
     }
 
 }

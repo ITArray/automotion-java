@@ -694,19 +694,19 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     private void validateSameWidth(UIElement element) {
         if (!rootElement.hasSameWidthAs(element)) {
-            errors.add(String.format("Element '%s' has not the same width as %s. Width of '%s' is %spx. Width of element is %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getWidth(), element.getWidth()), element);
+            errors.add(String.format("Element %s has not the same width as element %s. Width of '%s' is %spx. Width of element is %spx", rootElement.getQuotedName(), element.getQuotedName(), rootElement.getName(), rootElement.getWidth(), element.getWidth()), element);
         }
     }
 
     private void validateSameHeight(UIElement element) {
         if (!rootElement.hasSameHeightAs(element)) {
-            errors.add(String.format("Element '%s' has not the same height as %s. Height of '%s' is %spx. Height of element is %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getHeight(), element.getHeight()), element);
+            errors.add(String.format("Element %s has not the same height as element %s. Height of '%s' is %spx. Height of element is %spx", rootElement.getQuotedName(), element.getQuotedName(), rootElement.getName(), rootElement.getHeight(), element.getHeight()), element);
         }
     }
 
     private void validateSameSize(UIElement element) {
         if (!rootElement.hasSameSizeAs(element)) {
-            errors.add(String.format("Element '%s' has not the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getWidth(), rootElement.getHeight(), element.getWidth(), element.getHeight()), element);
+            errors.add(String.format("Element %s has not the same size as element %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElement.getQuotedName(), element.getQuotedName(), rootElement.getName(), rootElement.getWidth(), rootElement.getHeight(), element.getWidth(), element.getHeight()), element);
         }
     }
 
