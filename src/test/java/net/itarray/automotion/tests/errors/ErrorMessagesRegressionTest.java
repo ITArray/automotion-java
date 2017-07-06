@@ -14,6 +14,7 @@ import rectangles.DummyDriverFacade;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
 
@@ -55,7 +56,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void sameOffsetLeftAsWithList() {
-        createElementValidator().sameOffsetLeftAs(Collections.singletonList(createElement(105, 200, 500, 400)));
+        createElementValidator().sameOffsetLeftAs(singletonList(createElement(105, 200, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same left offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[105,200], size=[395,200]'");
@@ -79,7 +80,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void sameOffsetRightAsWithList() {
-        createElementValidator().sameOffsetRightAs(Collections.singletonList(createElement(100, 200, 505, 400)));
+        createElementValidator().sameOffsetRightAs(singletonList(createElement(100, 200, 505, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same right offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,200]'");
@@ -103,7 +104,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void sameOffsetTopAsWithList() {
-        createElementValidator().sameOffsetTopAs(Collections.singletonList(createElement(100, 205, 500, 400)));
+        createElementValidator().sameOffsetTopAs(singletonList(createElement(100, 205, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same top offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,205], size=[400,195]'");
@@ -127,7 +128,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void sameOffsetBottomAsWithList() {
-        createElementValidator().sameOffsetBottomAs(Collections.singletonList(createElement(100, 200, 500, 405)));
+        createElementValidator().sameOffsetBottomAs(singletonList(createElement(100, 200, 500, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same bottom offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,205]'");
@@ -172,4 +173,52 @@ public class ErrorMessagesRegressionTest {
         assertThat(errors.getLastMessage())
                 .isEqualTo("Below element aligned not properly");
     }
+
+    @Test
+    public void sameWidthAs() {
+        createElementValidator().sameWidthAs(createElement(100, 200, 505, 405), "specifying");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not the same width as specifying. Width of 'under test' is 400px. Width of element is 405px");
+    }
+
+    @Test
+    public void sameWidthAsWithList() {
+        createElementValidator().sameWidthAs(singletonList(createElement(100, 200, 505, 405)));
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not the same width as with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]. Width of 'under test' is 400px. Width of element is 405px");
+    }
+
+    @Test
+    public void sameHeightAs() {
+        createElementValidator().sameHeightAs(createElement(100, 200, 505, 405), "specifying");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not the same height as specifying. Height of 'under test' is 200px. Height of element is 205px");
+    }
+
+    @Test
+    public void sameHeightAsWithList() {
+        createElementValidator().sameHeightAs(singletonList(createElement(100, 200, 505, 405)));
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not the same height as with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]. Height of 'under test' is 200px. Height of element is 205px");
+    }
+
+    @Test
+    public void sameSizeAs() {
+        createElementValidator().sameSizeAs(createElement(100, 200, 505, 405), "specifying");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not the same size as specifying. Size of 'under test' is 400px x 200px. Size of element is 405px x 205px");
+    }
+    @Test
+    public void sameSizeAsWithList() {
+        createElementValidator().sameSizeAs(singletonList(createElement(100, 200, 505, 405)));
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not the same size as with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]. Size of 'under test' is 400px x 200px. Size of element is 405px x 205px");
+    }
+
 }
