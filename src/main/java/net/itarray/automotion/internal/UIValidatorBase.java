@@ -696,7 +696,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         int h = element.getHeight();
         int w = element.getWidth();
         if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
-            errors.add(String.format("Element '%s' has the same size as %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElement.getName(), element.getName(), rootElement.getName(), rootElement.getWidth(), rootElement.getHeight(), w, h), element);
+            errors.add(String.format("Element %s has the same size as element %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElement.getQuotedName(), element.getQuotedName(), rootElement.getName(), rootElement.getWidth(), rootElement.getHeight(), w, h), element);
         }
     }
 
