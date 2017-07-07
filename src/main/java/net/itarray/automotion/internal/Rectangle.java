@@ -28,23 +28,23 @@ public class Rectangle {
     }
 
     public Vector getExtend() {
-        return new Vector(corner.getX() - origin.getX(), corner.getY() - origin.getY());
+        return new Vector(corner.getX().minus(origin.getX()), corner.getY().minus(origin.getY()));
     }
 
     public int getOriginX() {
-        return getOrigin().getX();
+        return getOrigin().getX().getValue();
     }
 
     public int getOriginY() {
-        return getOrigin().getY();
+        return getOrigin().getY().getValue();
     }
 
     public int getCornerX() {
-        return getCorner().getX();
+        return getCorner().getX().getValue();
     }
 
     public int getCornerY() {
-        return getCorner().getY();
+        return getCorner().getY().getValue();
     }
 
     public int getBegin(Direction direction) {

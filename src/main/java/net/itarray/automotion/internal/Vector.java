@@ -4,9 +4,13 @@ public class Vector {
     private final Scalar x;
     private final Scalar y;
 
+    public Vector(Scalar x, Scalar y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public Vector(int x, int y) {
-        this.x = new Scalar(x);
-        this.y = new Scalar(y);
+        this(new Scalar(x), new Scalar(y));
     }
 
     @Override
@@ -23,12 +27,12 @@ public class Vector {
         return x.hashCode() * 31 ^ y.hashCode();
     }
 
-    public int getX() {
-        return x.getValue();
+    public Scalar getX() {
+        return x;
     }
 
-    public int getY() {
-        return y.getValue();
+    public Scalar getY() {
+        return y;
     }
 
     @Override

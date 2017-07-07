@@ -33,4 +33,20 @@ public class Scalar {
     public int getValue() {
         return value;
     }
+
+    public Scalar plus(int addend) {
+        return new Scalar(value + addend);
+    }
+
+    public Scalar plus(Scalar addend) {
+        return plus(addend.getValue());
+    }
+
+    public Scalar minus(int subtrahend) {
+        return new Scalar(value - subtrahend);
+    }
+
+    public Scalar minus(Scalar subtrahend) {
+        return minus(subtrahend.getValue());
+    }
 }
