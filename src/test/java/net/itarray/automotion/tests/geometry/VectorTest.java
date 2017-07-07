@@ -56,4 +56,16 @@ public class VectorTest {
     public void toStringWithUnitsAppendsTheUnitsToEachCoordinate() {
         assertThat(vector.toStringWithUnits("px")).isEqualTo("10px x 23px");
     }
+
+    @Test
+    public void minusReturnsAVectorWithValueEqualToTheDifferenceOfValueAndTheSubtrahendValueInBothDimensions() {
+        Vector subtrahend = new Vector(2, 3);
+        assertThat(vector.minus(subtrahend)).isEqualTo(new Vector(x.minus(2), y.minus(3)));
+    }
+
+    @Test
+    public void plusReturnsAVectorWithValueEqualToTheSumOfValueAndTheAddendValueInBothDimensions() {
+        Vector addend = new Vector(2, 3);
+        assertThat(vector.plus(addend)).isEqualTo(new Vector(x.plus(2), y.plus(3)));
+    }
 }

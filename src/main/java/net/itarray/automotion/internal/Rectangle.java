@@ -28,7 +28,7 @@ public class Rectangle {
     }
 
     public Vector getExtend() {
-        return new Vector(corner.getX().minus(origin.getX()), corner.getY().minus(origin.getY()));
+        return corner.minus(origin);
     }
 
     public int getOriginX() {
