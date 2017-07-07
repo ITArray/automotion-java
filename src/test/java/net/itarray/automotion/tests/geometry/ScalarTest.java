@@ -66,4 +66,18 @@ public class ScalarTest {
         Scalar addend = new Scalar(2);
         assertThat(scalar.minus(addend)).isEqualTo(new Scalar(value - addend.getValue()));
     }
+
+    @Test
+    public void isLessOrEqualThanWorks() {
+        assertThat(scalar.isLessOrEqualThan(new Scalar(value-1))).isFalse();
+        assertThat(scalar.isLessOrEqualThan(new Scalar(value))).isTrue();
+        assertThat(scalar.isLessOrEqualThan(new Scalar(value+1))).isTrue();
+    }
+
+    @Test
+    public void isLessThanWorks() {
+        assertThat(scalar.isLessThan(new Scalar(value-1))).isFalse();
+        assertThat(scalar.isLessThan(new Scalar(value))).isFalse();
+        assertThat(scalar.isLessThan(new Scalar(value+1))).isTrue();
+    }
 }

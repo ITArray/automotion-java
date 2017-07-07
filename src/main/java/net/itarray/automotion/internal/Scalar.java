@@ -49,4 +49,12 @@ public class Scalar {
     public Scalar minus(Scalar subtrahend) {
         return minus(subtrahend.getValue());
     }
+
+    public boolean isLessThan(Scalar other) {
+        return value < other.value;
+    }
+
+    public boolean isLessOrEqualThan(Scalar other) {
+        return value <= other.value;
+    }
 }

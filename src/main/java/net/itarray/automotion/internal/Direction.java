@@ -4,7 +4,7 @@ public enum Direction {
     DOWN{
         @Override
         public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p1.getValue() <= p2.getValue();
+            return p1.isLessOrEqualThan(p2);
         }
 
         public String beforeName() {
@@ -34,7 +34,7 @@ public enum Direction {
     UP {
         @Override
         public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p2.getValue() <= p1.getValue();
+            return p2.isLessOrEqualThan(p1);
         }
 
         public String beforeName() {
@@ -64,7 +64,7 @@ public enum Direction {
     RIGHT {
         @Override
         public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p1.getValue() <= p2.getValue();
+            return p1.isLessOrEqualThan(p2);
         }
 
         public String beforeName() {
@@ -94,7 +94,7 @@ public enum Direction {
     LEFT {
         @Override
         public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p2.getValue() <= p1.getValue();
+            return p2.isLessOrEqualThan(p1);
         }
 
         public String beforeName() {
