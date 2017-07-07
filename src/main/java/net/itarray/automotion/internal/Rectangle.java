@@ -5,10 +5,8 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 public class Rectangle {
-    private final int originX;
-    private final int originY;
-    private final int cornerX;
-    private final int cornerY;
+    private final Vector origin;
+    private final Vector corner;
 
     public static Rectangle rectangle(WebElement webElement) {
         Point location = webElement.getLocation();
@@ -17,26 +15,36 @@ public class Rectangle {
     }
 
     public Rectangle(int originX, int originY, int cornerX, int cornerY) {
-        this.originX = originX;
-        this.originY = originY;
-        this.cornerX = cornerX;
-        this.cornerY = cornerY;
+        this.origin = new Vector(originX, originY);
+        this.corner = new Vector(cornerX, cornerY);
+    }
+
+    public Vector getOrigin() {
+        return origin;
+    }
+
+    public Vector getCorner() {
+        return corner;
+    }
+
+    public Vector getExtend() {
+        return new Vector(corner.getX() - origin.getX(), corner.getY() - origin.getY());
     }
 
     public int getOriginX() {
-        return originX;
+        return getOrigin().getX();
     }
 
     public int getOriginY() {
-        return originY;
+        return getOrigin().getY();
     }
 
     public int getCornerX() {
-        return cornerX;
+        return getCorner().getX();
     }
 
     public int getCornerY() {
-        return cornerY;
+        return getCorner().getY();
     }
 
     public int getBegin(Direction direction) {

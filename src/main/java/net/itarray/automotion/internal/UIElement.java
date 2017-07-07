@@ -301,13 +301,9 @@ public class UIElement {
                             element.getQuotedName(),
                             capitalize("size"),
                             getName(),
-                            String.format("%spx x %spx",
-                                    getWidth(),
-                                    getHeight()),
+                            rectangle.getExtend().toStringWithUnits("px"),
                             capitalize("size"),
-                            String.format("%spx x %spx",
-                                    element.getWidth(),
-                                    element.getHeight())),
+                            element.rectangle.getExtend().toStringWithUnits("px")),
                     element);
         }
     }
