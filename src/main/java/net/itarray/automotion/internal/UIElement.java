@@ -76,11 +76,11 @@ public class UIElement {
     }
 
     public int getX() {
-        return rectangle.getOriginX();
+        return rectangle.getOrigin().getX().getValue();
     }
 
     public int getY() {
-        return rectangle.getOriginY();
+        return rectangle.getOrigin().getY().getValue();
     }
 
     public int getWidth() {
@@ -92,11 +92,11 @@ public class UIElement {
     }
 
     public int getCornerX() {
-        return rectangle.getCornerX();
+        return rectangle.getCorner().getX().getValue();
     }
 
     public int getCornerY() {
-        return rectangle.getCornerY();
+        return rectangle.getCorner().getY().getValue();
     }
 
     public boolean hasEqualBegin(Direction direction, UIElement other) {
@@ -192,7 +192,7 @@ public class UIElement {
     }
 
     public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
-        return direction.beforeOrEqual(getEnd(direction), possibleSuccessor.getBegin(direction));
+        return direction.beforeOrEqual(direction.end(rectangle), direction.begin(possibleSuccessor.rectangle));
     }
 
     public  boolean hasRightElement(UIElement rightElement) {

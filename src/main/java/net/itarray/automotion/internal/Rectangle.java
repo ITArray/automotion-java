@@ -31,28 +31,12 @@ public class Rectangle {
         return corner.minus(origin);
     }
 
-    public int getOriginX() {
-        return getOrigin().getX().getValue();
-    }
-
-    public int getOriginY() {
-        return getOrigin().getY().getValue();
-    }
-
-    public int getCornerX() {
-        return getCorner().getX().getValue();
-    }
-
-    public int getCornerY() {
-        return getCorner().getY().getValue();
-    }
-
     public int getBegin(Direction direction) {
-        return direction.begin(this);
+        return direction.begin(this).getValue();
     }
 
     public int getEnd(Direction direction) {
-        return direction.end(this);
+        return direction.end(this).getValue();
     }
 
     public int getExtend(Direction direction) {

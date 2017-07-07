@@ -3,8 +3,8 @@ package net.itarray.automotion.internal;
 public enum Direction {
     DOWN{
         @Override
-        public boolean beforeOrEqual(int p1, int p2) {
-            return p1 <= p2;
+        public boolean beforeOrEqual(Scalar p1, Scalar p2) {
+            return p1.getValue() <= p2.getValue();
         }
 
         public String beforeName() {
@@ -17,8 +17,8 @@ public enum Direction {
         }
 
         @Override
-        public int begin(Rectangle element) {
-            return element.getOriginY();
+        public Scalar begin(Rectangle element) {
+            return element.getOrigin().getY();
         }
 
         @Override
@@ -33,8 +33,8 @@ public enum Direction {
     },
     UP {
         @Override
-        public boolean beforeOrEqual(int p1, int p2) {
-            return p2 <= p1;
+        public boolean beforeOrEqual(Scalar p1, Scalar p2) {
+            return p2.getValue() <= p1.getValue();
         }
 
         public String beforeName() {
@@ -47,8 +47,8 @@ public enum Direction {
         }
 
         @Override
-        public int begin(Rectangle element) {
-            return element.getCornerY();
+        public Scalar begin(Rectangle element) {
+            return element.getCorner().getY();
         }
 
         @Override
@@ -63,8 +63,8 @@ public enum Direction {
     },
     RIGHT {
         @Override
-        public boolean beforeOrEqual(int p1, int p2) {
-            return p1 <= p2;
+        public boolean beforeOrEqual(Scalar p1, Scalar p2) {
+            return p1.getValue() <= p2.getValue();
         }
 
         public String beforeName() {
@@ -77,8 +77,8 @@ public enum Direction {
         }
 
         @Override
-        public int begin(Rectangle element) {
-            return element.getOriginX();
+        public Scalar begin(Rectangle element) {
+            return element.getOrigin().getX();
         }
 
         @Override
@@ -93,8 +93,8 @@ public enum Direction {
     },
     LEFT {
         @Override
-        public boolean beforeOrEqual(int p1, int p2) {
-            return p2 <= p1;
+        public boolean beforeOrEqual(Scalar p1, Scalar p2) {
+            return p2.getValue() <= p1.getValue();
         }
 
         public String beforeName() {
@@ -107,8 +107,8 @@ public enum Direction {
         }
 
         @Override
-        public int begin(Rectangle element) {
-            return element.getCornerX();
+        public Scalar begin(Rectangle element) {
+            return element.getCorner().getX();
         }
 
         @Override
@@ -124,9 +124,9 @@ public enum Direction {
 
     public abstract Direction opposite();
 
-    public abstract int begin(Rectangle element);
+    public abstract Scalar begin(Rectangle element);
 
-    public int end(Rectangle rectangle) {
+    public Scalar end(Rectangle rectangle) {
         return opposite().begin(rectangle);
     }
 
@@ -142,5 +142,5 @@ public enum Direction {
 
     public abstract String extendName();
 
-    public abstract boolean beforeOrEqual(int p1, int p2);
+    public abstract boolean beforeOrEqual(Scalar p1, Scalar p2);
 }
