@@ -294,7 +294,21 @@ public class UIElement {
 
     public void validateSameSize(UIElement element, Errors errors) {
         if (!hasSameSizeAs(element)) {
-            errors.add(String.format("Element %s has not the same size as element %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", getQuotedName(), element.getQuotedName(), getName(), getWidth(), getHeight(), element.getWidth(), element.getHeight()), element);
+            errors.add(
+                    String.format("Element %s has not the same %s as element %s. %s of '%s' is %s. %s of element is %s",
+                            getQuotedName(),
+                            "size",
+                            element.getQuotedName(),
+                            capitalize("size"),
+                            getName(),
+                            String.format("%spx x %spx",
+                                    getWidth(),
+                                    getHeight()),
+                            capitalize("size"),
+                            String.format("%spx x %spx",
+                                    element.getWidth(),
+                                    element.getHeight())),
+                    element);
         }
     }
 
