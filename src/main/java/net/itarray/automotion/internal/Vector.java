@@ -46,4 +46,12 @@ public class Vector {
                 x.toStringWithUnits(units),
                 y.toStringWithUnits(units));
     }
+
+    public Vector minus(Vector subtrahend) {
+        return new Vector(x.minus(subtrahend.getX()), y.minus(subtrahend.getY()));
+    }
+
+    public Vector plus(Vector addend) {
+        return new Vector(x.plus(addend.getX()), y.plus(addend.getY()));
+    }
 }
