@@ -693,11 +693,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateNotSameSize(UIElement element) {
-        int h = element.getHeight();
-        int w = element.getWidth();
-        if (h == rootElement.getHeight() && w == rootElement.getWidth()) {
-            errors.add(String.format("Element %s has the same size as element %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", rootElement.getQuotedName(), element.getQuotedName(), rootElement.getName(), rootElement.getWidth(), rootElement.getHeight(), w, h), element);
-        }
+        UIElement root = this.rootElement;
+        root.validateNotSameSize(element, this.errors);
     }
 
     private void validateBelowElement(UIElement element, int minMargin, int maxMargin) {

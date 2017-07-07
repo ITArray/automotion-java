@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static net.itarray.automotion.internal.Direction.*;
+import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
 public class UIElement {
     private final String name;
@@ -298,14 +299,32 @@ public class UIElement {
     }
 
     public void validateSameHeight(UIElement element, Errors errors) {
-        if (!hasSameHeightAs(element)) {
-            errors.add(String.format("Element %s has not the same height as element %s. Height of '%s' is %spx. Height of element is %spx", getQuotedName(), element.getQuotedName(), getName(), getHeight(), element.getHeight()), element);
-        }
+        validateSameExtend(DOWN, element, errors);
     }
 
     public void validateSameWidth(UIElement element, Errors errors) {
-        if (!hasSameWidthAs(element)) {
-            errors.add(String.format("Element %s has not the same width as element %s. Width of '%s' is %spx. Width of element is %spx", getQuotedName(), element.getQuotedName(), getName(), getWidth(), element.getWidth()), element);
+        validateSameExtend(RIGHT, element, errors);
+    }
+
+    public void validateSameExtend(Direction direction, UIElement element, Errors errors) {
+        if (!hasEqualExtendAs(direction, element)) {
+            errors.add(
+                    String.format("Element %s has not the same %s as element %s. %s of %s is %spx. %s of element is %spx",
+                            getQuotedName(),
+                            direction.extendName(),
+                            element.getQuotedName(),
+                            capitalize(direction.extendName()),
+                            getQuotedName(),
+                            rectangle.getExtend(direction),
+                            capitalize(direction.extendName()),
+                            element.rectangle.getExtend(direction)),
+                    element);
+        }
+    }
+
+    public void validateNotSameSize(UIElement element, Errors errors) {
+        if (hasSameSizeAs(element)) {
+            errors.add(String.format("Element %s has the same size as element %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", getQuotedName(), element.getQuotedName(), getName(), getWidth(), getHeight(), element.getWidth(), element.getHeight()), element);
         }
     }
 }

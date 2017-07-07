@@ -25,6 +25,11 @@ public enum Direction {
         public String beginName() {
             return "top";
         }
+
+        @Override
+        public String extendName() {
+            return "height";
+        }
     },
     UP {
         @Override
@@ -49,6 +54,11 @@ public enum Direction {
         @Override
         public String beginName() {
             return "bottom";
+        }
+
+        @Override
+        public String extendName() {
+            return "height";
         }
     },
     RIGHT {
@@ -75,6 +85,11 @@ public enum Direction {
         public String beginName() {
             return "left";
         }
+
+        @Override
+        public String extendName() {
+            return "width";
+        }
     },
     LEFT {
         @Override
@@ -100,6 +115,11 @@ public enum Direction {
         public String beginName() {
             return "right";
         }
+
+        @Override
+        public String extendName() {
+            return "width";
+        }
     };
 
     public abstract Direction opposite();
@@ -119,6 +139,8 @@ public enum Direction {
     }
 
     public abstract String beforeName();
+
+    public abstract String extendName();
 
     public abstract boolean beforeOrEqual(int p1, int p2);
 }
