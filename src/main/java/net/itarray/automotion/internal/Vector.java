@@ -1,12 +1,12 @@
 package net.itarray.automotion.internal;
 
 public class Vector {
-    private final int x;
-    private final int y;
+    private final Scalar x;
+    private final Scalar y;
 
     public Vector(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.x = new Scalar(x);
+        this.y = new Scalar(y);
     }
 
     @Override
@@ -15,20 +15,20 @@ public class Vector {
             return false;
         }
         Vector other = (Vector) object;
-        return x == other.x && y == other.y;
+        return x.equals(other.x) && y.equals(other.y);
     }
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(x) * 31 ^ Integer.hashCode(y);
+        return x.hashCode() * 31 ^ y.hashCode();
     }
 
     public int getX() {
-        return x;
+        return x.getValue();
     }
 
     public int getY() {
-        return y;
+        return y.getValue();
     }
 
     @Override
@@ -37,6 +37,9 @@ public class Vector {
     }
 
     public String toStringWithUnits(String units) {
-        return String.format("%d%s x %d%s", x, units, y, units);
+        return String.format(
+                "%s x %s",
+                x.toStringWithUnits(units),
+                y.toStringWithUnits(units));
     }
 }

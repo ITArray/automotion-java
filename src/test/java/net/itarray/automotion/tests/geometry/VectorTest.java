@@ -51,6 +51,8 @@ public class VectorTest {
         assertThat(vector.getY()).isEqualTo(y);
     }
 
-
-
+    @Test
+    public void toStringWithUnitsAppendsTheUnitsToEachCoordinate() {
+        assertThat(vector.toStringWithUnits("px")).isEqualTo("10px x 23px");
+    }
 }
