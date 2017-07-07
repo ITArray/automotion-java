@@ -64,15 +64,15 @@ public class UIElement {
     }
 
     public int getBegin(Direction direction) {
-        return rectangle.getBegin(direction);
+        return rectangle.getBeginOld(direction);
     }
 
     public int getEnd(Direction direction) {
-        return rectangle.getEnd(direction);
+        return rectangle.getEndOld(direction);
     }
 
     public int getExtend(Direction direction) {
-        return rectangle.getExtend(direction);
+        return rectangle.getExtendOld(direction);
     }
 
     public int getX() {
@@ -84,11 +84,11 @@ public class UIElement {
     }
 
     public int getWidth() {
-        return rectangle.getExtend(RIGHT);
+        return rectangle.getExtendOld(RIGHT);
     }
 
     public int getHeight() {
-        return rectangle.getExtend(DOWN);
+        return rectangle.getExtendOld(DOWN);
     }
 
     public int getCornerX() {
@@ -325,9 +325,9 @@ public class UIElement {
                             element.getQuotedName(),
                             capitalize(direction.extendName()),
                             getQuotedName(),
-                            rectangle.getExtend(direction),
+                            rectangle.getExtendOld(direction),
                             capitalize(direction.extendName()),
-                            element.rectangle.getExtend(direction)),
+                            element.rectangle.getExtendOld(direction)),
                     element);
         }
     }

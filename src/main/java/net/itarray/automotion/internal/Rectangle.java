@@ -31,20 +31,32 @@ public class Rectangle {
         return corner.minus(origin);
     }
 
-    public int getBegin(Direction direction) {
-        return direction.begin(this).getValue();
+    public int getBeginOld(Direction direction) {
+        return getBegin(direction).getValue();
     }
 
-    public int getEnd(Direction direction) {
-        return direction.end(this).getValue();
+    public Scalar getBegin(Direction direction) {
+        return direction.begin(this);
     }
 
-    public int getExtend(Direction direction) {
-        return getEnd(direction) - getBegin(direction);
+    public int getEndOld(Direction direction) {
+        return getEnd(direction).getValue();
+    }
+
+    public Scalar getEnd(Direction direction) {
+        return direction.end(this);
+    }
+
+    public int getExtendOld(Direction direction) {
+        return getExtend(direction).getValue();
+    }
+
+    public Scalar getExtend(Direction direction) {
+        return getEnd(direction).minus(getBegin(direction));
     }
 
     public boolean intersects(Direction direction, Rectangle other) {
-        return getBegin(direction) < other.getEnd(direction) && other.getBegin(direction) < getEnd(direction);
+        return getBeginOld(direction) < other.getEndOld(direction) && other.getBeginOld(direction) < getEndOld(direction);
     }
 
     public boolean intersects(Rectangle other) {
@@ -52,7 +64,7 @@ public class Rectangle {
     }
 
     public boolean contains(Direction direction, Rectangle other) {
-        return getBegin(direction) <= other.getBegin(direction) && other.getEnd(direction) <= getEnd(direction);
+        return getBeginOld(direction) <= other.getBeginOld(direction) && other.getEndOld(direction) <= getEndOld(direction);
     }
 
     public boolean contains(Rectangle other) {
