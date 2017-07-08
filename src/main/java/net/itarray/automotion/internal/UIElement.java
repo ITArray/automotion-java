@@ -5,7 +5,6 @@ import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.Group;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.internal.geometry.Vector;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -347,5 +346,33 @@ public class UIElement {
 
     public void validateNotSameSize(UIElement element, Errors errors) {
         validateNotSameExtend(ORIGIN_CORNER, element, errors);
+    }
+
+    public void validateBelowElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
+        int marginBetweenRoot = element.getY() - getCornerY();
+        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
+            errors.add(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
+        }
+    }
+
+    public void validateAboveElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
+        int marginBetweenRoot = getY() - element.getCornerY();
+        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
+            errors.add(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
+        }
+    }
+
+    public void validateRightElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
+        int marginBetweenRoot = element.getX() - getCornerX();
+        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
+            errors.add(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
+        }
+    }
+
+    public void validateLeftElement(UIElement leftElement, int minMargin, int maxMargin, Errors errors) {
+        int marginBetweenRoot = getX() - leftElement.getCornerX();
+        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
+            errors.add(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), leftElement);
+        }
     }
 }

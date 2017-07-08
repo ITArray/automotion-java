@@ -694,36 +694,23 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateNotSameSize(UIElement element) {
-        UIElement root = this.rootElement;
-        root.validateNotSameSize(element, this.errors);
+        rootElement.validateNotSameSize(element, errors);
     }
 
     private void validateBelowElement(UIElement element, int minMargin, int maxMargin) {
-        int marginBetweenRoot = element.getY() - rootElement.getCornerY();
-        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            errors.add(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
-        }
+        rootElement.validateBelowElement(element, minMargin, maxMargin, this.errors);
     }
 
     private void validateAboveElement(UIElement element, int minMargin, int maxMargin) {
-        int marginBetweenRoot = rootElement.getY() - element.getCornerY();
-        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            errors.add(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
-        }
+        rootElement.validateAboveElement(element, minMargin, maxMargin, errors);
     }
 
     private void validateRightElement(UIElement element, int minMargin, int maxMargin) {
-        int marginBetweenRoot = element.getX() - rootElement.getCornerX();
-        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            errors.add(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
-        }
+        rootElement.validateRightElement(element, minMargin, maxMargin, errors);
     }
 
     private void validateLeftElement(UIElement leftElement, int minMargin, int maxMargin) {
-        int marginBetweenRoot = rootElement.getX() - leftElement.getCornerX();
-        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            errors.add(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), leftElement);
-        }
+        rootElement.validateLeftElement(leftElement, minMargin, maxMargin, errors);
     }
 
     private void validateEqualLeftRightOffset(UIElement element) {
