@@ -2,6 +2,7 @@ package net.itarray.automotion.internal;
 
 import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.ExtendGiving;
+import net.itarray.automotion.internal.geometry.Group;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static net.itarray.automotion.internal.geometry.Direction.*;
+import static net.itarray.automotion.internal.geometry.Rectangle.ORIGIN_CORNER;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
 public class UIElement {
@@ -152,8 +154,8 @@ public class UIElement {
         return hasMinExtend(RIGHT, width);
     }
 
-    public boolean hasEqualExtendAs(Direction direction, UIElement other) {
-        return getExtend(direction).equals(other.getExtend(direction));
+    public <V extends Group<V>> boolean hasEqualExtendAs(ExtendGiving<V> direction, UIElement other) {
+        return direction.extend(rectangle).equals(direction.extend(other.rectangle));
     }
 
     public boolean hasSameWidthAs(UIElement other) {
@@ -298,36 +300,7 @@ public class UIElement {
     }
 
     public void validateSameSize(UIElement element, Errors errors) {
-        if (!hasSameSizeAs(element)) {
-            ExtendGiving<Vector> extendGiving = new ExtendGiving<Vector>() {
-                @Override
-                public String extendName() {
-                    return "size";
-                }
-
-                @Override
-                public Vector begin(Rectangle rectangle) {
-                    return rectangle.getOrigin();
-                }
-
-                @Override
-                public Vector end(Rectangle rectangle) {
-                    return rectangle.getCorner();
-                }
-            };
-            String units = "px";
-            errors.add(
-                    String.format("Element %s has not the same %s as element %s. %s of '%s' is %s. %s of element is %s",
-                            getQuotedName(),
-                            extendGiving.extendName(),
-                            element.getQuotedName(),
-                            capitalize(extendGiving.extendName()),
-                            getName(),
-                            extendGiving.extend(rectangle).toStringWithUnits(units),
-                            capitalize(extendGiving.extendName()),
-                            extendGiving.extend(element.rectangle).toStringWithUnits(units)),
-                    element);
-        }
+        validateSameExtend(ORIGIN_CORNER, element, errors);
     }
 
     public void validateSameHeight(UIElement element, Errors errors) {
@@ -338,7 +311,7 @@ public class UIElement {
         validateSameExtend(RIGHT, element, errors);
     }
 
-    public void validateSameExtend(Direction direction, UIElement element, Errors errors) {
+    public <V extends Group<V>> void validateSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
         if (!hasEqualExtendAs(direction, element)) {
             String units = "px";
             errors.add(
@@ -355,9 +328,24 @@ public class UIElement {
         }
     }
 
-    public void validateNotSameSize(UIElement element, Errors errors) {
-        if (hasSameSizeAs(element)) {
-            errors.add(String.format("Element %s has the same size as element %s. Size of '%s' is %spx x %spx. Size of element is %spx x %spx", getQuotedName(), element.getQuotedName(), getName(), getWidth(), getHeight(), element.getWidth(), element.getHeight()), element);
+    public <V extends Group<V>> void validateNotSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
+        if (hasEqualExtendAs(direction, element)) {
+            String units = "px";
+            errors.add(
+                    String.format("Element %s has the same %s as element %s. %s of %s is %s. %s of element is %s",
+                            getQuotedName(),
+                            direction.extendName(),
+                            element.getQuotedName(),
+                            capitalize(direction.extendName()),
+                            getQuotedName(),
+                            direction.extend(rectangle).toStringWithUnits(units),
+                            capitalize(direction.extendName()),
+                            direction.extend(element.rectangle).toStringWithUnits(units)),
+                    element);
         }
+    }
+
+    public void validateNotSameSize(UIElement element, Errors errors) {
+        validateNotSameExtend(ORIGIN_CORNER, element, errors);
     }
 }

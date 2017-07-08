@@ -8,6 +8,25 @@ public class Rectangle {
     private final Vector origin;
     private final Vector corner;
 
+    public static final ExtendGiving<Vector> ORIGIN_CORNER = new ExtendGiving<Vector>() {
+        @Override
+        public String extendName() {
+            return "size";
+        }
+
+        @Override
+        public Vector begin(Rectangle rectangle) {
+            return rectangle.getOrigin();
+        }
+
+        @Override
+        public Vector end(Rectangle rectangle) {
+            return rectangle.getCorner();
+        }
+    };
+
+
+
     public static Rectangle rectangle(WebElement webElement) {
         Point location = webElement.getLocation();
         Dimension size = webElement.getSize();
