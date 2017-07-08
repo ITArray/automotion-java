@@ -27,25 +27,9 @@ public class Rectangle {
         return corner;
     }
 
-    public Vector getExtend() {
-        return corner.minus(origin);
-    }
-
-    public Scalar getBegin(Direction direction) {
-        return direction.begin(this);
-    }
-
-    public Scalar getEnd(Direction direction) {
-        return direction.end(this);
-    }
-
-    public Scalar getExtend(Direction direction) {
-        return getEnd(direction).minus(getBegin(direction));
-    }
-
     public boolean intersects(Direction direction, Rectangle other) {
-        return getBegin(direction).isLessThan(other.getEnd(direction))
-                && other.getBegin(direction).isLessThan(getEnd(direction));
+        return direction.begin(this).isLessThan(direction.end(other))
+                && direction.begin(other).isLessThan(direction.end(this));
     }
 
     public boolean intersects(Rectangle other) {
@@ -53,8 +37,8 @@ public class Rectangle {
     }
 
     public boolean contains(Direction direction, Rectangle other) {
-        return getBegin(direction).isLessOrEqualThan(other.getBegin(direction))
-                && other.getEnd(direction).isLessOrEqualThan(getEnd(direction));
+        return direction.begin(this).isLessOrEqualThan(direction.begin(other))
+                && direction.end(other).isLessOrEqualThan(direction.end(this));
     }
 
     public boolean contains(Rectangle other) {

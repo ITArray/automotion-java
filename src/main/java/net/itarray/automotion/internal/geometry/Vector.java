@@ -1,6 +1,6 @@
 package net.itarray.automotion.internal.geometry;
 
-public class Vector {
+public class Vector implements Group<Vector> {
     private final Scalar x;
     private final Scalar y;
 

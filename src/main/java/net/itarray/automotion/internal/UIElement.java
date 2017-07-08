@@ -1,7 +1,9 @@
 package net.itarray.automotion.internal;
 
 import net.itarray.automotion.internal.geometry.Direction;
+import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.Rectangle;
+import net.itarray.automotion.internal.geometry.Vector;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -66,15 +68,15 @@ public class UIElement {
     }
 
     public int getBegin(Direction direction) {
-        return rectangle.getBegin(direction).getValue();
+        return direction.begin(rectangle).getValue();
     }
 
     public int getEnd(Direction direction) {
-        return rectangle.getEnd(direction).getValue();
+        return direction.end(rectangle).getValue();
     }
 
     public int getExtend(Direction direction) {
-        return rectangle.getExtend(direction).getValue();
+        return direction.extend(rectangle).getValue();
     }
 
     public int getX() {
@@ -86,11 +88,11 @@ public class UIElement {
     }
 
     public int getWidth() {
-        return rectangle.getExtend(RIGHT).getValue();
+        return RIGHT.extend(rectangle).getValue();
     }
 
     public int getHeight() {
-        return rectangle.getExtend(DOWN).getValue();
+        return DOWN.extend(rectangle).getValue();
     }
 
     public int getCornerX() {
@@ -296,16 +298,33 @@ public class UIElement {
 
     public void validateSameSize(UIElement element, Errors errors) {
         if (!hasSameSizeAs(element)) {
+            ExtendGiving<Vector> extendGiving = new ExtendGiving<Vector>() {
+                @Override
+                public String extendName() {
+                    return "size";
+                }
+
+                @Override
+                public Vector begin(Rectangle rectangle) {
+                    return rectangle.getOrigin();
+                }
+
+                @Override
+                public Vector end(Rectangle rectangle) {
+                    return rectangle.getCorner();
+                }
+            };
+            String units = "px";
             errors.add(
                     String.format("Element %s has not the same %s as element %s. %s of '%s' is %s. %s of element is %s",
                             getQuotedName(),
-                            "size",
+                            extendGiving.extendName(),
                             element.getQuotedName(),
-                            capitalize("size"),
+                            capitalize(extendGiving.extendName()),
                             getName(),
-                            rectangle.getExtend().toStringWithUnits("px"),
-                            capitalize("size"),
-                            element.rectangle.getExtend().toStringWithUnits("px")),
+                            extendGiving.extend(rectangle).toStringWithUnits(units),
+                            capitalize(extendGiving.extendName()),
+                            extendGiving.extend(element.rectangle).toStringWithUnits(units)),
                     element);
         }
     }
@@ -320,16 +339,17 @@ public class UIElement {
 
     public void validateSameExtend(Direction direction, UIElement element, Errors errors) {
         if (!hasEqualExtendAs(direction, element)) {
+            String units = "px";
             errors.add(
-                    String.format("Element %s has not the same %s as element %s. %s of %s is %spx. %s of element is %spx",
+                    String.format("Element %s has not the same %s as element %s. %s of %s is %s. %s of element is %s",
                             getQuotedName(),
                             direction.extendName(),
                             element.getQuotedName(),
                             capitalize(direction.extendName()),
                             getQuotedName(),
-                            rectangle.getExtend(direction).getValue(),
+                            direction.extend(rectangle).toStringWithUnits(units),
                             capitalize(direction.extendName()),
-                            element.rectangle.getExtend(direction).getValue()),
+                            direction.extend(element.rectangle).toStringWithUnits(units)),
                     element);
         }
     }

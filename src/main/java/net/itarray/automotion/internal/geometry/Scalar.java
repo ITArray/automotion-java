@@ -1,6 +1,6 @@
 package net.itarray.automotion.internal.geometry;
 
-public class Scalar {
+public class Scalar implements Group<Scalar> {
     private final int value;
 
     public Scalar(int value) {

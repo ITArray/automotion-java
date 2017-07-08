@@ -1,6 +1,6 @@
 package net.itarray.automotion.internal.geometry;
 
-public enum Direction {
+public enum Direction implements ExtendGiving<Scalar> {
     DOWN{
         @Override
         public boolean beforeOrEqual(Scalar p1, Scalar p2) {
@@ -17,8 +17,8 @@ public enum Direction {
         }
 
         @Override
-        public Scalar begin(Rectangle element) {
-            return element.getOrigin().getY();
+        public Scalar begin(Rectangle rectangle) {
+            return rectangle.getOrigin().getY();
         }
 
         @Override
@@ -47,8 +47,8 @@ public enum Direction {
         }
 
         @Override
-        public Scalar begin(Rectangle element) {
-            return element.getCorner().getY();
+        public Scalar begin(Rectangle rectangle) {
+            return rectangle.getCorner().getY();
         }
 
         @Override
@@ -77,8 +77,8 @@ public enum Direction {
         }
 
         @Override
-        public Scalar begin(Rectangle element) {
-            return element.getOrigin().getX();
+        public Scalar begin(Rectangle rectangle) {
+            return rectangle.getOrigin().getX();
         }
 
         @Override
@@ -107,8 +107,8 @@ public enum Direction {
         }
 
         @Override
-        public Scalar begin(Rectangle element) {
-            return element.getCorner().getX();
+        public Scalar begin(Rectangle rectangle) {
+            return rectangle.getCorner().getX();
         }
 
         @Override
@@ -124,7 +124,7 @@ public enum Direction {
 
     public abstract Direction opposite();
 
-    public abstract Scalar begin(Rectangle element);
+    public abstract Scalar begin(Rectangle rectangle);
 
     public Scalar end(Rectangle rectangle) {
         return opposite().begin(rectangle);
