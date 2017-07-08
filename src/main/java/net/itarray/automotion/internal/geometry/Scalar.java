@@ -1,4 +1,4 @@
-package net.itarray.automotion.internal;
+package net.itarray.automotion.internal.geometry;
 
 public class Scalar {
     private final int value;

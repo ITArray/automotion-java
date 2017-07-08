@@ -1,4 +1,4 @@
-package net.itarray.automotion.internal;
+package net.itarray.automotion.internal.geometry;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;

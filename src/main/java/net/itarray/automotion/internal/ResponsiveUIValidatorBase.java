@@ -1,5 +1,6 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.tools.helpers.Helper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -35,7 +36,7 @@ public abstract class ResponsiveUIValidatorBase {
         this.errors = new Errors();
         this.zoomFactor = snapshot.getZoomFactor();
         Dimension dimension = this.driver.retrievePageSize();
-        page = UIElement.asElement(new Rectangle(0, 0, dimension.getWidth(), dimension.getHeight()), "page");
+        page = UIElement.asElement(new net.itarray.automotion.internal.geometry.Rectangle(0, 0, dimension.getWidth(), dimension.getHeight()), "page");
         this.startTime = System.currentTimeMillis();
     }
 

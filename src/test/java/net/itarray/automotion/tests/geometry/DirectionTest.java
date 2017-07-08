@@ -1,6 +1,6 @@
 package net.itarray.automotion.tests.geometry;
 
-import net.itarray.automotion.internal.Direction;
+import net.itarray.automotion.internal.geometry.Direction;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

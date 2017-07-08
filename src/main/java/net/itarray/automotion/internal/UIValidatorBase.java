@@ -1,6 +1,7 @@
 package net.itarray.automotion.internal;
 
 import http.helpers.TextFinder;
+import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.validation.Units;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;

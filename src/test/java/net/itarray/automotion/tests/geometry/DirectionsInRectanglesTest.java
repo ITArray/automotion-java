@@ -1,12 +1,10 @@
 package net.itarray.automotion.tests.geometry;
 
-import net.itarray.automotion.internal.Direction;
 import net.itarray.automotion.internal.UIElement;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebElement;
 
-import static net.itarray.automotion.internal.Direction.*;
+import static net.itarray.automotion.internal.geometry.Direction.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
 

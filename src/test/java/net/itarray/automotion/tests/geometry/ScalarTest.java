@@ -1,6 +1,6 @@
 package net.itarray.automotion.tests.geometry;
 
-import net.itarray.automotion.internal.Scalar;
+import net.itarray.automotion.internal.geometry.Scalar;
 import org.junit.Before;
 import org.junit.Test;
 

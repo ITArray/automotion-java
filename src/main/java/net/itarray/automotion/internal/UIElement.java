@@ -1,5 +1,7 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Direction;
+import net.itarray.automotion.internal.geometry.Rectangle;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static net.itarray.automotion.internal.Direction.*;
+import static net.itarray.automotion.internal.geometry.Direction.*;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
 public class UIElement {
