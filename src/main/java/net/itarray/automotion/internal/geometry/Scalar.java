@@ -55,6 +55,10 @@ public class Scalar implements Group<Scalar> {
     }
 
     public boolean isLessOrEqualThan(Scalar other) {
-        return value <= other.value;
+        return isLessOrEqualThan(other.value);
+    }
+
+    public boolean isLessOrEqualThan(int otherValue) {
+        return this.value <= otherValue;
     }
 }

@@ -3,6 +3,7 @@ package net.itarray.automotion.internal;
 import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.Rectangle;
+import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -67,16 +68,16 @@ public class UIElement {
                 String.valueOf(size.getHeight()));
     }
 
-    public int getBegin(Direction direction) {
-        return direction.begin(rectangle).getValue();
+    public Scalar getBegin(Direction direction) {
+        return direction.begin(rectangle);
     }
 
-    public int getEnd(Direction direction) {
-        return direction.end(rectangle).getValue();
+    public Scalar getEnd(Direction direction) {
+        return direction.end(rectangle);
     }
 
-    public int getExtend(Direction direction) {
-        return direction.extend(rectangle).getValue();
+    public Scalar getExtend(Direction direction) {
+        return direction.extend(rectangle);
     }
 
     public int getX() {
@@ -104,11 +105,11 @@ public class UIElement {
     }
 
     public boolean hasEqualBegin(Direction direction, UIElement other) {
-        return getBegin(direction) == other.getBegin(direction);
+        return getBegin(direction).equals(other.getBegin(direction));
     }
 
     public boolean hasEqualEnd(Direction direction, UIElement other) {
-        return getEnd(direction) == other.getEnd(direction);
+        return getEnd(direction).equals(other.getEnd(direction));
     }
 
     public boolean hasEqualLeftOffsetAs(UIElement other) {
@@ -128,11 +129,11 @@ public class UIElement {
     }
 
     public boolean hasMaxExtend(Direction direction, int extend) {
-        return getExtend(direction) <= extend;
+        return getExtend(direction).isLessOrEqualThan(extend);
     }
 
     public boolean hasMinExtend(Direction direction, int extend) {
-        return extend <= getExtend(direction);
+        return new Scalar(extend).isLessOrEqualThan(getExtend(direction));
     }
 
     public boolean hasMaxHeight(int height) {
@@ -152,7 +153,7 @@ public class UIElement {
     }
 
     public boolean hasEqualExtendAs(Direction direction, UIElement other) {
-        return getExtend(direction) == other.getExtend(direction);
+        return getExtend(direction).equals(other.getExtend(direction));
     }
 
     public boolean hasSameWidthAs(UIElement other) {
@@ -172,19 +173,19 @@ public class UIElement {
     }
 
     private int getTopOffset(UIElement page) {
-        return getEnd(UP) - page.getEnd(UP);
+        return getEnd(UP).minus(page.getEnd(UP)).getValue();
     }
 
     public int getBottomOffset(UIElement page) {
-        return page.getEnd(DOWN) - getEnd(DOWN);
+        return page.getEnd(DOWN).minus(getEnd(DOWN)).getValue();
     }
 
     private int getLeftOffset(UIElement page) {
-        return getEnd(LEFT) - page.getEnd(LEFT);
+        return getEnd(LEFT).minus(page.getEnd(LEFT)).getValue();
     }
 
     public int getRightOffset(UIElement page) {
-        return page.getEnd(RIGHT) - getEnd(RIGHT);
+        return page.getEnd(RIGHT).minus(getEnd(RIGHT)).getValue();
     }
 
     public boolean hasEqualTopBottomOffset(UIElement page) {

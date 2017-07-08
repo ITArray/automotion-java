@@ -1,6 +1,7 @@
 package net.itarray.automotion.tests.geometry;
 
 import net.itarray.automotion.internal.UIElement;
+import net.itarray.automotion.internal.geometry.Scalar;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,10 +12,10 @@ import static rectangles.DummyWebElement.createElement;
 public class DirectionsInRectanglesTest {
 
     private UIElement rectangle;
-    private int originX = 7;
-    private int cornerX = 42;
-    private int originY = 13;
-    private int cornerY = 117;
+    private Scalar originX = new Scalar(7);
+    private Scalar cornerX = new Scalar(42);
+    private Scalar originY = new Scalar(13);
+    private Scalar cornerY = new Scalar(117);
 
     @Before
     public void setUp() {
@@ -63,22 +64,22 @@ public class DirectionsInRectanglesTest {
 
     @Test
     public void rightExtendIsWidth() {
-        assertThat(rectangle.getExtend(RIGHT)).isEqualTo(35);
+        assertThat(rectangle.getExtend(RIGHT)).isEqualTo(new Scalar(35));
     }
 
     @Test
     public void leftExtendIsNegativeWidth() {
-        assertThat(rectangle.getExtend(LEFT)).isEqualTo(-35);
+        assertThat(rectangle.getExtend(LEFT)).isEqualTo(new Scalar(-35));
     }
 
     @Test
     public void downExtendIsHeight() {
-        assertThat(rectangle.getExtend(DOWN)).isEqualTo(104);
+        assertThat(rectangle.getExtend(DOWN)).isEqualTo(new Scalar(104));
     }
 
     @Test
     public void upExtendIsNegativeHeight() {
-        assertThat(rectangle.getExtend(UP)).isEqualTo(-104);
+        assertThat(rectangle.getExtend(UP)).isEqualTo(new Scalar(-104));
     }
 
 }

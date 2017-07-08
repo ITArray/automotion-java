@@ -135,9 +135,9 @@ public abstract class ResponsiveUIValidatorBase {
             return i;
         } else {
             if (horizontal) {
-                return (i * page.getExtend(Direction.RIGHT)) / 100;
+                return (i * page.getExtend(Direction.RIGHT).getValue()) / 100;
             } else {
-                return (i * page.getExtend(Direction.DOWN)) / 100;
+                return (i * page.getExtend(Direction.DOWN).getValue()) / 100;
             }
         }
     }
