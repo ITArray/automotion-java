@@ -278,27 +278,27 @@ public class UIElement {
     }
 
     public void validateLeftElement(UIElement leftElement, Errors errors) {
-        validateBefore(RIGHT, leftElement, errors);
+        validateSuccessor(LEFT, leftElement, errors);
     }
 
     public void validateRightElement(UIElement rightElement, Errors errors) {
-        validateBefore(LEFT, rightElement, errors);
+        validateSuccessor(RIGHT, rightElement, errors);
     }
 
     public void validateAboveElement(UIElement aboveElement, Errors errors) {
-        validateBefore(DOWN, aboveElement, errors);
+        validateSuccessor(UP, aboveElement, errors);
     }
 
     public void validateBelowElement(UIElement belowElement, Errors errors) {
-        validateBefore(UP, belowElement, errors);
+        validateSuccessor(DOWN, belowElement, errors);
     }
 
-    public void validateBefore(Direction direction, UIElement leftElement, Errors errors) {
-        if (!leftElement.hasSuccessor(direction, this)) {
+    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Errors errors) {
+        if (!hasSuccessor(direction, toBeValidatedSuccessor)) {
             errors.add(
                     String.format("%s element aligned not properly",
-                            direction.beforeName()),
-                    leftElement);
+                            direction.afterName()),
+                    toBeValidatedSuccessor);
         }
     }
 
@@ -353,30 +353,31 @@ public class UIElement {
     }
 
     public void validateBelowElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        Scalar signedDistance = signedDistanceToSuccessor(DOWN, element);
-        if (signedDistance.isLessThan(minMargin) || signedDistance.isGreaterThan(maxMargin)) {
-            errors.add(String.format("%s element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %s", "Below", minMargin, maxMargin, signedDistance.toStringWithUnits("px")), element);
-        }
+        validateSuccessor(DOWN, element, minMargin, maxMargin, errors);
     }
 
     public void validateAboveElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        Scalar signedDistance = signedDistanceToSuccessor(UP, element);
-        if (signedDistance.isLessThan(minMargin) || signedDistance.isGreaterThan(maxMargin)) {
-            errors.add(String.format("%s element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %s", "Above", minMargin, maxMargin, signedDistance.toStringWithUnits("px")), element);
-        }
+        validateSuccessor(UP, element, minMargin, maxMargin, errors);
     }
 
     public void validateRightElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        Scalar signedDistance = signedDistanceToSuccessor(RIGHT, element);
-        if (signedDistance.isLessThan(minMargin) || signedDistance.isGreaterThan(maxMargin)) {
-            errors.add(String.format("%s element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %s", "Right", minMargin, maxMargin, signedDistance.toStringWithUnits("px")), element);
-        }
+        validateSuccessor(RIGHT, element, minMargin, maxMargin, errors);
     }
 
     public void validateLeftElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        Scalar signedDistance = signedDistanceToSuccessor(LEFT, element);
+        validateSuccessor(LEFT, element, minMargin, maxMargin, errors);
+    }
+
+    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, int minMargin, int maxMargin, Errors errors) {
+        Scalar signedDistance = signedDistanceToSuccessor(direction, toBeValidatedSuccessor);
         if (signedDistance.isLessThan(minMargin) || signedDistance.isGreaterThan(maxMargin)) {
-            errors.add(String.format("%s element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %s", "Left", minMargin, maxMargin, signedDistance.toStringWithUnits("px")), element);
+            errors.add(
+                    String.format("%s element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %s",
+                            direction.afterName(),
+                            minMargin,
+                            maxMargin,
+                            signedDistance.toStringWithUnits("px")),
+                    toBeValidatedSuccessor);
         }
     }
 }

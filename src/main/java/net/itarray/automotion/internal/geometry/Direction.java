@@ -140,6 +140,10 @@ public enum Direction implements ExtendGiving<Scalar> {
 
     public abstract String beforeName();
 
+    public String afterName() {
+        return opposite().beforeName();
+    }
+
     public abstract String extendName();
 
     public abstract boolean beforeOrEqual(Scalar p1, Scalar p2);
