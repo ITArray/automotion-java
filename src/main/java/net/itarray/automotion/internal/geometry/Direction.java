@@ -143,4 +143,12 @@ public enum Direction implements ExtendGiving<Scalar> {
     public abstract String extendName();
 
     public abstract boolean beforeOrEqual(Scalar p1, Scalar p2);
+
+    public Scalar signedDistance(Scalar p1, Scalar p2) {
+        return beforeOrEqual(p1, p2) ? distance(p1, p2) : distance(p1, p2).negated();
+    }
+
+    public Scalar distance(Scalar p1, Scalar p2) {
+        return p2.minus(p1).abs();
+    }
 }

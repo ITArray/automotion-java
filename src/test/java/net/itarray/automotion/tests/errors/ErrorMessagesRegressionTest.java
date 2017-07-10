@@ -151,11 +151,27 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
+    public void withLeftElementAndMargin() {
+        createElementValidator().withLeftElement(createElement(105, 205, 505, 405), 4, 6);
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Left element aligned not properly. Expected margin should be between 4px and 6px. Actual margin is -405px");
+    }
+
+    @Test
     public void withRightElement() {
         createElementValidator().withRightElement(createElement(105, 205, 505, 405));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Right element aligned not properly");
+    }
+
+    @Test
+    public void withRightElementAndMargin() {
+        createElementValidator().withRightElement(createElement(105, 205, 505, 405), 4, 6);
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Right element aligned not properly. Expected margin should be between 4px and 6px. Actual margin is -395px");
     }
 
     @Test
@@ -167,11 +183,27 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
+    public void withTopElementAndMargin() {
+        createElementValidator().withTopElement(createElement(105, 205, 505, 405), 4, 6);
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Above element aligned not properly. Expected margin should be between 4px and 6px. Actual margin is -205px");
+    }
+
+    @Test
     public void withBottomElement() {
         createElementValidator().withBottomElement(createElement(105, 205, 505, 405));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Below element aligned not properly");
+    }
+
+    @Test
+    public void withBottomElementAndMargin() {
+        createElementValidator().withBottomElement(createElement(105, 205, 505, 405), 4, 6);
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Below element aligned not properly. Expected margin should be between 4px and 6px. Actual margin is -195px");
     }
 
     @Test

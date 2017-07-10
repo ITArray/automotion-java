@@ -51,7 +51,11 @@ public class Scalar implements Group<Scalar>, Comparable<Scalar> {
     }
 
     public boolean isLessThan(Scalar other) {
-        return value < other.value;
+        return isLessThan(other.value);
+    }
+
+    public boolean isLessThan(int otherValue) {
+        return value < otherValue;
     }
 
     public boolean isLessOrEqualThan(Scalar other) {
@@ -62,8 +66,32 @@ public class Scalar implements Group<Scalar>, Comparable<Scalar> {
         return this.value <= otherValue;
     }
 
+    public boolean isGreaterOrEqualThan(Scalar other) {
+        return isGreaterOrEqualThan(other.value);
+    }
+
+    public boolean isGreaterOrEqualThan(int otherValue) {
+        return value >= otherValue;
+    }
+
+    public boolean isGreaterThan(Scalar other) {
+        return isGreaterThan(other.value);
+    }
+
+    public boolean isGreaterThan(int otherValue) {
+        return value > otherValue;
+    }
+
     @Override
     public int compareTo(Scalar other) {
         return minus(other).getValue();
+    }
+
+    public Scalar negated() {
+        return new Scalar(-value);
+    }
+
+    public Scalar abs() {
+        return new Scalar(value >= 0 ? value : -value);
     }
 }

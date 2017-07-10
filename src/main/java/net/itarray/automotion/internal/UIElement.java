@@ -198,7 +198,11 @@ public class UIElement {
     }
 
     public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
-        return direction.beforeOrEqual(direction.end(rectangle), direction.begin(possibleSuccessor.rectangle));
+        return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualThan(0);
+    }
+
+    public Scalar signedDistanceToSuccessor(Direction direction, UIElement successor) {
+        return direction.signedDistance(direction.end(rectangle), direction.begin(successor.rectangle));
     }
 
     public  boolean hasRightElement(UIElement rightElement) {
@@ -349,30 +353,30 @@ public class UIElement {
     }
 
     public void validateBelowElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        int marginBetweenRoot = element.getY() - getCornerY();
-        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            errors.add(String.format("Below element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
+        Scalar signedDistance = signedDistanceToSuccessor(DOWN, element);
+        if (signedDistance.isLessThan(minMargin) || signedDistance.isGreaterThan(maxMargin)) {
+            errors.add(String.format("%s element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %s", "Below", minMargin, maxMargin, signedDistance.toStringWithUnits("px")), element);
         }
     }
 
     public void validateAboveElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        int marginBetweenRoot = getY() - element.getCornerY();
-        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            errors.add(String.format("Above element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
+        Scalar signedDistance = signedDistanceToSuccessor(UP, element);
+        if (signedDistance.isLessThan(minMargin) || signedDistance.isGreaterThan(maxMargin)) {
+            errors.add(String.format("%s element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %s", "Above", minMargin, maxMargin, signedDistance.toStringWithUnits("px")), element);
         }
     }
 
     public void validateRightElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        int marginBetweenRoot = element.getX() - getCornerX();
-        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            errors.add(String.format("Right element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), element);
+        Scalar signedDistance = signedDistanceToSuccessor(RIGHT, element);
+        if (signedDistance.isLessThan(minMargin) || signedDistance.isGreaterThan(maxMargin)) {
+            errors.add(String.format("%s element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %s", "Right", minMargin, maxMargin, signedDistance.toStringWithUnits("px")), element);
         }
     }
 
-    public void validateLeftElement(UIElement leftElement, int minMargin, int maxMargin, Errors errors) {
-        int marginBetweenRoot = getX() - leftElement.getCornerX();
-        if (marginBetweenRoot < minMargin || marginBetweenRoot > maxMargin) {
-            errors.add(String.format("Left element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %spx", minMargin, maxMargin, marginBetweenRoot), leftElement);
+    public void validateLeftElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
+        Scalar signedDistance = signedDistanceToSuccessor(LEFT, element);
+        if (signedDistance.isLessThan(minMargin) || signedDistance.isGreaterThan(maxMargin)) {
+            errors.add(String.format("%s element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %s", "Left", minMargin, maxMargin, signedDistance.toStringWithUnits("px")), element);
         }
     }
 }

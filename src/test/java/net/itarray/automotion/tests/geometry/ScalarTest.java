@@ -68,6 +68,18 @@ public class ScalarTest {
     }
 
     @Test
+    public void negatedReturnsAScalarWithValueEqualToNegatedValue() {
+        assertThat(scalar.negated()).isEqualTo(new Scalar(-value));
+    }
+
+    @Test
+    public void absReturnsAScalarWithValueEqualToAbosulteValue() {
+        assertThat(scalar.abs()).isEqualTo(new Scalar(value));
+        assertThat(scalar.negated().abs()).isEqualTo(new Scalar(value));
+        assertThat(new Scalar(0).abs()).isEqualTo(new Scalar(0));
+    }
+
+    @Test
     public void isCompareToWorks() {
         assertThat(scalar.compareTo(new Scalar(value-1))).isGreaterThan(0);
         assertThat(scalar.compareTo(new Scalar(value))).isEqualTo(0);
@@ -82,9 +94,23 @@ public class ScalarTest {
     }
 
     @Test
+    public void isGreaterOrEqualThanWorks() {
+        assertThat(scalar.isGreaterOrEqualThan(new Scalar(value-1))).isTrue();
+        assertThat(scalar.isGreaterOrEqualThan(new Scalar(value))).isTrue();
+        assertThat(scalar.isGreaterOrEqualThan(new Scalar(value+1))).isFalse();
+    }
+
+    @Test
     public void isLessThanWorks() {
         assertThat(scalar.isLessThan(new Scalar(value-1))).isFalse();
         assertThat(scalar.isLessThan(new Scalar(value))).isFalse();
         assertThat(scalar.isLessThan(new Scalar(value+1))).isTrue();
+    }
+
+    @Test
+    public void isGreaterThanWorks() {
+        assertThat(scalar.isGreaterThan(new Scalar(value-1))).isTrue();
+        assertThat(scalar.isGreaterThan(new Scalar(value))).isFalse();
+        assertThat(scalar.isGreaterThan(new Scalar(value+1))).isFalse();
     }
 }
