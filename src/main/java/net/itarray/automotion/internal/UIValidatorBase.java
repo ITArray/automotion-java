@@ -169,7 +169,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase notOverlapWith(WebElement element, String readableName) {
-        validateNotOverlappingWithElements(asElement(element, readableName));
+        rootElement.validateNotOverlappingWithElement(asElement(element, readableName), errors);
         return this;
     }
 
@@ -182,7 +182,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase overlapWith(WebElement element, String readableName) {
-        validateOverlappingWithElements(asElement(element, readableName));
+        rootElement.validateOverlappingWithElement(asElement(element, readableName), errors);
         return this;
     }
 
@@ -195,7 +195,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase notOverlapWith(List<WebElement> elements) {
         for (WebElement element : elements) {
-            validateNotOverlappingWithElements(asElement(element));
+            rootElement.validateNotOverlappingWithElement(asElement(element), errors);
         }
         return this;
     }
@@ -621,18 +621,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     public UIValidatorBase insideOf(WebElement containerElement, String readableContainerName, Padding padding) {
         validateInsideOfContainer(asElement(containerElement, readableContainerName), padding);
         return this;
-    }
-
-    private void validateNotOverlappingWithElements(UIElement element) {
-        if (rootElement.overlaps(element)) {
-            errors.add(String.format("Element '%s' is overlapped with element '%s' but should not", rootElement.getName(), element.getName()), element);
-        }
-    }
-
-    private void validateOverlappingWithElements(UIElement element) {
-        if (!rootElement.overlaps(element)) {
-            errors.add(String.format("Element '%s' is not overlapped with element '%s' but should be", rootElement.getName(), element.getName()), element);
-        }
     }
 
     private void validateMaxOffset(int top, int right, int bottom, int left) {

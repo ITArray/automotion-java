@@ -380,4 +380,24 @@ public class UIElement {
                     toBeValidatedSuccessor);
         }
     }
+
+    public void validateOverlappingWithElement(UIElement element, Errors errors) {
+        if (!overlaps(element)) {
+            errors.add(
+                    String.format("Element %s is not overlapped with element %s but should be",
+                            getQuotedName(),
+                            element.getQuotedName()),
+                    element);
+        }
+    }
+
+    public void validateNotOverlappingWithElement(UIElement element, Errors errors) {
+        if (overlaps(element)) {
+            errors.add(
+                    String.format("Element %s is overlapped with element %s but should not",
+                            getQuotedName(),
+                            element.getQuotedName()),
+                    element);
+        }
+    }
 }
