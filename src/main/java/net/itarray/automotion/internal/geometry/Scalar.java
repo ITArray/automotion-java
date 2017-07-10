@@ -1,6 +1,6 @@
 package net.itarray.automotion.internal.geometry;
 
-public class Scalar implements Group<Scalar> {
+public class Scalar implements Group<Scalar>, Comparable<Scalar> {
     private final int value;
 
     public Scalar(int value) {
@@ -60,5 +60,10 @@ public class Scalar implements Group<Scalar> {
 
     public boolean isLessOrEqualThan(int otherValue) {
         return this.value <= otherValue;
+    }
+
+    @Override
+    public int compareTo(Scalar other) {
+        return minus(other).getValue();
     }
 }

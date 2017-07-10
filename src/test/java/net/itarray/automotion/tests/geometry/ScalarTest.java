@@ -68,6 +68,13 @@ public class ScalarTest {
     }
 
     @Test
+    public void isCompareToWorks() {
+        assertThat(scalar.compareTo(new Scalar(value-1))).isGreaterThan(0);
+        assertThat(scalar.compareTo(new Scalar(value))).isEqualTo(0);
+        assertThat(scalar.compareTo(new Scalar(value+1))).isLessThan(0);
+    }
+
+    @Test
     public void isLessOrEqualThanWorks() {
         assertThat(scalar.isLessOrEqualThan(new Scalar(value-1))).isFalse();
         assertThat(scalar.isLessOrEqualThan(new Scalar(value))).isTrue();
