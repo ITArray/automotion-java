@@ -269,4 +269,29 @@ public class ErrorMessagesRegressionTest {
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has the same size as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]'. Size of 'under test' is 400px x 200px. Size of element is 400px x 200px");
     }
+
+    @Test
+    public void notOverlapWith() {
+        createElementValidator().notOverlapWith(createElement(100, 200, 500, 400), "specifying");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' is overlapped with element 'specifying' but should not");
+    }
+
+    @Test
+    public void notOverlapWithWithList() {
+        createElementValidator().notOverlapWith(singletonList(createElement(100, 200, 500, 400)));
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' is overlapped with element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' but should not");
+    }
+
+    @Test
+    public void overlapWith() {
+        createElementValidator().overlapWith(createElement(1100, 1200, 500, 400), "specifying");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' is not overlapped with element 'specifying' but should be");
+    }
+
 }
