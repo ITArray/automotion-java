@@ -646,7 +646,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
             addError(String.format("Expected min top offset of element  '%s' is: %spx. Actual top offset is: %spx", rootElement.getName(), top, rootElement.getY()));
         }
         if (rootElement.getRightOffset(page) < right) {
-            addError(String.format("Expected min top offset of element  '%s' is: %spx. Actual right offset is: %spx", rootElement.getName(), right, rootElement.getRightOffset(page)));
+            addError(String.format("Expected min right offset of element  '%s' is: %spx. Actual right offset is: %spx", rootElement.getName(), right, rootElement.getRightOffset(page)));
         }
         if (rootElement.getBottomOffset(page) < bottom) {
             addError(String.format("Expected min bottom offset of element  '%s' is: %spx. Actual bottom offset is: %spx", rootElement.getName(), bottom, rootElement.getBottomOffset(page)));

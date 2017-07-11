@@ -7,7 +7,9 @@ import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import rectangles.DummyDriverFacade;
 
@@ -31,7 +33,9 @@ public class ErrorMessagesRegressionTest {
     }
 
     public UIElementValidator createElementValidator() {
-        ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(new DummyDriverFacade());
+        DummyDriverFacade driverFacade = new DummyDriverFacade();
+        driverFacade.setPageSize(new Dimension(2000, 1000));
+        ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driverFacade);
         UISnapshot snapshot = uiValidator.snapshot();
         UIElementValidator result = snapshot.findElement(this.element, elementName);
         base = (ResponsiveUIValidatorBase) result;
@@ -294,4 +298,67 @@ public class ErrorMessagesRegressionTest {
                 .isEqualTo("Element 'under test' is not overlapped with element 'specifying' but should be");
     }
 
+    @Test
+    public void maxOffsetTop() {
+        createElementValidator().maxOffset(200-10,1500,600,100);
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Expected max top offset of element 'under test' is: 190px. Actual top offset is: 200px");
+    }
+
+    @Test
+    public void maxOffsetRight() {
+        createElementValidator().maxOffset(200,1500-10,600,100);
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Expected max right offset of element  'under test' is: 1490px. Actual right offset is: 1500px");
+    }
+
+    @Test
+    public void maxOffsetBottom() {
+        createElementValidator().maxOffset(200,1500,600-10,100);
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Expected max bottom offset of element  'under test' is: 590px. Actual bottom offset is: 600px");
+    }
+
+    @Test
+    public void maxOffsetLeft() {
+        createElementValidator().maxOffset(200,1500,600,100-10);
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Expected max left offset of element  'under test' is: 90px. Actual left offset is: 100px");
+    }
+
+    @Test
+    public void minOffsetTop() {
+        createElementValidator().minOffset(200+10,1500,600,100);
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Expected min top offset of element  'under test' is: 210px. Actual top offset is: 200px");
+    }
+
+    @Test
+    public void minOffsetRight() {
+        createElementValidator().minOffset(200,1500+10,600,100);
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Expected min right offset of element  'under test' is: 1510px. Actual right offset is: 1500px");
+    }
+
+    @Test
+    public void minOffsetBottom() {
+        createElementValidator().minOffset(200,1500,600+10,100);
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Expected min bottom offset of element  'under test' is: 610px. Actual bottom offset is: 600px");
+    }
+
+    @Test
+    public void minOffsetLeft() {
+        createElementValidator().minOffset(200,1500,600,100+10);
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Expected min left offset of element  'under test' is: 110px. Actual left offset is: 100px");
+    }
 }
