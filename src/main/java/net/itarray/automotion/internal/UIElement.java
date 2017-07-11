@@ -173,7 +173,7 @@ public class UIElement {
         return rectangle.intersects(other.rectangle);
     }
 
-    private int getTopOffset(UIElement page) {
+    public int getTopOffset(UIElement page) {
         return getEnd(UP).minus(page.getEnd(UP)).getValue();
     }
 
@@ -181,7 +181,7 @@ public class UIElement {
         return page.getEnd(DOWN).minus(getEnd(DOWN)).getValue();
     }
 
-    private int getLeftOffset(UIElement page) {
+    public int getLeftOffset(UIElement page) {
         return getEnd(LEFT).minus(page.getEnd(LEFT)).getValue();
     }
 
