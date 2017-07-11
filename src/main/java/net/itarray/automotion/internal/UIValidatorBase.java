@@ -1,17 +1,16 @@
 package net.itarray.automotion.internal;
 
-import http.helpers.TextFinder;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.properties.Maximum;
 import net.itarray.automotion.internal.properties.Minimum;
-import net.itarray.automotion.internal.properties.ScalarCondition;
-import net.itarray.automotion.validation.Units;
+import net.itarray.automotion.tools.general.SystemHelper;
+import net.itarray.automotion.tools.helpers.TextFinder;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
+import net.itarray.automotion.validation.Units;
+import net.itarray.automotion.validation.properties.Padding;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
-import util.general.SystemHelper;
-import net.itarray.automotion.validation.properties.Padding;
 
 import java.util.List;
 

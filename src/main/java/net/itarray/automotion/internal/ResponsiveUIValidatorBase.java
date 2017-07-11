@@ -18,7 +18,7 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
 import static net.itarray.automotion.tools.environment.EnvironmentFactory.*;
-import static util.general.SystemHelper.isRetinaDisplay;
+import static net.itarray.automotion.tools.general.SystemHelper.isRetinaDisplay;
 import static net.itarray.automotion.validation.Constants.*;
 
 public abstract class ResponsiveUIValidatorBase {
