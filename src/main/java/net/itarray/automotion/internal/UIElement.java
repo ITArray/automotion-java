@@ -5,6 +5,7 @@ import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.Group;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.properties.ScalarCondition;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -402,6 +403,35 @@ public class UIElement {
                             getQuotedName(),
                             element.getQuotedName()),
                     element);
+        }
+    }
+
+    public void validateLeftOffset(ScalarCondition leftCondition, UIElement page, Errors errors) {
+        validateOffset(LEFT, leftCondition, page, errors);
+    }
+
+    public void validateRightOffset(ScalarCondition rightCondition, UIElement page, Errors errors) {
+        validateOffset(RIGHT, rightCondition, page, errors);
+    }
+
+    public void validateTopOffset(ScalarCondition topCondition, UIElement page, Errors errors) {
+        validateOffset(UP, topCondition, page, errors);
+    }
+
+    public void validateBottomOffset(ScalarCondition bottomCondition, UIElement page, Errors errors) {
+        validateOffset(DOWN, bottomCondition, page, errors);
+    }
+
+    public void validateOffset(Direction direction, ScalarCondition condition, UIElement page, Errors errors) {
+        if (!condition.evaluate(getOffset(direction, page))) {
+            errors.add(
+                    String.format("Expected %s %s offset of element %s is: %s. Actual %s offset is: %s",
+                            condition.shortName(),
+                            direction.endName(),
+                            getQuotedName(),
+                            condition.toStringWithUnits("px"),
+                            direction.endName(),
+                            getOffset(direction, page).toStringWithUnits("px")));
         }
     }
 }

@@ -627,35 +627,17 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateMaxOffset(int top, int right, int bottom, int left) {
-        ScalarCondition topCondition = new Maximum(top);
-        ScalarCondition rightCondition = new Maximum(right);
-        ScalarCondition bottomCondition = new Maximum(bottom);
-        ScalarCondition leftCondition = new Maximum(left);
-        validateOffsets(topCondition, rightCondition, bottomCondition, leftCondition);
+        rootElement.validateLeftOffset(new Maximum(left), page, errors);
+        rootElement.validateTopOffset(new Maximum(top), page, errors);
+        rootElement.validateRightOffset(new Maximum(right), page, errors);
+        rootElement.validateBottomOffset(new Maximum(bottom), page, errors);
     }
 
     private void validateMinOffset(int top, int right, int bottom, int left) {
-        ScalarCondition topCondition = new Minimum(top);
-        ScalarCondition rightCondition = new Minimum(right);
-        ScalarCondition bottomCondition = new Minimum(bottom);
-        ScalarCondition leftCondition = new Minimum(left);
-        validateOffsets(topCondition, rightCondition, bottomCondition, leftCondition);
-    }
-
-    private void validateOffsets(ScalarCondition topCondition, ScalarCondition rightCondition, ScalarCondition bottomCondition, ScalarCondition leftCondition) {
-        String units = "px";
-        if (!leftCondition.evaluate(rootElement.getLeftOffset(page))) {
-            addError(String.format("Expected %s left offset of element '%s' is: %s. Actual left offset is: %spx", leftCondition.shortName(), rootElement.getName(), leftCondition.toStringWithUnits(units), rootElement.getLeftOffset(page).getValue()));
-        }
-        if (!topCondition.evaluate(rootElement.getTopOffset(page))) {
-            addError(String.format("Expected %s top offset of element '%s' is: %s. Actual top offset is: %spx", topCondition.shortName(), rootElement.getName(), topCondition.toStringWithUnits(units), rootElement.getTopOffset(page).getValue()));
-        }
-        if (!rightCondition.evaluate(rootElement.getRightOffset(page))) {
-            addError(String.format("Expected %s right offset of element '%s' is: %s. Actual right offset is: %spx", rightCondition.shortName(), rootElement.getName(), rightCondition.toStringWithUnits(units), rootElement.getRightOffset(page).getValue()));
-        }
-        if (!bottomCondition.evaluate(rootElement.getBottomOffset(page))) {
-            addError(String.format("Expected %s bottom offset of element '%s' is: %s. Actual bottom offset is: %spx", bottomCondition.shortName(), rootElement.getName(), bottomCondition.toStringWithUnits(units), rootElement.getBottomOffset(page).getValue()));
-        }
+        rootElement.validateLeftOffset(new Minimum(left), page, errors);
+        rootElement.validateTopOffset(new Minimum(top), page, errors);
+        rootElement.validateRightOffset(new Minimum(right), page, errors);
+        rootElement.validateBottomOffset(new Minimum(bottom), page, errors);
     }
 
     private void validateMaxHeight(int height) {
