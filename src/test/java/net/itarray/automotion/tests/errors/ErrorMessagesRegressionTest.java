@@ -43,9 +43,21 @@ public class ErrorMessagesRegressionTest {
     }
 
     public ChunkUIElementValidator createChunkValidator(WebElement other) {
-        ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(new DummyDriverFacade());
+        DummyDriverFacade driverFacade = new DummyDriverFacade();
+        ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driverFacade);
+        driverFacade.setPageSize(new Dimension(2000, 1000));
         UISnapshot snapshot = uiValidator.snapshot();
         ChunkUIElementValidator result = snapshot.findElements(Arrays.asList(element, other));
+        base = (ResponsiveUIValidatorBase) result;
+        return result;
+    }
+
+    public ChunkUIElementValidator createChunkValidator() {
+        DummyDriverFacade driverFacade = new DummyDriverFacade();
+        ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driverFacade);
+        driverFacade.setPageSize(new Dimension(2000, 1000));
+        UISnapshot snapshot = uiValidator.snapshot();
+        ChunkUIElementValidator result = snapshot.findElements(Arrays.asList(element));
         base = (ResponsiveUIValidatorBase) result;
         return result;
     }
@@ -371,10 +383,26 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
+    public void equalLeftRightOffsetChunk() {
+        createChunkValidator().equalLeftRightOffset();
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' has not equal left and right offset. Left offset is 100px, right is 1500px");
+    }
+
+    @Test
     public void equalTopBottomOffset() {
         createElementValidator().equalTopBottomOffset();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not equal top and bottom offset. Top offset is 200px, bottom is 600px");
+    }
+
+    @Test
+    public void equalTopBottomOffsetChunk() {
+        createChunkValidator().equalTopBottomOffset();
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' has not equal top and bottom offset. Top offset is 200px, bottom is 600px");
     }
 }

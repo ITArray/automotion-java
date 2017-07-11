@@ -196,12 +196,8 @@ public class UIElement {
         return getOffset(RIGHT, page);
     }
 
-    public boolean hasEqualTopBottomOffset(UIElement page) {
-        return getTopOffset(page).equals(getBottomOffset(page));
-    }
-
-    public boolean hasEqualLeftRightOffset(UIElement page) {
-        return getLeftOffset(page).equals(getRightOffset(page));
+    public boolean hasEqualOppositeOffsets(Direction direction, UIElement page) {
+        return getOffset(direction, page).equals(getOffset(direction.opposite(), page));
     }
 
     public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
@@ -432,6 +428,30 @@ public class UIElement {
                             condition.toStringWithUnits(PIXELS),
                             direction.endName(),
                             getOffset(direction, page).toStringWithUnits(PIXELS)));
+        }
+    }
+
+    public void validateEqualLeftRightOffset(UIElement page, Errors errors) {
+        validateEqualOppositeOffsets(RIGHT, page, errors);
+    }
+
+    public void validateEqualTopBottomOffset(UIElement page, Errors errors) {
+        validateEqualOppositeOffsets(DOWN, page, errors);
+    }
+
+    public void validateEqualOppositeOffsets(Direction direction, UIElement page, Errors errors) {
+        Direction opposite = direction.opposite();
+        if (!hasEqualOppositeOffsets(direction, page)) {
+            errors.add(
+                    String.format("Element %s has not equal %s and %s offset. %s offset is %s, %s is %s",
+                            getQuotedName(),
+                            opposite.endName(),
+                            direction.endName(),
+                            capitalize(opposite.endName()),
+                            getOffset(opposite, page).toStringWithUnits(PIXELS),
+                            direction.endName(),
+                            getOffset(direction, page).toStringWithUnits(PIXELS)),
+                    this);
         }
     }
 }

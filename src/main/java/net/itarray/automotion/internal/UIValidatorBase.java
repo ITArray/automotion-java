@@ -591,7 +591,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase equalLeftRightOffset() {
-        validateEqualLeftRightOffset(rootElement);
+        rootElement.validateEqualLeftRightOffset(page, errors);
         return this;
     }
 
@@ -602,7 +602,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase equalTopBottomOffset() {
-        validateEqualTopBottomOffset(rootElement);
+        rootElement.validateEqualTopBottomOffset(page, errors);
         return this;
     }
 
@@ -681,18 +681,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     private void validateLeftElement(UIElement leftElement, int minMargin, int maxMargin) {
         rootElement.validateLeftElement(leftElement, minMargin, maxMargin, errors);
-    }
-
-    private void validateEqualLeftRightOffset(UIElement element) {
-        if (!element.hasEqualLeftRightOffset(page)) {
-            errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElement.getName(), element.getX(), element.getRightOffset(page).getValue()), element);
-        }
-    }
-
-    private void validateEqualTopBottomOffset(UIElement element) {
-        if (!element.hasEqualTopBottomOffset(page)) {
-            errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElement.getName(), element.getY(), element.getBottomOffset(page).getValue()), element);
-        }
     }
 
     private void validateInsideOfContainer(UIElement containerElement) {
