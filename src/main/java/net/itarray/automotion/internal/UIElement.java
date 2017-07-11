@@ -134,10 +134,6 @@ public class UIElement {
         return hasEqualBegin(UP, other);
     }
 
-    public boolean extendSatisfies(Direction direction, ScalarCondition condition) {
-        return condition.isSatisfiedOn(getExtend(direction));
-    }
-
     public <V extends Group<V>> boolean hasEqualExtendAs(ExtendGiving<V> direction, UIElement other) {
         return direction.extend(rectangle).equals(direction.extend(other.rectangle));
     }
@@ -401,7 +397,7 @@ public class UIElement {
     }
 
     public void validateOffset(Direction direction, ScalarCondition condition, UIElement page, Errors errors) {
-        if (!condition.isSatisfiedOn(getOffset(direction, page))) {
+        if (!getOffset(direction, page).satisfies(condition)) {
             errors.add(
                     String.format("Expected %s %s offset of element %s is: %s. Actual %s offset is: %s",
                             condition.shortName(),
@@ -454,7 +450,7 @@ public class UIElement {
     }
 
     public void validateExtend(Direction direction, ScalarCondition condition, Errors errors) {
-        if (!extendSatisfies(direction, condition)) {
+        if (!getExtend(direction).satisfies(condition)) {
             errors.add(
                     String.format("Expected %s %s of element %s is: %s. Actual %s is: %s",
                             condition.shortName(),
