@@ -625,31 +625,31 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     private void validateMaxOffset(int top, int right, int bottom, int left) {
         if (rootElement.getLeftOffset(page) > left) {
-            addError(String.format("Expected max left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElement.getName(), left, rootElement.getX()));
+            addError(String.format("Expected max left offset of element '%s' is: %spx. Actual left offset is: %spx", rootElement.getName(), left, rootElement.getX()));
         }
         if (rootElement.getTopOffset(page) > top) {
             addError(String.format("Expected max top offset of element '%s' is: %spx. Actual top offset is: %spx", rootElement.getName(), top, rootElement.getY()));
         }
         if (rootElement.getRightOffset(page) > right) {
-            addError(String.format("Expected max right offset of element  '%s' is: %spx. Actual right offset is: %spx", rootElement.getName(), right, rootElement.getRightOffset(page)));
+            addError(String.format("Expected max right offset of element '%s' is: %spx. Actual right offset is: %spx", rootElement.getName(), right, rootElement.getRightOffset(page)));
         }
         if (rootElement.getBottomOffset(page) > bottom) {
-            addError(String.format("Expected max bottom offset of element  '%s' is: %spx. Actual bottom offset is: %spx", rootElement.getName(), bottom, rootElement.getBottomOffset(page)));
+            addError(String.format("Expected max bottom offset of element '%s' is: %spx. Actual bottom offset is: %spx", rootElement.getName(), bottom, rootElement.getBottomOffset(page)));
         }
     }
 
     private void validateMinOffset(int top, int right, int bottom, int left) {
         if (rootElement.getLeftOffset(page) < left) {
-            addError(String.format("Expected min left offset of element  '%s' is: %spx. Actual left offset is: %spx", rootElement.getName(), left, rootElement.getX()));
+            addError(String.format("Expected min left offset of element '%s' is: %spx. Actual left offset is: %spx", rootElement.getName(), left, rootElement.getX()));
         }
         if (rootElement.getTopOffset(page) < top) {
-            addError(String.format("Expected min top offset of element  '%s' is: %spx. Actual top offset is: %spx", rootElement.getName(), top, rootElement.getY()));
+            addError(String.format("Expected min top offset of element '%s' is: %spx. Actual top offset is: %spx", rootElement.getName(), top, rootElement.getY()));
         }
         if (rootElement.getRightOffset(page) < right) {
-            addError(String.format("Expected min right offset of element  '%s' is: %spx. Actual right offset is: %spx", rootElement.getName(), right, rootElement.getRightOffset(page)));
+            addError(String.format("Expected min right offset of element '%s' is: %spx. Actual right offset is: %spx", rootElement.getName(), right, rootElement.getRightOffset(page)));
         }
         if (rootElement.getBottomOffset(page) < bottom) {
-            addError(String.format("Expected min bottom offset of element  '%s' is: %spx. Actual bottom offset is: %spx", rootElement.getName(), bottom, rootElement.getBottomOffset(page)));
+            addError(String.format("Expected min bottom offset of element '%s' is: %spx. Actual bottom offset is: %spx", rootElement.getName(), bottom, rootElement.getBottomOffset(page)));
         }
     }
 

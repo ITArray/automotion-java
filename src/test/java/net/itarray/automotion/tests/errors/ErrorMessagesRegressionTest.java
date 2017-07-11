@@ -311,7 +311,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().maxOffset(200,1500-10,600,100);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max right offset of element  'under test' is: 1490px. Actual right offset is: 1500px");
+                .isEqualTo("Expected max right offset of element 'under test' is: 1490px. Actual right offset is: 1500px");
     }
 
     @Test
@@ -319,7 +319,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().maxOffset(200,1500,600-10,100);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max bottom offset of element  'under test' is: 590px. Actual bottom offset is: 600px");
+                .isEqualTo("Expected max bottom offset of element 'under test' is: 590px. Actual bottom offset is: 600px");
     }
 
     @Test
@@ -327,7 +327,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().maxOffset(200,1500,600,100-10);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max left offset of element  'under test' is: 90px. Actual left offset is: 100px");
+                .isEqualTo("Expected max left offset of element 'under test' is: 90px. Actual left offset is: 100px");
     }
 
     @Test
@@ -335,7 +335,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().minOffset(200+10,1500,600,100);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min top offset of element  'under test' is: 210px. Actual top offset is: 200px");
+                .isEqualTo("Expected min top offset of element 'under test' is: 210px. Actual top offset is: 200px");
     }
 
     @Test
@@ -343,7 +343,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().minOffset(200,1500+10,600,100);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min right offset of element  'under test' is: 1510px. Actual right offset is: 1500px");
+                .isEqualTo("Expected min right offset of element 'under test' is: 1510px. Actual right offset is: 1500px");
     }
 
     @Test
@@ -351,7 +351,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().minOffset(200,1500,600+10,100);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min bottom offset of element  'under test' is: 610px. Actual bottom offset is: 600px");
+                .isEqualTo("Expected min bottom offset of element 'under test' is: 610px. Actual bottom offset is: 600px");
     }
 
     @Test
@@ -359,6 +359,6 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().minOffset(200,1500,600,100+10);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min left offset of element  'under test' is: 110px. Actual left offset is: 100px");
+                .isEqualTo("Expected min left offset of element 'under test' is: 110px. Actual left offset is: 100px");
     }
 }
