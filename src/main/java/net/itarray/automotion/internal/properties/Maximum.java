@@ -9,7 +9,20 @@ public class Maximum implements ScalarCondition {
         this.limit = limit;
     }
 
+    public Maximum(int limit) {
+        this(new Scalar(limit));
+    }
+
     public boolean evaluate(Scalar value) {
         return limit.isGreaterOrEqualThan(value);
+    }
+
+    public String shortName() {
+        return "max";
+    }
+
+    @Override
+    public String toStringWithUnits(String units) {
+        return limit.toStringWithUnits(units);
     }
 }

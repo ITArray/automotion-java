@@ -18,4 +18,12 @@ public class Range implements ScalarCondition {
         return minimum.evaluate(value) && maximum.evaluate(value);
     }
 
+    public String shortName() {
+        return "range";
+    }
+
+    @Override
+    public String toStringWithUnits(String units) {
+        return String.format("[%s, %s]", maximum.toStringWithUnits(units), maximum.toStringWithUnits(units));
+    }
 }

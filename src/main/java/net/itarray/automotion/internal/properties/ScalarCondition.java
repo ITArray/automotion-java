@@ -7,4 +7,8 @@ import net.itarray.automotion.internal.geometry.Scalar;
  */
 public interface ScalarCondition {
     boolean evaluate(Scalar value);
+
+    String shortName();
+
+    String toStringWithUnits(String units);
 }

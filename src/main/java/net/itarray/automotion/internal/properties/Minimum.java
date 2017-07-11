@@ -9,7 +9,20 @@ public class Minimum implements ScalarCondition {
         this.limit = limit;
     }
 
+    public Minimum(int limit) {
+        this(new Scalar(limit));
+    }
+
     public boolean evaluate(Scalar value) {
         return limit.isLessOrEqualThan(value);
+    }
+
+    public String shortName() {
+        return "min";
+    }
+
+    @Override
+    public String toStringWithUnits(String units) {
+        return limit.toStringWithUnits(units);
     }
 }

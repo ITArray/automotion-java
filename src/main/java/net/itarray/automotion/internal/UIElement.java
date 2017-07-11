@@ -173,28 +173,32 @@ public class UIElement {
         return rectangle.intersects(other.rectangle);
     }
 
-    public int getTopOffset(UIElement page) {
-        return getEnd(UP).minus(page.getEnd(UP)).getValue();
+    public Scalar getOffset(Direction direction, UIElement page) {
+        return direction.signedDistance(getEnd(direction), page.getEnd(direction));
     }
 
-    public int getBottomOffset(UIElement page) {
-        return page.getEnd(DOWN).minus(getEnd(DOWN)).getValue();
+    public Scalar getTopOffset(UIElement page) {
+        return getOffset(UP, page);
     }
 
-    public int getLeftOffset(UIElement page) {
-        return getEnd(LEFT).minus(page.getEnd(LEFT)).getValue();
+    public Scalar getBottomOffset(UIElement page) {
+        return getOffset(DOWN, page);
     }
 
-    public int getRightOffset(UIElement page) {
-        return page.getEnd(RIGHT).minus(getEnd(RIGHT)).getValue();
+    public Scalar getLeftOffset(UIElement page) {
+        return getOffset(LEFT, page);
+    }
+
+    public Scalar getRightOffset(UIElement page) {
+        return getOffset(RIGHT, page);
     }
 
     public boolean hasEqualTopBottomOffset(UIElement page) {
-        return getTopOffset(page) == getBottomOffset(page);
+        return getTopOffset(page).equals(getBottomOffset(page));
     }
 
     public boolean hasEqualLeftRightOffset(UIElement page) {
-        return getLeftOffset(page) == getRightOffset(page);
+        return getLeftOffset(page).equals(getRightOffset(page));
     }
 
     public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {

@@ -2,6 +2,9 @@ package net.itarray.automotion.internal;
 
 import http.helpers.TextFinder;
 import net.itarray.automotion.internal.geometry.Rectangle;
+import net.itarray.automotion.internal.properties.Maximum;
+import net.itarray.automotion.internal.properties.Minimum;
+import net.itarray.automotion.internal.properties.ScalarCondition;
 import net.itarray.automotion.validation.Units;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -624,32 +627,34 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateMaxOffset(int top, int right, int bottom, int left) {
-        if (rootElement.getLeftOffset(page) > left) {
-            addError(String.format("Expected max left offset of element '%s' is: %spx. Actual left offset is: %spx", rootElement.getName(), left, rootElement.getX()));
-        }
-        if (rootElement.getTopOffset(page) > top) {
-            addError(String.format("Expected max top offset of element '%s' is: %spx. Actual top offset is: %spx", rootElement.getName(), top, rootElement.getY()));
-        }
-        if (rootElement.getRightOffset(page) > right) {
-            addError(String.format("Expected max right offset of element '%s' is: %spx. Actual right offset is: %spx", rootElement.getName(), right, rootElement.getRightOffset(page)));
-        }
-        if (rootElement.getBottomOffset(page) > bottom) {
-            addError(String.format("Expected max bottom offset of element '%s' is: %spx. Actual bottom offset is: %spx", rootElement.getName(), bottom, rootElement.getBottomOffset(page)));
-        }
+        ScalarCondition topCondition = new Maximum(top);
+        ScalarCondition rightCondition = new Maximum(right);
+        ScalarCondition bottomCondition = new Maximum(bottom);
+        ScalarCondition leftCondition = new Maximum(left);
+        validateOffsets(topCondition, rightCondition, bottomCondition, leftCondition);
     }
 
     private void validateMinOffset(int top, int right, int bottom, int left) {
-        if (rootElement.getLeftOffset(page) < left) {
-            addError(String.format("Expected min left offset of element '%s' is: %spx. Actual left offset is: %spx", rootElement.getName(), left, rootElement.getX()));
+        ScalarCondition topCondition = new Minimum(top);
+        ScalarCondition rightCondition = new Minimum(right);
+        ScalarCondition bottomCondition = new Minimum(bottom);
+        ScalarCondition leftCondition = new Minimum(left);
+        validateOffsets(topCondition, rightCondition, bottomCondition, leftCondition);
+    }
+
+    private void validateOffsets(ScalarCondition topCondition, ScalarCondition rightCondition, ScalarCondition bottomCondition, ScalarCondition leftCondition) {
+        String units = "px";
+        if (!leftCondition.evaluate(rootElement.getLeftOffset(page))) {
+            addError(String.format("Expected %s left offset of element '%s' is: %s. Actual left offset is: %spx", leftCondition.shortName(), rootElement.getName(), leftCondition.toStringWithUnits(units), rootElement.getLeftOffset(page).getValue()));
         }
-        if (rootElement.getTopOffset(page) < top) {
-            addError(String.format("Expected min top offset of element '%s' is: %spx. Actual top offset is: %spx", rootElement.getName(), top, rootElement.getY()));
+        if (!topCondition.evaluate(rootElement.getTopOffset(page))) {
+            addError(String.format("Expected %s top offset of element '%s' is: %s. Actual top offset is: %spx", topCondition.shortName(), rootElement.getName(), topCondition.toStringWithUnits(units), rootElement.getTopOffset(page).getValue()));
         }
-        if (rootElement.getRightOffset(page) < right) {
-            addError(String.format("Expected min right offset of element '%s' is: %spx. Actual right offset is: %spx", rootElement.getName(), right, rootElement.getRightOffset(page)));
+        if (!rightCondition.evaluate(rootElement.getRightOffset(page))) {
+            addError(String.format("Expected %s right offset of element '%s' is: %s. Actual right offset is: %spx", rightCondition.shortName(), rootElement.getName(), rightCondition.toStringWithUnits(units), rootElement.getRightOffset(page).getValue()));
         }
-        if (rootElement.getBottomOffset(page) < bottom) {
-            addError(String.format("Expected min bottom offset of element '%s' is: %spx. Actual bottom offset is: %spx", rootElement.getName(), bottom, rootElement.getBottomOffset(page)));
+        if (!bottomCondition.evaluate(rootElement.getBottomOffset(page))) {
+            addError(String.format("Expected %s bottom offset of element '%s' is: %s. Actual bottom offset is: %spx", bottomCondition.shortName(), rootElement.getName(), bottomCondition.toStringWithUnits(units), rootElement.getBottomOffset(page).getValue()));
         }
     }
 
@@ -699,13 +704,13 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     private void validateEqualLeftRightOffset(UIElement element) {
         if (!element.hasEqualLeftRightOffset(page)) {
-            errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElement.getName(), element.getX(), element.getRightOffset(page)), element);
+            errors.add(String.format("Element '%s' has not equal left and right offset. Left offset is %dpx, right is %dpx", rootElement.getName(), element.getX(), element.getRightOffset(page).getValue()), element);
         }
     }
 
     private void validateEqualTopBottomOffset(UIElement element) {
         if (!element.hasEqualTopBottomOffset(page)) {
-            errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElement.getName(), element.getY(), element.getBottomOffset(page)), element);
+            errors.add(String.format("Element '%s' has not equal top and bottom offset. Top offset is %dpx, bottom is %dpx", rootElement.getName(), element.getY(), element.getBottomOffset(page).getValue()), element);
         }
     }
 
