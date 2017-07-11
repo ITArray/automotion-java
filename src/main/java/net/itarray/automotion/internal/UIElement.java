@@ -19,6 +19,8 @@ import static net.itarray.automotion.internal.geometry.Rectangle.ORIGIN_CORNER;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
 public class UIElement {
+    private static final String PIXELS = "px";
+
     private final String name;
     private final boolean quoteName;
     private final Rectangle rectangle;
@@ -321,7 +323,6 @@ public class UIElement {
 
     public <V extends Group<V>> void validateSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
         if (!hasEqualExtendAs(direction, element)) {
-            String units = "px";
             errors.add(
                     String.format("Element %s has not the same %s as element %s. %s of %s is %s. %s of element is %s",
                             getQuotedName(),
@@ -329,16 +330,15 @@ public class UIElement {
                             element.getQuotedName(),
                             capitalize(direction.extendName()),
                             getQuotedName(),
-                            direction.extend(rectangle).toStringWithUnits(units),
+                            direction.extend(rectangle).toStringWithUnits(PIXELS),
                             capitalize(direction.extendName()),
-                            direction.extend(element.rectangle).toStringWithUnits(units)),
+                            direction.extend(element.rectangle).toStringWithUnits(PIXELS)),
                     element);
         }
     }
 
     public <V extends Group<V>> void validateNotSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
         if (hasEqualExtendAs(direction, element)) {
-            String units = "px";
             errors.add(
                     String.format("Element %s has the same %s as element %s. %s of %s is %s. %s of element is %s",
                             getQuotedName(),
@@ -346,9 +346,9 @@ public class UIElement {
                             element.getQuotedName(),
                             capitalize(direction.extendName()),
                             getQuotedName(),
-                            direction.extend(rectangle).toStringWithUnits(units),
+                            direction.extend(rectangle).toStringWithUnits(PIXELS),
                             capitalize(direction.extendName()),
-                            direction.extend(element.rectangle).toStringWithUnits(units)),
+                            direction.extend(element.rectangle).toStringWithUnits(PIXELS)),
                     element);
         }
     }
@@ -381,7 +381,7 @@ public class UIElement {
                             direction.afterName(),
                             minMargin,
                             maxMargin,
-                            signedDistance.toStringWithUnits("px")),
+                            signedDistance.toStringWithUnits(PIXELS)),
                     toBeValidatedSuccessor);
         }
     }
@@ -429,9 +429,9 @@ public class UIElement {
                             condition.shortName(),
                             direction.endName(),
                             getQuotedName(),
-                            condition.toStringWithUnits("px"),
+                            condition.toStringWithUnits(PIXELS),
                             direction.endName(),
-                            getOffset(direction, page).toStringWithUnits("px")));
+                            getOffset(direction, page).toStringWithUnits(PIXELS)));
         }
     }
 }
