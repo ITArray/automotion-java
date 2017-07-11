@@ -5,6 +5,8 @@ import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.Group;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.properties.Maximum;
+import net.itarray.automotion.internal.properties.Minimum;
 import net.itarray.automotion.internal.properties.ScalarCondition;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -132,28 +134,8 @@ public class UIElement {
         return hasEqualBegin(UP, other);
     }
 
-    public boolean hasMaxExtend(Direction direction, int extend) {
-        return getExtend(direction).isLessOrEqualThan(extend);
-    }
-
-    public boolean hasMinExtend(Direction direction, int extend) {
-        return new Scalar(extend).isLessOrEqualThan(getExtend(direction));
-    }
-
-    public boolean hasMaxHeight(int height) {
-        return hasMaxExtend(DOWN, height);
-    }
-
-    public boolean hasMinHeight(int height) {
-        return hasMinExtend(DOWN, height);
-    }
-
-    public boolean hasMaxWidth(int width) {
-        return hasMaxExtend(RIGHT, width);
-    }
-
-    public boolean hasMinWidth(int width) {
-        return hasMinExtend(RIGHT, width);
+    public boolean extendSatisfies(Direction direction, ScalarCondition condition) {
+        return condition.evaluate(getExtend(direction));
     }
 
     public <V extends Group<V>> boolean hasEqualExtendAs(ExtendGiving<V> direction, UIElement other) {
@@ -452,6 +434,35 @@ public class UIElement {
                             direction.endName(),
                             getOffset(direction, page).toStringWithUnits(PIXELS)),
                     this);
+        }
+    }
+
+    public void validateMaxHeight(int limit, Errors errors) {
+        validateExtend(DOWN, new Maximum(limit), errors);
+    }
+
+    public void validateMinHeight(int limit, Errors errors) {
+        validateExtend(DOWN, new Minimum(limit), errors);
+    }
+
+    public void validateMaxWidth(int limit, Errors errors) {
+        validateExtend(RIGHT, new Maximum(limit), errors);
+    }
+
+    public void validateMinWidth(int limit, Errors errors) {
+        validateExtend(RIGHT, new Minimum(limit), errors);
+    }
+
+    public void validateExtend(Direction direction, ScalarCondition condition, Errors errors) {
+        if (!extendSatisfies(direction, condition)) {
+            errors.add(
+                    String.format("Expected %s %s of element %s is: %s. Actual %s is: %s",
+                            condition.shortName(),
+                            direction.extendName(),
+                            getQuotedName(),
+                            condition.toStringWithUnits(PIXELS),
+                            direction.extendName(),
+                            direction.extend(rectangle).toStringWithUnits(PIXELS)));
         }
     }
 }

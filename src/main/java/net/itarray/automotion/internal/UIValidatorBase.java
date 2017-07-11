@@ -353,7 +353,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase minWidth(int width) {
-        validateMinWidth(getConvertedInt(width, true));
+        rootElement.validateMinWidth(getConvertedInt(width, true), errors);
         return this;
     }
 
@@ -365,7 +365,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase maxWidth(int width) {
-        validateMaxWidth(getConvertedInt(width, true));
+        rootElement.validateMaxWidth(getConvertedInt(width, true), errors);
         return this;
     }
 
@@ -378,8 +378,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase widthBetween(int min, int max) {
-        validateMinWidth(getConvertedInt(min, true));
-        validateMaxWidth(getConvertedInt(max, true));
+        rootElement.validateMinWidth(getConvertedInt(min, true), errors);
+        rootElement.validateMaxWidth(getConvertedInt(max, true), errors);
         return this;
     }
 
@@ -418,7 +418,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase minHeight(int height) {
-        validateMinHeight(getConvertedInt(height, false));
+        rootElement.validateMinHeight(getConvertedInt(height, false), errors);
         return this;
     }
 
@@ -430,7 +430,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase maxHeight(int height) {
-        validateMaxHeight(getConvertedInt(height, false));
+        rootElement.validateMaxHeight(getConvertedInt(height, false), errors);
         return this;
     }
 
@@ -497,8 +497,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase heightBetween(int min, int max) {
-        validateMinHeight(getConvertedInt(min, false));
-        validateMaxHeight(getConvertedInt(max, false));
+        rootElement.validateMinHeight(getConvertedInt(min, false), errors);
+        rootElement.validateMaxHeight(getConvertedInt(max, false), errors);
         return this;
     }
 
@@ -637,30 +637,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         rootElement.validateTopOffset(new Minimum(top), page, errors);
         rootElement.validateRightOffset(new Minimum(right), page, errors);
         rootElement.validateBottomOffset(new Minimum(bottom), page, errors);
-    }
-
-    private void validateMaxHeight(int height) {
-        if (!rootElement.hasMaxHeight(height)) {
-            addError(String.format("Expected max height of element  '%s' is: %spx. Actual height is: %spx", rootElement.getName(), height, rootElement.getHeight()));
-        }
-    }
-
-    private void validateMinHeight(int height) {
-        if (!rootElement.hasMinHeight(height)) {
-            addError(String.format("Expected min height of element '%s' is: %spx. Actual height is: %spx", rootElement.getName(), height, rootElement.getHeight()));
-        }
-    }
-
-    private void validateMaxWidth(int width) {
-        if (!rootElement.hasMaxWidth(width)) {
-            addError(String.format("Expected max width of element '%s' is: %spx. Actual width is: %spx", rootElement.getName(), width, rootElement.getWidth()));
-        }
-    }
-
-    private void validateMinWidth(int width) {
-        if (!rootElement.hasMinWidth(width)) {
-            addError(String.format("Expected min width of element '%s' is: %spx. Actual width is: %spx", rootElement.getName(), width, rootElement.getWidth()));
-        }
     }
 
     private void validateNotSameSize(UIElement element) {

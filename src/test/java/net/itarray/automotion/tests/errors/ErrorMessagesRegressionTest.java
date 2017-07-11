@@ -451,7 +451,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().maxHeight(10);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max height of element  'under test' is: 10px. Actual height is: 200px");
+                .isEqualTo("Expected max height of element 'under test' is: 10px. Actual height is: 200px");
     }
 
     @Test
@@ -467,7 +467,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().heightBetween(10, 20);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max height of element  'under test' is: 20px. Actual height is: 200px");
+                .isEqualTo("Expected max height of element 'under test' is: 20px. Actual height is: 200px");
     }
 
 }
