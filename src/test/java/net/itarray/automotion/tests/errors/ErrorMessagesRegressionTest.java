@@ -361,4 +361,20 @@ public class ErrorMessagesRegressionTest {
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected min left offset of element 'under test' is: 110px. Actual left offset is: 100px");
     }
+
+    @Test
+    public void equalLeftRightOffset() {
+        createElementValidator().equalLeftRightOffset();
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not equal left and right offset. Left offset is 100px, right is 1500px");
+    }
+
+    @Test
+    public void equalTopBottomOffset() {
+        createElementValidator().equalTopBottomOffset();
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' has not equal top and bottom offset. Top offset is 200px, bottom is 600px");
+    }
 }
