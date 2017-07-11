@@ -13,7 +13,7 @@ public class Maximum implements ScalarCondition {
         this(new Scalar(limit));
     }
 
-    public boolean evaluate(Scalar value) {
+    public boolean isSatisfiedOn(Scalar value) {
         return limit.isGreaterOrEqualThan(value);
     }
 

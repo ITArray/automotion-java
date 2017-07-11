@@ -135,7 +135,7 @@ public class UIElement {
     }
 
     public boolean extendSatisfies(Direction direction, ScalarCondition condition) {
-        return condition.evaluate(getExtend(direction));
+        return condition.isSatisfiedOn(getExtend(direction));
     }
 
     public <V extends Group<V>> boolean hasEqualExtendAs(ExtendGiving<V> direction, UIElement other) {
@@ -401,7 +401,7 @@ public class UIElement {
     }
 
     public void validateOffset(Direction direction, ScalarCondition condition, UIElement page, Errors errors) {
-        if (!condition.evaluate(getOffset(direction, page))) {
+        if (!condition.isSatisfiedOn(getOffset(direction, page))) {
             errors.add(
                     String.format("Expected %s %s offset of element %s is: %s. Actual %s offset is: %s",
                             condition.shortName(),

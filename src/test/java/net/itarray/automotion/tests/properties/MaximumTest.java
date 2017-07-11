@@ -21,19 +21,19 @@ public class MaximumTest {
 
     @Test
     public void isTrueForScalarsWithValuesSmallerThanTheLimit() {
-        boolean result = property.evaluate(limit.minus(1));
+        boolean result = property.isSatisfiedOn(limit.minus(1));
         assertThat(result).isTrue();
     }
 
     @Test
     public void isTrueForScalarsWithValuesEqualToTheLimit() {
-        boolean result = property.evaluate(limit);
+        boolean result = property.isSatisfiedOn(limit);
         assertThat(result).isTrue();
     }
 
     @Test
     public void isFalseForScalarsWithValuesGreaterThanTheLimit() {
-        boolean result = property.evaluate(limit.plus(1));
+        boolean result = property.isSatisfiedOn(limit.plus(1));
         assertThat(result).isFalse();
     }
 }
