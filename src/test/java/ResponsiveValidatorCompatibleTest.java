@@ -22,11 +22,16 @@ public class ResponsiveValidatorCompatibleTest {
     private static WebDriver driver;
 
     public static void main(String[] args) {
+        ManualTestSupport.deleteOutputDirectory();
         ResponsiveValidatorCompatibleTest test = new ResponsiveValidatorCompatibleTest();
+        long start = System.currentTimeMillis();
         try {
             test.testThatResponsiveValidatorWorks();
         } finally {
             test.tearDown();
+            long stop = System.currentTimeMillis();
+            System.out.println((stop - start) + " ms");
+            ManualTestSupport.openReportInDefaultBrowser();;
         }
     }
     

@@ -1,5 +1,6 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.tools.helpers.Helper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -22,20 +23,25 @@ import static net.itarray.automotion.validation.Constants.*;
 
 public abstract class ResponsiveUIValidatorBase {
 
-    private final Errors errors;
+    protected final Errors errors;
     private final long startTime;
-    protected final Dimension pageSize;
     private final UISnapshot snapshot;
     private final DriverFacade driver;
     private final double zoomFactor;
+    protected final UIElement page;
 
     protected ResponsiveUIValidatorBase(UISnapshot snapshot) {
         this.snapshot = snapshot;
         this.driver = snapshot.getResponsiveUIValidator().getDriver();
         this.errors = new Errors();
         this.zoomFactor = snapshot.getZoomFactor();
-        this.pageSize = this.driver.retrievePageSize();
+        Dimension dimension = this.driver.retrievePageSize();
+        page = UIElement.asElement(new net.itarray.automotion.internal.geometry.Rectangle(0, 0, dimension.getWidth(), dimension.getHeight()), "page");
         this.startTime = System.currentTimeMillis();
+    }
+
+    public Errors getErrors() {
+        return errors;
     }
 
     public DriverFacade getDriver() {
@@ -76,10 +82,6 @@ public abstract class ResponsiveUIValidatorBase {
 
     protected void addError(String message) {
         errors.add(message);
-    }
-
-    protected void addError(String message, UIElement element) {
-        errors.add(message, element);
     }
 
     public boolean validate() {
@@ -133,9 +135,9 @@ public abstract class ResponsiveUIValidatorBase {
             return i;
         } else {
             if (horizontal) {
-                return (i * pageSize.getWidth()) / 100;
+                return (i * page.getExtend(Direction.RIGHT).getValue()) / 100;
             } else {
-                return (i * pageSize.getHeight()) / 100;
+                return (i * page.getExtend(Direction.DOWN).getValue()) / 100;
             }
         }
     }
@@ -231,4 +233,5 @@ public abstract class ResponsiveUIValidatorBase {
     public DrawingConfiguration getDrawingConfiguration() {
         return getReport().getDrawingConfiguration();
     }
+
 }

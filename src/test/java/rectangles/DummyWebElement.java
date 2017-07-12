@@ -1,5 +1,6 @@
 package rectangles;
 
+import net.itarray.automotion.internal.geometry.Scalar;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
@@ -103,6 +104,10 @@ public class DummyWebElement implements WebElement {
     @Override
     public <X> X getScreenshotAs(OutputType<X> outputType) throws WebDriverException {
         return null;
+    }
+
+    public static WebElement createElement(Scalar originX, Scalar originY, Scalar cornerX, Scalar cornerY) {
+        return createElement(originX.getValue(), originY.getValue(), cornerX.getValue(), cornerY.getValue());
     }
 
     public static WebElement createElement(int originX, int originY, int cornerX, int cornerY) {
