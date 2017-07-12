@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import rectangles.DummyDriverFacade;
+import rectangles.DummyWebElement;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,13 +23,13 @@ import static rectangles.DummyWebElement.createElement;
 
 public class ErrorMessagesRegressionTest {
 
-    private WebElement element;
+    private DummyWebElement element;
     private String elementName;
     private ResponsiveUIValidatorBase base;
 
     @Before
     public void setUp() {
-        element = createElement(100, 200, 500, 400);
+        element = (DummyWebElement) createElement(100, 200, 500, 400);
         elementName = "under test";
     }
 
@@ -468,6 +469,41 @@ public class ErrorMessagesRegressionTest {
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected max height of element 'under test' is: 20px. Actual height is: 200px");
+    }
+
+    @Test
+    public void withCssValueNoValue() {
+        createElementValidator().withCssValue("font-size", "12px");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' does not have css property 'font-size'");
+    }
+
+    @Test
+    public void withCssValueDifferentValue() {
+        element.putCssValue("font-size", "16px");
+        createElementValidator().withCssValue("font-size", "12px");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Expected value of 'font-size' is '12px'. Actual value is '16px'");
+    }
+
+    @Test
+    public void withoutCssValueNoValue() {
+        createElementValidator().withoutCssValue("font-size", "12px");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' does not have css property 'font-size'");
+    }
+
+
+    @Test
+    public void withoutCssValueDifferentValue() {
+        element.putCssValue("font-size", "12px");
+        createElementValidator().withoutCssValue("font-size", "12px");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("CSS property 'font-size' should not contain value '12px'. Actual value is '12px'");
     }
 
 }

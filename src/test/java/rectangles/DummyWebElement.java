@@ -9,12 +9,15 @@ import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DummyWebElement implements WebElement {
 
     private final Point location;
     private final Dimension size;
+    private final Map<String, String> cssAttributesByName = new HashMap<>();
 
     private DummyWebElement(Point location, Dimension size) {
         this.location = location;
@@ -97,8 +100,12 @@ public class DummyWebElement implements WebElement {
     }
 
     @Override
-    public String getCssValue(String s) {
-        return null;
+    public String getCssValue(String propertyName) {
+        return cssAttributesByName.getOrDefault(propertyName, "");
+    }
+
+    public void putCssValue(String propertyName, String propertyValue) {
+        cssAttributesByName.put(propertyName, propertyValue);
     }
 
     @Override
