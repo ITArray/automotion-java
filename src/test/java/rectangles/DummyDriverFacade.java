@@ -7,11 +7,17 @@ import java.io.File;
 
 public class DummyDriverFacade extends DriverFacade {
 
+    private Dimension pageSize;
     private Dimension resolution;
 
     public DummyDriverFacade() {
         super(null);
         resolution = new Dimension(1280, 1080);
+        pageSize = new Dimension(RectangleFixture.pageWidth, RectangleFixture.pageHeight);
+    }
+
+    public void setPageSize(Dimension pageSize) {
+        this.pageSize = pageSize;
     }
 
     public static DriverFacade createWebDriver() {
@@ -45,7 +51,7 @@ public class DummyDriverFacade extends DriverFacade {
 
     @Override
     public Dimension retrievePageSize() {
-        return new Dimension(RectangleFixture.pageWidth, RectangleFixture.pageHeight);
+        return pageSize;
     }
 
     @Override

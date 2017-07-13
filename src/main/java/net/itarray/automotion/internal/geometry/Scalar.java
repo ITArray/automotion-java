@@ -1,5 +1,7 @@
 package net.itarray.automotion.internal.geometry;
 
+import net.itarray.automotion.internal.properties.ScalarCondition;
+
 public class Scalar implements Group<Scalar>, Comparable<Scalar> {
     private final int value;
 
@@ -93,5 +95,9 @@ public class Scalar implements Group<Scalar>, Comparable<Scalar> {
 
     public Scalar abs() {
         return new Scalar(value >= 0 ? value : -value);
+    }
+
+    public boolean satisfies(ScalarCondition condition) {
+        return condition.isSatisfiedOn(this);
     }
 }

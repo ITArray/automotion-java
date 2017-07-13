@@ -1,6 +1,7 @@
 package net.itarray.automotion.tests.geometry;
 
 import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.properties.Minimum;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -112,5 +113,11 @@ public class ScalarTest {
         assertThat(scalar.isGreaterThan(new Scalar(value-1))).isTrue();
         assertThat(scalar.isGreaterThan(new Scalar(value))).isFalse();
         assertThat(scalar.isGreaterThan(new Scalar(value+1))).isFalse();
+    }
+
+    @Test
+    public void shouldName() {
+        assertThat(scalar.satisfies(new Minimum(value))).isTrue();
+        assertThat(scalar.satisfies(new Minimum(value+1))).isFalse();
     }
 }

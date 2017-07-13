@@ -2,9 +2,7 @@ package net.itarray.automotion.internal;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.openqa.selenium.WebElement;
 
-import static net.itarray.automotion.internal.UIElement.asElement;
 import static net.itarray.automotion.validation.Constants.*;
 
 public class Errors {

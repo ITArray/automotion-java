@@ -5,6 +5,12 @@ import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.Group;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.properties.Maximum;
+import net.itarray.automotion.internal.properties.Minimum;
+import net.itarray.automotion.internal.properties.ScalarCondition;
+import net.itarray.automotion.tools.general.SystemHelper;
+import net.itarray.automotion.tools.helpers.TextFinder;
+import net.itarray.automotion.validation.properties.Padding;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -18,6 +24,8 @@ import static net.itarray.automotion.internal.geometry.Rectangle.ORIGIN_CORNER;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
 public class UIElement {
+    private static final String PIXELS = "px";
+
     private final String name;
     private final boolean quoteName;
     private final Rectangle rectangle;
@@ -129,30 +137,6 @@ public class UIElement {
         return hasEqualBegin(UP, other);
     }
 
-    public boolean hasMaxExtend(Direction direction, int extend) {
-        return getExtend(direction).isLessOrEqualThan(extend);
-    }
-
-    public boolean hasMinExtend(Direction direction, int extend) {
-        return new Scalar(extend).isLessOrEqualThan(getExtend(direction));
-    }
-
-    public boolean hasMaxHeight(int height) {
-        return hasMaxExtend(DOWN, height);
-    }
-
-    public boolean hasMinHeight(int height) {
-        return hasMinExtend(DOWN, height);
-    }
-
-    public boolean hasMaxWidth(int width) {
-        return hasMaxExtend(RIGHT, width);
-    }
-
-    public boolean hasMinWidth(int width) {
-        return hasMinExtend(RIGHT, width);
-    }
-
     public <V extends Group<V>> boolean hasEqualExtendAs(ExtendGiving<V> direction, UIElement other) {
         return direction.extend(rectangle).equals(direction.extend(other.rectangle));
     }
@@ -173,28 +157,28 @@ public class UIElement {
         return rectangle.intersects(other.rectangle);
     }
 
-    private int getTopOffset(UIElement page) {
-        return getEnd(UP).minus(page.getEnd(UP)).getValue();
+    public Scalar getOffset(Direction direction, UIElement page) {
+        return direction.signedDistance(getEnd(direction), page.getEnd(direction));
     }
 
-    public int getBottomOffset(UIElement page) {
-        return page.getEnd(DOWN).minus(getEnd(DOWN)).getValue();
+    public Scalar getTopOffset(UIElement page) {
+        return getOffset(UP, page);
     }
 
-    private int getLeftOffset(UIElement page) {
-        return getEnd(LEFT).minus(page.getEnd(LEFT)).getValue();
+    public Scalar getBottomOffset(UIElement page) {
+        return getOffset(DOWN, page);
     }
 
-    public int getRightOffset(UIElement page) {
-        return page.getEnd(RIGHT).minus(getEnd(RIGHT)).getValue();
+    public Scalar getLeftOffset(UIElement page) {
+        return getOffset(LEFT, page);
     }
 
-    public boolean hasEqualTopBottomOffset(UIElement page) {
-        return getTopOffset(page) == getBottomOffset(page);
+    public Scalar getRightOffset(UIElement page) {
+        return getOffset(RIGHT, page);
     }
 
-    public boolean hasEqualLeftRightOffset(UIElement page) {
-        return getLeftOffset(page) == getRightOffset(page);
+    public boolean hasEqualOppositeOffsets(Direction direction, UIElement page) {
+        return getOffset(direction, page).equals(getOffset(direction.opposite(), page));
     }
 
     public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
@@ -316,7 +300,6 @@ public class UIElement {
 
     public <V extends Group<V>> void validateSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
         if (!hasEqualExtendAs(direction, element)) {
-            String units = "px";
             errors.add(
                     String.format("Element %s has not the same %s as element %s. %s of %s is %s. %s of element is %s",
                             getQuotedName(),
@@ -324,16 +307,15 @@ public class UIElement {
                             element.getQuotedName(),
                             capitalize(direction.extendName()),
                             getQuotedName(),
-                            direction.extend(rectangle).toStringWithUnits(units),
+                            direction.extend(rectangle).toStringWithUnits(PIXELS),
                             capitalize(direction.extendName()),
-                            direction.extend(element.rectangle).toStringWithUnits(units)),
+                            direction.extend(element.rectangle).toStringWithUnits(PIXELS)),
                     element);
         }
     }
 
     public <V extends Group<V>> void validateNotSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
         if (hasEqualExtendAs(direction, element)) {
-            String units = "px";
             errors.add(
                     String.format("Element %s has the same %s as element %s. %s of %s is %s. %s of element is %s",
                             getQuotedName(),
@@ -341,9 +323,9 @@ public class UIElement {
                             element.getQuotedName(),
                             capitalize(direction.extendName()),
                             getQuotedName(),
-                            direction.extend(rectangle).toStringWithUnits(units),
+                            direction.extend(rectangle).toStringWithUnits(PIXELS),
                             capitalize(direction.extendName()),
-                            direction.extend(element.rectangle).toStringWithUnits(units)),
+                            direction.extend(element.rectangle).toStringWithUnits(PIXELS)),
                     element);
         }
     }
@@ -376,7 +358,7 @@ public class UIElement {
                             direction.afterName(),
                             minMargin,
                             maxMargin,
-                            signedDistance.toStringWithUnits("px")),
+                            signedDistance.toStringWithUnits(PIXELS)),
                     toBeValidatedSuccessor);
         }
     }
@@ -397,6 +379,167 @@ public class UIElement {
                     String.format("Element %s is overlapped with element %s but should not",
                             getQuotedName(),
                             element.getQuotedName()),
+                    element);
+        }
+    }
+
+    public void validateLeftOffset(ScalarCondition leftCondition, UIElement page, Errors errors) {
+        validateOffset(LEFT, leftCondition, page, errors);
+    }
+
+    public void validateRightOffset(ScalarCondition rightCondition, UIElement page, Errors errors) {
+        validateOffset(RIGHT, rightCondition, page, errors);
+    }
+
+    public void validateTopOffset(ScalarCondition topCondition, UIElement page, Errors errors) {
+        validateOffset(UP, topCondition, page, errors);
+    }
+
+    public void validateBottomOffset(ScalarCondition bottomCondition, UIElement page, Errors errors) {
+        validateOffset(DOWN, bottomCondition, page, errors);
+    }
+
+    public void validateOffset(Direction direction, ScalarCondition condition, UIElement page, Errors errors) {
+        if (!getOffset(direction, page).satisfies(condition)) {
+            errors.add(
+                    String.format("Expected %s %s offset of element %s is: %s. Actual %s offset is: %s",
+                            condition.shortName(),
+                            direction.endName(),
+                            getQuotedName(),
+                            condition.toStringWithUnits(PIXELS),
+                            direction.endName(),
+                            getOffset(direction, page).toStringWithUnits(PIXELS)));
+        }
+    }
+
+    public void validateEqualLeftRightOffset(UIElement page, Errors errors) {
+        validateEqualOppositeOffsets(RIGHT, page, errors);
+    }
+
+    public void validateEqualTopBottomOffset(UIElement page, Errors errors) {
+        validateEqualOppositeOffsets(DOWN, page, errors);
+    }
+
+    public void validateEqualOppositeOffsets(Direction direction, UIElement page, Errors errors) {
+        Direction opposite = direction.opposite();
+        if (!hasEqualOppositeOffsets(direction, page)) {
+            errors.add(
+                    String.format("Element %s has not equal %s and %s offset. %s offset is %s, %s is %s",
+                            getQuotedName(),
+                            opposite.endName(),
+                            direction.endName(),
+                            capitalize(opposite.endName()),
+                            getOffset(opposite, page).toStringWithUnits(PIXELS),
+                            direction.endName(),
+                            getOffset(direction, page).toStringWithUnits(PIXELS)),
+                    this);
+        }
+    }
+
+    public void validateMaxHeight(int limit, Errors errors) {
+        validateExtend(DOWN, new Maximum(limit), errors);
+    }
+
+    public void validateMinHeight(int limit, Errors errors) {
+        validateExtend(DOWN, new Minimum(limit), errors);
+    }
+
+    public void validateMaxWidth(int limit, Errors errors) {
+        validateExtend(RIGHT, new Maximum(limit), errors);
+    }
+
+    public void validateMinWidth(int limit, Errors errors) {
+        validateExtend(RIGHT, new Minimum(limit), errors);
+    }
+
+    public void validateExtend(Direction direction, ScalarCondition condition, Errors errors) {
+        if (!getExtend(direction).satisfies(condition)) {
+            errors.add(
+                    String.format("Expected %s %s of element %s is: %s. Actual %s is: %s",
+                            condition.shortName(),
+                            direction.extendName(),
+                            getQuotedName(),
+                            condition.toStringWithUnits(PIXELS),
+                            direction.extendName(),
+                            direction.extend(rectangle).toStringWithUnits(PIXELS)));
+        }
+    }
+
+    public void validateWithoutCssValue(String cssProperty, String[] args, Errors errors) {
+        String cssValue = getCssValue(cssProperty);
+
+        if (!cssValue.equals("")) {
+            for (String val : args) {
+                val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
+                if (TextFinder.textIsFound(val, cssValue)) {
+                    errors.add(String.format("CSS property '%s' should not contain value '%s'. Actual value is '%s'", cssProperty, val, cssValue));
+                }
+            }
+        } else {
+            errors.add(
+                    String.format("Element %s does not have css property '%s'",
+                            getQuotedName(),
+                            cssProperty));
+        }
+    }
+
+    public void validateWithCssValue(String cssProperty, String[] args, Errors errors) {
+        String cssValue = getCssValue(cssProperty);
+
+        if (!cssValue.equals("")) {
+            for (String val : args) {
+                val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
+                if (!TextFinder.textIsFound(val, cssValue)) {
+                    errors.add(String.format("Expected value of '%s' is '%s'. Actual value is '%s'", cssProperty, val, cssValue));
+                }
+            }
+        } else {
+            errors.add(
+                    String.format("Element %s does not have css property '%s'",
+                            getQuotedName(),
+                            cssProperty));
+        }
+    }
+
+    public void validateInsideOfContainer(UIElement containerElement, Errors errors) {
+        if (!containerElement.contains(this)) {
+            errors.add(
+                    String.format("Element '%s' is not inside of '%s'",
+                            getName(),
+                            containerElement.getName()),
+                    containerElement);
+        }
+    }
+
+    public void validateInsideOfContainer(UIElement element, Padding padding, Errors errors, UIValidatorBase uiValidatorBase) {
+        int top = uiValidatorBase.getConvertedInt(padding.getTop(), false);
+        int right = uiValidatorBase.getConvertedInt(padding.getRight(), true);
+        int bottom = uiValidatorBase.getConvertedInt(padding.getBottom(), false);
+        int left = uiValidatorBase.getConvertedInt(padding.getLeft(), true);
+
+        Rectangle paddedRoot = new Rectangle(
+                getX() - left,
+                getY() - top,
+                getCornerX() + right,
+                getCornerY() + bottom);
+
+        int paddingTop = getY() - element.getY();
+        int paddingLeft = getX() - element.getX();
+        int paddingBottom = element.getCornerY() - getCornerY();
+        int paddingRight = element.getCornerX() - getCornerX();
+
+        if (!element.contains(paddedRoot)) {
+            errors.add(
+                    String.format("Padding of element %s is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
+                            getQuotedName(),
+                            top,
+                            right,
+                            bottom,
+                            left,
+                            paddingTop,
+                            paddingRight,
+                            paddingBottom,
+                            paddingLeft),
                     element);
         }
     }
