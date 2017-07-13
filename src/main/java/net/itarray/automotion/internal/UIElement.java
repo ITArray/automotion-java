@@ -10,6 +10,7 @@ import net.itarray.automotion.internal.properties.Minimum;
 import net.itarray.automotion.internal.properties.ScalarCondition;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
+import net.itarray.automotion.validation.properties.Padding;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -497,6 +498,49 @@ public class UIElement {
                     String.format("Element %s does not have css property '%s'",
                             getQuotedName(),
                             cssProperty));
+        }
+    }
+
+    public void validateInsideOfContainer(UIElement containerElement, Errors errors) {
+        if (!containerElement.contains(this)) {
+            errors.add(
+                    String.format("Element '%s' is not inside of '%s'",
+                            getName(),
+                            containerElement.getName()),
+                    containerElement);
+        }
+    }
+
+    public void validateInsideOfContainer(UIElement element, Padding padding, Errors errors, UIValidatorBase uiValidatorBase) {
+        int top = uiValidatorBase.getConvertedInt(padding.getTop(), false);
+        int right = uiValidatorBase.getConvertedInt(padding.getRight(), true);
+        int bottom = uiValidatorBase.getConvertedInt(padding.getBottom(), false);
+        int left = uiValidatorBase.getConvertedInt(padding.getLeft(), true);
+
+        Rectangle paddedRoot = new Rectangle(
+                getX() - left,
+                getY() - top,
+                getCornerX() + right,
+                getCornerY() + bottom);
+
+        int paddingTop = getY() - element.getY();
+        int paddingLeft = getX() - element.getX();
+        int paddingBottom = element.getCornerY() - getCornerY();
+        int paddingRight = element.getCornerX() - getCornerX();
+
+        if (!element.contains(paddedRoot)) {
+            errors.add(
+                    String.format("Padding of element %s is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
+                            getQuotedName(),
+                            top,
+                            right,
+                            bottom,
+                            left,
+                            paddingTop,
+                            paddingRight,
+                            paddingBottom,
+                            paddingLeft),
+                    element);
         }
     }
 }

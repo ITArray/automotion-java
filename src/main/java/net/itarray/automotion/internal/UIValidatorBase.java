@@ -1,6 +1,5 @@
 package net.itarray.automotion.internal;
 
-import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.properties.Maximum;
 import net.itarray.automotion.internal.properties.Minimum;
 import net.itarray.automotion.validation.UIElementValidator;
@@ -591,13 +590,13 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase insideOf(WebElement containerElement, String readableContainerName) {
-        validateInsideOfContainer(asElement(containerElement, readableContainerName));
+        rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), errors);
         return this;
     }
 
     @Override
     public UIValidatorBase insideOf(WebElement containerElement, String readableContainerName, Padding padding) {
-        validateInsideOfContainer(asElement(containerElement, readableContainerName), padding);
+        rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), padding, errors, this);
         return this;
     }
 
@@ -633,35 +632,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     private void validateLeftElement(UIElement leftElement, int minMargin, int maxMargin) {
         rootElement.validateLeftElement(leftElement, minMargin, maxMargin, errors);
-    }
-
-    private void validateInsideOfContainer(UIElement containerElement) {
-        if (!containerElement.contains(rootElement)) {
-            errors.add(String.format("Element '%s' is not inside of '%s'", rootElement.getName(), containerElement.getName()), containerElement);
-        }
-    }
-
-    private void validateInsideOfContainer(UIElement element, Padding padding) {
-        int top = getConvertedInt(padding.getTop(), false);
-        int right = getConvertedInt(padding.getRight(), true);
-        int bottom = getConvertedInt(padding.getBottom(), false);
-        int left = getConvertedInt(padding.getLeft(), true);
-
-        Rectangle paddedRoot = new Rectangle(
-                rootElement.getX() - left,
-                rootElement.getY() - top,
-                rootElement.getCornerX() + right,
-                rootElement.getCornerY() + bottom);
-
-        int paddingTop = rootElement.getY() - element.getY();
-        int paddingLeft = rootElement.getX() - element.getX();
-        int paddingBottom = element.getCornerY() - rootElement.getCornerY();
-        int paddingRight = element.getCornerX() - rootElement.getCornerX();
-
-        if (!element.contains(paddedRoot)) {
-            errors.add(String.format("Padding of element '%s' is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
-                        rootElement.getName(), top, right, bottom, left, paddingTop, paddingRight, paddingBottom, paddingLeft), element);
-        }
     }
 
     @Override
