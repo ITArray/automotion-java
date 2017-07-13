@@ -6,6 +6,7 @@ import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
+import net.itarray.automotion.validation.properties.Padding;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -309,6 +310,23 @@ public class ErrorMessagesRegressionTest {
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' is not overlapped with element 'specifying' but should be");
+    }
+
+    @Test
+    public void insideOf() {
+        createElementValidator().insideOf(createElement(1100, 1200, 500, 400), "specifying");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'under test' is not inside of 'specifying'");
+    }
+
+    @Test
+    public void insideOfWithPadding() {
+        Padding padding = new Padding(5, 6, 7, 8);
+        createElementValidator().insideOf(createElement(1100, 1200, 500, 400), "specifying", padding);
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Padding of element 'under test' is incorrect. Expected padding: top[5], right[6], bottom[7], left[8]. Actual padding: top[-1000], right[0], bottom[0], left[-1000]");
     }
 
     @Test
