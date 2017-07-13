@@ -18,36 +18,55 @@ public interface ChunkUIElementValidator {
 
     ChunkUIElementValidator changeMetricsUnitsTo(Units units);
 
+    // ? filled needs to be expressed somehow
+    // areAlignedInColumns(numberOfColumns)
     ChunkUIElementValidator alignedAsGrid(int horizontalGridSize);
 
+    // areAlignedInColumnsAndRows(numberOfColumns)
     ChunkUIElementValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 
+    // doNotOverlap
     ChunkUIElementValidator areNotOverlappedWithEachOther();
 
+    // haveEqualSize
     ChunkUIElementValidator withSameSize();
 
+    // haveEqualWidth
     ChunkUIElementValidator withSameWidth();
 
+    // haveEqualHeight
     ChunkUIElementValidator withSameHeight();
 
+    // really needed?
+    // neighbours have different size
+    // haveDifferentSizes
     ChunkUIElementValidator withNotSameSize();
 
     ChunkUIElementValidator withNotSameWidth();
 
     ChunkUIElementValidator withNotSameHeight();
 
+    // areVerticallyRightAligned
     ChunkUIElementValidator sameRightOffset();
 
+    // areVerticallyLeftAligned
     ChunkUIElementValidator sameLeftOffset();
 
+    // areHorizontallyTopAligned
     ChunkUIElementValidator sameTopOffset();
 
+    // areHorizontallyBottomAligned
     ChunkUIElementValidator sameBottomOffset();
 
+    // areVerticallyCenteredOnPage
     ChunkUIElementValidator equalLeftRightOffset();
 
+    // areHorizontallyCenteredOnPage
     ChunkUIElementValidator equalTopBottomOffset();
 
+    // areInsideOf
     ChunkUIElementValidator insideOf(WebElement containerElement, String readableContainerName);
+
+    // equal distribution (horizontal, vertically, both)
 
 }
