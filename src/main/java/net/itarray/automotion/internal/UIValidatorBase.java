@@ -3,8 +3,6 @@ package net.itarray.automotion.internal;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.properties.Maximum;
 import net.itarray.automotion.internal.properties.Minimum;
-import net.itarray.automotion.tools.general.SystemHelper;
-import net.itarray.automotion.tools.helpers.TextFinder;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
@@ -545,18 +543,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase withCssValue(String cssProperty, String... args) {
-        String cssValue = rootElement.getCssValue(cssProperty);
-
-        if (!cssValue.equals("")) {
-            for (String val : args) {
-                val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
-                if (!TextFinder.textIsFound(val, cssValue)) {
-                    addError(String.format("Expected value of '%s' is '%s'. Actual value is '%s'", cssProperty, val, cssValue));
-                }
-            }
-        } else {
-            addError(String.format("Element '%s' does not have css property '%s'", rootElement.getName(), cssProperty));
-        }
+        rootElement.validateWithCssValue(cssProperty, args, errors);
         return this;
     }
 
@@ -569,18 +556,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase withoutCssValue(String cssProperty, String... args) {
-        String cssValue = rootElement.getCssValue(cssProperty);
-
-        if (!cssValue.equals("")) {
-            for (String val : args) {
-                val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
-                if (TextFinder.textIsFound(val, cssValue)) {
-                    addError(String.format("CSS property '%s' should not contain value '%s'. Actual value is '%s'", cssProperty, val, cssValue));
-                }
-            }
-        } else {
-            addError(String.format("Element '%s' does not have css property '%s'", rootElement.getName(), cssProperty));
-        }
+        rootElement.validateWithoutCssValue(cssProperty, args, errors);
         return this;
     }
 

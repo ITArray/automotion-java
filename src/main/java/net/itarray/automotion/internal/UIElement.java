@@ -8,6 +8,8 @@ import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Maximum;
 import net.itarray.automotion.internal.properties.Minimum;
 import net.itarray.automotion.internal.properties.ScalarCondition;
+import net.itarray.automotion.tools.general.SystemHelper;
+import net.itarray.automotion.tools.helpers.TextFinder;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -459,6 +461,42 @@ public class UIElement {
                             condition.toStringWithUnits(PIXELS),
                             direction.extendName(),
                             direction.extend(rectangle).toStringWithUnits(PIXELS)));
+        }
+    }
+
+    public void validateWithoutCssValue(String cssProperty, String[] args, Errors errors) {
+        String cssValue = getCssValue(cssProperty);
+
+        if (!cssValue.equals("")) {
+            for (String val : args) {
+                val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
+                if (TextFinder.textIsFound(val, cssValue)) {
+                    errors.add(String.format("CSS property '%s' should not contain value '%s'. Actual value is '%s'", cssProperty, val, cssValue));
+                }
+            }
+        } else {
+            errors.add(
+                    String.format("Element %s does not have css property '%s'",
+                            getQuotedName(),
+                            cssProperty));
+        }
+    }
+
+    public void validateWithCssValue(String cssProperty, String[] args, Errors errors) {
+        String cssValue = getCssValue(cssProperty);
+
+        if (!cssValue.equals("")) {
+            for (String val : args) {
+                val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
+                if (!TextFinder.textIsFound(val, cssValue)) {
+                    errors.add(String.format("Expected value of '%s' is '%s'. Actual value is '%s'", cssProperty, val, cssValue));
+                }
+            }
+        } else {
+            errors.add(
+                    String.format("Element %s does not have css property '%s'",
+                            getQuotedName(),
+                            cssProperty));
         }
     }
 }
