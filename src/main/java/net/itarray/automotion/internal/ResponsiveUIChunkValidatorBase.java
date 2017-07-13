@@ -233,7 +233,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      */
     @Override
     public ResponsiveUIChunkValidatorBase insideOf(WebElement containerElement, String readableContainerName) {
-        validateInsideOfContainer(asElement(containerElement), readableContainerName, rootElements);
+        validateInsideOfContainer(asElement(containerElement, readableContainerName), rootElements);
         return this;
     }
 
@@ -397,11 +397,9 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         }
     }
 
-    private void validateInsideOfContainer(UIElement containerElement, String readableContainerName, List<UIElement> elements) {
+    private void validateInsideOfContainer(UIElement containerElement, List<UIElement> elements) {
         for (UIElement element : elements) {
-            if (!containerElement.contains(element)) {
-                errors.add(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
-            }
+            element.validateInsideOfContainer(containerElement, errors);
         }
     }
 

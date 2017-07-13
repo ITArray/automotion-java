@@ -325,7 +325,7 @@ public class ErrorMessagesRegressionTest {
         createChunkValidator().insideOf(createElement(1100, 1200, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element is not inside of 'specifying'");
+                .isEqualTo("Element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' is not inside of 'specifying'");
     }
 
     @Test
