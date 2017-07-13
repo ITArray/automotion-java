@@ -321,6 +321,14 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
+    public void insideOfChunk() {
+        createChunkValidator().insideOf(createElement(1100, 1200, 500, 400), "specifying");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element is not inside of 'specifying'");
+    }
+
+    @Test
     public void insideOfWithPadding() {
         Padding padding = new Padding(5, 6, 7, 8);
         createElementValidator().insideOf(createElement(1100, 1200, 500, 400), "specifying", padding);
