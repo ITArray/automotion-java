@@ -37,8 +37,9 @@ public interface ChunkUIElementValidator {
     // haveEqualHeight
     ChunkUIElementValidator withSameHeight();
 
-    // really needed?
-    // neighbours have different size
+    // really needed? -> keep
+    // all have different size
+    // we need to fix bug
     // haveDifferentSizes
     ChunkUIElementValidator withNotSameSize();
 

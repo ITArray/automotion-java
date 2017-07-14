@@ -49,12 +49,12 @@ public interface UIElementValidator {
 
     UIElementValidator withBottomElement(WebElement element, int minMargin, int maxMargin);
 
-    // doesNotOverlap(element)
+    // isNotOverlapping(element)
     UIElementValidator notOverlapWith(WebElement element, String readableName);
 
     UIElementValidator notOverlapWith(List<WebElement> elements);
 
-    // overlaps(element)
+    // isOverlapping(element)
     UIElementValidator overlapWith(WebElement element, String readableName);
 
     // isVerticallyLeftAlignedWith(element)
@@ -77,7 +77,7 @@ public interface UIElementValidator {
 
     UIElementValidator sameOffsetBottomAs(List<WebElement> elements);
 
-    // hasSameWidthAs
+    // sameWidthAs
     UIElementValidator sameWidthAs(WebElement element, String readableName);
 
     UIElementValidator sameWidthAs(List<WebElement> elements);
@@ -112,9 +112,8 @@ public interface UIElementValidator {
     // hasHeightBetween(min, max)
     UIElementValidator heightBetween(int min, int max);
 
-    // - methods per direction
-    // - name reference
-    // - page document ... ?
+    // - methods per direction -> ok
+    // page(document)/screen ? -> stay with page first
     // hasLeftOffsetToPageGreaterOrEqualTo(value)
     UIElementValidator minOffset(int top, int right, int bottom, int left);
 
@@ -126,10 +125,10 @@ public interface UIElementValidator {
     // doesNotHaveCssValue (really needed)
     UIElementValidator withoutCssValue(String cssProperty, String... args);
 
-    // isVerticallyCenteredOnPage
+    // isHorizontallyCenteredOnPage -- needs frontend dev feedback
     UIElementValidator equalLeftRightOffset();
 
-    // isHorizontallyCenteredOnPage
+    // isVerticallyCenteredOnPage
     UIElementValidator equalTopBottomOffset();
 
     // isInsideOf
