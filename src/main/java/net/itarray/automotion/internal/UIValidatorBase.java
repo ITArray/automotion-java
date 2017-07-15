@@ -62,8 +62,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase withLeftElement(WebElement element) {
-        rootElement.validateLeftElement(asElement(element), errors);
+    public UIValidatorBase isRightOf(WebElement element) {
+        rootElement.validateIsRightOf(asElement(element), errors);
         return this;
     }
 
@@ -76,8 +76,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase withLeftElement(WebElement element, int minMargin, int maxMargin) {
-        validateLeftElement(asElement(element), getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true));
+    public UIValidatorBase isRightOf(WebElement element, int minMargin, int maxMargin) {
+        rootElement.validateIsRightOf(asElement(element), getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true), errors);
         return this;
     }
 
@@ -88,8 +88,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase withRightElement(WebElement element) {
-        rootElement.validateRightElement(asElement(element), errors);
+    public UIValidatorBase isLeftOf(WebElement element) {
+        rootElement.validateIsLeftOf(asElement(element), errors);
         return this;
     }
 
@@ -102,8 +102,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase withRightElement(WebElement element, int minMargin, int maxMargin) {
-        validateRightElement(asElement(element), getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true));
+    public UIValidatorBase isLeftOf(WebElement element, int minMargin, int maxMargin) {
+        rootElement.validateIsLeftOf(asElement(element), getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true), errors);
         return this;
     }
 
@@ -114,8 +114,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase withTopElement(WebElement element) {
-        rootElement.validateAboveElement(asElement(element), errors);
+    public UIValidatorBase isBelow(WebElement element) {
+        rootElement.validateIsBelow(asElement(element), errors);
         return this;
     }
 
@@ -128,8 +128,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase withTopElement(WebElement element, int minMargin, int maxMargin) {
-        validateAboveElement(asElement(element), getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false));
+    public UIValidatorBase isBelow(WebElement element, int minMargin, int maxMargin) {
+        rootElement.validateIsBelow(asElement(element), getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false), errors);
         return this;
     }
 
@@ -140,8 +140,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase withBottomElement(WebElement element) {
-        rootElement.validateBelowElement(asElement(element), errors);
+    public UIValidatorBase isAbove(WebElement element) {
+        rootElement.validateIsAbove(asElement(element), errors);
         return this;
     }
 
@@ -154,8 +154,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase withBottomElement(WebElement element, int minMargin, int maxMargin) {
-        validateBelowElement(asElement(element), getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false));
+    public UIValidatorBase isAbove(WebElement element, int minMargin, int maxMargin) {
+        rootElement.validateIsAbove(asElement(element), getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false), this.errors);
         return this;
     }
 
@@ -616,22 +616,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     private void validateNotSameSize(UIElement element) {
         rootElement.validateNotSameSize(element, errors);
-    }
-
-    private void validateBelowElement(UIElement element, int minMargin, int maxMargin) {
-        rootElement.validateBelowElement(element, minMargin, maxMargin, this.errors);
-    }
-
-    private void validateAboveElement(UIElement element, int minMargin, int maxMargin) {
-        rootElement.validateAboveElement(element, minMargin, maxMargin, errors);
-    }
-
-    private void validateRightElement(UIElement element, int minMargin, int maxMargin) {
-        rootElement.validateRightElement(element, minMargin, maxMargin, errors);
-    }
-
-    private void validateLeftElement(UIElement leftElement, int minMargin, int maxMargin) {
-        rootElement.validateLeftElement(leftElement, minMargin, maxMargin, errors);
     }
 
     @Override

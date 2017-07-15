@@ -29,25 +29,29 @@ public interface UIElementValidator {
 
     UIElementValidator changeMetricsUnitsTo(Units units);
 
-    // isRightOf(element)
-    UIElementValidator withLeftElement(WebElement element);
+    default UIElementValidator withLeftElement(WebElement element) { return isRightOf(element); }
+    UIElementValidator isRightOf(WebElement element);
 
-    UIElementValidator withLeftElement(WebElement element, int minMargin, int maxMargin);
+    default UIElementValidator withLeftElement(WebElement element, int minMargin, int maxMargin) {return isRightOf(element, minMargin, maxMargin); }
+    UIElementValidator isRightOf(WebElement element, int minMargin, int maxMargin);
 
-    // isLeftOf(element)
-    UIElementValidator withRightElement(WebElement element);
+    default UIElementValidator withRightElement(WebElement element) { return isLeftOf(element); }
+    UIElementValidator isLeftOf(WebElement element);
 
-    UIElementValidator withRightElement(WebElement element, int minMargin, int maxMargin);
+    default UIElementValidator withRightElement(WebElement element, int minMargin, int maxMargin) { return isLeftOf(element, minMargin, maxMargin); }
+    UIElementValidator isLeftOf(WebElement element, int minMargin, int maxMargin);
 
-    // isBelow(element)
-    UIElementValidator withTopElement(WebElement element);
+    default UIElementValidator withTopElement(WebElement element) { return isBelow(element); }
+    UIElementValidator isBelow(WebElement element);
 
-    UIElementValidator withTopElement(WebElement element, int minMargin, int maxMargin);
+    default UIElementValidator withTopElement(WebElement element, int minMargin, int maxMargin) { return isBelow(element, minMargin, maxMargin); }
+    UIElementValidator isBelow(WebElement element, int minMargin, int maxMargin);
 
-    // isAbove(element)
-    UIElementValidator withBottomElement(WebElement element);
+    default UIElementValidator withBottomElement(WebElement element) { return isAbove(element); }
+    UIElementValidator isAbove(WebElement element);
 
-    UIElementValidator withBottomElement(WebElement element, int minMargin, int maxMargin);
+    default UIElementValidator withBottomElement(WebElement element, int minMargin, int maxMargin) { return isAbove(element, minMargin, maxMargin); }
+    UIElementValidator isAbove(WebElement element, int minMargin, int maxMargin);
 
     // isNotOverlapping(element)
     UIElementValidator notOverlapWith(WebElement element, String readableName);

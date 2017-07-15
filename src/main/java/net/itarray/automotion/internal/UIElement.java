@@ -261,19 +261,19 @@ public class UIElement {
         }
     }
 
-    public void validateLeftElement(UIElement leftElement, Errors errors) {
+    public void validateIsRightOf(UIElement leftElement, Errors errors) {
         validateSuccessor(LEFT, leftElement, errors);
     }
 
-    public void validateRightElement(UIElement rightElement, Errors errors) {
+    public void validateIsLeftOf(UIElement rightElement, Errors errors) {
         validateSuccessor(RIGHT, rightElement, errors);
     }
 
-    public void validateAboveElement(UIElement aboveElement, Errors errors) {
+    public void validateIsBelow(UIElement aboveElement, Errors errors) {
         validateSuccessor(UP, aboveElement, errors);
     }
 
-    public void validateBelowElement(UIElement belowElement, Errors errors) {
+    public void validateIsAbove(UIElement belowElement, Errors errors) {
         validateSuccessor(DOWN, belowElement, errors);
     }
 
@@ -334,19 +334,19 @@ public class UIElement {
         validateNotSameExtend(ORIGIN_CORNER, element, errors);
     }
 
-    public void validateBelowElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
+    public void validateIsAbove(UIElement element, int minMargin, int maxMargin, Errors errors) {
         validateSuccessor(DOWN, element, minMargin, maxMargin, errors);
     }
 
-    public void validateAboveElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
+    public void validateIsBelow(UIElement element, int minMargin, int maxMargin, Errors errors) {
         validateSuccessor(UP, element, minMargin, maxMargin, errors);
     }
 
-    public void validateRightElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
+    public void validateIsLeftOf(UIElement element, int minMargin, int maxMargin, Errors errors) {
         validateSuccessor(RIGHT, element, minMargin, maxMargin, errors);
     }
 
-    public void validateLeftElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
+    public void validateIsRightOf(UIElement element, int minMargin, int maxMargin, Errors errors) {
         validateSuccessor(LEFT, element, minMargin, maxMargin, errors);
     }
 

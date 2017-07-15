@@ -16,21 +16,21 @@ public interface Validator extends UIElementValidator {
 
     UIValidator changeMetricsUnitsTo(net.itarray.automotion.validation.Units units);
 
-    UIValidator withLeftElement(WebElement element);
+    UIValidator isRightOf(WebElement element);
 
-    UIValidator withLeftElement(WebElement element, int minMargin, int maxMargin);
+    UIValidator isRightOf(WebElement element, int minMargin, int maxMargin);
 
-    UIValidator withRightElement(WebElement element);
+    UIValidator isLeftOf(WebElement element);
 
-    UIValidator withRightElement(WebElement element, int minMargin, int maxMargin);
+    UIValidator isLeftOf(WebElement element, int minMargin, int maxMargin);
 
-    UIValidator withTopElement(WebElement element);
+    UIValidator isBelow(WebElement element);
 
-    UIValidator withTopElement(WebElement element, int minMargin, int maxMargin);
+    UIValidator isBelow(WebElement element, int minMargin, int maxMargin);
 
-    UIValidator withBottomElement(WebElement element);
+    UIValidator isAbove(WebElement element);
 
-    UIValidator withBottomElement(WebElement element, int minMargin, int maxMargin);
+    UIValidator isAbove(WebElement element, int minMargin, int maxMargin);
 
     UIValidator notOverlapWith(WebElement element, String readableName);
 

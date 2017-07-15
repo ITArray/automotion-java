@@ -59,8 +59,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withLeftElement(WebElement element) {
-        getBase().withLeftElement(element);
+    public UIValidator isRightOf(WebElement element) {
+        getBase().isRightOf(element);
         return this;
     }
 
@@ -73,8 +73,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withLeftElement(WebElement element, int minMargin, int maxMargin) {
-        getBase().withLeftElement(element, minMargin, maxMargin);
+    public UIValidator isRightOf(WebElement element, int minMargin, int maxMargin) {
+        getBase().isRightOf(element, minMargin, maxMargin);
         return this;
     }
 
@@ -85,8 +85,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withRightElement(WebElement element) {
-        getBase().withRightElement(element);
+    public UIValidator isLeftOf(WebElement element) {
+        getBase().isLeftOf(element);
         return this;
     }
 
@@ -99,8 +99,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withRightElement(WebElement element, int minMargin, int maxMargin) {
-        getBase().withRightElement(element, minMargin, maxMargin);
+    public UIValidator isLeftOf(WebElement element, int minMargin, int maxMargin) {
+        getBase().isLeftOf(element, minMargin, maxMargin);
         return this;
     }
 
@@ -111,8 +111,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withTopElement(WebElement element) {
-        getBase().withTopElement(element);
+    public UIValidator isBelow(WebElement element) {
+        getBase().isBelow(element);
         return this;
     }
 
@@ -125,8 +125,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withTopElement(WebElement element, int minMargin, int maxMargin) {
-        getBase().withTopElement(element, minMargin, maxMargin);
+    public UIValidator isBelow(WebElement element, int minMargin, int maxMargin) {
+        getBase().isBelow(element, minMargin, maxMargin);
         return this;
     }
 
@@ -137,8 +137,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withBottomElement(WebElement element) {
-        getBase().withBottomElement(element);
+    public UIValidator isAbove(WebElement element) {
+        getBase().isAbove(element);
         return this;
     }
 
@@ -151,8 +151,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withBottomElement(WebElement element, int minMargin, int maxMargin) {
-        getBase().withBottomElement(element, minMargin, maxMargin);
+    public UIValidator isAbove(WebElement element, int minMargin, int maxMargin) {
+        getBase().isAbove(element, minMargin, maxMargin);
         return this;
     }
 

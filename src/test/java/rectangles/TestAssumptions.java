@@ -121,36 +121,36 @@ public class TestAssumptions {
         return validate(elements, ResponsiveUIChunkValidator::sameBottomOffset);
     }
 
-    public static boolean withBottomElement(WebElement root, WebElement other, int minMargin, int maxMargin) {
-        return validate(root, other, (uiValidator, webElement) -> uiValidator.withBottomElement(other, minMargin, maxMargin));
+    public static boolean isAbove(WebElement root, WebElement other, int minMargin, int maxMargin) {
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.isAbove(other, minMargin, maxMargin));
     }
 
-    public static boolean withBottomElement(WebElement other, WebElement root) {
-        return validate(root, other, UIValidator::withBottomElement);
+    public static boolean isAbove(WebElement other, WebElement root) {
+        return validate(root, other, UIValidator::isAbove);
     }
 
-    public static boolean withTopElement(WebElement root, WebElement other, int minMargin, int maxMargin) {
-        return validate(root, other, (uiValidator, webElement) -> uiValidator.withTopElement(other, minMargin, maxMargin));
+    public static boolean isBelow(WebElement root, WebElement other, int minMargin, int maxMargin) {
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.isBelow(other, minMargin, maxMargin));
     }
 
-    public static boolean withTopElement(WebElement root, WebElement other) {
-        return validate(root, other, UIValidator::withTopElement);
+    public static boolean isBelow(WebElement root, WebElement other) {
+        return validate(root, other, UIValidator::isBelow);
     }
 
-    public static boolean withLeftElement(WebElement root, WebElement other, int minMargin, int maxMargin) {
-        return validate(root, uiValidator -> uiValidator.withLeftElement(other, minMargin, maxMargin));
+    public static boolean isRightOf(WebElement root, WebElement other, int minMargin, int maxMargin) {
+        return validate(root, uiValidator -> uiValidator.isRightOf(other, minMargin, maxMargin));
     }
 
-    public static boolean withLeftElement(WebElement root, WebElement other) {
-        return validate(root, other, UIValidator::withLeftElement);
+    public static boolean isRightOf(WebElement root, WebElement other) {
+        return validate(root, other, UIValidator::isRightOf);
     }
 
-    public static boolean withRightElement(WebElement root, WebElement other, int minMargin, int maxMargin) {
-        return validate(root, uiValidator -> uiValidator.withRightElement(other, minMargin, maxMargin));
+    public static boolean isLeftOf(WebElement root, WebElement other, int minMargin, int maxMargin) {
+        return validate(root, uiValidator -> uiValidator.isLeftOf(other, minMargin, maxMargin));
     }
 
-    public static boolean withRightElement(WebElement root, WebElement other) {
-        return validate(root, other, UIValidator::withRightElement);
+    public static boolean isLeftOf(WebElement root, WebElement other) {
+        return validate(root, other, UIValidator::isLeftOf);
     }
 
     public static boolean overlapWith(WebElement root, WebElement other) {
