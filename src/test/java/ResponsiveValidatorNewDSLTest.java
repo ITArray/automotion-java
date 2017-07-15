@@ -1,5 +1,4 @@
 import http.helpers.EnvironmentHelper;
-import net.itarray.automotion.validation.Literals;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
@@ -9,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
-import util.driver.DriverHelper;
 import util.driver.WebDriverFactory;
 import net.itarray.automotion.validation.properties.Padding;
 
@@ -110,8 +108,8 @@ public class ResponsiveValidatorNewDSLTest {
         for (WebElement card : page.gridElements()) {
             boolean success = responsiveUIValidator.snapshot("Validation of style for each of cards in a grid view")
                     .findElement(card.findElement(By.className("project-details")), "Project details block")
-                    .withCssValue("background", "#f8f8f8")
-                    .withCssValue("color", "#6f6f6f")
+                    .hasCssValue("background", "#f8f8f8")
+                    .hasCssValue("color", "#6f6f6f")
                     .notOverlapWith(card.findElement(By.className("gallery-hover-4col")), "Image Container")
                     .sameWidthAs(card.findElement(By.className("gallery-hover-4col")), "Image Container")
                     .validate();

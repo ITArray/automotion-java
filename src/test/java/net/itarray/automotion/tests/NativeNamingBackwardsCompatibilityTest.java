@@ -71,4 +71,16 @@ public class NativeNamingBackwardsCompatibilityTest {
         verify(validator).isAbove(other, 5, 7);
     }
 
+    @Test
+    public void withCssValue() {
+            validator.withCssValue("key", "value");
+        verify(validator).hasCssValue("key", "value");
+    }
+
+    @Test
+    public void withoutCssValue() {
+            validator.withoutCssValue("key", "value");
+        verify(validator).doesNotHaveCssValue("key", "value");
+    }
+
 }

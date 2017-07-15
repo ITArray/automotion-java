@@ -506,8 +506,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withCssValue(String cssProperty, String... args) {
-        getBase().withCssValue(cssProperty, args);
+    public UIValidator hasCssValue(String cssProperty, String... args) {
+        getBase().hasCssValue(cssProperty, args);
         return this;
     }
 
@@ -519,8 +519,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withoutCssValue(String cssProperty, String... args) {
-        getBase().withoutCssValue(cssProperty, args);
+    public UIValidator doesNotHaveCssValue(String cssProperty, String... args) {
+        getBase().doesNotHaveCssValue(cssProperty, args);
         return this;
     }
 

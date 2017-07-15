@@ -496,25 +496,25 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
-    public void withCssValueNoValue() {
-        createElementValidator().withCssValue("font-size", "12px");
+    public void hasCssValueNoValue() {
+        createElementValidator().hasCssValue("font-size", "12px");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' does not have css property 'font-size'");
     }
 
     @Test
-    public void withCssValueDifferentValue() {
+    public void hasCssValueDifferentValue() {
         element.putCssValue("font-size", "16px");
-        createElementValidator().withCssValue("font-size", "12px");
+        createElementValidator().hasCssValue("font-size", "12px");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected value of 'font-size' is '12px'. Actual value is '16px'");
     }
 
     @Test
-    public void withoutCssValueNoValue() {
-        createElementValidator().withoutCssValue("font-size", "12px");
+    public void doesNotHaveCssValueNoValue() {
+        createElementValidator().doesNotHaveCssValue("font-size", "12px");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' does not have css property 'font-size'");
@@ -522,9 +522,9 @@ public class ErrorMessagesRegressionTest {
 
 
     @Test
-    public void withoutCssValueDifferentValue() {
+    public void doesNotHaveCssValueDifferentValue() {
         element.putCssValue("font-size", "12px");
-        createElementValidator().withoutCssValue("font-size", "12px");
+        createElementValidator().doesNotHaveCssValue("font-size", "12px");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("CSS property 'font-size' should not contain value '12px'. Actual value is '12px'");

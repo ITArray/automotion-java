@@ -541,8 +541,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase withCssValue(String cssProperty, String... args) {
-        rootElement.validateWithCssValue(cssProperty, args, errors);
+    public UIValidatorBase hasCssValue(String cssProperty, String... args) {
+        rootElement.validateHasCssValue(cssProperty, args, errors);
         return this;
     }
 
@@ -554,8 +554,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase withoutCssValue(String cssProperty, String... args) {
-        rootElement.validateWithoutCssValue(cssProperty, args, errors);
+    public UIValidatorBase doesNotHaveCssValue(String cssProperty, String... args) {
+        rootElement.validateDoesNotHaveCssValue(cssProperty, args, errors);
         return this;
     }
 

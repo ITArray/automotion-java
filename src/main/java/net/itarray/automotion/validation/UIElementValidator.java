@@ -123,11 +123,11 @@ public interface UIElementValidator {
 
     UIElementValidator maxOffset(int top, int right, int bottom, int left);
 
-    // hasCssValue
-    UIElementValidator withCssValue(String cssProperty, String... args);
+    default UIElementValidator withCssValue(String cssProperty, String... args) { return hasCssValue(cssProperty, args); }
+    UIElementValidator hasCssValue(String cssProperty, String... args);
 
-    // doesNotHaveCssValue (really needed)
-    UIElementValidator withoutCssValue(String cssProperty, String... args);
+    default UIElementValidator withoutCssValue(String cssProperty, String... args) { return doesNotHaveCssValue(cssProperty, args); }
+    UIElementValidator doesNotHaveCssValue(String cssProperty, String... args);
 
     // isHorizontallyCenteredOnPage -- needs frontend dev feedback
     UIElementValidator equalLeftRightOffset();

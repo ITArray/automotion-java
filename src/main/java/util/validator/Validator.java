@@ -86,9 +86,9 @@ public interface Validator extends UIElementValidator {
 
     UIValidator maxOffset(int top, int right, int bottom, int left);
 
-    UIValidator withCssValue(String cssProperty, String... args);
+    UIValidator hasCssValue(String cssProperty, String... args);
 
-    UIValidator withoutCssValue(String cssProperty, String... args);
+    UIValidator doesNotHaveCssValue(String cssProperty, String... args);
 
     UIValidator equalLeftRightOffset();
 

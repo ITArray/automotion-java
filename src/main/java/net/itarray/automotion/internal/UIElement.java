@@ -465,7 +465,7 @@ public class UIElement {
         }
     }
 
-    public void validateWithoutCssValue(String cssProperty, String[] args, Errors errors) {
+    public void validateDoesNotHaveCssValue(String cssProperty, String[] args, Errors errors) {
         String cssValue = getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
@@ -483,7 +483,7 @@ public class UIElement {
         }
     }
 
-    public void validateWithCssValue(String cssProperty, String[] args, Errors errors) {
+    public void validateHasCssValue(String cssProperty, String[] args, Errors errors) {
         String cssValue = getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {

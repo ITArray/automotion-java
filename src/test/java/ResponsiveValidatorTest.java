@@ -112,8 +112,8 @@ public class ResponsiveValidatorTest {
         for (WebElement card : page.gridElements()) {
             boolean success = uiValidator.init("Validation of style for each of cards in a grid view")
                     .findElement(card.findElement(By.className("project-details")), "Project details block")
-                    .withCssValue("background", "#f8f8f8")
-                    .withCssValue("color", "#6f6f6f")
+                    .hasCssValue("background", "#f8f8f8")
+                    .hasCssValue("color", "#6f6f6f")
                     .notOverlapWith(card.findElement(By.className("gallery-hover-4col")), "Image Container")
                     .sameWidthAs(card.findElement(By.className("gallery-hover-4col")), "Image Container")
                     .drawMap()
