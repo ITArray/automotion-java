@@ -29,27 +29,59 @@ public interface UIElementValidator {
 
     UIElementValidator changeMetricsUnitsTo(Units units);
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isRightOf(org.openqa.selenium.WebElement)}
+     */
+    @Deprecated
     default UIElementValidator withLeftElement(WebElement element) { return isRightOf(element); }
     UIElementValidator isRightOf(WebElement element);
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isRightOf(org.openqa.selenium.WebElement, int, int)}
+     */
+    @Deprecated
     default UIElementValidator withLeftElement(WebElement element, int minMargin, int maxMargin) {return isRightOf(element, minMargin, maxMargin); }
     UIElementValidator isRightOf(WebElement element, int minMargin, int maxMargin);
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isLeftOf(org.openqa.selenium.WebElement)}
+     */
+    @Deprecated
     default UIElementValidator withRightElement(WebElement element) { return isLeftOf(element); }
     UIElementValidator isLeftOf(WebElement element);
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isRightOf(org.openqa.selenium.WebElement, int, int)}
+     */
+    @Deprecated
     default UIElementValidator withRightElement(WebElement element, int minMargin, int maxMargin) { return isLeftOf(element, minMargin, maxMargin); }
     UIElementValidator isLeftOf(WebElement element, int minMargin, int maxMargin);
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isBelow(org.openqa.selenium.WebElement)}
+     */
+    @Deprecated
     default UIElementValidator withTopElement(WebElement element) { return isBelow(element); }
     UIElementValidator isBelow(WebElement element);
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isBelow(org.openqa.selenium.WebElement, int, int)}
+     */
+    @Deprecated
     default UIElementValidator withTopElement(WebElement element, int minMargin, int maxMargin) { return isBelow(element, minMargin, maxMargin); }
     UIElementValidator isBelow(WebElement element, int minMargin, int maxMargin);
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isAbove(org.openqa.selenium.WebElement)}
+     */
+    @Deprecated
     default UIElementValidator withBottomElement(WebElement element) { return isAbove(element); }
     UIElementValidator isAbove(WebElement element);
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isAbove(org.openqa.selenium.WebElement, int, int)}
+     */
+    @Deprecated
     default UIElementValidator withBottomElement(WebElement element, int minMargin, int maxMargin) { return isAbove(element, minMargin, maxMargin); }
     UIElementValidator isAbove(WebElement element, int minMargin, int maxMargin);
 
@@ -123,9 +155,17 @@ public interface UIElementValidator {
 
     UIElementValidator maxOffset(int top, int right, int bottom, int left);
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasCssValue(String, String...)}
+     */
+    @Deprecated
     default UIElementValidator withCssValue(String cssProperty, String... args) { return hasCssValue(cssProperty, args); }
     UIElementValidator hasCssValue(String cssProperty, String... args);
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#doesNotHaveCssValue(String, String...)}
+     */
+    @Deprecated
     default UIElementValidator withoutCssValue(String cssProperty, String... args) { return doesNotHaveCssValue(cssProperty, args); }
     UIElementValidator doesNotHaveCssValue(String cssProperty, String... args);
 
