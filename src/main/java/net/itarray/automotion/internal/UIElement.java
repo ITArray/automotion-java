@@ -234,19 +234,19 @@ public class UIElement {
         return rectangle.contains(other);
     }
 
-    public void validateEqualLeft(UIElement element, Errors errors) {
+    public void validateLeftAlignedWith(UIElement element, Errors errors) {
         validateEqualEnd(LEFT, element, errors);
     }
 
-    public void validateEqualRight(UIElement element, Errors errors) {
+    public void validateRightAlignedWith(UIElement element, Errors errors) {
         validateEqualEnd(RIGHT, element, errors);
     }
 
-    public void validateEqualTop(UIElement element, Errors errors) {
+    public void validateTopAlignedWith(UIElement element, Errors errors) {
         validateEqualEnd(UP, element, errors);
     }
 
-    public void validateEqualBottom(UIElement element, Errors errors) {
+    public void validateBottomAlignedWith(UIElement element, Errors errors) {
         validateEqualEnd(DOWN, element, errors);
     }
 

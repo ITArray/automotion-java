@@ -93,25 +93,61 @@ public interface UIElementValidator {
     // isOverlapping(element)
     UIElementValidator overlapWith(WebElement element, String readableName);
 
-    // isVerticallyLeftAlignedWith(element)
-    UIElementValidator sameOffsetLeftAs(WebElement element, String readableName);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isVerticallyLeftAlignedWith(org.openqa.selenium.WebElement, String)}
+     */
+    @Deprecated
+    default UIElementValidator sameOffsetLeftAs(WebElement element, String readableName) { return isVerticallyLeftAlignedWith(element, readableName); }
+    UIElementValidator isVerticallyLeftAlignedWith(WebElement element, String readableName);
 
-    UIElementValidator sameOffsetLeftAs(List<WebElement> elements);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isVerticallyLeftAlignedWith(java.util.List)}
+     */
+    @Deprecated
+    default UIElementValidator sameOffsetLeftAs(List<WebElement> elements) { return isVerticallyLeftAlignedWith(elements); }
+    UIElementValidator isVerticallyLeftAlignedWith(List<WebElement> elements);
 
-    // isVerticallyRightAlignedWith(element)
-    UIElementValidator sameOffsetRightAs(WebElement element, String readableName);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isVerticallyRightAlignedWith(org.openqa.selenium.WebElement, String)}
+     */
+    @Deprecated
+    default UIElementValidator sameOffsetRightAs(WebElement element, String readableName) { return isVerticallyRightAlignedWith(element, readableName); }
+    UIElementValidator isVerticallyRightAlignedWith(WebElement element, String readableName);
 
-    UIElementValidator sameOffsetRightAs(List<WebElement> elements);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isVerticallyRightAlignedWith(java.util.List)}
+     */
+    @Deprecated
+    default UIElementValidator sameOffsetRightAs(List<WebElement> elements) { return isVerticallyRightAlignedWith(elements); }
+    UIElementValidator isVerticallyRightAlignedWith(List<WebElement> elements);
 
-    // isHorizontallyTopAlignedWith(element)
-    UIElementValidator sameOffsetTopAs(WebElement element, String readableName);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isHorizontallyTopAlignedWith(org.openqa.selenium.WebElement, String)}
+     */
+    @Deprecated
+    default UIElementValidator sameOffsetTopAs(WebElement element, String readableName) { return isHorizontallyTopAlignedWith(element, readableName); }
+    UIElementValidator isHorizontallyTopAlignedWith(WebElement element, String readableName);
 
-    UIElementValidator sameOffsetTopAs(List<WebElement> elements);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isHorizontallyTopAlignedWith(java.util.List)}
+     */
+    @Deprecated
+    default UIElementValidator sameOffsetTopAs(List<WebElement> elements) { return isHorizontallyTopAlignedWith(elements); }
+    UIElementValidator isHorizontallyTopAlignedWith(List<WebElement> elements);
 
-    // isHorizontallyBottomAlignedWith(element)
-    UIElementValidator sameOffsetBottomAs(WebElement element, String readableName);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isHorizontallyBottomAlignedWith(org.openqa.selenium.WebElement, String)}
+     */
+    @Deprecated
+    default UIElementValidator sameOffsetBottomAs(WebElement element, String readableName) { return isHorizontallyBottomAlignedWith(element, readableName); }
+    UIElementValidator isHorizontallyBottomAlignedWith(WebElement element, String readableName);
 
-    UIElementValidator sameOffsetBottomAs(List<WebElement> elements);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isHorizontallyBottomAlignedWith(java.util.List)}
+     */
+    @Deprecated
+    default UIElementValidator sameOffsetBottomAs(List<WebElement> elements) { return isHorizontallyBottomAlignedWith(elements); }
+    UIElementValidator isHorizontallyBottomAlignedWith(List<WebElement> elements);
 
     // sameWidthAs
     UIElementValidator sameWidthAs(WebElement element, String readableName);

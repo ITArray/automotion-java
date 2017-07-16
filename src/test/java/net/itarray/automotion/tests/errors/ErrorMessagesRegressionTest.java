@@ -63,16 +63,16 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
-    public void sameOffsetLeftAs() {
-        createElementValidator().sameOffsetLeftAs(createElement(105, 200, 500, 400), "specifying");
+    public void isVerticallyLeftAlignedWith() {
+        createElementValidator().isVerticallyLeftAlignedWith(createElement(105, 200, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same left offset as element 'specifying'");
     }
 
     @Test
-    public void sameOffsetLeftAsWithList() {
-        createElementValidator().sameOffsetLeftAs(singletonList(createElement(105, 200, 500, 400)));
+    public void isVerticallyLeftAlignedWithList() {
+        createElementValidator().isVerticallyLeftAlignedWith(singletonList(createElement(105, 200, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same left offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[105,200], size=[395,200]'");
@@ -87,16 +87,16 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
-    public void sameOffsetRightAs() {
-        createElementValidator().sameOffsetRightAs(createElement(100, 200, 505, 400), "specifying");
+    public void isVerticallyRightAlignedWith() {
+        createElementValidator().isVerticallyRightAlignedWith(createElement(100, 200, 505, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same right offset as element 'specifying'");
     }
 
     @Test
-    public void sameOffsetRightAsWithList() {
-        createElementValidator().sameOffsetRightAs(singletonList(createElement(100, 200, 505, 400)));
+    public void isVerticallyRightAlignedWithList() {
+        createElementValidator().isVerticallyRightAlignedWith(singletonList(createElement(100, 200, 505, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same right offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,200]'");
@@ -111,16 +111,16 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
-    public void sameOffsetTopAs() {
-        createElementValidator().sameOffsetTopAs(createElement(100, 205, 500, 400), "specifying");
+    public void isHorizontallyTopAlignedWith() {
+        createElementValidator().isHorizontallyTopAlignedWith(createElement(100, 205, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same top offset as element 'specifying'");
     }
 
     @Test
-    public void sameOffsetTopAsWithList() {
-        createElementValidator().sameOffsetTopAs(singletonList(createElement(100, 205, 500, 400)));
+    public void isHorizontallyTopAlignedWithList() {
+        createElementValidator().isHorizontallyTopAlignedWith(singletonList(createElement(100, 205, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same top offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,205], size=[400,195]'");
@@ -135,16 +135,16 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
-    public void sameOffsetBottomAs() {
-        createElementValidator().sameOffsetBottomAs(createElement(100, 200, 500, 405), "specifying");
+    public void isHorizontallyBottomAlignedWith() {
+        createElementValidator().isHorizontallyBottomAlignedWith(createElement(100, 200, 500, 405), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same bottom offset as element 'specifying'");
     }
 
     @Test
-    public void sameOffsetBottomAsWithList() {
-        createElementValidator().sameOffsetBottomAs(singletonList(createElement(100, 200, 500, 405)));
+    public void isHorizontallyBottomAlignedWithList() {
+        createElementValidator().isHorizontallyBottomAlignedWith(singletonList(createElement(100, 200, 500, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same bottom offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,205]'");

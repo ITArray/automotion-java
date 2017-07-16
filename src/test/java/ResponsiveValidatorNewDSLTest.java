@@ -58,8 +58,8 @@ public class ResponsiveValidatorNewDSLTest {
 
         boolean success1 = responsiveUIValidator.snapshot("Validation of Top Slider Element")
                 .findElement(page.topSlider(), "Top Slider")
-                .sameOffsetLeftAs(page.gridContainer(), "Grid Container")
-                .sameOffsetBottomAs(page.topTextBlock(), "Text Block")
+                .isVerticallyLeftAlignedWith(page.gridContainer(), "Grid Container")
+                .isHorizontallyBottomAlignedWith(page.topTextBlock(), "Text Block")
                 .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX)
                 .widthBetween(300, 500)
                 .sameSizeAs(page.gridElements())
@@ -87,8 +87,8 @@ public class ResponsiveValidatorNewDSLTest {
 
         boolean success2 = responsiveUIValidator.snapshot("Validation of Top Text block")
                 .findElement(page.topTextBlock(), "Top Text block")
-                .sameOffsetRightAs(page.gridContainer(), "Grid Container")
-                .sameOffsetTopAs(page.topSlider(), "Top Slider")
+                .isVerticallyRightAlignedWith(page.gridContainer(), "Grid Container")
+                .isHorizontallyTopAlignedWith(page.topSlider(), "Top Slider")
                 .validate();
 
         softly.assertThat(success2).isEqualTo(true).overridingErrorMessage("Failed validation of Top Text block");

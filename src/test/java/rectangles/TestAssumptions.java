@@ -73,48 +73,48 @@ public class TestAssumptions {
         return validate(elements, ResponsiveUIChunkValidator::equalTopBottomOffset);
     }
 
-    public static boolean sameOffsetLeftAs(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.sameOffsetLeftAs(other, "Blub"));
+    public static boolean isVerticallyLeftAlignedWith(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.isVerticallyLeftAlignedWith(other, "Blub"));
     }
 
-    public static boolean sameOffsetLeftAs(WebElement root, List<WebElement> elements) {
-        return validate(root, elements, UIValidator::sameOffsetLeftAs);
+    public static boolean isVerticallyLeftAlignedWith(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::isVerticallyLeftAlignedWith);
     }
 
     public static boolean sameLeftOffset(List<WebElement> elements) {
         return validate(elements, ResponsiveUIChunkValidator::sameLeftOffset);
     }
 
-    public static boolean sameOffsetRightAs(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.sameOffsetRightAs(other, "Blub"));
+    public static boolean isVerticallyRightAlignedWith(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.isVerticallyRightAlignedWith(other, "Blub"));
     }
 
-    public static boolean sameOffsetRightAs(WebElement root, List<WebElement> elements) {
-        return validate(root, elements, UIValidator::sameOffsetRightAs);
+    public static boolean isVerticallyRightAlignedWith(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::isVerticallyRightAlignedWith);
     }
 
     public static boolean sameRightOffset(List<WebElement> elements) {
         return validate(elements, ResponsiveUIChunkValidator::sameRightOffset);
     }
 
-    public static boolean sameOffsetTopAs(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.sameOffsetTopAs(other, "Blub"));
+    public static boolean isHorizontallyTopAlignedWith(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.isHorizontallyTopAlignedWith(other, "Blub"));
     }
 
-    public static boolean sameOffsetTopAs(WebElement root, List<WebElement> elements) {
-        return validate(root, elements, UIValidator::sameOffsetTopAs);
+    public static boolean isHorizontallyTopAlignedWith(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::isHorizontallyTopAlignedWith);
     }
 
     public static boolean sameTopOffset(List<WebElement> elements) {
         return validate(elements, ResponsiveUIChunkValidator::sameTopOffset);
     }
 
-    public static boolean sameOffsetBottomAs(WebElement root, WebElement other) {
-        return validate(root, other, (uiValidator, webElement) -> uiValidator.sameOffsetBottomAs(other, "Blub"));
+    public static boolean isHorizontallyBottomAlignedWith(WebElement root, WebElement other) {
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.isHorizontallyBottomAlignedWith(other, "Blub"));
     }
 
-    public static boolean sameOffsetBottomAs(WebElement root, List<WebElement> elements) {
-        return validate(root, elements, UIValidator::sameOffsetBottomAs);
+    public static boolean isHorizontallyBottomAlignedWith(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::isHorizontallyBottomAlignedWith);
     }
 
     public static boolean sameBottomOffset(List<WebElement> elements) {

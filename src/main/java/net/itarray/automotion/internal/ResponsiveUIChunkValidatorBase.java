@@ -288,7 +288,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            element.validateEqualRight(elementToCompare, errors);
+            element.validateRightAlignedWith(elementToCompare, errors);
         }
     }
 
@@ -296,7 +296,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            element.validateEqualLeft(elementToCompare, errors);
+            element.validateLeftAlignedWith(elementToCompare, errors);
         }
     }
 
@@ -304,7 +304,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            element.validateEqualTop(elementToCompare, errors);
+            element.validateTopAlignedWith(elementToCompare, errors);
         }
     }
 
@@ -312,7 +312,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            element.validateEqualBottom(elementToCompare, this.errors);
+            element.validateBottomAlignedWith(elementToCompare, this.errors);
         }
     }
 

@@ -207,8 +207,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameOffsetLeftAs(WebElement element, String readableName) {
-        rootElement.validateEqualLeft(asElement(element, readableName), errors);
+    public UIValidatorBase isVerticallyLeftAlignedWith(WebElement element, String readableName) {
+        rootElement.validateLeftAlignedWith(asElement(element, readableName), errors);
         drawLeftOffsetLine();
         return this;
     }
@@ -220,9 +220,9 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameOffsetLeftAs(List<WebElement> webElements) {
+    public UIValidatorBase isVerticallyLeftAlignedWith(List<WebElement> webElements) {
         for (UIElement element : asElements(webElements)) {
-            rootElement.validateEqualLeft(element, errors);
+            rootElement.validateLeftAlignedWith(element, errors);
         }
         drawLeftOffsetLine();
         return this;
@@ -236,8 +236,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameOffsetRightAs(WebElement element, String readableName) {
-        rootElement.validateEqualRight(asElement(element, readableName), errors);
+    public UIValidatorBase isVerticallyRightAlignedWith(WebElement element, String readableName) {
+        rootElement.validateRightAlignedWith(asElement(element, readableName), errors);
         drawRightOffsetLine();
         return this;
     }
@@ -249,9 +249,9 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameOffsetRightAs(List<WebElement> elements) {
+    public UIValidatorBase isVerticallyRightAlignedWith(List<WebElement> elements) {
         for (WebElement element : elements) {
-            rootElement.validateEqualRight(asElement(element), errors);
+            rootElement.validateRightAlignedWith(asElement(element), errors);
         }
         drawRightOffsetLine();
         return this;
@@ -265,8 +265,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameOffsetTopAs(WebElement element, String readableName) {
-        rootElement.validateEqualTop(asElement(element, readableName), errors);
+    public UIValidatorBase isHorizontallyTopAlignedWith(WebElement element, String readableName) {
+        rootElement.validateTopAlignedWith(asElement(element, readableName), errors);
         drawTopOffsetLine();
         return this;
     }
@@ -278,9 +278,9 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameOffsetTopAs(List<WebElement> elements) {
+    public UIValidatorBase isHorizontallyTopAlignedWith(List<WebElement> elements) {
         for (WebElement element : elements) {
-            rootElement.validateEqualTop(asElement(element), errors);
+            rootElement.validateTopAlignedWith(asElement(element), errors);
         }
         drawTopOffsetLine();
         return this;
@@ -294,8 +294,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameOffsetBottomAs(WebElement element, String readableName) {
-        rootElement.validateEqualBottom(asElement(element, readableName), errors);
+    public UIValidatorBase isHorizontallyBottomAlignedWith(WebElement element, String readableName) {
+        rootElement.validateBottomAlignedWith(asElement(element, readableName), errors);
         drawBottomOffsetLine();
         return this;
     }
@@ -307,9 +307,9 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameOffsetBottomAs(List<WebElement> elements) {
+    public UIValidatorBase isHorizontallyBottomAlignedWith(List<WebElement> elements) {
         for (WebElement element : elements) {
-            rootElement.validateEqualBottom(asElement(element), errors);
+            rootElement.validateBottomAlignedWith(asElement(element), errors);
         }
         drawBottomOffsetLine();
         return this;

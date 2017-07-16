@@ -202,8 +202,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetLeftAs(WebElement element, String readableName) {
-        getBase().sameOffsetLeftAs(element, readableName);
+    public UIValidator isVerticallyLeftAlignedWith(WebElement element, String readableName) {
+        getBase().isVerticallyLeftAlignedWith(element, readableName);
         return this;
     }
 
@@ -214,8 +214,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetLeftAs(List<WebElement> webElements) {
-        getBase().sameOffsetLeftAs(webElements);
+    public UIValidator isVerticallyLeftAlignedWith(List<WebElement> webElements) {
+        getBase().isVerticallyLeftAlignedWith(webElements);
         return this;
     }
 
@@ -227,8 +227,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetRightAs(WebElement element, String readableName) {
-        getBase().sameOffsetRightAs(element, readableName);
+    public UIValidator isVerticallyRightAlignedWith(WebElement element, String readableName) {
+        getBase().isVerticallyRightAlignedWith(element, readableName);
         return this;
     }
 
@@ -239,8 +239,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetRightAs(List<WebElement> elements) {
-        getBase().sameOffsetRightAs(elements);
+    public UIValidator isVerticallyRightAlignedWith(List<WebElement> elements) {
+        getBase().isVerticallyRightAlignedWith(elements);
         return this;
     }
 
@@ -252,8 +252,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetTopAs(WebElement element, String readableName) {
-        getBase().sameOffsetTopAs(element, readableName);
+    public UIValidator isHorizontallyTopAlignedWith(WebElement element, String readableName) {
+        getBase().isHorizontallyTopAlignedWith(element, readableName);
         return this;
     }
 
@@ -264,8 +264,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetTopAs(List<WebElement> elements) {
-        getBase().sameOffsetTopAs(elements);
+    public UIValidator isHorizontallyTopAlignedWith(List<WebElement> elements) {
+        getBase().isHorizontallyTopAlignedWith(elements);
         return this;
     }
 
@@ -277,8 +277,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetBottomAs(WebElement element, String readableName) {
-        getBase().sameOffsetBottomAs(element, readableName);
+    public UIValidator isHorizontallyBottomAlignedWith(WebElement element, String readableName) {
+        getBase().isHorizontallyBottomAlignedWith(element, readableName);
         return this;
     }
 
@@ -289,8 +289,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetBottomAs(List<WebElement> elements) {
-        getBase().sameOffsetBottomAs(elements);
+    public UIValidator isHorizontallyBottomAlignedWith(List<WebElement> elements) {
+        getBase().isHorizontallyBottomAlignedWith(elements);
         return this;
     }
 

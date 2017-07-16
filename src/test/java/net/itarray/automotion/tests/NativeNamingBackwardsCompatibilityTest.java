@@ -5,70 +5,72 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.Mockito.*;
 import static rectangles.DummyWebElement.createElement;
-import static rectangles.DummyWebElement.createRootElement;
 
 public class NativeNamingBackwardsCompatibilityTest {
 
-    private WebElement root;
-    private WebElement other;
+    private WebElement reference;
+    private List<WebElement> references;
     private UIElementValidator validator;
 
     @Before
     public void setUp() {
-        root = createRootElement();
-        other = createElement(17, 19, 67, 89);
+        reference = createElement(17, 19, 67, 89);
+        references = Arrays.asList(reference);
         validator = spy(UIElementValidator.class);
     }
 
 
     @Test
     public void withLeftElement() {
-        validator.withLeftElement(other);
-        verify(validator).isRightOf(other);
+        validator.withLeftElement(reference);
+        verify(validator).isRightOf(reference);
     }
 
     @Test
     public void withLeftElementInRange() {
-        validator.withLeftElement(other, 5, 7);
-        verify(validator).isRightOf(other, 5, 7);
+        validator.withLeftElement(reference, 5, 7);
+        verify(validator).isRightOf(reference, 5, 7);
     }
 
     @Test
     public void withRightElement() {
-        validator.withRightElement(other);
-        verify(validator).isLeftOf(other);
+        validator.withRightElement(reference);
+        verify(validator).isLeftOf(reference);
     }
 
     @Test
     public void withRightElementInRange() {
-        validator.withRightElement(other, 5, 7);
-        verify(validator).isLeftOf(other, 5, 7);
+        validator.withRightElement(reference, 5, 7);
+        verify(validator).isLeftOf(reference, 5, 7);
     }
 
     @Test
     public void withTopElement() {
-        validator.withTopElement(other);
-        verify(validator).isBelow(other);
+        validator.withTopElement(reference);
+        verify(validator).isBelow(reference);
     }
 
     @Test
     public void withTopElementInRange() {
-        validator.withTopElement(other, 5, 7);
-        verify(validator).isBelow(other, 5, 7);
+        validator.withTopElement(reference, 5, 7);
+        verify(validator).isBelow(reference, 5, 7);
     }
 
     @Test
     public void withBottomElement() {
-        validator.withBottomElement(other);
-        verify(validator).isAbove(other);
+        validator.withBottomElement(reference);
+        verify(validator).isAbove(reference);
     }
 
     @Test
     public void withBottomElementInRange() {
-        validator.withBottomElement(other, 5, 7);
-        verify(validator).isAbove(other, 5, 7);
+        validator.withBottomElement(reference, 5, 7);
+        verify(validator).isAbove(reference, 5, 7);
     }
 
     @Test
@@ -81,6 +83,54 @@ public class NativeNamingBackwardsCompatibilityTest {
     public void withoutCssValue() {
             validator.withoutCssValue("key", "value");
         verify(validator).doesNotHaveCssValue("key", "value");
+    }
+
+    @Test
+    public void sameOffsetLeftAs() {
+            validator.sameOffsetLeftAs(reference, "reference");
+        verify(validator).isVerticallyLeftAlignedWith(reference, "reference");
+    }
+
+    @Test
+    public void sameOffsetLeftAsList() {
+            validator.sameOffsetLeftAs(references);
+        verify(validator).isVerticallyLeftAlignedWith(references);
+    }
+
+    @Test
+    public void sameOffsetRightAs() {
+            validator.sameOffsetRightAs(reference, "reference");
+        verify(validator).isVerticallyRightAlignedWith(reference, "reference");
+    }
+
+    @Test
+    public void sameOffsetRightAsList() {
+            validator.sameOffsetRightAs(references);
+        verify(validator).isVerticallyRightAlignedWith(references);
+    }
+
+    @Test
+    public void sameOffsetTopAs() {
+            validator.sameOffsetTopAs(reference, "reference");
+        verify(validator).isHorizontallyTopAlignedWith(reference, "reference");
+    }
+
+    @Test
+    public void sameOffsetTopAsList() {
+            validator.sameOffsetTopAs(references);
+        verify(validator).isHorizontallyTopAlignedWith(references);
+    }
+
+    @Test
+    public void sameOffsetBottomAs() {
+            validator.sameOffsetBottomAs(reference, "reference");
+        verify(validator).isHorizontallyBottomAlignedWith(reference, "reference");
+    }
+
+    @Test
+    public void sameOffsetBottomAsList() {
+            validator.sameOffsetBottomAs(references);
+        verify(validator).isHorizontallyBottomAlignedWith(references);
     }
 
 }
