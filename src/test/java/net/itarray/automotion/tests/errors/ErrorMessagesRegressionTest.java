@@ -312,7 +312,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void insideOf() {
-        createElementValidator().insideOf(createElement(1100, 1200, 500, 400), "specifying");
+        createElementValidator().isInsideOf(createElement(1100, 1200, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' is not inside of 'specifying'");
@@ -329,7 +329,7 @@ public class ErrorMessagesRegressionTest {
     @Test
     public void insideOfWithPadding() {
         Padding padding = new Padding(5, 6, 7, 8);
-        createElementValidator().insideOf(createElement(1100, 1200, 500, 400), "specifying", padding);
+        createElementValidator().isInsideOf(createElement(1100, 1200, 500, 400), "specifying", padding);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Padding of element 'under test' is incorrect. Expected padding: top[5], right[6], bottom[7], left[8]. Actual padding: top[-1000], right[0], bottom[0], left[-1000]");

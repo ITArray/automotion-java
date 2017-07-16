@@ -2,6 +2,7 @@ package net.itarray.automotion.tests;
 
 import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.UIElementValidator;
+import net.itarray.automotion.validation.properties.Padding;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
@@ -194,6 +195,19 @@ public class NativeNamingBackwardsCompatibilityTest {
     public void heightBetween() {
         validator.heightBetween(9, 13);
         verify(validator).hasHeightBetween(9, 13);
+    }
+
+    @Test
+    public void insideOf() {
+        validator.insideOf(reference, "reference");
+        verify(validator).isInsideOf(reference, "reference");
+    }
+
+    @Test
+    public void insideOfPadding() {
+        Padding padding = new Padding(3);
+        validator.insideOf(reference, "reference", padding);
+        verify(validator).isInsideOf(reference, "reference", padding);
     }
 
 }

@@ -197,15 +197,15 @@ public class TestAssumptions {
         return validate(elements, ResponsiveUIChunkValidator::areNotOverlappedWithEachOther);
     }
 
-    public static boolean insideOf(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.insideOf(other, "Blub"));
+    public static boolean isInsideOf(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.isInsideOf(other, "Blub"));
     }
 
-    public static boolean insideOf(WebElement root, WebElement other, Padding padding) {
-        return validate(root, uiValidator -> uiValidator.insideOf(other, "Blub", padding));
+    public static boolean isInsideOf(WebElement root, WebElement other, Padding padding) {
+        return validate(root, uiValidator -> uiValidator.isInsideOf(other, "Blub", padding));
     }
 
-    public static boolean insideOf(List<WebElement> elements, WebElement container) {
+    public static boolean isInsideOf(List<WebElement> elements, WebElement container) {
         return validate(elements, validator -> validator.insideOf(container, "Bla"));
     }
 

@@ -94,8 +94,8 @@ public interface Validator extends UIElementValidator {
 
     UIValidator equalTopBottomOffset();
 
-    UIValidator insideOf(WebElement containerElement, String readableContainerName);
+    UIValidator isInsideOf(WebElement containerElement, String readableContainerName);
 
-    UIValidator insideOf(WebElement containerElement, String readableContainerName, Padding padding);
+    UIValidator isInsideOf(WebElement containerElement, String readableContainerName, Padding padding);
 
 }

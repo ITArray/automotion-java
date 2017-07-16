@@ -511,12 +511,7 @@ public class UIElement {
         }
     }
 
-    public void validateInsideOfContainer(UIElement element, Padding padding, Errors errors, UIValidatorBase uiValidatorBase) {
-        int top = uiValidatorBase.getConvertedInt(padding.getTop(), false);
-        int right = uiValidatorBase.getConvertedInt(padding.getRight(), true);
-        int bottom = uiValidatorBase.getConvertedInt(padding.getBottom(), false);
-        int left = uiValidatorBase.getConvertedInt(padding.getLeft(), true);
-
+    public void validateInsideOfContainer(UIElement element, int top, int right, int bottom, int left, Errors errors) {
         Rectangle paddedRoot = new Rectangle(
                 getX() - left,
                 getY() - top,

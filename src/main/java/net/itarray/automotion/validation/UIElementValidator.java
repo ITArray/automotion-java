@@ -248,14 +248,23 @@ public interface UIElementValidator {
     UIElementValidator doesNotHaveCssValue(String cssProperty, String... args);
 
     // isHorizontallyCenteredOnPage -- needs frontend dev feedback
+    // isCenteredOnPageHorizontally ?
     UIElementValidator equalLeftRightOffset();
 
     // isVerticallyCenteredOnPage
     UIElementValidator equalTopBottomOffset();
 
-    // isInsideOf
-    UIElementValidator insideOf(WebElement containerElement, String readableContainerName);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isInsideOf(org.openqa.selenium.WebElement, String)}
+     */
+    @Deprecated
+    default UIElementValidator insideOf(WebElement containerElement, String readableContainerName) { return isInsideOf(containerElement, readableContainerName); }
+    UIElementValidator isInsideOf(WebElement containerElement, String readableContainerName);
 
-    UIElementValidator insideOf(WebElement containerElement, String readableContainerName, Padding padding);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isInsideOf(org.openqa.selenium.WebElement, String, net.itarray.automotion.validation.properties.Padding)}
+     */
+    default UIElementValidator insideOf(WebElement containerElement, String readableContainerName, Padding padding) { return isInsideOf(containerElement, readableContainerName, padding); }
+    UIElementValidator isInsideOf(WebElement containerElement, String readableContainerName, Padding padding);
 
 }

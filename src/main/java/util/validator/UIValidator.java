@@ -603,14 +603,14 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return ResponsiveUIValidator
      */
     @Override
-    public UIValidator insideOf(WebElement containerElement, String readableContainerName) {
-        getBase().insideOf(containerElement, readableContainerName);
+    public UIValidator isInsideOf(WebElement containerElement, String readableContainerName) {
+        getBase().isInsideOf(containerElement, readableContainerName);
         return this;
     }
 
     @Override
-    public UIValidator insideOf(WebElement containerElement, String readableContainerName, Padding padding) {
-        getBase().insideOf(containerElement, readableContainerName, padding);
+    public UIValidator isInsideOf(WebElement containerElement, String readableContainerName, Padding padding) {
+        getBase().isInsideOf(containerElement, readableContainerName, padding);
         return this;
     }
 }

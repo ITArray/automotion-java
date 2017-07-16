@@ -637,14 +637,19 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return ResponsiveUIValidator
      */
     @Override
-    public UIValidatorBase insideOf(WebElement containerElement, String readableContainerName) {
+    public UIValidatorBase isInsideOf(WebElement containerElement, String readableContainerName) {
         rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), errors);
         return this;
     }
 
     @Override
-    public UIValidatorBase insideOf(WebElement containerElement, String readableContainerName, Padding padding) {
-        rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), padding, errors, this);
+    public UIValidatorBase isInsideOf(WebElement containerElement, String readableContainerName, Padding padding) {
+        int top = getConvertedInt(padding.getTop(), false);
+        int right = getConvertedInt(padding.getRight(), true);
+        int bottom = getConvertedInt(padding.getBottom(), false);
+        int left = getConvertedInt(padding.getLeft(), true);
+
+        rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), top, right, bottom, left, errors);
         return this;
     }
 
