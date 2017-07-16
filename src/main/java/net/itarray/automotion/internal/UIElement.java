@@ -436,19 +436,19 @@ public class UIElement {
         }
     }
 
-    public void validateMaxHeight(int limit, Errors errors) {
+    public void validateHeightLessOrEqualTo(int limit, Errors errors) {
         validateExtend(DOWN, new Maximum(limit), errors);
     }
 
-    public void validateMinHeight(int limit, Errors errors) {
+    public void validateHeightGreaterOrEqualTo(int limit, Errors errors) {
         validateExtend(DOWN, new Minimum(limit), errors);
     }
 
-    public void validateMaxWidth(int limit, Errors errors) {
+    public void validateWidthLessOrEqualTo(int limit, Errors errors) {
         validateExtend(RIGHT, new Maximum(limit), errors);
     }
 
-    public void validateMinWidth(int limit, Errors errors) {
+    public void validateWidthGreaterOrEqualTo(int limit, Errors errors) {
         validateExtend(RIGHT, new Minimum(limit), errors);
     }
 

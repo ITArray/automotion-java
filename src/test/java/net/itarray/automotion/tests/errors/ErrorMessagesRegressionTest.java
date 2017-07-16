@@ -432,64 +432,64 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
-    public void minWidth() {
-        createElementValidator().minWidth(1000);
+    public void hasWidthGreaterOrEqualTo() {
+        createElementValidator().hasWidthGreaterOrEqualTo(1000);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected min width of element 'under test' is: 1000px. Actual width is: 400px");
     }
 
     @Test
-    public void maxWidth() {
-        createElementValidator().maxWidth(10);
+    public void hasWidthLessOrEqualTo() {
+        createElementValidator().hasWidthLessOrEqualTo(10);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected max width of element 'under test' is: 10px. Actual width is: 400px");
     }
 
     @Test
-    public void widthBetweenUpper() {
-        createElementValidator().widthBetween(1000, 2000);
+    public void hasWidthBetweenUpper() {
+        createElementValidator().hasWidthBetween(1000, 2000);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected min width of element 'under test' is: 1000px. Actual width is: 400px");
     }
 
     @Test
-    public void widthBetweenLower() {
-        createElementValidator().widthBetween(10, 20);
+    public void hasWidthBetweenLower() {
+        createElementValidator().hasWidthBetween(10, 20);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected max width of element 'under test' is: 20px. Actual width is: 400px");
     }
 
     @Test
-    public void minHeight() {
-        createElementValidator().minHeight(1000);
+    public void hasHeightGreaterOrEqualTo() {
+        createElementValidator().hasHeightGreaterOrEqualTo(1000);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected min height of element 'under test' is: 1000px. Actual height is: 200px");
     }
 
     @Test
-    public void maxHeight() {
-        createElementValidator().maxHeight(10);
+    public void hasHeightLessOrEqualTo() {
+        createElementValidator().hasHeightLessOrEqualTo(10);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected max height of element 'under test' is: 10px. Actual height is: 200px");
     }
 
     @Test
-    public void heightBetweenUpper() {
-        createElementValidator().heightBetween(1000, 2000);
+    public void hasHeightBetweenUpper() {
+        createElementValidator().hasHeightBetween(1000, 2000);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected min height of element 'under test' is: 1000px. Actual height is: 200px");
     }
 
     @Test
-    public void heightBetweenLower() {
-        createElementValidator().heightBetween(10, 20);
+    public void hasHeightBetweenLower() {
+        createElementValidator().hasHeightBetween(10, 20);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected max height of element 'under test' is: 20px. Actual height is: 200px");

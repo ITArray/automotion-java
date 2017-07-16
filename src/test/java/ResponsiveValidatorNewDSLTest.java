@@ -61,7 +61,7 @@ public class ResponsiveValidatorNewDSLTest {
                 .isVerticallyLeftAlignedWith(page.gridContainer(), "Grid Container")
                 .isHorizontallyBottomAlignedWith(page.topTextBlock(), "Text Block")
                 .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX)
-                .widthBetween(300, 500)
+                .hasWidthBetween(300, 500)
                 .sameSizeAs(page.gridElements())
                 .equalLeftRightOffset()
                 .equalTopBottomOffset()

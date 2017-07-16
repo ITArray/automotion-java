@@ -326,8 +326,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator minWidth(int width) {
-        getBase().minWidth(width);
+    public UIValidator hasWidthGreaterOrEqualTo(int width) {
+        getBase().hasWidthGreaterOrEqualTo(width);
         return this;
     }
 
@@ -338,8 +338,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator maxWidth(int width) {
-        getBase().maxWidth(width);
+    public UIValidator hasWidthLessOrEqualTo(int width) {
+        getBase().hasWidthLessOrEqualTo(width);
         return this;
     }
 
@@ -351,8 +351,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator widthBetween(int min, int max) {
-        getBase().widthBetween(min, max);
+    public UIValidator hasWidthBetween(int min, int max) {
+        getBase().hasWidthBetween(min, max);
         return this;
     }
 
@@ -388,8 +388,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator minHeight(int height) {
-        getBase().minHeight(height);
+    public UIValidator hasHeightGreaterOrEqualTo(int height) {
+        getBase().hasHeightGreaterOrEqualTo(height);
         return this;
     }
 
@@ -400,8 +400,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator maxHeight(int height) {
-        getBase().maxHeight(height);
+    public UIValidator hasHeightLessOrEqualTo(int height) {
+        getBase().hasHeightLessOrEqualTo(height);
         return this;
     }
 
@@ -463,8 +463,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator heightBetween(int min, int max) {
-        getBase().heightBetween(min, max);
+    public UIValidator hasHeightBetween(int min, int max) {
+        getBase().hasHeightBetween(min, max);
         return this;
     }
 

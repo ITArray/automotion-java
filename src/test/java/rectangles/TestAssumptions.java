@@ -233,27 +233,27 @@ public class TestAssumptions {
         return validate(elements, ResponsiveUIChunkValidator::withNotSameSize);
     }
 
-    public static boolean heightBetween(WebElement root, int min, int max) {
-        return validate(root, uiValidator -> uiValidator.heightBetween(min, max));
+    public static boolean hasHeightBetween(WebElement root, int min, int max) {
+        return validate(root, uiValidator -> uiValidator.hasHeightBetween(min, max));
     }
 
-    public static boolean widthBetween(WebElement root, int min, int max) {
-        return validate(root, uiValidator -> uiValidator.widthBetween(min, max));
+    public static boolean hasWidthBetween(WebElement root, int min, int max) {
+        return validate(root, uiValidator -> uiValidator.hasWidthBetween(min, max));
     }
 
-    public static boolean minWidth(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.minWidth(value));
+    public static boolean hasWidthGreaterOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasWidthGreaterOrEqualTo(value));
     }
 
-    public static boolean maxWidth(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.maxWidth(value));
+    public static boolean hasWidthLessOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasWidthLessOrEqualTo(value));
     }
 
-    public static boolean minHeight(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.minHeight(value));
+    public static boolean hasHeightGreaterOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasHeightGreaterOrEqualTo(value));
     }
 
-    public static boolean maxHeight(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.maxHeight(value));
+    public static boolean hasHeightLessOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasHeightLessOrEqualTo(value));
     }
 }

@@ -159,5 +159,41 @@ public class NativeNamingBackwardsCompatibilityTest {
         chunkValidator.sameBottomOffset();
         verify(chunkValidator).areHorizontallyBottomAligned();
     }
-    
+
+    @Test
+    public void minWidth() {
+        validator.minWidth(9);
+        verify(validator).hasWidthGreaterOrEqualTo(9);
+    }
+
+    @Test
+    public void maxWidth() {
+        validator.maxWidth(9);
+        verify(validator).hasWidthLessOrEqualTo(9);
+    }
+
+    @Test
+    public void widthBetween() {
+        validator.widthBetween(9, 13);
+        verify(validator).hasWidthBetween(9, 13);
+    }
+
+    @Test
+    public void minHeight() {
+        validator.minHeight(9);
+        verify(validator).hasHeightGreaterOrEqualTo(9);
+    }
+
+    @Test
+    public void maxHeight() {
+        validator.maxHeight(9);
+        verify(validator).hasHeightLessOrEqualTo(9);
+    }
+
+    @Test
+    public void heightBetween() {
+        validator.heightBetween(9, 13);
+        verify(validator).hasHeightBetween(9, 13);
+    }
+
 }

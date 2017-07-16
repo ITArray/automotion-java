@@ -149,7 +149,6 @@ public interface UIElementValidator {
     default UIElementValidator sameOffsetBottomAs(List<WebElement> elements) { return isHorizontallyBottomAlignedWith(elements); }
     UIElementValidator isHorizontallyBottomAlignedWith(List<WebElement> elements);
 
-    // sameWidthAs
     UIElementValidator sameWidthAs(WebElement element, String readableName);
 
     UIElementValidator sameWidthAs(List<WebElement> elements);
@@ -166,23 +165,47 @@ public interface UIElementValidator {
 
     UIElementValidator notSameSizeAs(List<WebElement> elements);
 
-    // hasWidthGreaterOrEqualTo(width)
-    UIElementValidator minWidth(int width);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasWidthGreaterOrEqualTo(int)}
+     */
+    @Deprecated
+    default UIElementValidator minWidth(int width) { return hasWidthGreaterOrEqualTo(width); }
+    UIElementValidator hasWidthGreaterOrEqualTo(int width);
 
-    // hasWidthLessOrEqualTo(width)
-    UIElementValidator maxWidth(int width);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasWidthLessOrEqualTo(int)}
+     */
+    @Deprecated
+    default UIElementValidator maxWidth(int width) { return hasWidthLessOrEqualTo(width); }
+    UIElementValidator hasWidthLessOrEqualTo(int width);
 
-    // hasWidthBetween(min, max)
-    UIElementValidator widthBetween(int min, int max);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasWidthBetween(int, int)}
+     */
+    @Deprecated
+    default UIElementValidator widthBetween(int min, int max) { return hasWidthBetween(min, max); }
+    UIElementValidator hasWidthBetween(int min, int max);
 
-    // hasHeightGreaterOrEqualTo(width)
-    UIElementValidator minHeight(int height);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasHeightGreaterOrEqualTo(int)}
+     */
+    @Deprecated
+    default UIElementValidator minHeight(int height) { return hasHeightGreaterOrEqualTo(height); }
+    UIElementValidator hasHeightGreaterOrEqualTo(int height);
 
-    // hasHeightLessOrEqualTo(width)
-    UIElementValidator maxHeight(int height);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasHeightLessOrEqualTo(int)}
+     */
+    @Deprecated
+    default UIElementValidator maxHeight(int height) { return hasHeightLessOrEqualTo(height); }
+    UIElementValidator hasHeightLessOrEqualTo(int height);
 
-    // hasHeightBetween(min, max)
-    UIElementValidator heightBetween(int min, int max);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasHeightBetween(int, int)}
+     */
+    @Deprecated
+    default UIElementValidator heightBetween(int min, int max) { return hasHeightBetween(min, max); }
+    UIElementValidator hasHeightBetween(int min, int max);
 
     // - methods per direction -> ok
     // page(document)/screen ? -> stay with page first

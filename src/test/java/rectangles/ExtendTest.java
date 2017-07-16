@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
-import java.util.Collections;
-
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -130,50 +128,50 @@ public class ExtendTest {
     }
 
     @Test
-    public void heightBetweenWorks() {
-        assertThat(heightBetween(root, height-10-1, height-1)).isFalse();
-        assertThat(heightBetween(root, height-10, height)).isTrue();
-        assertThat(heightBetween(root, height-10+1, height+1)).isTrue();
-        assertThat(heightBetween(root, height-1, height+10-1)).isTrue();
-        assertThat(heightBetween(root, height, height+10)).isTrue();
-        assertThat(heightBetween(root, height+1, height+10+1)).isFalse();
+    public void hasHeightBetweenWorks() {
+        assertThat(hasHeightBetween(root, height-10-1, height-1)).isFalse();
+        assertThat(hasHeightBetween(root, height-10, height)).isTrue();
+        assertThat(hasHeightBetween(root, height-10+1, height+1)).isTrue();
+        assertThat(hasHeightBetween(root, height-1, height+10-1)).isTrue();
+        assertThat(hasHeightBetween(root, height, height+10)).isTrue();
+        assertThat(hasHeightBetween(root, height+1, height+10+1)).isFalse();
     }
 
     @Test
-    public void widthBetweenWorks() {
-        assertThat(widthBetween(root, width-10-1, width-1)).isFalse();
-        assertThat(widthBetween(root, width-10, width)).isTrue();
-        assertThat(widthBetween(root, width-10+1, width+1)).isTrue();
-        assertThat(widthBetween(root, width-1, width+10-1)).isTrue();
-        assertThat(widthBetween(root, width, width+10)).isTrue();
-        assertThat(widthBetween(root, width+1, width+10+1)).isFalse();
+    public void hasWidthBetweenWorks() {
+        assertThat(hasWidthBetween(root, width-10-1, width-1)).isFalse();
+        assertThat(hasWidthBetween(root, width-10, width)).isTrue();
+        assertThat(hasWidthBetween(root, width-10+1, width+1)).isTrue();
+        assertThat(hasWidthBetween(root, width-1, width+10-1)).isTrue();
+        assertThat(hasWidthBetween(root, width, width+10)).isTrue();
+        assertThat(hasWidthBetween(root, width+1, width+10+1)).isFalse();
     }
 
     @Test
-    public void minWidthWorks() {
-        assertThat(minWidth(root, width-1)).isTrue();
-        assertThat(minWidth(root, width)).isTrue();
-        assertThat(minWidth(root, width+1)).isFalse();
+    public void hasWidthGreaterOrEqualToWork() {
+        assertThat(hasWidthGreaterOrEqualTo(root, width-1)).isTrue();
+        assertThat(hasWidthGreaterOrEqualTo(root, width)).isTrue();
+        assertThat(hasWidthGreaterOrEqualTo(root, width+1)).isFalse();
     }
 
     @Test
-    public void maxWidthWorks() {
-        assertThat(maxWidth(root, width-1)).isFalse();
-        assertThat(maxWidth(root, width)).isTrue();
-        assertThat(maxWidth(root, width+1)).isTrue();
+    public void hasWidthLessOrEqualToWorks() {
+        assertThat(hasWidthLessOrEqualTo(root, width-1)).isFalse();
+        assertThat(hasWidthLessOrEqualTo(root, width)).isTrue();
+        assertThat(hasWidthLessOrEqualTo(root, width+1)).isTrue();
     }
 
     @Test
-    public void minHeightWorks() {
-        assertThat(minHeight(root, height-1)).isTrue();
-        assertThat(minHeight(root, height)).isTrue();
-        assertThat(minHeight(root, height+1)).isFalse();
+    public void hasHeightGreaterOrEqualToWorks() {
+        assertThat(hasHeightGreaterOrEqualTo(root, height-1)).isTrue();
+        assertThat(hasHeightGreaterOrEqualTo(root, height)).isTrue();
+        assertThat(hasHeightGreaterOrEqualTo(root, height+1)).isFalse();
     }
 
     @Test
-    public void maxHeightWorks() {
-        assertThat(maxHeight(root, height-1)).isFalse();
-        assertThat(maxHeight(root, height)).isTrue();
-        assertThat(maxHeight(root, height+1)).isTrue();
+    public void hasHeightLessOrEqualToWorks() {
+        assertThat(hasHeightLessOrEqualTo(root, height-1)).isFalse();
+        assertThat(hasHeightLessOrEqualTo(root, height)).isTrue();
+        assertThat(hasHeightLessOrEqualTo(root, height+1)).isTrue();
     }
 }
