@@ -164,8 +164,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase sameRightOffset() {
-        validateRightOffsetForChunk(asNumberedList(rootElements));
+    public ResponsiveUIChunkValidatorBase areVerticallyRightAligned() {
+        validateRightAlignedWithChunk(asNumberedList(rootElements));
         return this;
     }
 
@@ -175,8 +175,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase sameLeftOffset() {
-        validateLeftOffsetForChunk(asNumberedList(rootElements));
+    public ResponsiveUIChunkValidatorBase areVerticallyLeftAligned() {
+        validateLeftAlignedWithChunk(asNumberedList(rootElements));
         return this;
     }
 
@@ -186,8 +186,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase sameTopOffset() {
-        validateTopOffsetForChunk(asNumberedList(rootElements));
+    public ResponsiveUIChunkValidatorBase areHorizontallyTopAligned() {
+        validateTopAlignedWithChunk(asNumberedList(rootElements));
         return this;
     }
 
@@ -197,8 +197,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase sameBottomOffset() {
-        validateBottomOffsetForChunk(asNumberedList(rootElements));
+    public ResponsiveUIChunkValidatorBase areHorizontallyBottomAligned() {
+        validateBottomAlignedWithChunk(asNumberedList(rootElements));
         return this;
     }
 
@@ -284,7 +284,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         }
     }
 
-    private void validateRightOffsetForChunk(List<UIElement> elements) {
+    private void validateRightAlignedWithChunk(List<UIElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
@@ -292,7 +292,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         }
     }
 
-    private void validateLeftOffsetForChunk(List<UIElement> elements) {
+    private void validateLeftAlignedWithChunk(List<UIElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
@@ -300,7 +300,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         }
     }
 
-    private void validateTopOffsetForChunk(List<UIElement> elements) {
+    private void validateTopAlignedWithChunk(List<UIElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
@@ -308,7 +308,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         }
     }
 
-    private void validateBottomOffsetForChunk(List<UIElement> elements) {
+    private void validateBottomAlignedWithChunk(List<UIElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);

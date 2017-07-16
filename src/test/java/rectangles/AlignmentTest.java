@@ -35,7 +35,7 @@ public class AlignmentTest {
 
         assertThat(isVerticallyLeftAlignedWith(root, other)).isTrue();
         assertThat(isVerticallyLeftAlignedWith(root, asList(other))).isTrue();
-        assertThat(sameLeftOffset(asList(root, other))).isTrue();
+        assertThat(areVerticallyLeftAligned(asList(root, other))).isTrue();
     }
 
     @Test
@@ -43,7 +43,7 @@ public class AlignmentTest {
         WebElement other = createElement(down(originX), up(originY), down(cornerX), down(cornerY));
 
         assertThat(isVerticallyLeftAlignedWith(root, other)).isFalse();
-        assertThat(sameLeftOffset(asList(root, other))).isFalse();
+        assertThat(areVerticallyLeftAligned(asList(root, other))).isFalse();
     }
 
     @Test
@@ -51,7 +51,7 @@ public class AlignmentTest {
         WebElement other = createElement(up(originX), down(originY), down(cornerX), up(cornerY));
 
         assertThat(isVerticallyLeftAlignedWith(root, other)).isFalse();
-        assertThat(sameLeftOffset(asList(root, other))).isFalse();
+        assertThat(areVerticallyLeftAligned(asList(root, other))).isFalse();
     }
 
 
@@ -62,7 +62,7 @@ public class AlignmentTest {
 
         assertThat(isHorizontallyTopAlignedWith(root, other)).isTrue();
         assertThat(isHorizontallyTopAlignedWith(root, asList(other))).isTrue();
-        assertThat(sameTopOffset(asList(root, other))).isTrue();
+        assertThat(areHorizontallyTopAligned(asList(root, other))).isTrue();
     }
 
     @Test
@@ -71,7 +71,7 @@ public class AlignmentTest {
 
         assertThat(isHorizontallyTopAlignedWith(root, other)).isFalse();
         assertThat(isHorizontallyTopAlignedWith(root, asList(other))).isFalse();
-        assertThat(sameTopOffset(asList(root, other))).isFalse();
+        assertThat(areHorizontallyTopAligned(asList(root, other))).isFalse();
     }
 
     @Test
@@ -80,7 +80,7 @@ public class AlignmentTest {
 
         assertThat(isHorizontallyTopAlignedWith(root, other)).isFalse();
         assertThat(isHorizontallyTopAlignedWith(root, asList(other))).isFalse();
-        assertThat(sameTopOffset(asList(root, other))).isFalse();
+        assertThat(areHorizontallyTopAligned(asList(root, other))).isFalse();
     }
 
 
@@ -91,7 +91,7 @@ public class AlignmentTest {
 
         assertThat(isVerticallyRightAlignedWith(root, asList(other))).isTrue();
         assertThat(isVerticallyRightAlignedWith(root, other)).isTrue();
-        assertThat(sameRightOffset(asList(root, other))).isTrue();
+        assertThat(areVerticallyRightAligned(asList(root, other))).isTrue();
     }
 
     @Test
@@ -100,7 +100,7 @@ public class AlignmentTest {
 
         assertThat(isVerticallyRightAlignedWith(root, other)).isFalse();
         assertThat(isVerticallyRightAlignedWith(root, asList(other))).isFalse();
-        assertThat(sameRightOffset(asList(root, other))).isFalse();
+        assertThat(areVerticallyRightAligned(asList(root, other))).isFalse();
     }
 
     @Test
@@ -109,7 +109,7 @@ public class AlignmentTest {
 
         assertThat(isVerticallyRightAlignedWith(root, other)).isFalse();
         assertThat(isVerticallyRightAlignedWith(root, asList(other))).isFalse();
-        assertThat(sameRightOffset(asList(root, other))).isFalse();
+        assertThat(areVerticallyRightAligned(asList(root, other))).isFalse();
     }
 
 
@@ -120,7 +120,7 @@ public class AlignmentTest {
 
         assertThat(isHorizontallyBottomAlignedWith(root, other)).isTrue();
         assertThat(isHorizontallyBottomAlignedWith(root, asList(other))).isTrue();
-        assertThat(sameBottomOffset(asList(root, other))).isTrue();
+        assertThat(areHorizontallyBottomAligned(asList(root, other))).isTrue();
     }
 
     @Test
@@ -129,7 +129,7 @@ public class AlignmentTest {
 
         assertThat(isHorizontallyBottomAlignedWith(root, other)).isFalse();
         assertThat(isHorizontallyBottomAlignedWith(root, asList(other))).isFalse();
-        assertThat(sameBottomOffset(asList(root, other))).isFalse();
+        assertThat(areHorizontallyBottomAligned(asList(root, other))).isFalse();
     }
 
     @Test
@@ -138,7 +138,7 @@ public class AlignmentTest {
 
         assertThat(isHorizontallyBottomAlignedWith(root, other)).isFalse();
         assertThat(isHorizontallyBottomAlignedWith(root, asList(other))).isFalse();
-        assertThat(sameBottomOffset(asList(root, other))).isFalse();
+        assertThat(areHorizontallyBottomAligned(asList(root, other))).isFalse();
     }
 
 

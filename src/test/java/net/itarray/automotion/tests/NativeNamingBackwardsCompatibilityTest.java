@@ -1,5 +1,6 @@
 package net.itarray.automotion.tests;
 
+import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.UIElementValidator;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,12 +17,14 @@ public class NativeNamingBackwardsCompatibilityTest {
     private WebElement reference;
     private List<WebElement> references;
     private UIElementValidator validator;
+    private ChunkUIElementValidator chunkValidator;
 
     @Before
     public void setUp() {
         reference = createElement(17, 19, 67, 89);
         references = Arrays.asList(reference);
         validator = spy(UIElementValidator.class);
+        chunkValidator = spy(ChunkUIElementValidator.class);
     }
 
 
@@ -98,6 +101,12 @@ public class NativeNamingBackwardsCompatibilityTest {
     }
 
     @Test
+    public void sameLeftOffsetChunk() {
+        chunkValidator.sameLeftOffset();
+        verify(chunkValidator).areVerticallyLeftAligned();
+    }
+    
+    @Test
     public void sameOffsetRightAs() {
             validator.sameOffsetRightAs(reference, "reference");
         verify(validator).isVerticallyRightAlignedWith(reference, "reference");
@@ -107,6 +116,12 @@ public class NativeNamingBackwardsCompatibilityTest {
     public void sameOffsetRightAsList() {
             validator.sameOffsetRightAs(references);
         verify(validator).isVerticallyRightAlignedWith(references);
+    }
+
+    @Test
+    public void sameRightOffsetChunk() {
+        chunkValidator.sameRightOffset();
+        verify(chunkValidator).areVerticallyRightAligned();
     }
 
     @Test
@@ -122,6 +137,12 @@ public class NativeNamingBackwardsCompatibilityTest {
     }
 
     @Test
+    public void sameTopOffsetChunk() {
+        chunkValidator.sameTopOffset();
+        verify(chunkValidator).areHorizontallyTopAligned();
+    }
+
+    @Test
     public void sameOffsetBottomAs() {
             validator.sameOffsetBottomAs(reference, "reference");
         verify(validator).isHorizontallyBottomAlignedWith(reference, "reference");
@@ -132,5 +153,11 @@ public class NativeNamingBackwardsCompatibilityTest {
             validator.sameOffsetBottomAs(references);
         verify(validator).isHorizontallyBottomAlignedWith(references);
     }
-
+    
+    @Test
+    public void sameBottomOffsetChunk() {
+        chunkValidator.sameBottomOffset();
+        verify(chunkValidator).areHorizontallyBottomAligned();
+    }
+    
 }

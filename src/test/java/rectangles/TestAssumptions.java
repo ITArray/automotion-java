@@ -81,8 +81,8 @@ public class TestAssumptions {
         return validate(root, elements, UIValidator::isVerticallyLeftAlignedWith);
     }
 
-    public static boolean sameLeftOffset(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::sameLeftOffset);
+    public static boolean areVerticallyLeftAligned(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areVerticallyLeftAligned);
     }
 
     public static boolean isVerticallyRightAlignedWith(WebElement root, WebElement other) {
@@ -93,8 +93,8 @@ public class TestAssumptions {
         return validate(root, elements, UIValidator::isVerticallyRightAlignedWith);
     }
 
-    public static boolean sameRightOffset(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::sameRightOffset);
+    public static boolean areVerticallyRightAligned(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areVerticallyRightAligned);
     }
 
     public static boolean isHorizontallyTopAlignedWith(WebElement root, WebElement other) {
@@ -105,8 +105,8 @@ public class TestAssumptions {
         return validate(root, elements, UIValidator::isHorizontallyTopAlignedWith);
     }
 
-    public static boolean sameTopOffset(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::sameTopOffset);
+    public static boolean areHorizontallyTopAligned(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areHorizontallyTopAligned);
     }
 
     public static boolean isHorizontallyBottomAlignedWith(WebElement root, WebElement other) {
@@ -117,8 +117,8 @@ public class TestAssumptions {
         return validate(root, elements, UIValidator::isHorizontallyBottomAlignedWith);
     }
 
-    public static boolean sameBottomOffset(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::sameBottomOffset);
+    public static boolean areHorizontallyBottomAligned(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areHorizontallyBottomAligned);
     }
 
     public static boolean isAbove(WebElement root, WebElement other, int minMargin, int maxMargin) {

@@ -31,13 +31,13 @@ public interface ChunkValidator extends ChunkUIElementValidator {
 
     ResponsiveUIChunkValidator withNotSameHeight();
 
-    ResponsiveUIChunkValidator sameRightOffset();
+    ResponsiveUIChunkValidator areVerticallyRightAligned();
 
-    ResponsiveUIChunkValidator sameLeftOffset();
+    ResponsiveUIChunkValidator areVerticallyLeftAligned();
 
-    ResponsiveUIChunkValidator sameTopOffset();
+    ResponsiveUIChunkValidator areHorizontallyTopAligned();
 
-    ResponsiveUIChunkValidator sameBottomOffset();
+    ResponsiveUIChunkValidator areHorizontallyBottomAligned();
 
     ResponsiveUIChunkValidator equalLeftRightOffset();
 

@@ -47,17 +47,33 @@ public interface ChunkUIElementValidator {
 
     ChunkUIElementValidator withNotSameHeight();
 
-    // areVerticallyRightAligned
-    ChunkUIElementValidator sameRightOffset();
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#areVerticallyRightAligned()}
+     */
+    @Deprecated
+    default ChunkUIElementValidator sameRightOffset() { return areVerticallyRightAligned(); }
+    ChunkUIElementValidator areVerticallyRightAligned();
 
-    // areVerticallyLeftAligned
-    ChunkUIElementValidator sameLeftOffset();
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#areVerticallyLeftAligned()}
+     */
+    @Deprecated
+    default ChunkUIElementValidator sameLeftOffset() { return areVerticallyLeftAligned(); }
+    ChunkUIElementValidator areVerticallyLeftAligned();
 
-    // areHorizontallyTopAligned
-    ChunkUIElementValidator sameTopOffset();
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#areHorizontallyTopAligned()}
+     */
+    @Deprecated
+    default ChunkUIElementValidator sameTopOffset() { return areHorizontallyTopAligned(); }
+    ChunkUIElementValidator areHorizontallyTopAligned();
 
-    // areHorizontallyBottomAligned
-    ChunkUIElementValidator sameBottomOffset();
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#areHorizontallyBottomAligned()}
+     */
+    @Deprecated
+    default ChunkUIElementValidator sameBottomOffset() { return areHorizontallyBottomAligned(); }
+    ChunkUIElementValidator areHorizontallyBottomAligned();
 
     // areVerticallyCenteredOnPage
     ChunkUIElementValidator equalLeftRightOffset();

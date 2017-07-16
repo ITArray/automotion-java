@@ -79,8 +79,8 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
-    public void sameOffsetLeftAsWithChunk() {
-        createChunkValidator(createElement(105, 200, 500, 400)).sameLeftOffset();
+    public void areVerticallyLeftAligned() {
+        createChunkValidator(createElement(105, 200, 500, 400)).areVerticallyLeftAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same left offset as element #2");
@@ -103,8 +103,8 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
-    public void sameOffsetRightAsWithChunk() {
-        createChunkValidator(createElement(100, 200, 505, 400)).sameRightOffset();
+    public void areVerticallyRightAligned() {
+        createChunkValidator(createElement(100, 200, 505, 400)).areVerticallyRightAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same right offset as element #2");
@@ -127,8 +127,8 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
-    public void sameOffsetTopAsWithChunk() {
-        createChunkValidator(createElement(100, 205, 500, 400)).sameTopOffset();
+    public void areHorizontallyTopAligned() {
+        createChunkValidator(createElement(100, 205, 500, 400)).areHorizontallyTopAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same top offset as element #2");
@@ -151,8 +151,8 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
-    public void sameOffsetBottomAsWithChunk() {
-        createChunkValidator(createElement(100, 200, 500, 405)).sameBottomOffset();
+    public void areHorizontallyBottomAligned() {
+        createChunkValidator(createElement(100, 200, 500, 405)).areHorizontallyBottomAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same bottom offset as element #2");

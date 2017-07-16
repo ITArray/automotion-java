@@ -98,7 +98,7 @@ public class ResponsiveValidatorNewDSLTest {
                 .alignedAsGrid(4, 3)
                 .withSameSize()
                 .areNotOverlappedWithEachOther()
-                .sameTopOffset()
+                .areHorizontallyTopAligned()
                 .equalLeftRightOffset()
                 .equalTopBottomOffset()
                 .validate();
