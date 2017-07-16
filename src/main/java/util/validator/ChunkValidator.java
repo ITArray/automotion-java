@@ -43,6 +43,6 @@ public interface ChunkValidator extends ChunkUIElementValidator {
 
     ResponsiveUIChunkValidator equalTopBottomOffset();
 
-    ResponsiveUIChunkValidator insideOf(WebElement containerElement, String readableContainerName);
+    ResponsiveUIChunkValidator areInsideOf(WebElement containerElement, String readableContainerName);
 
 }

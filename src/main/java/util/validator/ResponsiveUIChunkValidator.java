@@ -234,8 +234,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIValidator
      */
     @Override
-    public ResponsiveUIChunkValidator insideOf(WebElement containerElement, String readableContainerName) {
-        getBase().insideOf(containerElement, readableContainerName);
+    public ResponsiveUIChunkValidator areInsideOf(WebElement containerElement, String readableContainerName) {
+        getBase().areInsideOf(containerElement, readableContainerName);
         return this;
     }
 }

@@ -73,7 +73,7 @@ public class IntersectionTest {
 
     @Test
     public void shouldBeInsideOfChunkVersion() {
-        assertThat(isInsideOf(singletonList(root), other))
+        assertThat(areInsideOf(singletonList(root), other))
                 .withFailMessage(failMessage(insideOfMessage()))
                 .isEqualTo(otherContainsRoot);
     }

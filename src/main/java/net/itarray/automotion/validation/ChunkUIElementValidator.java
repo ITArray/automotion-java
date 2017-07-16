@@ -81,8 +81,12 @@ public interface ChunkUIElementValidator {
     // areHorizontallyCenteredOnPage
     ChunkUIElementValidator equalTopBottomOffset();
 
-    // areInsideOf
-    ChunkUIElementValidator insideOf(WebElement containerElement, String readableContainerName);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#areInsideOf(org.openqa.selenium.WebElement, String)}
+     */
+    @Deprecated
+    default ChunkUIElementValidator insideOf(WebElement containerElement, String readableContainerName) { return areInsideOf(containerElement, readableContainerName); }
+    ChunkUIElementValidator areInsideOf(WebElement containerElement, String readableContainerName);
 
     // equal distribution (horizontal, vertically, both)
 

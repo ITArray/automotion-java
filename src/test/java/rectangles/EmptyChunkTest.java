@@ -30,7 +30,7 @@ public class EmptyChunkTest {
     @Test
     public void isInsideNotInsideOfAnyElement() {
         WebElement any = createRootElement();
-        empty.insideOf(any, "Bla");
+        empty.areInsideOf(any, "Bla");
         assertThat(empty.validate()).isFalse();
         assertThat(hasErrorMessage("Set root web element")).isTrue();
     }

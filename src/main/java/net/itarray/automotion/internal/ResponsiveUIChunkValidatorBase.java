@@ -232,7 +232,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase insideOf(WebElement containerElement, String readableContainerName) {
+    public ResponsiveUIChunkValidatorBase areInsideOf(WebElement containerElement, String readableContainerName) {
         validateInsideOfContainer(asElement(containerElement, readableContainerName), rootElements);
         return this;
     }

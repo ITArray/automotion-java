@@ -204,6 +204,12 @@ public class NativeNamingBackwardsCompatibilityTest {
     }
 
     @Test
+    public void insideOfChunk() {
+        chunkValidator.insideOf(reference, "reference");
+        verify(chunkValidator).areInsideOf(reference, "reference");
+    }
+
+    @Test
     public void insideOfPadding() {
         Padding padding = new Padding(3);
         validator.insideOf(reference, "reference", padding);

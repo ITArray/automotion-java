@@ -205,8 +205,8 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.isInsideOf(other, "Blub", padding));
     }
 
-    public static boolean isInsideOf(List<WebElement> elements, WebElement container) {
-        return validate(elements, validator -> validator.insideOf(container, "Bla"));
+    public static boolean areInsideOf(List<WebElement> elements, WebElement container) {
+        return validate(elements, validator -> validator.areInsideOf(container, "Bla"));
     }
 
     public static boolean sameWidthAs(WebElement root, WebElement other) {
