@@ -4,8 +4,16 @@ import org.openqa.selenium.WebElement;
 
 public interface ChunkUIElementValidator {
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.ResponsiveUIValidator#drawMap()}
+     */
+    @Deprecated
     ChunkUIElementValidator drawMap();
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.ResponsiveUIValidator#dontDrawMap()}
+     */
+    @Deprecated
     ChunkUIElementValidator dontDrawMap();
 
     boolean validate();
