@@ -207,12 +207,31 @@ public interface UIElementValidator {
     default UIElementValidator heightBetween(int min, int max) { return hasHeightBetween(min, max); }
     UIElementValidator hasHeightBetween(int min, int max);
 
-    // - methods per direction -> ok
-    // page(document)/screen ? -> stay with page first
-    // hasLeftOffsetToPageGreaterOrEqualTo(value)
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasLeftOffsetToPageGreaterOrEqualTo(int)}
+     *                                            {@link UIElementValidator#hasRightOffsetToPageGreaterOrEqualTo(int)}
+     *                                            {@link UIElementValidator#hasTopOffsetToPageGreaterOrEqualTo(int)}
+     *                                            {@link UIElementValidator#hasBottomOffsetToPageGreaterOrEqualTo(int)}
+     */
+    @Deprecated
     UIElementValidator minOffset(int top, int right, int bottom, int left);
-
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasLeftOffsetToPageLessOrEqualTo(int)}
+     *                                            {@link UIElementValidator#hasRightOffsetToPageLessOrEqualTo(int)}
+     *                                            {@link UIElementValidator#hasTopOffsetToPageLessOrEqualTo(int)}
+     *                                            {@link UIElementValidator#hasBottomOffsetToPageLessOrEqualTo(int)}
+     */
+    @Deprecated
     UIElementValidator maxOffset(int top, int right, int bottom, int left);
+
+    UIElementValidator hasLeftOffsetToPageGreaterOrEqualTo(int value);
+    UIElementValidator hasLeftOffsetToPageLessOrEqualTo(int value);
+    UIElementValidator hasRightOffsetToPageGreaterOrEqualTo(int value);
+    UIElementValidator hasRightOffsetToPageLessOrEqualTo(int value);
+    UIElementValidator hasTopOffsetToPageGreaterOrEqualTo(int value);
+    UIElementValidator hasTopOffsetToPageLessOrEqualTo(int value);
+    UIElementValidator hasBottomOffsetToPageGreaterOrEqualTo(int value);
+    UIElementValidator hasBottomOffsetToPageLessOrEqualTo(int value);
 
     /**
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasCssValue(String, String...)}

@@ -53,6 +53,38 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.minOffset(top, right, bottom, left));
     }
 
+    public static boolean hasLeftOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPageGreaterOrEqualTo(value));
+    }
+
+    public static boolean hasLeftOffsetToPageLessOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPageLessOrEqualTo(value));
+    }
+
+    public static boolean hasRightOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPageGreaterOrEqualTo(value));
+    }
+
+    public static boolean hasRightOffsetToPageLessOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPageLessOrEqualTo(value));
+    }
+
+    public static boolean hasTopOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPageGreaterOrEqualTo(value));
+    }
+
+    public static boolean hasTopOffsetToPageLessOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPageLessOrEqualTo(value));
+    }
+
+    public static boolean hasBottomOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPageGreaterOrEqualTo(value));
+    }
+
+    public static boolean hasBottomOffsetToPageLessOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPageLessOrEqualTo(value));
+    }
+
     public static boolean maxOffset(WebElement root, int top, int right, int bottom, int left) {
         return validate(root, uiValidator -> uiValidator.maxOffset(top, right, bottom, left));
     }

@@ -516,6 +516,54 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         return this;
     }
 
+    @Override
+    public UIElementValidator hasLeftOffsetToPageGreaterOrEqualTo(int value) {
+        rootElement.validateLeftOffset(new Minimum(value), page, errors);
+        return this;
+    }
+
+    @Override
+    public UIElementValidator hasLeftOffsetToPageLessOrEqualTo(int value) {
+        rootElement.validateLeftOffset(new Maximum(value), page, errors);
+        return this;
+    }
+
+    @Override
+    public UIElementValidator hasRightOffsetToPageGreaterOrEqualTo(int value) {
+        rootElement.validateRightOffset(new Minimum(value), page, errors);
+        return this;
+    }
+
+    @Override
+    public UIElementValidator hasRightOffsetToPageLessOrEqualTo(int value) {
+        rootElement.validateRightOffset(new Maximum(value), page, errors);
+        return this;
+    }
+
+    @Override
+    public UIElementValidator hasTopOffsetToPageGreaterOrEqualTo(int value) {
+        rootElement.validateTopOffset(new Minimum(value), page, errors);
+        return this;
+    }
+
+    @Override
+    public UIElementValidator hasTopOffsetToPageLessOrEqualTo(int value) {
+        rootElement.validateTopOffset(new Maximum(value), page, errors);
+        return this;
+    }
+
+    @Override
+    public UIElementValidator hasBottomOffsetToPageGreaterOrEqualTo(int value) {
+        rootElement.validateBottomOffset(new Minimum(value), page, errors);
+        return this;
+    }
+
+    @Override
+    public UIElementValidator hasBottomOffsetToPageLessOrEqualTo(int value) {
+        rootElement.validateBottomOffset(new Maximum(value), page, errors);
+        return this;
+    }
+
     /**
      * Verify that max offset of element is not bigger than (min value is -10000)
      *
