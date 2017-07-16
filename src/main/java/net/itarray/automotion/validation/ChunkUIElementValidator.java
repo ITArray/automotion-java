@@ -97,5 +97,6 @@ public interface ChunkUIElementValidator {
     ChunkUIElementValidator areInsideOf(WebElement containerElement, String readableContainerName);
 
     // equal distribution (horizontal, vertically, both)
+    // alignments other the centered don't need horizontally/vertically - discuss
 
 }
