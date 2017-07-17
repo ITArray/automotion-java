@@ -1,7 +1,6 @@
 package net.itarray.automotion.internal;
 
-import net.itarray.automotion.internal.properties.Maximum;
-import net.itarray.automotion.internal.properties.Minimum;
+import net.itarray.automotion.validation.Literals;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
@@ -518,49 +517,49 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     @Override
     public UIElementValidator hasLeftOffsetToPageGreaterOrEqualTo(int value) {
-        rootElement.validateLeftOffset(new Minimum(value), page, errors);
+        rootElement.validateLeftOffset(Literals.lessOrEqualTo(value), page, errors);
         return this;
     }
 
     @Override
     public UIElementValidator hasLeftOffsetToPageLessOrEqualTo(int value) {
-        rootElement.validateLeftOffset(new Maximum(value), page, errors);
+        rootElement.validateLeftOffset(Literals.greaterOrEqualTo(value), page, errors);
         return this;
     }
 
     @Override
     public UIElementValidator hasRightOffsetToPageGreaterOrEqualTo(int value) {
-        rootElement.validateRightOffset(new Minimum(value), page, errors);
+        rootElement.validateRightOffset(Literals.lessOrEqualTo(value), page, errors);
         return this;
     }
 
     @Override
     public UIElementValidator hasRightOffsetToPageLessOrEqualTo(int value) {
-        rootElement.validateRightOffset(new Maximum(value), page, errors);
+        rootElement.validateRightOffset(Literals.greaterOrEqualTo(value), page, errors);
         return this;
     }
 
     @Override
     public UIElementValidator hasTopOffsetToPageGreaterOrEqualTo(int value) {
-        rootElement.validateTopOffset(new Minimum(value), page, errors);
+        rootElement.validateTopOffset(Literals.lessOrEqualTo(value), page, errors);
         return this;
     }
 
     @Override
     public UIElementValidator hasTopOffsetToPageLessOrEqualTo(int value) {
-        rootElement.validateTopOffset(new Maximum(value), page, errors);
+        rootElement.validateTopOffset(Literals.greaterOrEqualTo(value), page, errors);
         return this;
     }
 
     @Override
     public UIElementValidator hasBottomOffsetToPageGreaterOrEqualTo(int value) {
-        rootElement.validateBottomOffset(new Minimum(value), page, errors);
+        rootElement.validateBottomOffset(Literals.lessOrEqualTo(value), page, errors);
         return this;
     }
 
     @Override
     public UIElementValidator hasBottomOffsetToPageLessOrEqualTo(int value) {
-        rootElement.validateBottomOffset(new Maximum(value), page, errors);
+        rootElement.validateBottomOffset(Literals.greaterOrEqualTo(value), page, errors);
         return this;
     }
 
@@ -654,17 +653,17 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateMaxOffset(int top, int right, int bottom, int left) {
-        rootElement.validateLeftOffset(new Maximum(left), page, errors);
-        rootElement.validateTopOffset(new Maximum(top), page, errors);
-        rootElement.validateRightOffset(new Maximum(right), page, errors);
-        rootElement.validateBottomOffset(new Maximum(bottom), page, errors);
+        rootElement.validateLeftOffset(Literals.greaterOrEqualTo(left), page, errors);
+        rootElement.validateTopOffset(Literals.greaterOrEqualTo(top), page, errors);
+        rootElement.validateRightOffset(Literals.greaterOrEqualTo(right), page, errors);
+        rootElement.validateBottomOffset(Literals.greaterOrEqualTo(bottom), page, errors);
     }
 
     private void validateMinOffset(int top, int right, int bottom, int left) {
-        rootElement.validateLeftOffset(new Minimum(left), page, errors);
-        rootElement.validateTopOffset(new Minimum(top), page, errors);
-        rootElement.validateRightOffset(new Minimum(right), page, errors);
-        rootElement.validateBottomOffset(new Minimum(bottom), page, errors);
+        rootElement.validateLeftOffset(Literals.lessOrEqualTo(left), page, errors);
+        rootElement.validateTopOffset(Literals.lessOrEqualTo(top), page, errors);
+        rootElement.validateRightOffset(Literals.lessOrEqualTo(right), page, errors);
+        rootElement.validateBottomOffset(Literals.lessOrEqualTo(bottom), page, errors);
     }
 
     private void validateNotSameSize(UIElement element) {

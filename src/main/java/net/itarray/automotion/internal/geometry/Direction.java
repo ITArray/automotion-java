@@ -4,7 +4,7 @@ public enum Direction implements ExtendGiving<Scalar> {
     DOWN{
         @Override
         public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p1.isLessOrEqualThan(p2);
+            return p1.isLessOrEqualTo(p2);
         }
 
         public String beforeName() {
@@ -34,7 +34,7 @@ public enum Direction implements ExtendGiving<Scalar> {
     UP {
         @Override
         public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p2.isLessOrEqualThan(p1);
+            return p2.isLessOrEqualTo(p1);
         }
 
         public String beforeName() {
@@ -64,7 +64,7 @@ public enum Direction implements ExtendGiving<Scalar> {
     RIGHT {
         @Override
         public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p1.isLessOrEqualThan(p2);
+            return p1.isLessOrEqualTo(p2);
         }
 
         public String beforeName() {
@@ -94,7 +94,7 @@ public enum Direction implements ExtendGiving<Scalar> {
     LEFT {
         @Override
         public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p2.isLessOrEqualThan(p1);
+            return p2.isLessOrEqualTo(p1);
         }
 
         public String beforeName() {

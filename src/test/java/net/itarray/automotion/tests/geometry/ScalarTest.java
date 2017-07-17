@@ -1,7 +1,7 @@
 package net.itarray.automotion.tests.geometry;
 
 import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.internal.properties.Minimum;
+import net.itarray.automotion.validation.Literals;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -88,17 +88,17 @@ public class ScalarTest {
     }
 
     @Test
-    public void isLessOrEqualThanWorks() {
-        assertThat(scalar.isLessOrEqualThan(new Scalar(value-1))).isFalse();
-        assertThat(scalar.isLessOrEqualThan(new Scalar(value))).isTrue();
-        assertThat(scalar.isLessOrEqualThan(new Scalar(value+1))).isTrue();
+    public void isLessOrEqualToWorks() {
+        assertThat(scalar.isLessOrEqualTo(new Scalar(value-1))).isFalse();
+        assertThat(scalar.isLessOrEqualTo(new Scalar(value))).isTrue();
+        assertThat(scalar.isLessOrEqualTo(new Scalar(value+1))).isTrue();
     }
 
     @Test
-    public void isGreaterOrEqualThanWorks() {
-        assertThat(scalar.isGreaterOrEqualThan(new Scalar(value-1))).isTrue();
-        assertThat(scalar.isGreaterOrEqualThan(new Scalar(value))).isTrue();
-        assertThat(scalar.isGreaterOrEqualThan(new Scalar(value+1))).isFalse();
+    public void isGreaterOrEqualToWorks() {
+        assertThat(scalar.isGreaterOrEqualTo(new Scalar(value-1))).isTrue();
+        assertThat(scalar.isGreaterOrEqualTo(new Scalar(value))).isTrue();
+        assertThat(scalar.isGreaterOrEqualTo(new Scalar(value+1))).isFalse();
     }
 
     @Test
@@ -117,7 +117,7 @@ public class ScalarTest {
 
     @Test
     public void shouldName() {
-        assertThat(scalar.satisfies(new Minimum(value))).isTrue();
-        assertThat(scalar.satisfies(new Minimum(value+1))).isFalse();
+        assertThat(scalar.satisfies(Literals.lessOrEqualTo(value))).isTrue();
+        assertThat(scalar.satisfies(Literals.lessOrEqualTo(value+1))).isFalse();
     }
 }

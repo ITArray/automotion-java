@@ -56,8 +56,8 @@ public class Rectangle {
     }
 
     public boolean contains(Direction direction, Rectangle other) {
-        return direction.begin(this).isLessOrEqualThan(direction.begin(other))
-                && direction.end(other).isLessOrEqualThan(direction.end(this));
+        return direction.begin(this).isLessOrEqualTo(direction.begin(other))
+                && direction.end(other).isLessOrEqualTo(direction.end(this));
     }
 
     public boolean contains(Rectangle other) {

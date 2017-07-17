@@ -5,12 +5,10 @@ import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.Group;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.internal.properties.Maximum;
-import net.itarray.automotion.internal.properties.Minimum;
-import net.itarray.automotion.internal.properties.ScalarCondition;
+import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
-import net.itarray.automotion.validation.properties.Padding;
+import net.itarray.automotion.validation.Literals;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -182,7 +180,7 @@ public class UIElement {
     }
 
     public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
-        return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualThan(0);
+        return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualTo(0);
     }
 
     public Scalar signedDistanceToSuccessor(Direction direction, UIElement successor) {
@@ -383,23 +381,23 @@ public class UIElement {
         }
     }
 
-    public void validateLeftOffset(ScalarCondition leftCondition, UIElement page, Errors errors) {
+    public void validateLeftOffset(Condition leftCondition, UIElement page, Errors errors) {
         validateOffset(LEFT, leftCondition, page, errors);
     }
 
-    public void validateRightOffset(ScalarCondition rightCondition, UIElement page, Errors errors) {
+    public void validateRightOffset(Condition rightCondition, UIElement page, Errors errors) {
         validateOffset(RIGHT, rightCondition, page, errors);
     }
 
-    public void validateTopOffset(ScalarCondition topCondition, UIElement page, Errors errors) {
+    public void validateTopOffset(Condition topCondition, UIElement page, Errors errors) {
         validateOffset(UP, topCondition, page, errors);
     }
 
-    public void validateBottomOffset(ScalarCondition bottomCondition, UIElement page, Errors errors) {
+    public void validateBottomOffset(Condition bottomCondition, UIElement page, Errors errors) {
         validateOffset(DOWN, bottomCondition, page, errors);
     }
 
-    public void validateOffset(Direction direction, ScalarCondition condition, UIElement page, Errors errors) {
+    public void validateOffset(Direction direction, Condition condition, UIElement page, Errors errors) {
         if (!getOffset(direction, page).satisfies(condition)) {
             errors.add(
                     String.format("Expected %s %s offset of element %s is: %s. Actual %s offset is: %s",
@@ -437,22 +435,22 @@ public class UIElement {
     }
 
     public void validateHeightLessOrEqualTo(int limit, Errors errors) {
-        validateExtend(DOWN, new Maximum(limit), errors);
+        validateExtend(DOWN, Literals.greaterOrEqualTo(limit), errors);
     }
 
     public void validateHeightGreaterOrEqualTo(int limit, Errors errors) {
-        validateExtend(DOWN, new Minimum(limit), errors);
+        validateExtend(DOWN, Literals.lessOrEqualTo(limit), errors);
     }
 
     public void validateWidthLessOrEqualTo(int limit, Errors errors) {
-        validateExtend(RIGHT, new Maximum(limit), errors);
+        validateExtend(RIGHT, Literals.greaterOrEqualTo(limit), errors);
     }
 
     public void validateWidthGreaterOrEqualTo(int limit, Errors errors) {
-        validateExtend(RIGHT, new Minimum(limit), errors);
+        validateExtend(RIGHT, Literals.lessOrEqualTo(limit), errors);
     }
 
-    public void validateExtend(Direction direction, ScalarCondition condition, Errors errors) {
+    public void validateExtend(Direction direction, Condition condition, Errors errors) {
         if (!getExtend(direction).satisfies(condition)) {
             errors.add(
                     String.format("Expected %s %s of element %s is: %s. Actual %s is: %s",
