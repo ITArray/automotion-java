@@ -105,52 +105,52 @@ public class TestAssumptions {
         return validate(elements, ResponsiveUIChunkValidator::equalTopBottomOffset);
     }
 
-    public static boolean isVerticallyLeftAlignedWith(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.isVerticallyLeftAlignedWith(other, "Blub"));
+    public static boolean isLeftAlignedWith(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.isLeftAlignedWith(other, "Blub"));
     }
 
-    public static boolean isVerticallyLeftAlignedWith(WebElement root, List<WebElement> elements) {
-        return validate(root, elements, UIValidator::isVerticallyLeftAlignedWith);
+    public static boolean isLeftAlignedWith(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::isLeftAlignedWith);
     }
 
-    public static boolean areVerticallyLeftAligned(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::areVerticallyLeftAligned);
+    public static boolean areLeftAligned(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areLeftAligned);
     }
 
-    public static boolean isVerticallyRightAlignedWith(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.isVerticallyRightAlignedWith(other, "Blub"));
+    public static boolean isRightAlignedWith(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.isRightAlignedWith(other, "Blub"));
     }
 
-    public static boolean isVerticallyRightAlignedWith(WebElement root, List<WebElement> elements) {
-        return validate(root, elements, UIValidator::isVerticallyRightAlignedWith);
+    public static boolean isRightAlignedWith(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::isRightAlignedWith);
     }
 
-    public static boolean areVerticallyRightAligned(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::areVerticallyRightAligned);
+    public static boolean areRightAligned(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areRightAligned);
     }
 
-    public static boolean isHorizontallyTopAlignedWith(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.isHorizontallyTopAlignedWith(other, "Blub"));
+    public static boolean isTopAlignedWith(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.isTopAlignedWith(other, "Blub"));
     }
 
-    public static boolean isHorizontallyTopAlignedWith(WebElement root, List<WebElement> elements) {
-        return validate(root, elements, UIValidator::isHorizontallyTopAlignedWith);
+    public static boolean isTopAlignedWith(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::isTopAlignedWith);
     }
 
-    public static boolean areHorizontallyTopAligned(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::areHorizontallyTopAligned);
+    public static boolean areTopAligned(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areTopAligned);
     }
 
-    public static boolean isHorizontallyBottomAlignedWith(WebElement root, WebElement other) {
-        return validate(root, other, (uiValidator, webElement) -> uiValidator.isHorizontallyBottomAlignedWith(other, "Blub"));
+    public static boolean isBottomAlignedWith(WebElement root, WebElement other) {
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.isBottomAlignedWith(other, "Blub"));
     }
 
-    public static boolean isHorizontallyBottomAlignedWith(WebElement root, List<WebElement> elements) {
-        return validate(root, elements, UIValidator::isHorizontallyBottomAlignedWith);
+    public static boolean isBottomAlignedWith(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::isBottomAlignedWith);
     }
 
-    public static boolean areHorizontallyBottomAligned(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::areHorizontallyBottomAligned);
+    public static boolean areBottomAligned(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areBottomAligned);
     }
 
     public static boolean isAbove(WebElement root, WebElement other, int minMargin, int maxMargin) {

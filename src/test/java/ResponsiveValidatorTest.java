@@ -57,8 +57,8 @@ public class ResponsiveValidatorTest {
 
         boolean success1 = uiValidator.init("Validation of Top Slider Element")
                 .findElement(page.topSlider(), "Top Slider")
-                .isVerticallyLeftAlignedWith(page.gridContainer(), "Grid Container")
-                .isHorizontallyBottomAlignedWith(page.topTextBlock(), "Text Block")
+                .isLeftAlignedWith(page.gridContainer(), "Grid Container")
+                .isBottomAlignedWith(page.topTextBlock(), "Text Block")
                 .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX)
                 .hasWidthBetween(300, 500)
                 .sameSizeAs(page.gridElements())
@@ -89,8 +89,8 @@ public class ResponsiveValidatorTest {
 
         boolean success2 = uiValidator.init("Validation of Top Text block")
                 .findElement(page.topTextBlock(), "Top Text block")
-                .isVerticallyRightAlignedWith(page.gridContainer(), "Grid Container")
-                .isHorizontallyTopAlignedWith(page.topSlider(), "Top Slider")
+                .isRightAlignedWith(page.gridContainer(), "Grid Container")
+                .isTopAlignedWith(page.topSlider(), "Top Slider")
                 .drawMap()
                 .validate();
 
@@ -101,7 +101,7 @@ public class ResponsiveValidatorTest {
                 .alignedAsGrid(4, 3)
                 .withSameSize()
                 .areNotOverlappedWithEachOther()
-                .areHorizontallyTopAligned()
+                .areTopAligned()
                 .equalLeftRightOffset()
                 .equalTopBottomOffset()
                 .drawMap()

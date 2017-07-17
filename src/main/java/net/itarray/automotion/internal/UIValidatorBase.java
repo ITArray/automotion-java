@@ -207,7 +207,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase isVerticallyLeftAlignedWith(WebElement element, String readableName) {
+    public UIValidatorBase isLeftAlignedWith(WebElement element, String readableName) {
         rootElement.validateLeftAlignedWith(asElement(element, readableName), errors);
         drawLeftOffsetLine();
         return this;
@@ -220,7 +220,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase isVerticallyLeftAlignedWith(List<WebElement> webElements) {
+    public UIValidatorBase isLeftAlignedWith(List<WebElement> webElements) {
         for (UIElement element : asElements(webElements)) {
             rootElement.validateLeftAlignedWith(element, errors);
         }
@@ -236,7 +236,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase isVerticallyRightAlignedWith(WebElement element, String readableName) {
+    public UIValidatorBase isRightAlignedWith(WebElement element, String readableName) {
         rootElement.validateRightAlignedWith(asElement(element, readableName), errors);
         drawRightOffsetLine();
         return this;
@@ -249,7 +249,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase isVerticallyRightAlignedWith(List<WebElement> elements) {
+    public UIValidatorBase isRightAlignedWith(List<WebElement> elements) {
         for (WebElement element : elements) {
             rootElement.validateRightAlignedWith(asElement(element), errors);
         }
@@ -265,7 +265,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase isHorizontallyTopAlignedWith(WebElement element, String readableName) {
+    public UIValidatorBase isTopAlignedWith(WebElement element, String readableName) {
         rootElement.validateTopAlignedWith(asElement(element, readableName), errors);
         drawTopOffsetLine();
         return this;
@@ -278,7 +278,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase isHorizontallyTopAlignedWith(List<WebElement> elements) {
+    public UIValidatorBase isTopAlignedWith(List<WebElement> elements) {
         for (WebElement element : elements) {
             rootElement.validateTopAlignedWith(asElement(element), errors);
         }
@@ -294,7 +294,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase isHorizontallyBottomAlignedWith(WebElement element, String readableName) {
+    public UIValidatorBase isBottomAlignedWith(WebElement element, String readableName) {
         rootElement.validateBottomAlignedWith(asElement(element, readableName), errors);
         drawBottomOffsetLine();
         return this;
@@ -307,7 +307,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase isHorizontallyBottomAlignedWith(List<WebElement> elements) {
+    public UIValidatorBase isBottomAlignedWith(List<WebElement> elements) {
         for (WebElement element : elements) {
             rootElement.validateBottomAlignedWith(asElement(element), errors);
         }

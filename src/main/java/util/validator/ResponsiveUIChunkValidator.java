@@ -166,8 +166,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator areVerticallyRightAligned() {
-        getBase().areVerticallyRightAligned();
+    public ResponsiveUIChunkValidator areRightAligned() {
+        getBase().areRightAligned();
         return this;
     }
 
@@ -177,8 +177,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator areVerticallyLeftAligned() {
-        getBase().areVerticallyLeftAligned();
+    public ResponsiveUIChunkValidator areLeftAligned() {
+        getBase().areLeftAligned();
         return this;
     }
 
@@ -188,8 +188,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator areHorizontallyTopAligned() {
-        getBase().areHorizontallyTopAligned();
+    public ResponsiveUIChunkValidator areTopAligned() {
+        getBase().areTopAligned();
         return this;
     }
 
@@ -199,8 +199,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator areHorizontallyBottomAligned() {
-        getBase().areHorizontallyBottomAligned();
+    public ResponsiveUIChunkValidator areBottomAligned() {
+        getBase().areBottomAligned();
         return this;
     }
 

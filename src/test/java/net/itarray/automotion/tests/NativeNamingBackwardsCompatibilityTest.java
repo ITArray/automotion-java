@@ -92,73 +92,73 @@ public class NativeNamingBackwardsCompatibilityTest {
     @Test
     public void sameOffsetLeftAs() {
             validator.sameOffsetLeftAs(reference, "reference");
-        verify(validator).isVerticallyLeftAlignedWith(reference, "reference");
+        verify(validator).isLeftAlignedWith(reference, "reference");
     }
 
     @Test
     public void sameOffsetLeftAsList() {
             validator.sameOffsetLeftAs(references);
-        verify(validator).isVerticallyLeftAlignedWith(references);
+        verify(validator).isLeftAlignedWith(references);
     }
 
     @Test
     public void sameLeftOffsetChunk() {
         chunkValidator.sameLeftOffset();
-        verify(chunkValidator).areVerticallyLeftAligned();
+        verify(chunkValidator).areLeftAligned();
     }
     
     @Test
     public void sameOffsetRightAs() {
             validator.sameOffsetRightAs(reference, "reference");
-        verify(validator).isVerticallyRightAlignedWith(reference, "reference");
+        verify(validator).isRightAlignedWith(reference, "reference");
     }
 
     @Test
     public void sameOffsetRightAsList() {
             validator.sameOffsetRightAs(references);
-        verify(validator).isVerticallyRightAlignedWith(references);
+        verify(validator).isRightAlignedWith(references);
     }
 
     @Test
     public void sameRightOffsetChunk() {
         chunkValidator.sameRightOffset();
-        verify(chunkValidator).areVerticallyRightAligned();
+        verify(chunkValidator).areRightAligned();
     }
 
     @Test
     public void sameOffsetTopAs() {
             validator.sameOffsetTopAs(reference, "reference");
-        verify(validator).isHorizontallyTopAlignedWith(reference, "reference");
+        verify(validator).isTopAlignedWith(reference, "reference");
     }
 
     @Test
     public void sameOffsetTopAsList() {
             validator.sameOffsetTopAs(references);
-        verify(validator).isHorizontallyTopAlignedWith(references);
+        verify(validator).isTopAlignedWith(references);
     }
 
     @Test
     public void sameTopOffsetChunk() {
         chunkValidator.sameTopOffset();
-        verify(chunkValidator).areHorizontallyTopAligned();
+        verify(chunkValidator).areTopAligned();
     }
 
     @Test
     public void sameOffsetBottomAs() {
             validator.sameOffsetBottomAs(reference, "reference");
-        verify(validator).isHorizontallyBottomAlignedWith(reference, "reference");
+        verify(validator).isBottomAlignedWith(reference, "reference");
     }
 
     @Test
     public void sameOffsetBottomAsList() {
             validator.sameOffsetBottomAs(references);
-        verify(validator).isHorizontallyBottomAlignedWith(references);
+        verify(validator).isBottomAlignedWith(references);
     }
     
     @Test
     public void sameBottomOffsetChunk() {
         chunkValidator.sameBottomOffset();
-        verify(chunkValidator).areHorizontallyBottomAligned();
+        verify(chunkValidator).areBottomAligned();
     }
 
     @Test

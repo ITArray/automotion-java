@@ -38,21 +38,21 @@ public interface Validator extends UIElementValidator {
 
     UIValidator notOverlapWith(List<WebElement> elements);
 
-    UIValidator isVerticallyLeftAlignedWith(WebElement element, String readableName);
+    UIValidator isLeftAlignedWith(WebElement element, String readableName);
 
-    UIValidator isVerticallyLeftAlignedWith(List<WebElement> elements);
+    UIValidator isLeftAlignedWith(List<WebElement> elements);
 
-    UIValidator isVerticallyRightAlignedWith(WebElement element, String readableName);
+    UIValidator isRightAlignedWith(WebElement element, String readableName);
 
-    UIValidator isVerticallyRightAlignedWith(List<WebElement> elements);
+    UIValidator isRightAlignedWith(List<WebElement> elements);
 
-    UIValidator isHorizontallyTopAlignedWith(WebElement element, String readableName);
+    UIValidator isTopAlignedWith(WebElement element, String readableName);
 
-    UIValidator isHorizontallyTopAlignedWith(List<WebElement> elements);
+    UIValidator isTopAlignedWith(List<WebElement> elements);
 
-    UIValidator isHorizontallyBottomAlignedWith(WebElement element, String readableName);
+    UIValidator isBottomAlignedWith(WebElement element, String readableName);
 
-    UIValidator isHorizontallyBottomAlignedWith(List<WebElement> elements);
+    UIValidator isBottomAlignedWith(List<WebElement> elements);
 
     UIValidator sameWidthAs(WebElement element, String readableName);
 

@@ -164,7 +164,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase areVerticallyRightAligned() {
+    public ResponsiveUIChunkValidatorBase areRightAligned() {
         validateRightAlignedWithChunk(asNumberedList(rootElements));
         return this;
     }
@@ -175,7 +175,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase areVerticallyLeftAligned() {
+    public ResponsiveUIChunkValidatorBase areLeftAligned() {
         validateLeftAlignedWithChunk(asNumberedList(rootElements));
         return this;
     }
@@ -186,7 +186,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase areHorizontallyTopAligned() {
+    public ResponsiveUIChunkValidatorBase areTopAligned() {
         validateTopAlignedWithChunk(asNumberedList(rootElements));
         return this;
     }
@@ -197,7 +197,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase areHorizontallyBottomAligned() {
+    public ResponsiveUIChunkValidatorBase areBottomAligned() {
         validateBottomAlignedWithChunk(asNumberedList(rootElements));
         return this;
     }

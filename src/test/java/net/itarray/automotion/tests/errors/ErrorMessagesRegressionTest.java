@@ -63,96 +63,96 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
-    public void isVerticallyLeftAlignedWith() {
-        createElementValidator().isVerticallyLeftAlignedWith(createElement(105, 200, 500, 400), "specifying");
+    public void isLeftAlignedWith() {
+        createElementValidator().isLeftAlignedWith(createElement(105, 200, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same left offset as element 'specifying'");
     }
 
     @Test
-    public void isVerticallyLeftAlignedWithList() {
-        createElementValidator().isVerticallyLeftAlignedWith(singletonList(createElement(105, 200, 500, 400)));
+    public void isLeftAlignedWithList() {
+        createElementValidator().isLeftAlignedWith(singletonList(createElement(105, 200, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same left offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[105,200], size=[395,200]'");
     }
 
     @Test
-    public void areVerticallyLeftAligned() {
-        createChunkValidator(createElement(105, 200, 500, 400)).areVerticallyLeftAligned();
+    public void areLeftAligned() {
+        createChunkValidator(createElement(105, 200, 500, 400)).areLeftAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same left offset as element #2");
     }
 
     @Test
-    public void isVerticallyRightAlignedWith() {
-        createElementValidator().isVerticallyRightAlignedWith(createElement(100, 200, 505, 400), "specifying");
+    public void isRightAlignedWith() {
+        createElementValidator().isRightAlignedWith(createElement(100, 200, 505, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same right offset as element 'specifying'");
     }
 
     @Test
-    public void isVerticallyRightAlignedWithList() {
-        createElementValidator().isVerticallyRightAlignedWith(singletonList(createElement(100, 200, 505, 400)));
+    public void isRightAlignedWithList() {
+        createElementValidator().isRightAlignedWith(singletonList(createElement(100, 200, 505, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same right offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,200]'");
     }
 
     @Test
-    public void areVerticallyRightAligned() {
-        createChunkValidator(createElement(100, 200, 505, 400)).areVerticallyRightAligned();
+    public void areRightAligned() {
+        createChunkValidator(createElement(100, 200, 505, 400)).areRightAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same right offset as element #2");
     }
 
     @Test
-    public void isHorizontallyTopAlignedWith() {
-        createElementValidator().isHorizontallyTopAlignedWith(createElement(100, 205, 500, 400), "specifying");
+    public void isTopAlignedWith() {
+        createElementValidator().isTopAlignedWith(createElement(100, 205, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same top offset as element 'specifying'");
     }
 
     @Test
-    public void isHorizontallyTopAlignedWithList() {
-        createElementValidator().isHorizontallyTopAlignedWith(singletonList(createElement(100, 205, 500, 400)));
+    public void isTopAlignedWithList() {
+        createElementValidator().isTopAlignedWith(singletonList(createElement(100, 205, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same top offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,205], size=[400,195]'");
     }
 
     @Test
-    public void areHorizontallyTopAligned() {
-        createChunkValidator(createElement(100, 205, 500, 400)).areHorizontallyTopAligned();
+    public void areTopAligned() {
+        createChunkValidator(createElement(100, 205, 500, 400)).areTopAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same top offset as element #2");
     }
 
     @Test
-    public void isHorizontallyBottomAlignedWith() {
-        createElementValidator().isHorizontallyBottomAlignedWith(createElement(100, 200, 500, 405), "specifying");
+    public void isBottomAlignedWith() {
+        createElementValidator().isBottomAlignedWith(createElement(100, 200, 500, 405), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same bottom offset as element 'specifying'");
     }
 
     @Test
-    public void isHorizontallyBottomAlignedWithList() {
-        createElementValidator().isHorizontallyBottomAlignedWith(singletonList(createElement(100, 200, 500, 405)));
+    public void isBottomAlignedWithList() {
+        createElementValidator().isBottomAlignedWith(singletonList(createElement(100, 200, 500, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same bottom offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,205]'");
     }
 
     @Test
-    public void areHorizontallyBottomAligned() {
-        createChunkValidator(createElement(100, 200, 500, 405)).areHorizontallyBottomAligned();
+    public void areBottomAligned() {
+        createChunkValidator(createElement(100, 200, 500, 405)).areBottomAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same bottom offset as element #2");

@@ -33,25 +33,25 @@ public class AlignmentTest {
     public void isLeftAlignedWithElementsWithEqualOriginX() {
         WebElement other = createElement(originX, up(originY), up(cornerX), down(cornerY));
 
-        assertThat(isVerticallyLeftAlignedWith(root, other)).isTrue();
-        assertThat(isVerticallyLeftAlignedWith(root, asList(other))).isTrue();
-        assertThat(areVerticallyLeftAligned(asList(root, other))).isTrue();
+        assertThat(isLeftAlignedWith(root, other)).isTrue();
+        assertThat(isLeftAlignedWith(root, asList(other))).isTrue();
+        assertThat(areLeftAligned(asList(root, other))).isTrue();
     }
 
     @Test
     public void isNotLeftAlignedWithElementsWithSmallerOriginX() {
         WebElement other = createElement(down(originX), up(originY), down(cornerX), down(cornerY));
 
-        assertThat(isVerticallyLeftAlignedWith(root, other)).isFalse();
-        assertThat(areVerticallyLeftAligned(asList(root, other))).isFalse();
+        assertThat(isLeftAlignedWith(root, other)).isFalse();
+        assertThat(areLeftAligned(asList(root, other))).isFalse();
     }
 
     @Test
     public void isNotLeftAlignedWithElementsWithGreaterOriginX() {
         WebElement other = createElement(up(originX), down(originY), down(cornerX), up(cornerY));
 
-        assertThat(isVerticallyLeftAlignedWith(root, other)).isFalse();
-        assertThat(areVerticallyLeftAligned(asList(root, other))).isFalse();
+        assertThat(isLeftAlignedWith(root, other)).isFalse();
+        assertThat(areLeftAligned(asList(root, other))).isFalse();
     }
 
 
@@ -60,27 +60,27 @@ public class AlignmentTest {
     public void isTopAlignedWithElementsWithEqualOriginY() {
         WebElement other = createElement(up(originX), originY, up(cornerX), down(cornerY));
 
-        assertThat(isHorizontallyTopAlignedWith(root, other)).isTrue();
-        assertThat(isHorizontallyTopAlignedWith(root, asList(other))).isTrue();
-        assertThat(areHorizontallyTopAligned(asList(root, other))).isTrue();
+        assertThat(isTopAlignedWith(root, other)).isTrue();
+        assertThat(isTopAlignedWith(root, asList(other))).isTrue();
+        assertThat(areTopAligned(asList(root, other))).isTrue();
     }
 
     @Test
     public void isNotTopAlignedWithElementsWithSmallerOriginY() {
         WebElement other = createElement(up(originX), down(originY), down(cornerX), down(cornerY));
 
-        assertThat(isHorizontallyTopAlignedWith(root, other)).isFalse();
-        assertThat(isHorizontallyTopAlignedWith(root, asList(other))).isFalse();
-        assertThat(areHorizontallyTopAligned(asList(root, other))).isFalse();
+        assertThat(isTopAlignedWith(root, other)).isFalse();
+        assertThat(isTopAlignedWith(root, asList(other))).isFalse();
+        assertThat(areTopAligned(asList(root, other))).isFalse();
     }
 
     @Test
     public void isNotTopAlignedWithElementsWithGreaterOriginY() {
         WebElement other = createElement(down(originX), up(originY), down(cornerX), up(cornerY));
 
-        assertThat(isHorizontallyTopAlignedWith(root, other)).isFalse();
-        assertThat(isHorizontallyTopAlignedWith(root, asList(other))).isFalse();
-        assertThat(areHorizontallyTopAligned(asList(root, other))).isFalse();
+        assertThat(isTopAlignedWith(root, other)).isFalse();
+        assertThat(isTopAlignedWith(root, asList(other))).isFalse();
+        assertThat(areTopAligned(asList(root, other))).isFalse();
     }
 
 
@@ -89,27 +89,27 @@ public class AlignmentTest {
     public void isRightAlignedWithElementsWithEqualCornerX() {
         WebElement other = createElement(up(originX), up(originY), cornerX, down(cornerY));
 
-        assertThat(isVerticallyRightAlignedWith(root, asList(other))).isTrue();
-        assertThat(isVerticallyRightAlignedWith(root, other)).isTrue();
-        assertThat(areVerticallyRightAligned(asList(root, other))).isTrue();
+        assertThat(isRightAlignedWith(root, asList(other))).isTrue();
+        assertThat(isRightAlignedWith(root, other)).isTrue();
+        assertThat(areRightAligned(asList(root, other))).isTrue();
     }
 
     @Test
     public void isNotRightAlignedWithElementsWithLesserCornerX() {
         WebElement other = createElement(up(originX), up(originY), down(cornerX), down(cornerY));
 
-        assertThat(isVerticallyRightAlignedWith(root, other)).isFalse();
-        assertThat(isVerticallyRightAlignedWith(root, asList(other))).isFalse();
-        assertThat(areVerticallyRightAligned(asList(root, other))).isFalse();
+        assertThat(isRightAlignedWith(root, other)).isFalse();
+        assertThat(isRightAlignedWith(root, asList(other))).isFalse();
+        assertThat(areRightAligned(asList(root, other))).isFalse();
     }
 
     @Test
     public void isNotRightAlignedWithElementsWithGreaterCornerX() {
         WebElement other = createElement(up(originX), up(originY), up(cornerX), down(cornerY));
 
-        assertThat(isVerticallyRightAlignedWith(root, other)).isFalse();
-        assertThat(isVerticallyRightAlignedWith(root, asList(other))).isFalse();
-        assertThat(areVerticallyRightAligned(asList(root, other))).isFalse();
+        assertThat(isRightAlignedWith(root, other)).isFalse();
+        assertThat(isRightAlignedWith(root, asList(other))).isFalse();
+        assertThat(areRightAligned(asList(root, other))).isFalse();
     }
 
 
@@ -118,27 +118,27 @@ public class AlignmentTest {
     public void isBottomAlignedWithElementsWithEqualCornerY() {
         WebElement other = createElement(up(originX), up(originY), down(cornerX), cornerY);
 
-        assertThat(isHorizontallyBottomAlignedWith(root, other)).isTrue();
-        assertThat(isHorizontallyBottomAlignedWith(root, asList(other))).isTrue();
-        assertThat(areHorizontallyBottomAligned(asList(root, other))).isTrue();
+        assertThat(isBottomAlignedWith(root, other)).isTrue();
+        assertThat(isBottomAlignedWith(root, asList(other))).isTrue();
+        assertThat(areBottomAligned(asList(root, other))).isTrue();
     }
 
     @Test
     public void isNotBottomAlignedWithElementsWithLesserCornerY() {
         WebElement other = createElement(up(originX), up(originY), down(cornerX), down(cornerY));
 
-        assertThat(isHorizontallyBottomAlignedWith(root, other)).isFalse();
-        assertThat(isHorizontallyBottomAlignedWith(root, asList(other))).isFalse();
-        assertThat(areHorizontallyBottomAligned(asList(root, other))).isFalse();
+        assertThat(isBottomAlignedWith(root, other)).isFalse();
+        assertThat(isBottomAlignedWith(root, asList(other))).isFalse();
+        assertThat(areBottomAligned(asList(root, other))).isFalse();
     }
 
     @Test
     public void isNotBottomAlignedWithElementsWithGreaterCornerY() {
         WebElement other = createElement(up(originX), up(originY), down(cornerX), up(cornerY));
 
-        assertThat(isHorizontallyBottomAlignedWith(root, other)).isFalse();
-        assertThat(isHorizontallyBottomAlignedWith(root, asList(other))).isFalse();
-        assertThat(areHorizontallyBottomAligned(asList(root, other))).isFalse();
+        assertThat(isBottomAlignedWith(root, other)).isFalse();
+        assertThat(isBottomAlignedWith(root, asList(other))).isFalse();
+        assertThat(areBottomAligned(asList(root, other))).isFalse();
     }
 
 
