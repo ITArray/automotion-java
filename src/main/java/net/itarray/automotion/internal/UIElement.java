@@ -381,20 +381,20 @@ public class UIElement {
         }
     }
 
-    public void validateLeftOffset(Condition leftCondition, UIElement page, Errors errors) {
-        validateOffset(LEFT, leftCondition, page, errors);
+    public void validateLeftOffset(Condition condition, UIElement page, Errors errors) {
+        validateOffset(LEFT, condition, page, errors);
     }
 
-    public void validateRightOffset(Condition rightCondition, UIElement page, Errors errors) {
-        validateOffset(RIGHT, rightCondition, page, errors);
+    public void validateRightOffset(Condition condition, UIElement page, Errors errors) {
+        validateOffset(RIGHT, condition, page, errors);
     }
 
-    public void validateTopOffset(Condition topCondition, UIElement page, Errors errors) {
-        validateOffset(UP, topCondition, page, errors);
+    public void validateTopOffset(Condition condition, UIElement page, Errors errors) {
+        validateOffset(UP, condition, page, errors);
     }
 
-    public void validateBottomOffset(Condition bottomCondition, UIElement page, Errors errors) {
-        validateOffset(DOWN, bottomCondition, page, errors);
+    public void validateBottomOffset(Condition condition, UIElement page, Errors errors) {
+        validateOffset(DOWN, condition, page, errors);
     }
 
     public void validateOffset(Direction direction, Condition condition, UIElement page, Errors errors) {

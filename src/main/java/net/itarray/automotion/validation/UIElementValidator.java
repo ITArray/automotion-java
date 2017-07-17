@@ -231,46 +231,6 @@ public interface UIElementValidator {
     UIElementValidator hasTopOffsetToPage(Condition<Scalar> condition);
     UIElementValidator hasBottomOffsetToPage(Condition<Scalar> condition);
 
-    default UIElementValidator hasLeftOffsetToPageGreaterOrEqualTo(int value) {
-        hasLeftOffsetToPage(Literals.greaterOrEqualTo(value));
-        return this;
-    }
-
-    default UIElementValidator hasLeftOffsetToPageLessOrEqualTo(int value) {
-        hasLeftOffsetToPage(Literals.lessOrEqualTo(value));
-        return this;
-    }
-
-    default UIElementValidator hasRightOffsetToPageGreaterOrEqualTo(int value) {
-        hasRightOffsetToPage(Literals.greaterOrEqualTo(value));
-        return this;
-    }
-
-    default UIElementValidator hasRightOffsetToPageLessOrEqualTo(int value) {
-        hasRightOffsetToPage(Literals.lessOrEqualTo(value));
-        return this;
-    }
-
-    default UIElementValidator hasTopOffsetToPageGreaterOrEqualTo(int value) {
-        hasTopOffsetToPage(Literals.greaterOrEqualTo(value));
-        return this;
-    }
-
-    default UIElementValidator hasTopOffsetToPageLessOrEqualTo(int value) {
-        hasTopOffsetToPage(Literals.lessOrEqualTo(value));
-        return this;
-    }
-
-    default UIElementValidator hasBottomOffsetToPageGreaterOrEqualTo(int value) {
-        hasBottomOffsetToPage(Literals.greaterOrEqualTo(value));
-        return this;
-    }
-
-    default UIElementValidator hasBottomOffsetToPageLessOrEqualTo(int value) {
-        hasBottomOffsetToPage(Literals.lessOrEqualTo(value));
-        return this;
-    }
-
     /**
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasCssValue(String, String...)}
      */

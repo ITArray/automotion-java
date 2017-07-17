@@ -1,5 +1,6 @@
 package rectangles;
 
+import net.itarray.automotion.validation.Literals;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIChunkValidator;
 import util.validator.ResponsiveUIValidator;
@@ -54,35 +55,35 @@ public class TestAssumptions {
     }
 
     public static boolean hasLeftOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPageGreaterOrEqualTo(value));
+        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPage(Literals.greaterOrEqualTo(value)));
     }
 
     public static boolean hasLeftOffsetToPageLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPageLessOrEqualTo(value));
+        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPage(Literals.lessOrEqualTo(value)));
     }
 
     public static boolean hasRightOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPageGreaterOrEqualTo(value));
+        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPage(Literals.greaterOrEqualTo(value)));
     }
 
     public static boolean hasRightOffsetToPageLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPageLessOrEqualTo(value));
+        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPage(Literals.lessOrEqualTo(value)));
     }
 
     public static boolean hasTopOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPageGreaterOrEqualTo(value));
+        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPage(Literals.greaterOrEqualTo(value)));
     }
 
     public static boolean hasTopOffsetToPageLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPageLessOrEqualTo(value));
+        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPage(Literals.lessOrEqualTo(value)));
     }
 
     public static boolean hasBottomOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPageGreaterOrEqualTo(value));
+        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPage(Literals.greaterOrEqualTo(value)));
     }
 
     public static boolean hasBottomOffsetToPageLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPageLessOrEqualTo(value));
+        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPage(Literals.lessOrEqualTo(value)));
     }
 
     public static boolean maxOffset(WebElement root, int top, int right, int bottom, int left) {
