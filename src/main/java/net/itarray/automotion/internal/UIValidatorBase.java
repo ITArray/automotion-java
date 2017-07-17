@@ -627,17 +627,17 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateMaxOffset(int top, int right, int bottom, int left) {
-        rootElement.validateLeftOffset(Literals.greaterOrEqualTo(left), page, errors);
-        rootElement.validateTopOffset(Literals.greaterOrEqualTo(top), page, errors);
-        rootElement.validateRightOffset(Literals.greaterOrEqualTo(right), page, errors);
-        rootElement.validateBottomOffset(Literals.greaterOrEqualTo(bottom), page, errors);
-    }
-
-    private void validateMinOffset(int top, int right, int bottom, int left) {
         rootElement.validateLeftOffset(Literals.lessOrEqualTo(left), page, errors);
         rootElement.validateTopOffset(Literals.lessOrEqualTo(top), page, errors);
         rootElement.validateRightOffset(Literals.lessOrEqualTo(right), page, errors);
         rootElement.validateBottomOffset(Literals.lessOrEqualTo(bottom), page, errors);
+    }
+
+    private void validateMinOffset(int top, int right, int bottom, int left) {
+        rootElement.validateLeftOffset(Literals.greaterOrEqualTo(left), page, errors);
+        rootElement.validateTopOffset(Literals.greaterOrEqualTo(top), page, errors);
+        rootElement.validateRightOffset(Literals.greaterOrEqualTo(right), page, errors);
+        rootElement.validateBottomOffset(Literals.greaterOrEqualTo(bottom), page, errors);
     }
 
     private void validateNotSameSize(UIElement element) {

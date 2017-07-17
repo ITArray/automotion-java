@@ -22,12 +22,12 @@ public class Literals {
         return ZoomImpl.of(percentage);
     }
 
-    public static Condition<Scalar> lessOrEqualTo(int limit) {
-        return Conditions.lessOrEqualTo(new Scalar(limit));
-    }
-
     public static Condition<Scalar> greaterOrEqualTo(int limit) {
         return Conditions.greaterOrEqualTo(new Scalar(limit));
+    }
+
+    public static Condition<Scalar> lessOrEqualTo(int limit) {
+        return Conditions.lessOrEqualTo(new Scalar(limit));
     }
 
     public static B between(int lowerLimit) {

@@ -232,42 +232,42 @@ public interface UIElementValidator {
     UIElementValidator hasBottomOffsetToPage(Condition<Scalar> condition);
 
     default UIElementValidator hasLeftOffsetToPageGreaterOrEqualTo(int value) {
-        hasLeftOffsetToPage(Literals.lessOrEqualTo(value));
-        return this;
-    }
-
-    default UIElementValidator hasLeftOffsetToPageLessOrEqualTo(int value) {
         hasLeftOffsetToPage(Literals.greaterOrEqualTo(value));
         return this;
     }
 
-    default UIElementValidator hasRightOffsetToPageGreaterOrEqualTo(int value) {
-        hasRightOffsetToPage(Literals.lessOrEqualTo(value));
+    default UIElementValidator hasLeftOffsetToPageLessOrEqualTo(int value) {
+        hasLeftOffsetToPage(Literals.lessOrEqualTo(value));
         return this;
     }
 
-    default UIElementValidator hasRightOffsetToPageLessOrEqualTo(int value) {
+    default UIElementValidator hasRightOffsetToPageGreaterOrEqualTo(int value) {
         hasRightOffsetToPage(Literals.greaterOrEqualTo(value));
         return this;
     }
 
-    default UIElementValidator hasTopOffsetToPageGreaterOrEqualTo(int value) {
-        hasTopOffsetToPage(Literals.lessOrEqualTo(value));
+    default UIElementValidator hasRightOffsetToPageLessOrEqualTo(int value) {
+        hasRightOffsetToPage(Literals.lessOrEqualTo(value));
         return this;
     }
 
-    default UIElementValidator hasTopOffsetToPageLessOrEqualTo(int value) {
+    default UIElementValidator hasTopOffsetToPageGreaterOrEqualTo(int value) {
         hasTopOffsetToPage(Literals.greaterOrEqualTo(value));
         return this;
     }
 
+    default UIElementValidator hasTopOffsetToPageLessOrEqualTo(int value) {
+        hasTopOffsetToPage(Literals.lessOrEqualTo(value));
+        return this;
+    }
+
     default UIElementValidator hasBottomOffsetToPageGreaterOrEqualTo(int value) {
-        hasBottomOffsetToPage(Literals.lessOrEqualTo(value));
+        hasBottomOffsetToPage(Literals.greaterOrEqualTo(value));
         return this;
     }
 
     default UIElementValidator hasBottomOffsetToPageLessOrEqualTo(int value) {
-        hasBottomOffsetToPage(Literals.greaterOrEqualTo(value));
+        hasBottomOffsetToPage(Literals.lessOrEqualTo(value));
         return this;
     }
 

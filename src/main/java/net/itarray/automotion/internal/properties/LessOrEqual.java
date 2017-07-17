@@ -4,28 +4,28 @@ import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Condition;
 
 public class LessOrEqual implements Condition<Scalar> {
-    private final Scalar limit;
+    private final Scalar upperLimit;
 
-    LessOrEqual(Scalar limit) {
-        this.limit = limit;
+    LessOrEqual(Scalar upperLimit) {
+        this.upperLimit = upperLimit;
     }
 
     public boolean isSatisfiedOn(Scalar value) {
-        return limit.isLessOrEqualTo(value);
+        return value.isLessOrEqualTo(upperLimit);
     }
 
     public String shortName() {
-        return "min";
+        return "max";
     }
 
     @Override
     public String toStringWithUnits(String units) {
-        return limit.toStringWithUnits(units);
+        return upperLimit.toStringWithUnits(units);
     }
 
     @Override
     public String toString() {
-        return String.format("lessOrEqualTo(%s)", limit);
+        return String.format("lessOrEqualTo(%s)", upperLimit);
     }
 
     @Override
@@ -34,11 +34,11 @@ public class LessOrEqual implements Condition<Scalar> {
             return false;
         }
         LessOrEqual other = (LessOrEqual) object;
-        return limit.equals(other.limit);
+        return upperLimit.equals(other.upperLimit);
     }
 
     @Override
     public int hashCode() {
-        return limit.hashCode();
+        return upperLimit.hashCode();
     }
 }

@@ -117,7 +117,7 @@ public class ScalarTest {
 
     @Test
     public void shouldName() {
-        assertThat(scalar.satisfies(Literals.lessOrEqualTo(value))).isTrue();
-        assertThat(scalar.satisfies(Literals.lessOrEqualTo(value+1))).isFalse();
+        assertThat(scalar.satisfies(Literals.greaterOrEqualTo(value))).isTrue();
+        assertThat(scalar.satisfies(Literals.greaterOrEqualTo(value+1))).isFalse();
     }
 }

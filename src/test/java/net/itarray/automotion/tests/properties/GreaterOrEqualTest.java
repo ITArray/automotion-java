@@ -1,8 +1,8 @@
 package net.itarray.automotion.tests.properties;
 
 import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.internal.properties.Conditions;
 import net.itarray.automotion.validation.properties.Condition;
+import net.itarray.automotion.internal.properties.Conditions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ public class GreaterOrEqualTest {
     @Test
     public void isSatisfiedOnValuesSmallerThanTheLimit() {
         boolean result = condition.isSatisfiedOn(limit.minus(1));
-        assertThat(result).isTrue();
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -34,17 +34,17 @@ public class GreaterOrEqualTest {
     @Test
     public void isSatisfiedOnValuesGreaterThanTheLimit() {
         boolean result = condition.isSatisfiedOn(limit.plus(1));
-        assertThat(result).isFalse();
+        assertThat(result).isTrue();
     }
 
     @Test
-    public void isEqualToGreaterOrEqualConditionsWithEqualLimit() {
+    public void isEqualToLessOrEqualConditionsWithEqualLimit() {
         assertThat(condition).isEqualTo(Conditions.greaterOrEqualTo(limit));
         assertThat(condition.hashCode()).isEqualTo(Conditions.greaterOrEqualTo(limit).hashCode());
     }
 
     @Test
-    public void isNotEqualToGreaterOrEqualConditionsWithDifferentLimit() {
+    public void isNotEqualToLessOrEqualConditionsWithDifferentLimit() {
         assertThat(condition).isNotEqualTo(Conditions.greaterOrEqualTo(limit.plus(1)));
     }
 
