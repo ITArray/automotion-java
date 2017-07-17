@@ -78,7 +78,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isRightOf(WebElement element, int minMargin, int maxMargin) {
-        rootElement.validateIsRightOf(asElement(element), getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true), errors);
+        rootElement.validateIsRightOf(asElement(element), toPixelsHorizontally(minMargin), toPixelsHorizontally(maxMargin), errors);
         return this;
     }
 
@@ -104,7 +104,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isLeftOf(WebElement element, int minMargin, int maxMargin) {
-        rootElement.validateIsLeftOf(asElement(element), getConvertedInt(minMargin, true), getConvertedInt(maxMargin, true), errors);
+        rootElement.validateIsLeftOf(asElement(element), toPixelsHorizontally(minMargin), toPixelsHorizontally(maxMargin), errors);
         return this;
     }
 
@@ -130,7 +130,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isBelow(WebElement element, int minMargin, int maxMargin) {
-        rootElement.validateIsBelow(asElement(element), getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false), errors);
+        rootElement.validateIsBelow(asElement(element), toPixelsVertically(minMargin), toPixelsVertically(maxMargin), errors);
         return this;
     }
 
@@ -156,7 +156,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isAbove(WebElement element, int minMargin, int maxMargin) {
-        rootElement.validateIsAbove(asElement(element), getConvertedInt(minMargin, false), getConvertedInt(maxMargin, false), this.errors);
+        rootElement.validateIsAbove(asElement(element), toPixelsVertically(minMargin), toPixelsVertically(maxMargin), this.errors);
         return this;
     }
 
@@ -351,7 +351,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasWidthGreaterOrEqualTo(int width) {
-        rootElement.validateWidthGreaterOrEqualTo(getConvertedInt(width, true), errors);
+        rootElement.validateWidthGreaterOrEqualTo(toPixelsHorizontally(width), errors);
         return this;
     }
 
@@ -363,7 +363,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasWidthLessOrEqualTo(int width) {
-        rootElement.validateWidthLessOrEqualTo(getConvertedInt(width, true), errors);
+        rootElement.validateWidthLessOrEqualTo(toPixelsHorizontally(width), errors);
         return this;
     }
 
@@ -376,8 +376,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasWidthBetween(int min, int max) {
-        rootElement.validateWidthGreaterOrEqualTo(getConvertedInt(min, true), errors);
-        rootElement.validateWidthLessOrEqualTo(getConvertedInt(max, true), errors);
+        rootElement.validateWidthGreaterOrEqualTo(toPixelsHorizontally(min), errors);
+        rootElement.validateWidthLessOrEqualTo(toPixelsHorizontally(max), errors);
         return this;
     }
 
@@ -416,7 +416,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasHeightGreaterOrEqualTo(int height) {
-        rootElement.validateHeightGreaterOrEqualTo(getConvertedInt(height, false), errors);
+        rootElement.validateHeightGreaterOrEqualTo(toPixelsVertically(height), errors);
         return this;
     }
 
@@ -428,7 +428,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasHeightLessOrEqualTo(int height) {
-        rootElement.validateHeightLessOrEqualTo(getConvertedInt(height, false), errors);
+        rootElement.validateHeightLessOrEqualTo(toPixelsVertically(height), errors);
         return this;
     }
 
@@ -495,8 +495,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasHeightBetween(int min, int max) {
-        rootElement.validateHeightGreaterOrEqualTo(getConvertedInt(min, false), errors);
-        rootElement.validateHeightLessOrEqualTo(getConvertedInt(max, false), errors);
+        rootElement.validateHeightGreaterOrEqualTo(toPixelsVertically(min), errors);
+        rootElement.validateHeightLessOrEqualTo(toPixelsVertically(max), errors);
         return this;
     }
 
@@ -511,8 +511,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase minOffset(int top, int right, int bottom, int left) {
-        if (getConvertedInt(top, false) > MIN_OFFSET && getConvertedInt(right, true) > MIN_OFFSET && getConvertedInt(bottom, false) > MIN_OFFSET && getConvertedInt(left, true) > MIN_OFFSET) {
-            validateMinOffset(getConvertedInt(top, false), getConvertedInt(right, true), getConvertedInt(bottom, false), getConvertedInt(left, true));
+        if (toPixelsVertically(top) > MIN_OFFSET && toPixelsHorizontally(right) > MIN_OFFSET && toPixelsVertically(bottom) > MIN_OFFSET && toPixelsHorizontally(left) > MIN_OFFSET) {
+            validateMinOffset(toPixelsVertically(top), toPixelsHorizontally(right), toPixelsVertically(bottom), toPixelsHorizontally(left));
         }
         return this;
     }
@@ -548,8 +548,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase maxOffset(int top, int right, int bottom, int left) {
-        if (getConvertedInt(top, false) > MIN_OFFSET && getConvertedInt(right, true) > MIN_OFFSET && getConvertedInt(bottom, false) > MIN_OFFSET && getConvertedInt(left, true) > MIN_OFFSET) {
-            validateMaxOffset(getConvertedInt(top, false), getConvertedInt(right, true), getConvertedInt(bottom, false), getConvertedInt(left, true));
+        if (toPixelsVertically(top) > MIN_OFFSET && toPixelsHorizontally(right) > MIN_OFFSET && toPixelsVertically(bottom) > MIN_OFFSET && toPixelsHorizontally(left) > MIN_OFFSET) {
+            validateMaxOffset(toPixelsVertically(top), toPixelsHorizontally(right), toPixelsVertically(bottom), toPixelsHorizontally(left));
         }
         return this;
     }
@@ -617,10 +617,10 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     @Override
     public UIValidatorBase isInsideOf(WebElement containerElement, String readableContainerName, Padding padding) {
-        int top = getConvertedInt(padding.getTop(), false);
-        int right = getConvertedInt(padding.getRight(), true);
-        int bottom = getConvertedInt(padding.getBottom(), false);
-        int left = getConvertedInt(padding.getLeft(), true);
+        int top = toPixelsVertically(padding.getTop());
+        int right = toPixelsHorizontally(padding.getRight());
+        int bottom = toPixelsVertically(padding.getBottom());
+        int left = toPixelsHorizontally(padding.getLeft());
 
         rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), top, right, bottom, left, errors);
         return this;
