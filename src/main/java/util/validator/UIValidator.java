@@ -3,8 +3,10 @@ package util.validator;
 import net.itarray.automotion.internal.AbstractValidator;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.UIValidatorBase;
+import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
+import net.itarray.automotion.validation.properties.Condition;
 import org.openqa.selenium.WebElement;
 import net.itarray.automotion.validation.properties.Padding;
 
@@ -485,50 +487,26 @@ public class UIValidator extends AbstractValidator implements Validator {
     }
 
     @Override
-    public UIElementValidator hasLeftOffsetToPageGreaterOrEqualTo(int value) {
-        getBase().hasLeftOffsetToPageGreaterOrEqualTo(value);
+    public UIElementValidator hasLeftOffsetToPage(Condition<Scalar> condition) {
+        getBase().hasLeftOffsetToPage(condition);
         return this;
     }
 
     @Override
-    public UIElementValidator hasLeftOffsetToPageLessOrEqualTo(int value) {
-        getBase().hasLeftOffsetToPageLessOrEqualTo(value);
+    public UIElementValidator hasRightOffsetToPage(Condition<Scalar> condition) {
+        getBase().hasRightOffsetToPage(condition);
         return this;
     }
 
     @Override
-    public UIElementValidator hasRightOffsetToPageGreaterOrEqualTo(int value) {
-        getBase().hasRightOffsetToPageGreaterOrEqualTo(value);
+    public UIElementValidator hasTopOffsetToPage(Condition<Scalar> condition) {
+        getBase().hasTopOffsetToPage(condition);
         return this;
     }
 
     @Override
-    public UIElementValidator hasRightOffsetToPageLessOrEqualTo(int value) {
-        getBase().hasRightOffsetToPageLessOrEqualTo(value);
-        return this;
-    }
-
-    @Override
-    public UIElementValidator hasTopOffsetToPageGreaterOrEqualTo(int value) {
-        getBase().hasTopOffsetToPageGreaterOrEqualTo(value);
-        return this;
-    }
-
-    @Override
-    public UIElementValidator hasTopOffsetToPageLessOrEqualTo(int value) {
-        getBase().hasTopOffsetToPageLessOrEqualTo(value);
-        return this;
-    }
-
-    @Override
-    public UIElementValidator hasBottomOffsetToPageGreaterOrEqualTo(int value) {
-        getBase().hasBottomOffsetToPageGreaterOrEqualTo(value);
-        return this;
-    }
-
-    @Override
-    public UIElementValidator hasBottomOffsetToPageLessOrEqualTo(int value) {
-        getBase().hasBottomOffsetToPageLessOrEqualTo(value);
+    public UIElementValidator hasBottomOffsetToPage(Condition<Scalar> condition) {
+        getBase().hasBottomOffsetToPage(condition);
         return this;
     }
 

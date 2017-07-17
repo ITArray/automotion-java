@@ -1,5 +1,7 @@
 package net.itarray.automotion.validation;
 
+import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.validation.properties.Condition;
 import org.openqa.selenium.WebElement;
 import net.itarray.automotion.validation.properties.Padding;
 
@@ -208,30 +210,66 @@ public interface UIElementValidator {
     UIElementValidator hasHeightBetween(int min, int max);
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasLeftOffsetToPageGreaterOrEqualTo(int)}
-     *                                            {@link UIElementValidator#hasRightOffsetToPageGreaterOrEqualTo(int)}
-     *                                            {@link UIElementValidator#hasTopOffsetToPageGreaterOrEqualTo(int)}
-     *                                            {@link UIElementValidator#hasBottomOffsetToPageGreaterOrEqualTo(int)}
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasLeftOffsetToPage(net.itarray.automotion.validation.properties.Condition)}
+     *                                            {@link UIElementValidator#hasRightOffsetToPage(net.itarray.automotion.validation.properties.Condition)}
+     *                                            {@link UIElementValidator#hasTopOffsetToPage(net.itarray.automotion.validation.properties.Condition)}
+     *                                            {@link UIElementValidator#hasBottomOffsetToPage(net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
     UIElementValidator minOffset(int top, int right, int bottom, int left);
     /**
-     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasLeftOffsetToPageLessOrEqualTo(int)}
-     *                                            {@link UIElementValidator#hasRightOffsetToPageLessOrEqualTo(int)}
-     *                                            {@link UIElementValidator#hasTopOffsetToPageLessOrEqualTo(int)}
-     *                                            {@link UIElementValidator#hasBottomOffsetToPageLessOrEqualTo(int)}
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasLeftOffsetToPage(net.itarray.automotion.validation.properties.Condition)}
+     *                                            {@link UIElementValidator#hasRightOffsetToPage(net.itarray.automotion.validation.properties.Condition)}
+     *                                            {@link UIElementValidator#hasTopOffsetToPage(net.itarray.automotion.validation.properties.Condition)}
+     *                                            {@link UIElementValidator#hasBottomOffsetToPage(net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
     UIElementValidator maxOffset(int top, int right, int bottom, int left);
 
-    UIElementValidator hasLeftOffsetToPageGreaterOrEqualTo(int value);
-    UIElementValidator hasLeftOffsetToPageLessOrEqualTo(int value);
-    UIElementValidator hasRightOffsetToPageGreaterOrEqualTo(int value);
-    UIElementValidator hasRightOffsetToPageLessOrEqualTo(int value);
-    UIElementValidator hasTopOffsetToPageGreaterOrEqualTo(int value);
-    UIElementValidator hasTopOffsetToPageLessOrEqualTo(int value);
-    UIElementValidator hasBottomOffsetToPageGreaterOrEqualTo(int value);
-    UIElementValidator hasBottomOffsetToPageLessOrEqualTo(int value);
+    UIElementValidator hasLeftOffsetToPage(Condition<Scalar> condition);
+    UIElementValidator hasRightOffsetToPage(Condition<Scalar> condition);
+    UIElementValidator hasTopOffsetToPage(Condition<Scalar> condition);
+    UIElementValidator hasBottomOffsetToPage(Condition<Scalar> condition);
+
+    default UIElementValidator hasLeftOffsetToPageGreaterOrEqualTo(int value) {
+        hasLeftOffsetToPage(Literals.lessOrEqualTo(value));
+        return this;
+    }
+
+    default UIElementValidator hasLeftOffsetToPageLessOrEqualTo(int value) {
+        hasLeftOffsetToPage(Literals.greaterOrEqualTo(value));
+        return this;
+    }
+
+    default UIElementValidator hasRightOffsetToPageGreaterOrEqualTo(int value) {
+        hasRightOffsetToPage(Literals.lessOrEqualTo(value));
+        return this;
+    }
+
+    default UIElementValidator hasRightOffsetToPageLessOrEqualTo(int value) {
+        hasRightOffsetToPage(Literals.greaterOrEqualTo(value));
+        return this;
+    }
+
+    default UIElementValidator hasTopOffsetToPageGreaterOrEqualTo(int value) {
+        hasTopOffsetToPage(Literals.lessOrEqualTo(value));
+        return this;
+    }
+
+    default UIElementValidator hasTopOffsetToPageLessOrEqualTo(int value) {
+        hasTopOffsetToPage(Literals.greaterOrEqualTo(value));
+        return this;
+    }
+
+    default UIElementValidator hasBottomOffsetToPageGreaterOrEqualTo(int value) {
+        hasBottomOffsetToPage(Literals.lessOrEqualTo(value));
+        return this;
+    }
+
+    default UIElementValidator hasBottomOffsetToPageLessOrEqualTo(int value) {
+        hasBottomOffsetToPage(Literals.greaterOrEqualTo(value));
+        return this;
+    }
 
     /**
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasCssValue(String, String...)}

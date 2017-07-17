@@ -1,9 +1,11 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.Literals;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
+import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.validation.properties.Padding;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebElement;
@@ -515,51 +517,23 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         return this;
     }
 
-    @Override
-    public UIElementValidator hasLeftOffsetToPageGreaterOrEqualTo(int value) {
-        rootElement.validateLeftOffset(Literals.lessOrEqualTo(value), page, errors);
+    public UIElementValidator hasLeftOffsetToPage(Condition<Scalar> condition) {
+        rootElement.validateLeftOffset(condition, page, errors);
         return this;
     }
 
-    @Override
-    public UIElementValidator hasLeftOffsetToPageLessOrEqualTo(int value) {
-        rootElement.validateLeftOffset(Literals.greaterOrEqualTo(value), page, errors);
+    public UIElementValidator hasRightOffsetToPage(Condition<Scalar> condition) {
+        rootElement.validateRightOffset(condition, page, errors);
         return this;
     }
 
-    @Override
-    public UIElementValidator hasRightOffsetToPageGreaterOrEqualTo(int value) {
-        rootElement.validateRightOffset(Literals.lessOrEqualTo(value), page, errors);
+    public UIElementValidator hasTopOffsetToPage(Condition<Scalar> condition) {
+        rootElement.validateTopOffset(condition, page, errors);
         return this;
     }
 
-    @Override
-    public UIElementValidator hasRightOffsetToPageLessOrEqualTo(int value) {
-        rootElement.validateRightOffset(Literals.greaterOrEqualTo(value), page, errors);
-        return this;
-    }
-
-    @Override
-    public UIElementValidator hasTopOffsetToPageGreaterOrEqualTo(int value) {
-        rootElement.validateTopOffset(Literals.lessOrEqualTo(value), page, errors);
-        return this;
-    }
-
-    @Override
-    public UIElementValidator hasTopOffsetToPageLessOrEqualTo(int value) {
-        rootElement.validateTopOffset(Literals.greaterOrEqualTo(value), page, errors);
-        return this;
-    }
-
-    @Override
-    public UIElementValidator hasBottomOffsetToPageGreaterOrEqualTo(int value) {
-        rootElement.validateBottomOffset(Literals.lessOrEqualTo(value), page, errors);
-        return this;
-    }
-
-    @Override
-    public UIElementValidator hasBottomOffsetToPageLessOrEqualTo(int value) {
-        rootElement.validateBottomOffset(Literals.greaterOrEqualTo(value), page, errors);
+    public UIElementValidator hasBottomOffsetToPage(Condition<Scalar> condition) {
+        rootElement.validateBottomOffset(condition, page, errors);
         return this;
     }
 
