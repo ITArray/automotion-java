@@ -76,4 +76,9 @@ public class BetweenTest {
     public void isNotEqualToObjects() {
         assertThat(condition).isNotEqualTo(new Object());
     }
+
+    @Test
+    public void isNotEqualToNull() {
+        assertThat(condition).isNotEqualTo(null);
+    }
 }

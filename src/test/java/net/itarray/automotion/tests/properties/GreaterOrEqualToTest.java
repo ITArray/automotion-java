@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GreaterOrEqualTest {
+public class GreaterOrEqualToTest {
 
     private Condition<Scalar> condition;
     private Scalar limit;
@@ -51,5 +51,10 @@ public class GreaterOrEqualTest {
     @Test
     public void isNotEqualToObjects() {
         assertThat(condition).isNotEqualTo(new Object());
+    }
+
+    @Test
+    public void isNotEqualToNull() {
+        assertThat(condition).isNotEqualTo(null);
     }
 }
