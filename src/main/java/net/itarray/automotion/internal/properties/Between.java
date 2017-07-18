@@ -8,7 +8,7 @@ public class Between implements Condition<Scalar> {
     private final Condition<Scalar> lowerLimit;
     private final Condition<Scalar> upperLimit;
 
-    Between(Scalar lowerLimit, Scalar upperLimit) {
+    Between(Expression<Scalar> lowerLimit, Expression<Scalar> upperLimit) {
         this.lowerLimit = Conditions.greaterOrEqualTo(lowerLimit);
         this.upperLimit = Conditions.lessOrEqualTo(upperLimit);
     }

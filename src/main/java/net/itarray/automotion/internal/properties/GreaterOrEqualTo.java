@@ -1,11 +1,10 @@
 package net.itarray.automotion.internal.properties;
 
 import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.validation.properties.Condition;
 
 public class GreaterOrEqualTo extends BinaryScalarConditionWithFixedOperand {
 
-    GreaterOrEqualTo(Scalar lowerLimit) {
+    GreaterOrEqualTo(Expression<Scalar> lowerLimit) {
         super(lowerLimit);
     }
 

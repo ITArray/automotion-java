@@ -7,4 +7,6 @@ public interface Expression<T> {
     default T evaluate() {
         return evaluateIn(null);
     }
+
+    String toStringWithUnits(String units);
 }

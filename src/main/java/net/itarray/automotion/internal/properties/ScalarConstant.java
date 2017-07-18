@@ -16,6 +16,11 @@ public class ScalarConstant implements Expression<Scalar> {
     }
 
     @Override
+    public String toStringWithUnits(String units) {
+        return value.toStringWithUnits(units);
+    }
+
+    @Override
     public String toString() {
         return value.toString();
     }

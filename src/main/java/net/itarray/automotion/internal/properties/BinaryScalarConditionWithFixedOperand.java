@@ -7,9 +7,9 @@ import static org.apache.commons.lang3.text.WordUtils.uncapitalize;
 
 
 public abstract class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> {
-    private final Scalar fixedOperand;
+    private final Expression<Scalar> fixedOperand;
 
-    protected BinaryScalarConditionWithFixedOperand(Scalar fixedOperand) {
+    protected BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand) {
         this.fixedOperand = fixedOperand;
     }
 
@@ -19,7 +19,7 @@ public abstract class BinaryScalarConditionWithFixedOperand implements Condition
 
     @Override
     public boolean isSatisfiedOn(Scalar value) {
-        return applyTo(value, fixedOperand);
+        return applyTo(value, fixedOperand.evaluateIn(null));
     }
 
     @Override
