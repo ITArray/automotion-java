@@ -1,9 +1,6 @@
 package net.itarray.automotion.validation;
 
 import net.itarray.automotion.internal.ZoomImpl;
-import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.validation.properties.Condition;
-import net.itarray.automotion.internal.properties.Conditions;
 import net.itarray.automotion.validation.properties.Resolution;
 import net.itarray.automotion.internal.ResolutionImpl;
 import net.itarray.automotion.validation.properties.Zoom;
