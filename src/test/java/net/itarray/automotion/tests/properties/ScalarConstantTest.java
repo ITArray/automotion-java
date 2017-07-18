@@ -1,7 +1,7 @@
 package net.itarray.automotion.tests.properties;
 
+import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.internal.properties.ScalarConstant;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class ScalarConstantTest {
 
     @Test
     public void evaluatesToItsValueInAnyContext() {
-        assertThat(constant.evaluateIn(new Context())).isEqualTo(value);
+        assertThat(constant.evaluateIn(new TestContext(), Direction.RIGHT)).isEqualTo(value);
     }
 
     @Test

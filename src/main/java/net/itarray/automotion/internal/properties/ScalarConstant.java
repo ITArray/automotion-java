@@ -1,5 +1,6 @@
 package net.itarray.automotion.internal.properties;
 
+import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
 
 public class ScalarConstant implements Expression<Scalar> {
@@ -11,7 +12,7 @@ public class ScalarConstant implements Expression<Scalar> {
     }
 
     @Override
-    public Scalar evaluateIn(Context context) {
+    public Scalar evaluateIn(Context context, Direction direction) {
         return value;
     }
 

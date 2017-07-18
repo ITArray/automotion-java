@@ -1,6 +1,8 @@
 package net.itarray.automotion.tests.geometry;
 
+import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.tests.properties.TestContext;
 import net.itarray.automotion.validation.properties.Condition;
 import org.junit.Before;
 import org.junit.Test;
@@ -117,7 +119,9 @@ public class ScalarTest {
 
     @Test
     public void shouldName() {
-        assertThat(scalar.satisfies(Condition.greaterOrEqualTo(value))).isTrue();
-        assertThat(scalar.satisfies(Condition.greaterOrEqualTo(value+1))).isFalse();
+        TestContext context = new TestContext();
+        Direction direction = Direction.RIGHT;
+        assertThat(scalar.satisfies(Condition.greaterOrEqualTo(value), context, direction)).isTrue();
+        assertThat(scalar.satisfies(Condition.greaterOrEqualTo(value+1), context, direction)).isFalse();
     }
 }

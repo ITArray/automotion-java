@@ -1,5 +1,6 @@
 package net.itarray.automotion.internal.properties;
 
+import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Condition;
 
@@ -18,8 +19,8 @@ public abstract class BinaryScalarConditionWithFixedOperand implements Condition
     }
 
     @Override
-    public boolean isSatisfiedOn(Scalar value) {
-        return applyTo(value, fixedOperand.evaluateIn(null));
+    public boolean isSatisfiedOn(Scalar value, Context context, Direction direction) {
+        return applyTo(value, fixedOperand.evaluateIn(context, direction));
     }
 
     @Override

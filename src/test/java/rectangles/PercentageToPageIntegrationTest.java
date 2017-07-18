@@ -8,24 +8,26 @@ import net.itarray.automotion.validation.Units;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
-import static rectangles.DummyWebElement.createRootElement;
-import static rectangles.RectangleFixture.down;
-import static rectangles.RectangleFixture.up;
 
 public class PercentageToPageIntegrationTest {
     private DummyWebElement element;
-    private DummyWebElement other;
+    private DummyWebElement right;
+    private DummyWebElement left;
+    private DummyWebElement above;
+    private DummyWebElement below;
     private String elementName;
     private ResponsiveUIValidatorBase base;
 
     @Before
     public void setUp() {
-        element = (DummyWebElement) createElement(100, 200, 500, 400);
-        other = (DummyWebElement) createElement(600, 200, 1300, 400);
+        element = (DummyWebElement) createElement(800, 400, 1300, 700);
+        above = (DummyWebElement) createElement(800, 200, 1300, 300);
+        below = (DummyWebElement) createElement(800, 800, 1300, 900);
+        right = (DummyWebElement) createElement(1400, 400, 1700, 700);
+        left = (DummyWebElement) createElement(400, 400, 700, 700);
         elementName = "under test";
     }
 
@@ -40,28 +42,64 @@ public class PercentageToPageIntegrationTest {
     }
 
     @Test
+    public void distanceToTheRightIs100Pixels() {
+        boolean validate = createElementValidator().isLeftOf(right, 100, 100).validate();
+        assertThat(validate).isTrue();
+    }
+
+    @Test
+    public void distanceToTheRighIs5Percent() {
+        boolean validate = createElementValidator().changeMetricsUnitsTo(Units.PERCENT).isLeftOf(right, 5, 5).validate();
+        assertThat(validate).isTrue();
+    }
+
+    @Test
+    public void distanceToTheRightNot4Percent() {
+        createElementValidator().changeMetricsUnitsTo(Units.PERCENT).isLeftOf(right, 4, 4);
+        String lastMessage = base.getErrors().getLastMessage();
+        assertThat(lastMessage).isNotNull();
+    }
+
+    @Test
+    public void distanceToTheRigthNot6Percent() {
+        createElementValidator().changeMetricsUnitsTo(Units.PERCENT).isLeftOf(right, 6, 6);
+        String lastMessage = base.getErrors().getLastMessage();
+        assertThat(lastMessage).isNotNull();
+    }
+
+    @Test
     public void distanceToTheLeftIs100Pixels() {
-        boolean validate = createElementValidator().isLeftOf(other, 100, 100).validate();
+        boolean validate = createElementValidator().isRightOf(left, 100, 100).validate();
         assertThat(validate).isTrue();
     }
 
     @Test
     public void distanceToTheLeftIs5Percent() {
-        boolean validate = createElementValidator().changeMetricsUnitsTo(Units.PERCENT).isLeftOf(other, 5, 5).validate();
+        boolean validate = createElementValidator().changeMetricsUnitsTo(Units.PERCENT).isRightOf(left, 5, 5).validate();
         assertThat(validate).isTrue();
     }
 
     @Test
-    public void distanceToTheLeftNot4Percent() {
-        createElementValidator().changeMetricsUnitsTo(Units.PERCENT).isLeftOf(other, 4, 4);
-        String lastMessage = base.getErrors().getLastMessage();
-        assertThat(lastMessage).isNotNull();
+    public void distanceToTheAboveIs100Pixels() {
+        boolean validate = createElementValidator().isBelow(above, 100, 100).validate();
+        assertThat(validate).isTrue();
     }
 
     @Test
-    public void distanceToTheLeftNot6Percent() {
-        createElementValidator().changeMetricsUnitsTo(Units.PERCENT).isLeftOf(other, 6, 6);
-        String lastMessage = base.getErrors().getLastMessage();
-        assertThat(lastMessage).isNotNull();
+    public void distanceToTheAboveIs10Percent() {
+        boolean validate = createElementValidator().changeMetricsUnitsTo(Units.PERCENT).isBelow(above, 10, 10).validate();
+        assertThat(validate).isTrue();
+    }
+
+    @Test
+    public void distanceToTheBelowIs100Pixels() {
+        boolean validate = createElementValidator().isAbove(below, 100, 100).validate();
+        assertThat(validate).isTrue();
+    }
+
+    @Test
+    public void distanceToTheBelowIs10Percent() {
+        boolean validate = createElementValidator().changeMetricsUnitsTo(Units.PERCENT).isAbove(below, 10, 10).validate();
+        assertThat(validate).isTrue();
     }
 }

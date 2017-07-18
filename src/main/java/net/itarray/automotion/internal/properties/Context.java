@@ -1,4 +1,7 @@
 package net.itarray.automotion.internal.properties;
 
-public class Context {
+import net.itarray.automotion.internal.geometry.Rectangle;
+
+public interface Context {
+    Rectangle getPageRectangle();
 }

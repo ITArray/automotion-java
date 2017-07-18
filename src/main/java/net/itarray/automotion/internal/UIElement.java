@@ -5,6 +5,7 @@ import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.Group;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
@@ -33,6 +34,11 @@ public class UIElement {
         this.quoteName = quoteName;
         this.rectangle = rectangle;
         this.cssSource = cssSource;
+    }
+
+    @Deprecated
+    public Rectangle getRectangle() {
+        return rectangle;
     }
 
     public static UIElement asElement(WebElement webElement) {
@@ -311,32 +317,32 @@ public class UIElement {
         validateSuccessor(LEFT, leftElement, errors);
     }
 
-    public void validateIsRightOf(UIElement element, Condition<Scalar> condition, Errors errors) {
-        validateSuccessor(LEFT, element, condition, errors);
+    public void validateIsRightOf(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
+        validateSuccessor(LEFT, element, condition, context, errors);
     }
 
     public void validateIsLeftOf(UIElement rightElement, Errors errors) {
         validateSuccessor(RIGHT, rightElement, errors);
     }
 
-    public void validateIsLeftOf(UIElement element, Condition<Scalar> condition, Errors errors) {
-        validateSuccessor(RIGHT, element, condition, errors);
+    public void validateIsLeftOf(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
+        validateSuccessor(RIGHT, element, condition, context, errors);
     }
 
     public void validateIsBelow(UIElement aboveElement, Errors errors) {
         validateSuccessor(UP, aboveElement, errors);
     }
 
-    public void validateIsBelow(UIElement element, Condition<Scalar> condition, Errors errors) {
-        validateSuccessor(UP, element, condition, errors);
+    public void validateIsBelow(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
+        validateSuccessor(UP, element, condition, context, errors);
     }
 
     public void validateIsAbove(UIElement belowElement, Errors errors) {
         validateSuccessor(DOWN, belowElement, errors);
     }
 
-    public void validateIsAbove(UIElement element, Condition<Scalar> condition, Errors errors) {
-        validateSuccessor(DOWN, element, condition, errors);
+    public void validateIsAbove(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
+        validateSuccessor(DOWN, element, condition, context, errors);
     }
 
     public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Errors errors) {
@@ -348,9 +354,9 @@ public class UIElement {
         }
     }
 
-    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Errors errors) {
+    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Context context, Errors errors) {
         Scalar signedDistance = signedDistanceToSuccessor(direction, toBeValidatedSuccessor);
-        if (!condition.isSatisfiedOn(signedDistance)) {
+        if (!signedDistance.satisfies(condition, context, direction)) {
             errors.add(
                     String.format("%s element aligned not properly. Expected margin should be %s. Actual margin is %s",
                             direction.afterName(),
@@ -380,24 +386,24 @@ public class UIElement {
         }
     }
 
-    public void validateLeftOffset(Condition condition, UIElement page, Errors errors) {
-        validateOffset(LEFT, condition, page, errors);
+    public void validateLeftOffset(Condition condition, UIElement page, Context context, Errors errors) {
+        validateOffset(LEFT, condition, page, context, errors);
     }
 
-    public void validateRightOffset(Condition condition, UIElement page, Errors errors) {
-        validateOffset(RIGHT, condition, page, errors);
+    public void validateRightOffset(Condition condition, UIElement page, Context context, Errors errors) {
+        validateOffset(RIGHT, condition, page, context, errors);
     }
 
-    public void validateTopOffset(Condition condition, UIElement page, Errors errors) {
-        validateOffset(UP, condition, page, errors);
+    public void validateTopOffset(Condition condition, UIElement page, Context context, Errors errors) {
+        validateOffset(UP, condition, page, context, errors);
     }
 
-    public void validateBottomOffset(Condition condition, UIElement page, Errors errors) {
-        validateOffset(DOWN, condition, page, errors);
+    public void validateBottomOffset(Condition condition, UIElement page, Context context, Errors errors) {
+        validateOffset(DOWN, condition, page, context, errors);
     }
 
-    public void validateOffset(Direction direction, Condition condition, UIElement page, Errors errors) {
-        if (!getOffset(direction, page).satisfies(condition)) {
+    public void validateOffset(Direction direction, Condition condition, UIElement page, Context context, Errors errors) {
+        if (!getOffset(direction, page).satisfies(condition, context, direction)) {
             errors.add(
                     String.format("Expected %s %s offset of element %s is: %s. Actual %s offset is: %s",
                             condition.shortName(),
@@ -433,24 +439,24 @@ public class UIElement {
         }
     }
 
-    public void validateHeightLessOrEqualTo(int limit, Errors errors) {
-        validateExtend(DOWN, Condition.lessOrEqualTo(limit), errors);
+    public void validateHeightLessOrEqualTo(int limit, Context context, Errors errors) {
+        validateExtend(DOWN, Condition.lessOrEqualTo(limit), context, errors);
     }
 
-    public void validateHeightGreaterOrEqualTo(int limit, Errors errors) {
-        validateExtend(DOWN, Condition.greaterOrEqualTo(limit), errors);
+    public void validateHeightGreaterOrEqualTo(int limit, Context context, Errors errors) {
+        validateExtend(DOWN, Condition.greaterOrEqualTo(limit), context, errors);
     }
 
-    public void validateWidthLessOrEqualTo(int limit, Errors errors) {
-        validateExtend(RIGHT, Condition.lessOrEqualTo(limit), errors);
+    public void validateWidthLessOrEqualTo(int limit, Context context, Errors errors) {
+        validateExtend(RIGHT, Condition.lessOrEqualTo(limit), context, errors);
     }
 
-    public void validateWidthGreaterOrEqualTo(int limit, Errors errors) {
-        validateExtend(RIGHT, Condition.greaterOrEqualTo(limit), errors);
+    public void validateWidthGreaterOrEqualTo(int limit, Context context, Errors errors) {
+        validateExtend(RIGHT, Condition.greaterOrEqualTo(limit), context, errors);
     }
 
-    public void validateExtend(Direction direction, Condition condition, Errors errors) {
-        if (!getExtend(direction).satisfies(condition)) {
+    public void validateExtend(Direction direction, Condition condition, Context context, Errors errors) {
+        if (!getExtend(direction).satisfies(condition, context, direction)) {
             errors.add(
                     String.format("Expected %s %s of element %s is: %s. Actual %s is: %s",
                             condition.shortName(),

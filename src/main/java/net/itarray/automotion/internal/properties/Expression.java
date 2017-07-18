@@ -1,12 +1,10 @@
 package net.itarray.automotion.internal.properties;
 
+import net.itarray.automotion.internal.geometry.Direction;
+
 public interface Expression<T> {
 
-    T evaluateIn(Context context);
-
-    default T evaluate() {
-        return evaluateIn(null);
-    }
+    T evaluateIn(Context context, Direction direction);
 
     String toStringWithUnits(String units);
 }

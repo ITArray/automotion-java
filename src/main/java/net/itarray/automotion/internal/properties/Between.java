@@ -1,5 +1,6 @@
 package net.itarray.automotion.internal.properties;
 
+import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Condition;
 
@@ -14,8 +15,8 @@ public class Between implements Condition<Scalar> {
     }
 
     @Override
-    public boolean isSatisfiedOn(Scalar value) {
-        return lowerLimit.isSatisfiedOn(value) && upperLimit.isSatisfiedOn(value);
+    public boolean isSatisfiedOn(Scalar value, Context context, Direction direction) {
+        return lowerLimit.isSatisfiedOn(value, context, direction) && upperLimit.isSatisfiedOn(value, context, direction);
     }
 
     public String shortName() {
