@@ -311,32 +311,32 @@ public class UIElement {
         validateSuccessor(LEFT, leftElement, errors);
     }
 
-    public void validateIsRightOf(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        validateSuccessor(LEFT, element, minMargin, maxMargin, errors);
+    public void validateIsRightOf(UIElement element, Condition<Scalar> condition, Errors errors) {
+        validateSuccessor(LEFT, element, condition, errors);
     }
 
     public void validateIsLeftOf(UIElement rightElement, Errors errors) {
         validateSuccessor(RIGHT, rightElement, errors);
     }
 
-    public void validateIsLeftOf(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        validateSuccessor(RIGHT, element, minMargin, maxMargin, errors);
+    public void validateIsLeftOf(UIElement element, Condition<Scalar> condition, Errors errors) {
+        validateSuccessor(RIGHT, element, condition, errors);
     }
 
     public void validateIsBelow(UIElement aboveElement, Errors errors) {
         validateSuccessor(UP, aboveElement, errors);
     }
 
-    public void validateIsBelow(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        validateSuccessor(UP, element, minMargin, maxMargin, errors);
+    public void validateIsBelow(UIElement element, Condition<Scalar> condition, Errors errors) {
+        validateSuccessor(UP, element, condition, errors);
     }
 
     public void validateIsAbove(UIElement belowElement, Errors errors) {
         validateSuccessor(DOWN, belowElement, errors);
     }
 
-    public void validateIsAbove(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        validateSuccessor(DOWN, element, minMargin, maxMargin, errors);
+    public void validateIsAbove(UIElement element, Condition<Scalar> condition, Errors errors) {
+        validateSuccessor(DOWN, element, condition, errors);
     }
 
     public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Errors errors) {
@@ -348,14 +348,13 @@ public class UIElement {
         }
     }
 
-    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, int minMargin, int maxMargin, Errors errors) {
+    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Errors errors) {
         Scalar signedDistance = signedDistanceToSuccessor(direction, toBeValidatedSuccessor);
-        if (signedDistance.isLessThan(minMargin) || signedDistance.isGreaterThan(maxMargin)) {
+        if (!condition.isSatisfiedOn(signedDistance)) {
             errors.add(
-                    String.format("%s element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %s",
+                    String.format("%s element aligned not properly. Expected margin should be %s. Actual margin is %s",
                             direction.afterName(),
-                            minMargin,
-                            maxMargin,
+                            condition.toStringWithUnits(PIXELS),
                             signedDistance.toStringWithUnits(PIXELS)),
                     toBeValidatedSuccessor);
         }

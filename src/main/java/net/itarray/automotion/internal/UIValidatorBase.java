@@ -77,7 +77,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isRightOf(WebElement element, int minMargin, int maxMargin) {
-        rootElement.validateIsRightOf(asElement(element), toPixelsHorizontally(minMargin), toPixelsHorizontally(maxMargin), errors);
+        rootElement.validateIsRightOf(asElement(element), Condition.between(toPixelsHorizontally(minMargin)).and(toPixelsHorizontally(maxMargin)), errors);
         return this;
     }
 
@@ -103,7 +103,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isLeftOf(WebElement element, int minMargin, int maxMargin) {
-        rootElement.validateIsLeftOf(asElement(element), toPixelsHorizontally(minMargin), toPixelsHorizontally(maxMargin), errors);
+        rootElement.validateIsLeftOf(asElement(element), Condition.between(toPixelsHorizontally(minMargin)).and(toPixelsHorizontally(maxMargin)), errors);
         return this;
     }
 
@@ -129,7 +129,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isBelow(WebElement element, int minMargin, int maxMargin) {
-        rootElement.validateIsBelow(asElement(element), toPixelsVertically(minMargin), toPixelsVertically(maxMargin), errors);
+        rootElement.validateIsBelow(asElement(element), Condition.between(toPixelsVertically(minMargin)).and(toPixelsVertically(maxMargin)), errors);
         return this;
     }
 
@@ -155,7 +155,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isAbove(WebElement element, int minMargin, int maxMargin) {
-        rootElement.validateIsAbove(asElement(element), toPixelsVertically(minMargin), toPixelsVertically(maxMargin), this.errors);
+        rootElement.validateIsAbove(asElement(element), Condition.between(toPixelsVertically(minMargin)).and(toPixelsVertically(maxMargin)), this.errors);
         return this;
     }
 
