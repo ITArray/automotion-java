@@ -8,7 +8,6 @@ import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
-import net.itarray.automotion.validation.Literals;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -435,19 +434,19 @@ public class UIElement {
     }
 
     public void validateHeightLessOrEqualTo(int limit, Errors errors) {
-        validateExtend(DOWN, Literals.lessOrEqualTo(limit), errors);
+        validateExtend(DOWN, Condition.lessOrEqualTo(limit), errors);
     }
 
     public void validateHeightGreaterOrEqualTo(int limit, Errors errors) {
-        validateExtend(DOWN, Literals.greaterOrEqualTo(limit), errors);
+        validateExtend(DOWN, Condition.greaterOrEqualTo(limit), errors);
     }
 
     public void validateWidthLessOrEqualTo(int limit, Errors errors) {
-        validateExtend(RIGHT, Literals.lessOrEqualTo(limit), errors);
+        validateExtend(RIGHT, Condition.lessOrEqualTo(limit), errors);
     }
 
     public void validateWidthGreaterOrEqualTo(int limit, Errors errors) {
-        validateExtend(RIGHT, Literals.greaterOrEqualTo(limit), errors);
+        validateExtend(RIGHT, Condition.greaterOrEqualTo(limit), errors);
     }
 
     public void validateExtend(Direction direction, Condition condition, Errors errors) {

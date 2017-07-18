@@ -1,6 +1,6 @@
 package rectangles;
 
-import net.itarray.automotion.validation.Literals;
+import net.itarray.automotion.validation.properties.Condition;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIChunkValidator;
 import util.validator.ResponsiveUIValidator;
@@ -55,35 +55,35 @@ public class TestAssumptions {
     }
 
     public static boolean hasLeftOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPage(Literals.greaterOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPage(Condition.greaterOrEqualTo(value)));
     }
 
     public static boolean hasLeftOffsetToPageLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPage(Literals.lessOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPage(Condition.lessOrEqualTo(value)));
     }
 
     public static boolean hasRightOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPage(Literals.greaterOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPage(Condition.greaterOrEqualTo(value)));
     }
 
     public static boolean hasRightOffsetToPageLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPage(Literals.lessOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPage(Condition.lessOrEqualTo(value)));
     }
 
     public static boolean hasTopOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPage(Literals.greaterOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPage(Condition.greaterOrEqualTo(value)));
     }
 
     public static boolean hasTopOffsetToPageLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPage(Literals.lessOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPage(Condition.lessOrEqualTo(value)));
     }
 
     public static boolean hasBottomOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPage(Literals.greaterOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPage(Condition.greaterOrEqualTo(value)));
     }
 
     public static boolean hasBottomOffsetToPageLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPage(Literals.lessOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPage(Condition.lessOrEqualTo(value)));
     }
 
     public static boolean maxOffset(WebElement root, int top, int right, int bottom, int left) {

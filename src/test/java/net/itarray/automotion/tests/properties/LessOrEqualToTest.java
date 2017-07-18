@@ -1,7 +1,6 @@
 package net.itarray.automotion.tests.properties;
 
 import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.internal.properties.Conditions;
 import net.itarray.automotion.validation.properties.Condition;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +15,7 @@ public class LessOrEqualToTest {
     @Before
     public void createProperty() {
         limit = new Scalar(7);
-        condition = Conditions.lessOrEqualTo(limit);
+        condition = Condition.lessOrEqualTo(limit);
     }
 
     @Test
@@ -39,13 +38,13 @@ public class LessOrEqualToTest {
 
     @Test
     public void isEqualToGreaterOrEqualConditionsWithEqualLimit() {
-        assertThat(condition).isEqualTo(Conditions.lessOrEqualTo(limit));
-        assertThat(condition.hashCode()).isEqualTo(Conditions.lessOrEqualTo(limit).hashCode());
+        assertThat(condition).isEqualTo(Condition.lessOrEqualTo(limit));
+        assertThat(condition.hashCode()).isEqualTo(Condition.lessOrEqualTo(limit).hashCode());
     }
 
     @Test
     public void isNotEqualToGreaterOrEqualConditionsWithDifferentLimit() {
-        assertThat(condition).isNotEqualTo(Conditions.lessOrEqualTo(limit.plus(1)));
+        assertThat(condition).isNotEqualTo(Condition.lessOrEqualTo(limit.plus(1)));
     }
 
     @Test

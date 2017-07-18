@@ -4,7 +4,7 @@ import net.itarray.automotion.internal.geometry.Scalar;
 
 public class LessOrEqualTo extends BinaryScalarConditionWithFixedOperand {
 
-    LessOrEqualTo(Expression<Scalar> upperLimit) {
+    public LessOrEqualTo(Expression<Scalar> upperLimit) {
         super(upperLimit);
     }
 

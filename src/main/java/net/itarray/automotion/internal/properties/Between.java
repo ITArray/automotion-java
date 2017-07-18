@@ -8,9 +8,9 @@ public class Between implements Condition<Scalar> {
     private final Condition<Scalar> lowerLimit;
     private final Condition<Scalar> upperLimit;
 
-    Between(Expression<Scalar> lowerLimit, Expression<Scalar> upperLimit) {
-        this.lowerLimit = Conditions.greaterOrEqualTo(lowerLimit);
-        this.upperLimit = Conditions.lessOrEqualTo(upperLimit);
+    public Between(Expression<Scalar> lowerLimit, Expression<Scalar> upperLimit) {
+        this.lowerLimit = Condition.greaterOrEqualTo(lowerLimit);
+        this.upperLimit = Condition.lessOrEqualTo(upperLimit);
     }
 
     @Override

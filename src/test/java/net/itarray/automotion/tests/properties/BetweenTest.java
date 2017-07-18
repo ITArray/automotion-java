@@ -2,7 +2,6 @@ package net.itarray.automotion.tests.properties;
 
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Condition;
-import net.itarray.automotion.internal.properties.Conditions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +17,7 @@ public class BetweenTest {
     public void createProperty() {
         lowerLimit = new Scalar(7);
         upperLimit = new Scalar(10);
-        condition = Conditions.between(lowerLimit, upperLimit);
+        condition = Condition.between(lowerLimit).and(upperLimit);
     }
 
     @Test
@@ -59,17 +58,17 @@ public class BetweenTest {
 
     @Test
     public void isEqualToBetweenConditionsWithEqualUpperAndLowerLimit() {
-        assertThat(condition).isEqualTo(Conditions.between(lowerLimit, upperLimit));
+        assertThat(condition).isEqualTo(Condition.between(lowerLimit).and(upperLimit));
     }
 
     @Test
     public void isNotEqualToLessOrEqualConditionsWithDifferentLowerLimit() {
-        assertThat(condition).isNotEqualTo(Conditions.between(lowerLimit.plus(1), upperLimit));
+        assertThat(condition).isNotEqualTo(Condition.between(lowerLimit.plus(1)).and(upperLimit));
     }
 
     @Test
     public void isNotEqualToLessOrEqualConditionsWithDifferentUpperLimit() {
-        assertThat(condition).isNotEqualTo(Conditions.between(lowerLimit, upperLimit.plus(1)));
+        assertThat(condition).isNotEqualTo(Condition.between(lowerLimit).and(upperLimit.plus(1)));
     }
 
     @Test

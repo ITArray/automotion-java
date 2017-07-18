@@ -1,7 +1,6 @@
 package net.itarray.automotion.internal;
 
 import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.validation.Literals;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
@@ -627,17 +626,17 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateMaxOffset(int top, int right, int bottom, int left) {
-        rootElement.validateLeftOffset(Literals.lessOrEqualTo(left), page, errors);
-        rootElement.validateTopOffset(Literals.lessOrEqualTo(top), page, errors);
-        rootElement.validateRightOffset(Literals.lessOrEqualTo(right), page, errors);
-        rootElement.validateBottomOffset(Literals.lessOrEqualTo(bottom), page, errors);
+        rootElement.validateLeftOffset(Condition.lessOrEqualTo(left), page, errors);
+        rootElement.validateTopOffset(Condition.lessOrEqualTo(top), page, errors);
+        rootElement.validateRightOffset(Condition.lessOrEqualTo(right), page, errors);
+        rootElement.validateBottomOffset(Condition.lessOrEqualTo(bottom), page, errors);
     }
 
     private void validateMinOffset(int top, int right, int bottom, int left) {
-        rootElement.validateLeftOffset(Literals.greaterOrEqualTo(left), page, errors);
-        rootElement.validateTopOffset(Literals.greaterOrEqualTo(top), page, errors);
-        rootElement.validateRightOffset(Literals.greaterOrEqualTo(right), page, errors);
-        rootElement.validateBottomOffset(Literals.greaterOrEqualTo(bottom), page, errors);
+        rootElement.validateLeftOffset(Condition.greaterOrEqualTo(left), page, errors);
+        rootElement.validateTopOffset(Condition.greaterOrEqualTo(top), page, errors);
+        rootElement.validateRightOffset(Condition.greaterOrEqualTo(right), page, errors);
+        rootElement.validateBottomOffset(Condition.greaterOrEqualTo(bottom), page, errors);
     }
 
     private void validateNotSameSize(UIElement element) {
