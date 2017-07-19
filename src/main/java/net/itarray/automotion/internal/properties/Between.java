@@ -20,7 +20,7 @@ public class Between implements Condition<Scalar> {
     }
 
     public String shortName() {
-        return "range";
+        return "range of";
     }
 
     @Override

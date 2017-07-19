@@ -452,7 +452,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().hasWidthBetween(1000, 2000);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min width of element 'under test' is: 1000px. Actual width is: 400px");
+                .isEqualTo("Expected range of width of element 'under test' is: between 1000px and 2000px. Actual width is: 400px");
     }
 
     @Test
@@ -460,7 +460,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().hasWidthBetween(10, 20);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max width of element 'under test' is: 20px. Actual width is: 400px");
+                .isEqualTo("Expected range of width of element 'under test' is: between 10px and 20px. Actual width is: 400px");
     }
 
     @Test
@@ -484,7 +484,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().hasHeightBetween(1000, 2000);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min height of element 'under test' is: 1000px. Actual height is: 200px");
+                .isEqualTo("Expected range of height of element 'under test' is: between 1000px and 2000px. Actual height is: 200px");
     }
 
     @Test
@@ -492,7 +492,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().hasHeightBetween(10, 20);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max height of element 'under test' is: 20px. Actual height is: 200px");
+                .isEqualTo("Expected range of height of element 'under test' is: between 10px and 20px. Actual height is: 200px");
     }
 
     @Test

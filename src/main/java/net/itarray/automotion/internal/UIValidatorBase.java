@@ -406,9 +406,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasWidthBetween(int min, int max) {
-        rootElement.validateWidth(greaterOrEqualTo(scalarExpression(min)), getContext(), errors);
-        rootElement.validateWidth(lessOrEqualTo(scalarExpression(max)), getContext(), errors);
-        return this;
+        return hasWidth(betweenCondition(min, max));
     }
 
     /**
@@ -528,9 +526,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasHeightBetween(int min, int max) {
-        rootElement.validateHeight(greaterOrEqualTo(scalarExpression(min)), getContext(), errors);
-        rootElement.validateHeight(lessOrEqualTo(scalarExpression(max)), getContext(), errors);
-        return this;
+        return hasHeight(betweenCondition(min, max));
     }
 
     /**
