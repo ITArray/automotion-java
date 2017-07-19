@@ -378,8 +378,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasWidthGreaterOrEqualTo(int width) {
-        rootElement.validateWidth(greaterOrEqualTo(scalarExpression(width)), getContext(), errors);
-        return this;
+        return hasWidth(greaterOrEqualTo(scalarExpression(width)));
     }
 
     /**
@@ -390,7 +389,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasWidthLessOrEqualTo(int width) {
-        rootElement.validateWidth(lessOrEqualTo(scalarExpression(width)), getContext(), errors);
+        return hasWidth(lessOrEqualTo(scalarExpression(width)));
+    }
+
+    public UIValidatorBase hasWidth(Condition<Scalar> condition) {
+        rootElement.validateWidth(condition, getContext(), errors);
         return this;
     }
 

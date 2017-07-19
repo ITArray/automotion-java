@@ -359,6 +359,12 @@ public class UIValidator extends AbstractValidator implements Validator {
         return this;
     }
 
+    @Override
+    public UIElementValidator hasWidth(Condition<Scalar> condition) {
+        getBase().hasWidth(condition);
+        return this;
+    }
+
     /**
      * Verify that element has the same height as specified element
      *
@@ -405,6 +411,12 @@ public class UIValidator extends AbstractValidator implements Validator {
     @Override
     public UIValidator hasHeightLessOrEqualTo(int height) {
         getBase().hasHeightLessOrEqualTo(height);
+        return this;
+    }
+
+    @Override
+    public UIValidator hasHeight(Condition<Scalar> condition) {
+        getBase().hasHeight(condition);
         return this;
     }
 

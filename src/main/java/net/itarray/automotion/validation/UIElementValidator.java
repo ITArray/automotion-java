@@ -168,42 +168,46 @@ public interface UIElementValidator {
     UIElementValidator notSameSizeAs(List<WebElement> elements);
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasWidthGreaterOrEqualTo(int)}
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasWidth(net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
     default UIElementValidator minWidth(int width) { return hasWidthGreaterOrEqualTo(width); }
     UIElementValidator hasWidthGreaterOrEqualTo(int width);
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasWidthLessOrEqualTo(int)}
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasWidth(net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
     default UIElementValidator maxWidth(int width) { return hasWidthLessOrEqualTo(width); }
     UIElementValidator hasWidthLessOrEqualTo(int width);
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasWidthBetween(int, int)}
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasWidth(net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
     default UIElementValidator widthBetween(int min, int max) { return hasWidthBetween(min, max); }
     UIElementValidator hasWidthBetween(int min, int max);
 
+    UIElementValidator hasWidth(Condition<Scalar> condition);
+
     /**
-     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasHeightGreaterOrEqualTo(int)}
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasHeight(net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
     default UIElementValidator minHeight(int height) { return hasHeightGreaterOrEqualTo(height); }
     UIElementValidator hasHeightGreaterOrEqualTo(int height);
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasHeightLessOrEqualTo(int)}
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasHeight(net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
     default UIElementValidator maxHeight(int height) { return hasHeightLessOrEqualTo(height); }
     UIElementValidator hasHeightLessOrEqualTo(int height);
 
+    UIElementValidator hasHeight(Condition<Scalar> condition);
+
     /**
-     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasHeightBetween(int, int)}
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasHeight(net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
     default UIElementValidator heightBetween(int min, int max) { return hasHeightBetween(min, max); }
