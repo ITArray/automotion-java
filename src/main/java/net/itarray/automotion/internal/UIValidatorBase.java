@@ -3,6 +3,8 @@ package net.itarray.automotion.internal;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Context;
+import net.itarray.automotion.internal.properties.Expression;
+import net.itarray.automotion.internal.properties.ScalarConstant;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
@@ -15,6 +17,8 @@ import java.util.List;
 
 import static net.itarray.automotion.internal.UIElement.*;
 import static net.itarray.automotion.validation.Constants.*;
+import static net.itarray.automotion.validation.properties.Condition.greaterOrEqualTo;
+import static net.itarray.automotion.validation.properties.Condition.lessOrEqualTo;
 import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
 
 public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElementValidator {
@@ -110,12 +114,12 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         return this;
     }
 
+    private Expression<Scalar> scalarExpression(int width) {
+        return isPixels() ? new ScalarConstant(new Scalar(width)) : Condition.percent(new Scalar(width), PAGE);
+    }
+
     private Condition<Scalar> betweenCondition(int minMargin, int maxMargin) {
-        if (isPixels()) {
-            return Condition.between(minMargin).and(maxMargin);
-        } else {
-            return Condition.between(Condition.percent(new Scalar(minMargin), PAGE)).and(Condition.percent(new Scalar(maxMargin), PAGE));
-        }
+        return Condition.between(scalarExpression(minMargin)).and(scalarExpression(maxMargin));
     }
 
     private boolean isPixels() {
@@ -374,7 +378,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasWidthGreaterOrEqualTo(int width) {
-        rootElement.validateWidth(Condition.greaterOrEqualTo(toPixelsHorizontally(width)), getContext(), errors);
+        rootElement.validateWidth(greaterOrEqualTo(scalarExpression(width)), getContext(), errors);
         return this;
     }
 
@@ -386,7 +390,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasWidthLessOrEqualTo(int width) {
-        rootElement.validateWidth(Condition.lessOrEqualTo(toPixelsHorizontally(width)), getContext(), errors);
+        rootElement.validateWidth(lessOrEqualTo(scalarExpression(width)), getContext(), errors);
         return this;
     }
 
@@ -399,8 +403,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasWidthBetween(int min, int max) {
-        rootElement.validateWidth(Condition.greaterOrEqualTo(toPixelsHorizontally(min)), getContext(), errors);
-        rootElement.validateWidth(Condition.lessOrEqualTo(toPixelsHorizontally(max)), getContext(), errors);
+        rootElement.validateWidth(greaterOrEqualTo(scalarExpression(min)), getContext(), errors);
+        rootElement.validateWidth(lessOrEqualTo(scalarExpression(max)), getContext(), errors);
         return this;
     }
 
@@ -439,7 +443,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasHeightGreaterOrEqualTo(int height) {
-        return hasHeight(Condition.greaterOrEqualTo(toPixelsVertically(height)));
+        return hasHeight(greaterOrEqualTo(scalarExpression((height))));
     }
 
     public UIValidatorBase hasHeight(Condition<Scalar> condition) {
@@ -455,7 +459,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasHeightLessOrEqualTo(int height) {
-        return hasHeight(Condition.lessOrEqualTo(toPixelsVertically(height)));
+        return hasHeight(lessOrEqualTo(scalarExpression((height))));
     }
 
     /**
@@ -521,8 +525,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasHeightBetween(int min, int max) {
-        rootElement.validateHeight(Condition.greaterOrEqualTo(toPixelsVertically(min)), getContext(), errors);
-        rootElement.validateHeight(Condition.lessOrEqualTo(toPixelsVertically(max)), getContext(), errors);
+        rootElement.validateHeight(greaterOrEqualTo(scalarExpression(min)), getContext(), errors);
+        rootElement.validateHeight(lessOrEqualTo(scalarExpression(max)), getContext(), errors);
         return this;
     }
 
@@ -653,17 +657,17 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateMaxOffset(int top, int right, int bottom, int left) {
-        rootElement.validateLeftOffset(Condition.lessOrEqualTo(left), page, getContext(), errors);
-        rootElement.validateTopOffset(Condition.lessOrEqualTo(top), page, getContext(), errors);
-        rootElement.validateRightOffset(Condition.lessOrEqualTo(right), page, getContext(), errors);
-        rootElement.validateBottomOffset(Condition.lessOrEqualTo(bottom), page, getContext(), errors);
+        rootElement.validateLeftOffset(lessOrEqualTo(left), page, getContext(), errors);
+        rootElement.validateTopOffset(lessOrEqualTo(top), page, getContext(), errors);
+        rootElement.validateRightOffset(lessOrEqualTo(right), page, getContext(), errors);
+        rootElement.validateBottomOffset(lessOrEqualTo(bottom), page, getContext(), errors);
     }
 
     private void validateMinOffset(int top, int right, int bottom, int left) {
-        rootElement.validateLeftOffset(Condition.greaterOrEqualTo(left), page, getContext(), errors);
-        rootElement.validateTopOffset(Condition.greaterOrEqualTo(top), page, getContext(), errors);
-        rootElement.validateRightOffset(Condition.greaterOrEqualTo(right), page, getContext(), errors);
-        rootElement.validateBottomOffset(Condition.greaterOrEqualTo(bottom), page, getContext(), errors);
+        rootElement.validateLeftOffset(greaterOrEqualTo(left), page, getContext(), errors);
+        rootElement.validateTopOffset(greaterOrEqualTo(top), page, getContext(), errors);
+        rootElement.validateRightOffset(greaterOrEqualTo(right), page, getContext(), errors);
+        rootElement.validateBottomOffset(greaterOrEqualTo(bottom), page, getContext(), errors);
     }
 
     private void validateNotSameSize(UIElement element) {

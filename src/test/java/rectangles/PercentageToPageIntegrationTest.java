@@ -102,4 +102,33 @@ public class PercentageToPageIntegrationTest {
         boolean validate = createElementValidator().changeMetricsUnitsTo(Units.PERCENT).isAbove(below, 10, 10).validate();
         assertThat(validate).isTrue();
     }
+
+    @Test
+    public void widthIs500Pixels() {
+        assertThat(createElementValidator().hasWidthLessOrEqualTo(500).validate()).isTrue();
+        assertThat(createElementValidator().hasWidthGreaterOrEqualTo(500).validate()).isTrue();
+        assertThat(createElementValidator().hasWidthBetween(500, 500).validate()).isTrue();
+    }
+
+    @Test
+    public void widthIs25Percent() {
+        assertThat(createElementValidator().changeMetricsUnitsTo(Units.PERCENT).hasWidthLessOrEqualTo(25).validate()).isTrue();
+        assertThat(createElementValidator().changeMetricsUnitsTo(Units.PERCENT).hasWidthGreaterOrEqualTo(25).validate()).isTrue();
+        assertThat(createElementValidator().changeMetricsUnitsTo(Units.PERCENT).hasWidthBetween(25, 25).validate()).isTrue();
+    }
+
+    @Test
+    public void heightIs300Pixels() {
+        assertThat(createElementValidator().hasHeightLessOrEqualTo(300).validate()).isTrue();
+        assertThat(createElementValidator().hasHeightGreaterOrEqualTo(300).validate()).isTrue();
+        assertThat(createElementValidator().hasHeightBetween(300, 300).validate()).isTrue();
+    }
+
+    @Test
+    public void heightIs30Percent() {
+        assertThat(createElementValidator().changeMetricsUnitsTo(Units.PERCENT).hasHeightLessOrEqualTo(30).validate()).isTrue();
+        assertThat(createElementValidator().changeMetricsUnitsTo(Units.PERCENT).hasHeightGreaterOrEqualTo(30).validate()).isTrue();
+        assertThat(createElementValidator().changeMetricsUnitsTo(Units.PERCENT).hasHeightBetween(30, 30).validate()).isTrue();
+    }
+
 }
