@@ -439,20 +439,12 @@ public class UIElement {
         }
     }
 
-    public void validateHeightLessOrEqualTo(int limit, Context context, Errors errors) {
-        validateExtend(DOWN, Condition.lessOrEqualTo(limit), context, errors);
+    public void validateHeight(Condition<Scalar> condition, Context context, Errors errors) {
+        validateExtend(DOWN, condition, context, errors);
     }
 
-    public void validateHeightGreaterOrEqualTo(int limit, Context context, Errors errors) {
-        validateExtend(DOWN, Condition.greaterOrEqualTo(limit), context, errors);
-    }
-
-    public void validateWidthLessOrEqualTo(int limit, Context context, Errors errors) {
-        validateExtend(RIGHT, Condition.lessOrEqualTo(limit), context, errors);
-    }
-
-    public void validateWidthGreaterOrEqualTo(int limit, Context context, Errors errors) {
-        validateExtend(RIGHT, Condition.greaterOrEqualTo(limit), context, errors);
+    public void validateWidth(Condition<Scalar> condition, Context context, Errors errors) {
+        validateExtend(RIGHT, condition, context, errors);
     }
 
     public void validateExtend(Direction direction, Condition condition, Context context, Errors errors) {

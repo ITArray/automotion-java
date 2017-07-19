@@ -374,7 +374,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasWidthGreaterOrEqualTo(int width) {
-        rootElement.validateWidthGreaterOrEqualTo(toPixelsHorizontally(width), getContext(), errors);
+        rootElement.validateWidth(Condition.greaterOrEqualTo(toPixelsHorizontally(width)), getContext(), errors);
         return this;
     }
 
@@ -386,7 +386,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasWidthLessOrEqualTo(int width) {
-        rootElement.validateWidthLessOrEqualTo(toPixelsHorizontally(width), getContext(), errors);
+        rootElement.validateWidth(Condition.lessOrEqualTo(toPixelsHorizontally(width)), getContext(), errors);
         return this;
     }
 
@@ -399,8 +399,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasWidthBetween(int min, int max) {
-        rootElement.validateWidthGreaterOrEqualTo(toPixelsHorizontally(min), getContext(), errors);
-        rootElement.validateWidthLessOrEqualTo(toPixelsHorizontally(max), getContext(), errors);
+        rootElement.validateWidth(Condition.greaterOrEqualTo(toPixelsHorizontally(min)), getContext(), errors);
+        rootElement.validateWidth(Condition.lessOrEqualTo(toPixelsHorizontally(max)), getContext(), errors);
         return this;
     }
 
@@ -439,7 +439,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasHeightGreaterOrEqualTo(int height) {
-        rootElement.validateHeightGreaterOrEqualTo(toPixelsVertically(height), getContext(), errors);
+        rootElement.validateHeight(Condition.greaterOrEqualTo(toPixelsVertically(height)), getContext(), errors);
         return this;
     }
 
@@ -451,7 +451,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasHeightLessOrEqualTo(int height) {
-        rootElement.validateHeightLessOrEqualTo(toPixelsVertically(height), getContext(), errors);
+        rootElement.validateHeight(Condition.lessOrEqualTo(toPixelsVertically(height)), getContext(), errors);
         return this;
     }
 
@@ -518,8 +518,8 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasHeightBetween(int min, int max) {
-        rootElement.validateHeightGreaterOrEqualTo(toPixelsVertically(min), getContext(), errors);
-        rootElement.validateHeightLessOrEqualTo(toPixelsVertically(max), getContext(), errors);
+        rootElement.validateHeight(Condition.greaterOrEqualTo(toPixelsVertically(min)), getContext(), errors);
+        rootElement.validateHeight(Condition.lessOrEqualTo(toPixelsVertically(max)), getContext(), errors);
         return this;
     }
 
