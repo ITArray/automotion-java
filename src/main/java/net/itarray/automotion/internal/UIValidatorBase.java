@@ -3,7 +3,6 @@ package net.itarray.automotion.internal;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Context;
-import net.itarray.automotion.internal.properties.PagePercentage;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
@@ -16,6 +15,7 @@ import java.util.List;
 
 import static net.itarray.automotion.internal.UIElement.*;
 import static net.itarray.automotion.validation.Constants.*;
+import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
 
 public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElementValidator {
 
@@ -114,7 +114,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         if (isPixels()) {
             return Condition.between(minMargin).and(maxMargin);
         } else {
-            return Condition.between(new PagePercentage(new Scalar(minMargin))).and(new PagePercentage(new Scalar(maxMargin)));
+            return Condition.between(Condition.percent(new Scalar(minMargin), PAGE)).and(Condition.percent(new Scalar(maxMargin), PAGE));
         }
     }
 
@@ -439,7 +439,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasHeightGreaterOrEqualTo(int height) {
-        rootElement.validateHeight(Condition.greaterOrEqualTo(toPixelsVertically(height)), getContext(), errors);
+        return hasHeight(Condition.greaterOrEqualTo(toPixelsVertically(height)));
+    }
+
+    public UIValidatorBase hasHeight(Condition<Scalar> condition) {
+        rootElement.validateHeight(condition, getContext(), errors);
         return this;
     }
 
@@ -451,8 +455,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasHeightLessOrEqualTo(int height) {
-        rootElement.validateHeight(Condition.lessOrEqualTo(toPixelsVertically(height)), getContext(), errors);
-        return this;
+        return hasHeight(Condition.lessOrEqualTo(toPixelsVertically(height)));
     }
 
     /**

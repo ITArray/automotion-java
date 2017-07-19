@@ -22,4 +22,23 @@ public class PagePercentage implements Expression<Scalar> {
     public String toStringWithUnits(String units) {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s%% of page", percentage);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof PagePercentage)) {
+            return false;
+        }
+        PagePercentage other = (PagePercentage) object;
+        return percentage.equals(other.percentage);
+    }
+
+    @Override
+    public int hashCode() {
+        return percentage.hashCode();
+    }
 }

@@ -7,7 +7,10 @@ import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.internal.properties.Expression;
 import net.itarray.automotion.internal.properties.GreaterOrEqualTo;
 import net.itarray.automotion.internal.properties.LessOrEqualTo;
+import net.itarray.automotion.internal.properties.PagePercentage;
 import net.itarray.automotion.internal.properties.ScalarConstant;
+
+import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
 
 public interface Condition<T> {
 
@@ -45,6 +48,14 @@ public interface Condition<T> {
 
     static LowerLimit between(Expression<Scalar> lowerLimit) {
         return new LowerLimit(lowerLimit);
+    }
+
+    static Expression<Scalar> percent(Scalar percentage, PercentReference reference) {
+        if (PAGE.equals(reference)) {
+            return new PagePercentage(percentage);
+        } else {
+            throw new RuntimeException("unsupported percentage reference " + reference);
+        }
     }
 
     class LowerLimit {
