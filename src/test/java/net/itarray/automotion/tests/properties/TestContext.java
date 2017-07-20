@@ -6,6 +6,7 @@ import net.itarray.automotion.internal.properties.Context;
 public class TestContext implements Context {
 
     private final Rectangle pageRectangle;
+    private boolean pixels = true;
 
     public TestContext() {
         this(new Rectangle(0, 0, 200, 150));
@@ -18,5 +19,14 @@ public class TestContext implements Context {
     @Override
     public Rectangle getPageRectangle() {
         return pageRectangle;
+    }
+
+    @Override
+    public boolean isPixels() {
+        return pixels;
+    }
+
+    public void setPixels(boolean pixels) {
+        this.pixels = pixels;
     }
 }

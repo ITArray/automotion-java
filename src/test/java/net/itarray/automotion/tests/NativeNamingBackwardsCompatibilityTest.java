@@ -1,7 +1,9 @@
 package net.itarray.automotion.tests;
 
+import net.itarray.automotion.internal.properties.Expression;
 import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.UIElementValidator;
+import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.validation.properties.Padding;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +12,9 @@ import org.openqa.selenium.WebElement;
 import java.util.Arrays;
 import java.util.List;
 
+import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
+import static net.itarray.automotion.validation.properties.Condition.greaterOrEqualTo;
+import static net.itarray.automotion.validation.properties.Condition.lessOrEqualTo;
 import static org.mockito.Mockito.*;
 import static rectangles.DummyWebElement.createElement;
 
@@ -164,13 +169,13 @@ public class NativeNamingBackwardsCompatibilityTest {
     @Test
     public void minWidth() {
         validator.minWidth(9);
-        verify(validator).hasWidthGreaterOrEqualTo(9);
+        verify(validator).hasWidth(greaterOrEqualTo(percentOrPixels(9)));
     }
 
     @Test
     public void maxWidth() {
         validator.maxWidth(9);
-        verify(validator).hasWidthLessOrEqualTo(9);
+        verify(validator).hasWidth(lessOrEqualTo(percentOrPixels(9)));
     }
 
     @Test
@@ -182,13 +187,13 @@ public class NativeNamingBackwardsCompatibilityTest {
     @Test
     public void minHeight() {
         validator.minHeight(9);
-        verify(validator).hasHeightGreaterOrEqualTo(9);
+        verify(validator).hasHeight(greaterOrEqualTo(percentOrPixels(9)));
     }
 
     @Test
     public void maxHeight() {
         validator.maxHeight(9);
-        verify(validator).hasHeightLessOrEqualTo(9);
+        verify(validator).hasHeight(lessOrEqualTo(percentOrPixels(9)));
     }
 
     @Test

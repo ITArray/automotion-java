@@ -16,6 +16,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 import static net.itarray.automotion.internal.UIElement.*;
+import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.Constants.*;
 import static net.itarray.automotion.validation.properties.Condition.greaterOrEqualTo;
 import static net.itarray.automotion.validation.properties.Condition.lessOrEqualTo;
@@ -131,6 +132,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
             @Override
             public Rectangle getPageRectangle() {
                 return page.getRectangle();
+            }
+
+            @Override
+            public boolean isPixels() {
+                return UIValidatorBase.this.isPixels();
             }
         };
     }
@@ -370,28 +376,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         return this;
     }
 
-    /**
-     * Verify that width of element is not less than specified
-     *
-     * @param width
-     * @return UIValidator
-     */
-    @Override
-    public UIValidatorBase hasWidthGreaterOrEqualTo(int width) {
-        return hasWidth(greaterOrEqualTo(scalarExpression(width)));
-    }
-
-    /**
-     * Verify that width of element is not bigger than specified
-     *
-     * @param width
-     * @return UIValidator
-     */
-    @Override
-    public UIValidatorBase hasWidthLessOrEqualTo(int width) {
-        return hasWidth(lessOrEqualTo(scalarExpression(width)));
-    }
-
     public UIValidatorBase hasWidth(Condition<Scalar> condition) {
         rootElement.validateWidth(condition, getContext(), errors);
         return this;
@@ -436,31 +420,9 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         return this;
     }
 
-    /**
-     * Verify that height of element is not less than specified
-     *
-     * @param height
-     * @return UIValidator
-     */
-    @Override
-    public UIValidatorBase hasHeightGreaterOrEqualTo(int height) {
-        return hasHeight(greaterOrEqualTo(scalarExpression((height))));
-    }
-
     public UIValidatorBase hasHeight(Condition<Scalar> condition) {
         rootElement.validateHeight(condition, getContext(), errors);
         return this;
-    }
-
-    /**
-     * Verify that height of element is not bigger than specified
-     *
-     * @param height
-     * @return UIValidator
-     */
-    @Override
-    public UIValidatorBase hasHeightLessOrEqualTo(int height) {
-        return hasHeight(lessOrEqualTo(scalarExpression((height))));
     }
 
     /**

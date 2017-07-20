@@ -17,6 +17,9 @@ import rectangles.DummyWebElement;
 import java.util.Arrays;
 
 import static java.util.Collections.singletonList;
+import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
+import static net.itarray.automotion.validation.properties.Condition.greaterOrEqualTo;
+import static net.itarray.automotion.validation.properties.Condition.lessOrEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
 
@@ -433,7 +436,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void hasWidthGreaterOrEqualTo() {
-        createElementValidator().hasWidthGreaterOrEqualTo(1000);
+        createElementValidator().hasWidth(greaterOrEqualTo(1000));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected min width of element 'under test' is: 1000px. Actual width is: 400px");
@@ -441,7 +444,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void hasWidthLessOrEqualTo() {
-        createElementValidator().hasWidthLessOrEqualTo(10);
+        createElementValidator().hasWidth(lessOrEqualTo(10));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected max width of element 'under test' is: 10px. Actual width is: 400px");
@@ -465,7 +468,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void hasHeightGreaterOrEqualTo() {
-        createElementValidator().hasHeightGreaterOrEqualTo(1000);
+        createElementValidator().hasHeight(greaterOrEqualTo(percentOrPixels(1000)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected min height of element 'under test' is: 1000px. Actual height is: 200px");
@@ -473,7 +476,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void hasHeightLessOrEqualTo() {
-        createElementValidator().hasHeightLessOrEqualTo(10);
+        createElementValidator().hasHeight(lessOrEqualTo(10));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected max height of element 'under test' is: 10px. Actual height is: 200px");

@@ -58,19 +58,11 @@ public interface Validator extends UIElementValidator {
 
     UIValidator sameWidthAs(List<WebElement> elements);
 
-    UIValidator hasWidthGreaterOrEqualTo(int width);
-
-    UIValidator hasWidthLessOrEqualTo(int width);
-
     UIValidator hasWidthBetween(int min, int max);
 
     UIValidator sameHeightAs(WebElement element, String readableName);
 
     UIValidator sameHeightAs(List<WebElement> elements);
-
-    UIValidator hasHeightGreaterOrEqualTo(int height);
-
-    UIValidator hasHeightLessOrEqualTo(int height);
 
     UIValidator sameSizeAs(WebElement element, String readableName);
 

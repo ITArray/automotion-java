@@ -9,6 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Dimension;
 
+import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
+import static net.itarray.automotion.validation.properties.Condition.*;
+import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
 
@@ -105,29 +108,29 @@ public class PercentageToPageIntegrationTest {
 
     @Test
     public void widthIs500Pixels() {
-        assertThat(createElementValidator().hasWidthLessOrEqualTo(500).validate()).isTrue();
-        assertThat(createElementValidator().hasWidthGreaterOrEqualTo(500).validate()).isTrue();
+        assertThat(createElementValidator().hasWidth(lessOrEqualTo(500)).validate()).isTrue();
+        assertThat(createElementValidator().hasWidth(greaterOrEqualTo(500)).validate()).isTrue();
         assertThat(createElementValidator().hasWidthBetween(500, 500).validate()).isTrue();
     }
 
     @Test
     public void widthIs25Percent() {
-        assertThat(createElementValidator().changeMetricsUnitsTo(Units.PERCENT).hasWidthLessOrEqualTo(25).validate()).isTrue();
-        assertThat(createElementValidator().changeMetricsUnitsTo(Units.PERCENT).hasWidthGreaterOrEqualTo(25).validate()).isTrue();
+        assertThat(createElementValidator().hasWidth(lessOrEqualTo(percent(25, PAGE))).validate()).isTrue();
+        assertThat(createElementValidator().hasWidth(greaterOrEqualTo(percent(25, PAGE))).validate()).isTrue();
         assertThat(createElementValidator().changeMetricsUnitsTo(Units.PERCENT).hasWidthBetween(25, 25).validate()).isTrue();
     }
 
     @Test
     public void heightIs300Pixels() {
-        assertThat(createElementValidator().hasHeightLessOrEqualTo(300).validate()).isTrue();
-        assertThat(createElementValidator().hasHeightGreaterOrEqualTo(300).validate()).isTrue();
+        assertThat(createElementValidator().hasHeight(lessOrEqualTo(300)).validate()).isTrue();
+        assertThat(createElementValidator().hasHeight(greaterOrEqualTo(300)).validate()).isTrue();
         assertThat(createElementValidator().hasHeightBetween(300, 300).validate()).isTrue();
     }
 
     @Test
     public void heightIs30Percent() {
-        assertThat(createElementValidator().changeMetricsUnitsTo(Units.PERCENT).hasHeightLessOrEqualTo(30).validate()).isTrue();
-        assertThat(createElementValidator().changeMetricsUnitsTo(Units.PERCENT).hasHeightGreaterOrEqualTo(30).validate()).isTrue();
+        assertThat(createElementValidator().hasHeight(lessOrEqualTo(percent(30, PAGE))).validate()).isTrue();
+        assertThat(createElementValidator().hasHeight(lessOrEqualTo(percent(30, PAGE))).validate()).isTrue();
         assertThat(createElementValidator().changeMetricsUnitsTo(Units.PERCENT).hasHeightBetween(30, 30).validate()).isTrue();
     }
 

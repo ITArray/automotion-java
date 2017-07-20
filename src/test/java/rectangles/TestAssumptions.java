@@ -1,6 +1,5 @@
 package rectangles;
 
-import net.itarray.automotion.validation.properties.Condition;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIChunkValidator;
 import util.validator.ResponsiveUIValidator;
@@ -11,6 +10,9 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
+import static net.itarray.automotion.validation.properties.Condition.greaterOrEqualTo;
+import static net.itarray.automotion.validation.properties.Condition.lessOrEqualTo;
 import static rectangles.DummyDriverFacade.createWebDriver;
 
 public class TestAssumptions {
@@ -55,35 +57,35 @@ public class TestAssumptions {
     }
 
     public static boolean hasLeftOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPage(Condition.greaterOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPage(greaterOrEqualTo(value)));
     }
 
     public static boolean hasLeftOffsetToPageLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPage(Condition.lessOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPage(lessOrEqualTo(value)));
     }
 
     public static boolean hasRightOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPage(Condition.greaterOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPage(greaterOrEqualTo(value)));
     }
 
     public static boolean hasRightOffsetToPageLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPage(Condition.lessOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPage(lessOrEqualTo(value)));
     }
 
     public static boolean hasTopOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPage(Condition.greaterOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPage(greaterOrEqualTo(value)));
     }
 
     public static boolean hasTopOffsetToPageLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPage(Condition.lessOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPage(lessOrEqualTo(value)));
     }
 
     public static boolean hasBottomOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPage(Condition.greaterOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPage(greaterOrEqualTo(value)));
     }
 
     public static boolean hasBottomOffsetToPageLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPage(Condition.lessOrEqualTo(value)));
+        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPage(lessOrEqualTo(value)));
     }
 
     public static boolean maxOffset(WebElement root, int top, int right, int bottom, int left) {
@@ -275,18 +277,18 @@ public class TestAssumptions {
     }
 
     public static boolean hasWidthGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasWidthGreaterOrEqualTo(value));
+        return validate(root, uiValidator -> uiValidator.hasWidth(greaterOrEqualTo(value)));
     }
 
     public static boolean hasWidthLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasWidthLessOrEqualTo(value));
+        return validate(root, uiValidator -> uiValidator.hasWidth(lessOrEqualTo(value)));
     }
 
     public static boolean hasHeightGreaterOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasHeightGreaterOrEqualTo(value));
+        return validate(root, uiValidator -> uiValidator.hasHeight(greaterOrEqualTo(value)));
     }
 
     public static boolean hasHeightLessOrEqualTo(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.hasHeightLessOrEqualTo(value));
+        return validate(root, uiValidator -> uiValidator.hasHeight(lessOrEqualTo(value)));
     }
 }

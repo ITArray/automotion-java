@@ -323,30 +323,6 @@ public class UIValidator extends AbstractValidator implements Validator {
     }
 
     /**
-     * Verify that width of element is not less than specified
-     *
-     * @param width
-     * @return UIValidator
-     */
-    @Override
-    public UIValidator hasWidthGreaterOrEqualTo(int width) {
-        getBase().hasWidthGreaterOrEqualTo(width);
-        return this;
-    }
-
-    /**
-     * Verify that width of element is not bigger than specified
-     *
-     * @param width
-     * @return UIValidator
-     */
-    @Override
-    public UIValidator hasWidthLessOrEqualTo(int width) {
-        getBase().hasWidthLessOrEqualTo(width);
-        return this;
-    }
-
-    /**
      * Verify that width of element is in range
      *
      * @param min
@@ -387,30 +363,6 @@ public class UIValidator extends AbstractValidator implements Validator {
     @Override
     public UIValidator sameHeightAs(List<WebElement> elements) {
         getBase().sameHeightAs(elements);
-        return this;
-    }
-
-    /**
-     * Verify that height of element is not less than specified
-     *
-     * @param height
-     * @return UIValidator
-     */
-    @Override
-    public UIValidator hasHeightGreaterOrEqualTo(int height) {
-        getBase().hasHeightGreaterOrEqualTo(height);
-        return this;
-    }
-
-    /**
-     * Verify that height of element is not bigger than specified
-     *
-     * @param height
-     * @return UIValidator
-     */
-    @Override
-    public UIValidator hasHeightLessOrEqualTo(int height) {
-        getBase().hasHeightLessOrEqualTo(height);
         return this;
     }
 
