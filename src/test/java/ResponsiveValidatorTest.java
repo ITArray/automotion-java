@@ -1,5 +1,4 @@
 import http.helpers.EnvironmentHelper;
-import net.itarray.automotion.validation.properties.PercentReference;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Ignore;
@@ -20,7 +19,6 @@ import java.util.Map;
 import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.properties.Condition.between;
 import static net.itarray.automotion.validation.properties.Condition.percent;
-import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
 
 @Ignore
 public class ResponsiveValidatorTest {
@@ -119,7 +117,7 @@ public class ResponsiveValidatorTest {
                     .findElement(card.findElement(By.className("project-details")), "Project details block")
                     .hasCssValue("background", "#f8f8f8")
                     .hasCssValue("color", "#6f6f6f")
-                    .notOverlapWith(card.findElement(By.className("gallery-hover-4col")), "Image Container")
+                    .isNotOverlapping(card.findElement(By.className("gallery-hover-4col")), "Image Container")
                     .sameWidthAs(card.findElement(By.className("gallery-hover-4col")), "Image Container")
                     .drawMap()
                     .validate();

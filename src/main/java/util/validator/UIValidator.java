@@ -167,8 +167,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator notOverlapWith(WebElement element, String readableName) {
-        getBase().notOverlapWith(element, readableName);
+    public UIValidator isNotOverlapping(WebElement element, String readableName) {
+        getBase().isNotOverlapping(element, readableName);
         return this;
     }
 
@@ -180,8 +180,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator overlapWith(WebElement element, String readableName) {
-        getBase().overlapWith(element, readableName);
+    public UIValidator isOverlapping(WebElement element, String readableName) {
+        getBase().isOverlapping(element, readableName);
         return this;
     }
 
@@ -192,8 +192,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator notOverlapWith(List<WebElement> elements) {
-        getBase().notOverlapWith(elements);
+    public UIValidator isNotOverlapping(List<WebElement> elements) {
+        getBase().isNotOverlapping(elements);
         return this;
     }
 

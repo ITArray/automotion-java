@@ -188,11 +188,11 @@ public class TestAssumptions {
     }
 
     public static boolean overlapWith(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.overlapWith(other, "Blub"));
+        return validate(root, uiValidator -> uiValidator.isOverlapping(other, "Blub"));
     }
 
     public static boolean notOverlapWith(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.notOverlapWith(other, "Blub"));
+        return validate(root, uiValidator -> uiValidator.isNotOverlapping(other, "Blub"));
     }
 
     public static boolean areNotOverlappedWithEachOther(List<WebElement> elements) {

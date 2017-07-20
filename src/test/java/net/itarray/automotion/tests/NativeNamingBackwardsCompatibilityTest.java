@@ -1,9 +1,7 @@
 package net.itarray.automotion.tests;
 
-import net.itarray.automotion.internal.properties.Expression;
 import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.UIElementValidator;
-import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.validation.properties.Padding;
 import org.junit.Before;
 import org.junit.Test;
@@ -220,4 +218,21 @@ public class NativeNamingBackwardsCompatibilityTest {
         verify(validator).isInsideOf(reference, "reference", padding);
     }
 
+    @Test
+    public void notOverlapWith() {
+        validator.notOverlapWith(reference, "reference");
+        verify(validator).isNotOverlapping(reference, "reference");
+    }
+
+    @Test
+    public void notOverlapWithList() {
+        validator.notOverlapWith(references);
+        verify(validator).isNotOverlapping(references);
+    }
+
+    @Test
+    public void overlapWith() {
+        validator.overlapWith(reference, "reference");
+        verify(validator).isOverlapping(reference, "reference");
+    }
 }

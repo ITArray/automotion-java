@@ -200,7 +200,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase notOverlapWith(WebElement element, String readableName) {
+    public UIValidatorBase isNotOverlapping(WebElement element, String readableName) {
         rootElement.validateNotOverlappingWithElement(asElement(element, readableName), errors);
         return this;
     }
@@ -213,7 +213,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase overlapWith(WebElement element, String readableName) {
+    public UIValidatorBase isOverlapping(WebElement element, String readableName) {
         rootElement.validateOverlappingWithElement(asElement(element, readableName), errors);
         return this;
     }
@@ -225,7 +225,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase notOverlapWith(List<WebElement> elements) {
+    public UIValidatorBase isNotOverlapping(List<WebElement> elements) {
         for (WebElement element : elements) {
             rootElement.validateNotOverlappingWithElement(asElement(element), errors);
         }

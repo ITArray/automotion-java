@@ -32,11 +32,11 @@ public interface Validator extends UIElementValidator {
 
     UIValidator isAbove(WebElement element, int minMargin, int maxMargin);
 
-    UIValidator notOverlapWith(WebElement element, String readableName);
+    UIValidator isNotOverlapping(WebElement element, String readableName);
 
-    UIValidator overlapWith(WebElement element, String readableName);
+    UIValidator isOverlapping(WebElement element, String readableName);
 
-    UIValidator notOverlapWith(List<WebElement> elements);
+    UIValidator isNotOverlapping(List<WebElement> elements);
 
     UIValidator isLeftAlignedWith(WebElement element, String readableName);
 

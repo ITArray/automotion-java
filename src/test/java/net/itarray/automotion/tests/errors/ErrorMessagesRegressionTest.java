@@ -290,7 +290,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void notOverlapWith() {
-        createElementValidator().notOverlapWith(createElement(100, 200, 500, 400), "specifying");
+        createElementValidator().isNotOverlapping(createElement(100, 200, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' is overlapped with element 'specifying' but should not");
@@ -298,7 +298,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void notOverlapWithWithList() {
-        createElementValidator().notOverlapWith(singletonList(createElement(100, 200, 500, 400)));
+        createElementValidator().isNotOverlapping(singletonList(createElement(100, 200, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' is overlapped with element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' but should not");
@@ -306,7 +306,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void overlapWith() {
-        createElementValidator().overlapWith(createElement(1100, 1200, 500, 400), "specifying");
+        createElementValidator().isOverlapping(createElement(1100, 1200, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' is not overlapped with element 'specifying' but should be");

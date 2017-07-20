@@ -111,7 +111,7 @@ public class ResponsiveValidatorNewDSLTest {
                     .findElement(card.findElement(By.className("project-details")), "Project details block")
                     .hasCssValue("background", "#f8f8f8")
                     .hasCssValue("color", "#6f6f6f")
-                    .notOverlapWith(card.findElement(By.className("gallery-hover-4col")), "Image Container")
+                    .isNotOverlapping(card.findElement(By.className("gallery-hover-4col")), "Image Container")
                     .sameWidthAs(card.findElement(By.className("gallery-hover-4col")), "Image Container")
                     .validate();
             softly.assertThat(success).isEqualTo(true).overridingErrorMessage("Failed validation of Grid in a list");

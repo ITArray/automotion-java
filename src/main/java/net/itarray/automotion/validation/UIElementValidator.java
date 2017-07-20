@@ -90,13 +90,26 @@ public interface UIElementValidator {
     default UIElementValidator withBottomElement(WebElement element, int minMargin, int maxMargin) { return isAbove(element, minMargin, maxMargin); }
     UIElementValidator isAbove(WebElement element, int minMargin, int maxMargin);
 
-    // isNotOverlapping(element)
-    UIElementValidator notOverlapWith(WebElement element, String readableName);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isNotOverlapping(org.openqa.selenium.WebElement, String)}
+     */
+    @Deprecated
+    default UIElementValidator notOverlapWith(WebElement element, String readableName) { return isNotOverlapping(element, readableName); }
+    UIElementValidator isNotOverlapping(WebElement element, String readableName);
 
-    UIElementValidator notOverlapWith(List<WebElement> elements);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isNotOverlapping(java.util.List)}
+     */
+    @Deprecated
+    default UIElementValidator notOverlapWith(List<WebElement> elements) { return isNotOverlapping(elements); }
+    UIElementValidator isNotOverlapping(List<WebElement> elements);
 
-    // isOverlapping(element)
-    UIElementValidator overlapWith(WebElement element, String readableName);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isOverlapping(org.openqa.selenium.WebElement, String)}
+     */
+    @Deprecated
+    default UIElementValidator overlapWith(WebElement element, String readableName) { return isOverlapping(element, readableName); }
+    UIElementValidator isOverlapping(WebElement element, String readableName);
 
     /**
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isLeftAlignedWith(org.openqa.selenium.WebElement, String)}
