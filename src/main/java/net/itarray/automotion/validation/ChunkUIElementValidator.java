@@ -126,11 +126,11 @@ public interface ChunkUIElementValidator {
     ChunkUIElementValidator areCenteredOnPageVertically();
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#areCenteredOnPageHorizontallyNew()}
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#areCenteredOnPageHorizontally()}
      */
     @Deprecated
-    default ChunkUIElementValidator equalTopBottomOffset() { return areCenteredOnPageHorizontallyNew(); }
-    ChunkUIElementValidator areCenteredOnPageHorizontallyNew();
+    default ChunkUIElementValidator equalTopBottomOffset() { return areCenteredOnPageHorizontally(); }
+    ChunkUIElementValidator areCenteredOnPageHorizontally();
 
     /**
      * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#areInsideOf(org.openqa.selenium.WebElement, String)}

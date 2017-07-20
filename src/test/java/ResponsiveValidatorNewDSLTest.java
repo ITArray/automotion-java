@@ -101,7 +101,7 @@ public class ResponsiveValidatorNewDSLTest {
                 .doNotOverlap()
                 .areTopAligned()
                 .areCenteredOnPageVertically()
-                .areCenteredOnPageHorizontallyNew()
+                .areCenteredOnPageHorizontally()
                 .validate();
 
         softly.assertThat(success3).isEqualTo(true).overridingErrorMessage("Failed validation of Grid");

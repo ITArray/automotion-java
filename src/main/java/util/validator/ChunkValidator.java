@@ -41,7 +41,7 @@ public interface ChunkValidator extends ChunkUIElementValidator {
 
     ResponsiveUIChunkValidator areCenteredOnPageVertically();
 
-    ResponsiveUIChunkValidator areCenteredOnPageHorizontallyNew();
+    ResponsiveUIChunkValidator areCenteredOnPageHorizontally();
 
     ResponsiveUIChunkValidator areInsideOf(WebElement containerElement, String readableContainerName);
 

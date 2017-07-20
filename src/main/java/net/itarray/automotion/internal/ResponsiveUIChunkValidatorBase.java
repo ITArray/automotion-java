@@ -219,7 +219,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase areCenteredOnPageHorizontallyNew() {
+    public ResponsiveUIChunkValidatorBase areCenteredOnPageHorizontally() {
         validateEqualTopBottomOffset(rootElements);
         return this;
     }

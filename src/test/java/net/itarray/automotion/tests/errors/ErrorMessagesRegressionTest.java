@@ -427,7 +427,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void equalTopBottomOffsetChunk() {
-        createChunkValidator().areCenteredOnPageHorizontallyNew();
+        createChunkValidator().areCenteredOnPageHorizontally();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' has not equal top and bottom offset. Top offset is 200px, bottom is 600px");

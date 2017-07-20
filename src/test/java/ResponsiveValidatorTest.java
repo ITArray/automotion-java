@@ -106,7 +106,7 @@ public class ResponsiveValidatorTest {
                 .doNotOverlap()
                 .areTopAligned()
                 .areCenteredOnPageVertically()
-                .areCenteredOnPageHorizontallyNew()
+                .areCenteredOnPageHorizontally()
                 .drawMap()
                 .validate();
 

@@ -298,6 +298,6 @@ public class NativeNamingBackwardsCompatibilityTest {
     @Test
     public void equalTopBottomOffsetChunk() {
         chunkValidator.equalTopBottomOffset();
-        verify(chunkValidator).areCenteredOnPageHorizontallyNew();
+        verify(chunkValidator).areCenteredOnPageHorizontally();
     }
 }

@@ -221,8 +221,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator areCenteredOnPageHorizontallyNew() {
-        getBase().areCenteredOnPageHorizontallyNew();
+    public ResponsiveUIChunkValidator areCenteredOnPageHorizontally() {
+        getBase().areCenteredOnPageHorizontally();
         return this;
     }
 

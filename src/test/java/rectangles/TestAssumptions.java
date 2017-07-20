@@ -104,7 +104,7 @@ public class TestAssumptions {
     }
 
     public static boolean equalTopBottomOffset(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::areCenteredOnPageHorizontallyNew);
+        return validate(elements, ResponsiveUIChunkValidator::areCenteredOnPageHorizontally);
     }
 
     public static boolean isLeftAlignedWith(WebElement root, WebElement other) {
