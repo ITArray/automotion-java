@@ -223,7 +223,7 @@ public class TestAssumptions {
         return validate(elements, ResponsiveUIChunkValidator::haveEqualWidth);
     }
 
-    public static boolean withNotSameWidth(List<WebElement> elements) {
+    public static boolean haveDifferentWidths(List<WebElement> elements) {
         return validate(elements, ResponsiveUIChunkValidator::haveDifferentWidths);
     }
 
@@ -239,7 +239,7 @@ public class TestAssumptions {
         return validate(elements, ResponsiveUIChunkValidator::haveEqualHeight);
     }
 
-    public static boolean withNotSameHeight(List<WebElement> elements) {
+    public static boolean haveDifferentHeights(List<WebElement> elements) {
         return validate(elements, ResponsiveUIChunkValidator::haveDifferentHeights);
     }
 
@@ -263,7 +263,7 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.notSameSizeAs(others));
     }
 
-    public static boolean withNotSameSize(List<WebElement> elements) {
+    public static boolean haveDifferentSizes(List<WebElement> elements) {
         return validate(elements, ResponsiveUIChunkValidator::haveDifferentSizes);
     }
 

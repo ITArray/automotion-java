@@ -66,8 +66,6 @@ public interface ChunkUIElementValidator {
     default ChunkUIElementValidator withSameHeight() { return haveEqualHeight(); }
     ChunkUIElementValidator haveEqualHeight();
 
-    // WE NEED TO FIX BUGS for the next 3 methods
-
     /**
      * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#haveDifferentSizes()}
      */
@@ -140,6 +138,4 @@ public interface ChunkUIElementValidator {
     ChunkUIElementValidator areInsideOf(WebElement containerElement, String readableContainerName);
 
     // equal distribution (horizontal, vertically, both)
-    // alignments other the centered don't need horizontally/vertically - discuss
-
 }

@@ -26,7 +26,7 @@ public class ExtendTest {
         assertThat(sameWidthAs(root, other)).isTrue();
         assertThat(sameWidthAs(root, singletonList(other))).isTrue();
         assertThat(withSameWidth(asList(root, other))).isTrue();
-        assertThat(withNotSameWidth(asList(root, other))).isFalse();
+        assertThat(haveDifferentWidths(asList(root, other))).isFalse();
     }
 
     @Test
@@ -36,7 +36,7 @@ public class ExtendTest {
         assertThat(sameWidthAs(root, other)).isTrue();
         assertThat(sameWidthAs(root, singletonList(other))).isTrue();
         assertThat(withSameWidth(asList(root, other))).isTrue();
-        assertThat(withNotSameWidth(asList(root, other))).isFalse();
+        assertThat(haveDifferentWidths(asList(root, other))).isFalse();
     }
 
     @Test
@@ -46,7 +46,8 @@ public class ExtendTest {
         assertThat(sameWidthAs(root, other)).isFalse();
         assertThat(sameWidthAs(root, singletonList(other))).isFalse();
         assertThat(withSameWidth(asList(root, other))).isFalse();
-        assertThat(withNotSameWidth(asList(root, other))).isTrue();
+        assertThat(haveDifferentWidths(asList(root, other))).isTrue();
+        assertThat(haveDifferentWidths(asList(root, other, root))).isFalse();
     }
 
     @Test
@@ -56,7 +57,7 @@ public class ExtendTest {
         assertThat(sameHeightAs(root, other)).isTrue();
         assertThat(sameHeightAs(root, singletonList(other))).isTrue();
         assertThat(withSameHeight(asList(root, other))).isTrue();
-        assertThat(withNotSameHeight(asList(root, other))).isFalse();
+        assertThat(haveDifferentHeights(asList(root, other))).isFalse();
     }
 
     @Test
@@ -66,7 +67,7 @@ public class ExtendTest {
         assertThat(sameHeightAs(root, other)).isTrue();
         assertThat(sameHeightAs(root, singletonList(other))).isTrue();
         assertThat(withSameHeight(asList(root, other))).isTrue();
-        assertThat(withNotSameHeight(asList(root, other))).isFalse();
+        assertThat(haveDifferentHeights(asList(root, other))).isFalse();
     }
 
     @Test
@@ -76,7 +77,8 @@ public class ExtendTest {
         assertThat(sameHeightAs(root, other)).isFalse();
         assertThat(sameHeightAs(root, singletonList(other))).isFalse();
         assertThat(withSameHeight(asList(root, other))).isFalse();
-        assertThat(withNotSameHeight(asList(root, other))).isTrue();
+        assertThat(haveDifferentHeights(asList(root, other))).isTrue();
+        assertThat(haveDifferentHeights(asList(root, other, root))).isFalse();
     }
 
     @Test
@@ -88,7 +90,7 @@ public class ExtendTest {
         assertThat(withSameSize(asList(root, other))).isTrue();
         assertThat(notSameSizeAs(root, other)).isFalse();
         assertThat(notSameSizeAs(root, singletonList(other))).isFalse();
-        assertThat(withNotSameSize(asList(root, other))).isFalse();
+        assertThat(haveDifferentSizes(asList(root, other))).isFalse();
     }
 
     @Test
@@ -100,7 +102,7 @@ public class ExtendTest {
         assertThat(withSameSize(asList(root, other))).isTrue();
         assertThat(notSameSizeAs(root, other)).isFalse();
         assertThat(notSameSizeAs(root, singletonList(other))).isFalse();
-        assertThat(withNotSameSize(asList(root, other))).isFalse();
+        assertThat(haveDifferentSizes(asList(root, other))).isFalse();
     }
 
     @Test
@@ -112,7 +114,8 @@ public class ExtendTest {
         assertThat(withSameSize(asList(root, other))).isFalse();
         assertThat(notSameSizeAs(root, other)).isTrue();
         assertThat(notSameSizeAs(root, singletonList(other))).isTrue();
-        assertThat(withNotSameSize(asList(root, other))).isTrue();
+        assertThat(haveDifferentSizes(asList(root, other))).isTrue();
+        assertThat(haveDifferentSizes(asList(root, other, root))).isFalse();
     }
 
     @Test
@@ -124,7 +127,7 @@ public class ExtendTest {
         assertThat(withSameSize(asList(root, other))).isFalse();
         assertThat(notSameSizeAs(root, other)).isTrue();
         assertThat(notSameSizeAs(root, singletonList(other))).isTrue();
-        assertThat(withNotSameSize(asList(root, other))).isTrue();
+        assertThat(haveDifferentSizes(asList(root, other))).isTrue();
     }
 
     @Test
