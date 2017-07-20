@@ -18,8 +18,7 @@ import java.util.List;
 import static net.itarray.automotion.internal.UIElement.*;
 import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.Constants.*;
-import static net.itarray.automotion.validation.properties.Condition.greaterOrEqualTo;
-import static net.itarray.automotion.validation.properties.Condition.lessOrEqualTo;
+import static net.itarray.automotion.validation.properties.Condition.*;
 import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
 
 public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElementValidator {
@@ -382,18 +381,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     /**
-     * Verify that width of element is in range
-     *
-     * @param min
-     * @param max
-     * @return UIValidator
-     */
-    @Override
-    public UIValidatorBase hasWidthBetween(int min, int max) {
-        return hasWidth(betweenCondition(min, max));
-    }
-
-    /**
      * Verify that element has the same height as specified element
      *
      * @param element
@@ -477,18 +464,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
             validateNotSameSize(asElement(element));
         }
         return this;
-    }
-
-    /**
-     * Verify that height of element is in range
-     *
-     * @param min
-     * @param max
-     * @return UIValidator
-     */
-    @Override
-    public UIValidatorBase hasHeightBetween(int min, int max) {
-        return hasHeight(betweenCondition(min, max));
     }
 
     /**

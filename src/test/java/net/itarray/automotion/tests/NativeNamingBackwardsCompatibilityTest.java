@@ -13,8 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
-import static net.itarray.automotion.validation.properties.Condition.greaterOrEqualTo;
-import static net.itarray.automotion.validation.properties.Condition.lessOrEqualTo;
+import static net.itarray.automotion.validation.properties.Condition.*;
 import static org.mockito.Mockito.*;
 import static rectangles.DummyWebElement.createElement;
 
@@ -181,7 +180,7 @@ public class NativeNamingBackwardsCompatibilityTest {
     @Test
     public void widthBetween() {
         validator.widthBetween(9, 13);
-        verify(validator).hasWidthBetween(9, 13);
+        verify(validator).hasWidth(between(percentOrPixels(9)).and(percentOrPixels(13)));
     }
 
     @Test
@@ -199,7 +198,7 @@ public class NativeNamingBackwardsCompatibilityTest {
     @Test
     public void heightBetween() {
         validator.heightBetween(9, 13);
-        verify(validator).hasHeightBetween(9, 13);
+        verify(validator).hasHeight(between(percentOrPixels(9)).and(percentOrPixels(13)));
     }
 
     @Test

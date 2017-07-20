@@ -11,8 +11,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
-import static net.itarray.automotion.validation.properties.Condition.greaterOrEqualTo;
-import static net.itarray.automotion.validation.properties.Condition.lessOrEqualTo;
+import static net.itarray.automotion.validation.properties.Condition.*;
 import static rectangles.DummyDriverFacade.createWebDriver;
 
 public class TestAssumptions {
@@ -269,11 +268,11 @@ public class TestAssumptions {
     }
 
     public static boolean hasHeightBetween(WebElement root, int min, int max) {
-        return validate(root, uiValidator -> uiValidator.hasHeightBetween(min, max));
+        return validate(root, uiValidator -> uiValidator.hasHeight(between(min).and(max)));
     }
 
     public static boolean hasWidthBetween(WebElement root, int min, int max) {
-        return validate(root, uiValidator -> uiValidator.hasWidthBetween(min, max));
+        return validate(root, uiValidator -> uiValidator.hasWidth(between(min).and(max)));
     }
 
     public static boolean hasWidthGreaterOrEqualTo(WebElement root, int value) {

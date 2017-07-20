@@ -8,8 +8,7 @@ import net.itarray.automotion.validation.properties.Padding;
 import java.util.List;
 
 import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
-import static net.itarray.automotion.validation.properties.Condition.greaterOrEqualTo;
-import static net.itarray.automotion.validation.properties.Condition.lessOrEqualTo;
+import static net.itarray.automotion.validation.properties.Condition.*;
 
 public interface UIElementValidator {
 
@@ -187,8 +186,7 @@ public interface UIElementValidator {
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasWidth(net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
-    default UIElementValidator widthBetween(int min, int max) { return hasWidthBetween(min, max); }
-    UIElementValidator hasWidthBetween(int min, int max);
+    default UIElementValidator widthBetween(int min, int max) { return hasWidth(between(percentOrPixels(min)).and(percentOrPixels(max))); }
 
     UIElementValidator hasWidth(Condition<Scalar> condition);
 
@@ -210,8 +208,7 @@ public interface UIElementValidator {
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasHeight(net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
-    default UIElementValidator heightBetween(int min, int max) { return hasHeightBetween(min, max); }
-    UIElementValidator hasHeightBetween(int min, int max);
+    default UIElementValidator heightBetween(int min, int max) { return hasHeight(between(percentOrPixels(min)).and(percentOrPixels(max))); }
 
     /**
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasLeftOffsetToPage(net.itarray.automotion.validation.properties.Condition)}

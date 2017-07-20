@@ -58,8 +58,6 @@ public interface Validator extends UIElementValidator {
 
     UIValidator sameWidthAs(List<WebElement> elements);
 
-    UIValidator hasWidthBetween(int min, int max);
-
     UIValidator sameHeightAs(WebElement element, String readableName);
 
     UIValidator sameHeightAs(List<WebElement> elements);
@@ -71,8 +69,6 @@ public interface Validator extends UIElementValidator {
     UIValidator notSameSizeAs(WebElement element, String readableName);
 
     UIValidator notSameSizeAs(List<WebElement> elements);
-
-    UIValidator hasHeightBetween(int min, int max);
 
     UIValidator minOffset(int top, int right, int bottom, int left);
 

@@ -1,4 +1,5 @@
 import http.helpers.EnvironmentHelper;
+import net.itarray.automotion.validation.properties.PercentReference;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Ignore;
@@ -15,6 +16,11 @@ import util.validator.properties.Padding;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+
+import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
+import static net.itarray.automotion.validation.properties.Condition.between;
+import static net.itarray.automotion.validation.properties.Condition.percent;
+import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
 
 @Ignore
 public class ResponsiveValidatorTest {
@@ -59,8 +65,7 @@ public class ResponsiveValidatorTest {
                 .findElement(page.topSlider(), "Top Slider")
                 .isLeftAlignedWith(page.gridContainer(), "Grid Container")
                 .isBottomAlignedWith(page.topTextBlock(), "Text Block")
-                .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX)
-                .hasWidthBetween(300, 500)
+                .hasWidth(between(300).and(500))
                 .sameSizeAs(page.gridElements())
                 .equalLeftRightOffset()
                 .equalTopBottomOffset()

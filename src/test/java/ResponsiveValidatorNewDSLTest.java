@@ -15,7 +15,9 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.Literals.zoom;
+import static net.itarray.automotion.validation.properties.Condition.between;
 
 @Ignore
 public class ResponsiveValidatorNewDSLTest {
@@ -60,8 +62,7 @@ public class ResponsiveValidatorNewDSLTest {
                 .findElement(page.topSlider(), "Top Slider")
                 .isLeftAlignedWith(page.gridContainer(), "Grid Container")
                 .isBottomAlignedWith(page.topTextBlock(), "Text Block")
-                .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX)
-                .hasWidthBetween(300, 500)
+                .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX).hasWidth(between(percentOrPixels(300)).and(percentOrPixels(500)))
                 .sameSizeAs(page.gridElements())
                 .equalLeftRightOffset()
                 .equalTopBottomOffset()

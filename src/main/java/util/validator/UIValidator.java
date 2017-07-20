@@ -322,19 +322,6 @@ public class UIValidator extends AbstractValidator implements Validator {
         return this;
     }
 
-    /**
-     * Verify that width of element is in range
-     *
-     * @param min
-     * @param max
-     * @return UIValidator
-     */
-    @Override
-    public UIValidator hasWidthBetween(int min, int max) {
-        getBase().hasWidthBetween(min, max);
-        return this;
-    }
-
     @Override
     public UIElementValidator hasWidth(Condition<Scalar> condition) {
         getBase().hasWidth(condition);
@@ -419,19 +406,6 @@ public class UIValidator extends AbstractValidator implements Validator {
     @Override
     public UIValidator notSameSizeAs(List<WebElement> elements) {
         getBase().notSameSizeAs(elements);
-        return this;
-    }
-
-    /**
-     * Verify that height of element is in range
-     *
-     * @param min
-     * @param max
-     * @return UIValidator
-     */
-    @Override
-    public UIValidator hasHeightBetween(int min, int max) {
-        getBase().hasHeightBetween(min, max);
         return this;
     }
 

@@ -18,8 +18,7 @@ import java.util.Arrays;
 
 import static java.util.Collections.singletonList;
 import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
-import static net.itarray.automotion.validation.properties.Condition.greaterOrEqualTo;
-import static net.itarray.automotion.validation.properties.Condition.lessOrEqualTo;
+import static net.itarray.automotion.validation.properties.Condition.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
 
@@ -452,7 +451,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void hasWidthBetweenUpper() {
-        createElementValidator().hasWidthBetween(1000, 2000);
+        createElementValidator().hasWidth(between(1000).and(2000));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected range of width of element 'under test' is: between 1000px and 2000px. Actual width is: 400px");
@@ -460,7 +459,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void hasWidthBetweenLower() {
-        createElementValidator().hasWidthBetween(10, 20);
+        createElementValidator().hasWidth(between(10).and(20));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected range of width of element 'under test' is: between 10px and 20px. Actual width is: 400px");
@@ -484,7 +483,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void hasHeightBetweenUpper() {
-        createElementValidator().hasHeightBetween(1000, 2000);
+        createElementValidator().hasHeight(between(1000).and(2000));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected range of height of element 'under test' is: between 1000px and 2000px. Actual height is: 200px");
@@ -492,7 +491,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void hasHeightBetweenLower() {
-        createElementValidator().hasHeightBetween(10, 20);
+        createElementValidator().hasHeight(between(10).and(20));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected range of height of element 'under test' is: between 10px and 20px. Actual height is: 200px");
