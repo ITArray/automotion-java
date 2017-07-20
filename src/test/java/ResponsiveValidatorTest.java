@@ -18,7 +18,7 @@ import java.util.Map;
 
 import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.properties.Condition.between;
-import static net.itarray.automotion.validation.properties.Condition.percent;
+import static net.itarray.automotion.internal.properties.Expression.percent;
 
 @Ignore
 public class ResponsiveValidatorTest {

@@ -50,18 +50,6 @@ public interface Condition<T> {
         return new LowerLimit(lowerLimit);
     }
 
-    static Expression<Scalar> percent(int percentage, PercentReference reference) {
-        return percent(new Scalar(percentage), reference);
-
-    }
-    static Expression<Scalar> percent(Scalar percentage, PercentReference reference) {
-        if (PAGE.equals(reference)) {
-            return new PagePercentage(percentage);
-        } else {
-            throw new RuntimeException("unsupported percentage reference " + reference);
-        }
-    }
-
     class LowerLimit {
 
         private final Expression<Scalar> lowerLimit;

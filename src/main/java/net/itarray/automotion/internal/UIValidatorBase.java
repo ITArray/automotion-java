@@ -115,7 +115,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private Expression<Scalar> scalarExpression(int width) {
-        return isPixels() ? new ScalarConstant(new Scalar(width)) : Condition.percent(new Scalar(width), PAGE);
+        return isPixels() ? new ScalarConstant(new Scalar(width)) : Expression.percent(new Scalar(width), PAGE);
     }
 
     private Condition<Scalar> betweenCondition(int minMargin, int maxMargin) {

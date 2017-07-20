@@ -1,6 +1,7 @@
 package rectangles;
 
 import net.itarray.automotion.internal.ResponsiveUIValidatorBase;
+import net.itarray.automotion.internal.properties.Expression;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -115,9 +116,9 @@ public class PercentageToPageIntegrationTest {
 
     @Test
     public void widthIs25Percent() {
-        assertThat(createElementValidator().hasWidth(lessOrEqualTo(percent(25, PAGE))).validate()).isTrue();
-        assertThat(createElementValidator().hasWidth(greaterOrEqualTo(percent(25, PAGE))).validate()).isTrue();
-        assertThat(createElementValidator().hasWidth(between(percent(25, PAGE)).and(percent(25, PAGE))).validate()).isTrue();
+        assertThat(createElementValidator().hasWidth(lessOrEqualTo(Expression.percent(25, PAGE))).validate()).isTrue();
+        assertThat(createElementValidator().hasWidth(greaterOrEqualTo(Expression.percent(25, PAGE))).validate()).isTrue();
+        assertThat(createElementValidator().hasWidth(between(Expression.percent(25, PAGE)).and(Expression.percent(25, PAGE))).validate()).isTrue();
     }
 
     @Test
@@ -129,9 +130,9 @@ public class PercentageToPageIntegrationTest {
 
     @Test
     public void heightIs30Percent() {
-        assertThat(createElementValidator().hasHeight(lessOrEqualTo(percent(30, PAGE))).validate()).isTrue();
-        assertThat(createElementValidator().hasHeight(lessOrEqualTo(percent(30, PAGE))).validate()).isTrue();
-        assertThat(createElementValidator().hasHeight(between(percent(30, PAGE)).and(percent(30, PAGE))).validate()).isTrue();
+        assertThat(createElementValidator().hasHeight(lessOrEqualTo(Expression.percent(30, PAGE))).validate()).isTrue();
+        assertThat(createElementValidator().hasHeight(lessOrEqualTo(Expression.percent(30, PAGE))).validate()).isTrue();
+        assertThat(createElementValidator().hasHeight(between(Expression.percent(30, PAGE)).and(Expression.percent(30, PAGE))).validate()).isTrue();
     }
 
 }
