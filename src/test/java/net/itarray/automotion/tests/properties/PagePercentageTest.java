@@ -4,7 +4,7 @@ import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Context;
-import net.itarray.automotion.internal.properties.Expression;
+import net.itarray.automotion.validation.properties.Expression;
 import org.junit.Before;
 import org.junit.Test;
 

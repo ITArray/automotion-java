@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
+import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.properties.Condition.*;
 import static rectangles.DummyDriverFacade.createWebDriver;
 

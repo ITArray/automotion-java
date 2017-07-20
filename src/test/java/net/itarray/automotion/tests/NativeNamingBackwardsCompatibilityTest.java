@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 import java.util.Arrays;
 import java.util.List;
 
-import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
+import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.properties.Condition.*;
 import static org.mockito.Mockito.*;
 import static rectangles.DummyWebElement.createElement;

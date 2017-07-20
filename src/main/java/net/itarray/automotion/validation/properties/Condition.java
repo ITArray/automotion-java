@@ -4,13 +4,9 @@ import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Between;
 import net.itarray.automotion.internal.properties.Context;
-import net.itarray.automotion.internal.properties.Expression;
 import net.itarray.automotion.internal.properties.GreaterOrEqualTo;
 import net.itarray.automotion.internal.properties.LessOrEqualTo;
-import net.itarray.automotion.internal.properties.PagePercentage;
 import net.itarray.automotion.internal.properties.ScalarConstant;
-
-import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
 
 public interface Condition<T> {
 

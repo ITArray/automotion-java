@@ -17,7 +17,7 @@ import rectangles.DummyWebElement;
 import java.util.Arrays;
 
 import static java.util.Collections.singletonList;
-import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
+import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.properties.Condition.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;

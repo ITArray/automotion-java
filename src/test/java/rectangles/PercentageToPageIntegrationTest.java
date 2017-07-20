@@ -1,7 +1,7 @@
 package rectangles;
 
 import net.itarray.automotion.internal.ResponsiveUIValidatorBase;
-import net.itarray.automotion.internal.properties.Expression;
+import net.itarray.automotion.validation.properties.Expression;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Dimension;
 
-import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
+import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.properties.Condition.*;
 import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
 import static org.assertj.core.api.Assertions.assertThat;

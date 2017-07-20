@@ -1,8 +1,10 @@
-package net.itarray.automotion.internal.properties;
+package net.itarray.automotion.validation.properties;
 
 import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.validation.properties.PercentReference;
+import net.itarray.automotion.internal.properties.Context;
+import net.itarray.automotion.internal.properties.PagePercentage;
+import net.itarray.automotion.internal.properties.PagePercentageOrPixels;
 
 import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
 

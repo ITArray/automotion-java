@@ -2,13 +2,14 @@ package net.itarray.automotion.internal.properties;
 
 import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.validation.properties.Expression;
 
 public class PagePercentageOrPixels implements Expression<Scalar> {
 
     private final ScalarConstant constant;
     private final PagePercentage pagePercentage;
 
-    PagePercentageOrPixels(Scalar constant) {
+    public PagePercentageOrPixels(Scalar constant) {
         this.constant = new ScalarConstant(constant);
         this.pagePercentage = new PagePercentage(constant);
     }

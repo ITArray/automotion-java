@@ -3,7 +3,7 @@ package net.itarray.automotion.internal;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Context;
-import net.itarray.automotion.internal.properties.Expression;
+import net.itarray.automotion.validation.properties.Expression;
 import net.itarray.automotion.internal.properties.ScalarConstant;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -16,7 +16,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 import static net.itarray.automotion.internal.UIElement.*;
-import static net.itarray.automotion.internal.properties.Expression.percentOrPixels;
+import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.Constants.*;
 import static net.itarray.automotion.validation.properties.Condition.*;
 import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
