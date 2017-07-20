@@ -411,7 +411,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void equalLeftRightOffsetChunk() {
-        createChunkValidator().equalLeftRightOffset();
+        createChunkValidator().areCenteredOnPageVertically();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' has not equal left and right offset. Left offset is 100px, right is 1500px");
@@ -427,7 +427,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void equalTopBottomOffsetChunk() {
-        createChunkValidator().equalTopBottomOffset();
+        createChunkValidator().areCenteredOnPageHorizontallyNew();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' has not equal top and bottom offset. Top offset is 200px, bottom is 600px");

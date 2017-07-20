@@ -89,8 +89,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator areNotOverlappedWithEachOther() {
-        getBase().areNotOverlappedWithEachOther();
+    public ResponsiveUIChunkValidator doNotOverlap() {
+        getBase().doNotOverlap();
         return this;
     }
 
@@ -100,8 +100,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator withSameSize() {
-        getBase().withSameSize();
+    public ResponsiveUIChunkValidator haveEqualSize() {
+        getBase().haveEqualSize();
         return this;
     }
 
@@ -111,8 +111,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator withSameWidth() {
-        getBase().withSameWidth();
+    public ResponsiveUIChunkValidator haveEqualWidth() {
+        getBase().haveEqualWidth();
         return this;
     }
 
@@ -122,8 +122,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator withSameHeight() {
-        getBase().withSameHeight();
+    public ResponsiveUIChunkValidator haveEqualHeight() {
+        getBase().haveEqualHeight();
         return this;
     }
 
@@ -133,8 +133,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator withNotSameSize() {
-        getBase().withNotSameSize();
+    public ResponsiveUIChunkValidator haveDifferentSizes() {
+        getBase().haveDifferentSizes();
         return this;
     }
 
@@ -144,8 +144,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator withNotSameWidth() {
-        getBase().withNotSameWidth();
+    public ResponsiveUIChunkValidator haveDifferentWidths() {
+        getBase().haveDifferentWidths();
         return this;
     }
 
@@ -155,8 +155,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator withNotSameHeight() {
-        getBase().withNotSameHeight();
+    public ResponsiveUIChunkValidator haveDifferentHeights() {
+        getBase().haveDifferentHeights();
         return this;
     }
 
@@ -210,8 +210,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator equalLeftRightOffset() {
-        getBase().equalLeftRightOffset();
+    public ResponsiveUIChunkValidator areCenteredOnPageVertically() {
+        getBase().areCenteredOnPageVertically();
         return this;
     }
 
@@ -221,8 +221,8 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidator equalTopBottomOffset() {
-        getBase().equalTopBottomOffset();
+    public ResponsiveUIChunkValidator areCenteredOnPageHorizontallyNew() {
+        getBase().areCenteredOnPageHorizontallyNew();
         return this;
     }
 

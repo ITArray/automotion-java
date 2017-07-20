@@ -37,27 +37,57 @@ public interface ChunkUIElementValidator {
     // areAlignedInColumnsAndRows(numberOfColumns)
     ChunkUIElementValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 
-    // doNotOverlap
-    ChunkUIElementValidator areNotOverlappedWithEachOther();
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#doNotOverlap()}
+     */
+    @Deprecated
+    default ChunkUIElementValidator areNotOverlappedWithEachOther() { return doNotOverlap(); }
+    ChunkUIElementValidator doNotOverlap();
 
-    // haveEqualSize
-    ChunkUIElementValidator withSameSize();
 
-    // haveEqualWidth
-    ChunkUIElementValidator withSameWidth();
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#haveEqualSize()}
+     */
+    @Deprecated
+    default ChunkUIElementValidator withSameSize() { return haveEqualSize(); }
+    ChunkUIElementValidator haveEqualSize();
 
-    // haveEqualHeight
-    ChunkUIElementValidator withSameHeight();
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#haveEqualWidth()}
+     */
+    @Deprecated
+    default ChunkUIElementValidator withSameWidth() { return haveEqualWidth(); }
+    ChunkUIElementValidator haveEqualWidth();
 
-    // really needed? -> keep
-    // all have different size
-    // we need to fix bug
-    // haveDifferentSizes
-    ChunkUIElementValidator withNotSameSize();
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#haveEqualHeight()}
+     */
+    @Deprecated
+    default ChunkUIElementValidator withSameHeight() { return haveEqualHeight(); }
+    ChunkUIElementValidator haveEqualHeight();
 
-    ChunkUIElementValidator withNotSameWidth();
+    // WE NEED TO FIX BUGS for the next 3 methods
 
-    ChunkUIElementValidator withNotSameHeight();
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#haveDifferentSizes()}
+     */
+    @Deprecated
+    default ChunkUIElementValidator withNotSameSize() { return haveDifferentSizes(); }
+    ChunkUIElementValidator haveDifferentSizes();
+
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#haveDifferentWidths()}
+     */
+    @Deprecated
+    default ChunkUIElementValidator withNotSameWidth() { return haveDifferentWidths(); }
+    ChunkUIElementValidator haveDifferentWidths();
+
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#haveDifferentHeights()}
+     */
+    @Deprecated
+    default ChunkUIElementValidator withNotSameHeight() { return haveDifferentHeights(); }
+    ChunkUIElementValidator haveDifferentHeights();
 
     /**
      * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#areRightAligned()}
@@ -87,11 +117,20 @@ public interface ChunkUIElementValidator {
     default ChunkUIElementValidator sameBottomOffset() { return areBottomAligned(); }
     ChunkUIElementValidator areBottomAligned();
 
-    // areVerticallyCenteredOnPage
-    ChunkUIElementValidator equalLeftRightOffset();
 
-    // areHorizontallyCenteredOnPage
-    ChunkUIElementValidator equalTopBottomOffset();
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#areCenteredOnPageVertically()}
+     */
+    @Deprecated
+    default ChunkUIElementValidator equalLeftRightOffset() { return areCenteredOnPageVertically(); }
+    ChunkUIElementValidator areCenteredOnPageVertically();
+
+    /**
+     * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#areCenteredOnPageHorizontallyNew()}
+     */
+    @Deprecated
+    default ChunkUIElementValidator equalTopBottomOffset() { return areCenteredOnPageHorizontallyNew(); }
+    ChunkUIElementValidator areCenteredOnPageHorizontallyNew();
 
     /**
      * @deprecated As of release 2.0, replaced by {@link ChunkUIElementValidator#areInsideOf(org.openqa.selenium.WebElement, String)}

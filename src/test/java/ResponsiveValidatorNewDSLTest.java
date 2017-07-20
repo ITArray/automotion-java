@@ -97,11 +97,11 @@ public class ResponsiveValidatorNewDSLTest {
         boolean success3 = responsiveUIValidator.snapshot("Validation of a grid view")
                 .findElements(page.gridElements())
                 .alignedAsGrid(4, 3)
-                .withSameSize()
-                .areNotOverlappedWithEachOther()
+                .haveEqualSize()
+                .doNotOverlap()
                 .areTopAligned()
-                .equalLeftRightOffset()
-                .equalTopBottomOffset()
+                .areCenteredOnPageVertically()
+                .areCenteredOnPageHorizontallyNew()
                 .validate();
 
         softly.assertThat(success3).isEqualTo(true).overridingErrorMessage("Failed validation of Grid");

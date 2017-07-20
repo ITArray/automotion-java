@@ -17,19 +17,19 @@ public interface ChunkValidator extends ChunkUIElementValidator {
 
     ResponsiveUIChunkValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 
-    ResponsiveUIChunkValidator areNotOverlappedWithEachOther();
+    ResponsiveUIChunkValidator doNotOverlap();
 
-    ResponsiveUIChunkValidator withSameSize();
+    ResponsiveUIChunkValidator haveEqualSize();
 
-    ResponsiveUIChunkValidator withSameWidth();
+    ResponsiveUIChunkValidator haveEqualWidth();
 
-    ResponsiveUIChunkValidator withSameHeight();
+    ResponsiveUIChunkValidator haveEqualHeight();
 
-    ResponsiveUIChunkValidator withNotSameSize();
+    ResponsiveUIChunkValidator haveDifferentSizes();
 
-    ResponsiveUIChunkValidator withNotSameWidth();
+    ResponsiveUIChunkValidator haveDifferentWidths();
 
-    ResponsiveUIChunkValidator withNotSameHeight();
+    ResponsiveUIChunkValidator haveDifferentHeights();
 
     ResponsiveUIChunkValidator areRightAligned();
 
@@ -39,9 +39,9 @@ public interface ChunkValidator extends ChunkUIElementValidator {
 
     ResponsiveUIChunkValidator areBottomAligned();
 
-    ResponsiveUIChunkValidator equalLeftRightOffset();
+    ResponsiveUIChunkValidator areCenteredOnPageVertically();
 
-    ResponsiveUIChunkValidator equalTopBottomOffset();
+    ResponsiveUIChunkValidator areCenteredOnPageHorizontallyNew();
 
     ResponsiveUIChunkValidator areInsideOf(WebElement containerElement, String readableContainerName);
 

@@ -96,7 +96,7 @@ public class TestAssumptions {
     }
 
     public static boolean equalLeftRightOffset(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::equalLeftRightOffset);
+        return validate(elements, ResponsiveUIChunkValidator::areCenteredOnPageVertically);
     }
 
     public static boolean equalTopBottomOffset(WebElement root) {
@@ -104,7 +104,7 @@ public class TestAssumptions {
     }
 
     public static boolean equalTopBottomOffset(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::equalTopBottomOffset);
+        return validate(elements, ResponsiveUIChunkValidator::areCenteredOnPageHorizontallyNew);
     }
 
     public static boolean isLeftAlignedWith(WebElement root, WebElement other) {
@@ -196,7 +196,7 @@ public class TestAssumptions {
     }
 
     public static boolean areNotOverlappedWithEachOther(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::areNotOverlappedWithEachOther);
+        return validate(elements, ResponsiveUIChunkValidator::doNotOverlap);
     }
 
     public static boolean isInsideOf(WebElement root, WebElement other) {
@@ -220,11 +220,11 @@ public class TestAssumptions {
     }
 
     public static boolean withSameWidth(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::withSameWidth);
+        return validate(elements, ResponsiveUIChunkValidator::haveEqualWidth);
     }
 
     public static boolean withNotSameWidth(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::withNotSameWidth);
+        return validate(elements, ResponsiveUIChunkValidator::haveDifferentWidths);
     }
 
     public static boolean sameHeightAs(WebElement root, WebElement other) {
@@ -236,11 +236,11 @@ public class TestAssumptions {
     }
 
     public static boolean withSameHeight(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::withSameHeight);
+        return validate(elements, ResponsiveUIChunkValidator::haveEqualHeight);
     }
 
     public static boolean withNotSameHeight(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::withNotSameHeight);
+        return validate(elements, ResponsiveUIChunkValidator::haveDifferentHeights);
     }
 
     public static boolean sameSizeAs(WebElement root, WebElement other) {
@@ -252,7 +252,7 @@ public class TestAssumptions {
     }
 
     public static boolean withSameSize(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::withSameSize);
+        return validate(elements, ResponsiveUIChunkValidator::haveEqualSize);
     }
 
     public static boolean notSameSizeAs(WebElement root, WebElement other) {
@@ -264,7 +264,7 @@ public class TestAssumptions {
     }
 
     public static boolean withNotSameSize(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::withNotSameSize);
+        return validate(elements, ResponsiveUIChunkValidator::haveDifferentSizes);
     }
 
     public static boolean hasHeightBetween(WebElement root, int min, int max) {

@@ -87,7 +87,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase areNotOverlappedWithEachOther() {
+    public ResponsiveUIChunkValidatorBase doNotOverlap() {
         validateElementsAreNotOverlapped(rootElements);
         return this;
     }
@@ -98,7 +98,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase withSameSize() {
+    public ResponsiveUIChunkValidatorBase haveEqualSize() {
         validateSameSize(rootElements);
         return this;
     }
@@ -109,7 +109,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase withSameWidth() {
+    public ResponsiveUIChunkValidatorBase haveEqualWidth() {
         validateSameWidth(rootElements);
         return this;
     }
@@ -120,7 +120,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase withSameHeight() {
+    public ResponsiveUIChunkValidatorBase haveEqualHeight() {
         validateSameHeight(rootElements);
         return this;
     }
@@ -131,7 +131,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase withNotSameSize() {
+    public ResponsiveUIChunkValidatorBase haveDifferentSizes() {
         validateNotSameSize(rootElements);
         return this;
     }
@@ -142,7 +142,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase withNotSameWidth() {
+    public ResponsiveUIChunkValidatorBase haveDifferentWidths() {
         validateNotSameWidth(rootElements);
         return this;
     }
@@ -153,7 +153,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase withNotSameHeight() {
+    public ResponsiveUIChunkValidatorBase haveDifferentHeights() {
         validateNotSameHeight(rootElements);
         return this;
     }
@@ -208,7 +208,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase equalLeftRightOffset() {
+    public ResponsiveUIChunkValidatorBase areCenteredOnPageVertically() {
         validateEqualLeftRightOffset(rootElements);
         return this;
     }
@@ -219,7 +219,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase equalTopBottomOffset() {
+    public ResponsiveUIChunkValidatorBase areCenteredOnPageHorizontallyNew() {
         validateEqualTopBottomOffset(rootElements);
         return this;
     }

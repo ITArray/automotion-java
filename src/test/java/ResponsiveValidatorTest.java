@@ -102,11 +102,11 @@ public class ResponsiveValidatorTest {
         boolean success3 = uiValidator.init("Validation of a grid view")
                 .findElements(page.gridElements())
                 .alignedAsGrid(4, 3)
-                .withSameSize()
-                .areNotOverlappedWithEachOther()
+                .haveEqualSize()
+                .doNotOverlap()
                 .areTopAligned()
-                .equalLeftRightOffset()
-                .equalTopBottomOffset()
+                .areCenteredOnPageVertically()
+                .areCenteredOnPageHorizontallyNew()
                 .drawMap()
                 .validate();
 

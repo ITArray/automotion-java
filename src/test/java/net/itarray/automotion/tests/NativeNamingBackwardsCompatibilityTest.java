@@ -247,4 +247,57 @@ public class NativeNamingBackwardsCompatibilityTest {
         validator.equalTopBottomOffset();
         verify(validator).isCenteredOnPageVertically();
     }
+
+    @Test
+    public void areNotOverlappedWithEachOther() {
+        chunkValidator.areNotOverlappedWithEachOther();
+        verify(chunkValidator).doNotOverlap();
+    }
+
+    @Test
+    public void withSameSize() {
+        chunkValidator.withSameSize();
+        verify(chunkValidator).haveEqualSize();
+    }
+
+    @Test
+    public void withSameWidth() {
+        chunkValidator.withSameWidth();
+        verify(chunkValidator).haveEqualWidth();
+    }
+
+    @Test
+    public void withSameHeight() {
+        chunkValidator.withSameHeight();
+        verify(chunkValidator).haveEqualHeight();
+    }
+
+    @Test
+    public void withNotSameSize() {
+        chunkValidator.withNotSameSize();
+        verify(chunkValidator).haveDifferentSizes();
+    }
+
+    @Test
+    public void withNotSameWidth() {
+        chunkValidator.withNotSameWidth();
+        verify(chunkValidator).haveDifferentWidths();
+    }
+
+    @Test
+    public void withNotSameHeight() {
+        chunkValidator.withNotSameHeight();
+        verify(chunkValidator).haveDifferentHeights();
+    }
+    @Test
+    public void equalLeftRightOffsetChunk() {
+        chunkValidator.equalLeftRightOffset();
+        verify(chunkValidator).areCenteredOnPageVertically();
+    }
+
+    @Test
+    public void equalTopBottomOffsetChunk() {
+        chunkValidator.equalTopBottomOffset();
+        verify(chunkValidator).areCenteredOnPageHorizontallyNew();
+    }
 }
