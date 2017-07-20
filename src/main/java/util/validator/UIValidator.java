@@ -495,8 +495,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator equalLeftRightOffset() {
-        getBase().equalLeftRightOffset();
+    public UIValidator isCenteredOnPageHorizontally() {
+        getBase().isCenteredOnPageHorizontally();
         return this;
     }
 
@@ -506,8 +506,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator equalTopBottomOffset() {
-        getBase().equalTopBottomOffset();
+    public UIValidator isCenteredOnPageVertically() {
+        getBase().isCenteredOnPageVertically();
         return this;
     }
 

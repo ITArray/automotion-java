@@ -64,8 +64,8 @@ public class ResponsiveValidatorNewDSLTest {
                 .isBottomAlignedWith(page.topTextBlock(), "Text Block")
                 .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX).hasWidth(between(percentOrPixels(300)).and(percentOrPixels(500)))
                 .sameSizeAs(page.gridElements())
-                .equalLeftRightOffset()
-                .equalTopBottomOffset()
+                .isCenteredOnPageHorizontally()
+                .isCenteredOnPageVertically()
                 .insideOf(page.mainContainer(), "Main container", new Padding(10, 50, 10, 20))
                 .validate();
 
@@ -73,14 +73,14 @@ public class ResponsiveValidatorNewDSLTest {
 
         boolean success0 = responsiveUIValidator.snapshot("Validation of Grid view")
                 .findElement(page.gridContainer(), "Grid Container")
-                .equalLeftRightOffset()
+                .isCenteredOnPageHorizontally()
                 .validate();
 
         softly.assertThat(success0).isEqualTo(true).overridingErrorMessage("Failed validation of Grid Container");
 
         boolean success01 = responsiveUIValidator.snapshot("Validation of Main container")
                 .findElement(page.mainContainer(), "Main Container")
-                .equalLeftRightOffset()
+                .isCenteredOnPageHorizontally()
                 .validate();
 
         softly.assertThat(success01).isEqualTo(true).overridingErrorMessage("Failed validation of Main Container");
@@ -122,7 +122,7 @@ public class ResponsiveValidatorNewDSLTest {
         for (int val : zoomRange) {
             boolean success = responsiveUIValidator.snapshot("Validate page", zoom(val))
                     .findElement(page.mainContainer(), "Main container")
-                    .equalLeftRightOffset()
+                    .isCenteredOnPageHorizontally()
                     .sameWidthAs(page.gridContainer(), "Grid Container")
                     .validate();
 

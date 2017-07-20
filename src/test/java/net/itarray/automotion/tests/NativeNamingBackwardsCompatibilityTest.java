@@ -235,4 +235,16 @@ public class NativeNamingBackwardsCompatibilityTest {
         validator.overlapWith(reference, "reference");
         verify(validator).isOverlapping(reference, "reference");
     }
+
+    @Test
+    public void equalLeftRightOffset() {
+        validator.equalLeftRightOffset();
+        verify(validator).isCenteredOnPageHorizontally();
+    }
+
+    @Test
+    public void equalTopBottomOffset() {
+        validator.equalTopBottomOffset();
+        verify(validator).isCenteredOnPageVertically();
+    }
 }

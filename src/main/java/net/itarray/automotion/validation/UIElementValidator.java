@@ -215,13 +215,13 @@ public interface UIElementValidator {
     @Deprecated
     default UIElementValidator maxHeight(int height) { return hasHeight(lessOrEqualTo(percentOrPixels(height))); }
 
-    UIElementValidator hasHeight(Condition<Scalar> condition);
-
     /**
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasHeight(net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
     default UIElementValidator heightBetween(int min, int max) { return hasHeight(between(percentOrPixels(min)).and(percentOrPixels(max))); }
+
+    UIElementValidator hasHeight(Condition<Scalar> condition);
 
     /**
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasLeftOffsetToPage(net.itarray.automotion.validation.properties.Condition)}
@@ -259,12 +259,21 @@ public interface UIElementValidator {
     default UIElementValidator withoutCssValue(String cssProperty, String... args) { return doesNotHaveCssValue(cssProperty, args); }
     UIElementValidator doesNotHaveCssValue(String cssProperty, String... args);
 
-    // isHorizontallyCenteredOnPage -- needs frontend dev feedback
-    // isCenteredOnPageHorizontally ?
-    UIElementValidator equalLeftRightOffset();
+    // NEEDS FRONTEND DEV FEEDBACK
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isCenteredOnPageHorizontally()}
+     */
+    @Deprecated
+    default UIElementValidator equalLeftRightOffset() { return isCenteredOnPageHorizontally(); }
+    UIElementValidator isCenteredOnPageHorizontally();
 
-    // isVerticallyCenteredOnPage
-    UIElementValidator equalTopBottomOffset();
+    // NEEDS FRONTEND DEV FEEDBACK
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isCenteredOnPageVertically()}
+     */
+    @Deprecated
+    default UIElementValidator equalTopBottomOffset() { return isCenteredOnPageVertically(); }
+    UIElementValidator isCenteredOnPageVertically();
 
     /**
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isInsideOf(org.openqa.selenium.WebElement, String)}

@@ -78,9 +78,9 @@ public interface Validator extends UIElementValidator {
 
     UIValidator doesNotHaveCssValue(String cssProperty, String... args);
 
-    UIValidator equalLeftRightOffset();
+    UIValidator isCenteredOnPageHorizontally();
 
-    UIValidator equalTopBottomOffset();
+    UIValidator isCenteredOnPageVertically();
 
     UIValidator isInsideOf(WebElement containerElement, String readableContainerName);
 

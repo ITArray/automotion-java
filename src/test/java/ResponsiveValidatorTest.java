@@ -65,8 +65,8 @@ public class ResponsiveValidatorTest {
                 .isBottomAlignedWith(page.topTextBlock(), "Text Block")
                 .hasWidth(between(300).and(500))
                 .sameSizeAs(page.gridElements())
-                .equalLeftRightOffset()
-                .equalTopBottomOffset()
+                .isCenteredOnPageHorizontally()
+                .isCenteredOnPageVertically()
                 .isInsideOf(page.mainContainer(), "Main container", new Padding(10, 50, 10, 20))
                 .drawMap()
                 .validate();
@@ -75,7 +75,7 @@ public class ResponsiveValidatorTest {
 
         boolean success0 = uiValidator.init("Validation of Grid view")
                 .findElement(page.gridContainer(), "Grid Container")
-                .equalLeftRightOffset()
+                .isCenteredOnPageHorizontally()
                 .drawMap()
                 .validate();
 
@@ -83,7 +83,7 @@ public class ResponsiveValidatorTest {
 
         boolean success01 = uiValidator.init("Validation of Main container")
                 .findElement(page.mainContainer(), "Main Container")
-                .equalLeftRightOffset()
+                .isCenteredOnPageHorizontally()
                 .drawMap()
                 .validate();
 
@@ -130,7 +130,7 @@ public class ResponsiveValidatorTest {
             DriverHelper.zoomInOutPage(driver, val);
             boolean success = uiValidator.init("Validate on page zoom " + val + "%")
                     .findElement(page.mainContainer(), "Main container")
-                    .equalLeftRightOffset()
+                    .isCenteredOnPageHorizontally()
                     .sameWidthAs(page.gridContainer(), "Grid Container")
                     .drawMap()
                     .validate();

@@ -92,7 +92,7 @@ public class TestAssumptions {
     }
 
     public static boolean equalLeftRightOffset(WebElement root) {
-        return validate(root, UIValidator::equalLeftRightOffset);
+        return validate(root, UIValidator::isCenteredOnPageHorizontally);
     }
 
     public static boolean equalLeftRightOffset(List<WebElement> elements) {
@@ -100,7 +100,7 @@ public class TestAssumptions {
     }
 
     public static boolean equalTopBottomOffset(WebElement root) {
-        return validate(root, UIValidator::equalTopBottomOffset);
+        return validate(root, UIValidator::isCenteredOnPageVertically);
     }
 
     public static boolean equalTopBottomOffset(List<WebElement> elements) {

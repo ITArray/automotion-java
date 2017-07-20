@@ -403,7 +403,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void equalLeftRightOffset() {
-        createElementValidator().equalLeftRightOffset();
+        createElementValidator().isCenteredOnPageHorizontally();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not equal left and right offset. Left offset is 100px, right is 1500px");
@@ -419,7 +419,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void equalTopBottomOffset() {
-        createElementValidator().equalTopBottomOffset();
+        createElementValidator().isCenteredOnPageVertically();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not equal top and bottom offset. Top offset is 200px, bottom is 600px");
