@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class LessOrEqualToTest {
+public class LessThanTest {
 
     private Condition<Scalar> condition;
     private Scalar limit;
@@ -19,7 +19,7 @@ public class LessOrEqualToTest {
     @Before
     public void createProperty() {
         limit = new Scalar(7);
-        condition = Condition.lessOrEqualTo(limit);
+        condition = Condition.lessThan(limit);
         context = new TestContext();
         direction = Direction.RIGHT;
     }
@@ -31,40 +31,15 @@ public class LessOrEqualToTest {
     }
 
     @Test
-    public void isSatisfiedOnValuesEqualToTheLimit() {
+    public void isNotSatisfiedOnValuesEqualToTheLimit() {
         boolean result = condition.isSatisfiedOn(limit, context, direction);
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    public void isSatisfiedOnValuesGreaterThanTheLimit() {
-        boolean result = condition.isSatisfiedOn(limit.plus(1), context, direction);
         assertThat(result).isFalse();
     }
 
     @Test
-    public void isEqualToLessOrEqualConditionsWithEqualLimit() {
-        assertThat(condition).isEqualTo(Condition.lessOrEqualTo(limit));
-        assertThat(condition.hashCode()).isEqualTo(Condition.lessOrEqualTo(limit).hashCode());
+    public void isNotSatisfiedOnValuesGreaterThanTheLimit() {
+        boolean result = condition.isSatisfiedOn(limit.plus(1), context, direction);
+        assertThat(result).isFalse();
     }
 
-    @Test
-    public void isNotEqualToLessOrEqualConditionsWithDifferentLimit() {
-        assertThat(condition).isNotEqualTo(Condition.lessOrEqualTo(limit.plus(1)));
-    }
-
-    @Test
-    public void isNotEqualToGreaterOrEqualConditionsWithDifferentLimit() {
-        assertThat(condition).isNotEqualTo(Condition.greaterOrEqualTo(limit));
-    }
-
-    @Test
-    public void isNotEqualToObjects() {
-        assertThat(condition).isNotEqualTo(new Object());
-    }
-
-    @Test
-    public void isNotEqualToNull() {
-        assertThat(condition).isNotEqualTo(null);
-    }
 }

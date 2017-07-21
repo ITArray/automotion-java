@@ -48,12 +48,12 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
             return false;
         }
         BinaryScalarConditionWithFixedOperand other = (BinaryScalarConditionWithFixedOperand) object;
-        return fixedOperand.equals(other.fixedOperand);
+        return fixedOperand.equals(other.fixedOperand) && predicate.equals(other.predicate);
     }
 
     @Override
     public int hashCode() {
-        return fixedOperand.hashCode();
+        return fixedOperand.hashCode() * 31 ^ predicate.hashCode();
     }
 
     public String shortName() {

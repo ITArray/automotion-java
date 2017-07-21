@@ -9,6 +9,18 @@ import net.itarray.automotion.internal.properties.ScalarConstant;
 
 public interface Condition<T> {
 
+    static Condition<Scalar> equalTo(int limit) {
+        return equalTo(new Scalar(limit));
+    }
+
+    static Condition<Scalar> equalTo(Scalar limit) {
+        return equalTo(new ScalarConstant(limit));
+    }
+
+    static Condition<Scalar> equalTo(Expression<Scalar> lowerLimit) {
+        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::equals, "min");
+    }
+
     static Condition<Scalar> greaterOrEqualTo(int limit) {
         return greaterOrEqualTo(new Scalar(limit));
     }
@@ -21,6 +33,18 @@ public interface Condition<T> {
         return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::isGreaterOrEqualTo, "min");
     }
 
+    static Condition<Scalar> greaterThan(int limit) {
+        return greaterThan(new Scalar(limit));
+    }
+
+    static Condition<Scalar> greaterThan(Scalar limit) {
+        return greaterThan(new ScalarConstant(limit));
+    }
+
+    static Condition<Scalar> greaterThan(Expression<Scalar> lowerLimit) {
+        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::isGreaterThan, "min");
+    }
+
     static Condition<Scalar> lessOrEqualTo(int limit) {
         return lessOrEqualTo(new Scalar(limit));
     }
@@ -31,6 +55,18 @@ public interface Condition<T> {
 
     static Condition<Scalar> lessOrEqualTo(Expression<Scalar> upperLimit) {
         return new BinaryScalarConditionWithFixedOperand(upperLimit, Scalar::isLessOrEqualTo, "max");
+    }
+
+    static Condition<Scalar> lessThan(int limit) {
+        return lessThan(new Scalar(limit));
+    }
+
+    static Condition<Scalar> lessThan(Scalar limit) {
+        return lessThan(new ScalarConstant(limit));
+    }
+
+    static Condition<Scalar> lessThan(Expression<Scalar> upperLimit) {
+        return new BinaryScalarConditionWithFixedOperand(upperLimit, Scalar::isLessThan, "excluded max");
     }
 
     static LowerLimit between(int lowerLimit) {

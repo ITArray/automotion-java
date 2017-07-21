@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class LessOrEqualToTest {
+public class EqualToTest {
 
     private Condition<Scalar> condition;
     private Scalar limit;
@@ -19,15 +19,15 @@ public class LessOrEqualToTest {
     @Before
     public void createProperty() {
         limit = new Scalar(7);
-        condition = Condition.lessOrEqualTo(limit);
+        condition = Condition.equalTo(limit);
         context = new TestContext();
         direction = Direction.RIGHT;
     }
 
     @Test
-    public void isSatisfiedOnValuesSmallerThanTheLimit() {
+    public void isNotSatisfiedOnValuesSmallerThanTheLimit() {
         boolean result = condition.isSatisfiedOn(limit.minus(1), context, direction);
-        assertThat(result).isTrue();
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -37,34 +37,8 @@ public class LessOrEqualToTest {
     }
 
     @Test
-    public void isSatisfiedOnValuesGreaterThanTheLimit() {
+    public void isNotSatisfiedOnValuesGreaterThanTheLimit() {
         boolean result = condition.isSatisfiedOn(limit.plus(1), context, direction);
         assertThat(result).isFalse();
-    }
-
-    @Test
-    public void isEqualToLessOrEqualConditionsWithEqualLimit() {
-        assertThat(condition).isEqualTo(Condition.lessOrEqualTo(limit));
-        assertThat(condition.hashCode()).isEqualTo(Condition.lessOrEqualTo(limit).hashCode());
-    }
-
-    @Test
-    public void isNotEqualToLessOrEqualConditionsWithDifferentLimit() {
-        assertThat(condition).isNotEqualTo(Condition.lessOrEqualTo(limit.plus(1)));
-    }
-
-    @Test
-    public void isNotEqualToGreaterOrEqualConditionsWithDifferentLimit() {
-        assertThat(condition).isNotEqualTo(Condition.greaterOrEqualTo(limit));
-    }
-
-    @Test
-    public void isNotEqualToObjects() {
-        assertThat(condition).isNotEqualTo(new Object());
-    }
-
-    @Test
-    public void isNotEqualToNull() {
-        assertThat(condition).isNotEqualTo(null);
     }
 }
