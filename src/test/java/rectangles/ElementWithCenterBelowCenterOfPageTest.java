@@ -16,9 +16,9 @@ public class ElementWithCenterBelowCenterOfPageTest extends ElementWithCenterOff
 
     @Test
     public void bottomOfCentered() {
-        assertThat(equalLeftRightOffset(element)).isTrue();
-        assertThat(equalLeftRightOffset(singletonList(element))).isTrue();
-        assertThat(equalTopBottomOffset(element)).isFalse();
-        assertThat(equalTopBottomOffset(singletonList(element))).isFalse();
+        assertThat(isCenteredOnPageHorizontally(element)).isTrue();
+        assertThat(areCenteredOnPageVertically(singletonList(element))).isTrue();
+        assertThat(isCenteredOnPageVertically(element)).isFalse();
+        assertThat(areCenteredOnPageHorizontally(singletonList(element))).isFalse();
     }
 }

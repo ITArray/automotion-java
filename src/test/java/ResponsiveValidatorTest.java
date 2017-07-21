@@ -64,7 +64,7 @@ public class ResponsiveValidatorTest {
                 .isLeftAlignedWith(page.gridContainer(), "Grid Container")
                 .isBottomAlignedWith(page.topTextBlock(), "Text Block")
                 .hasWidth(between(300).and(500))
-                .sameSizeAs(page.gridElements())
+                .hasEqualSizeAs(page.gridElements())
                 .isCenteredOnPageHorizontally()
                 .isCenteredOnPageVertically()
                 .isInsideOf(page.mainContainer(), "Main container", new Padding(10, 50, 10, 20))
@@ -118,7 +118,7 @@ public class ResponsiveValidatorTest {
                     .hasCssValue("background", "#f8f8f8")
                     .hasCssValue("color", "#6f6f6f")
                     .isNotOverlapping(card.findElement(By.className("gallery-hover-4col")), "Image Container")
-                    .sameWidthAs(card.findElement(By.className("gallery-hover-4col")), "Image Container")
+                    .hasEqualWidthAs(card.findElement(By.className("gallery-hover-4col")), "Image Container")
                     .drawMap()
                     .validate();
             softly.assertThat(success).isEqualTo(true).overridingErrorMessage("Failed validation of Grid in a list");
@@ -131,7 +131,7 @@ public class ResponsiveValidatorTest {
             boolean success = uiValidator.init("Validate on page zoom " + val + "%")
                     .findElement(page.mainContainer(), "Main container")
                     .isCenteredOnPageHorizontally()
-                    .sameWidthAs(page.gridContainer(), "Grid Container")
+                    .hasEqualWidthAs(page.gridContainer(), "Grid Container")
                     .drawMap()
                     .validate();
 

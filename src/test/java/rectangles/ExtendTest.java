@@ -23,9 +23,9 @@ public class ExtendTest {
     public void hasSameWidthAsATranslatedElement() {
         WebElement other = DummyWebElement.createElement(originX+10, originY+5, cornerX+10, cornerY+5);
 
-        assertThat(sameWidthAs(root, other)).isTrue();
-        assertThat(sameWidthAs(root, singletonList(other))).isTrue();
-        assertThat(withSameWidth(asList(root, other))).isTrue();
+        assertThat(hasEqualWidthAs(root, other)).isTrue();
+        assertThat(hasEqualWidthAs(root, singletonList(other))).isTrue();
+        assertThat(haveEqualWidth(asList(root, other))).isTrue();
         assertThat(haveDifferentWidths(asList(root, other))).isFalse();
     }
 
@@ -33,9 +33,9 @@ public class ExtendTest {
     public void hasSameWidthAsAVerticallyStretchedElement() {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX, cornerY+100);
 
-        assertThat(sameWidthAs(root, other)).isTrue();
-        assertThat(sameWidthAs(root, singletonList(other))).isTrue();
-        assertThat(withSameWidth(asList(root, other))).isTrue();
+        assertThat(hasEqualWidthAs(root, other)).isTrue();
+        assertThat(hasEqualWidthAs(root, singletonList(other))).isTrue();
+        assertThat(haveEqualWidth(asList(root, other))).isTrue();
         assertThat(haveDifferentWidths(asList(root, other))).isFalse();
     }
 
@@ -43,9 +43,9 @@ public class ExtendTest {
     public void doesNotHaveSameWidthAsAHorizontallyStretchedElement() {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX+100, cornerY);
 
-        assertThat(sameWidthAs(root, other)).isFalse();
-        assertThat(sameWidthAs(root, singletonList(other))).isFalse();
-        assertThat(withSameWidth(asList(root, other))).isFalse();
+        assertThat(hasEqualWidthAs(root, other)).isFalse();
+        assertThat(hasEqualWidthAs(root, singletonList(other))).isFalse();
+        assertThat(haveEqualWidth(asList(root, other))).isFalse();
         assertThat(haveDifferentWidths(asList(root, other))).isTrue();
         assertThat(haveDifferentWidths(asList(root, other, root))).isFalse();
     }
@@ -54,9 +54,9 @@ public class ExtendTest {
     public void hasSameHeightAsATranslatedElement() {
         WebElement other = DummyWebElement.createElement(originX+10, originY+5, cornerX+10, cornerY+5);
 
-        assertThat(sameHeightAs(root, other)).isTrue();
-        assertThat(sameHeightAs(root, singletonList(other))).isTrue();
-        assertThat(withSameHeight(asList(root, other))).isTrue();
+        assertThat(hasEqualHeightAs(root, other)).isTrue();
+        assertThat(hasEqualHeightAs(root, singletonList(other))).isTrue();
+        assertThat(haveEqualHeight(asList(root, other))).isTrue();
         assertThat(haveDifferentHeights(asList(root, other))).isFalse();
     }
 
@@ -64,9 +64,9 @@ public class ExtendTest {
     public void hasSameHeightAsAHorizontallyStretchedElement() {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX+100, cornerY);
 
-        assertThat(sameHeightAs(root, other)).isTrue();
-        assertThat(sameHeightAs(root, singletonList(other))).isTrue();
-        assertThat(withSameHeight(asList(root, other))).isTrue();
+        assertThat(hasEqualHeightAs(root, other)).isTrue();
+        assertThat(hasEqualHeightAs(root, singletonList(other))).isTrue();
+        assertThat(haveEqualHeight(asList(root, other))).isTrue();
         assertThat(haveDifferentHeights(asList(root, other))).isFalse();
     }
 
@@ -74,9 +74,9 @@ public class ExtendTest {
     public void doesNotHaveSameHeightAsAVerticallyStretchedElement() {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX, cornerY+100);
 
-        assertThat(sameHeightAs(root, other)).isFalse();
-        assertThat(sameHeightAs(root, singletonList(other))).isFalse();
-        assertThat(withSameHeight(asList(root, other))).isFalse();
+        assertThat(hasEqualHeightAs(root, other)).isFalse();
+        assertThat(hasEqualHeightAs(root, singletonList(other))).isFalse();
+        assertThat(haveEqualHeight(asList(root, other))).isFalse();
         assertThat(haveDifferentHeights(asList(root, other))).isTrue();
         assertThat(haveDifferentHeights(asList(root, other, root))).isFalse();
     }
@@ -85,11 +85,11 @@ public class ExtendTest {
     public void hasSameSizeAsATranslatedElement() {
         WebElement other = DummyWebElement.createElement(originX+10, originY+5, cornerX+10, cornerY+5);
 
-        assertThat(sameSizeAs(root, other)).isTrue();
-        assertThat(sameSizeAs(root, singletonList(other))).isTrue();
-        assertThat(withSameSize(asList(root, other))).isTrue();
-        assertThat(notSameSizeAs(root, other)).isFalse();
-        assertThat(notSameSizeAs(root, singletonList(other))).isFalse();
+        assertThat(hasEqualSizeAs(root, other)).isTrue();
+        assertThat(hasEqualSizeAs(root, singletonList(other))).isTrue();
+        assertThat(haveEqualSize(asList(root, other))).isTrue();
+        assertThat(hasDifferentSizeAs(root, other)).isFalse();
+        assertThat(hasDifferentSizeAs(root, singletonList(other))).isFalse();
         assertThat(haveDifferentSizes(asList(root, other))).isFalse();
     }
 
@@ -97,11 +97,11 @@ public class ExtendTest {
     public void hasSameSizeAsItSelf() {
         WebElement other = root;
 
-        assertThat(sameSizeAs(root, other)).isTrue();
-        assertThat(sameSizeAs(root, singletonList(other))).isTrue();
-        assertThat(withSameSize(asList(root, other))).isTrue();
-        assertThat(notSameSizeAs(root, other)).isFalse();
-        assertThat(notSameSizeAs(root, singletonList(other))).isFalse();
+        assertThat(hasEqualSizeAs(root, other)).isTrue();
+        assertThat(hasEqualSizeAs(root, singletonList(other))).isTrue();
+        assertThat(haveEqualSize(asList(root, other))).isTrue();
+        assertThat(hasDifferentSizeAs(root, other)).isFalse();
+        assertThat(hasDifferentSizeAs(root, singletonList(other))).isFalse();
         assertThat(haveDifferentSizes(asList(root, other))).isFalse();
     }
 
@@ -109,11 +109,11 @@ public class ExtendTest {
     public void doesNotHaveSameSizeAsAHorinzotallyStretchedElement() {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX, cornerY+100);
 
-        assertThat(sameSizeAs(root, other)).isFalse();
-        assertThat(sameSizeAs(root, singletonList(other))).isFalse();
-        assertThat(withSameSize(asList(root, other))).isFalse();
-        assertThat(notSameSizeAs(root, other)).isTrue();
-        assertThat(notSameSizeAs(root, singletonList(other))).isTrue();
+        assertThat(hasEqualSizeAs(root, other)).isFalse();
+        assertThat(hasEqualSizeAs(root, singletonList(other))).isFalse();
+        assertThat(haveEqualSize(asList(root, other))).isFalse();
+        assertThat(hasDifferentSizeAs(root, other)).isTrue();
+        assertThat(hasDifferentSizeAs(root, singletonList(other))).isTrue();
         assertThat(haveDifferentSizes(asList(root, other))).isTrue();
         assertThat(haveDifferentSizes(asList(root, other, root))).isFalse();
     }
@@ -122,11 +122,11 @@ public class ExtendTest {
     public void doesNotHaveSameSizeAsAVerticallyStretchedElement() {
         WebElement other = DummyWebElement.createElement(originX, originY, cornerX, cornerY+100);
 
-        assertThat(sameSizeAs(root, other)).isFalse();
-        assertThat(sameSizeAs(root, singletonList(other))).isFalse();
-        assertThat(withSameSize(asList(root, other))).isFalse();
-        assertThat(notSameSizeAs(root, other)).isTrue();
-        assertThat(notSameSizeAs(root, singletonList(other))).isTrue();
+        assertThat(hasEqualSizeAs(root, other)).isFalse();
+        assertThat(hasEqualSizeAs(root, singletonList(other))).isFalse();
+        assertThat(haveEqualSize(asList(root, other))).isFalse();
+        assertThat(hasDifferentSizeAs(root, other)).isTrue();
+        assertThat(hasDifferentSizeAs(root, singletonList(other))).isTrue();
         assertThat(haveDifferentSizes(asList(root, other))).isTrue();
     }
 

@@ -45,14 +45,14 @@ public class IntersectionTest {
 
     @Test
     public void shouldOverlap() {
-        assertThat(overlapWith(root, other))
+        assertThat(isOverlapping(root, other))
                 .withFailMessage(failMessage(intersectionExpectation()))
                 .isEqualTo(intersects);
     }
 
     @Test
     public void shouldNotOverlap() {
-        assertThat(notOverlapWith(root, other))
+        assertThat(isNotOverlapping(root, other))
                 .withFailMessage(failMessage(intersectionExpectation()))
                 .isEqualTo(!intersects);
     }

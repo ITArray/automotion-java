@@ -305,8 +305,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameWidthAs(WebElement element, String readableName) {
-        getBase().sameWidthAs(element, readableName);
+    public UIValidator hasEqualWidthAs(WebElement element, String readableName) {
+        getBase().hasEqualWidthAs(element, readableName);
         return this;
     }
 
@@ -317,8 +317,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameWidthAs(List<WebElement> elements) {
-        getBase().sameWidthAs(elements);
+    public UIValidator hasEqualWidthAs(List<WebElement> elements) {
+        getBase().hasEqualWidthAs(elements);
         return this;
     }
 
@@ -336,8 +336,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameHeightAs(WebElement element, String readableName) {
-        getBase().sameHeightAs(element, readableName);
+    public UIValidator hasEqualHeightAs(WebElement element, String readableName) {
+        getBase().hasEqualHeightAs(element, readableName);
         return this;
     }
 
@@ -348,8 +348,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameHeightAs(List<WebElement> elements) {
-        getBase().sameHeightAs(elements);
+    public UIValidator hasEqualHeightAs(List<WebElement> elements) {
+        getBase().hasEqualHeightAs(elements);
         return this;
     }
 
@@ -367,8 +367,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameSizeAs(WebElement element, String readableName) {
-        getBase().sameSizeAs(element, readableName);
+    public UIValidator hasEqualSizeAs(WebElement element, String readableName) {
+        getBase().hasEqualSizeAs(element, readableName);
         return this;
     }
 
@@ -379,8 +379,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameSizeAs(List<WebElement> elements) {
-        getBase().sameSizeAs(elements);
+    public UIValidator hasEqualSizeAs(List<WebElement> elements) {
+        getBase().hasEqualSizeAs(elements);
         return this;
     }
 
@@ -392,8 +392,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator notSameSizeAs(WebElement element, String readableName) {
-        getBase().notSameSizeAs(element, readableName);
+    public UIValidator hasDifferentSizeAs(WebElement element, String readableName) {
+        getBase().hasDifferentSizeAs(element, readableName);
         return this;
     }
 
@@ -404,8 +404,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator notSameSizeAs(List<WebElement> elements) {
-        getBase().notSameSizeAs(elements);
+    public UIValidator hasDifferentSizeAs(List<WebElement> elements) {
+        getBase().hasDifferentSizeAs(elements);
         return this;
     }
 

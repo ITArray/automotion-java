@@ -16,9 +16,9 @@ public class ElementWithCenterRightOfPageCenterTest extends ElementWithCenterOff
 
     @Test
     public void rightOfCentered() {
-        assertThat(equalLeftRightOffset(element)).isFalse();
-        assertThat(equalLeftRightOffset(singletonList(element))).isFalse();
-        assertThat(equalTopBottomOffset(element)).isTrue();
-        assertThat(equalTopBottomOffset(singletonList(element))).isTrue();
+        assertThat(isCenteredOnPageHorizontally(element)).isFalse();
+        assertThat(areCenteredOnPageVertically(singletonList(element))).isFalse();
+        assertThat(isCenteredOnPageVertically(element)).isTrue();
+        assertThat(areCenteredOnPageHorizontally(singletonList(element))).isTrue();
     }
 }

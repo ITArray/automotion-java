@@ -200,6 +200,54 @@ public class NativeNamingBackwardsCompatibilityTest {
     }
 
     @Test
+    public void sameWidthAs() {
+        validator.sameWidthAs(reference, "reference");
+        verify(validator).hasEqualWidthAs(reference, "reference");
+    }
+
+    @Test
+    public void sameWidthAsList() {
+        validator.sameWidthAs(references);
+        verify(validator).hasEqualWidthAs(references);
+    }
+
+    @Test
+    public void sameHeightAs() {
+        validator.sameHeightAs(reference, "reference");
+        verify(validator).hasEqualHeightAs(reference, "reference");
+    }
+
+    @Test
+    public void sameHeightAsList() {
+        validator.sameHeightAs(references);
+        verify(validator).hasEqualHeightAs(references);
+    }
+
+    @Test
+    public void sameSizeAs() {
+        validator.sameSizeAs(reference, "reference");
+        verify(validator).hasEqualSizeAs(reference, "reference");
+    }
+
+    @Test
+    public void sameSizeAsList() {
+        validator.sameSizeAs(references);
+        verify(validator).hasEqualSizeAs(references);
+    }
+
+    @Test
+    public void notSameSizeAs() {
+        validator.notSameSizeAs(reference, "reference");
+        verify(validator).hasDifferentSizeAs(reference, "reference");
+    }
+
+    @Test
+    public void notSameSizeAsList() {
+        validator.notSameSizeAs(references);
+        verify(validator).hasDifferentSizeAs(references);
+    }
+
+    @Test
     public void insideOf() {
         validator.insideOf(reference, "reference");
         verify(validator).isInsideOf(reference, "reference");

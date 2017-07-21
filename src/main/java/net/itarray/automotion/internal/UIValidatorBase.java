@@ -356,7 +356,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameWidthAs(WebElement element, String readableName) {
+    public UIValidatorBase hasEqualWidthAs(WebElement element, String readableName) {
         rootElement.validateSameWidth(asElement(element, readableName), errors);
         return this;
     }
@@ -368,7 +368,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameWidthAs(List<WebElement> elements) {
+    public UIValidatorBase hasEqualWidthAs(List<WebElement> elements) {
         for (WebElement element : elements) {
             rootElement.validateSameWidth(asElement(element), errors);
         }
@@ -388,7 +388,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameHeightAs(WebElement element, String readableName) {
+    public UIValidatorBase hasEqualHeightAs(WebElement element, String readableName) {
         rootElement.validateSameHeight(asElement(element, readableName), errors);
         return this;
     }
@@ -400,7 +400,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameHeightAs(List<WebElement> elements) {
+    public UIValidatorBase hasEqualHeightAs(List<WebElement> elements) {
         for (WebElement element : elements) {
             rootElement.validateSameHeight(asElement(element), errors);
         }
@@ -420,7 +420,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameSizeAs(WebElement element, String readableName) {
+    public UIValidatorBase hasEqualSizeAs(WebElement element, String readableName) {
         rootElement.validateSameSize(asElement(element, readableName), errors);
         return this;
     }
@@ -432,7 +432,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase sameSizeAs(List<WebElement> elements) {
+    public UIValidatorBase hasEqualSizeAs(List<WebElement> elements) {
         for (WebElement element : elements) {
             rootElement.validateSameSize(asElement(element), errors);
         }
@@ -447,7 +447,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase notSameSizeAs(WebElement element, String readableName) {
+    public UIValidatorBase hasDifferentSizeAs(WebElement element, String readableName) {
         validateNotSameSize(asElement(element, readableName));
         return this;
     }
@@ -459,7 +459,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      * @return UIValidator
      */
     @Override
-    public UIValidatorBase notSameSizeAs(List<WebElement> elements) {
+    public UIValidatorBase hasDifferentSizeAs(List<WebElement> elements) {
         for (WebElement element : elements) {
             validateNotSameSize(asElement(element));
         }

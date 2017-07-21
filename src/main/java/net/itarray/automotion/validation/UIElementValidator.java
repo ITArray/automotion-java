@@ -171,21 +171,63 @@ public interface UIElementValidator {
     default UIElementValidator sameOffsetBottomAs(List<WebElement> elements) { return isBottomAlignedWith(elements); }
     UIElementValidator isBottomAlignedWith(List<WebElement> elements);
 
-    UIElementValidator sameWidthAs(WebElement element, String readableName);
 
-    UIElementValidator sameWidthAs(List<WebElement> elements);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasEqualWidthAs(org.openqa.selenium.WebElement, String)}
+     */
+    @Deprecated
+    default UIElementValidator sameWidthAs(WebElement element, String readableName) { return hasEqualWidthAs(element, readableName); }
+    UIElementValidator hasEqualWidthAs(WebElement element, String readableName);
 
-    UIElementValidator sameHeightAs(WebElement element, String readableName);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasEqualWidthAs(java.util.List)}
+     */
+    @Deprecated
+    default UIElementValidator sameWidthAs(List<WebElement> elements) { return hasEqualWidthAs(elements); }
+    UIElementValidator hasEqualWidthAs(List<WebElement> elements);
 
-    UIElementValidator sameHeightAs(List<WebElement> elements);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasEqualHeightAs(org.openqa.selenium.WebElement, String)}
+     */
+    @Deprecated
+    default UIElementValidator sameHeightAs(WebElement element, String readableName) { return hasEqualHeightAs(element, readableName); }
+    UIElementValidator hasEqualHeightAs(WebElement element, String readableName);
 
-    UIElementValidator sameSizeAs(WebElement element, String readableName);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasEqualHeightAs(java.util.List)}
+     */
+    @Deprecated
+    default UIElementValidator sameHeightAs(List<WebElement> elements) { return hasEqualHeightAs(elements); }
+    UIElementValidator hasEqualHeightAs(List<WebElement> elements);
 
-    UIElementValidator sameSizeAs(List<WebElement> elements);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasEqualSizeAs(org.openqa.selenium.WebElement, String)}
+     */
+    @Deprecated
+    default UIElementValidator sameSizeAs(WebElement element, String readableName) { return hasEqualSizeAs(element, readableName); }
+    UIElementValidator hasEqualSizeAs(WebElement element, String readableName);
 
-    UIElementValidator notSameSizeAs(WebElement element, String readableName);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasEqualSizeAs(java.util.List)}
+     */
+    @Deprecated
+    default UIElementValidator sameSizeAs(List<WebElement> elements) { return hasEqualSizeAs(elements); }
+    UIElementValidator hasEqualSizeAs(List<WebElement> elements);
 
-    UIElementValidator notSameSizeAs(List<WebElement> elements);
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasDifferentSizeAs(org.openqa.selenium.WebElement, String)}
+     */
+    @Deprecated
+    default UIElementValidator notSameSizeAs(WebElement element, String readableName) { return hasDifferentSizeAs(element, readableName); }
+    UIElementValidator hasDifferentSizeAs(WebElement element, String readableName);
+
+    /**
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasDifferentSizeAs(java.util.List)}
+     */
+    @Deprecated
+    default UIElementValidator notSameSizeAs(List<WebElement> elements) { return hasDifferentSizeAs(elements); }
+    UIElementValidator hasDifferentSizeAs(List<WebElement> elements);
+
 
     /**
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#hasWidth(net.itarray.automotion.validation.properties.Condition)}

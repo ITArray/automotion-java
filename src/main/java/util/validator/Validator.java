@@ -54,21 +54,21 @@ public interface Validator extends UIElementValidator {
 
     UIValidator isBottomAlignedWith(List<WebElement> elements);
 
-    UIValidator sameWidthAs(WebElement element, String readableName);
+    UIValidator hasEqualWidthAs(WebElement element, String readableName);
 
-    UIValidator sameWidthAs(List<WebElement> elements);
+    UIValidator hasEqualWidthAs(List<WebElement> elements);
 
-    UIValidator sameHeightAs(WebElement element, String readableName);
+    UIValidator hasEqualHeightAs(WebElement element, String readableName);
 
-    UIValidator sameHeightAs(List<WebElement> elements);
+    UIValidator hasEqualHeightAs(List<WebElement> elements);
 
-    UIValidator sameSizeAs(WebElement element, String readableName);
+    UIValidator hasEqualSizeAs(WebElement element, String readableName);
 
-    UIValidator sameSizeAs(List<WebElement> elements);
+    UIValidator hasEqualSizeAs(List<WebElement> elements);
 
-    UIValidator notSameSizeAs(WebElement element, String readableName);
+    UIValidator hasDifferentSizeAs(WebElement element, String readableName);
 
-    UIValidator notSameSizeAs(List<WebElement> elements);
+    UIValidator hasDifferentSizeAs(List<WebElement> elements);
 
     UIValidator minOffset(int top, int right, int bottom, int left);
 
