@@ -18,7 +18,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> equalTo(Expression<Scalar> lowerLimit) {
-        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::equals, "min");
+        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::equals, "");
     }
 
     static Condition<Scalar> greaterOrEqualTo(int limit) {
