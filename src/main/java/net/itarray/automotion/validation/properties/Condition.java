@@ -42,7 +42,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> greaterThan(Expression<Scalar> lowerLimit) {
-        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::isGreaterThan, "min");
+        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::isGreaterThan, "excluded min");
     }
 
     static Condition<Scalar> lessOrEqualTo(int limit) {
