@@ -3,9 +3,8 @@ package net.itarray.automotion.validation.properties;
 import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Between;
+import net.itarray.automotion.internal.properties.BinaryScalarConditionWithFixedOperand;
 import net.itarray.automotion.internal.properties.Context;
-import net.itarray.automotion.internal.properties.GreaterOrEqualTo;
-import net.itarray.automotion.internal.properties.LessOrEqualTo;
 import net.itarray.automotion.internal.properties.ScalarConstant;
 
 public interface Condition<T> {
@@ -19,7 +18,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> greaterOrEqualTo(Expression<Scalar> lowerLimit) {
-        return new GreaterOrEqualTo(lowerLimit);
+        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::isGreaterOrEqualTo, "min");
     }
 
     static Condition<Scalar> lessOrEqualTo(int limit) {
@@ -31,7 +30,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> lessOrEqualTo(Expression<Scalar> upperLimit) {
-        return new LessOrEqualTo(upperLimit);
+        return new BinaryScalarConditionWithFixedOperand(upperLimit, Scalar::isLessOrEqualTo, "max");
     }
 
     static LowerLimit between(int lowerLimit) {

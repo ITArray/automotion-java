@@ -5,18 +5,25 @@ import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.validation.properties.Expression;
 
+import java.util.function.BiPredicate;
+
 import static org.apache.commons.lang3.text.WordUtils.uncapitalize;
 
 
-public abstract class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> {
+public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> {
     private final Expression<Scalar> fixedOperand;
+    private final BiPredicate<Scalar, Scalar> predicate;
+    private final String shortName;
 
-    protected BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand) {
+
+    public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, BiPredicate<Scalar, Scalar> predicate, String shortName) {
         this.fixedOperand = fixedOperand;
+        this.predicate = predicate;
+        this.shortName = shortName;
     }
 
     protected boolean applyTo(Scalar operand, Scalar fixedOperand) {
-        return false;
+        return predicate.test(operand, fixedOperand);
     }
 
     @Override
@@ -47,5 +54,9 @@ public abstract class BinaryScalarConditionWithFixedOperand implements Condition
     @Override
     public int hashCode() {
         return fixedOperand.hashCode();
+    }
+
+    public String shortName() {
+        return shortName;
     }
 }
