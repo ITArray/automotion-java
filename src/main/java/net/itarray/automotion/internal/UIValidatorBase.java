@@ -70,8 +70,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isRightOf(WebElement element) {
-        rootElement.validateIsRightOf(asElement(element), greaterOrEqualTo(0), getContext(),  errors);
-        return this;
+        return isRightOf(element, greaterOrEqualTo(0));
     }
 
     /**
@@ -84,7 +83,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isRightOf(WebElement element, int minMargin, int maxMargin) {
-        rootElement.validateIsRightOf(asElement(element), betweenCondition(minMargin, maxMargin), getContext(), errors);
+        return isRightOf(element, betweenCondition(minMargin, maxMargin));
+    }
+
+    public UIValidatorBase isRightOf(WebElement element, Condition<Scalar> distanceCondition) {
+        rootElement.validateIsRightOf(asElement(element), distanceCondition, getContext(), errors);
         return this;
     }
 
@@ -96,8 +99,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isLeftOf(WebElement element) {
-        rootElement.validateIsLeftOf(asElement(element), greaterOrEqualTo(0), getContext(),  errors);
-        return this;
+        return isLeftOf(element, greaterOrEqualTo(0));
     }
 
     /**
@@ -110,7 +112,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isLeftOf(WebElement element, int minMargin, int maxMargin) {
-        rootElement.validateIsLeftOf(asElement(element), betweenCondition(minMargin, maxMargin), getContext(), errors);
+        return isLeftOf(element, betweenCondition(minMargin, maxMargin));
+    }
+
+    public UIValidatorBase isLeftOf(WebElement element, Condition<Scalar> distanceCondition) {
+        rootElement.validateIsLeftOf(asElement(element), distanceCondition, getContext(), errors);
         return this;
     }
 
@@ -148,8 +154,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isBelow(WebElement element) {
-        rootElement.validateIsBelow(asElement(element), greaterOrEqualTo(0), getContext(),  errors);
-        return this;
+        return isBelow(element, greaterOrEqualTo(0));
     }
 
     /**
@@ -162,7 +167,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isBelow(WebElement element, int minMargin, int maxMargin) {
-        rootElement.validateIsBelow(asElement(element), betweenCondition(minMargin, maxMargin), getContext(), errors);
+        return isBelow(element, betweenCondition(minMargin, maxMargin));
+    }
+
+    public UIValidatorBase isBelow(WebElement element, Condition<Scalar> distanceCondition) {
+        rootElement.validateIsBelow(asElement(element), distanceCondition, getContext(), errors);
         return this;
     }
 
@@ -174,8 +183,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isAbove(WebElement element) {
-        rootElement.validateIsAbove(asElement(element), greaterOrEqualTo(0), getContext(),  errors);
-        return this;
+        return isAbove(element, greaterOrEqualTo(0));
     }
 
     /**
@@ -188,7 +196,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isAbove(WebElement element, int minMargin, int maxMargin) {
-        rootElement.validateIsAbove(asElement(element), betweenCondition(minMargin, maxMargin), getContext(), errors);
+        return isAbove(element, betweenCondition(minMargin, maxMargin));
+    }
+
+    public UIValidatorBase isAbove(WebElement element, Condition<Scalar> distanceCondition) {
+        rootElement.validateIsAbove(asElement(element), distanceCondition, getContext(),  errors);
         return this;
     }
 
