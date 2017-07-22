@@ -24,10 +24,6 @@ public class Between implements Condition<Scalar> {
         return lowerLimit.isSatisfiedOn(value, context, direction) && upperLimit.isSatisfiedOn(value, context, direction);
     }
 
-    public String shortName() {
-        return "range of";
-    }
-
     @Override
     public String toStringWithUnits(String units) {
         return String.format("between %s and %s", lowerLimitExpression.toStringWithUnits(units), upperLimitExpression.toStringWithUnits(units));

@@ -18,7 +18,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> equalTo(Expression<Scalar> lowerLimit) {
-        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::equals, "");
+        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::equals, "equal to %s");
     }
 
     static Condition<Scalar> greaterOrEqualTo(int limit) {
@@ -30,7 +30,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> greaterOrEqualTo(Expression<Scalar> lowerLimit) {
-        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::isGreaterOrEqualTo, "min", "greater or equal to %s");
+        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::isGreaterOrEqualTo, "greater or equal to %s");
     }
 
     static Condition<Scalar> greaterThan(int limit) {
@@ -42,7 +42,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> greaterThan(Expression<Scalar> lowerLimit) {
-        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::isGreaterThan, "excluded min");
+        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::isGreaterThan, "greater than %s");
     }
 
     static Condition<Scalar> lessOrEqualTo(int limit) {
@@ -54,7 +54,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> lessOrEqualTo(Expression<Scalar> upperLimit) {
-        return new BinaryScalarConditionWithFixedOperand(upperLimit, Scalar::isLessOrEqualTo, "max", "less or equal to %s");
+        return new BinaryScalarConditionWithFixedOperand(upperLimit, Scalar::isLessOrEqualTo, "less or equal to %s");
     }
 
     static Condition<Scalar> lessThan(int limit) {
@@ -66,7 +66,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> lessThan(Expression<Scalar> upperLimit) {
-        return new BinaryScalarConditionWithFixedOperand(upperLimit, Scalar::isLessThan, "excluded max");
+        return new BinaryScalarConditionWithFixedOperand(upperLimit, Scalar::isLessThan, "less than %s");
     }
 
     static LowerLimit between(int lowerLimit) {
@@ -111,8 +111,6 @@ public interface Condition<T> {
     }
 
     boolean isSatisfiedOn(T value, Context context, Direction direction);
-
-    String shortName();
 
     String toStringWithUnits(String units);
 }

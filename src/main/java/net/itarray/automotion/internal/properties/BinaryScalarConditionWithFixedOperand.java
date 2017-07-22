@@ -13,21 +13,12 @@ import static org.apache.commons.lang3.text.WordUtils.uncapitalize;
 public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> {
     private final Expression<Scalar> fixedOperand;
     private final BiPredicate<Scalar, Scalar> predicate;
-    private final String shortName;
     private final String toStringFormat;
 
 
-    public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, BiPredicate<Scalar, Scalar> predicate, String shortName) {
+    public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, BiPredicate<Scalar, Scalar> predicate, String toStringFormat) {
         this.fixedOperand = fixedOperand;
         this.predicate = predicate;
-        this.shortName = shortName;
-        this.toStringFormat = null;
-    }
-
-    public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, BiPredicate<Scalar, Scalar> predicate, String shortName, String toStringFormat) {
-        this.fixedOperand = fixedOperand;
-        this.predicate = predicate;
-        this.shortName = shortName;
         this.toStringFormat = toStringFormat;
     }
 
@@ -66,9 +57,5 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
     @Override
     public int hashCode() {
         return fixedOperand.hashCode() * 31 ^ predicate.hashCode();
-    }
-
-    public String shortName() {
-        return shortName;
     }
 }
