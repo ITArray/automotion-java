@@ -40,7 +40,7 @@ public class NativeNamingBackwardsCompatibilityTest {
     @Test
     public void withLeftElementInRange() {
         validator.withLeftElement(reference, 5, 7);
-        verify(validator).isRightOf(reference, 5, 7);
+        verify(validator).isRightOf(reference, between(percentOrPixels(5)).and(percentOrPixels(7)));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class NativeNamingBackwardsCompatibilityTest {
     @Test
     public void withRightElementInRange() {
         validator.withRightElement(reference, 5, 7);
-        verify(validator).isLeftOf(reference, 5, 7);
+        verify(validator).isLeftOf(reference, between(percentOrPixels(5)).and(percentOrPixels(7)));
     }
 
     @Test
@@ -64,7 +64,7 @@ public class NativeNamingBackwardsCompatibilityTest {
     @Test
     public void withTopElementInRange() {
         validator.withTopElement(reference, 5, 7);
-        verify(validator).isBelow(reference, 5, 7);
+        verify(validator).isBelow(reference, between(percentOrPixels(5)).and(percentOrPixels(7)));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class NativeNamingBackwardsCompatibilityTest {
     @Test
     public void withBottomElementInRange() {
         validator.withBottomElement(reference, 5, 7);
-        verify(validator).isAbove(reference, 5, 7);
+        verify(validator).isAbove(reference, between(percentOrPixels(5)).and(percentOrPixels(7)));
     }
 
     @Test

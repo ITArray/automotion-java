@@ -67,17 +67,9 @@ public class UIValidator extends AbstractValidator implements Validator {
         return this;
     }
 
-    /**
-     * Verify that element which located left to is correct with specified margins
-     *
-     * @param element
-     * @param minMargin
-     * @param maxMargin
-     * @return UIValidator
-     */
     @Override
-    public UIValidator isRightOf(WebElement element, int minMargin, int maxMargin) {
-        getBase().isRightOf(element, minMargin, maxMargin);
+    public UIValidator isRightOf(WebElement element, Condition<Scalar> distanceCondition) {
+        getBase().isRightOf(element, distanceCondition);
         return this;
     }
 
@@ -93,17 +85,9 @@ public class UIValidator extends AbstractValidator implements Validator {
         return this;
     }
 
-    /**
-     * Verify that element which located right to is correct with specified margins
-     *
-     * @param element
-     * @param minMargin
-     * @param maxMargin
-     * @return UIValidator
-     */
     @Override
-    public UIValidator isLeftOf(WebElement element, int minMargin, int maxMargin) {
-        getBase().isLeftOf(element, minMargin, maxMargin);
+    public UIValidator isLeftOf(WebElement element, Condition<Scalar> distanceCondition) {
+        getBase().isLeftOf(element, distanceCondition);
         return this;
     }
 
@@ -119,17 +103,9 @@ public class UIValidator extends AbstractValidator implements Validator {
         return this;
     }
 
-    /**
-     * Verify that element which located top to is correct with specified margins
-     *
-     * @param element
-     * @param minMargin
-     * @param maxMargin
-     * @return UIValidator
-     */
     @Override
-    public UIValidator isBelow(WebElement element, int minMargin, int maxMargin) {
-        getBase().isBelow(element, minMargin, maxMargin);
+    public UIValidator isBelow(WebElement element, Condition<Scalar> distanceCondition) {
+        getBase().isBelow(element, distanceCondition);
         return this;
     }
 
@@ -145,17 +121,9 @@ public class UIValidator extends AbstractValidator implements Validator {
         return this;
     }
 
-    /**
-     * Verify that element which located bottom to is correct with specified margins
-     *
-     * @param element
-     * @param minMargin
-     * @param maxMargin
-     * @return UIValidator
-     */
     @Override
-    public UIValidator isAbove(WebElement element, int minMargin, int maxMargin) {
-        getBase().isAbove(element, minMargin, maxMargin);
+    public UIElementValidator isAbove(WebElement element, Condition<Scalar> distanceCondition) {
+        getBase().isAbove(element, distanceCondition);
         return this;
     }
 

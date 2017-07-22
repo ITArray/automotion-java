@@ -170,7 +170,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void isRightOfElementAndRange() {
-        createElementValidator().isRightOf(createElement(105, 205, 505, 405), 4, 6);
+        createElementValidator().isRightOf(createElement(105, 205, 505, 405), between(4).and(6));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Left element aligned not properly. Expected margin should be between 4px and 6px. Actual margin is -405px");
@@ -186,7 +186,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void isLeftOfElementAndRange() {
-        createElementValidator().isLeftOf(createElement(105, 205, 505, 405), 4, 6);
+        createElementValidator().isLeftOf(createElement(105, 205, 505, 405), between(4).and(6));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Right element aligned not properly. Expected margin should be between 4px and 6px. Actual margin is -395px");
@@ -202,7 +202,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void isBelowElementAndMargin() {
-        createElementValidator().isBelow(createElement(105, 205, 505, 405), 4, 6);
+        createElementValidator().isBelow(createElement(105, 205, 505, 405), between(4).and(6));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Above element aligned not properly. Expected margin should be between 4px and 6px. Actual margin is -205px");
@@ -218,7 +218,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void isAboveElementAndMargin() {
-        createElementValidator().isAbove(createElement(105, 205, 505, 405), 4, 6);
+        createElementValidator().isAbove(createElement(105, 205, 505, 405), between(4).and(6));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Below element aligned not properly. Expected margin should be between 4px and 6px. Actual margin is -195px");

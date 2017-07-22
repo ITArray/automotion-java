@@ -46,11 +46,12 @@ public interface UIElementValidator {
     UIElementValidator isRightOf(WebElement element);
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isRightOf(org.openqa.selenium.WebElement, int, int)}
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isRightOf(org.openqa.selenium.WebElement, net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
-    default UIElementValidator withLeftElement(WebElement element, int minMargin, int maxMargin) {return isRightOf(element, minMargin, maxMargin); }
-    UIElementValidator isRightOf(WebElement element, int minMargin, int maxMargin);
+    default UIElementValidator withLeftElement(WebElement element, int minMargin, int maxMargin) {return isRightOf(element, between(percentOrPixels(minMargin)).and(percentOrPixels(maxMargin))); }
+
+    UIElementValidator isRightOf(WebElement element, Condition<Scalar> distanceCondition);
 
     /**
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isLeftOf(org.openqa.selenium.WebElement)}
@@ -60,11 +61,12 @@ public interface UIElementValidator {
     UIElementValidator isLeftOf(WebElement element);
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isRightOf(org.openqa.selenium.WebElement, int, int)}
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isLeftOf(org.openqa.selenium.WebElement, net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
-    default UIElementValidator withRightElement(WebElement element, int minMargin, int maxMargin) { return isLeftOf(element, minMargin, maxMargin); }
-    UIElementValidator isLeftOf(WebElement element, int minMargin, int maxMargin);
+    default UIElementValidator withRightElement(WebElement element, int minMargin, int maxMargin) { return isLeftOf(element, between(percentOrPixels(minMargin)).and(percentOrPixels(maxMargin))); }
+
+    UIElementValidator isLeftOf(WebElement element, Condition<Scalar> distanceCondition);
 
     /**
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isBelow(org.openqa.selenium.WebElement)}
@@ -74,11 +76,12 @@ public interface UIElementValidator {
     UIElementValidator isBelow(WebElement element);
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isBelow(org.openqa.selenium.WebElement, int, int)}
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isBelow(org.openqa.selenium.WebElement, net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
-    default UIElementValidator withTopElement(WebElement element, int minMargin, int maxMargin) { return isBelow(element, minMargin, maxMargin); }
-    UIElementValidator isBelow(WebElement element, int minMargin, int maxMargin);
+    default UIElementValidator withTopElement(WebElement element, int minMargin, int maxMargin) { return isBelow(element, between(percentOrPixels(minMargin)).and(percentOrPixels(maxMargin))); }
+
+    UIElementValidator isBelow(WebElement element, Condition<Scalar> distanceCondition);
 
     /**
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isAbove(org.openqa.selenium.WebElement)}
@@ -88,11 +91,12 @@ public interface UIElementValidator {
     UIElementValidator isAbove(WebElement element);
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isAbove(org.openqa.selenium.WebElement, int, int)}
+     * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isAbove(org.openqa.selenium.WebElement, net.itarray.automotion.validation.properties.Condition)}
      */
     @Deprecated
-    default UIElementValidator withBottomElement(WebElement element, int minMargin, int maxMargin) { return isAbove(element, minMargin, maxMargin); }
-    UIElementValidator isAbove(WebElement element, int minMargin, int maxMargin);
+    default UIElementValidator withBottomElement(WebElement element, int minMargin, int maxMargin){ return isAbove(element, between(percentOrPixels(minMargin)).and(percentOrPixels(maxMargin))); }
+
+    UIElementValidator isAbove(WebElement element, Condition<Scalar> distanceCondition);
 
     /**
      * @deprecated As of release 2.0, replaced by {@link UIElementValidator#isNotOverlapping(org.openqa.selenium.WebElement, String)}

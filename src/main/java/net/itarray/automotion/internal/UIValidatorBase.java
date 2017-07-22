@@ -73,19 +73,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         return isRightOf(element, greaterOrEqualTo(0));
     }
 
-    /**
-     * Verify that element which located left to is correct with specified margins
-     *
-     * @param element
-     * @param minMargin
-     * @param maxMargin
-     * @return UIValidator
-     */
-    @Override
-    public UIValidatorBase isRightOf(WebElement element, int minMargin, int maxMargin) {
-        return isRightOf(element, betweenCondition(minMargin, maxMargin));
-    }
-
     public UIValidatorBase isRightOf(WebElement element, Condition<Scalar> distanceCondition) {
         rootElement.validateIsRightOf(asElement(element), distanceCondition, getContext(), errors);
         return this;
@@ -100,19 +87,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase isLeftOf(WebElement element) {
         return isLeftOf(element, greaterOrEqualTo(0));
-    }
-
-    /**
-     * Verify that element which located right to is correct with specified margins
-     *
-     * @param element
-     * @param minMargin
-     * @param maxMargin
-     * @return UIValidator
-     */
-    @Override
-    public UIValidatorBase isLeftOf(WebElement element, int minMargin, int maxMargin) {
-        return isLeftOf(element, betweenCondition(minMargin, maxMargin));
     }
 
     public UIValidatorBase isLeftOf(WebElement element, Condition<Scalar> distanceCondition) {
@@ -157,19 +131,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         return isBelow(element, greaterOrEqualTo(0));
     }
 
-    /**
-     * Verify that element which located top to is correct with specified margins
-     *
-     * @param element
-     * @param minMargin
-     * @param maxMargin
-     * @return UIValidator
-     */
-    @Override
-    public UIValidatorBase isBelow(WebElement element, int minMargin, int maxMargin) {
-        return isBelow(element, betweenCondition(minMargin, maxMargin));
-    }
-
     public UIValidatorBase isBelow(WebElement element, Condition<Scalar> distanceCondition) {
         rootElement.validateIsBelow(asElement(element), distanceCondition, getContext(), errors);
         return this;
@@ -184,19 +145,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase isAbove(WebElement element) {
         return isAbove(element, greaterOrEqualTo(0));
-    }
-
-    /**
-     * Verify that element which located bottom to is correct with specified margins
-     *
-     * @param element
-     * @param minMargin
-     * @param maxMargin
-     * @return UIValidator
-     */
-    @Override
-    public UIValidatorBase isAbove(WebElement element, int minMargin, int maxMargin) {
-        return isAbove(element, betweenCondition(minMargin, maxMargin));
     }
 
     public UIValidatorBase isAbove(WebElement element, Condition<Scalar> distanceCondition) {

@@ -156,7 +156,7 @@ public class TestAssumptions {
     }
 
     public static boolean isAbove(WebElement root, WebElement other, int minMargin, int maxMargin) {
-        return validate(root, other, (uiValidator, webElement) -> uiValidator.isAbove(other, minMargin, maxMargin));
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.isAbove(other, between(minMargin).and(maxMargin)));
     }
 
     public static boolean isAbove(WebElement other, WebElement root) {
@@ -164,7 +164,7 @@ public class TestAssumptions {
     }
 
     public static boolean isBelow(WebElement root, WebElement other, int minMargin, int maxMargin) {
-        return validate(root, other, (uiValidator, webElement) -> uiValidator.isBelow(other, minMargin, maxMargin));
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.isBelow(other, between(minMargin).and(maxMargin)));
     }
 
     public static boolean isBelow(WebElement root, WebElement other) {
@@ -172,7 +172,7 @@ public class TestAssumptions {
     }
 
     public static boolean isRightOf(WebElement root, WebElement other, int minMargin, int maxMargin) {
-        return validate(root, uiValidator -> uiValidator.isRightOf(other, minMargin, maxMargin));
+        return validate(root, uiValidator -> uiValidator.isRightOf(other, between(minMargin).and(maxMargin)));
     }
 
     public static boolean isRightOf(WebElement root, WebElement other) {
@@ -180,7 +180,7 @@ public class TestAssumptions {
     }
 
     public static boolean isLeftOf(WebElement root, WebElement other, int minMargin, int maxMargin) {
-        return validate(root, uiValidator -> uiValidator.isLeftOf(other, minMargin, maxMargin));
+        return validate(root, uiValidator -> uiValidator.isLeftOf(other, between(minMargin).and(maxMargin)));
     }
 
     public static boolean isLeftOf(WebElement root, WebElement other) {

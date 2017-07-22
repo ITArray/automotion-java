@@ -18,19 +18,11 @@ public interface Validator extends UIElementValidator {
 
     UIValidator isRightOf(WebElement element);
 
-    UIValidator isRightOf(WebElement element, int minMargin, int maxMargin);
-
     UIValidator isLeftOf(WebElement element);
-
-    UIValidator isLeftOf(WebElement element, int minMargin, int maxMargin);
 
     UIValidator isBelow(WebElement element);
 
-    UIValidator isBelow(WebElement element, int minMargin, int maxMargin);
-
     UIValidator isAbove(WebElement element);
-
-    UIValidator isAbove(WebElement element, int minMargin, int maxMargin);
 
     UIValidator isNotOverlapping(WebElement element, String readableName);
 
