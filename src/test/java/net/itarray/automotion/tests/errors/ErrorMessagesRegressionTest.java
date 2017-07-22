@@ -165,7 +165,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().isRightOf(createElement(105, 205, 505, 405));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Left element aligned not properly");
+                .isEqualTo("Left element aligned not properly. Expected margin should be greater or equal to 0px. Actual margin is -405px");
     }
 
     @Test
@@ -181,7 +181,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().isLeftOf(createElement(105, 205, 505, 405));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Right element aligned not properly");
+                .isEqualTo("Right element aligned not properly. Expected margin should be greater or equal to 0px. Actual margin is -395px");
     }
 
     @Test
@@ -197,7 +197,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().isBelow(createElement(105, 205, 505, 405));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Above element aligned not properly");
+                .isEqualTo("Above element aligned not properly. Expected margin should be greater or equal to 0px. Actual margin is -205px");
     }
 
     @Test
@@ -213,7 +213,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().isAbove(createElement(105, 205, 505, 405));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Below element aligned not properly");
+                .isEqualTo("Below element aligned not properly. Expected margin should be greater or equal to 0px. Actual margin is -195px");
     }
 
     @Test

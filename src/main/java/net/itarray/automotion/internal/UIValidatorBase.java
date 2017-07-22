@@ -70,8 +70,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isRightOf(WebElement element) {
-        rootElement.validateIsRightOf(asElement(element), errors);
-//        rootElement.validateIsRightOf(asElement(element), Condition.greaterOrEqualTo(0), getContext(),  errors);
+        rootElement.validateIsRightOf(asElement(element), greaterOrEqualTo(0), getContext(),  errors);
         return this;
     }
 
@@ -97,7 +96,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isLeftOf(WebElement element) {
-        rootElement.validateIsLeftOf(asElement(element), errors);
+        rootElement.validateIsLeftOf(asElement(element), greaterOrEqualTo(0), getContext(),  errors);
         return this;
     }
 
@@ -149,7 +148,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isBelow(WebElement element) {
-        rootElement.validateIsBelow(asElement(element), errors);
+        rootElement.validateIsBelow(asElement(element), greaterOrEqualTo(0), getContext(),  errors);
         return this;
     }
 
@@ -175,7 +174,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isAbove(WebElement element) {
-        rootElement.validateIsAbove(asElement(element), errors);
+        rootElement.validateIsAbove(asElement(element), greaterOrEqualTo(0), getContext(),  errors);
         return this;
     }
 
