@@ -14,12 +14,21 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
     private final Expression<Scalar> fixedOperand;
     private final BiPredicate<Scalar, Scalar> predicate;
     private final String shortName;
+    private final String toStringFormat;
 
 
     public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, BiPredicate<Scalar, Scalar> predicate, String shortName) {
         this.fixedOperand = fixedOperand;
         this.predicate = predicate;
         this.shortName = shortName;
+        this.toStringFormat = null;
+    }
+
+    public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, BiPredicate<Scalar, Scalar> predicate, String shortName, String toStringFormat) {
+        this.fixedOperand = fixedOperand;
+        this.predicate = predicate;
+        this.shortName = shortName;
+        this.toStringFormat = toStringFormat;
     }
 
     protected boolean applyTo(Scalar operand, Scalar fixedOperand) {
@@ -33,6 +42,9 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
 
     @Override
     public String toStringWithUnits(String units) {
+        if (toStringFormat != null) {
+            return String.format(toStringFormat, fixedOperand.toStringWithUnits(units));
+        }
         return fixedOperand.toStringWithUnits(units);
     }
 

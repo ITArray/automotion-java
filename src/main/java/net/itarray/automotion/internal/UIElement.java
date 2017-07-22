@@ -405,8 +405,7 @@ public class UIElement {
     public void validateOffset(Direction direction, Condition condition, UIElement page, Context context, Errors errors) {
         if (!getOffset(direction, page).satisfies(condition, context, direction)) {
             errors.add(
-                    String.format("Expected %s %s offset of element %s is: %s. Actual %s offset is: %s",
-                            condition.shortName(),
+                    String.format("Expected %s offset of element %s to be %s. Actual %s offset is: %s",
                             direction.endName(),
                             getQuotedName(),
                             condition.toStringWithUnits(PIXELS),
@@ -450,8 +449,7 @@ public class UIElement {
     public void validateExtend(Direction direction, Condition condition, Context context, Errors errors) {
         if (!getExtend(direction).satisfies(condition, context, direction)) {
             errors.add(
-                    String.format("Expected %s %s of element %s is: %s. Actual %s is: %s",
-                            condition.shortName(),
+                    String.format("Expected %s of element %s to be %s. Actual %s is: %s",
                             direction.extendName(),
                             getQuotedName(),
                             condition.toStringWithUnits(PIXELS),

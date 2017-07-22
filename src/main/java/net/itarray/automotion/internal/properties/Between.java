@@ -9,10 +9,14 @@ public class Between implements Condition<Scalar> {
 
     private final Condition<Scalar> lowerLimit;
     private final Condition<Scalar> upperLimit;
+    private final Expression<Scalar> lowerLimitExpression;
+    private final Expression<Scalar> upperLimitExpression;
 
     public Between(Expression<Scalar> lowerLimit, Expression<Scalar> upperLimit) {
-        this.lowerLimit = Condition.greaterOrEqualTo(lowerLimit);
-        this.upperLimit = Condition.lessOrEqualTo(upperLimit);
+        lowerLimitExpression = lowerLimit;
+        this.lowerLimit = Condition.greaterOrEqualTo(lowerLimitExpression);
+        upperLimitExpression = upperLimit;
+        this.upperLimit = Condition.lessOrEqualTo(upperLimitExpression);
     }
 
     @Override
@@ -26,7 +30,7 @@ public class Between implements Condition<Scalar> {
 
     @Override
     public String toStringWithUnits(String units) {
-        return String.format("between %s and %s", lowerLimit.toStringWithUnits(units), upperLimit.toStringWithUnits(units));
+        return String.format("between %s and %s", lowerLimitExpression.toStringWithUnits(units), upperLimitExpression.toStringWithUnits(units));
     }
 
     @Override

@@ -71,6 +71,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase isRightOf(WebElement element) {
         rootElement.validateIsRightOf(asElement(element), errors);
+//        rootElement.validateIsRightOf(asElement(element), Condition.greaterOrEqualTo(0), getContext(),  errors);
         return this;
     }
 

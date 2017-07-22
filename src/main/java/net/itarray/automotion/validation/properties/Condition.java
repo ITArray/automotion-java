@@ -30,7 +30,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> greaterOrEqualTo(Expression<Scalar> lowerLimit) {
-        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::isGreaterOrEqualTo, "min");
+        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::isGreaterOrEqualTo, "min", "greater or equal to %s");
     }
 
     static Condition<Scalar> greaterThan(int limit) {
@@ -54,7 +54,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> lessOrEqualTo(Expression<Scalar> upperLimit) {
-        return new BinaryScalarConditionWithFixedOperand(upperLimit, Scalar::isLessOrEqualTo, "max");
+        return new BinaryScalarConditionWithFixedOperand(upperLimit, Scalar::isLessOrEqualTo, "max", "less or equal to %s");
     }
 
     static Condition<Scalar> lessThan(int limit) {
