@@ -179,6 +179,9 @@ public class ResponsiveUIValidator {
         return driver;
     }
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.properties.Expression#percent(int, net.itarray.automotion.validation.properties.PercentReference)}
+     */
     public static class Units {
         public static net.itarray.automotion.validation.Units PX = net.itarray.automotion.validation.Units.PX;
         public static net.itarray.automotion.validation.Units PERCENT = net.itarray.automotion.validation.Units.PERCENT;
