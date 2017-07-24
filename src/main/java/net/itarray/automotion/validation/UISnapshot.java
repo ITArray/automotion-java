@@ -1,11 +1,13 @@
 package net.itarray.automotion.validation;
 
+import net.itarray.automotion.internal.DrawableScreenshot;
 import net.itarray.automotion.internal.ResponsiveUIChunkValidatorBase;
 import net.itarray.automotion.internal.UIValidatorBase;
 import net.itarray.automotion.validation.properties.Resolution;
 import net.itarray.automotion.validation.properties.Zoom;
 import org.openqa.selenium.WebElement;
 
+import java.io.File;
 import java.util.List;
 
 public class UISnapshot {
@@ -14,6 +16,7 @@ public class UISnapshot {
     private final String name;
     private final Resolution resolution;
     private final Zoom zoom;
+    private File screenshotName;
 
     public UISnapshot(ResponsiveUIValidator responsiveUIValidator, String name, Resolution resolution, Zoom zoom) {
         this.responsiveUIValidator = responsiveUIValidator;
@@ -47,4 +50,13 @@ public class UISnapshot {
     public ChunkUIElementValidator findElements(List<WebElement> webElements) {
         return new ResponsiveUIChunkValidatorBase(this, webElements);
     }
+
+    public File takeScreenshot() {
+        if (screenshotName == null) {
+            screenshotName = DrawableScreenshot.takeScreenshot(responsiveUIValidator.getDriver(), getName());
+        }
+        return screenshotName;
+    }
+
+
 }
