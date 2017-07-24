@@ -1,5 +1,6 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.tools.helpers.Helper;
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONObject;
 
@@ -14,6 +15,7 @@ import static net.itarray.automotion.validation.Constants.*;
 public class DrawableScreenshot {
 
     private final File screenshot;
+    private final DriverFacade driver;
     private final DrawingConfiguration drawingConfiguration;
     private BufferedImage img;
     private TransformedGraphics graphics;
@@ -21,9 +23,18 @@ public class DrawableScreenshot {
     private File drawingsOutput;
     private BufferedImage drawings;
 
-    public DrawableScreenshot(DriverFacade driver, SimpleTransform transform, DrawingConfiguration drawingConfiguration) {
-        screenshot = driver.takeScreenshot();
+    public DrawableScreenshot(DriverFacade driver, SimpleTransform transform, DrawingConfiguration drawingConfiguration, String rootElementReadableName) {
+
+
+        this.driver = driver;
         this.drawingConfiguration = drawingConfiguration;
+        long ms = System.currentTimeMillis();
+        String uuid = Helper.getGeneratedStringWithLength(7);
+        this.output = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "")  + "-" + ms + uuid + ".png");
+        drawingsOutput = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-draw-" + ms + uuid + ".png");
+        driver.takeScreenshot(output);
+        this.screenshot = output;
+
         try {
             img = ImageIO.read(screenshot);
 
@@ -68,14 +79,9 @@ public class DrawableScreenshot {
             }
         }
 
-        output = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-        try {
-            FileUtils.moveFile(screenshot, output);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        drawingsOutput = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-trans-" + screenshot.getName());
+
+
         try {
             ImageIO.write(drawings, "png", drawingsOutput);
         } catch (IOException e) {

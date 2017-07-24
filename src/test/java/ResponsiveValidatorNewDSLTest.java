@@ -62,7 +62,7 @@ public class ResponsiveValidatorNewDSLTest {
                 .findElement(page.topSlider(), "Top Slider")
                 .isLeftAlignedWith(page.gridContainer(), "Grid Container")
                 .isBottomAlignedWith(page.topTextBlock(), "Text Block")
-                .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX).hasWidth(between(percentOrPixels(300)).and(percentOrPixels(500)))
+                .hasWidth(between(percentOrPixels(300)).and(percentOrPixels(500)))
                 .hasEqualSizeAs(page.gridElements())
                 .isCenteredOnPageHorizontally()
                 .isCenteredOnPageVertically()

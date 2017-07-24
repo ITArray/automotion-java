@@ -100,7 +100,7 @@ public abstract class ResponsiveUIValidatorBase {
             return;
         }
 
-        DrawableScreenshot screenshot = new DrawableScreenshot(getDriver(), getTransform(), getDrawingConfiguration());
+        DrawableScreenshot screenshot = new DrawableScreenshot(getDriver(), getTransform(), getDrawingConfiguration(), getNameOfToBeValidated());
 
         drawRootElement(screenshot);
 
