@@ -5,6 +5,7 @@ import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.Group;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.geometry.Vector;
 import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.tools.general.SystemHelper;
@@ -88,7 +89,7 @@ public class UIElement {
         return direction.end(rectangle);
     }
 
-    public Scalar getExtend(Direction direction) {
+    public <V extends Group<V>> V getExtend(ExtendGiving<V> direction) {
         return direction.extend(rectangle);
     }
 
@@ -106,6 +107,10 @@ public class UIElement {
 
     public int getHeight() {
         return DOWN.extend(rectangle).getValue();
+    }
+
+    public Vector getSize() {
+        return ORIGIN_CORNER.extend(rectangle);
     }
 
     public int getCornerX() {
