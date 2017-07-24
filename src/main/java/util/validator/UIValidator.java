@@ -3,7 +3,10 @@ package util.validator;
 import net.itarray.automotion.internal.AbstractValidator;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.UIValidatorBase;
+import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
+import net.itarray.automotion.validation.properties.Condition;
 import org.openqa.selenium.WebElement;
 import net.itarray.automotion.validation.properties.Padding;
 
@@ -59,22 +62,14 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withLeftElement(WebElement element) {
-        getBase().withLeftElement(element);
+    public UIValidator isRightOf(WebElement element) {
+        getBase().isRightOf(element);
         return this;
     }
 
-    /**
-     * Verify that element which located left to is correct with specified margins
-     *
-     * @param element
-     * @param minMargin
-     * @param maxMargin
-     * @return UIValidator
-     */
     @Override
-    public UIValidator withLeftElement(WebElement element, int minMargin, int maxMargin) {
-        getBase().withLeftElement(element, minMargin, maxMargin);
+    public UIValidator isRightOf(WebElement element, Condition<Scalar> distanceCondition) {
+        getBase().isRightOf(element, distanceCondition);
         return this;
     }
 
@@ -85,22 +80,14 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withRightElement(WebElement element) {
-        getBase().withRightElement(element);
+    public UIValidator isLeftOf(WebElement element) {
+        getBase().isLeftOf(element);
         return this;
     }
 
-    /**
-     * Verify that element which located right to is correct with specified margins
-     *
-     * @param element
-     * @param minMargin
-     * @param maxMargin
-     * @return UIValidator
-     */
     @Override
-    public UIValidator withRightElement(WebElement element, int minMargin, int maxMargin) {
-        getBase().withRightElement(element, minMargin, maxMargin);
+    public UIValidator isLeftOf(WebElement element, Condition<Scalar> distanceCondition) {
+        getBase().isLeftOf(element, distanceCondition);
         return this;
     }
 
@@ -111,22 +98,14 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withTopElement(WebElement element) {
-        getBase().withTopElement(element);
+    public UIValidator isBelow(WebElement element) {
+        getBase().isBelow(element);
         return this;
     }
 
-    /**
-     * Verify that element which located top to is correct with specified margins
-     *
-     * @param element
-     * @param minMargin
-     * @param maxMargin
-     * @return UIValidator
-     */
     @Override
-    public UIValidator withTopElement(WebElement element, int minMargin, int maxMargin) {
-        getBase().withTopElement(element, minMargin, maxMargin);
+    public UIValidator isBelow(WebElement element, Condition<Scalar> distanceCondition) {
+        getBase().isBelow(element, distanceCondition);
         return this;
     }
 
@@ -137,22 +116,14 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withBottomElement(WebElement element) {
-        getBase().withBottomElement(element);
+    public UIValidator isAbove(WebElement element) {
+        getBase().isAbove(element);
         return this;
     }
 
-    /**
-     * Verify that element which located bottom to is correct with specified margins
-     *
-     * @param element
-     * @param minMargin
-     * @param maxMargin
-     * @return UIValidator
-     */
     @Override
-    public UIValidator withBottomElement(WebElement element, int minMargin, int maxMargin) {
-        getBase().withBottomElement(element, minMargin, maxMargin);
+    public UIElementValidator isAbove(WebElement element, Condition<Scalar> distanceCondition) {
+        getBase().isAbove(element, distanceCondition);
         return this;
     }
 
@@ -164,8 +135,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator notOverlapWith(WebElement element, String readableName) {
-        getBase().notOverlapWith(element, readableName);
+    public UIValidator isNotOverlapping(WebElement element, String readableName) {
+        getBase().isNotOverlapping(element, readableName);
         return this;
     }
 
@@ -177,8 +148,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator overlapWith(WebElement element, String readableName) {
-        getBase().overlapWith(element, readableName);
+    public UIValidator isOverlapping(WebElement element, String readableName) {
+        getBase().isOverlapping(element, readableName);
         return this;
     }
 
@@ -189,8 +160,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator notOverlapWith(List<WebElement> elements) {
-        getBase().notOverlapWith(elements);
+    public UIValidator isNotOverlapping(List<WebElement> elements) {
+        getBase().isNotOverlapping(elements);
         return this;
     }
 
@@ -202,8 +173,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetLeftAs(WebElement element, String readableName) {
-        getBase().sameOffsetLeftAs(element, readableName);
+    public UIValidator isLeftAlignedWith(WebElement element, String readableName) {
+        getBase().isLeftAlignedWith(element, readableName);
         return this;
     }
 
@@ -214,8 +185,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetLeftAs(List<WebElement> webElements) {
-        getBase().sameOffsetLeftAs(webElements);
+    public UIValidator isLeftAlignedWith(List<WebElement> webElements) {
+        getBase().isLeftAlignedWith(webElements);
         return this;
     }
 
@@ -227,8 +198,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetRightAs(WebElement element, String readableName) {
-        getBase().sameOffsetRightAs(element, readableName);
+    public UIValidator isRightAlignedWith(WebElement element, String readableName) {
+        getBase().isRightAlignedWith(element, readableName);
         return this;
     }
 
@@ -239,8 +210,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetRightAs(List<WebElement> elements) {
-        getBase().sameOffsetRightAs(elements);
+    public UIValidator isRightAlignedWith(List<WebElement> elements) {
+        getBase().isRightAlignedWith(elements);
         return this;
     }
 
@@ -252,8 +223,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetTopAs(WebElement element, String readableName) {
-        getBase().sameOffsetTopAs(element, readableName);
+    public UIValidator isTopAlignedWith(WebElement element, String readableName) {
+        getBase().isTopAlignedWith(element, readableName);
         return this;
     }
 
@@ -264,8 +235,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetTopAs(List<WebElement> elements) {
-        getBase().sameOffsetTopAs(elements);
+    public UIValidator isTopAlignedWith(List<WebElement> elements) {
+        getBase().isTopAlignedWith(elements);
         return this;
     }
 
@@ -277,8 +248,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetBottomAs(WebElement element, String readableName) {
-        getBase().sameOffsetBottomAs(element, readableName);
+    public UIValidator isBottomAlignedWith(WebElement element, String readableName) {
+        getBase().isBottomAlignedWith(element, readableName);
         return this;
     }
 
@@ -289,8 +260,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameOffsetBottomAs(List<WebElement> elements) {
-        getBase().sameOffsetBottomAs(elements);
+    public UIValidator isBottomAlignedWith(List<WebElement> elements) {
+        getBase().isBottomAlignedWith(elements);
         return this;
     }
 
@@ -302,8 +273,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameWidthAs(WebElement element, String readableName) {
-        getBase().sameWidthAs(element, readableName);
+    public UIValidator hasEqualWidthAs(WebElement element, String readableName) {
+        getBase().hasEqualWidthAs(element, readableName);
         return this;
     }
 
@@ -314,45 +285,14 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameWidthAs(List<WebElement> elements) {
-        getBase().sameWidthAs(elements);
+    public UIValidator hasEqualWidthAs(List<WebElement> elements) {
+        getBase().hasEqualWidthAs(elements);
         return this;
     }
 
-    /**
-     * Verify that width of element is not less than specified
-     *
-     * @param width
-     * @return UIValidator
-     */
     @Override
-    public UIValidator minWidth(int width) {
-        getBase().minWidth(width);
-        return this;
-    }
-
-    /**
-     * Verify that width of element is not bigger than specified
-     *
-     * @param width
-     * @return UIValidator
-     */
-    @Override
-    public UIValidator maxWidth(int width) {
-        getBase().maxWidth(width);
-        return this;
-    }
-
-    /**
-     * Verify that width of element is in range
-     *
-     * @param min
-     * @param max
-     * @return UIValidator
-     */
-    @Override
-    public UIValidator widthBetween(int min, int max) {
-        getBase().widthBetween(min, max);
+    public UIElementValidator hasWidth(Condition<Scalar> condition) {
+        getBase().hasWidth(condition);
         return this;
     }
 
@@ -364,8 +304,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameHeightAs(WebElement element, String readableName) {
-        getBase().sameHeightAs(element, readableName);
+    public UIValidator hasEqualHeightAs(WebElement element, String readableName) {
+        getBase().hasEqualHeightAs(element, readableName);
         return this;
     }
 
@@ -376,32 +316,14 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameHeightAs(List<WebElement> elements) {
-        getBase().sameHeightAs(elements);
+    public UIValidator hasEqualHeightAs(List<WebElement> elements) {
+        getBase().hasEqualHeightAs(elements);
         return this;
     }
 
-    /**
-     * Verify that height of element is not less than specified
-     *
-     * @param height
-     * @return UIValidator
-     */
     @Override
-    public UIValidator minHeight(int height) {
-        getBase().minHeight(height);
-        return this;
-    }
-
-    /**
-     * Verify that height of element is not bigger than specified
-     *
-     * @param height
-     * @return UIValidator
-     */
-    @Override
-    public UIValidator maxHeight(int height) {
-        getBase().maxHeight(height);
+    public UIValidator hasHeight(Condition<Scalar> condition) {
+        getBase().hasHeight(condition);
         return this;
     }
 
@@ -413,8 +335,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameSizeAs(WebElement element, String readableName) {
-        getBase().sameSizeAs(element, readableName);
+    public UIValidator hasEqualSizeAs(WebElement element, String readableName) {
+        getBase().hasEqualSizeAs(element, readableName);
         return this;
     }
 
@@ -425,8 +347,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator sameSizeAs(List<WebElement> elements) {
-        getBase().sameSizeAs(elements);
+    public UIValidator hasEqualSizeAs(List<WebElement> elements) {
+        getBase().hasEqualSizeAs(elements);
         return this;
     }
 
@@ -438,8 +360,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator notSameSizeAs(WebElement element, String readableName) {
-        getBase().notSameSizeAs(element, readableName);
+    public UIValidator hasDifferentSizeAs(WebElement element, String readableName) {
+        getBase().hasDifferentSizeAs(element, readableName);
         return this;
     }
 
@@ -450,21 +372,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator notSameSizeAs(List<WebElement> elements) {
-        getBase().notSameSizeAs(elements);
-        return this;
-    }
-
-    /**
-     * Verify that height of element is in range
-     *
-     * @param min
-     * @param max
-     * @return UIValidator
-     */
-    @Override
-    public UIValidator heightBetween(int min, int max) {
-        getBase().heightBetween(min, max);
+    public UIValidator hasDifferentSizeAs(List<WebElement> elements) {
+        getBase().hasDifferentSizeAs(elements);
         return this;
     }
 
@@ -480,6 +389,30 @@ public class UIValidator extends AbstractValidator implements Validator {
     @Override
     public UIValidator minOffset(int top, int right, int bottom, int left) {
         getBase().minOffset(top, right, bottom, left);
+        return this;
+    }
+
+    @Override
+    public UIElementValidator hasLeftOffsetToPage(Condition<Scalar> condition) {
+        getBase().hasLeftOffsetToPage(condition);
+        return this;
+    }
+
+    @Override
+    public UIElementValidator hasRightOffsetToPage(Condition<Scalar> condition) {
+        getBase().hasRightOffsetToPage(condition);
+        return this;
+    }
+
+    @Override
+    public UIElementValidator hasTopOffsetToPage(Condition<Scalar> condition) {
+        getBase().hasTopOffsetToPage(condition);
+        return this;
+    }
+
+    @Override
+    public UIElementValidator hasBottomOffsetToPage(Condition<Scalar> condition) {
+        getBase().hasBottomOffsetToPage(condition);
         return this;
     }
 
@@ -506,8 +439,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withCssValue(String cssProperty, String... args) {
-        getBase().withCssValue(cssProperty, args);
+    public UIValidator hasCssValue(String cssProperty, String... args) {
+        getBase().hasCssValue(cssProperty, args);
         return this;
     }
 
@@ -519,8 +452,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator withoutCssValue(String cssProperty, String... args) {
-        getBase().withoutCssValue(cssProperty, args);
+    public UIValidator doesNotHaveCssValue(String cssProperty, String... args) {
+        getBase().doesNotHaveCssValue(cssProperty, args);
         return this;
     }
 
@@ -530,8 +463,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator equalLeftRightOffset() {
-        getBase().equalLeftRightOffset();
+    public UIValidator isCenteredOnPageHorizontally() {
+        getBase().isCenteredOnPageHorizontally();
         return this;
     }
 
@@ -541,8 +474,8 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return UIValidator
      */
     @Override
-    public UIValidator equalTopBottomOffset() {
-        getBase().equalTopBottomOffset();
+    public UIValidator isCenteredOnPageVertically() {
+        getBase().isCenteredOnPageVertically();
         return this;
     }
 
@@ -554,14 +487,14 @@ public class UIValidator extends AbstractValidator implements Validator {
      * @return ResponsiveUIValidator
      */
     @Override
-    public UIValidator insideOf(WebElement containerElement, String readableContainerName) {
-        getBase().insideOf(containerElement, readableContainerName);
+    public UIValidator isInsideOf(WebElement containerElement, String readableContainerName) {
+        getBase().isInsideOf(containerElement, readableContainerName);
         return this;
     }
 
     @Override
-    public UIValidator insideOf(WebElement containerElement, String readableContainerName, Padding padding) {
-        getBase().insideOf(containerElement, readableContainerName, padding);
+    public UIValidator isInsideOf(WebElement containerElement, String readableContainerName, Padding padding) {
+        getBase().isInsideOf(containerElement, readableContainerName, padding);
         return this;
     }
 }

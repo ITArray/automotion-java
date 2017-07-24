@@ -8,7 +8,6 @@ import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.properties.Padding;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
@@ -16,9 +15,10 @@ import rectangles.DummyDriverFacade;
 import rectangles.DummyWebElement;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import static java.util.Collections.singletonList;
+import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
+import static net.itarray.automotion.validation.properties.Condition.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
 
@@ -65,160 +65,160 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
-    public void sameOffsetLeftAs() {
-        createElementValidator().sameOffsetLeftAs(createElement(105, 200, 500, 400), "specifying");
+    public void isLeftAlignedWith() {
+        createElementValidator().isLeftAlignedWith(createElement(105, 200, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same left offset as element 'specifying'");
     }
 
     @Test
-    public void sameOffsetLeftAsWithList() {
-        createElementValidator().sameOffsetLeftAs(singletonList(createElement(105, 200, 500, 400)));
+    public void isLeftAlignedWithList() {
+        createElementValidator().isLeftAlignedWith(singletonList(createElement(105, 200, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same left offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[105,200], size=[395,200]'");
     }
 
     @Test
-    public void sameOffsetLeftAsWithChunk() {
-        createChunkValidator(createElement(105, 200, 500, 400)).sameLeftOffset();
+    public void areLeftAligned() {
+        createChunkValidator(createElement(105, 200, 500, 400)).areLeftAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same left offset as element #2");
     }
 
     @Test
-    public void sameOffsetRightAs() {
-        createElementValidator().sameOffsetRightAs(createElement(100, 200, 505, 400), "specifying");
+    public void isRightAlignedWith() {
+        createElementValidator().isRightAlignedWith(createElement(100, 200, 505, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same right offset as element 'specifying'");
     }
 
     @Test
-    public void sameOffsetRightAsWithList() {
-        createElementValidator().sameOffsetRightAs(singletonList(createElement(100, 200, 505, 400)));
+    public void isRightAlignedWithList() {
+        createElementValidator().isRightAlignedWith(singletonList(createElement(100, 200, 505, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same right offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,200]'");
     }
 
     @Test
-    public void sameOffsetRightAsWithChunk() {
-        createChunkValidator(createElement(100, 200, 505, 400)).sameRightOffset();
+    public void areRightAligned() {
+        createChunkValidator(createElement(100, 200, 505, 400)).areRightAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same right offset as element #2");
     }
 
     @Test
-    public void sameOffsetTopAs() {
-        createElementValidator().sameOffsetTopAs(createElement(100, 205, 500, 400), "specifying");
+    public void isTopAlignedWith() {
+        createElementValidator().isTopAlignedWith(createElement(100, 205, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same top offset as element 'specifying'");
     }
 
     @Test
-    public void sameOffsetTopAsWithList() {
-        createElementValidator().sameOffsetTopAs(singletonList(createElement(100, 205, 500, 400)));
+    public void isTopAlignedWithList() {
+        createElementValidator().isTopAlignedWith(singletonList(createElement(100, 205, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same top offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,205], size=[400,195]'");
     }
 
     @Test
-    public void sameOffsetTopAsWithChunk() {
-        createChunkValidator(createElement(100, 205, 500, 400)).sameTopOffset();
+    public void areTopAligned() {
+        createChunkValidator(createElement(100, 205, 500, 400)).areTopAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same top offset as element #2");
     }
 
     @Test
-    public void sameOffsetBottomAs() {
-        createElementValidator().sameOffsetBottomAs(createElement(100, 200, 500, 405), "specifying");
+    public void isBottomAlignedWith() {
+        createElementValidator().isBottomAlignedWith(createElement(100, 200, 500, 405), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same bottom offset as element 'specifying'");
     }
 
     @Test
-    public void sameOffsetBottomAsWithList() {
-        createElementValidator().sameOffsetBottomAs(singletonList(createElement(100, 200, 500, 405)));
+    public void isBottomAlignedWithList() {
+        createElementValidator().isBottomAlignedWith(singletonList(createElement(100, 200, 500, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same bottom offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,205]'");
     }
 
     @Test
-    public void sameOffsetBottomAsWithChunk() {
-        createChunkValidator(createElement(100, 200, 500, 405)).sameBottomOffset();
+    public void areBottomAligned() {
+        createChunkValidator(createElement(100, 200, 500, 405)).areBottomAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element #1 has not the same bottom offset as element #2");
     }
 
     @Test
-    public void withLeftElement() {
-        createElementValidator().withLeftElement(createElement(105, 205, 505, 405));
+    public void isRightOfElement() {
+        createElementValidator().isRightOf(createElement(105, 205, 505, 405));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Left element aligned not properly");
+                .isEqualTo("Left element aligned not properly. Expected margin should be greater or equal to 0px. Actual margin is -405px");
     }
 
     @Test
-    public void withLeftElementAndMargin() {
-        createElementValidator().withLeftElement(createElement(105, 205, 505, 405), 4, 6);
+    public void isRightOfElementAndRange() {
+        createElementValidator().isRightOf(createElement(105, 205, 505, 405), between(4).and(6));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Left element aligned not properly. Expected margin should be between 4px and 6px. Actual margin is -405px");
     }
 
     @Test
-    public void withRightElement() {
-        createElementValidator().withRightElement(createElement(105, 205, 505, 405));
+    public void isLeftOfElement() {
+        createElementValidator().isLeftOf(createElement(105, 205, 505, 405));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Right element aligned not properly");
+                .isEqualTo("Right element aligned not properly. Expected margin should be greater or equal to 0px. Actual margin is -395px");
     }
 
     @Test
-    public void withRightElementAndMargin() {
-        createElementValidator().withRightElement(createElement(105, 205, 505, 405), 4, 6);
+    public void isLeftOfElementAndRange() {
+        createElementValidator().isLeftOf(createElement(105, 205, 505, 405), between(4).and(6));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Right element aligned not properly. Expected margin should be between 4px and 6px. Actual margin is -395px");
     }
 
     @Test
-    public void withTopElement() {
-        createElementValidator().withTopElement(createElement(105, 205, 505, 405));
+    public void isBelowElement() {
+        createElementValidator().isBelow(createElement(105, 205, 505, 405));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Above element aligned not properly");
+                .isEqualTo("Above element aligned not properly. Expected margin should be greater or equal to 0px. Actual margin is -205px");
     }
 
     @Test
-    public void withTopElementAndMargin() {
-        createElementValidator().withTopElement(createElement(105, 205, 505, 405), 4, 6);
+    public void isBelowElementAndMargin() {
+        createElementValidator().isBelow(createElement(105, 205, 505, 405), between(4).and(6));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Above element aligned not properly. Expected margin should be between 4px and 6px. Actual margin is -205px");
     }
 
     @Test
-    public void withBottomElement() {
-        createElementValidator().withBottomElement(createElement(105, 205, 505, 405));
+    public void isAboveElement() {
+        createElementValidator().isAbove(createElement(105, 205, 505, 405));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Below element aligned not properly");
+                .isEqualTo("Below element aligned not properly. Expected margin should be greater or equal to 0px. Actual margin is -195px");
     }
 
     @Test
-    public void withBottomElementAndMargin() {
-        createElementValidator().withBottomElement(createElement(105, 205, 505, 405), 4, 6);
+    public void isAboveElementAndMargin() {
+        createElementValidator().isAbove(createElement(105, 205, 505, 405), between(4).and(6));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Below element aligned not properly. Expected margin should be between 4px and 6px. Actual margin is -195px");
@@ -226,7 +226,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void sameWidthAs() {
-        createElementValidator().sameWidthAs(createElement(100, 200, 505, 405), "specifying");
+        createElementValidator().hasEqualWidthAs(createElement(100, 200, 505, 405), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same width as element 'specifying'. Width of 'under test' is 400px. Width of element is 405px");
@@ -234,7 +234,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void sameWidthAsWithList() {
-        createElementValidator().sameWidthAs(singletonList(createElement(100, 200, 505, 405)));
+        createElementValidator().hasEqualWidthAs(singletonList(createElement(100, 200, 505, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same width as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]'. Width of 'under test' is 400px. Width of element is 405px");
@@ -242,7 +242,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void sameHeightAs() {
-        createElementValidator().sameHeightAs(createElement(100, 200, 505, 405), "specifying");
+        createElementValidator().hasEqualHeightAs(createElement(100, 200, 505, 405), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same height as element 'specifying'. Height of 'under test' is 200px. Height of element is 205px");
@@ -250,7 +250,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void sameHeightAsWithList() {
-        createElementValidator().sameHeightAs(singletonList(createElement(100, 200, 505, 405)));
+        createElementValidator().hasEqualHeightAs(singletonList(createElement(100, 200, 505, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same height as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]'. Height of 'under test' is 200px. Height of element is 205px");
@@ -258,7 +258,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void sameSizeAs() {
-        createElementValidator().sameSizeAs(createElement(100, 200, 505, 405), "specifying");
+        createElementValidator().hasEqualSizeAs(createElement(100, 200, 505, 405), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same size as element 'specifying'. Size of 'under test' is 400px x 200px. Size of element is 405px x 205px");
@@ -266,7 +266,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void sameSizeAsWithList() {
-        createElementValidator().sameSizeAs(singletonList(createElement(100, 200, 505, 405)));
+        createElementValidator().hasEqualSizeAs(singletonList(createElement(100, 200, 505, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same size as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]'. Size of 'under test' is 400px x 200px. Size of element is 405px x 205px");
@@ -274,7 +274,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void notSameSizeAs() {
-        createElementValidator().notSameSizeAs(createElement(100, 200, 500, 400), "specifying");
+        createElementValidator().hasDifferentSizeAs(createElement(100, 200, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has the same size as element 'specifying'. Size of 'under test' is 400px x 200px. Size of element is 400px x 200px");
@@ -282,7 +282,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void notSameSizeAsWithList() {
-        createElementValidator().notSameSizeAs(singletonList(createElement(100, 200, 500, 400)));
+        createElementValidator().hasDifferentSizeAs(singletonList(createElement(100, 200, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has the same size as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]'. Size of 'under test' is 400px x 200px. Size of element is 400px x 200px");
@@ -290,7 +290,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void notOverlapWith() {
-        createElementValidator().notOverlapWith(createElement(100, 200, 500, 400), "specifying");
+        createElementValidator().isNotOverlapping(createElement(100, 200, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' is overlapped with element 'specifying' but should not");
@@ -298,7 +298,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void notOverlapWithWithList() {
-        createElementValidator().notOverlapWith(singletonList(createElement(100, 200, 500, 400)));
+        createElementValidator().isNotOverlapping(singletonList(createElement(100, 200, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' is overlapped with element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' but should not");
@@ -306,7 +306,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void overlapWith() {
-        createElementValidator().overlapWith(createElement(1100, 1200, 500, 400), "specifying");
+        createElementValidator().isOverlapping(createElement(1100, 1200, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' is not overlapped with element 'specifying' but should be");
@@ -314,16 +314,24 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void insideOf() {
-        createElementValidator().insideOf(createElement(1100, 1200, 500, 400), "specifying");
+        createElementValidator().isInsideOf(createElement(1100, 1200, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' is not inside of 'specifying'");
     }
 
     @Test
+    public void insideOfChunk() {
+        createChunkValidator().areInsideOf(createElement(1100, 1200, 500, 400), "specifying");
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' is not inside of 'specifying'");
+    }
+
+    @Test
     public void insideOfWithPadding() {
         Padding padding = new Padding(5, 6, 7, 8);
-        createElementValidator().insideOf(createElement(1100, 1200, 500, 400), "specifying", padding);
+        createElementValidator().isInsideOf(createElement(1100, 1200, 500, 400), "specifying", padding);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Padding of element 'under test' is incorrect. Expected padding: top[5], right[6], bottom[7], left[8]. Actual padding: top[-1000], right[0], bottom[0], left[-1000]");
@@ -334,7 +342,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().maxOffset(200-10,1500,600,100);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max top offset of element 'under test' is: 190px. Actual top offset is: 200px");
+                .isEqualTo("Expected top offset of element 'under test' to be less or equal to 190px. Actual top offset is: 200px");
     }
 
     @Test
@@ -342,7 +350,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().maxOffset(200,1500-10,600,100);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max right offset of element 'under test' is: 1490px. Actual right offset is: 1500px");
+                .isEqualTo("Expected right offset of element 'under test' to be less or equal to 1490px. Actual right offset is: 1500px");
     }
 
     @Test
@@ -350,7 +358,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().maxOffset(200,1500,600-10,100);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max bottom offset of element 'under test' is: 590px. Actual bottom offset is: 600px");
+                .isEqualTo("Expected bottom offset of element 'under test' to be less or equal to 590px. Actual bottom offset is: 600px");
     }
 
     @Test
@@ -358,7 +366,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().maxOffset(200,1500,600,100-10);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max left offset of element 'under test' is: 90px. Actual left offset is: 100px");
+                .isEqualTo("Expected left offset of element 'under test' to be less or equal to 90px. Actual left offset is: 100px");
     }
 
     @Test
@@ -366,7 +374,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().minOffset(200+10,1500,600,100);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min top offset of element 'under test' is: 210px. Actual top offset is: 200px");
+                .isEqualTo("Expected top offset of element 'under test' to be greater or equal to 210px. Actual top offset is: 200px");
     }
 
     @Test
@@ -374,7 +382,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().minOffset(200,1500+10,600,100);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min right offset of element 'under test' is: 1510px. Actual right offset is: 1500px");
+                .isEqualTo("Expected right offset of element 'under test' to be greater or equal to 1510px. Actual right offset is: 1500px");
     }
 
     @Test
@@ -382,7 +390,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().minOffset(200,1500,600+10,100);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min bottom offset of element 'under test' is: 610px. Actual bottom offset is: 600px");
+                .isEqualTo("Expected bottom offset of element 'under test' to be greater or equal to 610px. Actual bottom offset is: 600px");
     }
 
     @Test
@@ -390,12 +398,12 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().minOffset(200,1500,600,100+10);
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min left offset of element 'under test' is: 110px. Actual left offset is: 100px");
+                .isEqualTo("Expected left offset of element 'under test' to be greater or equal to 110px. Actual left offset is: 100px");
     }
 
     @Test
     public void equalLeftRightOffset() {
-        createElementValidator().equalLeftRightOffset();
+        createElementValidator().isCenteredOnPageHorizontally();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not equal left and right offset. Left offset is 100px, right is 1500px");
@@ -403,7 +411,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void equalLeftRightOffsetChunk() {
-        createChunkValidator().equalLeftRightOffset();
+        createChunkValidator().areCenteredOnPageVertically();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' has not equal left and right offset. Left offset is 100px, right is 1500px");
@@ -411,7 +419,7 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void equalTopBottomOffset() {
-        createElementValidator().equalTopBottomOffset();
+        createElementValidator().isCenteredOnPageVertically();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not equal top and bottom offset. Top offset is 200px, bottom is 600px");
@@ -419,96 +427,96 @@ public class ErrorMessagesRegressionTest {
 
     @Test
     public void equalTopBottomOffsetChunk() {
-        createChunkValidator().equalTopBottomOffset();
+        createChunkValidator().areCenteredOnPageHorizontally();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' has not equal top and bottom offset. Top offset is 200px, bottom is 600px");
     }
 
     @Test
-    public void minWidth() {
-        createElementValidator().minWidth(1000);
+    public void hasWidthGreaterOrEqualTo() {
+        createElementValidator().hasWidth(greaterOrEqualTo(1000));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min width of element 'under test' is: 1000px. Actual width is: 400px");
+                .isEqualTo("Expected width of element 'under test' to be greater or equal to 1000px. Actual width is: 400px");
     }
 
     @Test
-    public void maxWidth() {
-        createElementValidator().maxWidth(10);
+    public void hasWidthLessOrEqualTo() {
+        createElementValidator().hasWidth(lessOrEqualTo(10));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max width of element 'under test' is: 10px. Actual width is: 400px");
+                .isEqualTo("Expected width of element 'under test' to be less or equal to 10px. Actual width is: 400px");
     }
 
     @Test
-    public void widthBetweenUpper() {
-        createElementValidator().widthBetween(1000, 2000);
+    public void hasWidthBetweenUpper() {
+        createElementValidator().hasWidth(between(1000).and(2000));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min width of element 'under test' is: 1000px. Actual width is: 400px");
+                .isEqualTo("Expected width of element 'under test' to be between 1000px and 2000px. Actual width is: 400px");
     }
 
     @Test
-    public void widthBetweenLower() {
-        createElementValidator().widthBetween(10, 20);
+    public void hasWidthBetweenLower() {
+        createElementValidator().hasWidth(between(10).and(20));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max width of element 'under test' is: 20px. Actual width is: 400px");
+                .isEqualTo("Expected width of element 'under test' to be between 10px and 20px. Actual width is: 400px");
     }
 
     @Test
-    public void minHeight() {
-        createElementValidator().minHeight(1000);
+    public void hasHeightGreaterOrEqualTo() {
+        createElementValidator().hasHeight(greaterOrEqualTo(percentOrPixels(1000)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min height of element 'under test' is: 1000px. Actual height is: 200px");
+                .isEqualTo("Expected height of element 'under test' to be greater or equal to 1000px. Actual height is: 200px");
     }
 
     @Test
-    public void maxHeight() {
-        createElementValidator().maxHeight(10);
+    public void hasHeightLessOrEqualTo() {
+        createElementValidator().hasHeight(lessOrEqualTo(10));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max height of element 'under test' is: 10px. Actual height is: 200px");
+                .isEqualTo("Expected height of element 'under test' to be less or equal to 10px. Actual height is: 200px");
     }
 
     @Test
-    public void heightBetweenUpper() {
-        createElementValidator().heightBetween(1000, 2000);
+    public void hasHeightBetweenUpper() {
+        createElementValidator().hasHeight(between(1000).and(2000));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected min height of element 'under test' is: 1000px. Actual height is: 200px");
+                .isEqualTo("Expected height of element 'under test' to be between 1000px and 2000px. Actual height is: 200px");
     }
 
     @Test
-    public void heightBetweenLower() {
-        createElementValidator().heightBetween(10, 20);
+    public void hasHeightBetweenLower() {
+        createElementValidator().hasHeight(between(10).and(20));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Expected max height of element 'under test' is: 20px. Actual height is: 200px");
+                .isEqualTo("Expected height of element 'under test' to be between 10px and 20px. Actual height is: 200px");
     }
 
     @Test
-    public void withCssValueNoValue() {
-        createElementValidator().withCssValue("font-size", "12px");
+    public void hasCssValueNoValue() {
+        createElementValidator().hasCssValue("font-size", "12px");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' does not have css property 'font-size'");
     }
 
     @Test
-    public void withCssValueDifferentValue() {
+    public void hasCssValueDifferentValue() {
         element.putCssValue("font-size", "16px");
-        createElementValidator().withCssValue("font-size", "12px");
+        createElementValidator().hasCssValue("font-size", "12px");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Expected value of 'font-size' is '12px'. Actual value is '16px'");
     }
 
     @Test
-    public void withoutCssValueNoValue() {
-        createElementValidator().withoutCssValue("font-size", "12px");
+    public void doesNotHaveCssValueNoValue() {
+        createElementValidator().doesNotHaveCssValue("font-size", "12px");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' does not have css property 'font-size'");
@@ -516,9 +524,9 @@ public class ErrorMessagesRegressionTest {
 
 
     @Test
-    public void withoutCssValueDifferentValue() {
+    public void doesNotHaveCssValueDifferentValue() {
         element.putCssValue("font-size", "12px");
-        createElementValidator().withoutCssValue("font-size", "12px");
+        createElementValidator().doesNotHaveCssValue("font-size", "12px");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("CSS property 'font-size' should not contain value '12px'. Actual value is '12px'");

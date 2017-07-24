@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
+import static net.itarray.automotion.validation.properties.Condition.*;
 import static rectangles.DummyDriverFacade.createWebDriver;
 
 public class TestAssumptions {
@@ -53,207 +55,239 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.minOffset(top, right, bottom, left));
     }
 
+    public static boolean hasLeftOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPage(greaterOrEqualTo(value)));
+    }
+
+    public static boolean hasLeftOffsetToPageLessOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasLeftOffsetToPage(lessOrEqualTo(value)));
+    }
+
+    public static boolean hasRightOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPage(greaterOrEqualTo(value)));
+    }
+
+    public static boolean hasRightOffsetToPageLessOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasRightOffsetToPage(lessOrEqualTo(value)));
+    }
+
+    public static boolean hasTopOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPage(greaterOrEqualTo(value)));
+    }
+
+    public static boolean hasTopOffsetToPageLessOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasTopOffsetToPage(lessOrEqualTo(value)));
+    }
+
+    public static boolean hasBottomOffsetToPageGreaterOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPage(greaterOrEqualTo(value)));
+    }
+
+    public static boolean hasBottomOffsetToPageLessOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasBottomOffsetToPage(lessOrEqualTo(value)));
+    }
+
     public static boolean maxOffset(WebElement root, int top, int right, int bottom, int left) {
         return validate(root, uiValidator -> uiValidator.maxOffset(top, right, bottom, left));
     }
 
-    public static boolean equalLeftRightOffset(WebElement root) {
-        return validate(root, UIValidator::equalLeftRightOffset);
+    public static boolean isCenteredOnPageHorizontally(WebElement root) {
+        return validate(root, UIValidator::isCenteredOnPageHorizontally);
     }
 
-    public static boolean equalLeftRightOffset(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::equalLeftRightOffset);
+    public static boolean areCenteredOnPageVertically(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areCenteredOnPageVertically);
     }
 
-    public static boolean equalTopBottomOffset(WebElement root) {
-        return validate(root, UIValidator::equalTopBottomOffset);
+    public static boolean isCenteredOnPageVertically(WebElement root) {
+        return validate(root, UIValidator::isCenteredOnPageVertically);
     }
 
-    public static boolean equalTopBottomOffset(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::equalTopBottomOffset);
+    public static boolean areCenteredOnPageHorizontally(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areCenteredOnPageHorizontally);
     }
 
-    public static boolean sameOffsetLeftAs(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.sameOffsetLeftAs(other, "Blub"));
+    public static boolean isLeftAlignedWith(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.isLeftAlignedWith(other, "Blub"));
     }
 
-    public static boolean sameOffsetLeftAs(WebElement root, List<WebElement> elements) {
-        return validate(root, elements, UIValidator::sameOffsetLeftAs);
+    public static boolean isLeftAlignedWith(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::isLeftAlignedWith);
     }
 
-    public static boolean sameLeftOffset(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::sameLeftOffset);
+    public static boolean areLeftAligned(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areLeftAligned);
     }
 
-    public static boolean sameOffsetRightAs(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.sameOffsetRightAs(other, "Blub"));
+    public static boolean isRightAlignedWith(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.isRightAlignedWith(other, "Blub"));
     }
 
-    public static boolean sameOffsetRightAs(WebElement root, List<WebElement> elements) {
-        return validate(root, elements, UIValidator::sameOffsetRightAs);
+    public static boolean isRightAlignedWith(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::isRightAlignedWith);
     }
 
-    public static boolean sameRightOffset(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::sameRightOffset);
+    public static boolean areRightAligned(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areRightAligned);
     }
 
-    public static boolean sameOffsetTopAs(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.sameOffsetTopAs(other, "Blub"));
+    public static boolean isTopAlignedWith(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.isTopAlignedWith(other, "Blub"));
     }
 
-    public static boolean sameOffsetTopAs(WebElement root, List<WebElement> elements) {
-        return validate(root, elements, UIValidator::sameOffsetTopAs);
+    public static boolean isTopAlignedWith(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::isTopAlignedWith);
     }
 
-    public static boolean sameTopOffset(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::sameTopOffset);
+    public static boolean areTopAligned(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areTopAligned);
     }
 
-    public static boolean sameOffsetBottomAs(WebElement root, WebElement other) {
-        return validate(root, other, (uiValidator, webElement) -> uiValidator.sameOffsetBottomAs(other, "Blub"));
+    public static boolean isBottomAlignedWith(WebElement root, WebElement other) {
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.isBottomAlignedWith(other, "Blub"));
     }
 
-    public static boolean sameOffsetBottomAs(WebElement root, List<WebElement> elements) {
-        return validate(root, elements, UIValidator::sameOffsetBottomAs);
+    public static boolean isBottomAlignedWith(WebElement root, List<WebElement> elements) {
+        return validate(root, elements, UIValidator::isBottomAlignedWith);
     }
 
-    public static boolean sameBottomOffset(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::sameBottomOffset);
+    public static boolean areBottomAligned(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::areBottomAligned);
     }
 
-    public static boolean withBottomElement(WebElement root, WebElement other, int minMargin, int maxMargin) {
-        return validate(root, other, (uiValidator, webElement) -> uiValidator.withBottomElement(other, minMargin, maxMargin));
+    public static boolean isAbove(WebElement root, WebElement other, int minMargin, int maxMargin) {
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.isAbove(other, between(minMargin).and(maxMargin)));
     }
 
-    public static boolean withBottomElement(WebElement other, WebElement root) {
-        return validate(root, other, UIValidator::withBottomElement);
+    public static boolean isAbove(WebElement other, WebElement root) {
+        return validate(root, other, UIValidator::isAbove);
     }
 
-    public static boolean withTopElement(WebElement root, WebElement other, int minMargin, int maxMargin) {
-        return validate(root, other, (uiValidator, webElement) -> uiValidator.withTopElement(other, minMargin, maxMargin));
+    public static boolean isBelow(WebElement root, WebElement other, int minMargin, int maxMargin) {
+        return validate(root, other, (uiValidator, webElement) -> uiValidator.isBelow(other, between(minMargin).and(maxMargin)));
     }
 
-    public static boolean withTopElement(WebElement root, WebElement other) {
-        return validate(root, other, UIValidator::withTopElement);
+    public static boolean isBelow(WebElement root, WebElement other) {
+        return validate(root, other, UIValidator::isBelow);
     }
 
-    public static boolean withLeftElement(WebElement root, WebElement other, int minMargin, int maxMargin) {
-        return validate(root, uiValidator -> uiValidator.withLeftElement(other, minMargin, maxMargin));
+    public static boolean isRightOf(WebElement root, WebElement other, int minMargin, int maxMargin) {
+        return validate(root, uiValidator -> uiValidator.isRightOf(other, between(minMargin).and(maxMargin)));
     }
 
-    public static boolean withLeftElement(WebElement root, WebElement other) {
-        return validate(root, other, UIValidator::withLeftElement);
+    public static boolean isRightOf(WebElement root, WebElement other) {
+        return validate(root, other, UIValidator::isRightOf);
     }
 
-    public static boolean withRightElement(WebElement root, WebElement other, int minMargin, int maxMargin) {
-        return validate(root, uiValidator -> uiValidator.withRightElement(other, minMargin, maxMargin));
+    public static boolean isLeftOf(WebElement root, WebElement other, int minMargin, int maxMargin) {
+        return validate(root, uiValidator -> uiValidator.isLeftOf(other, between(minMargin).and(maxMargin)));
     }
 
-    public static boolean withRightElement(WebElement root, WebElement other) {
-        return validate(root, other, UIValidator::withRightElement);
+    public static boolean isLeftOf(WebElement root, WebElement other) {
+        return validate(root, other, UIValidator::isLeftOf);
     }
 
-    public static boolean overlapWith(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.overlapWith(other, "Blub"));
+    public static boolean isOverlapping(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.isOverlapping(other, "Blub"));
     }
 
-    public static boolean notOverlapWith(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.notOverlapWith(other, "Blub"));
+    public static boolean isNotOverlapping(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.isNotOverlapping(other, "Blub"));
     }
 
     public static boolean areNotOverlappedWithEachOther(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::areNotOverlappedWithEachOther);
+        return validate(elements, ResponsiveUIChunkValidator::doNotOverlap);
     }
 
-    public static boolean insideOf(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.insideOf(other, "Blub"));
+    public static boolean isInsideOf(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.isInsideOf(other, "Blub"));
     }
 
-    public static boolean insideOf(WebElement root, WebElement other, Padding padding) {
-        return validate(root, uiValidator -> uiValidator.insideOf(other, "Blub", padding));
+    public static boolean isInsideOf(WebElement root, WebElement other, Padding padding) {
+        return validate(root, uiValidator -> uiValidator.isInsideOf(other, "Blub", padding));
     }
 
-    public static boolean insideOf(List<WebElement> elements, WebElement container) {
-        return validate(elements, validator -> validator.insideOf(container, "Bla"));
+    public static boolean areInsideOf(List<WebElement> elements, WebElement container) {
+        return validate(elements, validator -> validator.areInsideOf(container, "Bla"));
     }
 
-    public static boolean sameWidthAs(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.sameWidthAs(other, "Blub"));
+    public static boolean hasEqualWidthAs(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.hasEqualWidthAs(other, "Blub"));
     }
 
-    public static boolean sameWidthAs(WebElement root, List<WebElement> others) {
-        return validate(root, uiValidator -> uiValidator.sameWidthAs(others));
+    public static boolean hasEqualWidthAs(WebElement root, List<WebElement> others) {
+        return validate(root, uiValidator -> uiValidator.hasEqualWidthAs(others));
     }
 
-    public static boolean withSameWidth(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::withSameWidth);
+    public static boolean haveEqualWidth(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::haveEqualWidth);
     }
 
-    public static boolean withNotSameWidth(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::withNotSameWidth);
+    public static boolean haveDifferentWidths(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::haveDifferentWidths);
     }
 
-    public static boolean sameHeightAs(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.sameHeightAs(other, "Blub"));
+    public static boolean hasEqualHeightAs(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.hasEqualHeightAs(other, "Blub"));
     }
 
-    public static boolean sameHeightAs(WebElement root, List<WebElement> others) {
-        return validate(root, others, UIValidator::sameHeightAs);
+    public static boolean hasEqualHeightAs(WebElement root, List<WebElement> others) {
+        return validate(root, others, UIValidator::hasEqualHeightAs);
     }
 
-    public static boolean withSameHeight(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::withSameHeight);
+    public static boolean haveEqualHeight(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::haveEqualHeight);
     }
 
-    public static boolean withNotSameHeight(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::withNotSameHeight);
+    public static boolean haveDifferentHeights(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::haveDifferentHeights);
     }
 
-    public static boolean sameSizeAs(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.sameSizeAs(other, "Blub"));
+    public static boolean hasEqualSizeAs(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.hasEqualSizeAs(other, "Blub"));
     }
 
-    public static boolean sameSizeAs(WebElement root, List<WebElement> others) {
-        return validate(root, uiValidator -> uiValidator.sameSizeAs(others));
+    public static boolean hasEqualSizeAs(WebElement root, List<WebElement> others) {
+        return validate(root, uiValidator -> uiValidator.hasEqualSizeAs(others));
     }
 
-    public static boolean withSameSize(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::withSameSize);
+    public static boolean haveEqualSize(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::haveEqualSize);
     }
 
-    public static boolean notSameSizeAs(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.notSameSizeAs(other, "Blub"));
+    public static boolean hasDifferentSizeAs(WebElement root, WebElement other) {
+        return validate(root, uiValidator -> uiValidator.hasDifferentSizeAs(other, "Blub"));
     }
 
-    public static boolean notSameSizeAs(WebElement root, List<WebElement> others) {
-        return validate(root, uiValidator -> uiValidator.notSameSizeAs(others));
+    public static boolean hasDifferentSizeAs(WebElement root, List<WebElement> others) {
+        return validate(root, uiValidator -> uiValidator.hasDifferentSizeAs(others));
     }
 
-    public static boolean withNotSameSize(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::withNotSameSize);
+    public static boolean haveDifferentSizes(List<WebElement> elements) {
+        return validate(elements, ResponsiveUIChunkValidator::haveDifferentSizes);
     }
 
-    public static boolean heightBetween(WebElement root, int min, int max) {
-        return validate(root, uiValidator -> uiValidator.heightBetween(min, max));
+    public static boolean hasHeightBetween(WebElement root, int min, int max) {
+        return validate(root, uiValidator -> uiValidator.hasHeight(between(min).and(max)));
     }
 
-    public static boolean widthBetween(WebElement root, int min, int max) {
-        return validate(root, uiValidator -> uiValidator.widthBetween(min, max));
+    public static boolean hasWidthBetween(WebElement root, int min, int max) {
+        return validate(root, uiValidator -> uiValidator.hasWidth(between(min).and(max)));
     }
 
-    public static boolean minWidth(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.minWidth(value));
+    public static boolean hasWidthGreaterOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasWidth(greaterOrEqualTo(value)));
     }
 
-    public static boolean maxWidth(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.maxWidth(value));
+    public static boolean hasWidthLessOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasWidth(lessOrEqualTo(value)));
     }
 
-    public static boolean minHeight(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.minHeight(value));
+    public static boolean hasHeightGreaterOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasHeight(greaterOrEqualTo(value)));
     }
 
-    public static boolean maxHeight(WebElement root, int value) {
-        return validate(root, uiValidator -> uiValidator.maxHeight(value));
+    public static boolean hasHeightLessOrEqualTo(WebElement root, int value) {
+        return validate(root, uiValidator -> uiValidator.hasHeight(lessOrEqualTo(value)));
     }
 }

@@ -64,7 +64,7 @@ public class ResponsiveValidatorCompatibleTest {
                 .sameSizeAs(page.gridElements())
                 .equalLeftRightOffset()
                 .equalTopBottomOffset()
-                .insideOf(page.mainContainer(), "Main container", new Padding(10, 50, 10, 20))
+                .isInsideOf(page.mainContainer(), "Main container", new Padding(10, 50, 10, 20))
                 .drawMap()
                 .validate();
 

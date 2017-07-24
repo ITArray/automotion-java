@@ -87,7 +87,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase areNotOverlappedWithEachOther() {
+    public ResponsiveUIChunkValidatorBase doNotOverlap() {
         validateElementsAreNotOverlapped(rootElements);
         return this;
     }
@@ -98,7 +98,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase withSameSize() {
+    public ResponsiveUIChunkValidatorBase haveEqualSize() {
         validateSameSize(rootElements);
         return this;
     }
@@ -109,7 +109,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase withSameWidth() {
+    public ResponsiveUIChunkValidatorBase haveEqualWidth() {
         validateSameWidth(rootElements);
         return this;
     }
@@ -120,7 +120,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase withSameHeight() {
+    public ResponsiveUIChunkValidatorBase haveEqualHeight() {
         validateSameHeight(rootElements);
         return this;
     }
@@ -131,8 +131,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase withNotSameSize() {
-        validateNotSameSize(rootElements);
+    public ResponsiveUIChunkValidatorBase haveDifferentSizes() {
+        validateHaveDifferentSizes(rootElements);
         return this;
     }
 
@@ -142,8 +142,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase withNotSameWidth() {
-        validateNotSameWidth(rootElements);
+    public ResponsiveUIChunkValidatorBase haveDifferentWidths() {
+        validateHaveDifferentWidths(rootElements);
         return this;
     }
 
@@ -153,7 +153,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase withNotSameHeight() {
+    public ResponsiveUIChunkValidatorBase haveDifferentHeights() {
         validateNotSameHeight(rootElements);
         return this;
     }
@@ -164,8 +164,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase sameRightOffset() {
-        validateRightOffsetForChunk(asNumberedList(rootElements));
+    public ResponsiveUIChunkValidatorBase areRightAligned() {
+        validateRightAlignedWithChunk(asNumberedList(rootElements));
         return this;
     }
 
@@ -175,8 +175,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase sameLeftOffset() {
-        validateLeftOffsetForChunk(asNumberedList(rootElements));
+    public ResponsiveUIChunkValidatorBase areLeftAligned() {
+        validateLeftAlignedWithChunk(asNumberedList(rootElements));
         return this;
     }
 
@@ -186,8 +186,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase sameTopOffset() {
-        validateTopOffsetForChunk(asNumberedList(rootElements));
+    public ResponsiveUIChunkValidatorBase areTopAligned() {
+        validateTopAlignedWithChunk(asNumberedList(rootElements));
         return this;
     }
 
@@ -197,8 +197,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase sameBottomOffset() {
-        validateBottomOffsetForChunk(asNumberedList(rootElements));
+    public ResponsiveUIChunkValidatorBase areBottomAligned() {
+        validateBottomAlignedWithChunk(asNumberedList(rootElements));
         return this;
     }
 
@@ -208,7 +208,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase equalLeftRightOffset() {
+    public ResponsiveUIChunkValidatorBase areCenteredOnPageVertically() {
         validateEqualLeftRightOffset(rootElements);
         return this;
     }
@@ -219,7 +219,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIChunkValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase equalTopBottomOffset() {
+    public ResponsiveUIChunkValidatorBase areCenteredOnPageHorizontally() {
         validateEqualTopBottomOffset(rootElements);
         return this;
     }
@@ -232,8 +232,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      * @return ResponsiveUIValidator
      */
     @Override
-    public ResponsiveUIChunkValidatorBase insideOf(WebElement containerElement, String readableContainerName) {
-        validateInsideOfContainer(asElement(containerElement), readableContainerName, rootElements);
+    public ResponsiveUIChunkValidatorBase areInsideOf(WebElement containerElement, String readableContainerName) {
+        validateInsideOfContainer(asElement(containerElement, readableContainerName), rootElements);
         return this;
     }
 
@@ -284,35 +284,35 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         }
     }
 
-    private void validateRightOffsetForChunk(List<UIElement> elements) {
+    private void validateRightAlignedWithChunk(List<UIElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            element.validateEqualRight(elementToCompare, errors);
+            element.validateRightAlignedWith(elementToCompare, errors);
         }
     }
 
-    private void validateLeftOffsetForChunk(List<UIElement> elements) {
+    private void validateLeftAlignedWithChunk(List<UIElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            element.validateEqualLeft(elementToCompare, errors);
+            element.validateLeftAlignedWith(elementToCompare, errors);
         }
     }
 
-    private void validateTopOffsetForChunk(List<UIElement> elements) {
+    private void validateTopAlignedWithChunk(List<UIElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            element.validateEqualTop(elementToCompare, errors);
+            element.validateTopAlignedWith(elementToCompare, errors);
         }
     }
 
-    private void validateBottomOffsetForChunk(List<UIElement> elements) {
+    private void validateBottomAlignedWithChunk(List<UIElement> elements) {
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            element.validateEqualBottom(elementToCompare, this.errors);
+            element.validateBottomAlignedWith(elementToCompare, this.errors);
         }
     }
 
@@ -350,37 +350,41 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         }
     }
 
-    private void validateNotSameSize(List<UIElement> elements) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            UIElement element = elements.get(i);
-            UIElement elementToCompare = elements.get(i + 1);
-            if (element.hasSameSizeAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                errors.add(String.format("Element #%d has same size. Element size is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
+    private void validateHaveDifferentSizes(List<UIElement> elements) {
+        for (int firstIndex = 0; firstIndex < elements.size(); firstIndex++) {
+            UIElement element = elements.get(firstIndex);
+            for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
+                UIElement elementToCompare = elements.get(secondIndex);
+                if (element.hasSameSizeAs(elementToCompare)) {
+                    errors.add(String.format("Element #%d has same size. Element size is: [%d, %d]", (firstIndex + 1), element.getWidth(), element.getHeight()), element);
+                    errors.add(String.format("Element #%d has same size. Element size is: [%d, %d]", (secondIndex + 1), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
+                }
             }
-
         }
     }
 
-    private void validateNotSameWidth(List<UIElement> elements) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            UIElement element = elements.get(i);
-            UIElement elementToCompare = elements.get(i + 1);
-            if (element.hasSameWidthAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                errors.add(String.format("Element #%d has same width. Element width is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
+    private void validateHaveDifferentWidths(List<UIElement> elements) {
+        for (int firstIndex = 0; firstIndex < elements.size(); firstIndex++) {
+            UIElement element = elements.get(firstIndex);
+            for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
+                UIElement elementToCompare = elements.get(secondIndex);
+                if (element.hasSameWidthAs(elementToCompare)) {
+                    errors.add(String.format("Element #%d has same width. Element width is: [%d, %d]", (firstIndex + 1), element.getWidth(), element.getHeight()), element);
+                    errors.add(String.format("Element #%d has same width. Element width is: [%d, %d]", (secondIndex + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
+                }
             }
-
         }
     }
 
     private void validateNotSameHeight(List<UIElement> elements) {
-        for (int i = 0; i < elements.size() - 1; i++) {
-            UIElement element = elements.get(i);
-            UIElement elementToCompare = elements.get(i + 1);
-            if (element.hasSameHeightAs(elementToCompare)) {
-                errors.add(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 1), element.getWidth(), element.getHeight()), element);
-                errors.add(String.format("Element #%d has same height. Element height is: [%d, %d]", (i + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
+        for (int firstIndex = 0; firstIndex < elements.size(); firstIndex++) {
+            UIElement element = elements.get(firstIndex);
+            for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
+                UIElement elementToCompare = elements.get(secondIndex);
+                if (element.hasSameHeightAs(elementToCompare)) {
+                    errors.add(String.format("Element #%d has same height. Element height is: [%d, %d]", (firstIndex + 1), element.getWidth(), element.getHeight()), element);
+                    errors.add(String.format("Element #%d has same height. Element height is: [%d, %d]", (secondIndex + 2), elementToCompare.getWidth(), elementToCompare.getHeight()), elementToCompare);
+                }
             }
         }
     }
@@ -397,11 +401,9 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         }
     }
 
-    private void validateInsideOfContainer(UIElement containerElement, String readableContainerName, List<UIElement> elements) {
+    private void validateInsideOfContainer(UIElement containerElement, List<UIElement> elements) {
         for (UIElement element : elements) {
-            if (!containerElement.contains(element)) {
-                errors.add(String.format("Element is not inside of '%s'", readableContainerName), containerElement);
-            }
+            element.validateInsideOfContainer(containerElement, errors);
         }
     }
 

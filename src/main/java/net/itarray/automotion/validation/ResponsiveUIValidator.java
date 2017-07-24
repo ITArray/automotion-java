@@ -114,11 +114,19 @@ public class ResponsiveUIValidator {
         return units;
     }
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.properties.Expression#percent(int, net.itarray.automotion.validation.properties.PercentReference)}
+     */
+    @Deprecated
     public ResponsiveUIValidator changeMetricsUnitsTo(net.itarray.automotion.validation.Units units) {
         this.units = units;
         return this;
     }
 
+    /**
+     * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.properties.Expression#percent(int, net.itarray.automotion.validation.properties.PercentReference)}
+     */
+    @Deprecated
     public ResponsiveUIValidator changeMetricsUnitsTo(util.validator.ResponsiveUIValidator.Units units) {
         return changeMetricsUnitsTo(units.asNewUnits());
     }

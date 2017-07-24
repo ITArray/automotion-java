@@ -18,4 +18,5 @@ public class Literals {
     public static Zoom zoom(int percentage) {
         return ZoomImpl.of(percentage);
     }
+
 }

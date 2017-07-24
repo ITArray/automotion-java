@@ -5,12 +5,10 @@ import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.Group;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.internal.properties.Maximum;
-import net.itarray.automotion.internal.properties.Minimum;
-import net.itarray.automotion.internal.properties.ScalarCondition;
+import net.itarray.automotion.internal.properties.Context;
+import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
-import net.itarray.automotion.validation.properties.Padding;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -36,6 +34,11 @@ public class UIElement {
         this.quoteName = quoteName;
         this.rectangle = rectangle;
         this.cssSource = cssSource;
+    }
+
+    @Deprecated
+    public Rectangle getRectangle() {
+        return rectangle;
     }
 
     public static UIElement asElement(WebElement webElement) {
@@ -182,7 +185,7 @@ public class UIElement {
     }
 
     public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
-        return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualThan(0);
+        return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualTo(0);
     }
 
     public Scalar signedDistanceToSuccessor(Direction direction, UIElement successor) {
@@ -234,19 +237,19 @@ public class UIElement {
         return rectangle.contains(other);
     }
 
-    public void validateEqualLeft(UIElement element, Errors errors) {
+    public void validateLeftAlignedWith(UIElement element, Errors errors) {
         validateEqualEnd(LEFT, element, errors);
     }
 
-    public void validateEqualRight(UIElement element, Errors errors) {
+    public void validateRightAlignedWith(UIElement element, Errors errors) {
         validateEqualEnd(RIGHT, element, errors);
     }
 
-    public void validateEqualTop(UIElement element, Errors errors) {
+    public void validateTopAlignedWith(UIElement element, Errors errors) {
         validateEqualEnd(UP, element, errors);
     }
 
-    public void validateEqualBottom(UIElement element, Errors errors) {
+    public void validateBottomAlignedWith(UIElement element, Errors errors) {
         validateEqualEnd(DOWN, element, errors);
     }
 
@@ -258,31 +261,6 @@ public class UIElement {
                             direction.endName(),
                             element.getQuotedName()),
                     element);
-        }
-    }
-
-    public void validateLeftElement(UIElement leftElement, Errors errors) {
-        validateSuccessor(LEFT, leftElement, errors);
-    }
-
-    public void validateRightElement(UIElement rightElement, Errors errors) {
-        validateSuccessor(RIGHT, rightElement, errors);
-    }
-
-    public void validateAboveElement(UIElement aboveElement, Errors errors) {
-        validateSuccessor(UP, aboveElement, errors);
-    }
-
-    public void validateBelowElement(UIElement belowElement, Errors errors) {
-        validateSuccessor(DOWN, belowElement, errors);
-    }
-
-    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Errors errors) {
-        if (!hasSuccessor(direction, toBeValidatedSuccessor)) {
-            errors.add(
-                    String.format("%s element aligned not properly",
-                            direction.afterName()),
-                    toBeValidatedSuccessor);
         }
     }
 
@@ -334,30 +312,55 @@ public class UIElement {
         validateNotSameExtend(ORIGIN_CORNER, element, errors);
     }
 
-    public void validateBelowElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        validateSuccessor(DOWN, element, minMargin, maxMargin, errors);
+
+    public void validateIsRightOf(UIElement leftElement, Errors errors) {
+        validateSuccessor(LEFT, leftElement, errors);
     }
 
-    public void validateAboveElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        validateSuccessor(UP, element, minMargin, maxMargin, errors);
+    public void validateIsRightOf(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
+        validateSuccessor(LEFT, element, condition, context, errors);
     }
 
-    public void validateRightElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        validateSuccessor(RIGHT, element, minMargin, maxMargin, errors);
+    public void validateIsLeftOf(UIElement rightElement, Errors errors) {
+        validateSuccessor(RIGHT, rightElement, errors);
     }
 
-    public void validateLeftElement(UIElement element, int minMargin, int maxMargin, Errors errors) {
-        validateSuccessor(LEFT, element, minMargin, maxMargin, errors);
+    public void validateIsLeftOf(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
+        validateSuccessor(RIGHT, element, condition, context, errors);
     }
 
-    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, int minMargin, int maxMargin, Errors errors) {
-        Scalar signedDistance = signedDistanceToSuccessor(direction, toBeValidatedSuccessor);
-        if (signedDistance.isLessThan(minMargin) || signedDistance.isGreaterThan(maxMargin)) {
+    public void validateIsBelow(UIElement aboveElement, Errors errors) {
+        validateSuccessor(UP, aboveElement, errors);
+    }
+
+    public void validateIsBelow(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
+        validateSuccessor(UP, element, condition, context, errors);
+    }
+
+    public void validateIsAbove(UIElement belowElement, Errors errors) {
+        validateSuccessor(DOWN, belowElement, errors);
+    }
+
+    public void validateIsAbove(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
+        validateSuccessor(DOWN, element, condition, context, errors);
+    }
+
+    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Errors errors) {
+        if (!hasSuccessor(direction, toBeValidatedSuccessor)) {
             errors.add(
-                    String.format("%s element aligned not properly. Expected margin should be between %spx and %spx. Actual margin is %s",
+                    String.format("%s element aligned not properly",
+                            direction.afterName()),
+                    toBeValidatedSuccessor);
+        }
+    }
+
+    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Context context, Errors errors) {
+        Scalar signedDistance = signedDistanceToSuccessor(direction, toBeValidatedSuccessor);
+        if (!signedDistance.satisfies(condition, context, direction)) {
+            errors.add(
+                    String.format("%s element aligned not properly. Expected margin should be %s. Actual margin is %s",
                             direction.afterName(),
-                            minMargin,
-                            maxMargin,
+                            condition.toStringWithUnits(PIXELS),
                             signedDistance.toStringWithUnits(PIXELS)),
                     toBeValidatedSuccessor);
         }
@@ -383,27 +386,26 @@ public class UIElement {
         }
     }
 
-    public void validateLeftOffset(ScalarCondition leftCondition, UIElement page, Errors errors) {
-        validateOffset(LEFT, leftCondition, page, errors);
+    public void validateLeftOffset(Condition condition, UIElement page, Context context, Errors errors) {
+        validateOffset(LEFT, condition, page, context, errors);
     }
 
-    public void validateRightOffset(ScalarCondition rightCondition, UIElement page, Errors errors) {
-        validateOffset(RIGHT, rightCondition, page, errors);
+    public void validateRightOffset(Condition condition, UIElement page, Context context, Errors errors) {
+        validateOffset(RIGHT, condition, page, context, errors);
     }
 
-    public void validateTopOffset(ScalarCondition topCondition, UIElement page, Errors errors) {
-        validateOffset(UP, topCondition, page, errors);
+    public void validateTopOffset(Condition condition, UIElement page, Context context, Errors errors) {
+        validateOffset(UP, condition, page, context, errors);
     }
 
-    public void validateBottomOffset(ScalarCondition bottomCondition, UIElement page, Errors errors) {
-        validateOffset(DOWN, bottomCondition, page, errors);
+    public void validateBottomOffset(Condition condition, UIElement page, Context context, Errors errors) {
+        validateOffset(DOWN, condition, page, context, errors);
     }
 
-    public void validateOffset(Direction direction, ScalarCondition condition, UIElement page, Errors errors) {
-        if (!getOffset(direction, page).satisfies(condition)) {
+    public void validateOffset(Direction direction, Condition condition, UIElement page, Context context, Errors errors) {
+        if (!getOffset(direction, page).satisfies(condition, context, direction)) {
             errors.add(
-                    String.format("Expected %s %s offset of element %s is: %s. Actual %s offset is: %s",
-                            condition.shortName(),
+                    String.format("Expected %s offset of element %s to be %s. Actual %s offset is: %s",
                             direction.endName(),
                             getQuotedName(),
                             condition.toStringWithUnits(PIXELS),
@@ -436,27 +438,18 @@ public class UIElement {
         }
     }
 
-    public void validateMaxHeight(int limit, Errors errors) {
-        validateExtend(DOWN, new Maximum(limit), errors);
+    public void validateHeight(Condition<Scalar> condition, Context context, Errors errors) {
+        validateExtend(DOWN, condition, context, errors);
     }
 
-    public void validateMinHeight(int limit, Errors errors) {
-        validateExtend(DOWN, new Minimum(limit), errors);
+    public void validateWidth(Condition<Scalar> condition, Context context, Errors errors) {
+        validateExtend(RIGHT, condition, context, errors);
     }
 
-    public void validateMaxWidth(int limit, Errors errors) {
-        validateExtend(RIGHT, new Maximum(limit), errors);
-    }
-
-    public void validateMinWidth(int limit, Errors errors) {
-        validateExtend(RIGHT, new Minimum(limit), errors);
-    }
-
-    public void validateExtend(Direction direction, ScalarCondition condition, Errors errors) {
-        if (!getExtend(direction).satisfies(condition)) {
+    public void validateExtend(Direction direction, Condition condition, Context context, Errors errors) {
+        if (!getExtend(direction).satisfies(condition, context, direction)) {
             errors.add(
-                    String.format("Expected %s %s of element %s is: %s. Actual %s is: %s",
-                            condition.shortName(),
+                    String.format("Expected %s of element %s to be %s. Actual %s is: %s",
                             direction.extendName(),
                             getQuotedName(),
                             condition.toStringWithUnits(PIXELS),
@@ -465,7 +458,7 @@ public class UIElement {
         }
     }
 
-    public void validateWithoutCssValue(String cssProperty, String[] args, Errors errors) {
+    public void validateDoesNotHaveCssValue(String cssProperty, String[] args, Errors errors) {
         String cssValue = getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
@@ -483,7 +476,7 @@ public class UIElement {
         }
     }
 
-    public void validateWithCssValue(String cssProperty, String[] args, Errors errors) {
+    public void validateHasCssValue(String cssProperty, String[] args, Errors errors) {
         String cssValue = getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
@@ -511,12 +504,7 @@ public class UIElement {
         }
     }
 
-    public void validateInsideOfContainer(UIElement element, Padding padding, Errors errors, UIValidatorBase uiValidatorBase) {
-        int top = uiValidatorBase.getConvertedInt(padding.getTop(), false);
-        int right = uiValidatorBase.getConvertedInt(padding.getRight(), true);
-        int bottom = uiValidatorBase.getConvertedInt(padding.getBottom(), false);
-        int left = uiValidatorBase.getConvertedInt(padding.getLeft(), true);
-
+    public void validateInsideOfContainer(UIElement element, int top, int right, int bottom, int left, Errors errors) {
         Rectangle paddedRoot = new Rectangle(
                 getX() - left,
                 getY() - top,

@@ -27,226 +27,226 @@ public class PositionTest {
     }
 
     @Test
-    public void doesNotHaveBottomElementsInMarginsMovedDownByLessThanHeightPlusMinMargin() {
+    public void isNotAboveElementsInMarginsMovedDownByLessThanHeightPlusMinMargin() {
         WebElement other = createElementMovedDownByHeightPLus(minMargin-1);
 
-        assertThat(withBottomElement(root, other, minMargin, maxMargin)).isFalse();
+        assertThat(isAbove(root, other, minMargin, maxMargin)).isFalse();
     }
 
     @Test
-    public void hasBottomElementsInMarginsMovedDownByHeightPlusMinMargin() {
+    public void isAboveElementsInMarginsMovedDownByHeightPlusMinMargin() {
         WebElement other = createElementMovedDownByHeightPLus(minMargin);
 
-        assertThat(withBottomElement(root, other, minMargin, maxMargin)).isTrue();
+        assertThat(isAbove(root, other, minMargin, maxMargin)).isTrue();
     }
 
     @Test
-    public void hasBottomElementsInMarginsMovedDownByHeightPlusSomethingBetweenMinAndMaxMargin() {
+    public void isAboveElementsInMarginsMovedDownByHeightPlusSomethingBetweenMinAndMaxMargin() {
         WebElement other = createElementMovedDownByHeightPLus(margin);
 
-        assertThat(withBottomElement(root, other, minMargin, maxMargin)).isTrue();
+        assertThat(isAbove(root, other, minMargin, maxMargin)).isTrue();
     }
 
     @Test
-    public void hasBottomElementsInMarginsMovedDownByHeightPlusMaxMargin() {
+    public void isAboveElementsInMarginsMovedDownByHeightPlusMaxMargin() {
         WebElement other = createElementMovedDownByHeightPLus(maxMargin);
 
-        assertThat(withBottomElement(root, other, minMargin, maxMargin)).isTrue();
+        assertThat(isAbove(root, other, minMargin, maxMargin)).isTrue();
     }
 
     @Test
-    public void doesNotHaveBottomElementsInMarginsMovedDownByMoreThanHeightPlusMaxMargin() {
+    public void isNotAboveElementsInMarginsMovedDownByMoreThanHeightPlusMaxMargin() {
         WebElement other = createElementMovedDownByHeightPLus(maxMargin+1);
 
-        assertThat(withBottomElement(root, other, minMargin, maxMargin)).isFalse();
+        assertThat(isAbove(root, other, minMargin, maxMargin)).isFalse();
     }
 
     @Test
-    public void doesNotHaveBottomElementsMovedDownByLessThanHeight() {
+    public void isNotAboveElementsMovedDownByLessThanHeight() {
         WebElement other = createElementMovedDownByHeightPLus(-1);
 
-        assertThat(withBottomElement(other, root)).isFalse();
+        assertThat(isAbove(other, root)).isFalse();
     }
 
     @Test
-    public void hasBottomElementsMovedDownByHeight() {
+    public void isAboveElementsMovedDownByHeight() {
         WebElement other = createElementMovedDownByHeightPLus(0);
 
-        assertThat(withBottomElement(other, root)).isTrue();
+        assertThat(isAbove(other, root)).isTrue();
     }
 
     @Test
-    public void hasBottomElementsMovedDownByMoreThanHeight() {
+    public void isAboveElementsMovedDownByMoreThanHeight() {
         WebElement other = createElementMovedDownByHeightPLus(+1);
 
-        assertThat(withBottomElement(other, root)).isTrue();
+        assertThat(isAbove(other, root)).isTrue();
     }
 
     @Test
-    public void doesNotHaveTopElementsInMarginMovedUpByLessThanHeightPlusMinMargin() {
+    public void isNotBelowElementsInMarginMovedUpByLessThanHeightPlusMinMargin() {
         WebElement other = createElementMovedUpByHeightPlus(minMargin-1);
 
-        assertThat(withTopElement(root, other, minMargin, maxMargin)).isFalse();
+        assertThat(isBelow(root, other, minMargin, maxMargin)).isFalse();
     }
 
     @Test
-    public void hasTopElementsInMarginMovedUpByHeightPlusMinMargin() {
+    public void isBelowElementsInMarginMovedUpByHeightPlusMinMargin() {
         WebElement other = createElementMovedUpByHeightPlus(minMargin);
 
-        assertThat(withTopElement(root, other, minMargin, maxMargin)).isTrue();
+        assertThat(isBelow(root, other, minMargin, maxMargin)).isTrue();
     }
 
     @Test
-    public void hasTopElementsInMarginMovedUpByHeightPlusSomethingBetweenMinAndMaxMargin() {
+    public void isBelowElementsInMarginMovedUpByHeightPlusSomethingBetweenMinAndMaxMargin() {
         WebElement other = createElementMovedUpByHeightPlus(margin);
 
-        assertThat(withTopElement(root, other, minMargin, maxMargin)).isTrue();
+        assertThat(isBelow(root, other, minMargin, maxMargin)).isTrue();
     }
 
     @Test
-    public void hasTopElementsInMarginMovedUpByHeightPlusMaxMargin() {
+    public void isBelowElementsInMarginMovedUpByHeightPlusMaxMargin() {
         WebElement other = createElementMovedUpByHeightPlus(maxMargin);
 
-        assertThat(withTopElement(root, other, minMargin, maxMargin)).isTrue();
+        assertThat(isBelow(root, other, minMargin, maxMargin)).isTrue();
     }
 
     @Test
-    public void doesNotHaveTopElementsInMarginMovedUpByMoreThanHeightPlusMaxMargin() {
+    public void isNotBelowElementsInMarginMovedUpByMoreThanHeightPlusMaxMargin() {
         WebElement other = createElementMovedUpByHeightPlus(maxMargin+1);
 
-        assertThat(withTopElement(root, other, minMargin, maxMargin)).isFalse();
+        assertThat(isBelow(root, other, minMargin, maxMargin)).isFalse();
     }
 
     @Test
-    public void hasTopElementsMovedUpByLessHeight() {
+    public void isNotBelowElementsMovedUpByLessHeight() {
         WebElement other = createElementMovedUpByHeightPlus(-1);
 
-        assertThat(withTopElement(root, other)).isFalse();
+        assertThat(isBelow(root, other)).isFalse();
     }
 
     @Test
-    public void hasTopElementsMovedUpByHeight() {
+    public void isBelowElementsMovedUpByHeight() {
         WebElement other = createElementMovedUpByHeightPlus(0);
 
-        assertThat(withTopElement(root, other)).isTrue();
+        assertThat(isBelow(root, other)).isTrue();
     }
 
     @Test
-    public void doesNotHaveTopElementsMovedUpByMoreThanHeight() {
+    public void isBelowElementsMovedUpByMoreThanHeight() {
         WebElement other = createElementMovedUpByHeightPlus(+1);
 
-        assertThat(withTopElement(root, other)).isTrue();
+        assertThat(isBelow(root, other)).isTrue();
     }
 
     @Test
-    public void doesNotHaveRightElementsInMarginsMovedRightByLessThanWidthPlusMinMargin() {
+    public void isNotLeftOfElementsInMarginsMovedRightByLessThanWidthPlusMinMargin() {
         WebElement other = createElementMovedRightByWidthPlus(minMargin-1);
 
-        assertThat(withRightElement(root, other, minMargin, maxMargin)).isFalse();
+        assertThat(isLeftOf(root, other, minMargin, maxMargin)).isFalse();
     }
 
     @Test
-    public void hasRightElementsInMarginsMovedRightByWidthPlusMinMargin() {
+    public void isLeftOfElementsInMarginsMovedRightByWidthPlusMinMargin() {
         WebElement other = createElementMovedRightByWidthPlus(minMargin);
 
-        assertThat(withRightElement(root, other, minMargin, maxMargin)).isTrue();
+        assertThat(isLeftOf(root, other, minMargin, maxMargin)).isTrue();
     }
 
     @Test
-    public void hasRightElementsInMarginsMovedRightByWidthPlusSomethingBetweenMinAndMaxMargin() {
+    public void isLeftOfElementsInMarginsMovedRightByWidthPlusSomethingBetweenMinAndMaxMargin() {
         WebElement other = createElementMovedRightByWidthPlus(margin);
 
-        assertThat(withRightElement(root, other, minMargin, maxMargin)).isTrue();
+        assertThat(isLeftOf(root, other, minMargin, maxMargin)).isTrue();
     }
 
     @Test
-    public void hasRightElementsInMarginsMovedRightByWidthPlusMasMargin() {
+    public void isLeftOfElementsInMarginsMovedRightByWidthPlusMasMargin() {
         WebElement other = createElementMovedRightByWidthPlus(maxMargin);
 
-        assertThat(withRightElement(root, other, minMargin, maxMargin)).isTrue();
+        assertThat(isLeftOf(root, other, minMargin, maxMargin)).isTrue();
     }
 
     @Test
-    public void doesNotHaveRightElementsInMarginsMovedRightByMoreThanWidthPlusMaxMargin() {
+    public void isNotLeftOfElementsInMarginsMovedRightByMoreThanWidthPlusMaxMargin() {
         WebElement other = createElementMovedRightByWidthPlus(maxMargin+1);
 
-        assertThat(withRightElement(root, other, minMargin, maxMargin)).isFalse();
+        assertThat(isLeftOf(root, other, minMargin, maxMargin)).isFalse();
     }
 
     @Test
-    public void doesNotHaveRightElementsMovedRightByLessThanWidth() {
+    public void isNotLeftOfElementsMovedRightByLessThanWidth() {
         WebElement other = createElementMovedRightByWidthPlus(-1);
 
-        assertThat(withRightElement(root, other)).isFalse();
+        assertThat(isLeftOf(root, other)).isFalse();
     }
 
     @Test
-    public void hasRightElementsMovedRightByWidth() {
+    public void isLeftOfElementsMovedRightByWidth() {
         WebElement other = createElementMovedRightByWidthPlus(0);
 
-        assertThat(withRightElement(root, other)).isTrue();
+        assertThat(isLeftOf(root, other)).isTrue();
     }
 
     @Test
-    public void doesNotHaveRightElementsMovedRightByMoreThanWidth() {
+    public void isLeftOfElementsMovedRightByMoreThanWidth() {
         WebElement other = createElementMovedRightByWidthPlus(+1);
 
-        assertThat(withRightElement(root, other)).isTrue();
+        assertThat(isLeftOf(root, other)).isTrue();
     }
 
     @Test
-    public void doesNotHaveLeftElementsInMarginsMovedLeftByLessThanWidthPlusMinMargin() {
+    public void isNotRightOfElementsInMarginsMovedLeftByLessThanWidthPlusMinMargin() {
         WebElement other = createElementMovedLeftByWidthPlus(minMargin-1);
 
-        assertThat(withLeftElement(root, other, minMargin, maxMargin)).isFalse();
+        assertThat(isRightOf(root, other, minMargin, maxMargin)).isFalse();
     }
 
     @Test
-    public void hasLeftElementsInMarginsMovedLeftByWidthPlusMinMargin() {
+    public void isRightOfElementsInMarginsMovedLeftByWidthPlusMinMargin() {
         WebElement other = createElementMovedLeftByWidthPlus(minMargin);
 
-        assertThat(withLeftElement(root, other, minMargin, maxMargin)).isTrue();
+        assertThat(isRightOf(root, other, minMargin, maxMargin)).isTrue();
     }
 
     @Test
-    public void hasLeftElementsInMarginsMovedLeftByWidthPlusSomethingBetweenMinAndMaxMargin() {
+    public void isRightOfElementsInMarginsMovedLeftByWidthPlusSomethingBetweenMinAndMaxMargin() {
         WebElement other = createElementMovedLeftByWidthPlus(margin);
 
-        assertThat(withLeftElement(root, other, minMargin, maxMargin)).isTrue();
+        assertThat(isRightOf(root, other, minMargin, maxMargin)).isTrue();
     }
 
     @Test
-    public void hasLeftElementsInMarginsMovedLeftByWidthPlusMasMargin() {
+    public void isRightOfElementsInMarginsMovedLeftByWidthPlusMasMargin() {
         WebElement other = createElementMovedLeftByWidthPlus(maxMargin);
 
-        assertThat(withLeftElement(root, other, minMargin, maxMargin)).isTrue();
+        assertThat(isRightOf(root, other, minMargin, maxMargin)).isTrue();
     }
 
     @Test
-    public void doesNotHaveLeftElementsInMarginsMovedLeftByMoreThanWidthPlusMaxMargin() {
+    public void isNotRightOfElementsInMarginsMovedLeftByMoreThanWidthPlusMaxMargin() {
         WebElement other = createElementMovedLeftByWidthPlus(maxMargin+1);
 
-        assertThat(withLeftElement(root, other, minMargin, maxMargin)).isFalse();
+        assertThat(isRightOf(root, other, minMargin, maxMargin)).isFalse();
     }
 
     @Test
-    public void doesNotHaveLeftElementsMovedLeftByLessThanWidth() {
+    public void isNotRightOfElementsMovedLeftByLessThanWidth() {
         WebElement other = createElementMovedLeftByWidthPlus(-1);
 
-        assertThat(withLeftElement(root, other)).isFalse();
+        assertThat(isRightOf(root, other)).isFalse();
     }
 
     @Test
-    public void hasLeftElementsMovedLeftByWidth() {
+    public void isRightOfElementsMovedLeftByWidth() {
         WebElement other = createElementMovedLeftByWidthPlus(0);
 
-        assertThat(withLeftElement(root, other)).isTrue();
+        assertThat(isRightOf(root, other)).isTrue();
     }
 
     @Test
-    public void doesNotHaveLeftElementsMovedLeftByMoreThanWidth() {
+    public void isRightOfElementsMovedLeftByMoreThanWidth() {
         WebElement other = createElementMovedLeftByWidthPlus(+1);
 
-        assertThat(withLeftElement(root, other)).isTrue();
+        assertThat(isRightOf(root, other)).isTrue();
     }
 }

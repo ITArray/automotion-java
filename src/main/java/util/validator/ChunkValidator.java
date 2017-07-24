@@ -17,32 +17,32 @@ public interface ChunkValidator extends ChunkUIElementValidator {
 
     ResponsiveUIChunkValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 
-    ResponsiveUIChunkValidator areNotOverlappedWithEachOther();
+    ResponsiveUIChunkValidator doNotOverlap();
 
-    ResponsiveUIChunkValidator withSameSize();
+    ResponsiveUIChunkValidator haveEqualSize();
 
-    ResponsiveUIChunkValidator withSameWidth();
+    ResponsiveUIChunkValidator haveEqualWidth();
 
-    ResponsiveUIChunkValidator withSameHeight();
+    ResponsiveUIChunkValidator haveEqualHeight();
 
-    ResponsiveUIChunkValidator withNotSameSize();
+    ResponsiveUIChunkValidator haveDifferentSizes();
 
-    ResponsiveUIChunkValidator withNotSameWidth();
+    ResponsiveUIChunkValidator haveDifferentWidths();
 
-    ResponsiveUIChunkValidator withNotSameHeight();
+    ResponsiveUIChunkValidator haveDifferentHeights();
 
-    ResponsiveUIChunkValidator sameRightOffset();
+    ResponsiveUIChunkValidator areRightAligned();
 
-    ResponsiveUIChunkValidator sameLeftOffset();
+    ResponsiveUIChunkValidator areLeftAligned();
 
-    ResponsiveUIChunkValidator sameTopOffset();
+    ResponsiveUIChunkValidator areTopAligned();
 
-    ResponsiveUIChunkValidator sameBottomOffset();
+    ResponsiveUIChunkValidator areBottomAligned();
 
-    ResponsiveUIChunkValidator equalLeftRightOffset();
+    ResponsiveUIChunkValidator areCenteredOnPageVertically();
 
-    ResponsiveUIChunkValidator equalTopBottomOffset();
+    ResponsiveUIChunkValidator areCenteredOnPageHorizontally();
 
-    ResponsiveUIChunkValidator insideOf(WebElement containerElement, String readableContainerName);
+    ResponsiveUIChunkValidator areInsideOf(WebElement containerElement, String readableContainerName);
 
 }

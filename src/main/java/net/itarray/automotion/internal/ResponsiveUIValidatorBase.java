@@ -130,17 +130,22 @@ public abstract class ResponsiveUIValidatorBase {
         return factor;
     }
 
-    protected int getConvertedInt(int i, boolean horizontal) {
-        if (getUnits().equals(net.itarray.automotion.validation.Units.PX)) {
-            return i;
+    protected int toPixelsHorizontally(int coordinate) {
+        return toPixels(Direction.RIGHT, coordinate);
+    }
+
+    protected int toPixelsVertically(int coordinate) {
+        return toPixels(Direction.DOWN, coordinate);
+    }
+
+    private int toPixels(Direction direction, int coordinate) {
+        if (getUnits().equals(Units.PX)) {
+            return coordinate;
         } else {
-            if (horizontal) {
-                return (i * page.getExtend(Direction.RIGHT).getValue()) / 100;
-            } else {
-                return (i * page.getExtend(Direction.DOWN).getValue()) / 100;
-            }
+            return (coordinate * page.getExtend(direction).getValue()) / 100;
         }
     }
+
 
     private int getYOffset() {
         if (isMobile() && getDriver().isAppiumWebContext() && getReport().isMobileTopBarOffset()) {
