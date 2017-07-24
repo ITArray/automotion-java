@@ -1,5 +1,6 @@
 import http.helpers.EnvironmentHelper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
+import net.itarray.automotion.validation.UISnapshot;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Ignore;
@@ -15,29 +16,41 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.itarray.automotion.validation.properties.Expression.percent;
 import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.Literals.zoom;
 import static net.itarray.automotion.validation.properties.Condition.between;
+import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
 
 @Ignore
 public class ResponsiveValidatorNewDSLTest {
 
     private static WebDriver driver;
+    private static long start;
 
     public static void main(String[] args) {
         ManualTestSupport.deleteOutputDirectory();
         ResponsiveValidatorNewDSLTest test = new ResponsiveValidatorNewDSLTest();
-        long start = System.currentTimeMillis();
+        start = System.currentTimeMillis();
         try {
             test.testThatResponsiveValidatorWorks();
         } finally {
             test.tearDown();
-            long stop = System.currentTimeMillis();
-            System.out.println((stop - start) + " ms");
+            stopTimer();
             ManualTestSupport.openReportInDefaultBrowser();;
         }
     }
-    
+
+    private static void stopTimer() {
+        long stop = System.currentTimeMillis();
+        System.out.println((stop - start) + " ms");
+    }
+
+    private static void time(String msg) {
+        long stop = System.currentTimeMillis();
+        System.out.println((stop - start) + " ms " + msg);
+    }
+
     @Test
     public void testThatResponsiveValidatorWorks() {
         Map<String, String> sysProp = new HashMap<>();
@@ -58,44 +71,45 @@ public class ResponsiveValidatorNewDSLTest {
         responsiveUIValidator.setLinesColor(Color.BLACK);
         SoftAssertions softly = new SoftAssertions();
 
-        boolean success1 = responsiveUIValidator.snapshot("Validation of Top Slider Element")
-                .findElement(page.topSlider(), "Top Slider")
+        time("-1-");
+        UISnapshot mainSnapshot = responsiveUIValidator.snapshot("Main");
+        boolean success1 = mainSnapshot.findElement(page.topSlider(), "Top Slider")
                 .isLeftAlignedWith(page.gridContainer(), "Grid Container")
                 .isBottomAlignedWith(page.topTextBlock(), "Text Block")
-                .hasWidth(between(percentOrPixels(300)).and(percentOrPixels(500)))
+                .hasWidth(between(percent(300, PAGE)).and(percent(500, PAGE)))
                 .hasEqualSizeAs(page.gridElements())
                 .isCenteredOnPageHorizontally()
                 .isCenteredOnPageVertically()
-                .insideOf(page.mainContainer(), "Main container", new Padding(10, 50, 10, 20))
+                .isInsideOf(page.mainContainer(), "Main container", new Padding(10, 50, 10, 20))
                 .validate();
 
         softly.assertThat(success1).isEqualTo(true).overridingErrorMessage("Failed validation of Top Slider element");
 
-        boolean success0 = responsiveUIValidator.snapshot("Validation of Grid view")
-                .findElement(page.gridContainer(), "Grid Container")
+        time("-2-");
+        boolean success0 = mainSnapshot.findElement(page.gridContainer(), "Grid Container")
                 .isCenteredOnPageHorizontally()
                 .validate();
 
         softly.assertThat(success0).isEqualTo(true).overridingErrorMessage("Failed validation of Grid Container");
 
-        boolean success01 = responsiveUIValidator.snapshot("Validation of Main container")
-                .findElement(page.mainContainer(), "Main Container")
+        time("-3-");
+        boolean success01 = mainSnapshot.findElement(page.mainContainer(), "Main Container")
                 .isCenteredOnPageHorizontally()
                 .validate();
 
         softly.assertThat(success01).isEqualTo(true).overridingErrorMessage("Failed validation of Main Container");
 
 
-        boolean success2 = responsiveUIValidator.snapshot("Validation of Top Text block")
-                .findElement(page.topTextBlock(), "Top Text block")
+        time("-4-");
+        boolean success2 = mainSnapshot.findElement(page.topTextBlock(), "Top Text block")
                 .isRightAlignedWith(page.gridContainer(), "Grid Container")
                 .isTopAlignedWith(page.topSlider(), "Top Slider")
                 .validate();
 
         softly.assertThat(success2).isEqualTo(true).overridingErrorMessage("Failed validation of Top Text block");
 
-        boolean success3 = responsiveUIValidator.snapshot("Validation of a grid view")
-                .findElements(page.gridElements())
+        time("-5-");
+        boolean success3 = mainSnapshot.findElements(page.gridElements())
                 .alignedAsGrid(4, 3)
                 .haveEqualSize()
                 .doNotOverlap()
@@ -107,6 +121,7 @@ public class ResponsiveValidatorNewDSLTest {
         softly.assertThat(success3).isEqualTo(true).overridingErrorMessage("Failed validation of Grid");
 
         for (WebElement card : page.gridElements()) {
+            time("-6-");
             boolean success = responsiveUIValidator.snapshot("Validation of style for each of cards in a grid view")
                     .findElement(card.findElement(By.className("project-details")), "Project details block")
                     .hasCssValue("background", "#f8f8f8")
@@ -120,8 +135,8 @@ public class ResponsiveValidatorNewDSLTest {
         int[] zoomRange = {50, 70, 100, 120, 150};
 
         for (int val : zoomRange) {
-            boolean success = responsiveUIValidator.snapshot("Validate page", zoom(val))
-                    .findElement(page.mainContainer(), "Main container")
+            time("-7-");
+            boolean success = responsiveUIValidator.snapshot("Validate page", zoom(val)).findElement(page.mainContainer(), "Main container")
                     .isCenteredOnPageHorizontally()
                     .hasEqualWidthAs(page.gridContainer(), "Grid Container")
                     .validate();
@@ -129,7 +144,9 @@ public class ResponsiveValidatorNewDSLTest {
             softly.assertThat(success).isEqualTo(true).overridingErrorMessage("Failed validation of Container");
         }
 
+        time("-8-");
         responsiveUIValidator.generateReport("Home Page");
+        time("-9-");
 
         softly.assertAll();
     }
