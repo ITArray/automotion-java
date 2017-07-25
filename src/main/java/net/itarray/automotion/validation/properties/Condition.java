@@ -5,7 +5,7 @@ import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Between;
 import net.itarray.automotion.internal.properties.BinaryScalarConditionWithFixedOperand;
 import net.itarray.automotion.internal.properties.Context;
-import net.itarray.automotion.internal.properties.ScalarConstant;
+import net.itarray.automotion.internal.properties.PixelConstant;
 
 public interface Condition<T> {
 
@@ -14,7 +14,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> equalTo(Scalar limit) {
-        return equalTo(new ScalarConstant(limit));
+        return equalTo(new PixelConstant(limit));
     }
 
     static Condition<Scalar> equalTo(Expression<Scalar> lowerLimit) {
@@ -26,7 +26,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> greaterOrEqualTo(Scalar limit) {
-        return greaterOrEqualTo(new ScalarConstant(limit));
+        return greaterOrEqualTo(new PixelConstant(limit));
     }
 
     static Condition<Scalar> greaterOrEqualTo(Expression<Scalar> lowerLimit) {
@@ -38,7 +38,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> greaterThan(Scalar limit) {
-        return greaterThan(new ScalarConstant(limit));
+        return greaterThan(new PixelConstant(limit));
     }
 
     static Condition<Scalar> greaterThan(Expression<Scalar> lowerLimit) {
@@ -50,7 +50,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> lessOrEqualTo(Scalar limit) {
-        return lessOrEqualTo(new ScalarConstant(limit));
+        return lessOrEqualTo(new PixelConstant(limit));
     }
 
     static Condition<Scalar> lessOrEqualTo(Expression<Scalar> upperLimit) {
@@ -62,7 +62,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> lessThan(Scalar limit) {
-        return lessThan(new ScalarConstant(limit));
+        return lessThan(new PixelConstant(limit));
     }
 
     static Condition<Scalar> lessThan(Expression<Scalar> upperLimit) {
@@ -90,11 +90,11 @@ public interface Condition<T> {
         }
 
         public LowerLimit(Scalar lowerLimit) {
-            this(new ScalarConstant(lowerLimit));
+            this(new PixelConstant(lowerLimit));
         }
 
         public LowerLimit(int lowerLimit) {
-            this(new ScalarConstant(new Scalar(lowerLimit)));
+            this(new PixelConstant(new Scalar(lowerLimit)));
         }
 
         public Condition<Scalar> and(int upperLimit) {
@@ -102,7 +102,7 @@ public interface Condition<T> {
         }
 
         public Condition<Scalar> and(Scalar upperLimit) {
-            return and(new ScalarConstant(upperLimit));
+            return and(new PixelConstant(upperLimit));
         }
 
         public Condition<Scalar> and(Expression<Scalar> upperLimit) {
@@ -112,5 +112,5 @@ public interface Condition<T> {
 
     boolean isSatisfiedOn(T value, Context context, Direction direction);
 
-    String toStringWithUnits(String units);
+    String getDescription(Context context, Direction direction);
 }

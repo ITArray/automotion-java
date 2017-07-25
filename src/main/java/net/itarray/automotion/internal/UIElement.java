@@ -5,6 +5,7 @@ import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.Group;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.geometry.Vector;
 import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.tools.general.SystemHelper;
@@ -88,7 +89,7 @@ public class UIElement {
         return direction.end(rectangle);
     }
 
-    public Scalar getExtend(Direction direction) {
+    public <V extends Group<V>> V getExtend(ExtendGiving<V> direction) {
         return direction.extend(rectangle);
     }
 
@@ -106,6 +107,10 @@ public class UIElement {
 
     public int getHeight() {
         return DOWN.extend(rectangle).getValue();
+    }
+
+    public Vector getSize() {
+        return ORIGIN_CORNER.extend(rectangle);
     }
 
     public int getCornerX() {
@@ -360,7 +365,7 @@ public class UIElement {
             errors.add(
                     String.format("%s element aligned not properly. Expected margin should be %s. Actual margin is %s",
                             direction.afterName(),
-                            condition.toStringWithUnits(PIXELS),
+                            condition.getDescription(context, direction),
                             signedDistance.toStringWithUnits(PIXELS)),
                     toBeValidatedSuccessor);
         }
@@ -408,7 +413,7 @@ public class UIElement {
                     String.format("Expected %s offset of element %s to be %s. Actual %s offset is: %s",
                             direction.endName(),
                             getQuotedName(),
-                            condition.toStringWithUnits(PIXELS),
+                            condition.getDescription(context, direction),
                             direction.endName(),
                             getOffset(direction, page).toStringWithUnits(PIXELS)));
         }
@@ -452,7 +457,7 @@ public class UIElement {
                     String.format("Expected %s of element %s to be %s. Actual %s is: %s",
                             direction.extendName(),
                             getQuotedName(),
-                            condition.toStringWithUnits(PIXELS),
+                            condition.getDescription(context, direction),
                             direction.extendName(),
                             direction.extend(rectangle).toStringWithUnits(PIXELS)));
         }

@@ -1,6 +1,6 @@
 package net.itarray.automotion.internal;
 
-import org.apache.commons.io.FileUtils;
+import net.itarray.automotion.tools.helpers.Helper;
 import org.json.simple.JSONObject;
 
 import javax.imageio.ImageIO;
@@ -13,19 +13,20 @@ import static net.itarray.automotion.validation.Constants.*;
 
 public class DrawableScreenshot {
 
-    private final File screenshot;
     private final DrawingConfiguration drawingConfiguration;
     private BufferedImage img;
     private TransformedGraphics graphics;
-    private File output;
+    private File screenshotName;
     private File drawingsOutput;
     private BufferedImage drawings;
 
-    public DrawableScreenshot(DriverFacade driver, SimpleTransform transform, DrawingConfiguration drawingConfiguration) {
-        screenshot = driver.takeScreenshot();
+    public DrawableScreenshot(SimpleTransform transform, DrawingConfiguration drawingConfiguration, String rootElementReadableName, File screenshotName) {
         this.drawingConfiguration = drawingConfiguration;
+        this.screenshotName = screenshotName;
+        drawingsOutput = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-draw-" + System.currentTimeMillis() + Helper.getGeneratedStringWithLength(7) + ".png");
+
         try {
-            img = ImageIO.read(screenshot);
+            img = ImageIO.read(screenshotName);
 
             drawings = new BufferedImage(img.getWidth(), img.getHeight(),
                     BufferedImage.TYPE_INT_ARGB);
@@ -35,12 +36,18 @@ public class DrawableScreenshot {
             graphics = new TransformedGraphics(g2d, transform);
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to create screenshot file: " + screenshot, e);
+            throw new RuntimeException("Failed to create screenshot file: " + screenshotName, e);
         }
     }
 
-    public File getOutput() {
-        return output;
+    public static File takeScreenshot(DriverFacade driver, String rootElementReadableName) {
+        File screenshotName = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + System.currentTimeMillis() + Helper.getGeneratedStringWithLength(7) + ".png");
+        driver.takeScreenshot(screenshotName);
+        return screenshotName;
+    }
+
+    public File getScreenshotName() {
+        return screenshotName;
     }
 
     public File getDrawingsOutput() {
@@ -68,18 +75,13 @@ public class DrawableScreenshot {
             }
         }
 
-        output = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + screenshot.getName());
-        try {
-            FileUtils.moveFile(screenshot, output);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        drawingsOutput = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-trans-" + screenshot.getName());
+
+
         try {
             ImageIO.write(drawings, "png", drawingsOutput);
         } catch (IOException e) {
-            throw new RuntimeException("Writing file failed for " + screenshot , e);
+            throw new RuntimeException("Writing file failed for " + drawingsOutput , e);
         }
 
         drawings.getGraphics().dispose();

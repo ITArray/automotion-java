@@ -4,7 +4,7 @@ import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.validation.properties.Expression;
-import net.itarray.automotion.internal.properties.ScalarConstant;
+import net.itarray.automotion.internal.properties.PixelConstant;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
@@ -95,7 +95,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private Expression<Scalar> scalarExpression(int width) {
-        return isPixels() ? new ScalarConstant(new Scalar(width)) : Expression.percent(new Scalar(width), PAGE);
+        return isPixels() ? new PixelConstant(new Scalar(width)) : Expression.percent(new Scalar(width), PAGE);
     }
 
     private Condition<Scalar> betweenCondition(int minMargin, int maxMargin) {

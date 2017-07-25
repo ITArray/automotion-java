@@ -4,11 +4,11 @@ import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Expression;
 
-public class ScalarConstant implements Expression<Scalar> {
+public class PixelConstant implements Expression<Scalar> {
 
     private final Scalar value;
 
-    public ScalarConstant(Scalar value) {
+    public PixelConstant(Scalar value) {
         this.value = value;
     }
 
@@ -18,8 +18,8 @@ public class ScalarConstant implements Expression<Scalar> {
     }
 
     @Override
-    public String toStringWithUnits(String units) {
-        return value.toStringWithUnits(units);
+    public String getDescription(Context context, Direction direction) {
+        return value.toString() + "px";
     }
 
     @Override
@@ -29,10 +29,10 @@ public class ScalarConstant implements Expression<Scalar> {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof ScalarConstant)) {
+        if (!(object instanceof PixelConstant)) {
             return false;
         }
-        ScalarConstant other = (ScalarConstant) object;
+        PixelConstant other = (PixelConstant) object;
         return value.equals(other.value);
     }
 

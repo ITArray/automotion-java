@@ -6,8 +6,12 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import static net.itarray.automotion.tools.environment.EnvironmentFactory.*;
 
@@ -20,6 +24,17 @@ public class DriverFacade {
 
     public File takeScreenshot() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+    }
+
+    public void takeScreenshot(File file) {
+        file.getParentFile().mkdirs();
+        byte[] bytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+
+        try (OutputStream stream = new FileOutputStream(file); ){
+            stream.write(bytes);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean isAppiumWebContext() {

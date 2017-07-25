@@ -20,8 +20,8 @@ public class PagePercentage implements Expression<Scalar> {
     }
 
     @Override
-    public String toStringWithUnits(String units) {
-        return null;
+    public String getDescription(Context context, Direction direction) {
+        return String.format("%s%% of page (%spx)", percentage, evaluateIn(context, direction));
     }
 
     @Override

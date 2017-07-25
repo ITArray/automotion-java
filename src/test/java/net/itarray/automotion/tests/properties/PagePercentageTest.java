@@ -23,7 +23,7 @@ public class PagePercentageTest {
     }
 
     @Test
-    public void shouldName() {
+    public void evaluatesToThePercentageOfThePageRectange() {
         Context context = new TestContext(new Rectangle(0, 0, 200, 150));
         Direction direction = Direction.RIGHT;
         assertThat(expression.evaluateIn(context, direction)).isEqualTo(new Scalar(54));
@@ -48,5 +48,10 @@ public class PagePercentageTest {
     @Test
     public void isNotEqualToNull() {
         assertThat(expression).isNotEqualTo(null);
+    }
+
+    @Test
+    public void describesItselfAsPixelConstant() {
+        assertThat(expression.getDescription(new TestContext(), Direction.RIGHT)).isEqualTo("27% of page (54px)");
     }
 }

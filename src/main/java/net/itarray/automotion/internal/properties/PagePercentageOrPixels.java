@@ -6,11 +6,11 @@ import net.itarray.automotion.validation.properties.Expression;
 
 public class PagePercentageOrPixels implements Expression<Scalar> {
 
-    private final ScalarConstant constant;
+    private final PixelConstant constant;
     private final PagePercentage pagePercentage;
 
     public PagePercentageOrPixels(Scalar constant) {
-        this.constant = new ScalarConstant(constant);
+        this.constant = new PixelConstant(constant);
         this.pagePercentage = new PagePercentage(constant);
     }
 
@@ -43,7 +43,7 @@ public class PagePercentageOrPixels implements Expression<Scalar> {
     }
 
     @Override
-    public String toStringWithUnits(String units) {
-        return constant.toStringWithUnits(units);
+    public String getDescription(Context context, Direction direction) {
+        return constant.getDescription(context, direction);
     }
 }

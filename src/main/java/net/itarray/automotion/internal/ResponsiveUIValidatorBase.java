@@ -100,7 +100,9 @@ public abstract class ResponsiveUIValidatorBase {
             return;
         }
 
-        DrawableScreenshot screenshot = new DrawableScreenshot(getDriver(), getTransform(), getDrawingConfiguration());
+        File screenshotName = snapshot.takeScreenshot();
+
+        DrawableScreenshot screenshot = new DrawableScreenshot(getTransform(), getDrawingConfiguration(), getNameOfToBeValidated(), screenshotName);
 
         drawRootElement(screenshot);
 
@@ -171,7 +173,7 @@ public abstract class ResponsiveUIValidatorBase {
         jsonResults.put(ROOT_ELEMENT, rootDetails);
         jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
         jsonResults.put(ELEMENT_NAME, getNameOfToBeValidated());
-        jsonResults.put(SCREENSHOT, drawableScreenshot.getOutput().getName());
+        jsonResults.put(SCREENSHOT, drawableScreenshot.getScreenshotName().getName());
         jsonResults.put(DRAWINGS, drawableScreenshot.getDrawingsOutput().getName());
 
         long ms = System.currentTimeMillis();
