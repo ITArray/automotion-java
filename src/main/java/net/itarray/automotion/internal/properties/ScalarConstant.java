@@ -18,8 +18,8 @@ public class ScalarConstant implements Expression<Scalar> {
     }
 
     @Override
-    public String toStringWithUnits(String units) {
-        return value.toStringWithUnits(units);
+    public String getDescription(Context context, Direction direction) {
+        return value.toString() + "px";
     }
 
     @Override

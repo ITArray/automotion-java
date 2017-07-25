@@ -20,7 +20,7 @@ public class PagePercentage implements Expression<Scalar> {
     }
 
     @Override
-    public String toStringWithUnits(String units) {
+    public String getDescription(Context context, Direction direction) {
         return null;
     }
 

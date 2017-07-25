@@ -43,7 +43,7 @@ public class PagePercentageOrPixels implements Expression<Scalar> {
     }
 
     @Override
-    public String toStringWithUnits(String units) {
-        return constant.toStringWithUnits(units);
+    public String getDescription(Context context, Direction direction) {
+        return constant.getDescription(context, direction);
     }
 }

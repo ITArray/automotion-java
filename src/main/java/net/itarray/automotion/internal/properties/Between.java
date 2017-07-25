@@ -25,8 +25,8 @@ public class Between implements Condition<Scalar> {
     }
 
     @Override
-    public String toStringWithUnits(String units) {
-        return String.format("between %s and %s", lowerLimitExpression.toStringWithUnits(units), upperLimitExpression.toStringWithUnits(units));
+    public String getDescription(Context context, Direction direction) {
+        return String.format("between %s and %s", lowerLimitExpression.getDescription(context, direction), upperLimitExpression.getDescription(context, direction));
     }
 
     @Override

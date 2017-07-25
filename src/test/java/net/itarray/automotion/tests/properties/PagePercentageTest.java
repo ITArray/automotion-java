@@ -23,7 +23,7 @@ public class PagePercentageTest {
     }
 
     @Test
-    public void shouldName() {
+    public void evaluatesToThePercentageOfThePageRectange() {
         Context context = new TestContext(new Rectangle(0, 0, 200, 150));
         Direction direction = Direction.RIGHT;
         assertThat(expression.evaluateIn(context, direction)).isEqualTo(new Scalar(54));

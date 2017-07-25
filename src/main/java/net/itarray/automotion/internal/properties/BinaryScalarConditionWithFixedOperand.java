@@ -32,11 +32,11 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
     }
 
     @Override
-    public String toStringWithUnits(String units) {
+    public String getDescription(Context context, Direction direction) {
         if (toStringFormat != null) {
-            return String.format(toStringFormat, fixedOperand.toStringWithUnits(units));
+            return String.format(toStringFormat, fixedOperand.getDescription(context, direction));
         }
-        return fixedOperand.toStringWithUnits(units);
+        return fixedOperand.getDescription(context, direction);
     }
 
     @Override

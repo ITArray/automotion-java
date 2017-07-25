@@ -33,5 +33,5 @@ public interface Expression<T> {
 
     T evaluateIn(Context context, Direction direction);
 
-    String toStringWithUnits(String units);
+    String getDescription(Context context, Direction direction);
 }

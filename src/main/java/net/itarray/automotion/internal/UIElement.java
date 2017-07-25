@@ -365,7 +365,7 @@ public class UIElement {
             errors.add(
                     String.format("%s element aligned not properly. Expected margin should be %s. Actual margin is %s",
                             direction.afterName(),
-                            condition.toStringWithUnits(PIXELS),
+                            condition.getDescription(context, direction),
                             signedDistance.toStringWithUnits(PIXELS)),
                     toBeValidatedSuccessor);
         }
@@ -413,7 +413,7 @@ public class UIElement {
                     String.format("Expected %s offset of element %s to be %s. Actual %s offset is: %s",
                             direction.endName(),
                             getQuotedName(),
-                            condition.toStringWithUnits(PIXELS),
+                            condition.getDescription(context, direction),
                             direction.endName(),
                             getOffset(direction, page).toStringWithUnits(PIXELS)));
         }
@@ -457,7 +457,7 @@ public class UIElement {
                     String.format("Expected %s of element %s to be %s. Actual %s is: %s",
                             direction.extendName(),
                             getQuotedName(),
-                            condition.toStringWithUnits(PIXELS),
+                            condition.getDescription(context, direction),
                             direction.extendName(),
                             direction.extend(rectangle).toStringWithUnits(PIXELS)));
         }
