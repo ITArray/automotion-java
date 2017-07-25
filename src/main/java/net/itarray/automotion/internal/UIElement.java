@@ -10,6 +10,7 @@ import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
+import net.itarray.automotion.validation.properties.ElementPropertyExpression;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -452,14 +453,15 @@ public class UIElement {
     }
 
     public void validateExtend(Direction direction, Condition condition, Context context, Errors errors) {
-        if (!getExtend(direction).satisfies(condition, context, direction)) {
+        ElementPropertyExpression<Scalar> property = ElementPropertyExpression.extend(direction, this);
+        Scalar value = property.evaluateIn(context, direction);
+        if (!value.satisfies(condition, context, direction)) {
             errors.add(
-                    String.format("Expected %s of element %s to be %s. Actual %s is: %s",
-                            direction.extendName(),
-                            getQuotedName(),
+                    String.format("Expected %s to be %s. Actual %s is: %s",
+                            property.getDescription(context, direction),
                             condition.getDescription(context, direction),
-                            direction.extendName(),
-                            direction.extend(rectangle).toStringWithUnits(PIXELS)));
+                            property.getName(),
+                            value.toStringWithUnits(PIXELS)));
         }
     }
 
