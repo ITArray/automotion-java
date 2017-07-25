@@ -49,4 +49,9 @@ public class PagePercentageTest {
     public void isNotEqualToNull() {
         assertThat(expression).isNotEqualTo(null);
     }
+
+    @Test
+    public void describesItselfAsPixelConstant() {
+        assertThat(expression.getDescription(new TestContext(), Direction.RIGHT)).isEqualTo("27% of page (54px)");
+    }
 }

@@ -33,10 +33,7 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
 
     @Override
     public String getDescription(Context context, Direction direction) {
-        if (toStringFormat != null) {
-            return String.format(toStringFormat, fixedOperand.getDescription(context, direction));
-        }
-        return fixedOperand.getDescription(context, direction);
+        return String.format(toStringFormat, fixedOperand.getDescription(context, direction));
     }
 
     @Override

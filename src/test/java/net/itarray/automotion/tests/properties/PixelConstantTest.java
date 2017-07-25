@@ -2,21 +2,21 @@ package net.itarray.automotion.tests.properties;
 
 import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.internal.properties.ScalarConstant;
+import net.itarray.automotion.internal.properties.PixelConstant;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ScalarConstantTest {
+public class PixelConstantTest {
 
     private Scalar value;
-    private ScalarConstant constant;
+    private PixelConstant constant;
 
     @Before
     public void createConstant() {
         value = new Scalar(13);
-        constant = new ScalarConstant(value);
+        constant = new PixelConstant(value);
     }
 
     @Test
@@ -26,14 +26,14 @@ public class ScalarConstantTest {
 
     @Test
     public void isEqualToScalarConstantsWithEqualValue() {
-        ScalarConstant equal = new ScalarConstant(value);
+        PixelConstant equal = new PixelConstant(value);
         assertThat(constant).isEqualTo(equal);
         assertThat(constant.hashCode()).isEqualTo(equal.hashCode());
     }
 
     @Test
     public void isNotEqualToScalarConstantsWithDifferentValue() {
-        ScalarConstant different = new ScalarConstant(value.plus(1));
+        PixelConstant different = new PixelConstant(value.plus(1));
         assertThat(constant).isNotEqualTo(different);
     }
 
@@ -45,5 +45,10 @@ public class ScalarConstantTest {
     @Test
     public void isNotEqualToNull() {
         assertThat(constant).isNotEqualTo(null);
+    }
+
+    @Test
+    public void describesItselfAsPixelConstant() {
+        assertThat(constant.getDescription(new TestContext(), Direction.RIGHT)).isEqualTo("13px");
     }
 }
