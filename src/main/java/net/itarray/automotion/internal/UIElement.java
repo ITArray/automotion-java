@@ -511,10 +511,13 @@ public class UIElement {
         }
     }
 
-    public void validateInsideOfContainer(UIElement element, int top, int right, int bottom, int left, Errors errors) {
+    public void validateInsideOfContainer(UIElement element, Errors errors, Scalar top, Scalar left, Scalar right, Scalar bottom) {
+        Vector originPadding = new Vector(left, top);
+        Vector cornerPadding = new Vector(right, bottom);
+
         Rectangle paddedRoot = new Rectangle(
-                getOrigin().minus(new Vector(left, top)),
-                getCorner().plus(new Vector(right, bottom)));
+                getOrigin().minus(originPadding),
+                getCorner().plus(cornerPadding));
 
         Vector originOffset = getOrigin().minus(element.getOrigin());
         Vector cornerOffset = getCorner().minus(element.getCorner());
@@ -523,10 +526,10 @@ public class UIElement {
             errors.add(
                     String.format("Padding of element %s is incorrect. Expected padding: top[%s], right[%s], bottom[%s], left[%s]. Actual padding: top[%s], right[%s], bottom[%s], left[%s]",
                             getQuotedName(),
-                            top,
-                            right,
-                            bottom,
-                            left,
+                            originPadding.getY(),
+                            cornerPadding.getX(),
+                            cornerPadding.getY(),
+                            originPadding.getX(),
                             originOffset.getY(),
                             cornerOffset.getX(),
                             cornerOffset.getY(),
