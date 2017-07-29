@@ -1,5 +1,6 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Context;
@@ -437,10 +438,28 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase minOffset(int top, int right, int bottom, int left) {
-        if (toPixelsVertically(top) > MIN_OFFSET && toPixelsHorizontally(right) > MIN_OFFSET && toPixelsVertically(bottom) > MIN_OFFSET && toPixelsHorizontally(left) > MIN_OFFSET) {
-            validateMinOffset(toPixelsVertically(top), toPixelsHorizontally(right), toPixelsVertically(bottom), toPixelsHorizontally(left));
+        if (isNotSwitchedOff(top, right, bottom, left)) {
+            validateMinOffsetNew(top, right, bottom, left);
         }
         return this;
+    }
+
+    public boolean isNotSwitchedOff(int top, int right, int bottom, int left) {
+        return isNotSwitchedOff(top, Direction.UP) &&
+                isNotSwitchedOff(right, Direction.RIGHT) &&
+                isNotSwitchedOff(bottom, Direction.DOWN) &&
+                isNotSwitchedOff(left, Direction.LEFT);
+    }
+
+    public boolean isNotSwitchedOff(int value, Direction direction) {
+        return percentOrPixels(value).evaluateIn(getContext(), direction).isGreaterThan(new Scalar(MIN_OFFSET));
+    }
+
+    public void validateMinOffsetNew(int top, int right, int bottom, int left) {
+        rootElement.validateLeftOffset(greaterOrEqualTo(percentOrPixels(left)), page, getContext(), errors);
+        rootElement.validateTopOffset(greaterOrEqualTo(percentOrPixels(top)), page, getContext(), errors);
+        rootElement.validateRightOffset(greaterOrEqualTo(percentOrPixels(right)), page, getContext(), errors);
+        rootElement.validateBottomOffset(greaterOrEqualTo(percentOrPixels(bottom)), page, getContext(), errors);
     }
 
     public UIElementValidator hasLeftOffsetToPage(Condition<Scalar> condition) {
@@ -474,10 +493,17 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase maxOffset(int top, int right, int bottom, int left) {
-        if (toPixelsVertically(top) > MIN_OFFSET && toPixelsHorizontally(right) > MIN_OFFSET && toPixelsVertically(bottom) > MIN_OFFSET && toPixelsHorizontally(left) > MIN_OFFSET) {
-            validateMaxOffset(toPixelsVertically(top), toPixelsHorizontally(right), toPixelsVertically(bottom), toPixelsHorizontally(left));
+        if (isNotSwitchedOff(top, right, bottom, left)) {
+            validateMaxOffsetNew(top, right, bottom, left);
         }
         return this;
+    }
+
+    public void validateMaxOffsetNew(int top, int right, int bottom, int left) {
+        rootElement.validateLeftOffset(lessOrEqualTo(percentOrPixels(left)), page, getContext(), errors);
+        rootElement.validateTopOffset(lessOrEqualTo(percentOrPixels(top)), page, getContext(), errors);
+        rootElement.validateRightOffset(lessOrEqualTo(percentOrPixels(right)), page, getContext(), errors);
+        rootElement.validateBottomOffset(lessOrEqualTo(percentOrPixels(bottom)), page, getContext(), errors);
     }
 
     /**
@@ -550,20 +576,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
         rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), top, right, bottom, left, errors);
         return this;
-    }
-
-    private void validateMaxOffset(int top, int right, int bottom, int left) {
-        rootElement.validateLeftOffset(lessOrEqualTo(left), page, getContext(), errors);
-        rootElement.validateTopOffset(lessOrEqualTo(top), page, getContext(), errors);
-        rootElement.validateRightOffset(lessOrEqualTo(right), page, getContext(), errors);
-        rootElement.validateBottomOffset(lessOrEqualTo(bottom), page, getContext(), errors);
-    }
-
-    private void validateMinOffset(int top, int right, int bottom, int left) {
-        rootElement.validateLeftOffset(greaterOrEqualTo(left), page, getContext(), errors);
-        rootElement.validateTopOffset(greaterOrEqualTo(top), page, getContext(), errors);
-        rootElement.validateRightOffset(greaterOrEqualTo(right), page, getContext(), errors);
-        rootElement.validateBottomOffset(greaterOrEqualTo(bottom), page, getContext(), errors);
     }
 
     private void validateNotSameSize(UIElement element) {
