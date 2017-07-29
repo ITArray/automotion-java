@@ -569,10 +569,10 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     @Override
     public UIValidatorBase isInsideOf(WebElement containerElement, String readableContainerName, Padding padding) {
-        int top = toPixelsVertically(padding.getTop());
-        int right = toPixelsHorizontally(padding.getRight());
-        int bottom = toPixelsVertically(padding.getBottom());
-        int left = toPixelsHorizontally(padding.getLeft());
+        int top = percentOrPixels(padding.getTop()).evaluateIn(getContext(), Direction.UP).intValue();
+        int right = percentOrPixels(padding.getRight()).evaluateIn(getContext(), Direction.RIGHT).intValue();
+        int bottom = percentOrPixels(padding.getBottom()).evaluateIn(getContext(), Direction.DOWN).intValue();
+        int left = percentOrPixels(padding.getLeft()).evaluateIn(getContext(), Direction.LEFT).intValue();
 
         rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), top, right, bottom, left, errors);
         return this;

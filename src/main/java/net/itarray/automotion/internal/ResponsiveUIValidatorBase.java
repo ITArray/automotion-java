@@ -132,23 +132,6 @@ public abstract class ResponsiveUIValidatorBase {
         return factor;
     }
 
-    protected int toPixelsHorizontally(int coordinate) {
-        return toPixels(Direction.RIGHT, coordinate);
-    }
-
-    protected int toPixelsVertically(int coordinate) {
-        return toPixels(Direction.DOWN, coordinate);
-    }
-
-    private int toPixels(Direction direction, int coordinate) { // todo: remove
-        if (getUnits().equals(Units.PX)) {
-            return coordinate;
-        } else {
-            return (coordinate * page.getExtend(direction).intValue()) / 100;
-        }
-    }
-
-
     private int getYOffset() {
         if (isMobile() && getDriver().isAppiumWebContext() && getReport().isMobileTopBarOffset()) {
             if (isIOS() || isAndroid()) {
