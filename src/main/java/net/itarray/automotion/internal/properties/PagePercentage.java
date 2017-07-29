@@ -15,8 +15,8 @@ public class PagePercentage implements Expression<Scalar> {
     @Override
     public Scalar evaluateIn(Context context, Direction direction) {
         Rectangle page = context.getPageRectangle();
-        int screenExtend = direction.extend(page).abs().intValue();
-        return new Scalar((percentage.intValue() * screenExtend) / 100); // todo: scalar arithmetic
+        Scalar screenExtend = direction.extend(page).abs();
+        return percentage.times(screenExtend).by(new Scalar(100));
     }
 
     @Override

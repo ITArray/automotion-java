@@ -90,4 +90,12 @@ public class Scalar implements Group<Scalar>, Comparable<Scalar> {
     public boolean satisfies(Condition condition, Context context, Direction direction) {
         return condition.isSatisfiedOn(this, context, direction);
     }
+
+    public Scalar times(Scalar multiplicator) {
+        return new Scalar(fraction.multiply(multiplicator.fraction));
+    }
+
+    public Scalar by(Scalar divisor) {
+        return new Scalar(fraction.divide(divisor.fraction));
+    }
 }
