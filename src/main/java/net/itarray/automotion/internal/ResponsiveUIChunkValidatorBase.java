@@ -209,7 +209,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      */
     @Override
     public ResponsiveUIChunkValidatorBase areCenteredOnPageVertically() {
-        validateEqualLeftRightOffset(rootElements);
+        validateCenteredOnPageVertically(rootElements);
         return this;
     }
 
@@ -220,7 +220,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
      */
     @Override
     public ResponsiveUIChunkValidatorBase areCenteredOnPageHorizontally() {
-        validateEqualTopBottomOffset(rootElements);
+        validateCenteredOnPageHorizontally(rootElements);
         return this;
     }
 
@@ -389,15 +389,15 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         }
     }
 
-    private void validateEqualLeftRightOffset(List<UIElement> elements) {
-        for (UIElement element : elements) { // todo make naming consistant with other methods
-            element.validateEqualLeftRightOffset(page, errors);
+    private void validateCenteredOnPageVertically(List<UIElement> elements) {
+        for (UIElement element : elements) {
+            element.validateCenteredOnVertically(page, errors);
         }
     }
 
-    private void validateEqualTopBottomOffset(List<UIElement> elements) {
-        for (UIElement element : elements) { // todo make naming consistant with other methods
-            element.validateEqualTopBottomOffset(page, errors);
+    private void validateCenteredOnPageHorizontally(List<UIElement> elements) {
+        for (UIElement element : elements) {
+            element.validateCenteredOnHorizontally(page, errors);
         }
     }
 

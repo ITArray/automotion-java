@@ -513,7 +513,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isCenteredOnPageHorizontally() {
-        rootElement.validateEqualLeftRightOffset(page, errors);
+        rootElement.validateCenteredOnVertically(page, errors);
         return this;
     }
 
@@ -524,7 +524,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isCenteredOnPageVertically() {
-        rootElement.validateEqualTopBottomOffset(page, errors);
+        rootElement.validateCenteredOnHorizontally(page, errors);
         return this;
     }
 

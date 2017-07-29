@@ -420,15 +420,15 @@ public class UIElement {
         }
     }
 
-    public void validateEqualLeftRightOffset(UIElement page, Errors errors) {
-        validateEqualOppositeOffsets(RIGHT, page, errors);
+    public void validateCenteredOnVertically(UIElement page, Errors errors) {
+        validateCentered(RIGHT, page, errors);
     }
 
-    public void validateEqualTopBottomOffset(UIElement page, Errors errors) {
-        validateEqualOppositeOffsets(DOWN, page, errors);
+    public void validateCenteredOnHorizontally(UIElement page, Errors errors) {
+        validateCentered(DOWN, page, errors);
     }
 
-    public void validateEqualOppositeOffsets(Direction direction, UIElement page, Errors errors) {
+    public void validateCentered(Direction direction, UIElement page, Errors errors) {
         Direction opposite = direction.opposite();
         if (!hasEqualOppositeOffsets(direction, page)) {
             errors.add(
