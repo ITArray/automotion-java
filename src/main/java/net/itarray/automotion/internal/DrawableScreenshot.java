@@ -90,8 +90,8 @@ public class DrawableScreenshot {
 
     public void drawRootElement(UIElement rootElement) {
         drawingConfiguration.setRootElementStyle(graphics);
-        int x = rootElement.getX();
-        int y = rootElement.getY();
-        graphics.drawRectByExtend(x, y, rootElement.getWidth(), rootElement.getHeight());
+        int x = rootElement.getX().intValue();
+        int y = rootElement.getY().intValue();
+        graphics.drawRectByExtend(x, y, rootElement.getWidth().intValue(), rootElement.getHeight().intValue());
     }
 }

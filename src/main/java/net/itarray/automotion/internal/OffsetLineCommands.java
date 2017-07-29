@@ -27,16 +27,16 @@ public class OffsetLineCommands {
     public void draw(TransformedGraphics graphics, BufferedImage img, UIElement rootElement, DrawingConfiguration drawingConfiguration) {
         drawingConfiguration.setLinesStyle(graphics);
         if (drawLeftOffsetLine) {
-            graphics.drawVerticalLine(rootElement.getX(), img.getHeight());
+            graphics.drawVerticalLine(rootElement.getX().intValue(), img.getHeight());
         }
         if (drawRightOffsetLine) {
-            graphics.drawVerticalLine(rootElement.getCornerX(), img.getHeight());
+            graphics.drawVerticalLine(rootElement.getCorner().getX().intValue(), img.getHeight());
         }
         if (drawTopOffsetLine) {
-            graphics.drawHorizontalLine(rootElement.getY(), img.getWidth());
+            graphics.drawHorizontalLine(rootElement.getY().intValue(), img.getWidth());
         }
         if (drawBottomOffsetLine) {
-            graphics.drawHorizontalLine(rootElement.getCornerY(), img.getWidth());
+            graphics.drawHorizontalLine(rootElement.getCorner().getY().intValue(), img.getWidth());
         }
     }
 

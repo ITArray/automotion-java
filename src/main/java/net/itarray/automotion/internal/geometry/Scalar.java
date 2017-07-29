@@ -38,7 +38,7 @@ public class Scalar implements Group<Scalar>, Comparable<Scalar> {
         return String.format("%s%s", fraction, units);
     }
 
-    public int getValue() { // todo: remove usages, this is introspection
+    public int intValue() { // todo: remove usages, this is introspection
         return fraction.intValue();
     }
 

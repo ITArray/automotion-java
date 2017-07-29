@@ -42,8 +42,8 @@ public class ScalarTest {
     }
 
     @Test
-    public void getValueReturnsTheConstructorParameter() {
-        assertThat(scalar.getValue()).isEqualTo(value);
+    public void getintValueReturnsTheConstructorParameterForInts() {
+        assertThat(scalar.intValue()).isEqualTo(value);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class ScalarTest {
     @Test
     public void plusScalarReturnsAScalarWithValueEqualToTheSumOfValueAndTheAddend() {
         Scalar addend = new Scalar(2);
-        assertThat(scalar.plus(addend)).isEqualTo(new Scalar(value + addend.getValue()));
+        assertThat(scalar.plus(addend)).isEqualTo(new Scalar(value + 2));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class ScalarTest {
     @Test
     public void minusScalarReturnsAScalarWithValueEqualToTheDifferenceOfValueAndTheSubtrahend() {
         Scalar addend = new Scalar(2);
-        assertThat(scalar.minus(addend)).isEqualTo(new Scalar(value - addend.getValue()));
+        assertThat(scalar.minus(addend)).isEqualTo(new Scalar(value - 2));
     }
 
     @Test

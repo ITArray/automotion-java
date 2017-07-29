@@ -114,7 +114,7 @@ public class DummyWebElement implements WebElement {
     }
 
     public static WebElement createElement(Scalar originX, Scalar originY, Scalar cornerX, Scalar cornerY) {
-        return createElement(originX.getValue(), originY.getValue(), cornerX.getValue(), cornerY.getValue());
+        return createElement(originX.intValue(), originY.intValue(), cornerX.intValue(), cornerY.intValue());
     }
 
     public static WebElement createElement(int originX, int originY, int cornerX, int cornerY) {

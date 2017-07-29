@@ -140,11 +140,11 @@ public abstract class ResponsiveUIValidatorBase {
         return toPixels(Direction.DOWN, coordinate);
     }
 
-    private int toPixels(Direction direction, int coordinate) {
+    private int toPixels(Direction direction, int coordinate) { // todo: remove
         if (getUnits().equals(Units.PX)) {
             return coordinate;
         } else {
-            return (coordinate * page.getExtend(direction).getValue()) / 100;
+            return (coordinate * page.getExtend(direction).intValue()) / 100;
         }
     }
 

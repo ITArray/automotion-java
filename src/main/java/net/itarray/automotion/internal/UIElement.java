@@ -7,9 +7,9 @@ import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
 import net.itarray.automotion.internal.properties.Context;
-import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
+import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.validation.properties.ElementPropertyExpression;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -94,32 +94,32 @@ public class UIElement {
         return direction.extend(rectangle);
     }
 
-    public int getX() {
-        return rectangle.getOrigin().getX().getValue();
+    public Scalar getX() {
+        return getOrigin().getX();
     }
 
-    public int getY() {
-        return rectangle.getOrigin().getY().getValue();
+    public Vector getOrigin() {
+        return rectangle.getOrigin();
     }
 
-    public int getWidth() {
-        return RIGHT.extend(rectangle).getValue();
+    public Scalar getY() {
+        return getOrigin().getY();
     }
 
-    public int getHeight() {
-        return DOWN.extend(rectangle).getValue();
+    public Scalar getWidth() {
+        return RIGHT.extend(rectangle);
+    }
+
+    public Scalar getHeight() {
+        return DOWN.extend(rectangle);
     }
 
     public Vector getSize() {
         return ORIGIN_CORNER.extend(rectangle);
     }
 
-    public int getCornerX() {
-        return rectangle.getCorner().getX().getValue();
-    }
-
-    public int getCornerY() {
-        return rectangle.getCorner().getY().getValue();
+    public Vector getCorner() {
+        return rectangle.getCorner();
     }
 
     public boolean hasEqualBegin(Direction direction, UIElement other) {
@@ -513,28 +513,24 @@ public class UIElement {
 
     public void validateInsideOfContainer(UIElement element, int top, int right, int bottom, int left, Errors errors) {
         Rectangle paddedRoot = new Rectangle(
-                getX() - left,
-                getY() - top,
-                getCornerX() + right,
-                getCornerY() + bottom);
+                getOrigin().minus(new Vector(left, top)),
+                getCorner().plus(new Vector(right, bottom)));
 
-        int paddingTop = getY() - element.getY();
-        int paddingLeft = getX() - element.getX();
-        int paddingBottom = element.getCornerY() - getCornerY();
-        int paddingRight = element.getCornerX() - getCornerX();
+        Vector originOffset = getOrigin().minus(element.getOrigin());
+        Vector cornerOffset = getCorner().minus(element.getCorner());
 
         if (!element.contains(paddedRoot)) {
             errors.add(
-                    String.format("Padding of element %s is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
+                    String.format("Padding of element %s is incorrect. Expected padding: top[%s], right[%s], bottom[%s], left[%s]. Actual padding: top[%s], right[%s], bottom[%s], left[%s]",
                             getQuotedName(),
                             top,
                             right,
                             bottom,
                             left,
-                            paddingTop,
-                            paddingRight,
-                            paddingBottom,
-                            paddingLeft),
+                            originOffset.getY(),
+                            cornerOffset.getX(),
+                            cornerOffset.getY(),
+                            originOffset.getX()),
                     element);
         }
     }

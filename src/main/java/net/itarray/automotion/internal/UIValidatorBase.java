@@ -577,10 +577,10 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     @Override
     protected void storeRootDetails(JSONObject rootDetails) {
-        rootDetails.put(X, rootElement.getX());
-        rootDetails.put(Y, rootElement.getY());
-        rootDetails.put(WIDTH, rootElement.getWidth());
-        rootDetails.put(HEIGHT, rootElement.getHeight());
+        rootDetails.put(X, rootElement.getX().intValue());
+        rootDetails.put(Y, rootElement.getY().intValue());
+        rootDetails.put(WIDTH, rootElement.getWidth().intValue());
+        rootDetails.put(HEIGHT, rootElement.getHeight().intValue());
     }
 
     @Override
