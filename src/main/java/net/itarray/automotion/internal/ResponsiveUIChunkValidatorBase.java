@@ -1,5 +1,6 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
@@ -9,6 +10,8 @@ import util.validator.ResponsiveUIValidator;
 
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -251,12 +254,10 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     }
 
     private void validateGridAlignment(List<UIElement> elements, int columns, int rows) {
-        ConcurrentSkipListMap<Integer, AtomicLong> map = new ConcurrentSkipListMap<>();
+        SortedMap<Scalar, Integer> map = new TreeMap<>();
         for (UIElement element : elements) {
-            Integer y = element.getY().intValue(); // todo: replace this
-
-            map.putIfAbsent(y, new AtomicLong(0));
-            map.get(y).incrementAndGet();
+            int oldCount = map.getOrDefault(element.getY(), 0);
+            map.put(element.getY(), oldCount + 1);
         }
 
         int mapSize = map.size();
@@ -269,12 +270,12 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         if (columns > 0) {
             int errorLastLine = 0;
             int rowCount = 1;
-            for (Map.Entry<Integer, AtomicLong> entry : map.entrySet()) {
+            for (Map.Entry<Scalar, Integer> entry : map.entrySet()) {
                 if (rowCount <= mapSize) {
-                    int actualInARow = entry.getValue().intValue();
+                    int actualInARow = entry.getValue();
                     if (actualInARow != columns) {
                         errorLastLine++;
-                        if (errorLastLine > 1) {
+                        if (errorLastLine > 1 || actualInARow > columns) {
                             addError(String.format("Elements in a grid are not aligned properly in row #%d. Expected %d elements in a row. Actually it's %d", rowCount, columns, actualInARow));
                         }
                     }
