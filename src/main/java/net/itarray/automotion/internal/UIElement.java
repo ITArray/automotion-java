@@ -191,7 +191,7 @@ public class UIElement {
     }
 
     public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
-        return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualTo(0);
+        return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualTo(new Scalar(0));
     }
 
     public Scalar signedDistanceToSuccessor(Direction direction, UIElement successor) {

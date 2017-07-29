@@ -2,12 +2,17 @@ package net.itarray.automotion.internal.geometry;
 
 import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.validation.properties.Condition;
+import org.apache.commons.math3.fraction.Fraction;
 
 public class Scalar implements Group<Scalar>, Comparable<Scalar> {
-    private final int value;
+    private final Fraction fraction;
 
     public Scalar(int value) {
-        this.value = value;
+        fraction = new Fraction(value);
+    }
+
+    public Scalar(Fraction fraction) {
+        this.fraction = fraction;
     }
 
     @Override
@@ -16,86 +21,70 @@ public class Scalar implements Group<Scalar>, Comparable<Scalar> {
             return false;
         }
         Scalar other = (Scalar) object;
-        return value == other.value;
+        return fraction.equals(other.fraction);
     }
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(value);
+        return fraction.hashCode();
     }
 
     @Override
     public String toString() {
-        return String.format("%d", value);
+        return String.format("%s", fraction);
     }
 
     public String toStringWithUnits(String units) {
-        return String.format("%d%s", value, units);
+        return String.format("%s%s", fraction, units);
     }
 
-    public int getValue() {
-        return value;
+    public int getValue() { // todo: remove usages, this is introspection
+        return fraction.intValue();
     }
 
     public Scalar plus(int addend) {
-        return new Scalar(value + addend);
+        return plus(new Scalar(addend));
     }
 
     public Scalar plus(Scalar addend) {
-        return plus(addend.getValue());
+        return new Scalar(fraction.add(addend.fraction));
     }
 
     public Scalar minus(int subtrahend) {
-        return new Scalar(value - subtrahend);
+        return minus(new Scalar(subtrahend));
     }
 
     public Scalar minus(Scalar subtrahend) {
-        return minus(subtrahend.getValue());
+        return new Scalar(fraction.subtract(subtrahend.fraction));
     }
 
     public boolean isLessThan(Scalar other) {
-        return isLessThan(other.value);
-    }
-
-    public boolean isLessThan(int otherValue) {
-        return value < otherValue;
+        return compareTo(other) < 0;
     }
 
     public boolean isLessOrEqualTo(Scalar other) {
-        return isLessOrEqualTo(other.value);
-    }
-
-    public boolean isLessOrEqualTo(int otherValue) {
-        return this.value <= otherValue;
+        return compareTo(other) <= 0;
     }
 
     public boolean isGreaterOrEqualTo(Scalar other) {
-        return isGreaterOrEqualTo(other.value);
-    }
-
-    public boolean isGreaterOrEqualTo(int otherValue) {
-        return value >= otherValue;
+        return compareTo(other) >= 0;
     }
 
     public boolean isGreaterThan(Scalar other) {
-        return isGreaterThan(other.value);
-    }
-
-    public boolean isGreaterThan(int otherValue) {
-        return value > otherValue;
+        return compareTo(other) > 0;
     }
 
     @Override
     public int compareTo(Scalar other) {
-        return minus(other).getValue();
+        return fraction.compareTo(other.fraction);
     }
 
     public Scalar negated() {
-        return new Scalar(-value);
+        return new Scalar(fraction.negate());
     }
 
     public Scalar abs() {
-        return new Scalar(value >= 0 ? value : -value);
+        return new Scalar(fraction.abs());
     }
 
     public boolean satisfies(Condition condition, Context context, Direction direction) {
