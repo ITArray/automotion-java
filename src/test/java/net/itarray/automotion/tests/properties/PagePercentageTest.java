@@ -8,7 +8,7 @@ import net.itarray.automotion.validation.properties.Expression;
 import org.junit.Before;
 import org.junit.Test;
 
-import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
+import static net.itarray.automotion.internal.properties.PercentReference.PAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PagePercentageTest {

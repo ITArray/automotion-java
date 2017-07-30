@@ -1,4 +1,4 @@
-package net.itarray.automotion.validation.properties;
+package net.itarray.automotion.internal.properties;
 
 import net.itarray.automotion.internal.UIElement;
 

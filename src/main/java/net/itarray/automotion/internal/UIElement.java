@@ -10,7 +10,7 @@ import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
 import net.itarray.automotion.validation.properties.Condition;
-import net.itarray.automotion.validation.properties.ElementPropertyExpression;
+import net.itarray.automotion.internal.properties.ElementPropertyExpression;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;

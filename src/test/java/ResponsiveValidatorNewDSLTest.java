@@ -18,7 +18,7 @@ import java.util.Map;
 
 import static net.itarray.automotion.validation.properties.Condition.between;
 import static net.itarray.automotion.validation.properties.Expression.percent;
-import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
+import static net.itarray.automotion.internal.properties.PercentReference.PAGE;
 import static net.itarray.automotion.validation.properties.Zoom.zoom;
 
 @Ignore

@@ -20,7 +20,7 @@ import static net.itarray.automotion.internal.UIElement.*;
 import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.Constants.*;
 import static net.itarray.automotion.validation.properties.Condition.*;
-import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
+import static net.itarray.automotion.internal.properties.PercentReference.PAGE;
 
 public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElementValidator {
 

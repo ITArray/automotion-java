@@ -3,7 +3,7 @@ package net.itarray.automotion.tests.properties;
 import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.PixelConstant;
-import net.itarray.automotion.validation.properties.BinaryExpression;
+import net.itarray.automotion.internal.properties.BinaryExpression;
 import org.junit.Before;
 import org.junit.Test;
 
