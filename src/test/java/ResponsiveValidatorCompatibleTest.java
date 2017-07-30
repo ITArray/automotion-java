@@ -20,11 +20,11 @@ import java.util.Map;
 public class ResponsiveValidatorCompatibleTest {
 
     private static WebDriver driver;
+    private static long start;
 
     public static void main(String[] args) {
         ManualTestSupport.deleteOutputDirectory();
         ResponsiveValidatorCompatibleTest test = new ResponsiveValidatorCompatibleTest();
-        long start = System.currentTimeMillis();
         try {
             test.testThatResponsiveValidatorWorks();
         } finally {
@@ -47,6 +47,8 @@ public class ResponsiveValidatorCompatibleTest {
         driver = driverFactory.getDriver();
         driver.get("http://visual.itarray.net");
         driver.manage().window().maximize();
+
+        start = System.currentTimeMillis();
 
         TestPage page = new TestPage(driver);
 

@@ -31,7 +31,6 @@ public class ResponsiveValidatorNewDSLTest {
     public static void main(String[] args) {
         ManualTestSupport.deleteOutputDirectory();
         ResponsiveValidatorNewDSLTest test = new ResponsiveValidatorNewDSLTest();
-        start = System.currentTimeMillis();
         try {
             test.testThatResponsiveValidatorWorks();
         } finally {
@@ -63,6 +62,8 @@ public class ResponsiveValidatorNewDSLTest {
         driver = driverFactory.getDriver();
         driver.get("http://visual.itarray.net");
         driver.manage().window().maximize();
+
+        start = System.currentTimeMillis();
 
         TestPage page = new TestPage(driver);
 
