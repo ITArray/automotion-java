@@ -1,6 +1,7 @@
 import http.helpers.EnvironmentHelper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.UISnapshot;
+import net.itarray.automotion.validation.properties.Padding;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Ignore;
@@ -10,17 +11,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import util.driver.WebDriverFactory;
-import net.itarray.automotion.validation.properties.Padding;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.itarray.automotion.validation.properties.Expression.percent;
-import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
-import static net.itarray.automotion.validation.Literals.zoom;
 import static net.itarray.automotion.validation.properties.Condition.between;
+import static net.itarray.automotion.validation.properties.Expression.percent;
 import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
+import static net.itarray.automotion.validation.properties.Zoom.zoom;
 
 @Ignore
 public class ResponsiveValidatorNewDSLTest {
