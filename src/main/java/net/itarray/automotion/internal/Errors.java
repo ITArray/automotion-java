@@ -32,10 +32,10 @@ public class Errors {
     public void add(String message, UIElement element) {
         lastMessage = message;
         lastElement = element;
-        float xContainer = element.getX();
-        float yContainer = element.getY();
-        float widthContainer = element.getWidth();
-        float heightContainer = element.getHeight();
+        float xContainer = element.getX().intValue();
+        float yContainer = element.getY().intValue();
+        float widthContainer = element.getWidth().intValue();
+        float heightContainer = element.getHeight().intValue();
 
         JSONObject details = new JSONObject();
         JSONObject elDetails = new JSONObject();

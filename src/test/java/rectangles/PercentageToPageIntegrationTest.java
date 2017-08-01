@@ -11,7 +11,7 @@ import org.openqa.selenium.Dimension;
 import static net.itarray.automotion.validation.properties.Expression.percent;
 import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.properties.Condition.*;
-import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
+import static net.itarray.automotion.internal.properties.PercentReference.PAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
 

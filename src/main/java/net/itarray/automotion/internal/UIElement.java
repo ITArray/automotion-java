@@ -7,9 +7,10 @@ import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
 import net.itarray.automotion.internal.properties.Context;
-import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
+import net.itarray.automotion.validation.properties.Condition;
+import net.itarray.automotion.internal.properties.ElementPropertyExpression;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -93,32 +94,32 @@ public class UIElement {
         return direction.extend(rectangle);
     }
 
-    public int getX() {
-        return rectangle.getOrigin().getX().getValue();
+    public Scalar getX() {
+        return getOrigin().getX();
     }
 
-    public int getY() {
-        return rectangle.getOrigin().getY().getValue();
+    public Vector getOrigin() {
+        return rectangle.getOrigin();
     }
 
-    public int getWidth() {
-        return RIGHT.extend(rectangle).getValue();
+    public Scalar getY() {
+        return getOrigin().getY();
     }
 
-    public int getHeight() {
-        return DOWN.extend(rectangle).getValue();
+    public Scalar getWidth() {
+        return RIGHT.extend(rectangle);
+    }
+
+    public Scalar getHeight() {
+        return DOWN.extend(rectangle);
     }
 
     public Vector getSize() {
         return ORIGIN_CORNER.extend(rectangle);
     }
 
-    public int getCornerX() {
-        return rectangle.getCorner().getX().getValue();
-    }
-
-    public int getCornerY() {
-        return rectangle.getCorner().getY().getValue();
+    public Vector getCorner() {
+        return rectangle.getCorner();
     }
 
     public boolean hasEqualBegin(Direction direction, UIElement other) {
@@ -190,7 +191,7 @@ public class UIElement {
     }
 
     public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
-        return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualTo(0);
+        return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualTo(new Scalar(0));
     }
 
     public Scalar signedDistanceToSuccessor(Direction direction, UIElement successor) {
@@ -419,15 +420,15 @@ public class UIElement {
         }
     }
 
-    public void validateEqualLeftRightOffset(UIElement page, Errors errors) {
-        validateEqualOppositeOffsets(RIGHT, page, errors);
+    public void validateCenteredOnVertically(UIElement page, Errors errors) {
+        validateCentered(RIGHT, page, errors);
     }
 
-    public void validateEqualTopBottomOffset(UIElement page, Errors errors) {
-        validateEqualOppositeOffsets(DOWN, page, errors);
+    public void validateCenteredOnHorizontally(UIElement page, Errors errors) {
+        validateCentered(DOWN, page, errors);
     }
 
-    public void validateEqualOppositeOffsets(Direction direction, UIElement page, Errors errors) {
+    public void validateCentered(Direction direction, UIElement page, Errors errors) {
         Direction opposite = direction.opposite();
         if (!hasEqualOppositeOffsets(direction, page)) {
             errors.add(
@@ -452,14 +453,15 @@ public class UIElement {
     }
 
     public void validateExtend(Direction direction, Condition condition, Context context, Errors errors) {
-        if (!getExtend(direction).satisfies(condition, context, direction)) {
+        ElementPropertyExpression<Scalar> property = ElementPropertyExpression.extend(direction, this);
+        Scalar value = property.evaluateIn(context, direction);
+        if (!value.satisfies(condition, context, direction)) {
             errors.add(
-                    String.format("Expected %s of element %s to be %s. Actual %s is: %s",
-                            direction.extendName(),
-                            getQuotedName(),
+                    String.format("Expected %s to be %s. Actual %s is: %s",
+                            property.getDescription(context, direction),
                             condition.getDescription(context, direction),
-                            direction.extendName(),
-                            direction.extend(rectangle).toStringWithUnits(PIXELS)));
+                            property.getName(),
+                            value.toStringWithUnits(PIXELS)));
         }
     }
 
@@ -509,30 +511,29 @@ public class UIElement {
         }
     }
 
-    public void validateInsideOfContainer(UIElement element, int top, int right, int bottom, int left, Errors errors) {
-        Rectangle paddedRoot = new Rectangle(
-                getX() - left,
-                getY() - top,
-                getCornerX() + right,
-                getCornerY() + bottom);
+    public void validateInsideOfContainer(UIElement element, Errors errors, Scalar top, Scalar left, Scalar right, Scalar bottom) {
+        Vector originPadding = new Vector(left, top);
+        Vector cornerPadding = new Vector(right, bottom);
 
-        int paddingTop = getY() - element.getY();
-        int paddingLeft = getX() - element.getX();
-        int paddingBottom = element.getCornerY() - getCornerY();
-        int paddingRight = element.getCornerX() - getCornerX();
+        Rectangle paddedRoot = new Rectangle(
+                getOrigin().minus(originPadding),
+                getCorner().plus(cornerPadding));
+
+        Vector originOffset = getOrigin().minus(element.getOrigin());
+        Vector cornerOffset = getCorner().minus(element.getCorner());
 
         if (!element.contains(paddedRoot)) {
             errors.add(
-                    String.format("Padding of element %s is incorrect. Expected padding: top[%d], right[%d], bottom[%d], left[%d]. Actual padding: top[%d], right[%d], bottom[%d], left[%d]",
+                    String.format("Padding of element %s is incorrect. Expected padding: top[%s], right[%s], bottom[%s], left[%s]. Actual padding: top[%s], right[%s], bottom[%s], left[%s]",
                             getQuotedName(),
-                            top,
-                            right,
-                            bottom,
-                            left,
-                            paddingTop,
-                            paddingRight,
-                            paddingBottom,
-                            paddingLeft),
+                            originPadding.getY(),
+                            cornerPadding.getX(),
+                            cornerPadding.getY(),
+                            originPadding.getX(),
+                            originOffset.getY(),
+                            cornerOffset.getX(),
+                            cornerOffset.getY(),
+                            originOffset.getX()),
                     element);
         }
     }

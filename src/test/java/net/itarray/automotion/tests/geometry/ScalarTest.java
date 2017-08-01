@@ -4,6 +4,7 @@ import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.tests.properties.TestContext;
 import net.itarray.automotion.validation.properties.Condition;
+import org.apache.commons.math3.fraction.Fraction;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,8 +43,8 @@ public class ScalarTest {
     }
 
     @Test
-    public void getValueReturnsTheConstructorParameter() {
-        assertThat(scalar.getValue()).isEqualTo(value);
+    public void getintValueReturnsTheConstructorParameterForInts() {
+        assertThat(scalar.intValue()).isEqualTo(value);
     }
 
     @Test
@@ -55,7 +56,7 @@ public class ScalarTest {
     @Test
     public void plusScalarReturnsAScalarWithValueEqualToTheSumOfValueAndTheAddend() {
         Scalar addend = new Scalar(2);
-        assertThat(scalar.plus(addend)).isEqualTo(new Scalar(value + addend.getValue()));
+        assertThat(scalar.plus(addend)).isEqualTo(new Scalar(value + 2));
     }
 
     @Test
@@ -67,7 +68,19 @@ public class ScalarTest {
     @Test
     public void minusScalarReturnsAScalarWithValueEqualToTheDifferenceOfValueAndTheSubtrahend() {
         Scalar addend = new Scalar(2);
-        assertThat(scalar.minus(addend)).isEqualTo(new Scalar(value - addend.getValue()));
+        assertThat(scalar.minus(addend)).isEqualTo(new Scalar(value - 2));
+    }
+
+    @Test
+    public void timesScalarReturnsAScalarWithValueEqualToTheProductOfValueAndTheMultiplicator() {
+        Scalar multiplicator = new Scalar(2);
+        assertThat(scalar.times(multiplicator)).isEqualTo(new Scalar(value * 2));
+    }
+
+    @Test
+    public void byScalarReturnsAScalarWithValueEqualToTheQuotientOfValueAndTheDivisor() {
+        Scalar divisor = new Scalar(2);
+        assertThat(scalar.by(divisor)).isEqualTo(new Scalar(new Fraction(value, 2)));
     }
 
     @Test

@@ -17,8 +17,8 @@ public abstract class ElementWithCenterOffsetFromCenterOfPageTest {
         xOffset = 200;
         yOffset = 150;
         Vector delta = getCenterOffset();
-        int deltaX = delta.getX().getValue();
-        int deltaY = delta.getY().getValue();
+        int deltaX = delta.getX().intValue();
+        int deltaY = delta.getY().intValue();
         element = createElement(
                 xOffset + deltaX,
                 yOffset + deltaY,

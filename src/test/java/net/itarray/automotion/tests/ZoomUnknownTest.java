@@ -6,7 +6,7 @@ import net.itarray.automotion.validation.properties.Zoom;
 import org.junit.Before;
 import org.junit.Test;
 
-import static net.itarray.automotion.validation.Literals.zoom;
+import static net.itarray.automotion.validation.properties.Zoom.zoom;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 

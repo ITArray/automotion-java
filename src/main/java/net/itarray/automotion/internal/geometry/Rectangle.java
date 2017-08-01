@@ -34,8 +34,16 @@ public class Rectangle {
     }
 
     public Rectangle(int originX, int originY, int cornerX, int cornerY) {
-        this.origin = new Vector(originX, originY);
-        this.corner = new Vector(cornerX, cornerY);
+        this(new Vector(originX, originY), new Vector(cornerX, cornerY));
+    }
+
+    public Rectangle(Scalar originX, Scalar originY, Scalar cornerX, Scalar cornerY) {
+        this(new Vector(originX, originY), new Vector(cornerX, cornerY));
+    }
+
+    public Rectangle(Vector origin, Vector corner) {
+        this.origin = origin;
+        this.corner = corner;
     }
 
     public Vector getOrigin() {

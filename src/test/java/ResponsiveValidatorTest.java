@@ -24,11 +24,11 @@ import static net.itarray.automotion.validation.properties.Expression.percent;
 public class ResponsiveValidatorTest {
 
     private static WebDriver driver;
+    private static long start;
 
     public static void main(String[] args) {
         ManualTestSupport.deleteOutputDirectory();
         ResponsiveValidatorTest test = new ResponsiveValidatorTest();
-        long start = System.currentTimeMillis();
         try {
             test.testThatResponsiveValidatorWorks();
         } finally {
@@ -51,6 +51,8 @@ public class ResponsiveValidatorTest {
         driver = driverFactory.getDriver();
         driver.get("http://visual.itarray.net");
         driver.manage().window().maximize();
+
+        start = System.currentTimeMillis();
 
         TestPage page = new TestPage(driver);
 

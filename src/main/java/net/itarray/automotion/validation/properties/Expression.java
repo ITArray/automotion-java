@@ -5,8 +5,9 @@ import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.internal.properties.PagePercentage;
 import net.itarray.automotion.internal.properties.PagePercentageOrPixels;
+import net.itarray.automotion.internal.properties.PercentReference;
 
-import static net.itarray.automotion.validation.properties.PercentReference.PAGE;
+import static net.itarray.automotion.internal.properties.PercentReference.PAGE;
 
 public interface Expression<T> {
 

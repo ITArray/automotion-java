@@ -98,13 +98,13 @@ public interface UIElementValidator {
     UIElementValidator dontDrawMap();
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.properties.Expression#percent(int, net.itarray.automotion.validation.properties.PercentReference)}
+     * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.properties.Expression#percent(int, net.itarray.automotion.internal.properties.PercentReference)}
      */
     @Deprecated
     UIElementValidator changeMetricsUnitsTo(util.validator.ResponsiveUIValidator.Units units);
 
     /**
-     * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.properties.Expression#percent(int, net.itarray.automotion.validation.properties.PercentReference)}
+     * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.properties.Expression#percent(int, net.itarray.automotion.internal.properties.PercentReference)}
      */
     @Deprecated
     UIElementValidator changeMetricsUnitsTo(Units units);
