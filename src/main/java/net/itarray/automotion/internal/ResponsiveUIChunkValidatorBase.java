@@ -1,5 +1,7 @@
 package net.itarray.automotion.internal;
 
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -10,6 +12,7 @@ import util.validator.ResponsiveUIValidator;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -254,13 +257,22 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     }
 
     private void validateGridAlignment(List<UIElement> elements, int columns, int rows) {
-        SortedMap<Scalar, Integer> map = new TreeMap<>();
+        SortedMap<Scalar, Integer> countByYCoordinate = new TreeMap<>();
         for (UIElement element : elements) {
-            int oldCount = map.getOrDefault(element.getY(), 0);
-            map.put(element.getY(), oldCount + 1);
+            int oldCount = countByYCoordinate.getOrDefault(element.getY(), 0);
+            countByYCoordinate.put(element.getY(), oldCount + 1);
         }
 
-        int mapSize = map.size();
+        Set<Scalar> xCoordinates = Sets.newHashSet();
+        for (UIElement element : elements) {
+            xCoordinates.add(element.getX());
+        }
+
+        if (xCoordinates.size() > columns) {
+            addError(String.format("Elements in a grid are not aligned properly. Looks like grid has wrong amount of columns. Expected is %d. Actual is %d", columns, xCoordinates.size()));
+        }
+
+        int mapSize = countByYCoordinate.size();
         if (rows > 0) {
             if (mapSize != rows) {
                 addError(String.format("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is %d. Actual is %d", rows, mapSize));
@@ -270,7 +282,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         if (columns > 0) {
             int errorLastLine = 0;
             int rowCount = 1;
-            for (Map.Entry<Scalar, Integer> entry : map.entrySet()) {
+            for (Map.Entry<Scalar, Integer> entry : countByYCoordinate.entrySet()) {
                 if (rowCount <= mapSize) {
                     int actualInARow = entry.getValue();
                     if (actualInARow != columns) {
