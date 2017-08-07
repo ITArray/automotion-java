@@ -33,7 +33,9 @@ public class ElementPropertyExpression<T> implements Expression<T> {
         return property.getDescriptionFor(element);
     }
 
-    public String getName() {
+    @Override
+    public String getRepeatedDescription(Context context, Direction direction) {
         return property.getName();
     }
+
 }
