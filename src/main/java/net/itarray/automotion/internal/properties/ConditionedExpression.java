@@ -1,6 +1,7 @@
 package net.itarray.automotion.internal.properties;
 
 import net.itarray.automotion.internal.geometry.Direction;
+import net.itarray.automotion.internal.geometry.Group;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.validation.properties.Expression;
@@ -26,7 +27,7 @@ public class ConditionedExpression<T> implements Expression<Boolean> {
         return String.format("Expected %s to be %s. Actual %s is: %s",
                 toBeConditioned.getDescription(context, direction),
                 toBeApplied.getDescription(context, direction),
-                (toBeConditioned instanceof ElementPropertyExpression) ? ((ElementPropertyExpression) toBeConditioned).getName() : toBeConditioned.getDescription(context, direction),
-                (t instanceof Scalar) ? ((Scalar) t).toStringWithUnits("px") : t);
+                toBeConditioned.getRepeatedDescription(context, direction),
+                (t instanceof Group) ? ((Group) t).toStringWithUnits("px") : t);
     }
 }
