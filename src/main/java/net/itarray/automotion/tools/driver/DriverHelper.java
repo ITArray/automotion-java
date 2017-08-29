@@ -319,9 +319,9 @@ public class DriverHelper {
     public static void clickJQuery(WebDriver driver, WebElement element) {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         if (!element.getAttribute("id").equals("")) {
-            executor.executeScript(String.format("$('#%s').click()", element.getAttribute("id")));
+            executor.executeScript(String.format("$('#%s').click()", element.getAttribute("id").trim()));
         } else if (!element.getAttribute("class").equals("")) {
-            executor.executeScript(String.format("$('%s.%s').click()", element.getTagName(), element.getAttribute("class")));
+            executor.executeScript(String.format("$('%s.%s').click()", element.getTagName(), element.getAttribute("class").trim()));
         }
     }
 
