@@ -1,17 +1,9 @@
 package net.itarray.automotion.tools.driver;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
+import io.appium.java_client.*;
 import io.appium.java_client.android.AndroidDriver;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -20,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
@@ -106,7 +99,12 @@ public class DriverHelper {
         int screenHeightStart = dimensions.getHeight() / 2;
         int screenWidthStart = dimensions.getWidth() / 2;
 
-        driver.swipe(screenWidthStart, screenHeightStart, screenWidthStart, 0, duration);
+        new MultiTouchAction(driver)
+                .add(new TouchAction(driver)
+                        .press(screenWidthStart, screenHeightStart)
+                        .waitAction(Duration.ofMillis(duration))
+                        .moveTo(screenWidthStart, 0))
+                .perform();
     }
 
     /**
@@ -120,7 +118,12 @@ public class DriverHelper {
         int screenHeightStart = dimensions.getHeight() / 2;
         int screenWidthStart = dimensions.getWidth() / 2;
 
-        driver.swipe(screenWidthStart, screenHeightStart, screenWidthStart, dimensions.getHeight(), duration);
+        new MultiTouchAction(driver)
+                .add(new TouchAction(driver)
+                        .press(screenWidthStart, screenHeightStart)
+                        .waitAction(Duration.ofMillis(duration))
+                        .moveTo(screenWidthStart, dimensions.getHeight()))
+                .perform();
     }
 
     public static void scrollDownMobileElement(AppiumDriver driver, MobileElement element) {
@@ -137,7 +140,12 @@ public class DriverHelper {
         int screenHeightStart = position.getY() + dimensions.getHeight() / 2;
         int screenWidthStart = position.getX() + dimensions.getWidth() / 2;
 
-        driver.swipe(screenWidthStart, screenHeightStart, screenWidthStart, position.getY(), duration);
+        new MultiTouchAction(driver)
+                .add(new TouchAction(driver)
+                        .press(screenWidthStart, screenHeightStart)
+                        .waitAction(Duration.ofMillis(duration))
+                        .moveTo(screenWidthStart, position.getY()))
+                .perform();
 
         LOG.info("Scroll down element " + element.getId());
     }
@@ -149,7 +157,12 @@ public class DriverHelper {
         int screenHeightEnd = position.getY() + dimensions.getHeight();
         int screenWidthStart = position.getX() + dimensions.getWidth() / 2;
 
-        driver.swipe(screenWidthStart, screenHeightStart, screenWidthStart, screenHeightEnd, duration);
+        new MultiTouchAction(driver)
+                .add(new TouchAction(driver)
+                        .press(screenWidthStart, screenHeightStart)
+                        .waitAction(Duration.ofMillis(500))
+                        .moveTo(screenWidthStart, dimensions.getHeight()))
+                .perform();
 
         LOG.info("Scroll up element " + element.getId());
     }
@@ -198,12 +211,17 @@ public class DriverHelper {
                 int screenHeightStart = dimensions.getHeight() - dimensions.getHeight() / 3;
                 int screenWidthStart = dimensions.getWidth() / 2;
 
-                driver.swipe(screenWidthStart, screenHeightStart, screenWidthStart, dimensions.getHeight(), 500);
+                new MultiTouchAction(driver)
+                        .add(new TouchAction(driver)
+                                .press(screenWidthStart, screenHeightStart)
+                                .waitAction(Duration.ofMillis(500))
+                                .moveTo(screenWidthStart, dimensions.getHeight()))
+                        .perform();
             } else {
                 int x = dimensions.getWidth() - 30;
                 int y = dimensions.getHeight() - 30;
 
-                driver.tap(1, x, y, 1);
+                new TouchAction(driver).tap(x, y);
             }
         } else if (isAndroid()) {
             try {
@@ -292,19 +310,19 @@ public class DriverHelper {
         int y = location.getY();
         switch (clickPoint) {
             case TOP_LEFT:
-                driver.tap(1, x + 5, y + 5, 1);
+                new TouchAction(driver).tap(x + 5, y + 5);
                 break;
             case TOP_RIGHT:
-                driver.tap(1, x + size.getWidth() - 5, y + 5, 1);
+                new TouchAction(driver).tap(x + size.getWidth() - 5, y + 5);
                 break;
             case BOTTOM_LEFT:
-                driver.tap(1, x + 5, y + size.getHeight() - 5, 1);
+                new TouchAction(driver).tap(x + 5, y + size.getHeight() - 5);
                 break;
             case BOTTOM_RIGHT:
-                driver.tap(1, x + size.getWidth() - 5, y + size.getHeight() - 5, 1);
+                new TouchAction(driver).tap(x + size.getWidth() - 5, y + size.getHeight() - 5);
                 break;
             case CENTER:
-                driver.tap(1, x + size.getWidth() / 2, y + size.getHeight() / 2, 1);
+                new TouchAction(driver).tap(x + size.getWidth() / 2, y + size.getHeight() / 2);
                 break;
         }
         LOG.info("INFO", "Click on " + clickPoint + " point");
