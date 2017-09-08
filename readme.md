@@ -20,7 +20,7 @@
  - Responsive UI Validator allows to validate UI on web or mobile page using lots of criterias. Also it allows tu build thr HTMl report after validation.
             
             ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driver);
-            UISnapshot mainSnapshot = responsiveUIValidator.snapshot("Main");
+            UISnapshot mainSnapshot = uiValidator.snapshot("Main");
             
             boolean success = mainSnapshot.findElement(page.topSlider(), "Top Slider")
                     .isLeftAlignedWith(page.gridContainer(), "Grid Container")
