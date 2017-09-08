@@ -58,6 +58,7 @@ public class HtmlReportBuilder {
 
     private Html buildHtml() throws IOException, ParseException {
         return new Html(null, new Style("background-color: rgb(255,250,250)")) {{
+            super.setPrependDocType(true);
             new Head(this) {{
                 new TitleTag(this) {{
                     new NoTag(this, "Automotion report");
