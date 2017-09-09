@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import static net.itarray.automotion.internal.UIElement.asElements;
+import static net.itarray.automotion.internal.geometry.Direction.DOWN;
+import static net.itarray.automotion.internal.geometry.Direction.RIGHT;
 
 public class PageValidator {
 
@@ -26,7 +28,7 @@ public class PageValidator {
             UIElement previousElement = elements.get(i - 1);
             UIElement currentElement = elements.get(i);
 
-            if (!previousElement.hasRightElement(currentElement)) {
+            if (!previousElement.hasSuccessor(RIGHT, currentElement)) {
                 aligned = false;
                 LOG.debug("Wrong item on position: " + i + ".\nPrevious element: " + previousElement.getName() + ".\nCurrent element: " + currentElement.getName() +  ".\nCoord of previous item is [" + previousElement.getX() + "," + previousElement.getY() + "]." +
                         "\nCoord of current item is [" + currentElement.getX() + "," + currentElement.getY() + "]");
@@ -50,7 +52,7 @@ public class PageValidator {
             UIElement previousElement = elements.get(i - 1);
             UIElement currentElement = elements.get(i);
 
-            if (!previousElement.hasBelowElement(currentElement)) {
+            if (!previousElement.hasSuccessor(DOWN, currentElement)) {
                 aligned = false;
                 LOG.debug("Wrong item on position: " + i + ".\nPrevious element: " + currentElement.getName() + ".\nCurrent element: " + currentElement.getName() +  ".\nCoord of previous item is [" + previousElement.getX() + "," + previousElement.getY() + "]." +
                         "\nCoord of current item is [" + currentElement.getX() + "," + currentElement.getY() + "]");
