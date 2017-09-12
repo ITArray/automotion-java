@@ -4,6 +4,8 @@ import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Between;
 import net.itarray.automotion.internal.properties.BinaryScalarConditionWithFixedOperand;
+import net.itarray.automotion.internal.properties.ConditionedExpression;
+import net.itarray.automotion.internal.properties.ConstantExpression;
 import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.internal.properties.PixelConstant;
 
@@ -110,7 +112,13 @@ public interface Condition<T> {
         }
     }
 
-    boolean isSatisfiedOn(T value, Context context, Direction direction);
+    default boolean isSatisfiedOn(T value, Context context, Direction direction) {
+        return applyTo(new ConstantExpression<T>(value)).evaluateIn(context, direction);
+    }
+
+    default Expression<Boolean> applyTo(Expression<T> toBeConditioned) {
+        return new ConditionedExpression<>(toBeConditioned, this);
+    }
 
     String getDescription(Context context, Direction direction);
 }
