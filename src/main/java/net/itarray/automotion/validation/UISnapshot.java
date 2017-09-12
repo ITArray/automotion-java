@@ -10,6 +10,8 @@ import org.openqa.selenium.WebElement;
 import java.io.File;
 import java.util.List;
 
+import static net.itarray.automotion.tools.environment.EnvironmentFactory.isMobile;
+
 public class UISnapshot {
 
     private final ResponsiveUIValidator responsiveUIValidator;
@@ -23,8 +25,10 @@ public class UISnapshot {
         this.name = name;
         this.resolution = resolution.queryIfUnknown(responsiveUIValidator.driver);
         this.zoom = zoom.queryIfUnknown(responsiveUIValidator.driver);
-        resolution.applyTo(responsiveUIValidator.driver);
-        zoom.applyTo(responsiveUIValidator.driver);
+        if (!isMobile()) {
+            resolution.applyTo(responsiveUIValidator.driver);
+            zoom.applyTo(responsiveUIValidator.driver);
+        }
     }
 
     public String getName() {

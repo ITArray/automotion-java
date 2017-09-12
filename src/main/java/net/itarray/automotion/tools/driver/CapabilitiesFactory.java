@@ -33,7 +33,7 @@ public class CapabilitiesFactory {
     public static DesiredCapabilities updateCapabilities(DesiredCapabilities desiredCapabilities, Map<String, Object> mapCapabilities) {
         if (mapCapabilities.size() > 0) {
             for (Map.Entry<String, Object> capability : mapCapabilities.entrySet()) {
-                desiredCapabilities.setCapability(capability.getKey(), capability.getValue());
+                setCapability(capability.getKey(), capability.getValue());
             }
         }
 
@@ -41,53 +41,53 @@ public class CapabilitiesFactory {
     }
 
     private static DesiredCapabilities getCommonMobileCapabilities() {
-        capabilities.setCapability("automationName", getAutomationName());
-        capabilities.setCapability("platformVersion", getPlatformVersion());
-        capabilities.setCapability("deviceName", getDevice());
-        capabilities.setCapability("deviceOrientation", "portrait");
-        capabilities.setCapability("app", getApp());
-        capabilities.setCapability("browserName", getMobileBrowser());
-        capabilities.setCapability("appiumVersion", getAppiumVersion());
-        capabilities.setCapability("name", getName());
-        capabilities.setCapability("newCommandTimeout", getNewCommandTimeout());
+        setCapability("automationName", getAutomationName());
+        setCapability("platformVersion", getPlatformVersion());
+        setCapability("deviceName", getDevice());
+        setCapability("deviceOrientation", "portrait");
+        setCapability("app", getApp());
+        setCapability("browserName", getMobileBrowser());
+        setCapability("appiumVersion", getAppiumVersion());
+        setCapability("name", getName());
+        setCapability("newCommandTimeout", getNewCommandTimeout());
 
         return capabilities;
     }
 
     private static DesiredCapabilities getAndroidCapabilities() {
         capabilities = getCommonMobileCapabilities();
-        capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("appActivity", getAppActivity());
-        capabilities.setCapability("appPackage", getAppPackage());
+        setCapability("platformName", "Android");
+        setCapability("appActivity", getAppActivity());
+        setCapability("appPackage", getAppPackage());
 
         return capabilities;
     }
 
     private static DesiredCapabilities getIOSCapabilities() {
         capabilities = getCommonMobileCapabilities();
-        capabilities.setCapability("platformName", "iOS");
-        capabilities.setCapability("udid", getUDIDDevice());
-        capabilities.setCapability("waitForAppScript", "true");
+        setCapability("platformName", "iOS");
+        setCapability("udid", getUDIDDevice());
+        setCapability("waitForAppScript", "true");
 
         return capabilities;
     }
 
     private static DesiredCapabilities getWindowsCapabilities() {
         capabilities = getCommonMobileCapabilities();
-        capabilities.setCapability("platformName", "Windows");
+        setCapability("platformName", "Windows");
 
         return capabilities;
     }
 
     private static DesiredCapabilities getPhantomJSCapabilities() {
         capabilities.setJavascriptEnabled(true);
-        capabilities.setCapability("takesScreenshot", true);
-        capabilities.setCapability("browserName", "PhantomJS");
-        capabilities.setCapability("browser", "phantomjs");
-        capabilities.setCapability("phantomjs.page.settings.userAgent", getUserAgent());
-        capabilities.setCapability("acceptSslCerts", true);
-        capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {"--web-security=no", "--ignore-ssl-errors=yes","--ignore-ssl-errors=true","--ssl-protocol=tlsv1"});
-        capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
+        setCapability("takesScreenshot", true);
+        setCapability("browserName", "PhantomJS");
+        setCapability("browser", "phantomjs");
+        setCapability("phantomjs.page.settings.userAgent", getUserAgent());
+        setCapability("acceptSslCerts", true);
+        setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {"--web-security=no", "--ignore-ssl-errors=yes","--ignore-ssl-errors=true","--ssl-protocol=tlsv1"});
+        setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
                 getPhantomJsPath()
         );
 
@@ -116,15 +116,21 @@ public class CapabilitiesFactory {
             chromeOptions.put("args", Arrays.asList("enable-extensions",
                     "test-type", "no-default-browser-check", "ignore-certificate-errors"));
 
-            capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+            setCapability(ChromeOptions.CAPABILITY, chromeOptions);
         }
 
         if (getSlDesktopPlatform() != null) {
-            capabilities.setCapability("platform", getSlDesktopPlatform());
-            capabilities.setCapability("version", getSlBrowserVersion());
-            capabilities.setCapability("screenResolution", getSlDesktopResolution());
+            setCapability("platform", getSlDesktopPlatform());
+            setCapability("version", getSlBrowserVersion());
+            setCapability("screenResolution", getSlDesktopResolution());
         }
 
         return capabilities;
+    }
+    
+    private static void setCapability(String key, Object value) {
+        if (value != null) {
+            capabilities.setCapability(key, value);
+        }
     }
 }
