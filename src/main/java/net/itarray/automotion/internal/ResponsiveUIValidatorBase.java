@@ -1,6 +1,5 @@
 package net.itarray.automotion.internal;
 
-import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.tools.helpers.Helper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -9,12 +8,7 @@ import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
 
 import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 import static net.itarray.automotion.tools.environment.EnvironmentFactory.*;
@@ -24,11 +18,11 @@ import static net.itarray.automotion.validation.Constants.*;
 public abstract class ResponsiveUIValidatorBase {
 
     protected final Errors errors;
+    protected final UIElement page;
     private final long startTime;
     private final UISnapshot snapshot;
     private final DriverFacade driver;
     private final double zoomFactor;
-    protected final UIElement page;
 
     protected ResponsiveUIValidatorBase(UISnapshot snapshot) {
         this.snapshot = snapshot;
@@ -52,15 +46,6 @@ public abstract class ResponsiveUIValidatorBase {
         return getReport().getUnits();
     }
 
-    protected ResponsiveUIValidator getReport() {
-        return snapshot.getResponsiveUIValidator();
-    }
-
-
-    public boolean isWithReport() {
-        return getReport().isWithReport();
-    }
-
     /**
      * @deprecated As of release 2.0, replaced by{@link util.validator.ResponsiveUIValidator#changeMetricsUnitsTo(util.validator.ResponsiveUIValidator.Units)} ()}
      */
@@ -68,6 +53,14 @@ public abstract class ResponsiveUIValidatorBase {
     protected ResponsiveUIValidatorBase setUnits(Units units) {
         snapshot.getResponsiveUIValidator().changeMetricsUnitsTo(units);
         return this;
+    }
+
+    protected ResponsiveUIValidator getReport() {
+        return snapshot.getResponsiveUIValidator();
+    }
+
+    public boolean isWithReport() {
+        return getReport().isWithReport();
     }
 
     public ResponsiveUIValidatorBase drawMap() {
@@ -118,11 +111,9 @@ public abstract class ResponsiveUIValidatorBase {
     }
 
     private double getScaleFactor() {
-        double factor = 1;
+        double factor;
         if (isMobile()) {
-            if (isIOS() && isIOSDevice()) {
-                factor = 2;
-            }
+            factor = 2;
         } else {
             factor = zoomFactor;
             if (isRetinaDisplay() && isChrome()) {
@@ -135,7 +126,7 @@ public abstract class ResponsiveUIValidatorBase {
     private int getYOffset() {
         if (isMobile() && getDriver().isAppiumWebContext() && getReport().isMobileTopBarOffset()) {
             if (isIOS() || isAndroid()) {
-                return 20;
+                return 20 * (int) getScaleFactor();
             }
         }
         return 0;
@@ -166,8 +157,7 @@ public abstract class ResponsiveUIValidatorBase {
         jsonFile.getParentFile().mkdirs();
         try (
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(jsonFile), StandardCharsets.UTF_8);
-                Writer writer = new BufferedWriter(outputStreamWriter))
-        {
+                Writer writer = new BufferedWriter(outputStreamWriter)) {
             writer.write(jsonResults.toJSONString());
         } catch (IOException ex) {
             throw new RuntimeException("Cannot create json report: " + jsonFile, ex);
