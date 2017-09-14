@@ -11,6 +11,7 @@ import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.internal.properties.ElementPropertyExpression;
+import net.itarray.automotion.validation.properties.Expression;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -452,16 +453,12 @@ public class UIElement {
         validateExtend(RIGHT, condition, context, errors);
     }
 
-    public void validateExtend(Direction direction, Condition condition, Context context, Errors errors) {
+    public void validateExtend(Direction direction, Condition<Scalar> condition, Context context, Errors errors) {
         ElementPropertyExpression<Scalar> property = ElementPropertyExpression.extend(direction, this);
-        Scalar value = property.evaluateIn(context, direction);
-        if (!value.satisfies(condition, context, direction)) {
+        Expression<Boolean> assertion = condition.applyTo(property);
+        if (!assertion.evaluateIn(context, direction)) {
             errors.add(
-                    String.format("Expected %s to be %s. Actual %s is: %s",
-                            property.getDescription(context, direction),
-                            condition.getDescription(context, direction),
-                            property.getName(),
-                            value.toStringWithUnits(PIXELS)));
+                    assertion.getDescription(context, direction));
         }
     }
 

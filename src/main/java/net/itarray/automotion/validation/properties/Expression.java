@@ -35,4 +35,9 @@ public interface Expression<T> {
     T evaluateIn(Context context, Direction direction);
 
     String getDescription(Context context, Direction direction);
+
+    default String getRepeatedDescription(Context context, Direction direction) {
+        return getDescription(context, direction);
+    }
+
 }
