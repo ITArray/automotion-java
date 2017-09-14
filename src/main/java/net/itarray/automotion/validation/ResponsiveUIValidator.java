@@ -23,6 +23,7 @@ public class ResponsiveUIValidator {
 
     private boolean mobileTopBarOffset = false;
     private final DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
+    private int scaleFactor = 1;
 
     public ResponsiveUIValidator(WebDriver driver) {
         this(new DriverFacade(driver));
@@ -138,6 +139,23 @@ public class ResponsiveUIValidator {
      */
     public void setTopBarMobileOffset(boolean state) {
         mobileTopBarOffset = state;
+    }
+
+    /**
+     * Set retina scale factor. Current usage only for native mobile
+     *
+     * @param factor
+     */
+    public void setRetinaScaleFactor(int factor) {
+        scaleFactor = factor;
+    }
+
+    /**
+     * Get retina scale factor. Current usage only for native mobile
+     *
+     */
+    public int getRetinaScaleFactor() {
+        return scaleFactor;
     }
 
     public boolean isMobileTopBarOffset() {

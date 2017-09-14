@@ -113,7 +113,7 @@ public abstract class ResponsiveUIValidatorBase {
     private double getScaleFactor() {
         double factor;
         if (isMobile()) {
-            factor = 2;
+            factor = getReport().getRetinaScaleFactor();
         } else {
             factor = zoomFactor;
             if (isRetinaDisplay() && isChrome()) {
