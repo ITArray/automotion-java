@@ -48,6 +48,8 @@
             
             setLinesColor(Color color); // Set color for grid lines. This color will be used for the lines of alignment grid in results
             
+            setRetinaScaleFactor(int factor); // Set scale factor for retina and mobile screens
+            
             findElement(WebElement element, String readableNameOfElement); // Main method to specify which element we want to validate (can be called only findElement() OR findElements() for single validation)
             
             findElements(List<WebElement> elements); // Main method to specify the list of elements that we want to validate (can be called only findElement() OR findElements() for single validation)
