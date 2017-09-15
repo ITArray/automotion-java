@@ -85,7 +85,7 @@ public class ResponsiveUIValidator {
      *
      * @param factor
      */
-    public void setRetinaScaleFactor(int factor) {
+    public void setRetinaScaleFactor(double factor) {
         responsiveUIValidator.setRetinaScaleFactor(factor);
     }
 
