@@ -1,12 +1,8 @@
 package net.itarray.automotion.internal;
 
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.*;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -114,7 +110,15 @@ public class DriverFacade {
     }
 
     public Dimension getResolution() {
-        return driver.manage().window().getSize();
+        if (isMobile() && getApp() == null) {
+            String resolution = ((RemoteWebDriver) driver).getCapabilities().getCapability("deviceScreenSize").toString();
+            int width = Integer.parseInt(resolution.split("x")[0]);
+            int height = Integer.parseInt(resolution.split("x")[1]);
+
+            return new Dimension(width, height);
+        } else {
+            return driver.manage().window().getSize();
+        }
     }
 
     public void setZoom(int percentage) {
