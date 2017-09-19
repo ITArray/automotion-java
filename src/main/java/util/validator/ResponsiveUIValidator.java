@@ -81,6 +81,16 @@ public class ResponsiveUIValidator {
     }
 
     /**
+     * Set top bar mobile offset. Applicable only for native mobile testing
+     *
+     * @param state
+     * @param offset
+     */
+    public void setTopBarMobileOffset(boolean state, double offset) {
+        responsiveUIValidator.setTopBarMobileOffset(state, offset);
+    }
+
+    /**
      * Set retina scale factor. Current usage only for native mobile
      *
      * @param factor
@@ -90,7 +100,7 @@ public class ResponsiveUIValidator {
     }
 
     public boolean isMobileTopBarOffset() {
-        return responsiveUIValidator.isMobileTopBarOffset();
+        return responsiveUIValidator.isMobileTopBarOffsetState();
     }
 
     /**

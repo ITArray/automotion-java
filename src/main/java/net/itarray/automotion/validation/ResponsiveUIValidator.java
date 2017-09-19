@@ -21,7 +21,8 @@ public class ResponsiveUIValidator {
     private final List<String> jsonFiles = new ArrayList<>();
     private net.itarray.automotion.validation.Units units = net.itarray.automotion.validation.Units.PX;
 
-    private boolean mobileTopBarOffset = false;
+    private boolean mobileTopBarOffsetState = false;
+    private double mobileTopBarOffset = 20;
     private final DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
     private double scaleFactor = 1;
 
@@ -138,7 +139,18 @@ public class ResponsiveUIValidator {
      * @param state
      */
     public void setTopBarMobileOffset(boolean state) {
-        mobileTopBarOffset = state;
+        mobileTopBarOffsetState = state;
+    }
+
+    /**
+     * Set top bar mobile offset. Applicable only for native mobile testing
+     *
+     * @param state
+     * @param offset
+     */
+    public void setTopBarMobileOffset(boolean state, double offset) {
+        mobileTopBarOffsetState = state;
+        mobileTopBarOffset = offset;
     }
 
     /**
@@ -158,7 +170,11 @@ public class ResponsiveUIValidator {
         return scaleFactor;
     }
 
-    public boolean isMobileTopBarOffset() {
+    public boolean isMobileTopBarOffsetState() {
+        return mobileTopBarOffsetState;
+    }
+
+    public double getMobileTopBarOffsetState() {
         return mobileTopBarOffset;
     }
 

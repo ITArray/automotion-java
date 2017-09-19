@@ -124,9 +124,9 @@ public abstract class ResponsiveUIValidatorBase {
     }
 
     private int getYOffset() {
-        if (isMobile() && getDriver().isAppiumWebContext() && getReport().isMobileTopBarOffset()) {
+        if (isMobile() && getDriver().isAppiumWebContext() && getReport().isMobileTopBarOffsetState()) {
             if (isIOS() || isAndroid()) {
-                return 20 * (int) getScaleFactor();
+                return (int) getReport().getMobileTopBarOffsetState();
             }
         }
         return 0;
