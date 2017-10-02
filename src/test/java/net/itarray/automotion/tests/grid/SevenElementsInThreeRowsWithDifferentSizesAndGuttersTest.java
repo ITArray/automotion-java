@@ -1,9 +1,6 @@
 package net.itarray.automotion.tests.grid;
 
-import net.itarray.automotion.internal.ResponsiveUIValidatorBase;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Chunk({
         @Element({100,  50,  300,  60}),
