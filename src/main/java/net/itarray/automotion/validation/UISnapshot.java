@@ -52,6 +52,10 @@ public class UISnapshot {
     }
 
     public ChunkUIElementValidator findElements(List<WebElement> webElements) {
+        return findOneOrMoreElements(webElements);
+    }
+
+    public ChunkUIElementValidator findOneOrMoreElements(List<WebElement> webElements) {
         return new ResponsiveUIChunkValidatorBase(this, webElements, false);
     }
 
