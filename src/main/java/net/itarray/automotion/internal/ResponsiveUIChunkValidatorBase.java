@@ -84,6 +84,11 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         return this;
     }
 
+    @Override
+    public ChunkUIElementValidator areAlignedAsGridCells() {
+        return this;
+    }
+
     /**
      * Verify that every element in the list is not overlapped with another element from this list
      *

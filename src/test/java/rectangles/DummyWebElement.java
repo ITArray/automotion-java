@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 public class DummyWebElement implements WebElement {
 
     private final Point location;
@@ -165,5 +167,17 @@ public class DummyWebElement implements WebElement {
 
     public static WebElement createElementMovedUpByHeightPlus(int deltaY) {
         return createElementMovedUpBy(RectangleFixture.height+deltaY);
+    }
+
+    public static List<WebElement> createElements(double[][] rects) {
+        List<WebElement> elements = newArrayList();
+        for (double[] rect : rects) {
+            elements.add(createElement(convert(rect[0]), convert(rect[1]), convert(rect[2]), convert(rect[3])));
+        }
+        return elements;
+    }
+
+    public static int convert(double value) {
+        return (int) value;
     }
 }

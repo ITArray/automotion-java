@@ -3,6 +3,7 @@ package util.validator;
 import net.itarray.automotion.internal.AbstractValidator;
 import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.ResponsiveUIChunkValidatorBase;
+import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import org.openqa.selenium.WebElement;
 
@@ -80,6 +81,12 @@ public class ResponsiveUIChunkValidator extends AbstractValidator implements Chu
     @Override
     public ResponsiveUIChunkValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize) {
         getBase().alignedAsGrid(horizontalGridSize, verticalGridSize);
+        return this;
+    }
+
+    @Override
+    public ChunkUIElementValidator areAlignedAsGridCells() {
+        getBase().areAlignedAsGridCells();
         return this;
     }
 

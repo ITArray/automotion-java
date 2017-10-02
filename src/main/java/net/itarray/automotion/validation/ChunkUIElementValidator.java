@@ -13,6 +13,8 @@ public interface ChunkUIElementValidator {
     // areAlignedInColumnsAndRows(numberOfColumns)
     ChunkUIElementValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 
+    ChunkUIElementValidator areAlignedAsGridCells();
+
     // area
 
     ChunkUIElementValidator doNotOverlap();
