@@ -55,8 +55,8 @@ public class UISnapshot {
         return new ResponsiveUIChunkValidatorBase(this, webElements, false);
     }
 
-    public ChunkUIElementValidator useElements(List<WebElement> webElements) {
-        return new ResponsiveUIChunkValidatorBase(this, webElements, true   );
+    public ChunkUIElementValidator findZeroOrMoreElements(List<WebElement> webElements) {
+        return new ResponsiveUIChunkValidatorBase(this, webElements, true);
     }
 
     public File takeScreenshot() {

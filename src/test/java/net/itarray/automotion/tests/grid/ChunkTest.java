@@ -42,7 +42,7 @@ public abstract class ChunkTest {
         boolean allowEmpty = getClass().getAnnotation(AllowEmpty.class) != null;
         chunkValidator =
                 allowEmpty ?
-                        snapshot.useElements(webElements) :
+                        snapshot.findZeroOrMoreElements(webElements) :
                         snapshot.findElements(webElements);
     }
 
