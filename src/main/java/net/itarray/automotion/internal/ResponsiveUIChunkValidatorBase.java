@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 import static net.itarray.automotion.internal.UIElement.*;
 
@@ -21,10 +19,10 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     private final List<UIElement> rootElements;
 
-    public ResponsiveUIChunkValidatorBase(UISnapshot snapshot, List<WebElement> webElements) {
+    public ResponsiveUIChunkValidatorBase(UISnapshot snapshot, List<WebElement> webElements, boolean allowEmpty) {
         super(snapshot);
         rootElements = asElements(webElements);
-        if (webElements.isEmpty()) {
+        if (!allowEmpty && webElements.isEmpty()) {
             String message = "Set root web element";
             addError(message);
         }

@@ -39,7 +39,11 @@ public abstract class ChunkTest {
                     element.value()[3]
             ));
         }
-        chunkValidator = snapshot.findElements(webElements);
+        boolean allowEmpty = getClass().getAnnotation(AllowEmpty.class) != null;
+        chunkValidator =
+                allowEmpty ?
+                        snapshot.useElements(webElements) :
+                        snapshot.findElements(webElements);
     }
 
     public void assertValid() {
