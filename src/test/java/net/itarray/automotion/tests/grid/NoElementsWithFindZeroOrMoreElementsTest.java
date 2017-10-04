@@ -3,18 +3,19 @@ package net.itarray.automotion.tests.grid;
 import org.junit.Test;
 
 @Chunk
-public class NoElementsTest extends ChunkTest {
+@AllowEmpty
+public class NoElementsWithFindZeroOrMoreElementsTest extends ChunkTest {
 
     @Test
     public void areAlignedAsGridCells() {
         chunkValidator.areAlignedAsGridCells();
-        assertInvalid();
+        assertValid();
     }
 
     @Test
     public void areNotAlignedInThreeColumns() {
         chunkValidator.alignedAsGrid(3);
-        assertInvalid();
+        assertValid();
     }
 
     @Test
