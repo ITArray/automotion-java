@@ -1,5 +1,6 @@
 package net.itarray.automotion.tests.grid;
 
+import net.itarray.automotion.validation.Chunk;
 import org.junit.Test;
 
 @Chunk

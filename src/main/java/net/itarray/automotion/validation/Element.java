@@ -1,4 +1,4 @@
-package net.itarray.automotion.tests.grid;
+package net.itarray.automotion.validation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

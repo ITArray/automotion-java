@@ -20,6 +20,19 @@ public interface ChunkUIElementValidator {
      *
      * @return this
      */
+    @ValidChunks({
+            @Chunk(name = "empty chunk", value={
+            }),
+            @Chunk(name = "single element chunk", value={
+                    @Element({10, 20, 30, 35}),
+            }),
+    })
+    @InvalidChunks({
+            @Chunk(name = "chunk with two overlapping elements", value={
+                    @Element({10, 20, 30, 35}),
+                    @Element({15, 25, 35, 50}),
+            }),
+    })
     ChunkUIElementValidator areAlignedAsGridCells();
 
     // area

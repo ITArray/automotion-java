@@ -1,7 +1,9 @@
 package net.itarray.automotion.tests.grid;
 
 import net.itarray.automotion.internal.ResponsiveUIValidatorBase;
+import net.itarray.automotion.validation.Chunk;
 import net.itarray.automotion.validation.ChunkUIElementValidator;
+import net.itarray.automotion.validation.Element;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import org.junit.Before;
