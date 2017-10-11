@@ -13,6 +13,13 @@ public interface ChunkUIElementValidator {
     // areAlignedInColumnsAndRows(numberOfColumns)
     ChunkUIElementValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 
+    /**
+     * Validate that this chunks elements are aligned in a grid of cells (not areas).
+     *
+     * <img src="./doc-files/sample.svg" style="display: block"></img>
+     *
+     * @return this
+     */
     ChunkUIElementValidator areAlignedAsGridCells();
 
     // area
