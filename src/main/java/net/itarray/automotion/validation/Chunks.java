@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-public @interface ChunkDef {
-    Element[] value() default {};
-    String name() default "";
+public @interface Chunks {
+    Chunk[] value() default {};
 }

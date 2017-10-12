@@ -7,9 +7,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-public @interface ChunkDefs {
-    ChunkDef[] value() default {};
+public @interface Valid {
+    Scenario[] value() default {};
 }

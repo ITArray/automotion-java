@@ -2,22 +2,27 @@ package net.itarray.automotion.validation;
 
 import org.openqa.selenium.WebElement;
 
-@ChunkDefs({
-        @ChunkDef(name = "empty", value={
+@Chunks({
+        @Chunk(id = "empty",
+                description = "empty", elements ={
         }),
-        @ChunkDef(name = "one element", value={
+        @Chunk(id = "one",
+                description = "one element", elements ={
                 @Element({10, 20, 40, 50})
         }),
-        @ChunkDef(name = "two overlapping elements", value={
+        @Chunk(id = "two_overlapping",
+                description = "two overlapping elements", elements ={
                 @Element({10, 20, 30, 35}),
                 @Element({15, 25, 35, 50}),
         }),
-        @ChunkDef(name="three elements with different sizes in a row with different gutters", value={
+        @Chunk(id = "three",
+                description ="three elements with different sizes in a row with different gutters", elements ={
                 @Element({100, 50,  300, 60}),
                 @Element({400, 50,  700, 60}),
                 @Element({900, 50, 1200, 60}),
         }),
-        @ChunkDef(name="seven elements in three rows with different sizes and gutters", value={
+        @Chunk(id = "seven",
+                description ="seven elements in three rows with different sizes and gutters", elements ={
                 @Element({100,  50,  300,  60}),
                 @Element({400,  50,  700,  70}),
                 @Element({900,  50, 1200,  80}),
@@ -34,16 +39,16 @@ public interface ChunkUIElementValidator {
 
     // ? filled needs to be expressed somehow
     // areAlignedInColumns(numberOfColumns)
-    @ValidChunks({
-            @Chunk(name = "empty", params = {"3"}),
-            @Chunk(name = "one element", params = {"1"}),
-            @Chunk(name = "three elements with different sizes in a row with different gutters", params = {"3", "4"}),
-            @Chunk(name = "seven elements in three rows with different sizes and gutters", params = {"3"}),
+    @Valid({
+            @Scenario(chunk = "empty", params = {"3"}),
+            @Scenario(chunk = "one", params = {"1"}),
+            @Scenario(chunk = "three", params = {"3", "4"}),
+            @Scenario(chunk = "seven", params = {"3"}),
     })
-    @InvalidChunks({
-            @Chunk(name = "empty", params = {"3"}, oneOrMore = true),
-            @Chunk(name = "three elements with different sizes in a row with different gutters", params = {"2"}),
-            @Chunk(name = "seven elements in three rows with different sizes and gutters", params = {"2", "4"}),
+    @NotValid({
+            @Scenario(chunk = "empty", params = {"3"}, oneOrMore = true),
+            @Scenario(chunk = "three", params = {"2"}),
+            @Scenario(chunk = "seven", params = {"2", "4"}),
     })
     ChunkUIElementValidator alignedAsGrid(int horizontalGridSize);
 
@@ -55,29 +60,29 @@ public interface ChunkUIElementValidator {
      *
      * @return this
      */
-    @ValidChunks({
-            @Chunk(name = "empty"),
-            @Chunk(name = "single element"),
-            @Chunk(name = "seven elements in three rows with different sizes and gutters"),
+    @Valid({
+            @Scenario(chunk = "empty"),
+            @Scenario(chunk = "one"),
+            @Scenario(chunk = "seven"),
     })
-    @InvalidChunks({
-            @Chunk(name = "empty", oneOrMore = true),
-            @Chunk(name = "two overlapping elements"),
+    @NotValid({
+            @Scenario(chunk = "empty", oneOrMore = true),
+            @Scenario(chunk = "two_overlapping"),
     })
     ChunkUIElementValidator areAlignedAsGridCells();
 
 
     // area
-    @ValidChunks({
-            @Chunk(name = "one element", params = {"1, 1"}),
-            @Chunk(name = "three elements with different sizes in a row with different gutters", params = {"3, 1", "4, 1"}),
-            @Chunk(name = "seven elements in three rows with different sizes and gutters", params = {"3, 3"}),
+    @Valid({
+            @Scenario(chunk = "one", params = {"1, 1"}),
+            @Scenario(chunk = "three", params = {"3, 1", "4, 1"}),
+            @Scenario(chunk = "seven", params = {"3, 3"}),
     })
-    @InvalidChunks({
-            @Chunk(name = "empty", params = {"3, 3"}, oneOrMore = true),
-            @Chunk(name = "empty", params = {"3, 3"}),
-            @Chunk(name = "three elements with different sizes in a row with different gutters", params = {"3, 2", "4, 2"}),
-            @Chunk(name = "seven elements in three rows with different sizes and gutters", params = {"3, 2", "3, 4", "4, 1"}),
+    @NotValid({
+            @Scenario(chunk = "empty", params = {"3, 3"}, oneOrMore = true),
+            @Scenario(chunk = "empty", params = {"3, 3"}),
+            @Scenario(chunk = "three", params = {"3, 2", "4, 2"}),
+            @Scenario(chunk = "seven", params = {"3, 2", "3, 4", "4, 1"}),
     })
     ChunkUIElementValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 
@@ -86,29 +91,71 @@ public interface ChunkUIElementValidator {
 
     // size
 
+    @Valid({
+            @Scenario(chunk = "empty"),
+            @Scenario(chunk = "one"),
+    })
+    @NotValid({
+            @Scenario(chunk = "empty", oneOrMore = true),
+    })
     ChunkUIElementValidator haveEqualSize();
+    @Valid({
+            @Scenario(chunk = "empty"),
+            @Scenario(chunk = "one"),
+    })
+    @NotValid({
+            @Scenario(chunk = "empty", oneOrMore = true),
+    })
     ChunkUIElementValidator haveEqualWidth();
+    @Valid({
+            @Scenario(chunk = "empty"),
+            @Scenario(chunk = "one"),
+    })
+    @NotValid({
+            @Scenario(chunk = "empty", oneOrMore = true),
+    })
     ChunkUIElementValidator haveEqualHeight();
+    @Valid({
+            @Scenario(chunk = "empty"),
+            @Scenario(chunk = "one"),
+    })
+    @NotValid({
+            @Scenario(chunk = "empty", oneOrMore = true),
+    })
     ChunkUIElementValidator haveDifferentSizes();
+    @Valid({
+            @Scenario(chunk = "empty"),
+            @Scenario(chunk = "one"),
+    })
+    @NotValid({
+            @Scenario(chunk = "empty", oneOrMore = true),
+    })
     ChunkUIElementValidator haveDifferentWidths();
+    @Valid({
+            @Scenario(chunk = "empty"),
+            @Scenario(chunk = "one"),
+    })
+    @NotValid({
+            @Scenario(chunk = "empty", oneOrMore = true),
+    })
     ChunkUIElementValidator haveDifferentHeights();
 
     // alignment
 
-    @ValidChunks({
-            @Chunk(name = "one element"),
+    @Valid({
+            @Scenario(chunk = "one"),
     })
     ChunkUIElementValidator areLeftAligned();
-    @ValidChunks({
-            @Chunk(name = "one element"),
+    @Valid({
+            @Scenario(chunk = "one"),
     })
     ChunkUIElementValidator areRightAligned();
-    @ValidChunks({
-            @Chunk(name = "one element"),
+    @Valid({
+            @Scenario(chunk = "one"),
     })
     ChunkUIElementValidator areTopAligned();
-    @ValidChunks({
-            @Chunk(name = "one element"),
+    @Valid({
+            @Scenario(chunk = "one"),
     })
     ChunkUIElementValidator areBottomAligned();
 

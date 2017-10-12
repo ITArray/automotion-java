@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-public @interface InvalidChunks {
-    Chunk[] value() default {};
+public @interface NotValid {
+    Scenario[] value() default {};
 }
