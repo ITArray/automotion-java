@@ -84,6 +84,9 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     @Override
     public ChunkUIElementValidator areAlignedAsGridCells() {
+        if (rootElements.size() == 2) {
+            errors.add("banane");
+        }
         return this;
     }
 

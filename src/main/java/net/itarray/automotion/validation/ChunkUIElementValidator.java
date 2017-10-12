@@ -2,17 +2,53 @@ package net.itarray.automotion.validation;
 
 import org.openqa.selenium.WebElement;
 
+@ChunkDefs({
+        @ChunkDef(name = "empty", value={
+        }),
+        @ChunkDef(name = "one element", value={
+                @Element({10, 20, 40, 50})
+        }),
+        @ChunkDef(name = "two overlapping elements", value={
+                @Element({10, 20, 30, 35}),
+                @Element({15, 25, 35, 50}),
+        }),
+        @ChunkDef(name="three elements with different sizes in a row with different gutters", value={
+                @Element({100, 50,  300, 60}),
+                @Element({400, 50,  700, 60}),
+                @Element({900, 50, 1200, 60}),
+        }),
+        @ChunkDef(name="seven elements in three rows with different sizes and gutters", value={
+                @Element({100,  50,  300,  60}),
+                @Element({400,  50,  700,  70}),
+                @Element({900,  50, 1200,  80}),
+                @Element({100, 150,  300, 160}),
+                @Element({400, 150,  700, 170}),
+                @Element({900, 150, 1200, 180}),
+                @Element({100, 250,  300, 160}),
+        })
+
+})
 public interface ChunkUIElementValidator {
 
     boolean validate();
 
     // ? filled needs to be expressed somehow
     // areAlignedInColumns(numberOfColumns)
+    @ValidChunks({
+            @Chunk(parameters = "3", name = "empty"),
+            @Chunk(parameters = "1", name = "one element"),
+            @Chunk(parameters = "3", name="three elements with different sizes in a row with different gutters"),
+            @Chunk(parameters = "4", name="three elements with different sizes in a row with different gutters"),
+            @Chunk(parameters = "3", name = "seven elements in three rows with different sizes and gutters"),
+    })
+    @InvalidChunks({
+            @Chunk(parameters = "2", name="three elements with different sizes in a row with different gutters"),
+            @Chunk(parameters = "2", name = "seven elements in three rows with different sizes and gutters"),
+            @Chunk(parameters = "4", name = "seven elements in three rows with different sizes and gutters"),
+    })
     ChunkUIElementValidator alignedAsGrid(int horizontalGridSize);
 
     // areAlignedInColumnsAndRows(numberOfColumns)
-    ChunkUIElementValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
-
     /**
      * Validate that this chunks elements are aligned in a grid of cells (not areas).
      *
@@ -21,21 +57,32 @@ public interface ChunkUIElementValidator {
      * @return this
      */
     @ValidChunks({
-            @Chunk(name = "empty chunk", value={
-            }),
-            @Chunk(name = "single element chunk", value={
-                    @Element({10, 20, 30, 35}),
-            }),
+            @Chunk(name = "empty"),
+            @Chunk(name = "single element"),
+            @Chunk(name = "seven elements in three rows with different sizes and gutters"),
     })
     @InvalidChunks({
-            @Chunk(name = "chunk with two overlapping elements", value={
-                    @Element({10, 20, 30, 35}),
-                    @Element({15, 25, 35, 50}),
-            }),
+            @Chunk(name = "two overlapping elements"),
     })
     ChunkUIElementValidator areAlignedAsGridCells();
 
+
     // area
+    @ValidChunks({
+            @Chunk(parameters = "1, 1", name = "one element"),
+            @Chunk(parameters = "3, 1", name="three elements with different sizes in a row with different gutters"),
+            @Chunk(parameters = "4, 1", name="three elements with different sizes in a row with different gutters"),
+            @Chunk(parameters = "3, 3", name = "seven elements in three rows with different sizes and gutters"),
+    })
+    @InvalidChunks({
+            @Chunk(parameters = "3, 3", name = "empty"),
+            @Chunk(parameters = "3, 2", name="three elements with different sizes in a row with different gutters"),
+            @Chunk(parameters = "4, 2", name="three elements with different sizes in a row with different gutters"),
+            @Chunk(parameters = "3, 2", name = "seven elements in three rows with different sizes and gutters"),
+            @Chunk(parameters = "3, 4", name = "seven elements in three rows with different sizes and gutters"),
+            @Chunk(parameters = "4, 1", name = "seven elements in three rows with different sizes and gutters"),
+    })
+    ChunkUIElementValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 
     ChunkUIElementValidator doNotOverlap();
     ChunkUIElementValidator areInsideOf(WebElement containerElement, String readableContainerName);
@@ -51,9 +98,21 @@ public interface ChunkUIElementValidator {
 
     // alignment
 
+    @ValidChunks({
+            @Chunk(name = "one element"),
+    })
     ChunkUIElementValidator areLeftAligned();
+    @ValidChunks({
+            @Chunk(name = "one element"),
+    })
     ChunkUIElementValidator areRightAligned();
+    @ValidChunks({
+            @Chunk(name = "one element"),
+    })
     ChunkUIElementValidator areTopAligned();
+    @ValidChunks({
+            @Chunk(name = "one element"),
+    })
     ChunkUIElementValidator areBottomAligned();
 
     //
