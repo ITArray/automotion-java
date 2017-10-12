@@ -35,16 +35,15 @@ public interface ChunkUIElementValidator {
     // ? filled needs to be expressed somehow
     // areAlignedInColumns(numberOfColumns)
     @ValidChunks({
-            @Chunk(parameters = "3", name = "empty"),
-            @Chunk(parameters = "1", name = "one element"),
-            @Chunk(parameters = "3", name="three elements with different sizes in a row with different gutters"),
-            @Chunk(parameters = "4", name="three elements with different sizes in a row with different gutters"),
-            @Chunk(parameters = "3", name = "seven elements in three rows with different sizes and gutters"),
+            @Chunk(name = "empty", params = {"3"}),
+            @Chunk(name = "one element", params = {"1"}),
+            @Chunk(name = "three elements with different sizes in a row with different gutters", params = {"3", "4"}),
+            @Chunk(name = "seven elements in three rows with different sizes and gutters", params = {"3"}),
     })
     @InvalidChunks({
-            @Chunk(parameters = "2", name="three elements with different sizes in a row with different gutters"),
-            @Chunk(parameters = "2", name = "seven elements in three rows with different sizes and gutters"),
-            @Chunk(parameters = "4", name = "seven elements in three rows with different sizes and gutters"),
+            @Chunk(name = "empty", params = {"3"}, oneOrMore = true),
+            @Chunk(name = "three elements with different sizes in a row with different gutters", params = {"2"}),
+            @Chunk(name = "seven elements in three rows with different sizes and gutters", params = {"2", "4"}),
     })
     ChunkUIElementValidator alignedAsGrid(int horizontalGridSize);
 
@@ -62,6 +61,7 @@ public interface ChunkUIElementValidator {
             @Chunk(name = "seven elements in three rows with different sizes and gutters"),
     })
     @InvalidChunks({
+            @Chunk(name = "empty", oneOrMore = true),
             @Chunk(name = "two overlapping elements"),
     })
     ChunkUIElementValidator areAlignedAsGridCells();
@@ -69,18 +69,15 @@ public interface ChunkUIElementValidator {
 
     // area
     @ValidChunks({
-            @Chunk(parameters = "1, 1", name = "one element"),
-            @Chunk(parameters = "3, 1", name="three elements with different sizes in a row with different gutters"),
-            @Chunk(parameters = "4, 1", name="three elements with different sizes in a row with different gutters"),
-            @Chunk(parameters = "3, 3", name = "seven elements in three rows with different sizes and gutters"),
+            @Chunk(name = "one element", params = {"1, 1"}),
+            @Chunk(name = "three elements with different sizes in a row with different gutters", params = {"3, 1", "4, 1"}),
+            @Chunk(name = "seven elements in three rows with different sizes and gutters", params = {"3, 3"}),
     })
     @InvalidChunks({
-            @Chunk(parameters = "3, 3", name = "empty"),
-            @Chunk(parameters = "3, 2", name="three elements with different sizes in a row with different gutters"),
-            @Chunk(parameters = "4, 2", name="three elements with different sizes in a row with different gutters"),
-            @Chunk(parameters = "3, 2", name = "seven elements in three rows with different sizes and gutters"),
-            @Chunk(parameters = "3, 4", name = "seven elements in three rows with different sizes and gutters"),
-            @Chunk(parameters = "4, 1", name = "seven elements in three rows with different sizes and gutters"),
+            @Chunk(name = "empty", params = {"3, 3"}, oneOrMore = true),
+            @Chunk(name = "empty", params = {"3, 3"}),
+            @Chunk(name = "three elements with different sizes in a row with different gutters", params = {"3, 2", "4, 2"}),
+            @Chunk(name = "seven elements in three rows with different sizes and gutters", params = {"3, 2", "3, 4", "4, 1"}),
     })
     ChunkUIElementValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 

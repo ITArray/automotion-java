@@ -30,7 +30,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static rectangles.DummyWebElement.createElement;
 
 @RunWith(Parameterized.class)
-@PageSize
 public class AnnotatedSpecificationTest {
 
     protected ChunkUIElementValidator chunkValidator;
@@ -39,18 +38,14 @@ public class AnnotatedSpecificationTest {
     public void setUp() {
         DummyDriverFacade driverFacade = new DummyDriverFacade();
 
-        PageSize pageSize = getClass().getAnnotation(PageSize.class);
-        driverFacade.setPageSize(new Dimension(pageSize.xy()[0], pageSize.xy()[1]));
+        driverFacade.setPageSize(new Dimension(2000, 1000));
 
         ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driverFacade);
         UISnapshot snapshot = uiValidator.snapshot();
 
         List<WebElement> webElements = chunk;
-        boolean allowEmpty = true;
         chunkValidator =
-                allowEmpty ?
-                        snapshot.findZeroOrMoreElements(webElements) :
-                        snapshot.findElements(webElements);
+                this.oneOrMore ? snapshot.findElements(webElements) : snapshot.findZeroOrMoreElements(webElements);
     }
 
     public static List<WebElement> toWebElements(Chunk chunk) {
@@ -77,19 +72,23 @@ public class AnnotatedSpecificationTest {
             ValidChunks validChunks = method.getAnnotation(ValidChunks.class);
             if (validChunks != null) {
                 for (Chunk chunk : validChunks.value()) {
-                    String name = String.format("%s(%s) is valid on %s chunk", method.getName(), chunk.parameters(), chunk.name());
-                    Optional<List<WebElement>> repositoryChunk = repository.getChunk(chunk.name());
-                    List<WebElement> webElements = repositoryChunk.orElse(toWebElements(chunk));
-                    result.add(new Object[]{method, webElements, name, true, parseArgs(chunk.parameters())});
+                    for (String parameters : chunk.params()) {
+                        String name = String.format("%s(%s) is valid on %s chunk", method.getName(), parameters, chunk.name());
+                        Optional<List<WebElement>> repositoryChunk = repository.getChunk(chunk.name());
+                        List<WebElement> webElements = repositoryChunk.orElse(toWebElements(chunk));
+                        result.add(new Object[]{method, webElements, name, true, parseArgs(parameters), chunk.oneOrMore()});
+                    }
                 }
             }
             InvalidChunks invalidChunks = method.getAnnotation(InvalidChunks.class);
             if (invalidChunks != null) {
                 for (Chunk chunk : invalidChunks.value()) {
-                    String name = String.format("%s(%s) is not valid on %s chunk", method.getName(), chunk.parameters(), chunk.name());
-                    Optional<List<WebElement>> repositoryChunk = repository.getChunk(chunk.name());
-                    List<WebElement> webElements = repositoryChunk.orElse(toWebElements(chunk));
-                    result.add(new Object[]{method, webElements, name, false, parseArgs(chunk.parameters())});
+                    for (String parameters : chunk.params()) {
+                        String name = String.format("%s(%s) is not valid on %s chunk", method.getName(), parameters, chunk.name());
+                        Optional<List<WebElement>> repositoryChunk = repository.getChunk(chunk.name());
+                        List<WebElement> webElements = repositoryChunk.orElse(toWebElements(chunk));
+                        result.add(new Object[]{method, webElements, name, false, parseArgs(parameters), chunk.oneOrMore()});
+                    }
                 }
             }
         }
@@ -120,6 +119,10 @@ public class AnnotatedSpecificationTest {
 
     @Parameter(4)
     public Object[] arguments;
+
+    @Parameter(5)
+    public boolean oneOrMore;
+
 
     @Test
     public void valid() {

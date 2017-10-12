@@ -15,5 +15,6 @@ import java.lang.annotation.Target;
 public @interface Chunk {
     Element[] value() default {};
     String name() default "";
-    String parameters() default "";
+    String[] params() default {""};
+    boolean oneOrMore() default false;
 }
