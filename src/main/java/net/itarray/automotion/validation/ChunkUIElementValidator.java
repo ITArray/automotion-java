@@ -143,19 +143,35 @@ public interface ChunkUIElementValidator {
     // alignment
 
     @Valid({
+            @Scenario(chunk = "empty"),
             @Scenario(chunk = "one"),
+    })
+    @NotValid({
+            @Scenario(chunk = "empty", oneOrMore = true),
     })
     ChunkUIElementValidator areLeftAligned();
     @Valid({
+            @Scenario(chunk = "empty"),
             @Scenario(chunk = "one"),
+    })
+    @NotValid({
+            @Scenario(chunk = "empty", oneOrMore = true),
     })
     ChunkUIElementValidator areRightAligned();
     @Valid({
+            @Scenario(chunk = "empty"),
             @Scenario(chunk = "one"),
+    })
+    @NotValid({
+            @Scenario(chunk = "empty", oneOrMore = true),
     })
     ChunkUIElementValidator areTopAligned();
     @Valid({
+            @Scenario(chunk = "empty"),
             @Scenario(chunk = "one"),
+    })
+    @NotValid({
+            @Scenario(chunk = "empty", oneOrMore = true),
     })
     ChunkUIElementValidator areBottomAligned();
 
