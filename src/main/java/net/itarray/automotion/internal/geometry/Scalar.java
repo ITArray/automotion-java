@@ -4,7 +4,7 @@ import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.validation.properties.Condition;
 import org.apache.commons.math3.fraction.Fraction;
 
-public class Scalar implements Group<Scalar>, Comparable<Scalar> {
+public class Scalar implements GroupElement<Scalar>, Comparable<Scalar> {
     private final Fraction fraction;
 
     public Scalar(int value) {

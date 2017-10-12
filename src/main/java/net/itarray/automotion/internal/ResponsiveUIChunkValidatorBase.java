@@ -84,10 +84,14 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     @Override
     public ChunkUIElementValidator areAlignedAsGridCells() {
-        if (rootElements.size() == 2) {
+        validateAlignedAsGridCells(rootElements);
+        return this;
+    }
+
+    public void validateAlignedAsGridCells(List<UIElement> rootElements) {
+        if (this.rootElements.size() == 2) {
             errors.add("banane");
         }
-        return this;
     }
 
     /**
