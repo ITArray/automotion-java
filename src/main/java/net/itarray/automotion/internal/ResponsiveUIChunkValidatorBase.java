@@ -90,7 +90,18 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     public void validateAlignedAsGridCells(List<UIElement> rootElements) {
         if (this.rootElements.size() == 2) {
-            errors.add("banane");
+            for (int firstIndex = 0; firstIndex < rootElements.size(); firstIndex++) {
+                UIElement first = rootElements.get(firstIndex);
+                for (int secondIndex = firstIndex+1; secondIndex < rootElements.size(); secondIndex++) {
+                    UIElement second = rootElements.get(secondIndex);
+                    if (first.hasRightElement(second) && first.hasBelowElement(second)) {
+
+                    }else{
+                        errors.add("banane");
+                    }
+                }
+
+            }
         }
     }
 

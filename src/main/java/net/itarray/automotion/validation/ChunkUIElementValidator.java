@@ -15,6 +15,21 @@ import org.openqa.selenium.WebElement;
                 @Element({10, 20, 30, 35}),
                 @Element({15, 25, 35, 50}),
         }),
+        @Chunk(id = "two_horizontally_overlapping",
+                description = "two elements which horizontally projections overlap", elements ={
+                @Element({10, 20, 30, 35}),
+                @Element({15, 40, 35, 50}),
+        }),
+        @Chunk(id = "two_vertically_overlapping",
+                description = "two elements which vertically projections overlap", elements ={
+                @Element({10, 20, 30, 35}),
+                @Element({40, 25, 60, 50}),
+        }),
+        @Chunk(id = "two_not_overlapping_in_any_direction",
+                description = "two elements which horizontal and vertical projections don not overlap", elements ={
+                @Element({10, 20, 30, 35}),
+                @Element({40, 40, 60, 60}),
+        }),
         @Chunk(id = "three",
                 description ="three elements with different sizes in a row with different gutters", elements ={
                 @Element({100, 50,  300, 60}),
@@ -64,10 +79,13 @@ public interface ChunkUIElementValidator {
             @Scenario(chunk = "empty"),
             @Scenario(chunk = "one"),
             @Scenario(chunk = "seven"),
+            @Scenario(chunk = "two_not_overlapping_in_any_direction"),
     })
     @NotValid({
             @Scenario(chunk = "empty", oneOrMore = true),
             @Scenario(chunk = "two_overlapping"),
+            @Scenario(chunk = "two_horizontally_overlapping"),
+            @Scenario(chunk = "two_vertically_overlapping"),
     })
     ChunkUIElementValidator areAlignedAsGridCells();
 
