@@ -98,4 +98,12 @@ public class Scalar implements GroupElement<Scalar>, Comparable<Scalar> {
     public Scalar by(Scalar divisor) {
         return new Scalar(fraction.divide(divisor.fraction));
     }
+
+    public Scalar min(Scalar other) {
+        return isLessOrEqualTo(other) ? this : other;
+    }
+
+    public Scalar max(Scalar other) {
+        return isGreaterOrEqualTo(other) ? this : other;
+    }
 }

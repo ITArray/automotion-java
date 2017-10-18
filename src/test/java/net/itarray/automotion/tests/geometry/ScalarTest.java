@@ -131,10 +131,41 @@ public class ScalarTest {
     }
 
     @Test
-    public void shouldName() {
+    public void minimumWithSmallerScalarReturnsTheSmallerScalar() {
+        assertThat(scalar.min(scalar.minus(1))).isEqualTo(scalar.minus(1));
+    }
+
+    @Test
+    public void minimumWithEqualScalarReturnsTheScalar() {
+        assertThat(scalar.min(scalar)).isEqualTo(scalar);
+    }
+
+    @Test
+    public void minimumWithLargerScalarReturnsTheScalar() {
+        assertThat(scalar.min(scalar.plus(1))).isEqualTo(scalar);
+    }
+
+    @Test
+    public void maximumWithSmallerScalarReturnsTheScalar() {
+        assertThat(scalar.max(scalar.minus(1))).isEqualTo(scalar);
+    }
+
+    @Test
+    public void maximumWithEqualScalarReturnsTheScalar() {
+        assertThat(scalar.max(scalar)).isEqualTo(scalar);
+    }
+
+    @Test
+    public void maximumWithLargerScalarReturnsTheLargerScalar() {
+        assertThat(scalar.max(scalar.plus(1))).isEqualTo(scalar.plus(1));
+    }
+
+    @Test
+    public void satisfies() {
         TestContext context = new TestContext();
         Direction direction = Direction.RIGHT;
         assertThat(scalar.satisfies(Condition.greaterOrEqualTo(value), context, direction)).isTrue();
         assertThat(scalar.satisfies(Condition.greaterOrEqualTo(value+1), context, direction)).isFalse();
     }
 }
+

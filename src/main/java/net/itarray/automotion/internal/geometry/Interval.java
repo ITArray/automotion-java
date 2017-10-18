@@ -41,7 +41,7 @@ public class Interval {
 
     public Interval intersect(Interval interval) {
         return new Interval(
-                begin.isLessOrEqualTo(interval.begin) ? interval.begin : begin,
-                end.isLessOrEqualTo(interval.end) ? end : interval.end);
+                begin.max(interval.begin),
+                end.min(interval.end));
     }
 }
