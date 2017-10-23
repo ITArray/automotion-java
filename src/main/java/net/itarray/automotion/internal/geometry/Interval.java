@@ -2,8 +2,6 @@ package net.itarray.automotion.internal.geometry;
 
 import java.util.Objects;
 
-import static java.lang.String.format;
-
 public class Interval {
     private final Scalar begin;
     private final Scalar end;
@@ -15,7 +13,14 @@ public class Interval {
 
     @Override
     public String toString() {
-        return format("[%s, %s[", begin, end);
+        if (isEmpty()) {
+            return format("-", "-");
+        }
+        return format(begin.toString(), end.toString());
+    }
+
+    private String format(String begin, String end) {
+        return String.format("[%s, %s[", begin, end);
     }
 
     @Override
@@ -43,5 +48,17 @@ public class Interval {
         return new Interval(
                 begin.max(interval.begin),
                 end.min(interval.end));
+    }
+
+    public Interval span(Interval interval) {
+        if (isEmpty()) {
+            return interval;
+        }
+        if (interval.isEmpty()) {
+            return this;
+        }
+        return new Interval(
+                begin.min(interval.begin),
+                end.max(interval.end));
     }
 }
