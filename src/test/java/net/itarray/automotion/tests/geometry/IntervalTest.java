@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static net.itarray.automotion.internal.geometry.Interval.interval;
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class IntervalTest {
@@ -16,8 +17,8 @@ public class IntervalTest {
 
     @Before
     public void setUp() {
-        begin = new Scalar(10);
-        end = new Scalar(17);
+        begin = scalar(10);
+        end = scalar(17);
         interval = interval(begin, end);
     }
 

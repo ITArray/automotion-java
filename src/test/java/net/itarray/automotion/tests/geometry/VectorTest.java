@@ -5,6 +5,7 @@ import net.itarray.automotion.internal.geometry.Vector;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class VectorTest {
@@ -15,8 +16,8 @@ public class VectorTest {
 
     @Before
     public void createVector() {
-        x = new Scalar(10);
-        y = new Scalar(23);
+        x = scalar(10);
+        y = scalar(23);
         vector = new Vector(x, y);
     }
 

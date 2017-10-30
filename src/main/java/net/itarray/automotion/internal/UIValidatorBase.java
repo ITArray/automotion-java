@@ -17,6 +17,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 import static net.itarray.automotion.internal.UIElement.*;
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.Constants.*;
 import static net.itarray.automotion.validation.properties.Condition.*;
@@ -96,7 +97,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private Expression<Scalar> scalarExpression(int width) {
-        return isPixels() ? new PixelConstant(new Scalar(width)) : Expression.percent(new Scalar(width), PAGE);
+        return isPixels() ? new PixelConstant(scalar(width)) : Expression.percent(scalar(width), PAGE);
     }
 
     private Condition<Scalar> betweenCondition(int minMargin, int maxMargin) {
@@ -452,7 +453,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     public boolean isNotSwitchedOff(int value, Direction direction) {
-        return percentOrPixels(value).evaluateIn(getContext(), direction).isGreaterThan(new Scalar(MIN_OFFSET));
+        return percentOrPixels(value).evaluateIn(getContext(), direction).isGreaterThan(scalar(MIN_OFFSET));
     }
 
     public void validateMinOffsetNew(int top, int right, int bottom, int left) {

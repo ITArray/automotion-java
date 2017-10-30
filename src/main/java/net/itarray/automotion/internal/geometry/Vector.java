@@ -1,5 +1,7 @@
 package net.itarray.automotion.internal.geometry;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
+
 public class Vector implements GroupElement<Vector> {
     private final Scalar x;
     private final Scalar y;
@@ -10,7 +12,7 @@ public class Vector implements GroupElement<Vector> {
     }
 
     public Vector(int x, int y) {
-        this(new Scalar(x), new Scalar(y));
+        this(scalar(x), scalar(y));
     }
 
     @Override

@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
+
 public class Partition <T> {
 
     private final List<List<T>> lists;
@@ -31,7 +33,7 @@ public class Partition <T> {
     public boolean continues(Function<T, Scalar> property, T candidate, T last) {
         Scalar lastValue = property.apply(last);
         Scalar candidateValue = property.apply(candidate);
-        return candidateValue.minus(lastValue).isLessOrEqualTo(new Scalar(1));
+        return candidateValue.minus(lastValue).isLessOrEqualTo(scalar(1));
     }
 
     public List<List<T>> getPartitions() {

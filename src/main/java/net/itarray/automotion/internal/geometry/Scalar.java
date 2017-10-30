@@ -7,12 +7,20 @@ import org.apache.commons.math3.fraction.Fraction;
 public class Scalar implements GroupElement<Scalar>, Comparable<Scalar> {
     private final Fraction fraction;
 
-    public Scalar(int value) {
+    private Scalar(int value) {
         fraction = new Fraction(value);
     }
 
-    public Scalar(Fraction fraction) {
+    private Scalar(Fraction fraction) {
         this.fraction = fraction;
+    }
+
+    public static Scalar scalar(int value) {
+        return new Scalar(value);
+    }
+
+    public static Scalar scalar(Fraction fraction) {
+        return new Scalar(fraction);
     }
 
     @Override
@@ -43,19 +51,19 @@ public class Scalar implements GroupElement<Scalar>, Comparable<Scalar> {
     }
 
     public Scalar plus(int addend) {
-        return plus(new Scalar(addend));
+        return plus(scalar(addend));
     }
 
     public Scalar plus(Scalar addend) {
-        return new Scalar(fraction.add(addend.fraction));
+        return scalar(fraction.add(addend.fraction));
     }
 
     public Scalar minus(int subtrahend) {
-        return minus(new Scalar(subtrahend));
+        return minus(scalar(subtrahend));
     }
 
     public Scalar minus(Scalar subtrahend) {
-        return new Scalar(fraction.subtract(subtrahend.fraction));
+        return scalar(fraction.subtract(subtrahend.fraction));
     }
 
     public boolean isLessThan(Scalar other) {
@@ -80,11 +88,11 @@ public class Scalar implements GroupElement<Scalar>, Comparable<Scalar> {
     }
 
     public Scalar negated() {
-        return new Scalar(fraction.negate());
+        return scalar(fraction.negate());
     }
 
     public Scalar abs() {
-        return new Scalar(fraction.abs());
+        return scalar(fraction.abs());
     }
 
     public boolean satisfies(Condition condition, Context context, Direction direction) {
@@ -92,11 +100,11 @@ public class Scalar implements GroupElement<Scalar>, Comparable<Scalar> {
     }
 
     public Scalar times(Scalar multiplicator) {
-        return new Scalar(fraction.multiply(multiplicator.fraction));
+        return scalar(fraction.multiply(multiplicator.fraction));
     }
 
     public Scalar by(Scalar divisor) {
-        return new Scalar(fraction.divide(divisor.fraction));
+        return scalar(fraction.divide(divisor.fraction));
     }
 
     public Scalar min(Scalar other) {

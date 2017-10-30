@@ -6,6 +6,7 @@ import net.itarray.automotion.internal.properties.PixelConstant;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PixelConstantTest {
@@ -15,7 +16,7 @@ public class PixelConstantTest {
 
     @Before
     public void createConstant() {
-        value = new Scalar(13);
+        value = scalar(13);
         constant = new PixelConstant(value);
     }
 

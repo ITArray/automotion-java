@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 import static net.itarray.automotion.internal.geometry.Direction.*;
 import static net.itarray.automotion.internal.geometry.Rectangle.ORIGIN_CORNER;
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
 public class UIElement {
@@ -192,7 +193,7 @@ public class UIElement {
     }
 
     public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
-        return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualTo(new Scalar(0));
+        return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualTo(scalar(0));
     }
 
     public Scalar signedDistanceToSuccessor(Direction direction, UIElement successor) {

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PartitionTest {
@@ -57,7 +58,7 @@ public class PartitionTest {
 
     private List<Object> asList(String... objects) {
         FractionFormat format = new FractionFormat();
-        return Arrays.stream(objects).map(s->(Object)new Scalar(format.parse(s))).collect(Collectors.toList());
+        return Arrays.stream(objects).map(s->(Object) scalar(format.parse(s))).collect(Collectors.toList());
     }
 
     private Fraction fraction(String literal) {

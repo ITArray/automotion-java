@@ -9,6 +9,7 @@ import net.itarray.automotion.validation.properties.Expression;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ElementPropertyExpressionTest {
@@ -26,7 +27,7 @@ public class ElementPropertyExpressionTest {
     @Test
     public void evaluatesToItsLambdaAppliedToTheRectangle() {
         Scalar result = property.evaluateIn(new TestContext(), Direction.RIGHT);
-        assertThat(result).isEqualTo(new Scalar(90));
+        assertThat(result).isEqualTo(scalar(90));
     }
 
     @Test
