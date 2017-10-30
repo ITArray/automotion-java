@@ -5,6 +5,7 @@ import net.itarray.automotion.internal.geometry.Scalar;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.itarray.automotion.internal.geometry.Interval.interval;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class EmptyIntervalTest {
@@ -17,7 +18,7 @@ public class EmptyIntervalTest {
     public void setUp() {
         begin = new Scalar(17);
         end = new Scalar(10);
-        interval = new Interval(begin, end);
+        interval = interval(begin, end);
     }
 
     @Test
@@ -27,13 +28,13 @@ public class EmptyIntervalTest {
 
     @Test
     public void isEqualToIntervalsOtherEmptyIntervals() {
-        assertThat(interval).isEqualTo(new Interval(new Scalar(100), new Scalar(99)));
-        assertThat(interval.hashCode()).isEqualTo(new Interval(new Scalar(100), new Scalar(99)).hashCode());
+        assertThat(interval).isEqualTo(interval(new Scalar(100), new Scalar(99)));
+        assertThat(interval.hashCode()).isEqualTo(interval(new Scalar(100), new Scalar(99)).hashCode());
     }
 
     @Test
     public void isNotEqualToNonEmptyIntervals() {
-        assertThat(interval).isNotEqualTo(new Interval(new Scalar(10), new Scalar(20)));
+        assertThat(interval).isNotEqualTo(interval(new Scalar(10), new Scalar(20)));
     }
 
 }

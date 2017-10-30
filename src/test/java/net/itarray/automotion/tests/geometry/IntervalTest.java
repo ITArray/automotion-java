@@ -5,6 +5,7 @@ import net.itarray.automotion.internal.geometry.Scalar;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.itarray.automotion.internal.geometry.Interval.interval;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class IntervalTest {
@@ -17,23 +18,23 @@ public class IntervalTest {
     public void setUp() {
         begin = new Scalar(10);
         end = new Scalar(17);
-        interval = new Interval(begin, end);
+        interval = interval(begin, end);
     }
 
     @Test
     public void isEqualToIntervalsWithEqualBeginAndEnd() {
-        assertThat(interval).isEqualTo(new Interval(begin, end));
-        assertThat(interval.hashCode()).isEqualTo(new Interval(begin, end).hashCode());
+        assertThat(interval).isEqualTo(interval(begin, end));
+        assertThat(interval.hashCode()).isEqualTo(interval(begin, end).hashCode());
     }
 
     @Test
     public void isNotEqualToIntervalsWithDifferentBegin() {
-        assertThat(interval).isNotEqualTo(new Interval(begin.plus(1), end));
+        assertThat(interval).isNotEqualTo(interval(begin.plus(1), end));
     }
 
     @Test
     public void isNotEqualToIntervalsWithDifferentEnd() {
-        assertThat(interval).isNotEqualTo(new Interval(begin, end.plus(1)));
+        assertThat(interval).isNotEqualTo(interval(begin, end.plus(1)));
     }
 
     @Test
@@ -43,6 +44,6 @@ public class IntervalTest {
 
     @Test
     public void isNotEqualToEmptyIntervals() {
-        assertThat(interval).isNotEqualTo(new Interval(begin, begin));
+        assertThat(interval).isNotEqualTo(interval(begin, begin));
     }
 }

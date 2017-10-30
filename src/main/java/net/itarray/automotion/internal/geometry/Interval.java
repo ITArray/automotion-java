@@ -2,63 +2,137 @@ package net.itarray.automotion.internal.geometry;
 
 import java.util.Objects;
 
-public class Interval {
-    private final Scalar begin;
-    private final Scalar end;
+public abstract class Interval {
 
-    public Interval(Scalar begin, Scalar end) {
-        this.begin = begin;
-        this.end = end;
+    private Interval() {
     }
 
-    @Override
-    public String toString() {
-        if (isEmpty()) {
-            return format("-", "-");
+    public static Interval interval(Scalar begin, Scalar end) {
+        if (begin.isGreaterOrEqualTo(end)) {
+            return new Empty();
         }
-        return format(begin.toString(), end.toString());
+        return new NonEmpty(begin, end);
     }
 
-    private String format(String begin, String end) {
+    private static String format(String begin, String end) {
         return String.format("[%s, %s[", begin, end);
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Interval)) {
-            return false;
-        }
-        Interval other = (Interval) object;
-        if (isEmpty()) {
-            return other.isEmpty();
-        }
-        return begin.equals(other.begin) && end.equals(other.end);
-    }
+    public abstract String toString();
 
     @Override
-    public int hashCode() {
-        return isEmpty()? 0 : Objects.hash(begin, end);
-    }
+    public abstract boolean equals(Object object);
 
-    public boolean isEmpty() {
-        return end.isLessOrEqualTo(begin);
-    }
+    @Override
+    public abstract int hashCode();
 
-    public Interval intersect(Interval interval) {
-        return new Interval(
-                begin.max(interval.begin),
-                end.min(interval.end));
-    }
+    public abstract boolean isEmpty();
 
-    public Interval span(Interval interval) {
-        if (isEmpty()) {
-            return interval;
+    public abstract Interval intersect(Interval interval);
+
+    public abstract Interval intersectWithNonEmpty(NonEmpty interval);
+
+    public abstract Interval span(Interval interval);
+
+    public abstract Interval spanWithNonEmpty(NonEmpty interval);
+
+    private static class Empty extends Interval {
+        private Empty() {
         }
-        if (interval.isEmpty()) {
+
+        @Override
+        public String toString() {
+            return format("-", "-");
+        }
+
+        @Override
+        public int hashCode() {
+            return 0;
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            return object instanceof Empty;
+        }
+
+        public boolean isEmpty() {
+            return true;
+        }
+
+        public Interval intersect(Interval interval) {
             return this;
         }
-        return new Interval(
-                begin.min(interval.begin),
-                end.max(interval.end));
+
+        @Override
+        public Interval intersectWithNonEmpty(NonEmpty interval) {
+            return this;
+        }
+
+        public Interval span(Interval interval) {
+            return interval;
+        }
+
+        @Override
+        public Interval spanWithNonEmpty(NonEmpty interval) {
+            return interval;
+        }
+    }
+
+    private static class NonEmpty extends Interval {
+        private final Scalar begin;
+        private final Scalar end;
+
+        private NonEmpty(Scalar begin, Scalar end) {
+            this.begin = begin;
+            this.end = end;
+        }
+
+        @Override
+        public String toString() {
+            return format(begin.toString(), end.toString());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(begin, end);
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            if (!(object instanceof NonEmpty)) {
+                return false;
+            }
+            NonEmpty other = (NonEmpty) object;
+            return begin.equals(other.begin) && end.equals(other.end);
+        }
+
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public Interval intersect(Interval interval) {
+            return interval.intersectWithNonEmpty(this);
+        }
+
+        @Override
+        public Interval intersectWithNonEmpty(NonEmpty interval) {
+            return interval(
+                    begin.max(interval.begin),
+                    end.min(interval.end));
+        }
+
+        @Override
+        public Interval span(Interval interval) {
+            return interval.spanWithNonEmpty(this);
+        }
+
+        @Override
+        public Interval spanWithNonEmpty(NonEmpty interval) {
+            return interval(
+                    begin.min(interval.begin),
+                    end.max(interval.end));
+        }
     }
 }
