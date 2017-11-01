@@ -1,21 +1,19 @@
 package net.itarray.automotion.tests.geometry;
 
 import net.itarray.automotion.internal.geometry.Interval;
-import net.itarray.automotion.internal.geometry.Scalar;
 import org.junit.Test;
 
 import static net.itarray.automotion.internal.geometry.Interval.interval;
-import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TouchingIntervalsTest extends TwoIntervalsTest{
 
     public Interval left() {
-        return interval(scalar(2), scalar(10));
+        return interval(2, 10);
     }
 
     public Interval right() {
-        return interval(scalar(10), scalar(17));
+        return interval(10, 17);
     }
 
     @Test
@@ -25,7 +23,7 @@ public class TouchingIntervalsTest extends TwoIntervalsTest{
 
     @Test
     public void haveSpanFromSmallestBeginToLargestEnd() {
-        Interval span = interval(scalar(2), scalar(17));
+        Interval span = interval(2, 17);
         assertThat(right().span(left())).isEqualTo(span);
         assertThat(left().span(right())).isEqualTo(span);
     }

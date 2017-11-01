@@ -2,6 +2,8 @@ package net.itarray.automotion.internal.geometry;
 
 import java.util.Objects;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
+
 public abstract class Interval {
 
     private Interval() {
@@ -12,6 +14,10 @@ public abstract class Interval {
             return new Empty();
         }
         return new NonEmpty(begin, end);
+    }
+
+    public static Interval interval(int begin, int end) {
+        return interval(scalar(begin), scalar(end));
     }
 
     private static String format(String begin, String end) {

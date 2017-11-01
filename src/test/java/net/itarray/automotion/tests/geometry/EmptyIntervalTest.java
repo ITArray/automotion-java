@@ -29,13 +29,13 @@ public class EmptyIntervalTest {
 
     @Test
     public void isEqualToIntervalsOtherEmptyIntervals() {
-        assertThat(interval).isEqualTo(interval(scalar(100), scalar(99)));
-        assertThat(interval.hashCode()).isEqualTo(interval(scalar(100), scalar(99)).hashCode());
+        assertThat(interval).isEqualTo(interval(100, 99));
+        assertThat(interval.hashCode()).isEqualTo(interval(100, 99).hashCode());
     }
 
     @Test
     public void isNotEqualToNonEmptyIntervals() {
-        assertThat(interval).isNotEqualTo(interval(scalar(10), scalar(20)));
+        assertThat(interval).isNotEqualTo(interval(10, 20));
     }
 
 }
