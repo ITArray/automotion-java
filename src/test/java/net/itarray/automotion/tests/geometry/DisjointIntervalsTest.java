@@ -1,7 +1,10 @@
 package net.itarray.automotion.tests.geometry;
 
+import net.itarray.automotion.internal.geometry.ConnectedIntervals;
 import net.itarray.automotion.internal.geometry.Interval;
 import org.junit.Test;
+
+import java.util.List;
 
 import static net.itarray.automotion.internal.geometry.Interval.interval;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,4 +30,13 @@ public class DisjointIntervalsTest extends TwoIntervalsTest{
         assertThat(right().span(left())).isEqualTo(span);
         assertThat(left().span(right())).isEqualTo(span);
     }
+
+    @Test
+    public void areNotConnected() {
+        assertComponentIndex(leftAndRight(), left(), 0);
+        assertComponentIndex(leftAndRight(), right(), 1);
+        assertComponentIndex(rightAndLeft(), left(), 0);
+        assertComponentIndex(rightAndLeft(), right(), 1);
+    }
+
 }

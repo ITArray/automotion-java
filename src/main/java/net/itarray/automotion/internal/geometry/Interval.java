@@ -1,5 +1,8 @@
 package net.itarray.automotion.internal.geometry;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Comparator;
 import java.util.Objects;
 
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
@@ -43,6 +46,15 @@ public abstract class Interval {
 
     public abstract Interval spanWithNonEmpty(NonEmpty interval);
 
+    public static Comparator<Interval> comparator() {
+        return new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {
+                return ((NonEmpty)o1).compareTo((NonEmpty)o2);
+            }
+        };
+    }
+
     private static class Empty extends Interval {
         private Empty() {
         }
@@ -85,7 +97,7 @@ public abstract class Interval {
         }
     }
 
-    private static class NonEmpty extends Interval {
+    private static class NonEmpty extends Interval implements Comparable<NonEmpty> {
         private final Scalar begin;
         private final Scalar end;
 
@@ -139,6 +151,15 @@ public abstract class Interval {
             return interval(
                     begin.min(interval.begin),
                     end.max(interval.end));
+        }
+
+        @Override
+        public int compareTo(NonEmpty other) {
+            int c = begin.compareTo(other.begin);
+            if (c != 0) {
+                return c;
+            }
+            return end.compareTo(other.end);
         }
     }
 }

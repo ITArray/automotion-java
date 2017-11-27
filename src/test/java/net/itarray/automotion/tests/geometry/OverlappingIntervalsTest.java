@@ -26,4 +26,14 @@ public class OverlappingIntervalsTest extends TwoIntervalsTest{
         assertThat(right().span(left())).isEqualTo(span);
         assertThat(left().span(right())).isEqualTo(span);
     }
+
+
+    @Test
+    public void areNotConnected() {
+        assertComponentIndex(leftAndRight(), left(), 0);
+        assertComponentIndex(leftAndRight(), right(), 0);
+        assertComponentIndex(rightAndLeft(), left(), 0);
+        assertComponentIndex(rightAndLeft(), right(), 0);
+    }
+
 }
