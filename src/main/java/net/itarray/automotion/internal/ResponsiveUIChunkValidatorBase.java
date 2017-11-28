@@ -1,5 +1,8 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.ConnectedIntervals;
+import net.itarray.automotion.internal.geometry.Direction;
+import net.itarray.automotion.internal.geometry.Interval;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -12,8 +15,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import static net.itarray.automotion.internal.UIElement.*;
+import static net.itarray.automotion.internal.geometry.Interval.interval;
 
 public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase implements ChunkUIElementValidator {
 
@@ -89,18 +94,15 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     }
 
     public void validateAlignedAsGridCells(List<UIElement> rootElements) {
-        if (this.rootElements.size() == 2) {
-            for (int firstIndex = 0; firstIndex < rootElements.size(); firstIndex++) {
-                UIElement first = rootElements.get(firstIndex);
-                for (int secondIndex = firstIndex+1; secondIndex < rootElements.size(); secondIndex++) {
-                    UIElement second = rootElements.get(secondIndex);
-                    if (first.hasRightElement(second) && first.hasBelowElement(second)) {
-
-                    }else{
-                        errors.add("banane");
-                    }
-                }
-
+        ConnectedIntervals columns = new ConnectedIntervals(rootElements.stream().map(e -> interval(e.getX(), e.getX().plus(e.getWidth()))).collect(Collectors.toList()));
+        ConnectedIntervals rows = new ConnectedIntervals(rootElements.stream().map(e -> interval(e.getY(), e.getY().plus(e.getHeight()))).collect(Collectors.toList()));
+        for (UIElement element : rootElements) {
+            Interval xInterval = interval(element.getX(), element.getX().plus(element.getWidth()));
+            Interval xCell = columns.get(columns.indexOf(xInterval));
+            Interval yInterval = interval(element.getY(), element.getY().plus(element.getHeight()));
+            Interval yCell = rows.get(rows.indexOf(yInterval));
+            if (!(xInterval.equals(xCell) && yInterval.equals(yCell))) {
+                errors.add(String.format("banane"));
             }
         }
     }

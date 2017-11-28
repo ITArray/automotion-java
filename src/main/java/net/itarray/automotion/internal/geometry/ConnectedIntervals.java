@@ -29,6 +29,10 @@ public class ConnectedIntervals {
         }
     }
 
+    public Interval get(int index) {
+        return components.get(index);
+    }
+
     public int size() {
         return components.size();
     }

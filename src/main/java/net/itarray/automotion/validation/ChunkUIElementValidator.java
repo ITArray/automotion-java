@@ -44,7 +44,7 @@ import org.openqa.selenium.WebElement;
                 @Element({100, 150,  300, 160}),
                 @Element({400, 150,  700, 170}),
                 @Element({900, 150, 1200, 180}),
-                @Element({100, 250,  300, 160}),
+                @Element({100, 160,  300, 250}),
         })
 
 })
@@ -78,7 +78,6 @@ public interface ChunkUIElementValidator {
     @Valid({
             @Scenario(chunk = "empty"),
             @Scenario(chunk = "one"),
-            @Scenario(chunk = "seven"),
             @Scenario(chunk = "two_not_overlapping_in_any_direction"),
     })
     @NotValid({
@@ -86,6 +85,7 @@ public interface ChunkUIElementValidator {
             @Scenario(chunk = "two_overlapping"),
             @Scenario(chunk = "two_horizontally_overlapping"),
             @Scenario(chunk = "two_vertically_overlapping"),
+            @Scenario(chunk = "seven"),
     })
     ChunkUIElementValidator areAlignedAsGridCells();
 
