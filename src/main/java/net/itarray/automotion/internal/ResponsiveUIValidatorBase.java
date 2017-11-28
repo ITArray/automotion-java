@@ -112,7 +112,7 @@ public abstract class ResponsiveUIValidatorBase {
 
     private double getScaleFactor() {
         double factor;
-        if (isMobile()) {
+        if (getDriver().isAppiumContext()) {
             factor = getReport().getRetinaScaleFactor();
         } else {
             factor = zoomFactor;
@@ -124,8 +124,8 @@ public abstract class ResponsiveUIValidatorBase {
     }
 
     private int getYOffset() {
-        if (isMobile() && getDriver().isAppiumWebContext() && getReport().isMobileTopBarOffsetState()) {
-            if (isIOS() || isAndroid()) {
+        if (getDriver().isAppiumContext() && getDriver().isAppiumWebContext() && getReport().isMobileTopBarOffsetState()) {
+            if (getDriver().isAppiumAndroidContext() || getDriver().isAppiumIOSContext()) {
                 return (int) getReport().getMobileTopBarOffsetState();
             }
         }
