@@ -140,7 +140,7 @@ public class DriverFacade {
     }
 
     public Dimension getResolution() {
-        if (isAppiumContext() && getApp() == null) {
+        if (!isAppiumContext() && getApp() == null) {
             String resolution = ((RemoteWebDriver) driver).getCapabilities().getCapability("deviceScreenSize").toString();
             int width = Integer.parseInt(resolution.split("x")[0]);
             int height = Integer.parseInt(resolution.split("x")[1]);
