@@ -1,6 +1,7 @@
 package net.itarray.automotion.internal;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -33,6 +34,31 @@ public class DriverFacade {
         }
     }
 
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+    public boolean isAppiumAndroidContext() {
+        if ((driver instanceof AndroidDriver)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isAppiumIOSContext() {
+        if ((driver instanceof AndroidDriver)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isAppiumContext() {
+        if ((driver instanceof AppiumDriver)) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean isAppiumWebContext() {
         if (!(driver instanceof AppiumDriver)) {
             return false;
@@ -52,11 +78,15 @@ public class DriverFacade {
     }
 
     public String getZoom() {
-        String zoom = (String) executeScript(getZoomScript());
-        if (zoom == null || zoom.equals("")) {
-            zoom = "100%";
+        if (!isAppiumContext()) {
+            String zoom = (String) executeScript(getZoomScript());
+            if (zoom == null || zoom.equals("")) {
+                zoom = "100%";
+            }
+            return zoom;
+        } else {
+            return "100%";
         }
-        return zoom;
     }
 
     private String getZoomScript() {
@@ -68,34 +98,34 @@ public class DriverFacade {
     }
 
     private long retrievePageHeight() {
-        if (!isMobile()) {
+        if (!isAppiumAndroidContext()) {
             if (getZoom().equals("100%")) {
-                return (long) executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
+                return (long) executeScript("if (self.outerHeight) {return self.outerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
             } else {
                 return (long) executeScript("return document.getElementsByTagName('body')[0].offsetHeight");
             }
         } else {
-            if (isAppiumNativeMobileContext() || isIOS()) {
+            if (isAppiumNativeMobileContext() || isAppiumIOSContext()) {
                 return driver.manage().window().getSize().getHeight();
             } else {
-                return (long) executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
+                return (long) executeScript("if (self.outerHeight) {return self.outerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
             }
         }
     }
 
     private long retrievePageWidth() {
-        if (!isMobile()) {
+        if (!isAppiumAndroidContext()) {
             if (getZoom().equals("100%")) {
-                String script = "if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}";
+                String script = "if (self.outerWidth) {return self.outerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}";
                 return (long) executeScript(script);
             } else {
                 return (long) executeScript("return document.getElementsByTagName('body')[0].offsetWidth");
             }
         } else {
-            if (isAppiumNativeMobileContext() || isIOS()) {
+            if (isAppiumNativeMobileContext() || isAppiumIOSContext()) {
                 return driver.manage().window().getSize().getWidth();
             } else {
-                return (long) executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
+                return (long) executeScript("if (self.outerWidth) {return self.outerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
             }
         }
     }
@@ -110,7 +140,7 @@ public class DriverFacade {
     }
 
     public Dimension getResolution() {
-        if (isMobile() && getApp() == null) {
+        if (!isAppiumContext() && getApp() == null) {
             String resolution = ((RemoteWebDriver) driver).getCapabilities().getCapability("deviceScreenSize").toString();
             int width = Integer.parseInt(resolution.split("x")[0]);
             int height = Integer.parseInt(resolution.split("x")[1]);
@@ -122,14 +152,16 @@ public class DriverFacade {
     }
 
     public void setZoom(int percentage) {
-        if (percentage <= 0) {
-            throw new IllegalArgumentException(String.format("illegal zoom percentage %s - should be greater than zero", percentage));
-        }
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        if (isFirefox()) {
-            jse.executeScript("document.body.style.MozTransform = 'scale(" + (percentage / 100f) + ")';");
-        } else {
-            jse.executeScript("document.body.style.zoom = '" + percentage + "%'");
+        if (!isAppiumContext()) {
+            if (percentage <= 0) {
+                throw new IllegalArgumentException(String.format("illegal zoom percentage %s - should be greater than zero", percentage));
+            }
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            if (isFirefox()) {
+                jse.executeScript("document.body.style.MozTransform = 'scale(" + (percentage / 100f) + ")';");
+            } else {
+                jse.executeScript("document.body.style.zoom = '" + percentage + "%'");
+            }
         }
 
     }

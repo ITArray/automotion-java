@@ -5,6 +5,7 @@ import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
 import org.json.simple.JSONObject;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import util.validator.ResponsiveUIValidator;
 
@@ -12,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 import static net.itarray.automotion.internal.UIElement.*;
 
@@ -27,6 +26,12 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         if (webElements.isEmpty()) {
             String message = "Set root web element";
             addError(message);
+        } else {
+            if (!getDriver().isAppiumContext()) {
+                try {
+                    ((JavascriptExecutor) getDriver().getDriver()).executeScript("arguments[0].scrollIntoView();", webElements.get(0));
+                } catch (Exception e) {}
+            }
         }
     }
 
