@@ -78,11 +78,15 @@ public class DriverFacade {
     }
 
     public String getZoom() {
-        String zoom = (String) executeScript(getZoomScript());
-        if (zoom == null || zoom.equals("")) {
-            zoom = "100%";
+        if (!isAppiumContext()) {
+            String zoom = (String) executeScript(getZoomScript());
+            if (zoom == null || zoom.equals("")) {
+                zoom = "100%";
+            }
+            return zoom;
+        } else {
+            return "100%";
         }
-        return zoom;
     }
 
     private String getZoomScript() {
@@ -148,14 +152,16 @@ public class DriverFacade {
     }
 
     public void setZoom(int percentage) {
-        if (percentage <= 0) {
-            throw new IllegalArgumentException(String.format("illegal zoom percentage %s - should be greater than zero", percentage));
-        }
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        if (isFirefox()) {
-            jse.executeScript("document.body.style.MozTransform = 'scale(" + (percentage / 100f) + ")';");
-        } else {
-            jse.executeScript("document.body.style.zoom = '" + percentage + "%'");
+        if (!isAppiumContext()) {
+            if (percentage <= 0) {
+                throw new IllegalArgumentException(String.format("illegal zoom percentage %s - should be greater than zero", percentage));
+            }
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            if (isFirefox()) {
+                jse.executeScript("document.body.style.MozTransform = 'scale(" + (percentage / 100f) + ")';");
+            } else {
+                jse.executeScript("document.body.style.zoom = '" + percentage + "%'");
+            }
         }
 
     }

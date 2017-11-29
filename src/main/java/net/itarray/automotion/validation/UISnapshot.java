@@ -23,7 +23,7 @@ public class UISnapshot {
         this.name = name;
         this.resolution = resolution.queryIfUnknown(responsiveUIValidator.driver);
         this.zoom = zoom.queryIfUnknown(responsiveUIValidator.driver);
-        if (responsiveUIValidator.getDriver().isAppiumContext()) {
+        if (!responsiveUIValidator.getDriver().isAppiumContext()) {
             resolution.applyTo(responsiveUIValidator.driver);
             zoom.applyTo(responsiveUIValidator.driver);
         }

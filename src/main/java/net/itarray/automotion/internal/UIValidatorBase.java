@@ -36,7 +36,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     public UIValidatorBase(UISnapshot snapshot, WebElement webElement, String readableNameOfElement) {
         super(snapshot);
         this.rootElement = asElement(webElement, readableNameOfElement);
-        if (getDriver().isAppiumContext()) {
+        if (!getDriver().isAppiumContext()) {
             try {
                 ((JavascriptExecutor) getDriver().getDriver()).executeScript("arguments[0].scrollIntoView();", webElement);
             } catch (Exception e) {}
