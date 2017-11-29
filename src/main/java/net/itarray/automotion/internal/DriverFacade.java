@@ -100,7 +100,7 @@ public class DriverFacade {
     private long retrievePageHeight() {
         if (!isAppiumAndroidContext()) {
             if (getZoom().equals("100%")) {
-                return (long) executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
+                return (long) executeScript("if (self.outerHeight) {return self.outerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
             } else {
                 return (long) executeScript("return document.getElementsByTagName('body')[0].offsetHeight");
             }
@@ -108,7 +108,7 @@ public class DriverFacade {
             if (isAppiumNativeMobileContext() || isAppiumIOSContext()) {
                 return driver.manage().window().getSize().getHeight();
             } else {
-                return (long) executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
+                return (long) executeScript("if (self.outerHeight) {return self.outerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
             }
         }
     }
@@ -116,7 +116,7 @@ public class DriverFacade {
     private long retrievePageWidth() {
         if (!isAppiumAndroidContext()) {
             if (getZoom().equals("100%")) {
-                String script = "if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}";
+                String script = "if (self.outerWidth) {return self.outerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}";
                 return (long) executeScript(script);
             } else {
                 return (long) executeScript("return document.getElementsByTagName('body')[0].offsetWidth");
@@ -125,7 +125,7 @@ public class DriverFacade {
             if (isAppiumNativeMobileContext() || isAppiumIOSContext()) {
                 return driver.manage().window().getSize().getWidth();
             } else {
-                return (long) executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
+                return (long) executeScript("if (self.outerWidth) {return self.outerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
             }
         }
     }
