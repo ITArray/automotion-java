@@ -3,6 +3,7 @@ package net.itarray.automotion.internal;
 import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.GroupElement;
+import net.itarray.automotion.internal.geometry.Interval;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
@@ -534,5 +535,17 @@ public class UIElement {
                             originOffset.getX()),
                     element);
         }
+    }
+
+    public Interval getYInterval() {
+        return getInterval(Direction.DOWN);
+    }
+
+    public Interval getXInterval() {
+        return getInterval(Direction.RIGHT);
+    }
+
+    private Interval getInterval(Direction direction) {
+        return Interval.interval(getBegin(direction), getEnd(direction));
     }
 }

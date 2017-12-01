@@ -1,7 +1,6 @@
 package net.itarray.automotion.internal;
 
 import net.itarray.automotion.internal.geometry.ConnectedIntervals;
-import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Interval;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.ChunkUIElementValidator;
@@ -94,12 +93,12 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     }
 
     public void validateAlignedAsGridCells(List<UIElement> rootElements) {
-        ConnectedIntervals columns = new ConnectedIntervals(rootElements.stream().map(e -> interval(e.getX(), e.getX().plus(e.getWidth()))).collect(Collectors.toList()));
-        ConnectedIntervals rows = new ConnectedIntervals(rootElements.stream().map(e -> interval(e.getY(), e.getY().plus(e.getHeight()))).collect(Collectors.toList()));
+        ConnectedIntervals columns = new ConnectedIntervals(rootElements.stream().map(e -> e.getXInterval()).collect(Collectors.toList()));
+        ConnectedIntervals rows = new ConnectedIntervals(rootElements.stream().map(e -> e.getYInterval()).collect(Collectors.toList()));
         for (UIElement element : rootElements) {
-            Interval xInterval = interval(element.getX(), element.getX().plus(element.getWidth()));
+            Interval xInterval = element.getXInterval();
             Interval xCell = columns.get(columns.indexOf(xInterval));
-            Interval yInterval = interval(element.getY(), element.getY().plus(element.getHeight()));
+            Interval yInterval = element.getYInterval();
             Interval yCell = rows.get(rows.indexOf(yInterval));
             if (!(xInterval.equals(xCell) && yInterval.equals(yCell))) {
                 errors.add(String.format("banane"));
