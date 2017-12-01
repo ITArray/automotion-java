@@ -39,6 +39,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         if (!getDriver().isAppiumContext()) {
             try {
                 ((JavascriptExecutor) getDriver().getDriver()).executeScript("arguments[0].scrollIntoView();", webElement);
+                ((JavascriptExecutor) getDriver().getDriver()).executeScript("javascript:window.scrollBy(0,250);");
             } catch (Exception e) {}
         }
     }

@@ -30,6 +30,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             if (!getDriver().isAppiumContext()) {
                 try {
                     ((JavascriptExecutor) getDriver().getDriver()).executeScript("arguments[0].scrollIntoView();", webElements.get(0));
+                    ((JavascriptExecutor) getDriver().getDriver()).executeScript("javascript:window.scrollBy(0,250);");
                 } catch (Exception e) {}
             }
         }
