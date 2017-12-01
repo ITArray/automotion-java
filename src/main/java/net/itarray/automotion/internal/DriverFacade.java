@@ -2,6 +2,7 @@ package net.itarray.automotion.internal;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -39,24 +40,15 @@ public class DriverFacade {
     }
 
     public boolean isAppiumAndroidContext() {
-        if ((driver instanceof AndroidDriver)) {
-            return true;
-        }
-        return false;
+        return driver instanceof AndroidDriver;
     }
 
     public boolean isAppiumIOSContext() {
-        if ((driver instanceof AndroidDriver)) {
-            return true;
-        }
-        return false;
+        return driver instanceof IOSDriver;
     }
 
     public boolean isAppiumContext() {
-        if ((driver instanceof AppiumDriver)) {
-            return true;
-        }
-        return false;
+        return driver instanceof AppiumDriver;
     }
 
     public boolean isAppiumWebContext() {
