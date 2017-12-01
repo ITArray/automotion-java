@@ -1,4 +1,7 @@
-import http.helpers.EnvironmentHelper;
+import net.itarray.automotion.tools.driver.DriverHelper;
+import net.itarray.automotion.tools.driver.WebDriverFactory;
+import net.itarray.automotion.tools.helpers.EnvironmentHelper;
+import net.itarray.automotion.validation.ResponsiveUIValidator;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Ignore;
@@ -7,18 +10,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
-import util.driver.DriverHelper;
-import util.driver.WebDriverFactory;
-import util.validator.ResponsiveUIValidator;
 import util.validator.properties.Padding;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.properties.Condition.between;
-import static net.itarray.automotion.validation.properties.Expression.percent;
 
 @Ignore
 public class ResponsiveValidatorTest {

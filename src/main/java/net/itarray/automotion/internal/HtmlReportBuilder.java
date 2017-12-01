@@ -3,6 +3,10 @@ package net.itarray.automotion.internal;
 import com.webfirmframework.wffweb.tag.html.*;
 import com.webfirmframework.wffweb.tag.html.attribute.Alt;
 import com.webfirmframework.wffweb.tag.html.attribute.Src;
+import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnMouseOut;
+import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnMouseOver;
+import com.webfirmframework.wffweb.tag.html.attribute.global.ClassAttribute;
+import com.webfirmframework.wffweb.tag.html.attribute.global.Id;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
 import com.webfirmframework.wffweb.tag.html.images.Img;
 import com.webfirmframework.wffweb.tag.html.lists.Li;
@@ -110,15 +114,18 @@ public class HtmlReportBuilder {
                             }};
                             new P(this) {{
                                         new Div(this,
+                                                new OnMouseOver("document.getElementById('" + jsonObject.get(DRAWINGS).toString()+ "').style.display = 'block'"),
+                                                new OnMouseOut("document.getElementById('" + jsonObject.get(DRAWINGS).toString()+ "').style.display = 'none'"),
                                                 new Style("position:relative; left: 0; top:0; width: 96%; margin-left:2%")) {{
                                             new Img(this,
                                                     new Style("position:relative; left: 0; top:0"),
                                                 new Src(String.format("img/%s", jsonObject.get(SCREENSHOT))),
                                                 new Alt("screenshot"));
                                             new Img(this,
-                                                new Style("position:absolute; left: 0; top:0"),
+                                                new Id(jsonObject.get(DRAWINGS).toString()),
+                                                new Style("position:absolute; left: 0; top:0; display:none;"),
                                                 new Src(String.format("img/%s", jsonObject.get(DRAWINGS))),
-                                                new Alt("screenshot"));
+                                                new Alt("screenshot-overlay"));
                                         }};
 
                             }};
