@@ -34,6 +34,7 @@ import static net.itarray.automotion.validation.Constants.*;
 public class HtmlReportBuilder {
 
     private List<String> jsonFiles;
+    private Object screenshotDrawingOverlay;
 
     public void buildReport(String reportName, List<String> jsonFiles) {
         this.jsonFiles = jsonFiles;
@@ -113,18 +114,19 @@ public class HtmlReportBuilder {
                                 new NoTag(this, String.format("Time execution: %s", jsonObject.get(TIME_EXECUTION)));
                             }};
                             new P(this) {{
-                                        new Div(this,
-                                                new OnMouseOver("document.getElementById('" + jsonObject.get(DRAWINGS).toString()+ "').style.display = 'block'"),
-                                                new OnMouseOut("document.getElementById('" + jsonObject.get(DRAWINGS).toString()+ "').style.display = 'none'"),
+                                screenshotDrawingOverlay = jsonObject.get(DRAWINGS);
+                                new Div(this,
+                                                new OnMouseOver("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'block'"),
+                                                new OnMouseOut("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'none'"),
                                                 new Style("position:relative; left: 0; top:0; width: 96%; margin-left:2%")) {{
                                             new Img(this,
                                                     new Style("position:relative; left: 0; top:0"),
                                                 new Src(String.format("img/%s", jsonObject.get(SCREENSHOT))),
                                                 new Alt("screenshot"));
                                             new Img(this,
-                                                new Id(jsonObject.get(DRAWINGS).toString()),
+                                                new Id(screenshotDrawingOverlay.toString()),
                                                 new Style("position:absolute; left: 0; top:0; display:none;"),
-                                                new Src(String.format("img/%s", jsonObject.get(DRAWINGS))),
+                                                new Src(String.format("img/%s", screenshotDrawingOverlay)),
                                                 new Alt("screenshot-overlay"));
                                         }};
 
