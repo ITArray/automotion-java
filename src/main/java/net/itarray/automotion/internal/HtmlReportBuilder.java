@@ -113,6 +113,11 @@ public class HtmlReportBuilder {
                                     new Style("color: rgb(105,105,105)")) {{
                                 new NoTag(this, String.format("Time execution: %s", jsonObject.get(TIME_EXECUTION)));
                             }};
+
+                            new H5(this,
+                                    new Style("color: #4d4d4d")) {{
+                                new NoTag(this, "Hover over the image to see the results");
+                            }};
                             new P(this) {{
                                 screenshotDrawingOverlay = jsonObject.get(DRAWINGS);
                                 new Div(this,
