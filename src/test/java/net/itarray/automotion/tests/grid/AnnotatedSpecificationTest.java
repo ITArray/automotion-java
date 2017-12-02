@@ -2,10 +2,10 @@ package net.itarray.automotion.tests.grid;
 
 import com.google.common.collect.Lists;
 import net.itarray.automotion.internal.ResponsiveUIValidatorBase;
-import net.itarray.automotion.validation.Scenario;
 import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.NotValid;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
+import net.itarray.automotion.validation.Scenario;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Valid;
 import org.junit.Before;
@@ -23,9 +23,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static rectangles.DummyWebElement.createElement;
 
 @RunWith(Parameterized.class)
 public class AnnotatedSpecificationTest {
