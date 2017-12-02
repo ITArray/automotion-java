@@ -3,6 +3,10 @@ package net.itarray.automotion.internal;
 import com.webfirmframework.wffweb.tag.html.*;
 import com.webfirmframework.wffweb.tag.html.attribute.Alt;
 import com.webfirmframework.wffweb.tag.html.attribute.Src;
+import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnMouseOut;
+import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnMouseOver;
+import com.webfirmframework.wffweb.tag.html.attribute.global.ClassAttribute;
+import com.webfirmframework.wffweb.tag.html.attribute.global.Id;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
 import com.webfirmframework.wffweb.tag.html.images.Img;
 import com.webfirmframework.wffweb.tag.html.lists.Li;
@@ -30,6 +34,7 @@ import static net.itarray.automotion.validation.Constants.*;
 public class HtmlReportBuilder {
 
     private List<String> jsonFiles;
+    private Object screenshotDrawingOverlay;
 
     public void buildReport(String reportName, List<String> jsonFiles) {
         this.jsonFiles = jsonFiles;
@@ -108,17 +113,26 @@ public class HtmlReportBuilder {
                                     new Style("color: rgb(105,105,105)")) {{
                                 new NoTag(this, String.format("Time execution: %s", jsonObject.get(TIME_EXECUTION)));
                             }};
+
+                            new H5(this,
+                                    new Style("color: #4d4d4d")) {{
+                                new NoTag(this, "Hover over the image to see the results");
+                            }};
                             new P(this) {{
-                                        new Div(this,
+                                screenshotDrawingOverlay = jsonObject.get(DRAWINGS);
+                                new Div(this,
+                                                new OnMouseOver("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'block'"),
+                                                new OnMouseOut("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'none'"),
                                                 new Style("position:relative; left: 0; top:0; width: 96%; margin-left:2%")) {{
                                             new Img(this,
                                                     new Style("position:relative; left: 0; top:0"),
                                                 new Src(String.format("img/%s", jsonObject.get(SCREENSHOT))),
                                                 new Alt("screenshot"));
                                             new Img(this,
-                                                new Style("position:absolute; left: 0; top:0"),
-                                                new Src(String.format("img/%s", jsonObject.get(DRAWINGS))),
-                                                new Alt("screenshot"));
+                                                new Id(screenshotDrawingOverlay.toString()),
+                                                new Style("position:absolute; left: 0; top:0; display:none;"),
+                                                new Src(String.format("img/%s", screenshotDrawingOverlay)),
+                                                new Alt("screenshot-overlay"));
                                         }};
 
                             }};

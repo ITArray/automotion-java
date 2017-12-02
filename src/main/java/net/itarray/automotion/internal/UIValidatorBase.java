@@ -4,14 +4,15 @@ import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Context;
-import net.itarray.automotion.validation.properties.Expression;
 import net.itarray.automotion.internal.properties.PixelConstant;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
 import net.itarray.automotion.validation.properties.Condition;
+import net.itarray.automotion.validation.properties.Expression;
 import net.itarray.automotion.validation.properties.Padding;
 import org.json.simple.JSONObject;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -21,7 +22,13 @@ import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.Constants.*;
 import static net.itarray.automotion.validation.properties.Condition.*;
+import static net.itarray.automotion.internal.UIElement.asElement;
+import static net.itarray.automotion.internal.UIElement.asElements;
 import static net.itarray.automotion.internal.properties.PercentReference.PAGE;
+import static net.itarray.automotion.validation.Constants.*;
+import static net.itarray.automotion.validation.properties.Condition.greaterOrEqualTo;
+import static net.itarray.automotion.validation.properties.Condition.lessOrEqualTo;
+import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 
 public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElementValidator {
 
@@ -34,6 +41,13 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     public UIValidatorBase(UISnapshot snapshot, WebElement webElement, String readableNameOfElement) {
         super(snapshot);
         this.rootElement = asElement(webElement, readableNameOfElement);
+        if (!getDriver().isAppiumContext()) {
+            try {
+                ((JavascriptExecutor) getDriver().getDriver()).executeScript("arguments[0].scrollIntoView();", webElement);
+                ((JavascriptExecutor) getDriver().getDriver()).executeScript("javascript:window.scrollBy(0,250);");
+                ((JavascriptExecutor) getDriver().getDriver()).executeScript("document.documentElement.style.overflow = 'hidden'");
+            } catch (Exception e) {}
+        }
     }
 
     @Override
