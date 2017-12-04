@@ -109,16 +109,17 @@ public abstract class ResponsiveUIValidatorBase {
     }
 
     private double getScaleFactor() {
-//        double factor;
-//        if (getDriver().isAppiumContext()) {
-//            factor = getReport().getRetinaScaleFactor();
-//        } else {
-//            factor = zoomFactor;
-//            if (isChrome()) {
-//                factor = factor * 2;
-//            }
-//        }
-        return getReport().getRetinaScaleFactor();
+        double factor;
+        if (getDriver().isAppiumContext()) {
+            factor = getReport().getRetinaScaleFactor();
+        } else {
+            factor = zoomFactor;
+            if (getDriver().isChromeDriver()) {
+                factor = factor * getReport().getRetinaScaleFactor();
+            }
+        }
+
+        return factor;
     }
 
     private int getYOffset() {

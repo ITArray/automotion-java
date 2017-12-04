@@ -114,15 +114,16 @@ public class HtmlReportBuilder {
                                 new NoTag(this, String.format("Time execution: %s", jsonObject.get(TIME_EXECUTION)));
                             }};
 
-                            new H5(this,
-                                    new Style("color: #4d4d4d")) {{
-                                new NoTag(this, "Hover over the image to see the results");
-                            }};
+                            //TODO uncomment after implementing the hovering events
+//                            new H5(this,
+//                                    new Style("color: #4d4d4d")) {{
+//                                new NoTag(this, "Hover over the image to see the results");
+//                            }};
                             new P(this) {{
                                 screenshotDrawingOverlay = jsonObject.get(DRAWINGS);
                                 new Div(this,
-                                                new OnMouseOver("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'block'"),
-                                                new OnMouseOut("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'none'"),
+                                                //new OnMouseOver("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'block'"),
+                                                //new OnMouseOut("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'none'"),
                                                 new Style("position:relative; left: 0; top:0; width: 96%; margin-left:2%")) {{
                                             new Img(this,
                                                     new Style("position:relative; left: 0; top:0"),
@@ -130,7 +131,8 @@ public class HtmlReportBuilder {
                                                 new Alt("screenshot"));
                                             new Img(this,
                                                 new Id(screenshotDrawingOverlay.toString()),
-                                                new Style("position:absolute; left: 0; top:0; display:none;"),
+                                                new Style("position:absolute; left: 0; top:0;"),
+                                                //new Style("position:absolute; left: 0; top:0; display:none;"),
                                                 new Src(String.format("img/%s", screenshotDrawingOverlay)),
                                                 new Alt("screenshot-overlay"));
                                         }};
