@@ -9,6 +9,8 @@ import java.io.File;
 
 public class DummyDriverFacade extends DriverFacade {
 
+    private final boolean chromeDriver;
+    private final boolean firefoxDriver;
     private Dimension pageSize;
     private Dimension resolution;
     private Vector screenSize;
@@ -18,6 +20,8 @@ public class DummyDriverFacade extends DriverFacade {
         resolution = new Dimension(1280, 1080);
         screenSize = new Vector(2000, 1000);
         pageSize = new Dimension(RectangleFixture.pageWidth, RectangleFixture.pageHeight);
+        chromeDriver = true;
+        firefoxDriver = false;
     }
 
     public void setPageSize(Dimension pageSize) {
@@ -41,6 +45,16 @@ public class DummyDriverFacade extends DriverFacade {
     @Override
     public Vector getExtend(File screenshotName) {
         return screenSize;
+    }
+
+    @Override
+    public boolean isChromeDriver() {
+        return chromeDriver;
+    }
+
+    @Override
+    public boolean isFirefoxDriver() {
+        return firefoxDriver;
     }
 
     @Override
