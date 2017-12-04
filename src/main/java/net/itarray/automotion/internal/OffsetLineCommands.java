@@ -1,5 +1,7 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Vector;
+
 import java.awt.image.BufferedImage;
 
 public class OffsetLineCommands {
@@ -24,19 +26,21 @@ public class OffsetLineCommands {
         drawBottomOffsetLine = true;
     }
 
-    public void draw(TransformedGraphics graphics, BufferedImage img, UIElement rootElement, DrawingConfiguration drawingConfiguration) {
+    public void draw(TransformedGraphics graphics, Vector extend, UIElement rootElement, DrawingConfiguration drawingConfiguration) {
         drawingConfiguration.setLinesStyle(graphics);
+        int height = extend.getY().intValue();
         if (drawLeftOffsetLine) {
-            graphics.drawVerticalLine(rootElement.getX().intValue(), img.getHeight());
+            graphics.drawVerticalLine(rootElement.getX().intValue(), height);
         }
         if (drawRightOffsetLine) {
-            graphics.drawVerticalLine(rootElement.getCorner().getX().intValue(), img.getHeight());
+            graphics.drawVerticalLine(rootElement.getCorner().getX().intValue(), height);
         }
+        int width = extend.getX().intValue();
         if (drawTopOffsetLine) {
-            graphics.drawHorizontalLine(rootElement.getY().intValue(), img.getWidth());
+            graphics.drawHorizontalLine(rootElement.getY().intValue(), width);
         }
         if (drawBottomOffsetLine) {
-            graphics.drawHorizontalLine(rootElement.getCorner().getY().intValue(), img.getWidth());
+            graphics.drawHorizontalLine(rootElement.getCorner().getY().intValue(), width);
         }
     }
 

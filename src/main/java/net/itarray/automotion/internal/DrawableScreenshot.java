@@ -1,5 +1,6 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Vector;
 import net.itarray.automotion.tools.helpers.Helper;
 import org.json.simple.JSONObject;
 
@@ -14,21 +15,20 @@ import static net.itarray.automotion.validation.Constants.*;
 public class DrawableScreenshot {
 
     private final DrawingConfiguration drawingConfiguration;
-    private BufferedImage img;
     private TransformedGraphics graphics;
     private File screenshotName;
     private File drawingsOutput;
     private BufferedImage drawings;
+    private final Vector extend;
 
-    public DrawableScreenshot(SimpleTransform transform, DrawingConfiguration drawingConfiguration, String rootElementReadableName, File screenshotName) {
+    public DrawableScreenshot(Vector extend, SimpleTransform transform, DrawingConfiguration drawingConfiguration, String rootElementReadableName, File screenshotName) {
         this.drawingConfiguration = drawingConfiguration;
         this.screenshotName = screenshotName;
         drawingsOutput = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-draw-" + System.currentTimeMillis() + Helper.getGeneratedStringWithLength(7) + ".png");
 
         try {
-            img = ImageIO.read(screenshotName);
-
-            drawings = new BufferedImage(img.getWidth(), img.getHeight(),
+            this.extend = extend;
+            drawings = new BufferedImage(extend.getX().intValue(), extend.getY().intValue(),
                     BufferedImage.TYPE_INT_ARGB);
 
             Graphics2D g2d = drawings.createGraphics();
@@ -55,7 +55,7 @@ public class DrawableScreenshot {
     }
 
     public void drawOffsets(UIElement rootElement, OffsetLineCommands offsetLineCommands) {
-        offsetLineCommands.draw(graphics, img, rootElement, drawingConfiguration);
+        offsetLineCommands.draw(graphics, extend, rootElement, drawingConfiguration);
     }
 
     public void drawScreenshot(String rootElementReadableName, Errors errors) {

@@ -1,5 +1,6 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Vector;
 import net.itarray.automotion.tools.helpers.Helper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -20,9 +21,10 @@ public abstract class ResponsiveUIValidatorBase {
     protected final Errors errors;
     protected final UIElement page;
     private final long startTime;
-    private final UISnapshot snapshot;
+    protected final UISnapshot snapshot;
     private final DriverFacade driver;
     private final double zoomFactor;
+    protected DrawableScreenshot drawableScreenshot;
 
     protected ResponsiveUIValidatorBase(UISnapshot snapshot) {
         this.snapshot = snapshot;
@@ -30,8 +32,14 @@ public abstract class ResponsiveUIValidatorBase {
         this.errors = new Errors();
         this.zoomFactor = snapshot.getZoomFactor();
         Dimension dimension = this.driver.retrievePageSize();
-        page = UIElement.asElement(new net.itarray.automotion.internal.geometry.Rectangle(0, 0, dimension.getWidth(), dimension.getHeight()), "page");
+        this.page = UIElement.asElement(new net.itarray.automotion.internal.geometry.Rectangle(0, 0, dimension.getWidth(), dimension.getHeight()), "page");
         this.startTime = System.currentTimeMillis();
+    }
+
+    protected void doSnapshot() {
+        File screenshotName = snapshot.takeScreenshot();
+        Vector extend = driver.getExtend(screenshotName);
+        this.drawableScreenshot = new DrawableScreenshot(extend, getTransform(), getDrawingConfiguration(), getNameOfToBeValidated(), screenshotName);
     }
 
     public Errors getErrors() {
@@ -93,17 +101,13 @@ public abstract class ResponsiveUIValidatorBase {
             return;
         }
 
-        File screenshotName = snapshot.takeScreenshot();
+        drawRootElement(drawableScreenshot);
 
-        DrawableScreenshot screenshot = new DrawableScreenshot(getTransform(), getDrawingConfiguration(), getNameOfToBeValidated(), screenshotName);
+        drawOffsets(drawableScreenshot);
 
-        drawRootElement(screenshot);
+        drawableScreenshot.drawScreenshot(getNameOfToBeValidated(), errors);
 
-        drawOffsets(screenshot);
-
-        screenshot.drawScreenshot(getNameOfToBeValidated(), errors);
-
-        writeResults(screenshot);
+        writeResults(drawableScreenshot);
     }
 
     private SimpleTransform getTransform() {

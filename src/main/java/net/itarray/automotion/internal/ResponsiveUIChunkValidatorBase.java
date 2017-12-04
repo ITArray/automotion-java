@@ -39,6 +39,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
                 } catch (Exception e) {}
             }
         }
+        doSnapshot();
     }
 
     @Override

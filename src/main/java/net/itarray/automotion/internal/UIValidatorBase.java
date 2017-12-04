@@ -48,6 +48,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
                 ((JavascriptExecutor) getDriver().getDriver()).executeScript("document.documentElement.style.overflow = 'hidden'");
             } catch (Exception e) {}
         }
+        doSnapshot();
     }
 
     @Override

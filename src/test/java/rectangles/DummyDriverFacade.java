@@ -1,6 +1,8 @@
 package rectangles;
 
 import net.itarray.automotion.internal.DriverFacade;
+import net.itarray.automotion.internal.geometry.Vector;
+import net.itarray.automotion.validation.properties.Expression;
 import org.openqa.selenium.Dimension;
 
 import java.io.File;
@@ -27,6 +29,16 @@ public class DummyDriverFacade extends DriverFacade {
     @Override
     public File takeScreenshot() {
         throw new RuntimeException("should not happen");
+    }
+
+    @Override
+    public void takeScreenshot(File file) {
+        // do nothing here
+    }
+
+    @Override
+    public Vector getExtend(File screenshotName) {
+        return new Vector(2000, 1000);
     }
 
     @Override
