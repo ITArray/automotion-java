@@ -40,14 +40,14 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     public UIValidatorBase(UISnapshot snapshot, WebElement webElement, String readableNameOfElement) {
         super(snapshot);
-        this.rootElement = asElement(webElement, readableNameOfElement);
         if (!getDriver().isAppiumContext()) {
             try {
-                ((JavascriptExecutor) getDriver().getDriver()).executeScript("arguments[0].scrollIntoView();", webElement);
-                ((JavascriptExecutor) getDriver().getDriver()).executeScript("javascript:window.scrollBy(0,250);");
+                //((JavascriptExecutor) getDriver().getDriver()).executeScript("arguments[0].scrollIntoView();", webElement);
+                //((JavascriptExecutor) getDriver().getDriver()).executeScript("javascript:window.scrollBy(0,250);");
                 ((JavascriptExecutor) getDriver().getDriver()).executeScript("document.documentElement.style.overflow = 'hidden'");
             } catch (Exception e) {}
         }
+        this.rootElement = asElement(webElement, readableNameOfElement);
         doSnapshot();
     }
 

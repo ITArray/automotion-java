@@ -23,22 +23,23 @@ import static net.itarray.automotion.internal.geometry.Interval.interval;
 public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase implements ChunkUIElementValidator {
 
     private final List<UIElement> rootElements;
+    //private final OffsetLineCommands offsetLineCommands = new OffsetLineCommands();
 
     public ResponsiveUIChunkValidatorBase(UISnapshot snapshot, List<WebElement> webElements, boolean allowEmpty) {
         super(snapshot);
-        rootElements = asElements(webElements);
         if (!allowEmpty && webElements.isEmpty()) {
             String message = "Set root web element";
             addError(message);
         } else {
             if (!getDriver().isAppiumContext()) {
                 try {
-                    ((JavascriptExecutor) getDriver().getDriver()).executeScript("arguments[0].scrollIntoView();", webElements.get(0));
-                    ((JavascriptExecutor) getDriver().getDriver()).executeScript("javascript:window.scrollBy(0,250);");
+                    //((JavascriptExecutor) getDriver().getDriver()).executeScript("arguments[0].scrollIntoView();", webElements.get(0));
+                    //((JavascriptExecutor) getDriver().getDriver()).executeScript("javascript:window.scrollBy(0,250);");
                     ((JavascriptExecutor) getDriver().getDriver()).executeScript("document.documentElement.style.overflow = 'hidden'");
                 } catch (Exception e) {}
             }
         }
+        rootElements = asElements(webElements);
         doSnapshot();
     }
 
@@ -201,6 +202,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     @Override
     public ResponsiveUIChunkValidatorBase areRightAligned() {
         validateRightAlignedWithChunk(asNumberedList(rootElements));
+        //offsetLineCommands.drawRightOffsetLine();
         return this;
     }
 
@@ -212,6 +214,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     @Override
     public ResponsiveUIChunkValidatorBase areLeftAligned() {
         validateLeftAlignedWithChunk(asNumberedList(rootElements));
+        //offsetLineCommands.drawLeftOffsetLine();
         return this;
     }
 
@@ -223,6 +226,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     @Override
     public ResponsiveUIChunkValidatorBase areTopAligned() {
         validateTopAlignedWithChunk(asNumberedList(rootElements));
+        //offsetLineCommands.drawTopOffsetLine();
         return this;
     }
 
@@ -234,6 +238,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     @Override
     public ResponsiveUIChunkValidatorBase areBottomAligned() {
         validateBottomAlignedWithChunk(asNumberedList(rootElements));
+        //offsetLineCommands.drawBottomOffsetLine();
         return this;
     }
 

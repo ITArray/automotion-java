@@ -5,6 +5,9 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import net.itarray.automotion.internal.geometry.Vector;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import javax.imageio.ImageIO;
@@ -53,6 +56,18 @@ public class DriverFacade {
 
     public WebDriver getDriver() {
         return driver;
+    }
+
+    public boolean isChromeDriver() {
+        return (driver instanceof ChromeDriver) || ((RemoteWebDriver) driver).getCapabilities().getBrowserName().toLowerCase().equals("chrome");
+    }
+
+    public boolean isFirefoxDriver() {
+        return (driver instanceof FirefoxDriver) || ((RemoteWebDriver) driver).getCapabilities().getBrowserName().toLowerCase().equals("firefox");
+    }
+
+    public boolean isPhantomJSDriver() {
+        return (driver instanceof PhantomJSDriver);
     }
 
     public boolean isAppiumAndroidContext() {
@@ -108,7 +123,7 @@ public class DriverFacade {
     private long retrievePageHeight() {
         if (!isAppiumContext()) {
             if (getZoom().equals("100%")) {
-                return (long) executeScript("if (window.innerHeight) {return window.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
+                return (long) executeScript("if (self.innerHeight) {return self.innerHeight;} if (document.documentElement && document.documentElement.clientHeight) {return document.documentElement.clientHeight;}if (document.body) {return document.body.clientHeight;}");
             } else {
                 return (long) executeScript("return document.getElementsByTagName('body')[0].offsetHeight");
             }
@@ -124,7 +139,7 @@ public class DriverFacade {
     private long retrievePageWidth() {
         if (!isAppiumContext()) {
             if (getZoom().equals("100%")) {
-                String script = "if (window.innerWidth) {return window.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}";
+                String script = "if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}";
                 return (long) executeScript(script);
             } else {
                 return (long) executeScript("return document.getElementsByTagName('body')[0].offsetWidth");
@@ -133,7 +148,7 @@ public class DriverFacade {
             if (isAppiumNativeMobileContext() || isAppiumIOSContext()) {
                 return driver.manage().window().getSize().getWidth();
             } else {
-                return (long) executeScript("if (self.innerWidth) {return self.outerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
+                return (long) executeScript("if (self.innerWidth) {return self.innerWidth;} if (document.documentElement && document.documentElement.clientWidth) {return document.documentElement.clientWidth;}if (document.body) {return document.body.clientWidth;}");
             }
         }
     }

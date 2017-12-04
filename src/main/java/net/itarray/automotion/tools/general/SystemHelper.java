@@ -1,7 +1,5 @@
 package net.itarray.automotion.tools.general;
 
-import javafx.stage.Screen;
-
 import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Field;
@@ -30,17 +28,21 @@ public class SystemHelper {
                     }
                 }
             } catch (Exception e) {
-                isRetina = getDisplayScaleFactor() > 140;
+                try {
+                    isRetina = getDisplayScaleFactor() > 140;
+                } catch (Exception e1) {e1.printStackTrace();}
             }
         } catch (Exception e) {
-            isRetina = getDisplayScaleFactor() > 140;
+            try {
+                isRetina = getDisplayScaleFactor() > 140;
+            } catch (Exception e1) {e1.printStackTrace();}
         }
         return isRetina;
     }
 
     private static double getDisplayScaleFactor() {
-        double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-        double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        //double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        //double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         int screenResolution = Toolkit.getDefaultToolkit().getScreenResolution();
 
         return screenResolution;
