@@ -154,7 +154,7 @@ public class ResponsiveUIValidator {
     }
 
     /**
-     * Set retina scale factor. Current usage only for native mobile
+     * Set retina scale factor. By default is 1
      *
      * @param factor
      */
@@ -163,7 +163,7 @@ public class ResponsiveUIValidator {
     }
 
     /**
-     * Get retina scale factor. Current usage only for native mobile
+     * Get retina scale factor. By default is 1
      *
      */
     public double getRetinaScaleFactor() {

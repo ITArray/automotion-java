@@ -11,8 +11,6 @@ import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-import static net.itarray.automotion.tools.environment.EnvironmentFactory.*;
-import static net.itarray.automotion.tools.general.SystemHelper.isRetinaDisplay;
 import static net.itarray.automotion.validation.Constants.*;
 
 public abstract class ResponsiveUIValidatorBase {
@@ -111,16 +109,16 @@ public abstract class ResponsiveUIValidatorBase {
     }
 
     private double getScaleFactor() {
-        double factor;
-        if (getDriver().isAppiumContext()) {
-            factor = getReport().getRetinaScaleFactor();
-        } else {
-            factor = zoomFactor;
-            if (isRetinaDisplay() && isChrome()) {
-                factor = factor * 2;
-            }
-        }
-        return factor;
+//        double factor;
+//        if (getDriver().isAppiumContext()) {
+//            factor = getReport().getRetinaScaleFactor();
+//        } else {
+//            factor = zoomFactor;
+//            if (isChrome()) {
+//                factor = factor * 2;
+//            }
+//        }
+        return getReport().getRetinaScaleFactor();
     }
 
     private int getYOffset() {
