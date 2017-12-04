@@ -50,7 +50,15 @@ public class UISnapshot {
     }
 
     public ChunkUIElementValidator findElements(List<WebElement> webElements) {
-        return new ResponsiveUIChunkValidatorBase(this, webElements);
+        return findOneOrMoreElements(webElements);
+    }
+
+    public ChunkUIElementValidator findOneOrMoreElements(List<WebElement> webElements) {
+        return new ResponsiveUIChunkValidatorBase(this, webElements, false);
+    }
+
+    public ChunkUIElementValidator findZeroOrMoreElements(List<WebElement> webElements) {
+        return new ResponsiveUIChunkValidatorBase(this, webElements, true);
     }
 
     public File takeScreenshot() {

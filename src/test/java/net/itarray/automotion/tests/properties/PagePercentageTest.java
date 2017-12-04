@@ -8,6 +8,7 @@ import net.itarray.automotion.validation.properties.Expression;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static net.itarray.automotion.internal.properties.PercentReference.PAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,7 +19,7 @@ public class PagePercentageTest {
 
     @Before
     public void setUp() {
-        value = new Scalar(27);
+        value = scalar(27);
         expression = Expression.percent(value, PAGE);
     }
 
@@ -26,7 +27,7 @@ public class PagePercentageTest {
     public void evaluatesToThePercentageOfThePageRectange() {
         Context context = new TestContext(new Rectangle(0, 0, 200, 150));
         Direction direction = Direction.RIGHT;
-        assertThat(expression.evaluateIn(context, direction)).isEqualTo(new Scalar(54));
+        assertThat(expression.evaluateIn(context, direction)).isEqualTo(scalar(54));
     }
 
     @Test

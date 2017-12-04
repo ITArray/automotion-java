@@ -8,6 +8,7 @@ import org.apache.commons.math3.fraction.Fraction;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ScalarTest {
@@ -18,18 +19,18 @@ public class ScalarTest {
     @Before
     public void setUp() {
         value = 13;
-        scalar = new Scalar(value);
+        scalar = scalar(value);
     }
 
     @Test
     public void isEqualToScalarsWithEqualValue() {
-        assertThat(scalar).isEqualTo(new Scalar(value));
-        assertThat(scalar.hashCode()).isEqualTo(new Scalar(value).hashCode());
+        assertThat(scalar).isEqualTo(scalar(value));
+        assertThat(scalar.hashCode()).isEqualTo(scalar(value).hashCode());
     }
 
     @Test
     public void isNotEqualToScalarsWithDifferentValue() {
-        assertThat(scalar).isNotEqualTo(new Scalar(value+1));
+        assertThat(scalar).isNotEqualTo(scalar(value+1));
     }
 
     @Test
@@ -50,91 +51,122 @@ public class ScalarTest {
     @Test
     public void plusIntReturnsAScalarWithValueEqualToTheSumOfValueAndTheAddend() {
         int addend = 2;
-        assertThat(scalar.plus(addend)).isEqualTo(new Scalar(value + addend));
+        assertThat(scalar.plus(addend)).isEqualTo(scalar(value + addend));
     }
 
     @Test
     public void plusScalarReturnsAScalarWithValueEqualToTheSumOfValueAndTheAddend() {
-        Scalar addend = new Scalar(2);
-        assertThat(scalar.plus(addend)).isEqualTo(new Scalar(value + 2));
+        Scalar addend = scalar(2);
+        assertThat(scalar.plus(addend)).isEqualTo(scalar(value + 2));
     }
 
     @Test
     public void minusIntReturnsAScalarWithValueEqualToTheDifferenceOfValueAndTheSubtrahend() {
         int addend = 2;
-        assertThat(scalar.minus(addend)).isEqualTo(new Scalar(value - addend));
+        assertThat(scalar.minus(addend)).isEqualTo(scalar(value - addend));
     }
 
     @Test
     public void minusScalarReturnsAScalarWithValueEqualToTheDifferenceOfValueAndTheSubtrahend() {
-        Scalar addend = new Scalar(2);
-        assertThat(scalar.minus(addend)).isEqualTo(new Scalar(value - 2));
+        Scalar addend = scalar(2);
+        assertThat(scalar.minus(addend)).isEqualTo(scalar(value - 2));
     }
 
     @Test
     public void timesScalarReturnsAScalarWithValueEqualToTheProductOfValueAndTheMultiplicator() {
-        Scalar multiplicator = new Scalar(2);
-        assertThat(scalar.times(multiplicator)).isEqualTo(new Scalar(value * 2));
+        Scalar multiplicator = scalar(2);
+        assertThat(scalar.times(multiplicator)).isEqualTo(scalar(value * 2));
     }
 
     @Test
     public void byScalarReturnsAScalarWithValueEqualToTheQuotientOfValueAndTheDivisor() {
-        Scalar divisor = new Scalar(2);
-        assertThat(scalar.by(divisor)).isEqualTo(new Scalar(new Fraction(value, 2)));
+        Scalar divisor = scalar(2);
+        assertThat(scalar.by(divisor)).isEqualTo(scalar(new Fraction(value, 2)));
     }
 
     @Test
     public void negatedReturnsAScalarWithValueEqualToNegatedValue() {
-        assertThat(scalar.negated()).isEqualTo(new Scalar(-value));
+        assertThat(scalar.negated()).isEqualTo(scalar(-value));
     }
 
     @Test
     public void absReturnsAScalarWithValueEqualToAbosulteValue() {
-        assertThat(scalar.abs()).isEqualTo(new Scalar(value));
-        assertThat(scalar.negated().abs()).isEqualTo(new Scalar(value));
-        assertThat(new Scalar(0).abs()).isEqualTo(new Scalar(0));
+        assertThat(scalar.abs()).isEqualTo(scalar(value));
+        assertThat(scalar.negated().abs()).isEqualTo(scalar(value));
+        assertThat(scalar(0).abs()).isEqualTo(scalar(0));
     }
 
     @Test
     public void isCompareToWorks() {
-        assertThat(scalar.compareTo(new Scalar(value-1))).isGreaterThan(0);
-        assertThat(scalar.compareTo(new Scalar(value))).isEqualTo(0);
-        assertThat(scalar.compareTo(new Scalar(value+1))).isLessThan(0);
+        assertThat(scalar.compareTo(scalar(value-1))).isGreaterThan(0);
+        assertThat(scalar.compareTo(scalar(value))).isEqualTo(0);
+        assertThat(scalar.compareTo(scalar(value+1))).isLessThan(0);
     }
 
     @Test
     public void isLessOrEqualToWorks() {
-        assertThat(scalar.isLessOrEqualTo(new Scalar(value-1))).isFalse();
-        assertThat(scalar.isLessOrEqualTo(new Scalar(value))).isTrue();
-        assertThat(scalar.isLessOrEqualTo(new Scalar(value+1))).isTrue();
+        assertThat(scalar.isLessOrEqualTo(scalar(value-1))).isFalse();
+        assertThat(scalar.isLessOrEqualTo(scalar(value))).isTrue();
+        assertThat(scalar.isLessOrEqualTo(scalar(value+1))).isTrue();
     }
 
     @Test
     public void isGreaterOrEqualToWorks() {
-        assertThat(scalar.isGreaterOrEqualTo(new Scalar(value-1))).isTrue();
-        assertThat(scalar.isGreaterOrEqualTo(new Scalar(value))).isTrue();
-        assertThat(scalar.isGreaterOrEqualTo(new Scalar(value+1))).isFalse();
+        assertThat(scalar.isGreaterOrEqualTo(scalar(value-1))).isTrue();
+        assertThat(scalar.isGreaterOrEqualTo(scalar(value))).isTrue();
+        assertThat(scalar.isGreaterOrEqualTo(scalar(value+1))).isFalse();
     }
 
     @Test
     public void isLessThanWorks() {
-        assertThat(scalar.isLessThan(new Scalar(value-1))).isFalse();
-        assertThat(scalar.isLessThan(new Scalar(value))).isFalse();
-        assertThat(scalar.isLessThan(new Scalar(value+1))).isTrue();
+        assertThat(scalar.isLessThan(scalar(value-1))).isFalse();
+        assertThat(scalar.isLessThan(scalar(value))).isFalse();
+        assertThat(scalar.isLessThan(scalar(value+1))).isTrue();
     }
 
     @Test
     public void isGreaterThanWorks() {
-        assertThat(scalar.isGreaterThan(new Scalar(value-1))).isTrue();
-        assertThat(scalar.isGreaterThan(new Scalar(value))).isFalse();
-        assertThat(scalar.isGreaterThan(new Scalar(value+1))).isFalse();
+        assertThat(scalar.isGreaterThan(scalar(value-1))).isTrue();
+        assertThat(scalar.isGreaterThan(scalar(value))).isFalse();
+        assertThat(scalar.isGreaterThan(scalar(value+1))).isFalse();
     }
 
     @Test
-    public void shouldName() {
+    public void minimumWithSmallerScalarReturnsTheSmallerScalar() {
+        assertThat(scalar.min(scalar.minus(1))).isEqualTo(scalar.minus(1));
+    }
+
+    @Test
+    public void minimumWithEqualScalarReturnsTheScalar() {
+        assertThat(scalar.min(scalar)).isEqualTo(scalar);
+    }
+
+    @Test
+    public void minimumWithLargerScalarReturnsTheScalar() {
+        assertThat(scalar.min(scalar.plus(1))).isEqualTo(scalar);
+    }
+
+    @Test
+    public void maximumWithSmallerScalarReturnsTheScalar() {
+        assertThat(scalar.max(scalar.minus(1))).isEqualTo(scalar);
+    }
+
+    @Test
+    public void maximumWithEqualScalarReturnsTheScalar() {
+        assertThat(scalar.max(scalar)).isEqualTo(scalar);
+    }
+
+    @Test
+    public void maximumWithLargerScalarReturnsTheLargerScalar() {
+        assertThat(scalar.max(scalar.plus(1))).isEqualTo(scalar.plus(1));
+    }
+
+    @Test
+    public void satisfies() {
         TestContext context = new TestContext();
         Direction direction = Direction.RIGHT;
         assertThat(scalar.satisfies(Condition.greaterOrEqualTo(value), context, direction)).isTrue();
         assertThat(scalar.satisfies(Condition.greaterOrEqualTo(value+1), context, direction)).isFalse();
     }
 }
+

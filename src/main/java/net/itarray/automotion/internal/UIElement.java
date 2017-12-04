@@ -2,7 +2,8 @@ package net.itarray.automotion.internal;
 
 import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.ExtendGiving;
-import net.itarray.automotion.internal.geometry.Group;
+import net.itarray.automotion.internal.geometry.GroupElement;
+import net.itarray.automotion.internal.geometry.Interval;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 import static net.itarray.automotion.internal.geometry.Direction.*;
 import static net.itarray.automotion.internal.geometry.Rectangle.ORIGIN_CORNER;
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
 public class UIElement {
@@ -91,7 +93,7 @@ public class UIElement {
         return direction.end(rectangle);
     }
 
-    public <V extends Group<V>> V getExtend(ExtendGiving<V> direction) {
+    public <V extends GroupElement<V>> V getExtend(ExtendGiving<V> direction) {
         return direction.extend(rectangle);
     }
 
@@ -147,7 +149,7 @@ public class UIElement {
         return hasEqualBegin(UP, other);
     }
 
-    public <V extends Group<V>> boolean hasEqualExtendAs(ExtendGiving<V> direction, UIElement other) {
+    public <V extends GroupElement<V>> boolean hasEqualExtendAs(ExtendGiving<V> direction, UIElement other) {
         return direction.extend(rectangle).equals(direction.extend(other.rectangle));
     }
 
@@ -192,7 +194,7 @@ public class UIElement {
     }
 
     public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
-        return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualTo(new Scalar(0));
+        return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualTo(scalar(0));
     }
 
     public Scalar signedDistanceToSuccessor(Direction direction, UIElement successor) {
@@ -283,7 +285,7 @@ public class UIElement {
         validateSameExtend(RIGHT, element, errors);
     }
 
-    public <V extends Group<V>> void validateSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
+    public <V extends GroupElement<V>> void validateSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
         if (!hasEqualExtendAs(direction, element)) {
             errors.add(
                     String.format("Element %s has not the same %s as element %s. %s of %s is %s. %s of element is %s",
@@ -299,7 +301,7 @@ public class UIElement {
         }
     }
 
-    public <V extends Group<V>> void validateNotSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
+    public <V extends GroupElement<V>> void validateNotSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
         if (hasEqualExtendAs(direction, element)) {
             errors.add(
                     String.format("Element %s has the same %s as element %s. %s of %s is %s. %s of element is %s",
@@ -533,5 +535,17 @@ public class UIElement {
                             originOffset.getX()),
                     element);
         }
+    }
+
+    public Interval getYInterval() {
+        return getInterval(Direction.DOWN);
+    }
+
+    public Interval getXInterval() {
+        return getInterval(Direction.RIGHT);
+    }
+
+    private Interval getInterval(Direction direction) {
+        return Interval.interval(getBegin(direction), getEnd(direction));
     }
 }

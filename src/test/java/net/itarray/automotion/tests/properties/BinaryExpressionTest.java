@@ -7,6 +7,7 @@ import net.itarray.automotion.internal.properties.BinaryExpression;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BinaryExpressionTest {
@@ -16,8 +17,8 @@ public class BinaryExpressionTest {
     @Before
     public void setUp() {
         expression = new BinaryExpression<>(
-                new PixelConstant(new Scalar(17)),
-                new PixelConstant(new Scalar(16)),
+                new PixelConstant(scalar(17)),
+                new PixelConstant(scalar(16)),
                 Scalar::isLessOrEqualTo,
                 "%s to be less or equal to %s");
     }

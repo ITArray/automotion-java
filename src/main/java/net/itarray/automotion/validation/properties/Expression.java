@@ -7,6 +7,7 @@ import net.itarray.automotion.internal.properties.PagePercentage;
 import net.itarray.automotion.internal.properties.PagePercentageOrPixels;
 import net.itarray.automotion.internal.properties.PercentReference;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static net.itarray.automotion.internal.properties.PercentReference.PAGE;
 
 public interface Expression<T> {
@@ -16,11 +17,11 @@ public interface Expression<T> {
     }
 
     static PagePercentageOrPixels percentOrPixels(int constant) {
-        return percentOrPixels(new Scalar(constant));
+        return percentOrPixels(scalar(constant));
     }
 
     static Expression<Scalar> percent(int percentage, PercentReference reference) {
-        return percent(new Scalar(percentage), reference);
+        return percent(scalar(percentage), reference);
 
     }
 

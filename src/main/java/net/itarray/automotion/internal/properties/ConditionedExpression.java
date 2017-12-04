@@ -1,8 +1,7 @@
 package net.itarray.automotion.internal.properties;
 
 import net.itarray.automotion.internal.geometry.Direction;
-import net.itarray.automotion.internal.geometry.Group;
-import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.geometry.GroupElement;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.validation.properties.Expression;
 
@@ -28,6 +27,6 @@ public class ConditionedExpression<T> implements Expression<Boolean> {
                 toBeConditioned.getDescription(context, direction),
                 toBeApplied.getDescription(context, direction),
                 toBeConditioned.getRepeatedDescription(context, direction),
-                (t instanceof Group) ? ((Group) t).toStringWithUnits("px") : t);
+                (t instanceof GroupElement) ? ((GroupElement) t).toStringWithUnits("px") : t);
     }
 }

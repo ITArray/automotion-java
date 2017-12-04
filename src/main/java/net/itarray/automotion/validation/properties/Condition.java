@@ -9,10 +9,12 @@ import net.itarray.automotion.internal.properties.ConstantExpression;
 import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.internal.properties.PixelConstant;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
+
 public interface Condition<T> {
 
     static Condition<Scalar> equalTo(int limit) {
-        return equalTo(new Scalar(limit));
+        return equalTo(scalar(limit));
     }
 
     static Condition<Scalar> equalTo(Scalar limit) {
@@ -24,7 +26,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> greaterOrEqualTo(int limit) {
-        return greaterOrEqualTo(new Scalar(limit));
+        return greaterOrEqualTo(scalar(limit));
     }
 
     static Condition<Scalar> greaterOrEqualTo(Scalar limit) {
@@ -36,7 +38,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> greaterThan(int limit) {
-        return greaterThan(new Scalar(limit));
+        return greaterThan(scalar(limit));
     }
 
     static Condition<Scalar> greaterThan(Scalar limit) {
@@ -48,7 +50,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> lessOrEqualTo(int limit) {
-        return lessOrEqualTo(new Scalar(limit));
+        return lessOrEqualTo(scalar(limit));
     }
 
     static Condition<Scalar> lessOrEqualTo(Scalar limit) {
@@ -60,7 +62,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> lessThan(int limit) {
-        return lessThan(new Scalar(limit));
+        return lessThan(scalar(limit));
     }
 
     static Condition<Scalar> lessThan(Scalar limit) {
@@ -96,11 +98,11 @@ public interface Condition<T> {
         }
 
         public LowerLimit(int lowerLimit) {
-            this(new PixelConstant(new Scalar(lowerLimit)));
+            this(new PixelConstant(scalar(lowerLimit)));
         }
 
         public Condition<Scalar> and(int upperLimit) {
-            return and(new Scalar(upperLimit));
+            return and(scalar(upperLimit));
         }
 
         public Condition<Scalar> and(Scalar upperLimit) {

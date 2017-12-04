@@ -18,7 +18,7 @@ public class LessThanTest {
 
     @Before
     public void createProperty() {
-        limit = new Scalar(7);
+        limit = Scalar.scalar(7);
         condition = Condition.lessThan(limit);
         context = new TestContext();
         direction = Direction.RIGHT;

@@ -6,6 +6,7 @@ import net.itarray.automotion.validation.properties.Expression;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PagePercentageOrPixelsTest {
@@ -14,7 +15,7 @@ public class PagePercentageOrPixelsTest {
 
     @Before
     public void setUp() {
-        constant = new Scalar(52);
+        constant = scalar(52);
         condition = Expression.percentOrPixels(constant);
     }
 
@@ -27,7 +28,7 @@ public class PagePercentageOrPixelsTest {
     public void evaluatesToItsValueInAnyPercentageContext() {
         TestContext context = new TestContext();
         context.setPixels(false);
-        assertThat(condition.evaluateIn(context, Direction.RIGHT)).isEqualTo(new Scalar(104));
+        assertThat(condition.evaluateIn(context, Direction.RIGHT)).isEqualTo(scalar(104));
     }
 
     @Test
