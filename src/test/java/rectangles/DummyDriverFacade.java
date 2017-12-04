@@ -11,10 +11,12 @@ public class DummyDriverFacade extends DriverFacade {
 
     private Dimension pageSize;
     private Dimension resolution;
+    private Vector screenSize;
 
     public DummyDriverFacade() {
         super(null);
         resolution = new Dimension(1280, 1080);
+        screenSize = new Vector(2000, 1000);
         pageSize = new Dimension(RectangleFixture.pageWidth, RectangleFixture.pageHeight);
     }
 
@@ -38,7 +40,7 @@ public class DummyDriverFacade extends DriverFacade {
 
     @Override
     public Vector getExtend(File screenshotName) {
-        return new Vector(2000, 1000);
+        return screenSize;
     }
 
     @Override

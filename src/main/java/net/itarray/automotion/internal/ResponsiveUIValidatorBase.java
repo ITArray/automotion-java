@@ -40,6 +40,10 @@ public abstract class ResponsiveUIValidatorBase {
         File screenshotName = snapshot.takeScreenshot();
         Vector extend = driver.getExtend(screenshotName);
         this.drawableScreenshot = new DrawableScreenshot(extend, getTransform(), getDrawingConfiguration(), getNameOfToBeValidated(), screenshotName);
+        if (isWithReport()) {
+            drawRootElement(drawableScreenshot);
+        }
+
     }
 
     public Errors getErrors() {
@@ -97,17 +101,38 @@ public abstract class ResponsiveUIValidatorBase {
     protected abstract String getNameOfToBeValidated();
 
     private void compileValidationReport() {
-        if (!isWithReport()) {
-            return;
+        if (isWithReport()) {
+            drawRootElement(drawableScreenshot);
         }
 
-        drawRootElement(drawableScreenshot);
+        if (isWithReport()) {
+            drawOffsets(drawableScreenshot);
+        }
 
-        drawOffsets(drawableScreenshot);
+        if (isWithReport()) {
+            for (Object obj : errors.getMessages()) {
+                JSONObject det = (JSONObject) obj;
+                JSONObject details = (JSONObject) det.get(REASON);
+                JSONObject numE = (JSONObject) details.get(ELEMENT);
 
-        drawableScreenshot.drawScreenshot(getNameOfToBeValidated(), errors);
+                if (numE != null) {
+                    int x = (int) (float) numE.get(X);
+                    int y = (int) (float) numE.get(Y);
+                    int width = (int) (float) numE.get(WIDTH);
+                    int height = (int) (float) numE.get(HEIGHT);
 
-        writeResults(drawableScreenshot);
+                    drawableScreenshot.drawRectangle(x, y, width, height);
+                }
+            }
+        }
+
+        if (isWithReport()) {
+            drawableScreenshot.saveDrawing();
+        }
+
+        if (isWithReport()) {
+            writeResults(drawableScreenshot);
+        }
     }
 
     private SimpleTransform getTransform() {

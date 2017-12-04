@@ -58,26 +58,12 @@ public class DrawableScreenshot {
         offsetLineCommands.draw(graphics, extend, rootElement, drawingConfiguration);
     }
 
-    public void drawScreenshot(String rootElementReadableName, Errors errors) {
-        for (Object obj : errors.getMessages()) {
-            JSONObject det = (JSONObject) obj;
-            JSONObject details = (JSONObject) det.get(REASON);
-            JSONObject numE = (JSONObject) details.get(ELEMENT);
+    public void drawRectangle(int x, int y, int width, int height) {
+        drawingConfiguration.setHighlightedElementStyle(graphics);
+        graphics.drawRectByExtend(x, y, width, height);
+    }
 
-            if (numE != null) {
-                int x = (int) (float) numE.get(X);
-                int y = (int) (float) numE.get(Y);
-                int width = (int) (float) numE.get(WIDTH);
-                int height = (int) (float) numE.get(HEIGHT);
-
-                drawingConfiguration.setHighlightedElementStyle(graphics);
-                graphics.drawRectByExtend(x, y, width, height);
-            }
-        }
-
-
-
-
+    public void saveDrawing() {
         try {
             ImageIO.write(drawings, "png", drawingsOutput);
         } catch (IOException e) {
@@ -85,7 +71,6 @@ public class DrawableScreenshot {
         }
 
         drawings.getGraphics().dispose();
-
     }
 
     public void drawRootElement(UIElement rootElement) {
