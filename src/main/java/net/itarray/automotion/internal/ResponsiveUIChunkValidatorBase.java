@@ -19,6 +19,7 @@ import static net.itarray.automotion.internal.UIElement.*;
 public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase implements ChunkUIElementValidator {
 
     private final List<UIElement> rootElements;
+    //private final OffsetLineCommands offsetLineCommands = new OffsetLineCommands();
 
     public ResponsiveUIChunkValidatorBase(UISnapshot snapshot, List<WebElement> webElements) {
         super(snapshot);
@@ -176,6 +177,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     @Override
     public ResponsiveUIChunkValidatorBase areRightAligned() {
         validateRightAlignedWithChunk(asNumberedList(rootElements));
+        //offsetLineCommands.drawRightOffsetLine();
         return this;
     }
 
@@ -187,6 +189,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     @Override
     public ResponsiveUIChunkValidatorBase areLeftAligned() {
         validateLeftAlignedWithChunk(asNumberedList(rootElements));
+        //offsetLineCommands.drawLeftOffsetLine();
         return this;
     }
 
@@ -198,6 +201,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     @Override
     public ResponsiveUIChunkValidatorBase areTopAligned() {
         validateTopAlignedWithChunk(asNumberedList(rootElements));
+        //offsetLineCommands.drawTopOffsetLine();
         return this;
     }
 
@@ -209,6 +213,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     @Override
     public ResponsiveUIChunkValidatorBase areBottomAligned() {
         validateBottomAlignedWithChunk(asNumberedList(rootElements));
+        //offsetLineCommands.drawBottomOffsetLine();
         return this;
     }
 
