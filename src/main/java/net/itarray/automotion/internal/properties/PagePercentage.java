@@ -5,6 +5,8 @@ import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Expression;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
+
 public class PagePercentage implements Expression<Scalar> {
     private final Scalar percentage;
 
@@ -16,7 +18,7 @@ public class PagePercentage implements Expression<Scalar> {
     public Scalar evaluateIn(Context context, Direction direction) {
         Rectangle page = context.getPageRectangle();
         Scalar screenExtend = direction.extend(page).abs();
-        return percentage.times(screenExtend).by(new Scalar(100));
+        return percentage.times(screenExtend).by(scalar(100));
     }
 
     @Override

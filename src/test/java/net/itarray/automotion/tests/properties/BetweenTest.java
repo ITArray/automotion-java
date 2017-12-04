@@ -7,6 +7,7 @@ import net.itarray.automotion.validation.properties.Condition;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BetweenTest {
@@ -19,8 +20,8 @@ public class BetweenTest {
 
     @Before
     public void createProperty() {
-        lowerLimit = new Scalar(7);
-        upperLimit = new Scalar(10);
+        lowerLimit = scalar(7);
+        upperLimit = scalar(10);
         condition = Condition.between(lowerLimit).and(upperLimit);
         context = new TestContext();
         direction = Direction.RIGHT;

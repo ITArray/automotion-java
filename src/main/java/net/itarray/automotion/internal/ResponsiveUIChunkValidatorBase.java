@@ -1,5 +1,7 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.ConnectedIntervals;
+import net.itarray.automotion.internal.geometry.Interval;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -13,17 +15,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import static net.itarray.automotion.internal.UIElement.*;
+import static net.itarray.automotion.internal.geometry.Interval.interval;
 
 public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase implements ChunkUIElementValidator {
 
     private final List<UIElement> rootElements;
     //private final OffsetLineCommands offsetLineCommands = new OffsetLineCommands();
 
-    public ResponsiveUIChunkValidatorBase(UISnapshot snapshot, List<WebElement> webElements) {
+    public ResponsiveUIChunkValidatorBase(UISnapshot snapshot, List<WebElement> webElements, boolean allowEmpty) {
         super(snapshot);
-        if (webElements.isEmpty()) {
+        if (!allowEmpty && webElements.isEmpty()) {
             String message = "Set root web element";
             addError(message);
         } else {
@@ -90,6 +94,26 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     public ResponsiveUIChunkValidatorBase alignedAsGrid(int horizontalGridSize, int verticalGridSize) {
         validateGridAlignment(rootElements, horizontalGridSize, verticalGridSize);
         return this;
+    }
+
+    @Override
+    public ChunkUIElementValidator areAlignedAsGridCells() {
+        validateAlignedAsGridCells(rootElements);
+        return this;
+    }
+
+    public void validateAlignedAsGridCells(List<UIElement> rootElements) {
+        ConnectedIntervals columns = new ConnectedIntervals(rootElements.stream().map(e -> e.getXInterval()).collect(Collectors.toList()));
+        ConnectedIntervals rows = new ConnectedIntervals(rootElements.stream().map(e -> e.getYInterval()).collect(Collectors.toList()));
+        for (UIElement element : rootElements) {
+            Interval xInterval = element.getXInterval();
+            Interval xCell = columns.get(columns.indexOf(xInterval));
+            Interval yInterval = element.getYInterval();
+            Interval yCell = rows.get(rows.indexOf(yInterval));
+            if (!(xInterval.equals(xCell) && yInterval.equals(yCell))) {
+                errors.add(String.format("banane"));
+            }
+        }
     }
 
     /**
