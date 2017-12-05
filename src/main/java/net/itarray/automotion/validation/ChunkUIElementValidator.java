@@ -105,7 +105,8 @@ public interface ChunkUIElementValidator {
     })
     ChunkUIElementValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 
-    ChunkUIElementValidator doNotOverlap();
+    ChunkUIElementValidator doNotOverlap(); // tolerance
+
     ChunkUIElementValidator areInsideOf(WebElement containerElement, String readableContainerName);
 
     // size
@@ -117,7 +118,7 @@ public interface ChunkUIElementValidator {
     @NotValid({
             @Scenario(chunk = "empty", oneOrMore = true),
     })
-    ChunkUIElementValidator haveEqualSize();
+    ChunkUIElementValidator haveEqualSize(); // tolerance
     @Valid({
             @Scenario(chunk = "empty"),
             @Scenario(chunk = "one"),
@@ -168,7 +169,7 @@ public interface ChunkUIElementValidator {
     @NotValid({
             @Scenario(chunk = "empty", oneOrMore = true),
     })
-    ChunkUIElementValidator areLeftAligned();
+    ChunkUIElementValidator areLeftAligned(); // ... draw line
     @Valid({
             @Scenario(chunk = "empty"),
             @Scenario(chunk = "one"),
