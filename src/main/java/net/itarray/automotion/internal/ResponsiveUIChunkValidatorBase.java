@@ -457,7 +457,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     @Override
     protected void drawRootElement() {
         if (!rootElements.isEmpty()) {
-            drawableScreenshot.drawRootElement(rootElements.get(0));
+            drawElement(rootElements.get(0));
         }
     }
 }

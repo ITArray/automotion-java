@@ -609,7 +609,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     @Override
     protected void drawRootElement() {
-        drawableScreenshot.drawRootElement(rootElement);
+        drawElement(rootElement);
     }
 
     private void drawLeftOffsetLine() {

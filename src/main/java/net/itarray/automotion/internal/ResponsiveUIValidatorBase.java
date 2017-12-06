@@ -23,7 +23,7 @@ public abstract class ResponsiveUIValidatorBase {
     protected final UISnapshot snapshot;
     private final DriverFacade driver;
     private final double zoomFactor;
-    protected DrawableScreenshot drawableScreenshot;
+    private DrawableScreenshot drawableScreenshot;
 
     protected ResponsiveUIValidatorBase(UISnapshot snapshot) {
         this.snapshot = snapshot;
@@ -241,5 +241,9 @@ public abstract class ResponsiveUIValidatorBase {
         if (isWithReport()) {
             drawableScreenshot.drawHorizontalLine(y);
         }
+    }
+
+    protected void drawElement(UIElement element) {
+        drawableScreenshot.drawRootElement(element);
     }
 }
