@@ -2,7 +2,6 @@ package net.itarray.automotion.internal;
 
 import net.itarray.automotion.internal.geometry.Vector;
 import net.itarray.automotion.tools.helpers.Helper;
-import org.json.simple.JSONObject;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -54,8 +53,20 @@ public class DrawableScreenshot {
         return drawingsOutput;
     }
 
-    public void drawOffsets(UIElement rootElement, OffsetLineCommands offsetLineCommands) {
-        offsetLineCommands.draw(graphics, extend, rootElement, drawingConfiguration);
+    public void drawLeftOffsetLine(UIElement rootElement, OffsetLineCommands offsetLineCommands) {
+        offsetLineCommands.drawLeftOffsetLine(graphics, extend, rootElement, drawingConfiguration);
+    }
+
+    public void drawRightOffsetLine(UIElement rootElement, OffsetLineCommands offsetLineCommands) {
+        offsetLineCommands.drawRightOffsetLine(graphics, extend, rootElement, drawingConfiguration);
+    }
+
+    public void drawTopOffsetLine(UIElement rootElement, OffsetLineCommands offsetLineCommands) {
+        offsetLineCommands.drawTopOffsetLine(graphics, extend, rootElement, drawingConfiguration);
+    }
+
+    public void drawBottomOffsetLine(UIElement rootElement, OffsetLineCommands offsetLineCommands) {
+        offsetLineCommands.drawBottomOffsetLine(graphics, extend, rootElement, drawingConfiguration);
     }
 
     public void drawRectangle(int x, int y, int width, int height) {

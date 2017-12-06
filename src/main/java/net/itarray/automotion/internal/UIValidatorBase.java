@@ -17,15 +17,12 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static net.itarray.automotion.internal.UIElement.*;
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 import static net.itarray.automotion.validation.Constants.*;
-import static net.itarray.automotion.validation.properties.Condition.*;
 import static net.itarray.automotion.internal.UIElement.asElement;
 import static net.itarray.automotion.internal.UIElement.asElements;
 import static net.itarray.automotion.internal.properties.PercentReference.PAGE;
-import static net.itarray.automotion.validation.Constants.*;
 import static net.itarray.automotion.validation.properties.Condition.greaterOrEqualTo;
 import static net.itarray.automotion.validation.properties.Condition.lessOrEqualTo;
 import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
@@ -618,29 +615,25 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     private void drawLeftOffsetLine() {
         if (isWithReport()) {
-            offsetLineCommands.drawLeftOffsetLine();
-            drawableScreenshot.drawOffsets(rootElement, offsetLineCommands);
+            drawableScreenshot.drawLeftOffsetLine(rootElement, offsetLineCommands);
         }
     }
 
     private void drawRightOffsetLine() {
         if (isWithReport()) {
-            offsetLineCommands.drawRightOffsetLine();
-            drawableScreenshot.drawOffsets(rootElement, offsetLineCommands);
+            drawableScreenshot.drawRightOffsetLine(rootElement, offsetLineCommands);
         }
     }
 
     private void drawTopOffsetLine() {
         if (isWithReport()) {
-            offsetLineCommands.drawTopOffsetLine();
-            drawableScreenshot.drawOffsets(rootElement, offsetLineCommands);
+            drawableScreenshot.drawTopOffsetLine(rootElement, offsetLineCommands);
         }
     }
 
     private void drawBottomOffsetLine() {
         if (isWithReport()) {
-            offsetLineCommands.drawBottomOffsetLine();
-            drawableScreenshot.drawOffsets(rootElement, offsetLineCommands);
+            drawableScreenshot.drawBottomOffsetLine(rootElement, offsetLineCommands);
         }
     }
 
