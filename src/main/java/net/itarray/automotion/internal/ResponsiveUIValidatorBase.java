@@ -39,7 +39,7 @@ public abstract class ResponsiveUIValidatorBase {
         Vector extend = driver.getExtend(screenshotName);
         this.drawableScreenshot = new DrawableScreenshot(extend, getTransform(), getDrawingConfiguration(), getNameOfToBeValidated(), screenshotName);
         if (isWithReport()) {
-            drawRootElement(drawableScreenshot);
+            drawRootElement();
         }
 
     }
@@ -99,10 +99,6 @@ public abstract class ResponsiveUIValidatorBase {
     protected abstract String getNameOfToBeValidated();
 
     private void compileValidationReport() {
-        if (isWithReport()) {
-            drawOffsets(drawableScreenshot);
-        }
-
         if (isWithReport()) {
             for (Object obj : errors.getMessages()) {
                 JSONObject det = (JSONObject) obj;
@@ -194,11 +190,7 @@ public abstract class ResponsiveUIValidatorBase {
         getReport().addJsonFile(jsonFileName);
     }
 
-    protected void drawOffsets(DrawableScreenshot screenshot) {
-        throw new RuntimeException("should be overwritten");
-    }
-
-    protected void drawRootElement(DrawableScreenshot screenshot) {
+    protected void drawRootElement() {
         throw new RuntimeException("should be overwritten");
     }
 

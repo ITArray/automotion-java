@@ -612,30 +612,36 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     @Override
-    protected void drawRootElement(DrawableScreenshot screenshot) {
-        screenshot.drawRootElement(rootElement);
+    protected void drawRootElement() {
+        drawableScreenshot.drawRootElement(rootElement);
     }
-
-    @Override
-    protected void drawOffsets(DrawableScreenshot screenshot) {
-        screenshot.drawOffsets(rootElement, offsetLineCommands);
-    }
-
 
     private void drawLeftOffsetLine() {
-        offsetLineCommands.drawLeftOffsetLine();
+        if (isWithReport()) {
+            offsetLineCommands.drawLeftOffsetLine();
+            drawableScreenshot.drawOffsets(rootElement, offsetLineCommands);
+        }
     }
 
     private void drawRightOffsetLine() {
-        offsetLineCommands.drawRightOffsetLine();
+        if (isWithReport()) {
+            offsetLineCommands.drawRightOffsetLine();
+            drawableScreenshot.drawOffsets(rootElement, offsetLineCommands);
+        }
     }
 
     private void drawTopOffsetLine() {
-        offsetLineCommands.drawTopOffsetLine();
+        if (isWithReport()) {
+            offsetLineCommands.drawTopOffsetLine();
+            drawableScreenshot.drawOffsets(rootElement, offsetLineCommands);
+        }
     }
 
     private void drawBottomOffsetLine() {
-        offsetLineCommands.drawBottomOffsetLine();
+        if (isWithReport()) {
+            offsetLineCommands.drawBottomOffsetLine();
+            drawableScreenshot.drawOffsets(rootElement, offsetLineCommands);
+        }
     }
 
 
