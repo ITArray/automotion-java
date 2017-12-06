@@ -150,7 +150,7 @@ public class UIElement {
     }
 
     public <V extends GroupElement<V>> boolean hasEqualExtendAs(ExtendGiving<V> direction, UIElement other) {
-        return direction.extend(rectangle).equals(direction.extend(other.rectangle));
+        return getExtend(direction).equals(other.getExtend(direction));
     }
 
     public boolean hasSameWidthAs(UIElement other) {
