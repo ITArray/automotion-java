@@ -125,44 +125,44 @@ public class UIElement {
         return rectangle.getCorner();
     }
 
-    public boolean hasEqualBegin(Direction direction, UIElement other) {
+    private boolean hasEqualBegin(UIElement other, Direction direction) {
         return getBegin(direction).equals(other.getBegin(direction));
     }
 
-    public boolean hasEqualEnd(Direction direction, UIElement other) {
+    private boolean hasEqualEnd(UIElement other, Direction direction) {
         return getEnd(direction).equals(other.getEnd(direction));
     }
 
     public boolean hasEqualLeftOffsetAs(UIElement other) {
-        return hasEqualBegin(RIGHT, other);
+        return hasEqualBegin(other, RIGHT);
     }
 
     public boolean hasEqualRightOffsetAs(UIElement other) {
-        return hasEqualBegin(LEFT, other);
+        return hasEqualBegin(other, LEFT);
     }
 
     public boolean hasEqualTopOffsetAs(UIElement other) {
-        return hasEqualBegin(DOWN, other);
+        return hasEqualBegin(other, DOWN);
     }
 
     public boolean hasEqualBottomOffsetAs(UIElement other) {
-        return hasEqualBegin(UP, other);
+        return hasEqualBegin(other, UP);
     }
 
-    public <V extends GroupElement<V>> boolean hasEqualExtendAs(ExtendGiving<V> direction, UIElement other) {
+    private <V extends GroupElement<V>> boolean hasEqualExtendAs(UIElement other, ExtendGiving<V> direction) {
         return getExtend(direction).equals(other.getExtend(direction));
     }
 
     public boolean hasSameWidthAs(UIElement other) {
-        return hasEqualExtendAs(RIGHT, other);
+        return hasEqualExtendAs(other, RIGHT);
     }
 
     public boolean hasSameHeightAs(UIElement other) {
-        return hasEqualExtendAs(DOWN, other);
+        return hasEqualExtendAs(other, DOWN);
     }
 
     public boolean hasSameSizeAs(UIElement other) {
-        return hasEqualExtendAs(DOWN, other) && hasEqualExtendAs(RIGHT, other);
+        return hasEqualExtendAs(other, Rectangle.ORIGIN_CORNER);
     }
 
     public boolean overlaps(UIElement other) {
@@ -263,7 +263,7 @@ public class UIElement {
     }
 
     public void validateEqualEnd(Direction direction, UIElement element, Errors errors) {
-        if (!hasEqualEnd(direction, element)) {
+        if (!hasEqualEnd(element, direction)) {
             errors.add(
                     String.format("Element %s has not the same %s offset as element %s",
                             getQuotedName(),
@@ -286,7 +286,7 @@ public class UIElement {
     }
 
     public <V extends GroupElement<V>> void validateSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
-        if (!hasEqualExtendAs(direction, element)) {
+        if (!hasEqualExtendAs(element, direction)) {
             errors.add(
                     String.format("Element %s has not the same %s as element %s. %s of %s is %s. %s of element is %s",
                             getQuotedName(),
@@ -302,7 +302,7 @@ public class UIElement {
     }
 
     public <V extends GroupElement<V>> void validateNotSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
-        if (hasEqualExtendAs(direction, element)) {
+        if (hasEqualExtendAs(element, direction)) {
             errors.add(
                     String.format("Element %s has the same %s as element %s. %s of %s is %s. %s of element is %s",
                             getQuotedName(),
