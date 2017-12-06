@@ -100,10 +100,6 @@ public abstract class ResponsiveUIValidatorBase {
 
     private void compileValidationReport() {
         if (isWithReport()) {
-            drawRootElement(drawableScreenshot);
-        }
-
-        if (isWithReport()) {
             drawOffsets(drawableScreenshot);
         }
 
