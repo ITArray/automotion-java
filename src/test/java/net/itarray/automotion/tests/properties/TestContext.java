@@ -31,8 +31,9 @@ public class TestContext implements Context {
         return pixels;
     }
 
-    public void setPixels(boolean pixels) {
+    public TestContext withPixels(boolean pixels) {
         this.pixels = pixels;
+        return this;
     }
 
     @Override
@@ -40,7 +41,8 @@ public class TestContext implements Context {
         return tolerance;
     }
 
-    public void setTolerance(Scalar tolerance) {
+    public TestContext withTolerance(Scalar tolerance) {
         this.tolerance = tolerance;
+        return this;
     }
 }

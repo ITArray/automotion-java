@@ -26,8 +26,7 @@ public class PagePercentageOrPixelsTest {
 
     @Test
     public void evaluatesToItsValueInAnyPercentageContext() {
-        TestContext context = new TestContext();
-        context.setPixels(false);
+        TestContext context = new TestContext().withPixels(false);
         assertThat(condition.evaluateIn(context, Direction.RIGHT)).isEqualTo(scalar(104));
     }
 
