@@ -1,5 +1,6 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
 import net.itarray.automotion.tools.helpers.Helper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
@@ -230,4 +231,15 @@ public abstract class ResponsiveUIValidatorBase {
         return getReport().getDrawingConfiguration();
     }
 
+    protected void drawVerticalLine(Scalar x) {
+        if (isWithReport()) {
+            drawableScreenshot.drawVerticalLine(x);
+        }
+    }
+
+    protected void drawHorizontalLine(Scalar y) {
+        if (isWithReport()) {
+            drawableScreenshot.drawHorizontalLine(y);
+        }
+    }
 }

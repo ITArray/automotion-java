@@ -613,28 +613,18 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void drawLeftOffsetLine() {
-        if (isWithReport()) {
-            drawableScreenshot.drawVerticalLine(rootElement.getX());
-        }
+        drawVerticalLine(rootElement.getX());
     }
 
     private void drawRightOffsetLine() {
-        if (isWithReport()) {
-            drawableScreenshot.drawVerticalLine(rootElement.getCorner().getX());
-        }
+        drawVerticalLine(rootElement.getCorner().getX());
     }
 
     private void drawTopOffsetLine() {
-        if (isWithReport()) {
-            drawableScreenshot.drawHorizontalLine(rootElement.getY());
-        }
+        drawHorizontalLine(rootElement.getY());
     }
 
     private void drawBottomOffsetLine() {
-        if (isWithReport()) {
-            drawableScreenshot.drawHorizontalLine(rootElement.getCorner().getY());
-        }
+        drawHorizontalLine(rootElement.getCorner().getY());
     }
-
-
 }
