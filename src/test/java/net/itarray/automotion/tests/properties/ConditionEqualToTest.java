@@ -10,7 +10,7 @@ import org.junit.Test;
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GreaterThanTest {
+public class ConditionEqualToTest {
 
     private Condition<Scalar> condition;
     private Scalar limit;
@@ -20,7 +20,7 @@ public class GreaterThanTest {
     @Before
     public void createProperty() {
         limit = scalar(7);
-        condition = Condition.greaterThan(limit);
+        condition = Condition.equalTo(limit);
         context = new TestContext();
         direction = Direction.RIGHT;
     }
@@ -32,14 +32,14 @@ public class GreaterThanTest {
     }
 
     @Test
-    public void isNotSatisfiedOnValuesEqualToTheLimit() {
+    public void isSatisfiedOnValuesEqualToTheLimit() {
         boolean result = condition.isSatisfiedOn(limit, context, direction);
-        assertThat(result).isFalse();
+        assertThat(result).isTrue();
     }
 
     @Test
-    public void isSatisfiedOnValuesGreaterThanTheLimit() {
+    public void isNotSatisfiedOnValuesGreaterThanTheLimit() {
         boolean result = condition.isSatisfiedOn(limit.plus(1), context, direction);
-        assertThat(result).isTrue();
+        assertThat(result).isFalse();
     }
 }

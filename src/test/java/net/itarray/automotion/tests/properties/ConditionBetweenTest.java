@@ -10,7 +10,7 @@ import org.junit.Test;
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BetweenTest {
+public class ConditionBetweenTest {
 
     private Condition<Scalar> condition;
     private Scalar lowerLimit;

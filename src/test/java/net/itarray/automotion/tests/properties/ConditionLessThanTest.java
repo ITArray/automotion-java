@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class LessThanTest {
+public class ConditionLessThanTest {
 
     private Condition<Scalar> condition;
     private Scalar limit;
