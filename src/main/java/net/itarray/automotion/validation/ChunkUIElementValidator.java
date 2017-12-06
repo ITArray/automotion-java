@@ -169,7 +169,7 @@ public interface ChunkUIElementValidator {
     @NotValid({
             @Scenario(chunk = "empty", oneOrMore = true),
     })
-    ChunkUIElementValidator areLeftAligned(); // ... draw line
+    ChunkUIElementValidator areLeftAligned();
     @Valid({
             @Scenario(chunk = "empty"),
             @Scenario(chunk = "one"),
