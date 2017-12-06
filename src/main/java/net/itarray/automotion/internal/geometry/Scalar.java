@@ -4,7 +4,7 @@ import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.validation.properties.Condition;
 import org.apache.commons.math3.fraction.Fraction;
 
-public class Scalar implements GroupElement<Scalar>, Comparable<Scalar> {
+public class Scalar implements MetricSpace<Scalar>, Comparable<Scalar> {
     private final Fraction fraction;
 
     private Scalar(int value) {
@@ -48,6 +48,10 @@ public class Scalar implements GroupElement<Scalar>, Comparable<Scalar> {
 
     public int intValue() { // todo: remove usages, this is introspection
         return fraction.intValue();
+    }
+
+    public Fraction fractionValue() {
+        return fraction;
     }
 
     public Scalar plus(int addend) {
@@ -113,5 +117,9 @@ public class Scalar implements GroupElement<Scalar>, Comparable<Scalar> {
 
     public Scalar max(Scalar other) {
         return isGreaterOrEqualTo(other) ? this : other;
+    }
+
+    public Scalar norm() {
+        return abs();
     }
 }

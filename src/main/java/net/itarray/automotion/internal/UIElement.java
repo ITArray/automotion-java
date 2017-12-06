@@ -2,7 +2,7 @@ package net.itarray.automotion.internal;
 
 import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.ExtendGiving;
-import net.itarray.automotion.internal.geometry.GroupElement;
+import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.internal.geometry.Interval;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
@@ -93,7 +93,7 @@ public class UIElement {
         return direction.end(rectangle);
     }
 
-    public <V extends GroupElement<V>> V getExtend(ExtendGiving<V> direction) {
+    public <V extends MetricSpace<V>> V getExtend(ExtendGiving<V> direction) {
         return direction.extend(rectangle);
     }
 
@@ -149,7 +149,7 @@ public class UIElement {
         return hasEqualBegin(other, UP);
     }
 
-    private <V extends GroupElement<V>> boolean hasEqualExtendAs(UIElement other, ExtendGiving<V> direction) {
+    private <V extends MetricSpace<V>> boolean hasEqualExtendAs(UIElement other, ExtendGiving<V> direction) {
         return getExtend(direction).equals(other.getExtend(direction));
     }
 
@@ -285,7 +285,7 @@ public class UIElement {
         validateSameExtend(RIGHT, element, errors);
     }
 
-    public <V extends GroupElement<V>> void validateSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
+    public <V extends MetricSpace<V>> void validateSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
         if (!hasEqualExtendAs(element, direction)) {
             errors.add(
                     String.format("Element %s has not the same %s as element %s. %s of %s is %s. %s of element is %s",
@@ -301,7 +301,7 @@ public class UIElement {
         }
     }
 
-    public <V extends GroupElement<V>> void validateNotSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
+    public <V extends MetricSpace<V>> void validateNotSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
         if (hasEqualExtendAs(element, direction)) {
             errors.add(
                     String.format("Element %s has the same %s as element %s. %s of %s is %s. %s of element is %s",

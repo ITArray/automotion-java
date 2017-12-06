@@ -1,6 +1,6 @@
 package net.itarray.automotion.internal.geometry;
 
-public interface ExtendGiving<V extends GroupElement<V>> {
+public interface ExtendGiving<V extends MetricSpace<V>> {
     String extendName();
     V begin(Rectangle rectangle);
     V end(Rectangle rectangle);

@@ -16,8 +16,8 @@ public class VectorTest {
 
     @Before
     public void createVector() {
-        x = scalar(10);
-        y = scalar(23);
+        x = scalar(5);
+        y = scalar(12);
         vector = new Vector(x, y);
     }
 
@@ -55,7 +55,7 @@ public class VectorTest {
 
     @Test
     public void toStringWithUnitsAppendsTheUnitsToEachCoordinate() {
-        assertThat(vector.toStringWithUnits("px")).isEqualTo("10px x 23px");
+        assertThat(vector.toStringWithUnits("px")).isEqualTo("5px x 12px");
     }
 
     @Test
@@ -68,5 +68,10 @@ public class VectorTest {
     public void plusReturnsAVectorWithValueEqualToTheSumOfValueAndTheAddendValueInBothDimensions() {
         Vector addend = new Vector(2, 3);
         assertThat(vector.plus(addend)).isEqualTo(new Vector(x.plus(2), y.plus(3)));
+    }
+
+    @Test
+    public void normReturnsTheEuklideanDistanceToTheOrigin() {
+        assertThat(vector.norm()).isEqualTo(scalar(13));
     }
 }

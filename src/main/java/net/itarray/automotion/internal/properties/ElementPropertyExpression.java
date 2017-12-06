@@ -3,7 +3,7 @@ package net.itarray.automotion.internal.properties;
 import net.itarray.automotion.internal.UIElement;
 import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.ExtendGiving;
-import net.itarray.automotion.internal.geometry.GroupElement;
+import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.validation.properties.Expression;
 
 import java.util.function.Function;
@@ -18,7 +18,7 @@ public class ElementPropertyExpression<T> implements Expression<T> {
         this.property = new ElementProperty<>(property, descriptionFormat, name);
     }
 
-    public static <V extends GroupElement<V>> ElementPropertyExpression<V> extend(ExtendGiving<V> direction, UIElement element) {
+    public static <V extends MetricSpace<V>> ElementPropertyExpression<V> extend(ExtendGiving<V> direction, UIElement element) {
         return new ElementPropertyExpression<>(element, e -> e.getExtend(direction), direction.extendName() +
                     " of element %s", direction.extendName());
     }
