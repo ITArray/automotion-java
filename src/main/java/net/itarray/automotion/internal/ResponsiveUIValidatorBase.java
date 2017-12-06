@@ -231,15 +231,15 @@ public abstract class ResponsiveUIValidatorBase {
         return getReport().getDrawingConfiguration();
     }
 
-    protected void drawVerticalLine(Scalar x) {
+    protected void drawHorizontalLine(Vector onLine) {
         if (isWithReport()) {
-            drawableScreenshot.drawVerticalLine(x);
+            drawableScreenshot.drawHorizontalLine(onLine.getY());
         }
     }
 
-    protected void drawHorizontalLine(Scalar y) {
+    protected void drawVerticalLine(Vector onLine) {
         if (isWithReport()) {
-            drawableScreenshot.drawHorizontalLine(y);
+            drawableScreenshot.drawVerticalLine(onLine.getX());
         }
     }
 

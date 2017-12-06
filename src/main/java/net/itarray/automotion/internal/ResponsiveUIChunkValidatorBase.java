@@ -3,6 +3,7 @@ package net.itarray.automotion.internal;
 import net.itarray.automotion.internal.geometry.ConnectedIntervals;
 import net.itarray.automotion.internal.geometry.Interval;
 import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.geometry.Vector;
 import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
@@ -325,7 +326,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             element.validateRightAlignedWith(elementToCompare, errors);
         }
         if (errors.getMessages().size() != oldErrorsSize) {
-            drawVerticalLine(elements.get(0).getCorner().getX());
+            Vector onLine = elements.get(0).getCorner();
+            drawVerticalLine(onLine);
         }
     }
 
@@ -337,7 +339,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             element.validateLeftAlignedWith(elementToCompare, errors);
         }
         if (errors.getMessages().size() != oldErrorsSize) {
-            drawVerticalLine(elements.get(0).getOrigin().getX());
+            drawVerticalLine(elements.get(0).getOrigin());
         }
     }
 
@@ -349,7 +351,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             element.validateTopAlignedWith(elementToCompare, errors);
         }
         if (errors.getMessages().size() != oldErrorsSize) {
-            drawHorizontalLine(elements.get(0).getOrigin().getY());
+            drawHorizontalLine(elements.get(0).getOrigin());
         }
     }
 
@@ -361,7 +363,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             element.validateBottomAlignedWith(elementToCompare, this.errors);
         }
         if (errors.getMessages().size() != oldErrorsSize) {
-            drawHorizontalLine(elements.get(0).getCorner().getY());
+            drawHorizontalLine(elements.get(0).getCorner());
         }
     }
 
