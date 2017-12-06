@@ -1,5 +1,6 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
 import net.itarray.automotion.tools.helpers.Helper;
 
@@ -53,24 +54,14 @@ public class DrawableScreenshot {
         return drawingsOutput;
     }
 
-    public void drawLeftOffsetLine(UIElement rootElement) {
+    public void drawVerticalLine(Scalar x) {
         drawingConfiguration.setLinesStyle(graphics);
-        graphics.drawVerticalLine(rootElement.getX().intValue(), extend.getY().intValue());
+        graphics.drawVerticalLine(x.intValue(), extend.getY().intValue());
     }
 
-    public void drawRightOffsetLine(UIElement rootElement) {
+    public void drawHorizontalLine(Scalar y) {
         drawingConfiguration.setLinesStyle(graphics);
-        graphics.drawVerticalLine(rootElement.getCorner().getX().intValue(), extend.getY().intValue());
-    }
-
-    public void drawTopOffsetLine(UIElement rootElement) {
-        drawingConfiguration.setLinesStyle(graphics);
-        graphics.drawHorizontalLine(rootElement.getY().intValue(), extend.getX().intValue());
-    }
-
-    public void drawBottomOffsetLine(UIElement rootElement) {
-        drawingConfiguration.setLinesStyle(graphics);
-        graphics.drawHorizontalLine(rootElement.getCorner().getY().intValue(), extend.getX().intValue());
+        graphics.drawHorizontalLine(y.intValue(), extend.getX().intValue());
     }
 
     public void drawRectangle(int x, int y, int width, int height) {
