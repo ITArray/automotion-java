@@ -115,24 +115,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         return Condition.between(scalarExpression(minMargin)).and(scalarExpression(maxMargin));
     }
 
-    private boolean isPixels() {
-        return getUnits().equals(Units.PX);
-    }
-
-    private Context getContext() {
-        return new Context() {
-            @Override
-            public Rectangle getPageRectangle() {
-                return page.getRectangle();
-            }
-
-            @Override
-            public boolean isPixels() {
-                return UIValidatorBase.this.isPixels();
-            }
-        };
-    }
-
     /**
      * Verify that element which located top to is correct
      *

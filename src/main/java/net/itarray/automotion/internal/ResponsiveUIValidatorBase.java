@@ -1,7 +1,9 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
+import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.tools.helpers.Helper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -96,6 +98,25 @@ public abstract class ResponsiveUIValidatorBase {
 
         return !errors.hasMessages();
     }
+
+    protected boolean isPixels() {
+        return getUnits().equals(Units.PX);
+    }
+
+    protected Context getContext() {
+        return new Context() {
+            @Override
+            public Rectangle getPageRectangle() {
+                return page.getRectangle();
+            }
+
+            @Override
+            public boolean isPixels() {
+                return ResponsiveUIValidatorBase.this.isPixels();
+            }
+        };
+    }
+
 
     protected abstract String getNameOfToBeValidated();
 
