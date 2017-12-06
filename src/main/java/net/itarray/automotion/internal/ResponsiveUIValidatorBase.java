@@ -15,6 +15,7 @@ import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static net.itarray.automotion.validation.Constants.*;
 
 public abstract class ResponsiveUIValidatorBase {
@@ -26,6 +27,7 @@ public abstract class ResponsiveUIValidatorBase {
     private final DriverFacade driver;
     private final double zoomFactor;
     private DrawableScreenshot drawableScreenshot;
+    private Scalar tolerance;
 
     protected ResponsiveUIValidatorBase(UISnapshot snapshot) {
         this.snapshot = snapshot;
@@ -35,6 +37,7 @@ public abstract class ResponsiveUIValidatorBase {
         Dimension dimension = this.driver.retrievePageSize();
         this.page = UIElement.asElement(new net.itarray.automotion.internal.geometry.Rectangle(0, 0, dimension.getWidth(), dimension.getHeight()), "page");
         this.startTime = System.currentTimeMillis();
+        tolerance = scalar(0);
     }
 
     protected void doSnapshot() {
@@ -114,6 +117,9 @@ public abstract class ResponsiveUIValidatorBase {
             public boolean isPixels() {
                 return ResponsiveUIValidatorBase.this.isPixels();
             }
+
+            @Override
+            public Scalar getTolerance() { return tolerance; }
         };
     }
 
