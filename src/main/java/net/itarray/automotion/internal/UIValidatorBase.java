@@ -31,7 +31,6 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     private static final int MIN_OFFSET = -10000;
 
-    private final OffsetLineCommands offsetLineCommands = new OffsetLineCommands();
     private final UIElement rootElement;
 
 
@@ -615,25 +614,25 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     private void drawLeftOffsetLine() {
         if (isWithReport()) {
-            drawableScreenshot.drawLeftOffsetLine(rootElement, offsetLineCommands);
+            drawableScreenshot.drawLeftOffsetLine(rootElement);
         }
     }
 
     private void drawRightOffsetLine() {
         if (isWithReport()) {
-            drawableScreenshot.drawRightOffsetLine(rootElement, offsetLineCommands);
+            drawableScreenshot.drawRightOffsetLine(rootElement);
         }
     }
 
     private void drawTopOffsetLine() {
         if (isWithReport()) {
-            drawableScreenshot.drawTopOffsetLine(rootElement, offsetLineCommands);
+            drawableScreenshot.drawTopOffsetLine(rootElement);
         }
     }
 
     private void drawBottomOffsetLine() {
         if (isWithReport()) {
-            drawableScreenshot.drawBottomOffsetLine(rootElement, offsetLineCommands);
+            drawableScreenshot.drawBottomOffsetLine(rootElement);
         }
     }
 

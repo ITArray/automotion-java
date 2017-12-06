@@ -53,20 +53,24 @@ public class DrawableScreenshot {
         return drawingsOutput;
     }
 
-    public void drawLeftOffsetLine(UIElement rootElement, OffsetLineCommands offsetLineCommands) {
-        offsetLineCommands.drawLeftOffsetLine(graphics, extend, rootElement, drawingConfiguration);
+    public void drawLeftOffsetLine(UIElement rootElement) {
+        drawingConfiguration.setLinesStyle(graphics);
+        graphics.drawVerticalLine(rootElement.getX().intValue(), extend.getY().intValue());
     }
 
-    public void drawRightOffsetLine(UIElement rootElement, OffsetLineCommands offsetLineCommands) {
-        offsetLineCommands.drawRightOffsetLine(graphics, extend, rootElement, drawingConfiguration);
+    public void drawRightOffsetLine(UIElement rootElement) {
+        drawingConfiguration.setLinesStyle(graphics);
+        graphics.drawVerticalLine(rootElement.getCorner().getX().intValue(), extend.getY().intValue());
     }
 
-    public void drawTopOffsetLine(UIElement rootElement, OffsetLineCommands offsetLineCommands) {
-        offsetLineCommands.drawTopOffsetLine(graphics, extend, rootElement, drawingConfiguration);
+    public void drawTopOffsetLine(UIElement rootElement) {
+        drawingConfiguration.setLinesStyle(graphics);
+        graphics.drawHorizontalLine(rootElement.getY().intValue(), extend.getX().intValue());
     }
 
-    public void drawBottomOffsetLine(UIElement rootElement, OffsetLineCommands offsetLineCommands) {
-        offsetLineCommands.drawBottomOffsetLine(graphics, extend, rootElement, drawingConfiguration);
+    public void drawBottomOffsetLine(UIElement rootElement) {
+        drawingConfiguration.setLinesStyle(graphics);
+        graphics.drawHorizontalLine(rootElement.getCorner().getY().intValue(), extend.getX().intValue());
     }
 
     public void drawRectangle(int x, int y, int width, int height) {
