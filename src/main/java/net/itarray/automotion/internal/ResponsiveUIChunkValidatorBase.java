@@ -23,7 +23,6 @@ import static net.itarray.automotion.internal.geometry.Interval.interval;
 public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase implements ChunkUIElementValidator {
 
     private final List<UIElement> rootElements;
-    //private final OffsetLineCommands offsetLineCommands = new OffsetLineCommands();
 
     public ResponsiveUIChunkValidatorBase(UISnapshot snapshot, List<WebElement> webElements, boolean allowEmpty) {
         super(snapshot);
@@ -202,7 +201,6 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     @Override
     public ResponsiveUIChunkValidatorBase areRightAligned() {
         validateRightAlignedWithChunk(asNumberedList(rootElements));
-        //offsetLineCommands.drawRightOffsetLine();
         return this;
     }
 
@@ -214,7 +212,6 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     @Override
     public ResponsiveUIChunkValidatorBase areLeftAligned() {
         validateLeftAlignedWithChunk(asNumberedList(rootElements));
-        //offsetLineCommands.drawLeftOffsetLine();
         return this;
     }
 
@@ -226,7 +223,6 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     @Override
     public ResponsiveUIChunkValidatorBase areTopAligned() {
         validateTopAlignedWithChunk(asNumberedList(rootElements));
-        //offsetLineCommands.drawTopOffsetLine();
         return this;
     }
 
@@ -238,7 +234,6 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     @Override
     public ResponsiveUIChunkValidatorBase areBottomAligned() {
         validateBottomAlignedWithChunk(asNumberedList(rootElements));
-        //offsetLineCommands.drawBottomOffsetLine();
         return this;
     }
 
@@ -323,34 +318,50 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     }
 
     private void validateRightAlignedWithChunk(List<UIElement> elements) {
+        int oldErrorsSize = errors.getMessages().size();
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             element.validateRightAlignedWith(elementToCompare, errors);
         }
+        if (errors.getMessages().size() != oldErrorsSize) {
+            drawVerticalLine(elements.get(0).getCorner().getX());
+        }
     }
 
     private void validateLeftAlignedWithChunk(List<UIElement> elements) {
+        int oldErrorsSize = errors.getMessages().size();
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             element.validateLeftAlignedWith(elementToCompare, errors);
         }
+        if (errors.getMessages().size() != oldErrorsSize) {
+            drawVerticalLine(elements.get(0).getOrigin().getX());
+        }
     }
 
     private void validateTopAlignedWithChunk(List<UIElement> elements) {
+        int oldErrorsSize = errors.getMessages().size();
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             element.validateTopAlignedWith(elementToCompare, errors);
         }
+        if (errors.getMessages().size() != oldErrorsSize) {
+            drawHorizontalLine(elements.get(0).getOrigin().getY());
+        }
     }
 
     private void validateBottomAlignedWithChunk(List<UIElement> elements) {
+        int oldErrorsSize = errors.getMessages().size();
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             element.validateBottomAlignedWith(elementToCompare, this.errors);
+        }
+        if (errors.getMessages().size() != oldErrorsSize) {
+            drawHorizontalLine(elements.get(0).getCorner().getY());
         }
     }
 
