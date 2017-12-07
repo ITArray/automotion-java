@@ -2,6 +2,8 @@ package net.itarray.automotion.internal.properties;
 
 import com.webfirmframework.wffweb.tag.html.formatting.S;
 import net.itarray.automotion.internal.geometry.Direction;
+import net.itarray.automotion.internal.geometry.ExtendGiving;
+import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.validation.properties.Expression;
@@ -28,12 +30,12 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
     }
 
     @Override
-    public boolean isSatisfiedOn(Scalar value, Context context, Direction direction) {
+    public <V extends MetricSpace<V>> boolean isSatisfiedOn(Scalar value, Context context, ExtendGiving<V> direction) {
         return applyTo(value, fixedOperand.evaluateIn(context, direction));
     }
 
     @Override
-    public String getDescription(Context context, Direction direction) {
+    public <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction) {
         return String.format(toStringFormat, fixedOperand.getDescription(context, direction));
     }
 

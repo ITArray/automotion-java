@@ -1,6 +1,7 @@
 package net.itarray.automotion.validation.properties;
 
 import net.itarray.automotion.internal.geometry.Direction;
+import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.BinaryExpression;
@@ -43,11 +44,11 @@ public interface Expression<T> {
                 "%s to be equal to %s");
     }
 
-    T evaluateIn(Context context, Direction direction);
+    <V extends MetricSpace<V>> T evaluateIn(Context context, ExtendGiving<V> direction);
 
-    String getDescription(Context context, Direction direction);
+    <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction);
 
-    default String getRepeatedDescription(Context context, Direction direction) {
+    default <V extends MetricSpace<V>> String getRepeatedDescription(Context context, ExtendGiving<V> direction) {
         return getDescription(context, direction);
     }
 

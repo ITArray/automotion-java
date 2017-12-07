@@ -24,17 +24,17 @@ public class ElementPropertyExpression<T> implements Expression<T> {
     }
 
     @Override
-    public T evaluateIn(Context context, Direction direction) {
+    public <V extends MetricSpace<V>> T evaluateIn(Context context, ExtendGiving<V> direction) {
         return property.evaluateOn(element);
     }
 
     @Override
-    public String getDescription(Context context, Direction direction) {
+    public <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction) {
         return property.getDescriptionFor(element);
     }
 
     @Override
-    public String getRepeatedDescription(Context context, Direction direction) {
+    public <V extends MetricSpace<V>> String getRepeatedDescription(Context context, ExtendGiving<V> direction) {
         return property.getName();
     }
 

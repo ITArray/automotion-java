@@ -1,6 +1,8 @@
 package net.itarray.automotion.validation.properties;
 
 import net.itarray.automotion.internal.geometry.Direction;
+import net.itarray.automotion.internal.geometry.ExtendGiving;
+import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Between;
 import net.itarray.automotion.internal.properties.BinaryScalarConditionWithFixedOperand;
@@ -114,7 +116,7 @@ public interface Condition<T> {
         }
     }
 
-    default boolean isSatisfiedOn(T value, Context context, Direction direction) {
+    default <V extends MetricSpace<V>> boolean isSatisfiedOn(T value, Context context, ExtendGiving<V> direction) {
         return applyTo(new ConstantExpression<T>(value)).evaluateIn(context, direction);
     }
 
@@ -122,5 +124,5 @@ public interface Condition<T> {
         return new ConditionedExpression<>(toBeConditioned, this);
     }
 
-    String getDescription(Context context, Direction direction);
+    <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction);
 }
