@@ -152,8 +152,8 @@ public class UIElement {
     private <V extends MetricSpace<V>> boolean hasEqualExtendAs(UIElement other, ExtendGiving<V> direction, Context context) {
         Expression<Boolean> equal = Expression.equalTo(
                 ElementPropertyExpression.extend(direction, this),
-                ElementPropertyExpression.extend(direction, this));
-        return getExtend(direction).equals(other.getExtend(direction));
+                ElementPropertyExpression.extend(direction, other));
+        return equal.evaluateIn(context, direction);
     }
 
     public boolean hasSameWidthAs(UIElement other, Context context) {
