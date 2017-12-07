@@ -19,7 +19,7 @@ public class PagePercentage implements Expression<Scalar> {
     @Override
     public <V extends MetricSpace<V>> Scalar evaluateIn(Context context, ExtendGiving<V> direction) {
         Rectangle page = context.getPageRectangle();
-        Scalar screenExtend = direction.extend(page).norm();
+        Scalar screenExtend = direction.extend(page).norm(); // todo: behaviour for Vectors
         return percentage.times(screenExtend).by(scalar(100));
     }
 

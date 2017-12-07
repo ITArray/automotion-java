@@ -118,7 +118,7 @@ public interface ChunkUIElementValidator {
     @NotValid({
             @Scenario(chunk = "empty", oneOrMore = true),
     })
-    ChunkUIElementValidator haveEqualSize(); // tolerance
+    ChunkUIElementValidator haveEqualSize();
     @Valid({
             @Scenario(chunk = "empty"),
             @Scenario(chunk = "one"),
