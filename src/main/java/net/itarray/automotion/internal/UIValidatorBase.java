@@ -1,9 +1,7 @@
 package net.itarray.automotion.internal;
 
 import net.itarray.automotion.internal.geometry.Direction;
-import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.internal.properties.PixelConstant;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -312,7 +310,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasEqualWidthAs(WebElement element, String readableName) {
-        rootElement.validateSameWidth(asElement(element, readableName), errors);
+        rootElement.validateSameWidth(asElement(element, readableName), getContext(), errors);
         return this;
     }
 
@@ -325,7 +323,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase hasEqualWidthAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            rootElement.validateSameWidth(asElement(element), errors);
+            rootElement.validateSameWidth(asElement(element), getContext(), errors);
         }
         return this;
     }
@@ -344,7 +342,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasEqualHeightAs(WebElement element, String readableName) {
-        rootElement.validateSameHeight(asElement(element, readableName), errors);
+        rootElement.validateSameHeight(asElement(element, readableName), getContext(), errors);
         return this;
     }
 
@@ -357,7 +355,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase hasEqualHeightAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            rootElement.validateSameHeight(asElement(element), errors);
+            rootElement.validateSameHeight(asElement(element), getContext(), errors);
         }
         return this;
     }
@@ -376,7 +374,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasEqualSizeAs(WebElement element, String readableName) {
-        rootElement.validateSameSize(asElement(element, readableName), errors);
+        rootElement.validateSameSize(asElement(element, readableName), getContext(), errors);
         return this;
     }
 
@@ -389,7 +387,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase hasEqualSizeAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            rootElement.validateSameSize(asElement(element), errors);
+            rootElement.validateSameSize(asElement(element), getContext(), errors);
         }
         return this;
     }
@@ -573,7 +571,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     private void validateNotSameSize(UIElement element) {
-        rootElement.validateNotSameSize(element, errors);
+        rootElement.validateNotSameSize(element, getContext(), errors);
     }
 
     @Override

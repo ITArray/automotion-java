@@ -85,7 +85,7 @@ public class ErrorMessagesRegressionTest {
         createChunkValidator(createElement(105, 200, 500, 400)).areLeftAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element #1 has not the same left offset as element #2");
+                .isEqualTo("Element #1:[(100,200) - 400x200] has not the same left offset as element #2:[(105,200) - 395x200]");
     }
 
     @Test
@@ -109,7 +109,7 @@ public class ErrorMessagesRegressionTest {
         createChunkValidator(createElement(100, 200, 505, 400)).areRightAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element #1 has not the same right offset as element #2");
+                .isEqualTo("Element #1:[(100,200) - 400x200] has not the same right offset as element #2:[(100,200) - 405x200]");
     }
 
     @Test
@@ -133,7 +133,7 @@ public class ErrorMessagesRegressionTest {
         createChunkValidator(createElement(100, 205, 500, 400)).areTopAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element #1 has not the same top offset as element #2");
+                .isEqualTo("Element #1:[(100,200) - 400x200] has not the same top offset as element #2:[(100,205) - 400x195]");
     }
 
     @Test
@@ -157,7 +157,7 @@ public class ErrorMessagesRegressionTest {
         createChunkValidator(createElement(100, 200, 500, 405)).areBottomAligned();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element #1 has not the same bottom offset as element #2");
+                .isEqualTo("Element #1:[(100,200) - 400x200] has not the same bottom offset as element #2:[(100,200) - 400x205]");
     }
 
     @Test
@@ -241,6 +241,14 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
+    public void haveEqualWidthChunk() {
+        createChunkValidator(createElement(100, 200, 505, 405)).haveEqualWidth();
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element #2:[(100,200) - 405x205] has different width than element #1:[(100,200) - 400x200].");
+    }
+
+    @Test
     public void sameHeightAs() {
         createElementValidator().hasEqualHeightAs(createElement(100, 200, 505, 405), "specifying");
         Errors errors = base.getErrors();
@@ -257,11 +265,27 @@ public class ErrorMessagesRegressionTest {
     }
 
     @Test
+    public void haveEqualHeightChunk() {
+        createChunkValidator(createElement(100, 200, 505, 405)).haveEqualHeight();
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element #2:[(100,200) - 405x205] has different height than element #1:[(100,200) - 400x200].");
+    }
+
+    @Test
     public void sameSizeAs() {
         createElementValidator().hasEqualSizeAs(createElement(100, 200, 505, 405), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
                 .isEqualTo("Element 'under test' has not the same size as element 'specifying'. Size of 'under test' is 400px x 200px. Size of element is 405px x 205px");
+    }
+
+    @Test
+    public void haveEqualSizeChunk() {
+        createChunkValidator(createElement(100, 200, 505, 405)).haveEqualSize();
+        Errors errors = base.getErrors();
+        assertThat(errors.getLastMessage())
+                .isEqualTo("Element #2:[(100,200) - 405x205] has different size than element #1:[(100,200) - 400x200].");
     }
 
     @Test

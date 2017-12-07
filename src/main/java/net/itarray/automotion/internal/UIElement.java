@@ -66,7 +66,7 @@ public class UIElement {
         ArrayList<UIElement> numbered = new ArrayList<>(elements.size());
         for (int i = 0; i < elements.size(); i++) {
             UIElement element = elements.get(i);
-            numbered.add(new UIElement(String.format("#%d", i+1), element.rectangle, element.cssSource, false));
+            numbered.add(new UIElement(String.format("#%d:%s", i+1, element.rectangle), element.rectangle, element.cssSource, false));
         }
         return numbered;
     }
@@ -149,20 +149,23 @@ public class UIElement {
         return hasEqualBegin(other, UP);
     }
 
-    private <V extends MetricSpace<V>> boolean hasEqualExtendAs(UIElement other, ExtendGiving<V> direction) {
+    private <V extends MetricSpace<V>> boolean hasEqualExtendAs(UIElement other, ExtendGiving<V> direction, Context context) {
+        Expression<Boolean> equal = Expression.equalTo(
+                ElementPropertyExpression.extend(direction, this),
+                ElementPropertyExpression.extend(direction, this));
         return getExtend(direction).equals(other.getExtend(direction));
     }
 
-    public boolean hasSameWidthAs(UIElement other) {
-        return hasEqualExtendAs(other, RIGHT);
+    public boolean hasSameWidthAs(UIElement other, Context context) {
+        return hasEqualExtendAs(other, RIGHT, context);
     }
 
-    public boolean hasSameHeightAs(UIElement other) {
-        return hasEqualExtendAs(other, DOWN);
+    public boolean hasSameHeightAs(UIElement other, Context context) {
+        return hasEqualExtendAs(other, DOWN, context);
     }
 
-    public boolean hasSameSizeAs(UIElement other) {
-        return hasEqualExtendAs(other, Rectangle.ORIGIN_CORNER);
+    public boolean hasSameSizeAs(UIElement other, Context context) {
+        return hasEqualExtendAs(other, Rectangle.ORIGIN_CORNER, context);
     }
 
     public boolean overlaps(UIElement other) {
@@ -273,20 +276,20 @@ public class UIElement {
         }
     }
 
-    public void validateSameSize(UIElement element, Errors errors) {
-        validateSameExtend(ORIGIN_CORNER, element, errors);
+    public void validateSameSize(UIElement element, Context context, Errors errors) {
+        validateSameExtend(ORIGIN_CORNER, element, context, errors);
     }
 
-    public void validateSameHeight(UIElement element, Errors errors) {
-        validateSameExtend(DOWN, element, errors);
+    public void validateSameHeight(UIElement element, Context context, Errors errors) {
+        validateSameExtend(DOWN, element, context, errors);
     }
 
-    public void validateSameWidth(UIElement element, Errors errors) {
-        validateSameExtend(RIGHT, element, errors);
+    public void validateSameWidth(UIElement element, Context context, Errors errors) {
+        validateSameExtend(RIGHT, element, context, errors);
     }
 
-    public <V extends MetricSpace<V>> void validateSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
-        if (!hasEqualExtendAs(element, direction)) {
+    public <V extends MetricSpace<V>> void validateSameExtend(ExtendGiving<V> direction, UIElement element, Context context, Errors errors) {
+        if (!hasEqualExtendAs(element, direction, context)) {
             errors.add(
                     String.format("Element %s has not the same %s as element %s. %s of %s is %s. %s of element is %s",
                             getQuotedName(),
@@ -301,8 +304,8 @@ public class UIElement {
         }
     }
 
-    public <V extends MetricSpace<V>> void validateNotSameExtend(ExtendGiving<V> direction, UIElement element, Errors errors) {
-        if (hasEqualExtendAs(element, direction)) {
+    public <V extends MetricSpace<V>> void validateNotSameExtend(ExtendGiving<V> direction, UIElement element, Context context, Errors errors) {
+        if (hasEqualExtendAs(element, direction, context)) {
             errors.add(
                     String.format("Element %s has the same %s as element %s. %s of %s is %s. %s of element is %s",
                             getQuotedName(),
@@ -317,8 +320,8 @@ public class UIElement {
         }
     }
 
-    public void validateNotSameSize(UIElement element, Errors errors) {
-        validateNotSameExtend(ORIGIN_CORNER, element, errors);
+    public void validateNotSameSize(UIElement element, Context context, Errors errors) {
+        validateNotSameExtend(ORIGIN_CORNER, element, context, errors);
     }
 
 
