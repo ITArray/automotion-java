@@ -28,11 +28,6 @@ public class Errors {
         messages.add(details);
     }
 
-    public void add(String message, UIElement element) {
-        add(message);
-        draw(element);
-    }
-
     public void draw(UIElement element) {
         int x = element.getOrigin().getX().intValue();
         int y = element.getOrigin().getY().intValue();

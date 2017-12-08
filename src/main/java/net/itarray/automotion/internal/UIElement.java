@@ -223,12 +223,11 @@ public class UIElement {
 
     public void validateEqualEnd(Direction direction, UIElement element, Errors errors) {
         if (!hasEqualEnd(element, direction)) {
-            errors.add(
-                    String.format("Element %s has not the same %s offset as element %s",
-                            getQuotedName(),
-                            direction.endName(),
-                            element.getQuotedName()),
-                    element);
+            errors.add(String.format("Element %s has not the same %s offset as element %s",
+                                getQuotedName(),
+                                direction.endName(),
+                                element.getQuotedName()));
+            errors.draw(element);
         }
     }
 
@@ -246,33 +245,31 @@ public class UIElement {
 
     public <V extends MetricSpace<V>> void validateSameExtend(ExtendGiving<V> direction, UIElement element, Context context, Errors errors) {
         if (!hasEqualExtendAs(element, direction, context)) {
-            errors.add(
-                    String.format("Element %s has not the same %s as element %s. %s of %s is %s. %s of element is %s",
-                            getQuotedName(),
-                            direction.extendName(),
-                            element.getQuotedName(),
-                            capitalize(direction.extendName()),
-                            getQuotedName(),
-                            direction.extend(rectangle).toStringWithUnits(PIXELS),
-                            capitalize(direction.extendName()),
-                            direction.extend(element.rectangle).toStringWithUnits(PIXELS)),
-                    element);
+            errors.add(String.format("Element %s has not the same %s as element %s. %s of %s is %s. %s of element is %s",
+                                getQuotedName(),
+                                direction.extendName(),
+                                element.getQuotedName(),
+                                capitalize(direction.extendName()),
+                                getQuotedName(),
+                                direction.extend(rectangle).toStringWithUnits(PIXELS),
+                                capitalize(direction.extendName()),
+                                direction.extend(element.rectangle).toStringWithUnits(PIXELS)));
+            errors.draw(element);
         }
     }
 
     public <V extends MetricSpace<V>> void validateNotSameExtend(ExtendGiving<V> direction, UIElement element, Context context, Errors errors) {
         if (hasEqualExtendAs(element, direction, context)) {
-            errors.add(
-                    String.format("Element %s has the same %s as element %s. %s of %s is %s. %s of element is %s",
-                            getQuotedName(),
-                            direction.extendName(),
-                            element.getQuotedName(),
-                            capitalize(direction.extendName()),
-                            getQuotedName(),
-                            direction.extend(rectangle).toStringWithUnits(PIXELS),
-                            capitalize(direction.extendName()),
-                            direction.extend(element.rectangle).toStringWithUnits(PIXELS)),
-                    element);
+            errors.add(String.format("Element %s has the same %s as element %s. %s of %s is %s. %s of element is %s",
+                                getQuotedName(),
+                                direction.extendName(),
+                                element.getQuotedName(),
+                                capitalize(direction.extendName()),
+                                getQuotedName(),
+                                direction.extend(rectangle).toStringWithUnits(PIXELS),
+                                capitalize(direction.extendName()),
+                                direction.extend(element.rectangle).toStringWithUnits(PIXELS)));
+            errors.draw(element);
         }
     }
 
@@ -300,32 +297,29 @@ public class UIElement {
     public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Context context, Errors errors) {
         Scalar signedDistance = signedDistanceToSuccessor(direction, toBeValidatedSuccessor);
         if (!signedDistance.satisfies(condition, context, direction)) {
-            errors.add(
-                    String.format("%s element aligned not properly. Expected margin should be %s. Actual margin is %s",
-                            direction.afterName(),
-                            condition.getDescription(context, direction),
-                            signedDistance.toStringWithUnits(PIXELS)),
-                    toBeValidatedSuccessor);
+            errors.add(String.format("%s element aligned not properly. Expected margin should be %s. Actual margin is %s",
+                                direction.afterName(),
+                                condition.getDescription(context, direction),
+                                signedDistance.toStringWithUnits(PIXELS)));
+            errors.draw(toBeValidatedSuccessor);
         }
     }
 
     public void validateOverlappingWithElement(UIElement element, Errors errors) {
         if (!overlaps(element)) {
-            errors.add(
-                    String.format("Element %s is not overlapped with element %s but should be",
-                            getQuotedName(),
-                            element.getQuotedName()),
-                    element);
+            errors.add(String.format("Element %s is not overlapped with element %s but should be",
+                                getQuotedName(),
+                                element.getQuotedName()));
+            errors.draw(element);
         }
     }
 
     public void validateNotOverlappingWithElement(UIElement element, Errors errors) {
         if (overlaps(element)) {
-            errors.add(
-                    String.format("Element %s is overlapped with element %s but should not",
-                            getQuotedName(),
-                            element.getQuotedName()),
-                    element);
+            errors.add(String.format("Element %s is overlapped with element %s but should not",
+                                getQuotedName(),
+                                element.getQuotedName()));
+            errors.draw(element);
         }
     }
 
@@ -368,16 +362,15 @@ public class UIElement {
     private void validateCentered(Direction direction, UIElement page, Context context, Errors errors) {
         Direction opposite = direction.opposite();
         if (!hasEqualOppositeOffsets(direction, page, context)) {
-            errors.add(
-                    String.format("Element %s has not equal %s and %s offset. %s offset is %s, %s is %s",
-                            getQuotedName(),
-                            opposite.endName(),
-                            direction.endName(),
-                            capitalize(opposite.endName()),
-                            getOffset(opposite, page).toStringWithUnits(PIXELS),
-                            direction.endName(),
-                            getOffset(direction, page).toStringWithUnits(PIXELS)),
-                    this);
+            errors.add(String.format("Element %s has not equal %s and %s offset. %s offset is %s, %s is %s",
+                                getQuotedName(),
+                                opposite.endName(),
+                                direction.endName(),
+                                capitalize(opposite.endName()),
+                                getOffset(opposite, page).toStringWithUnits(PIXELS),
+                                direction.endName(),
+                                getOffset(direction, page).toStringWithUnits(PIXELS)));
+            errors.draw(this);
         }
     }
 
@@ -436,11 +429,10 @@ public class UIElement {
 
     public void validateInsideOfContainer(UIElement containerElement, Errors errors) {
         if (!containerElement.contains(this)) {
-            errors.add(
-                    String.format("Element '%s' is not inside of '%s'",
-                            getName(),
-                            containerElement.getName()),
-                    containerElement);
+            errors.add(String.format("Element '%s' is not inside of '%s'",
+                                getName(),
+                                containerElement.getName()));
+            errors.draw(containerElement);
         }
     }
 
@@ -456,18 +448,17 @@ public class UIElement {
         Vector cornerOffset = getCorner().minus(element.getCorner());
 
         if (!element.contains(paddedRoot)) {
-            errors.add(
-                    String.format("Padding of element %s is incorrect. Expected padding: top[%s], right[%s], bottom[%s], left[%s]. Actual padding: top[%s], right[%s], bottom[%s], left[%s]",
-                            getQuotedName(),
-                            originPadding.getY(),
-                            cornerPadding.getX(),
-                            cornerPadding.getY(),
-                            originPadding.getX(),
-                            originOffset.getY(),
-                            cornerOffset.getX(),
-                            cornerOffset.getY(),
-                            originOffset.getX()),
-                    element);
+            errors.add(String.format("Padding of element %s is incorrect. Expected padding: top[%s], right[%s], bottom[%s], left[%s]. Actual padding: top[%s], right[%s], bottom[%s], left[%s]",
+                                getQuotedName(),
+                                originPadding.getY(),
+                                cornerPadding.getX(),
+                                cornerPadding.getY(),
+                                originPadding.getX(),
+                                originOffset.getY(),
+                                cornerOffset.getX(),
+                                cornerOffset.getY(),
+                                originOffset.getX()));
+            errors.draw(element);
         }
     }
 
