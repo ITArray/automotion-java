@@ -171,19 +171,19 @@ public class UIElement {
                 Condition.lessThan(getBottom()).isSatisfiedOn(other.getTop(), context, DOWN);
     }
 
-    public Scalar getOffset(Direction direction, UIElement page) {
+    private Scalar getOffset(Direction direction, UIElement page) {
         return direction.signedDistance(getEnd(direction), page.getEnd(direction));
     }
 
-    public boolean hasEqualOppositeOffsets(Direction direction, UIElement page, Context context) {
+    private boolean hasEqualOppositeOffsets(Direction direction, UIElement page, Context context) {
         return getOffset(direction, page).equals(getOffset(direction.opposite(), page));
     }
 
-    public boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
+    private boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
         return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualTo(scalar(0));
     }
 
-    public Scalar signedDistanceToSuccessor(Direction direction, UIElement successor) {
+    private Scalar signedDistanceToSuccessor(Direction direction, UIElement successor) {
         return direction.signedDistance(direction.end(rectangle), direction.begin(successor.rectangle));
     }
 
@@ -195,7 +195,7 @@ public class UIElement {
         return hasSuccessor(DOWN, bottomElement);
     }
 
-    public String getCssValue(String cssProperty) {
+    private String getCssValue(String cssProperty) {
         return cssSource.getCssValue(cssProperty);
     }
 
