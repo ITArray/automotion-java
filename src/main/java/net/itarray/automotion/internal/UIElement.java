@@ -176,23 +176,7 @@ public class UIElement {
         return direction.signedDistance(getEnd(direction), page.getEnd(direction));
     }
 
-    public Scalar getTopOffset(UIElement page) {
-        return getOffset(UP, page);
-    }
-
-    public Scalar getBottomOffset(UIElement page) {
-        return getOffset(DOWN, page);
-    }
-
-    public Scalar getLeftOffset(UIElement page) {
-        return getOffset(LEFT, page);
-    }
-
-    public Scalar getRightOffset(UIElement page) {
-        return getOffset(RIGHT, page);
-    }
-
-    public boolean hasEqualOppositeOffsets(Direction direction, UIElement page) {
+    public boolean hasEqualOppositeOffsets(Direction direction, UIElement page, Context context) {
         return getOffset(direction, page).equals(getOffset(direction.opposite(), page));
     }
 
@@ -426,17 +410,17 @@ public class UIElement {
         }
     }
 
-    public void validateCenteredOnVertically(UIElement page, Errors errors) {
-        validateCentered(RIGHT, page, errors);
+    public void validateCenteredOnVertically(UIElement page, Context context, Errors errors) {
+        validateCentered(RIGHT, page, context, errors);
     }
 
-    public void validateCenteredOnHorizontally(UIElement page, Errors errors) {
-        validateCentered(DOWN, page, errors);
+    public void validateCenteredOnHorizontally(UIElement page, Context context, Errors errors) {
+        validateCentered(DOWN, page, context, errors);
     }
 
-    public void validateCentered(Direction direction, UIElement page, Errors errors) {
+    private void validateCentered(Direction direction, UIElement page, Context context, Errors errors) {
         Direction opposite = direction.opposite();
-        if (!hasEqualOppositeOffsets(direction, page)) {
+        if (!hasEqualOppositeOffsets(direction, page, context)) {
             errors.add(
                     String.format("Element %s has not equal %s and %s offset. %s offset is %s, %s is %s",
                             getQuotedName(),

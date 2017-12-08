@@ -1,7 +1,5 @@
 package net.itarray.automotion.internal.properties;
 
-import com.webfirmframework.wffweb.tag.html.formatting.S;
-import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.internal.geometry.Scalar;
@@ -15,23 +13,23 @@ import static org.apache.commons.lang3.text.WordUtils.uncapitalize;
 
 public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> {
     private final Expression<Scalar> fixedOperand;
-    private final BiPredicate<Scalar, Scalar> predicate;
+    private final ContextBiFunction<Scalar, Scalar, Boolean> contextPredicate;
     private final String toStringFormat;
 
 
     public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, BiPredicate<Scalar, Scalar> predicate, String toStringFormat) {
-        this.fixedOperand = fixedOperand;
-        this.predicate = predicate;
-        this.toStringFormat = toStringFormat;
+        this(fixedOperand, (left, right, context) -> predicate.test(left, right), toStringFormat);
     }
 
-    protected boolean applyTo(Scalar operand, Scalar fixedOperand) {
-        return predicate.test(operand, fixedOperand);
+    public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, ContextBiFunction<Scalar, Scalar, Boolean> contextPredicate, String toStringFormat) {
+        this.fixedOperand = fixedOperand;
+        this.contextPredicate = contextPredicate;
+        this.toStringFormat = toStringFormat;
     }
 
     @Override
     public <V extends MetricSpace<V>> boolean isSatisfiedOn(Scalar value, Context context, ExtendGiving<V> direction) {
-        return applyTo(value, fixedOperand.evaluateIn(context, direction));
+        return contextPredicate.apply(value, fixedOperand.evaluateIn(context, direction), context);
     }
 
     @Override
@@ -41,7 +39,7 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
 
     @Override
     public String toString() {
-        return String.format("%s(%s)", uncapitalize(getClass().getSimpleName()), fixedOperand);
+        return String.format("%s(%s)", uncapitalize(getClass().getSimpleName()), fixedOperand); // todo: tolerance
     }
 
 
@@ -51,11 +49,11 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
             return false;
         }
         BinaryScalarConditionWithFixedOperand other = (BinaryScalarConditionWithFixedOperand) object;
-        return fixedOperand.equals(other.fixedOperand) && predicate.equals(other.predicate);
+        return fixedOperand.equals(other.fixedOperand) && contextPredicate.equals(other.contextPredicate);
     }
 
     @Override
     public int hashCode() {
-        return fixedOperand.hashCode() * 31 ^ predicate.hashCode();
+        return fixedOperand.hashCode() * 31 ^ contextPredicate.hashCode();
     }
 }

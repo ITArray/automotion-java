@@ -443,13 +443,13 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     private void validateCenteredOnPageVertically(List<UIElement> elements) {
         for (UIElement element : elements) {
-            element.validateCenteredOnVertically(page, errors);
+            element.validateCenteredOnVertically(page, getContext(), errors);
         }
     }
 
     private void validateCenteredOnPageHorizontally(List<UIElement> elements) {
         for (UIElement element : elements) {
-            element.validateCenteredOnHorizontally(page, errors);
+            element.validateCenteredOnHorizontally(page, getContext(), errors);
         }
     }
 

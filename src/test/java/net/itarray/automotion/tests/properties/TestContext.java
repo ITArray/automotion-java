@@ -45,4 +45,7 @@ public class TestContext implements Context {
         this.tolerance = tolerance;
         return this;
     }
+    public TestContext withTolerance(int tolerance) {
+        return withTolerance(scalar(1));
+    }
 }

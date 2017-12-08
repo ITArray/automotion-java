@@ -14,7 +14,7 @@ public class ConditionEqualToTest {
 
     private Condition<Scalar> condition;
     private Scalar limit;
-    private Context context;
+    private TestContext context;
     private Direction direction;
 
     @Before
@@ -27,19 +27,21 @@ public class ConditionEqualToTest {
 
     @Test
     public void isNotSatisfiedOnValuesSmallerThanTheLimit() {
-        boolean result = condition.isSatisfiedOn(limit.minus(1), context, direction);
-        assertThat(result).isFalse();
+        assertThat(condition.isSatisfiedOn(limit.minus(1), context, direction)).isFalse();
+        assertThat(condition.isSatisfiedOn(limit.minus(2), context.withTolerance(1), direction)).isFalse();
     }
 
     @Test
     public void isSatisfiedOnValuesEqualToTheLimit() {
-        boolean result = condition.isSatisfiedOn(limit, context, direction);
-        assertThat(result).isTrue();
+        assertThat(condition.isSatisfiedOn(limit, context, direction)).isTrue();
+        assertThat(condition.isSatisfiedOn(limit.minus(1), context.withTolerance(1), direction)).isTrue();
+        assertThat(condition.isSatisfiedOn(limit, context.withTolerance(1), direction)).isTrue();
+        assertThat(condition.isSatisfiedOn(limit.plus(1), context.withTolerance(1), direction)).isTrue();
     }
 
     @Test
     public void isNotSatisfiedOnValuesGreaterThanTheLimit() {
-        boolean result = condition.isSatisfiedOn(limit.plus(1), context, direction);
-        assertThat(result).isFalse();
+        assertThat(condition.isSatisfiedOn(limit.plus(1), context, direction)).isFalse();
+        assertThat(condition.isSatisfiedOn(limit.plus(2), context.withTolerance(1), direction)).isFalse();
     }
 }
