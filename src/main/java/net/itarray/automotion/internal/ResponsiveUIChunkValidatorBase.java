@@ -375,7 +375,6 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             if (!element.hasSameWidthAs(elementToCompare, getContext())) {
                 errors.add(String.format("Element %s has different width than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
                 errors.draw(element);
-                errors.add(String.format("Element %s has different width than element %s.", elementToCompare.getQuotedName(), element.getQuotedName()));
                 errors.draw(elementToCompare);
             }
         }
@@ -388,7 +387,6 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             if (!element.hasSameHeightAs(elementToCompare, getContext())) {
                 errors.add(String.format("Element %s has different height than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
                 errors.draw(element);
-                errors.add(String.format("Element %s has different height than element %s.", elementToCompare.getQuotedName(), element.getQuotedName()));
                 errors.draw(elementToCompare);
             }
         }
@@ -399,10 +397,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
             if (!element.hasSameSizeAs(elementToCompare, getContext())) {
-                // todo: one error message + visual feedback
                 errors.add(String.format("Element %s has different size than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
                 errors.draw(element);
-                errors.add(String.format("Element %s has different size than element %s.", elementToCompare.getQuotedName(), element.getQuotedName()));
                 errors.draw(elementToCompare);
             }
 
@@ -415,9 +411,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
                 UIElement elementToCompare = elements.get(secondIndex);
                 if (element.hasSameSizeAs(elementToCompare, getContext())) {
-                    errors.add(String.format("Element #%d has same size. Element size is: [%s, %s]", (firstIndex + 1), element.getWidth(), element.getHeight()));
+                    errors.add(String.format("Element %s has same size than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
                     errors.draw(element);
-                    errors.add(String.format("Element #%d has same size. Element size is: [%s, %s]", (secondIndex + 1), elementToCompare.getWidth(), elementToCompare.getHeight()));
                     errors.draw(elementToCompare);
                 }
             }
@@ -430,9 +425,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
                 UIElement elementToCompare = elements.get(secondIndex);
                 if (element.hasSameWidthAs(elementToCompare, getContext())) {
-                    errors.add(String.format("Element #%d has same width. Element width is: [%s, %s]", (firstIndex + 1), element.getWidth(), element.getHeight()));
+                    errors.add(String.format("Element %s has same width than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
                     errors.draw(element);
-                    errors.add(String.format("Element #%d has same width. Element width is: [%s, %s]", (secondIndex + 2), elementToCompare.getWidth(), elementToCompare.getHeight()));
                     errors.draw(elementToCompare);
                 }
             }
@@ -445,9 +439,8 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
                 UIElement elementToCompare = elements.get(secondIndex);
                 if (element.hasSameHeightAs(elementToCompare, getContext())) {
-                    errors.add(String.format("Element #%d has same height. Element height is: [%s, %s]", (firstIndex + 1), element.getWidth(), element.getHeight()));
+                    errors.add(String.format("Element %s has same height than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
                     errors.draw(element);
-                    errors.add(String.format("Element #%d has same height. Element height is: [%s, %s]", (secondIndex + 2), elementToCompare.getWidth(), elementToCompare.getHeight()));
                     errors.draw(elementToCompare);
                 }
             }

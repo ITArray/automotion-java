@@ -245,7 +245,7 @@ public class ErrorMessagesRegressionTest {
         createChunkValidator(createElement(100, 200, 505, 405)).haveEqualWidth();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element #2:[(100,200) - 405x205] has different width than element #1:[(100,200) - 400x200].");
+                .isEqualTo("Element #1:[(100,200) - 400x200] has different width than element #2:[(100,200) - 405x205].");
     }
 
     @Test
@@ -269,7 +269,7 @@ public class ErrorMessagesRegressionTest {
         createChunkValidator(createElement(100, 200, 505, 405)).haveEqualHeight();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element #2:[(100,200) - 405x205] has different height than element #1:[(100,200) - 400x200].");
+                .isEqualTo("Element #1:[(100,200) - 400x200] has different height than element #2:[(100,200) - 405x205].");
     }
 
     @Test
@@ -285,7 +285,7 @@ public class ErrorMessagesRegressionTest {
         createChunkValidator(createElement(100, 200, 505, 405)).haveEqualSize();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element #2:[(100,200) - 405x205] has different size than element #1:[(100,200) - 400x200].");
+                .isEqualTo("Element #1:[(100,200) - 400x200] has different size than element #2:[(100,200) - 405x205].");
     }
 
     @Test
