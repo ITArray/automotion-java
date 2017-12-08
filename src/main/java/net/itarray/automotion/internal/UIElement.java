@@ -125,28 +125,8 @@ public class UIElement {
         return rectangle.getCorner();
     }
 
-    private boolean hasEqualBegin(UIElement other, Direction direction) {
-        return getBegin(direction).equals(other.getBegin(direction));
-    }
-
     private boolean hasEqualEnd(UIElement other, Direction direction) {
         return getEnd(direction).equals(other.getEnd(direction));
-    }
-
-    public boolean hasEqualLeftOffsetAs(UIElement other) {
-        return hasEqualBegin(other, RIGHT);
-    }
-
-    public boolean hasEqualRightOffsetAs(UIElement other) {
-        return hasEqualBegin(other, LEFT);
-    }
-
-    public boolean hasEqualTopOffsetAs(UIElement other) {
-        return hasEqualBegin(other, DOWN);
-    }
-
-    public boolean hasEqualBottomOffsetAs(UIElement other) {
-        return hasEqualBegin(other, UP);
     }
 
     private <V extends MetricSpace<V>> boolean hasEqualExtendAs(UIElement other, ExtendGiving<V> direction, Context context) {
@@ -192,16 +172,8 @@ public class UIElement {
         return hasSuccessor(RIGHT, rightElement);
     }
 
-    public  boolean hasLeftElement(UIElement leftElement) {
-        return leftElement.hasSuccessor(RIGHT, this);
-    }
-
     public boolean hasBelowElement(UIElement bottomElement) {
         return hasSuccessor(DOWN, bottomElement);
-    }
-
-    public boolean hasAboveElement(UIElement aboveElement) {
-        return aboveElement.hasSuccessor(DOWN, this);
     }
 
     public String getCssValue(String cssProperty) {
@@ -309,45 +281,20 @@ public class UIElement {
     }
 
 
-    public void validateIsRightOf(UIElement leftElement, Errors errors) {
-        validateSuccessor(LEFT, leftElement, errors);
-    }
-
     public void validateIsRightOf(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
         validateSuccessor(LEFT, element, condition, context, errors);
-    }
-
-    public void validateIsLeftOf(UIElement rightElement, Errors errors) {
-        validateSuccessor(RIGHT, rightElement, errors);
     }
 
     public void validateIsLeftOf(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
         validateSuccessor(RIGHT, element, condition, context, errors);
     }
 
-    public void validateIsBelow(UIElement aboveElement, Errors errors) {
-        validateSuccessor(UP, aboveElement, errors);
-    }
-
     public void validateIsBelow(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
         validateSuccessor(UP, element, condition, context, errors);
     }
 
-    public void validateIsAbove(UIElement belowElement, Errors errors) {
-        validateSuccessor(DOWN, belowElement, errors);
-    }
-
     public void validateIsAbove(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
         validateSuccessor(DOWN, element, condition, context, errors);
-    }
-
-    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Errors errors) {
-        if (!hasSuccessor(direction, toBeValidatedSuccessor)) {
-            errors.add(
-                    String.format("%s element aligned not properly",
-                            direction.afterName()),
-                    toBeValidatedSuccessor);
-        }
     }
 
     public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Context context, Errors errors) {
@@ -442,7 +389,7 @@ public class UIElement {
         validateExtend(RIGHT, condition, context, errors);
     }
 
-    public void validateExtend(Direction direction, Condition<Scalar> condition, Context context, Errors errors) {
+    private void validateExtend(Direction direction, Condition<Scalar> condition, Context context, Errors errors) {
         ElementPropertyExpression<Scalar> property = ElementPropertyExpression.extend(direction, this);
         Expression<Boolean> assertion = condition.applyTo(property);
         if (!assertion.evaluateIn(context, direction)) {
