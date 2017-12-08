@@ -38,7 +38,7 @@ public abstract class ResponsiveUIValidatorBase {
         Dimension dimension = this.driver.retrievePageSize();
         this.page = UIElement.asElement(new net.itarray.automotion.internal.geometry.Rectangle(0, 0, dimension.getWidth(), dimension.getHeight()), "page");
         this.startTime = System.currentTimeMillis();
-        tolerance = scalar(0);
+        tolerance = snapshot.getResponsiveUIValidator().getTolerance();
     }
 
 
