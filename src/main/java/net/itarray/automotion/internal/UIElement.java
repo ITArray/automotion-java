@@ -148,8 +148,27 @@ public class UIElement {
         return hasEqualExtendAs(other, Rectangle.ORIGIN_CORNER, context);
     }
 
-    public boolean overlaps(UIElement other) {
-        return rectangle.intersects(other.rectangle);
+    public Scalar getLeft() {
+        return getOrigin().getX();
+    }
+
+    public Scalar getRight() {
+        return getCorner().getX();
+    }
+
+    public Scalar getTop() {
+        return getOrigin().getY();
+    }
+
+    public Scalar getBottom() {
+        return getCorner().getY();
+    }
+
+    public boolean overlaps(UIElement other, Context context) {
+        return Condition.lessThan(other.getRight()).isSatisfiedOn(getLeft(), context, RIGHT)  &&
+                Condition.lessThan(getRight()).isSatisfiedOn(other.getLeft(), context, RIGHT) &&
+                Condition.lessThan(other.getBottom()).isSatisfiedOn(getTop(), context, DOWN) &&
+                Condition.lessThan(getBottom()).isSatisfiedOn(other.getTop(), context, DOWN);
     }
 
     public Scalar getOffset(Direction direction, UIElement page) {
@@ -305,8 +324,8 @@ public class UIElement {
         }
     }
 
-    public void validateOverlappingWithElement(UIElement element, Errors errors) {
-        if (!overlaps(element)) {
+    public void validateOverlappingWithElement(UIElement element, Context context, Errors errors) {
+        if (!overlaps(element, context)) {
             errors.add(String.format("Element %s is not overlapped with element %s but should be",
                                 getQuotedName(),
                                 element.getQuotedName()));
@@ -314,8 +333,8 @@ public class UIElement {
         }
     }
 
-    public void validateNotOverlappingWithElement(UIElement element, Errors errors) {
-        if (overlaps(element)) {
+    public void validateNotOverlappingWithElement(UIElement element, Context context, Errors errors) {
+        if (overlaps(element, context)) {
             errors.add(String.format("Element %s is overlapped with element %s but should not",
                                 getQuotedName(),
                                 element.getQuotedName()));
