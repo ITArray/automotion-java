@@ -7,6 +7,7 @@ import net.itarray.automotion.internal.geometry.Interval;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
+import net.itarray.automotion.internal.properties.ConstantExpression;
 import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
@@ -176,7 +177,9 @@ public class UIElement {
     }
 
     private boolean hasEqualOppositeOffsets(Direction direction, UIElement page, Context context) {
-        return getOffset(direction, page).equals(getOffset(direction.opposite(), page));
+        return Expression.equalTo(
+                new ConstantExpression<>(getOffset(direction, page)),
+                new ConstantExpression<>(getOffset(direction.opposite(), page))).evaluateIn(context, direction);
     }
 
     private boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
