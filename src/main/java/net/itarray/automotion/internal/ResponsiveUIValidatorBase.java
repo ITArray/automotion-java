@@ -28,11 +28,12 @@ public abstract class ResponsiveUIValidatorBase {
     private final double zoomFactor;
     private DrawableScreenshot drawableScreenshot;
     private Scalar tolerance;
+    private boolean rootElementDrawn;
 
     protected ResponsiveUIValidatorBase(UISnapshot snapshot) {
         this.snapshot = snapshot;
         this.driver = snapshot.getResponsiveUIValidator().getDriver();
-        this.errors = new Errors();
+        this.errors = new Errors(this);
         this.zoomFactor = snapshot.getZoomFactor();
         Dimension dimension = this.driver.retrievePageSize();
         this.page = UIElement.asElement(new net.itarray.automotion.internal.geometry.Rectangle(0, 0, dimension.getWidth(), dimension.getHeight()), "page");
@@ -41,19 +42,20 @@ public abstract class ResponsiveUIValidatorBase {
     }
 
 
-    private DrawableScreenshot getDrawableScreenshot() {
+    public DrawableScreenshot getDrawableScreenshot() {
         if (drawableScreenshot == null) {
             File screenshotName = snapshot.takeScreenshot();
             Vector extend = driver.getExtend(screenshotName);
             this.drawableScreenshot = new DrawableScreenshot(extend, getTransform(), getDrawingConfiguration(), getNameOfToBeValidated(), screenshotName);
         }
+        if (isWithReport() && !rootElementDrawn) {
+            rootElementDrawn = true;
+            drawRootElement();
+        }
         return drawableScreenshot;
     }
 
     protected void doSnapshot() {
-        if (isWithReport()) {
-            drawRootElement();
-        }
     }
 
     public Errors getErrors() {
@@ -133,23 +135,6 @@ public abstract class ResponsiveUIValidatorBase {
     protected abstract String getNameOfToBeValidated();
 
     private void compileValidationReport() {
-        if (isWithReport()) {
-            for (Object obj : errors.getMessages()) {
-                JSONObject det = (JSONObject) obj;
-                JSONObject details = (JSONObject) det.get(REASON);
-                JSONObject numE = (JSONObject) details.get(ELEMENT);
-
-                if (numE != null) {
-                    int x = (int) (float) numE.get(X);
-                    int y = (int) (float) numE.get(Y);
-                    int width = (int) (float) numE.get(WIDTH);
-                    int height = (int) (float) numE.get(HEIGHT);
-
-                    getDrawableScreenshot().drawRectangle(x, y, width, height);
-                }
-            }
-        }
-
         if (isWithReport()) {
             getDrawableScreenshot().saveDrawing();
         }
