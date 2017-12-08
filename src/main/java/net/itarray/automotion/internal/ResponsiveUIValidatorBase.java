@@ -40,14 +40,20 @@ public abstract class ResponsiveUIValidatorBase {
         tolerance = scalar(0);
     }
 
+
+    private DrawableScreenshot getDrawableScreenshot() {
+        if (drawableScreenshot == null) {
+            File screenshotName = snapshot.takeScreenshot();
+            Vector extend = driver.getExtend(screenshotName);
+            this.drawableScreenshot = new DrawableScreenshot(extend, getTransform(), getDrawingConfiguration(), getNameOfToBeValidated(), screenshotName);
+        }
+        return drawableScreenshot;
+    }
+
     protected void doSnapshot() {
-        File screenshotName = snapshot.takeScreenshot();
-        Vector extend = driver.getExtend(screenshotName);
-        this.drawableScreenshot = new DrawableScreenshot(extend, getTransform(), getDrawingConfiguration(), getNameOfToBeValidated(), screenshotName);
         if (isWithReport()) {
             drawRootElement();
         }
-
     }
 
     public Errors getErrors() {
@@ -139,17 +145,17 @@ public abstract class ResponsiveUIValidatorBase {
                     int width = (int) (float) numE.get(WIDTH);
                     int height = (int) (float) numE.get(HEIGHT);
 
-                    drawableScreenshot.drawRectangle(x, y, width, height);
+                    getDrawableScreenshot().drawRectangle(x, y, width, height);
                 }
             }
         }
 
         if (isWithReport()) {
-            drawableScreenshot.saveDrawing();
+            getDrawableScreenshot().saveDrawing();
         }
 
         if (isWithReport()) {
-            writeResults(drawableScreenshot);
+            writeResults(getDrawableScreenshot());
         }
     }
 
@@ -260,17 +266,17 @@ public abstract class ResponsiveUIValidatorBase {
 
     protected void drawHorizontalLine(Vector onLine) {
         if (isWithReport()) {
-            drawableScreenshot.drawHorizontalLine(onLine.getY());
+            getDrawableScreenshot().drawHorizontalLine(onLine.getY());
         }
     }
 
     protected void drawVerticalLine(Vector onLine) {
         if (isWithReport()) {
-            drawableScreenshot.drawVerticalLine(onLine.getX());
+            getDrawableScreenshot().drawVerticalLine(onLine.getX());
         }
     }
 
     protected void drawElement(UIElement element) {
-        drawableScreenshot.drawRootElement(element);
+        getDrawableScreenshot().drawRootElement(element);
     }
 }
