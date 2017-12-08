@@ -7,6 +7,9 @@ import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.validation.properties.Expression;
 
+import static java.lang.String.format;
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
+
 public class Between implements Condition<Scalar> {
 
     private final Condition<Scalar> lowerLimit;
@@ -28,12 +31,16 @@ public class Between implements Condition<Scalar> {
 
     @Override
     public <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction) {
-        return String.format("between %s and %s", lowerLimitExpression.getDescription(context, direction), upperLimitExpression.getDescription(context, direction));
+        return format(
+                "between %s and %s%s",
+                lowerLimitExpression.getDescription(context, direction),
+                upperLimitExpression.getDescription(context, direction),
+                context.getTolerance().equals(scalar(0)) ? "" : format("(~%s)", context.getTolerance()));
     }
 
     @Override
     public String toString() {
-        return String.format("between[%s, %s]", lowerLimit, upperLimit);
+        return format("between[%s, %s]", lowerLimit, upperLimit);
     }
 
 
