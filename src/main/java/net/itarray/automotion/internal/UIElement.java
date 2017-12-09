@@ -190,10 +190,12 @@ public class UIElement {
         return direction.signedDistance(direction.end(rectangle), direction.begin(successor.rectangle));
     }
 
+    // todo: used only in PageValidator - no tolerance yet
     public  boolean hasRightElement(UIElement rightElement) {
         return hasSuccessor(RIGHT, rightElement);
     }
 
+    // todo: used only in PageValidator - no tolerance yet
     public boolean hasBelowElement(UIElement bottomElement) {
         return hasSuccessor(DOWN, bottomElement);
     }
