@@ -227,23 +227,23 @@ public class UIElement {
         return rectangle.contains(other);
     }
 
-    public void validateLeftAlignedWith(UIElement element, Errors errors) {
-        validateEqualEnd(LEFT, element, errors);
+    public void validateLeftAlignedWith(UIElement element, Context context, Errors errors) {
+        validateEqualEnd(LEFT, element, context, errors);
     }
 
-    public void validateRightAlignedWith(UIElement element, Errors errors) {
-        validateEqualEnd(RIGHT, element, errors);
+    public void validateRightAlignedWith(UIElement element, Context context, Errors errors) {
+        validateEqualEnd(RIGHT, element, context, errors);
     }
 
-    public void validateTopAlignedWith(UIElement element, Errors errors) {
-        validateEqualEnd(UP, element, errors);
+    public void validateTopAlignedWith(UIElement element, Context context, Errors errors) {
+        validateEqualEnd(UP, element, context, errors);
     }
 
-    public void validateBottomAlignedWith(UIElement element, Errors errors) {
-        validateEqualEnd(DOWN, element, errors);
+    public void validateBottomAlignedWith(UIElement element, Context context, Errors errors) {
+        validateEqualEnd(DOWN, element, context, errors);
     }
 
-    public void validateEqualEnd(Direction direction, UIElement element, Errors errors) {
+    private void validateEqualEnd(Direction direction, UIElement element, Context context, Errors errors) {
         if (!hasEqualEnd(element, direction)) {
             errors.add(String.format("Element %s has not the same %s offset as element %s",
                                 getQuotedName(),

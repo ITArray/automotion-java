@@ -327,7 +327,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             for (int i = 0; i < elements.size(); i++) {
                 if (i != pickedIndex) {
                     UIElement elementToCompare = elements.get(i);
-                    element.validateRightAlignedWith(elementToCompare, errors);
+                    element.validateRightAlignedWith(elementToCompare, getContext(), errors);
                 }
             }
             if (errors.getMessages().size() != oldErrorsSize) {
@@ -344,7 +344,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement element = elements.get(pickedIndex);
             for (int i = 0; i < elements.size(); i++) {
                 UIElement elementToCompare = elements.get(i);
-                element.validateLeftAlignedWith(elementToCompare, errors);
+                element.validateLeftAlignedWith(elementToCompare, getContext(), errors);
             }
             if (errors.getMessages().size() != oldErrorsSize) {
                 drawVerticalLine(elements.get(pickedIndex).getOrigin());
@@ -359,7 +359,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement element = elements.get(pickedIndex);
             for (int i = 0; i < elements.size(); i++) {
                 UIElement elementToCompare = elements.get(i);
-                element.validateTopAlignedWith(elementToCompare, errors);
+                element.validateTopAlignedWith(elementToCompare, getContext(), errors);
             }
             if (errors.getMessages().size() != oldErrorsSize) {
                 drawHorizontalLine(elements.get(pickedIndex).getOrigin());
@@ -374,7 +374,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement element = elements.get(pickedIndex);
             for (int i = 0; i < elements.size(); i++) {
                 UIElement elementToCompare = elements.get(i);
-                element.validateBottomAlignedWith(elementToCompare, this.errors);
+                element.validateBottomAlignedWith(elementToCompare, getContext(), this.errors);
             }
             if (errors.getMessages().size() != oldErrorsSize) {
                 drawHorizontalLine(elements.get(pickedIndex).getCorner());
