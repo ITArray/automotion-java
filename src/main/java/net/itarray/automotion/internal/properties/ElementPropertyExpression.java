@@ -18,12 +18,12 @@ public class ElementPropertyExpression<T> implements Expression<T> {
         this.property = new ElementProperty<>(property, descriptionFormat, name);
     }
 
-    public static <V extends MetricSpace<V>> ElementPropertyExpression<V> extend(ExtendGiving<V> direction, UIElement element) {
+    public static <V extends MetricSpace<V>> Expression<V> extend(ExtendGiving<V> direction, UIElement element) {
         return new ElementPropertyExpression<>(element, e -> e.getExtend(direction), direction.extendName() +
                     " of element %s", direction.extendName());
     }
 
-    public static <V extends MetricSpace<V>> ElementPropertyExpression<V> end(ExtendGiving<V> direction, UIElement element) {
+    public static <V extends MetricSpace<V>> Expression<V> end(ExtendGiving<V> direction, UIElement element) {
         return new ElementPropertyExpression<>(element, e -> e.getEnd(direction), direction.endName() +
                     " of element %s", direction.extendName());
     }

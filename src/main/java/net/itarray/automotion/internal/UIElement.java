@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 import static net.itarray.automotion.internal.geometry.Direction.*;
 import static net.itarray.automotion.internal.geometry.Rectangle.ORIGIN_CORNER;
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
+import static net.itarray.automotion.validation.properties.Expression.equalTo;
 import static org.apache.commons.lang3.text.WordUtils.capitalize;
 
 public class UIElement {
@@ -127,10 +128,13 @@ public class UIElement {
     }
 
     private <V extends MetricSpace<V>> boolean hasEqualExtendAs(UIElement other, ExtendGiving<V> direction, Context context) {
-        Expression<Boolean> equal = Expression.equalTo(
-                ElementPropertyExpression.extend(direction, this),
-                ElementPropertyExpression.extend(direction, other));
-        return equal.evaluateIn(context, direction);
+        return equalTo(
+                extend(direction),
+                other.extend(direction)).evaluateIn(context, direction);
+    }
+
+    public <V extends MetricSpace<V>> Expression<V> extend(ExtendGiving<V> direction) {
+        return ElementPropertyExpression.extend(direction, this);
     }
 
     public boolean hasSameWidthAs(UIElement other, Context context) {
@@ -173,7 +177,7 @@ public class UIElement {
     }
 
     private boolean hasEqualOppositeOffsets(Direction direction, UIElement page, Context context) {
-        return Expression.equalTo(
+        return equalTo(
                 new ConstantExpression<>(getOffset(direction, page)),
                 new ConstantExpression<>(getOffset(direction.opposite(), page))).evaluateIn(context, direction);
     }
@@ -239,10 +243,10 @@ public class UIElement {
         validateEqualEnd(DOWN, element, context, errors);
     }
 
-    private void validateEqualEnd(Direction direction, UIElement element, Context context, Errors errors) {
-        boolean valid = Expression.equalTo(
-                ElementPropertyExpression.end(direction, this),
-                ElementPropertyExpression.end(direction, element)
+    private <V extends MetricSpace<V>> void validateEqualEnd(ExtendGiving<V> direction, UIElement element, Context context, Errors errors) {
+        boolean valid = equalTo(
+                end(direction),
+                element.end(direction)
         ).evaluateIn(context, direction);
         if (!valid) {
             errors.add(String.format("Element %s has not the same %s offset as element %s",
@@ -251,6 +255,10 @@ public class UIElement {
                                 element.getQuotedName()));
             errors.draw(element);
         }
+    }
+
+    public <V extends MetricSpace<V>> Expression<V> end(ExtendGiving<V> direction) {
+        return ElementPropertyExpression.end(direction, this);
     }
 
     public void validateSameSize(UIElement element, Context context, Errors errors) {
@@ -405,8 +413,7 @@ public class UIElement {
     }
 
     private void validateExtend(Direction direction, Condition<Scalar> condition, Context context, Errors errors) {
-        ElementPropertyExpression<Scalar> property = ElementPropertyExpression.extend(direction, this);
-        Expression<Boolean> assertion = condition.applyTo(property);
+        Expression<Boolean> assertion = condition.applyTo(extend(direction));
         if (!assertion.evaluateIn(context, direction)) {
             errors.add(
                     assertion.getDescription(context, direction));
