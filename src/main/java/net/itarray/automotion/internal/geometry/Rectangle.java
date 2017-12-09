@@ -15,6 +15,16 @@ public class Rectangle {
         }
 
         @Override
+        public String beginName() {
+            return "top left";
+        }
+
+        @Override
+        public String endName() {
+            return "bottom right";
+        }
+
+        @Override
         public Vector begin(Rectangle rectangle) {
             return rectangle.getOrigin();
         }

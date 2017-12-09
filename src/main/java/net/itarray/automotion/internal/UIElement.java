@@ -86,11 +86,11 @@ public class UIElement {
                 String.valueOf(size.getHeight()));
     }
 
-    public Scalar getBegin(Direction direction) {
+    public <V extends MetricSpace<V>> V  getBegin(ExtendGiving<V>  direction) {
         return direction.begin(rectangle);
     }
 
-    public Scalar getEnd(Direction direction) {
+    public <V extends MetricSpace<V>> V  getEnd(ExtendGiving<V>  direction) {
         return direction.end(rectangle);
     }
 
@@ -124,10 +124,6 @@ public class UIElement {
 
     public Vector getCorner() {
         return rectangle.getCorner();
-    }
-
-    private boolean hasEqualEnd(UIElement other, Direction direction) {
-        return getEnd(direction).equals(other.getEnd(direction));
     }
 
     private <V extends MetricSpace<V>> boolean hasEqualExtendAs(UIElement other, ExtendGiving<V> direction, Context context) {
@@ -244,7 +240,11 @@ public class UIElement {
     }
 
     private void validateEqualEnd(Direction direction, UIElement element, Context context, Errors errors) {
-        if (!hasEqualEnd(element, direction)) {
+        boolean valid = Expression.equalTo(
+                ElementPropertyExpression.end(direction, this),
+                ElementPropertyExpression.end(direction, element)
+        ).evaluateIn(context, direction);
+        if (!valid) {
             errors.add(String.format("Element %s has not the same %s offset as element %s",
                                 getQuotedName(),
                                 direction.endName(),

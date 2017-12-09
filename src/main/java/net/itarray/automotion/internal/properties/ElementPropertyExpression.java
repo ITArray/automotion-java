@@ -23,6 +23,11 @@ public class ElementPropertyExpression<T> implements Expression<T> {
                     " of element %s", direction.extendName());
     }
 
+    public static <V extends MetricSpace<V>> ElementPropertyExpression<V> end(ExtendGiving<V> direction, UIElement element) {
+        return new ElementPropertyExpression<>(element, e -> e.getEnd(direction), direction.endName() +
+                    " of element %s", direction.extendName());
+    }
+
     @Override
     public <V extends MetricSpace<V>> T evaluateIn(Context context, ExtendGiving<V> direction) {
         return property.evaluateOn(element);
