@@ -103,6 +103,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         return this;
     }
 
+    // todo: tolerance
     public void validateAlignedAsGridCells(List<UIElement> rootElements) {
         ConnectedIntervals columns = new ConnectedIntervals(rootElements.stream().map(e -> e.getXInterval()).collect(Collectors.toList()));
         ConnectedIntervals rows = new ConnectedIntervals(rootElements.stream().map(e -> e.getYInterval()).collect(Collectors.toList()));
@@ -287,6 +288,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         }
     }
 
+    // todo: tolerance
     private void validateGridAlignment(List<UIElement> elements, int columns, int rows) {
         SortedMap<Scalar, Integer> map = new TreeMap<>();
         for (UIElement element : elements) {
