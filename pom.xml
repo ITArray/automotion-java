@@ -97,6 +97,7 @@
                 <configuration>
                     <additionalparam>-Xdoclint:none</additionalparam>
                     <javadocDirectory>${project.basedir}/target/generated-sources/apidocs</javadocDirectory>
+                    <failOnError>false</failOnError>
                 </configuration>
             </plugin>
             <plugin>
