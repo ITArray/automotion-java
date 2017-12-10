@@ -12,10 +12,14 @@ import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
 
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
-import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static net.itarray.automotion.validation.Constants.*;
 
 public abstract class ResponsiveUIValidatorBase {
@@ -33,7 +37,7 @@ public abstract class ResponsiveUIValidatorBase {
     protected ResponsiveUIValidatorBase(UISnapshot snapshot) {
         this.snapshot = snapshot;
         this.driver = snapshot.getResponsiveUIValidator().getDriver();
-        this.errors = new Errors(this);
+        this.errors = new Errors();
         this.zoomFactor = snapshot.getZoomFactor();
         Dimension dimension = this.driver.retrievePageSize();
         this.page = UIElement.asElement(new net.itarray.automotion.internal.geometry.Rectangle(0, 0, dimension.getWidth(), dimension.getHeight()), "page");
@@ -133,7 +137,11 @@ public abstract class ResponsiveUIValidatorBase {
             @Override
             public void draw(UIElement element) {
                 if (isWithReport()) {
-                    errors.draw(element);
+                    int x = element.getOrigin().getX().intValue();
+                    int y = element.getOrigin().getY().intValue();
+                    int width = element.getWidth().intValue();
+                    int height = element.getHeight().intValue();
+                    getDrawableScreenshot().drawRectangle(x, y, width, height);
                 }
             }
 
@@ -228,9 +236,9 @@ public abstract class ResponsiveUIValidatorBase {
         String jsonFileName = getNameOfToBeValidated().replace(" ", "") + "-automotion" + ms + uuid + ".json";
         File jsonFile = new File(TARGET_AUTOMOTION_JSON + jsonFileName);
         jsonFile.getParentFile().mkdirs();
-        try (
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(jsonFile), StandardCharsets.UTF_8);
-                Writer writer = new BufferedWriter(outputStreamWriter)) {
+        try (OutputStreamWriter outputStreamWriter =
+                     new OutputStreamWriter(new FileOutputStream(jsonFile), StandardCharsets.UTF_8);
+             Writer writer = new BufferedWriter(outputStreamWriter)) {
             writer.write(jsonResults.toJSONString());
         } catch (IOException ex) {
             throw new RuntimeException("Cannot create json report: " + jsonFile, ex);
