@@ -34,7 +34,7 @@ public abstract class AbstractValidator extends ResponsiveUIValidator{
 
 
     protected void addError(String message) {
-        getBase().addError(message);
+        getBase().getContext().add(message);
     }
 
     @Override

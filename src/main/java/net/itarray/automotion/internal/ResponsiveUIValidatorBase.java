@@ -20,7 +20,7 @@ import static net.itarray.automotion.validation.Constants.*;
 
 public abstract class ResponsiveUIValidatorBase {
 
-    protected final Errors errors;
+    private final Errors errors;
     protected final UIElement page;
     private final long startTime;
     protected final UISnapshot snapshot;
@@ -97,10 +97,6 @@ public abstract class ResponsiveUIValidatorBase {
         return this;
     }
 
-    protected void addError(String message) {
-        errors.add(message);
-    }
-
     public boolean validate() {
 
         if (errors.hasMessages()) {
@@ -128,6 +124,21 @@ public abstract class ResponsiveUIValidatorBase {
 
             @Override
             public Scalar getTolerance() { return tolerance; }
+
+            @Override
+            public void add(String message) {
+                errors.add(message);
+            }
+
+            @Override
+            public void draw(UIElement element) {
+                errors.draw(element);
+            }
+
+            @Override
+            public int errorCount() {
+                return errors.getMessages().size();
+            }
         };
     }
 

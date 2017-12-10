@@ -85,7 +85,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     public UIValidatorBase isRightOf(WebElement element, Condition<Scalar> distanceCondition) {
-        rootElement.validateIsRightOf(asElement(element), distanceCondition, getContext(), errors);
+        rootElement.validateIsRightOf(asElement(element), distanceCondition, getContext());
         return this;
     }
 
@@ -101,7 +101,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     public UIValidatorBase isLeftOf(WebElement element, Condition<Scalar> distanceCondition) {
-        rootElement.validateIsLeftOf(asElement(element), distanceCondition, getContext(), errors);
+        rootElement.validateIsLeftOf(asElement(element), distanceCondition, getContext());
         return this;
     }
 
@@ -125,7 +125,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     public UIValidatorBase isBelow(WebElement element, Condition<Scalar> distanceCondition) {
-        rootElement.validateIsBelow(asElement(element), distanceCondition, getContext(), errors);
+        rootElement.validateIsBelow(asElement(element), distanceCondition, getContext());
         return this;
     }
 
@@ -141,7 +141,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     public UIValidatorBase isAbove(WebElement element, Condition<Scalar> distanceCondition) {
-        rootElement.validateIsAbove(asElement(element), distanceCondition, getContext(),  errors);
+        rootElement.validateIsAbove(asElement(element), distanceCondition, getContext());
         return this;
     }
 
@@ -154,7 +154,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isNotOverlapping(WebElement element, String readableName) {
-        rootElement.validateNotOverlappingWithElement(asElement(element, readableName), getContext(), errors);
+        rootElement.validateNotOverlappingWithElement(asElement(element, readableName), getContext());
         return this;
     }
 
@@ -167,7 +167,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isOverlapping(WebElement element, String readableName) {
-        rootElement.validateOverlappingWithElement(asElement(element, readableName), getContext(), errors);
+        rootElement.validateOverlappingWithElement(asElement(element, readableName), getContext());
         return this;
     }
 
@@ -180,7 +180,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase isNotOverlapping(List<WebElement> elements) {
         for (WebElement element : elements) {
-            rootElement.validateNotOverlappingWithElement(asElement(element), getContext(), errors);
+            rootElement.validateNotOverlappingWithElement(asElement(element), getContext());
         }
         return this;
     }
@@ -194,7 +194,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isLeftAlignedWith(WebElement element, String readableName) {
-        rootElement.validateLeftAlignedWith(asElement(element, readableName), getContext(), errors);
+        rootElement.validateLeftAlignedWith(asElement(element, readableName), getContext());
         drawLeftOffsetLine();
         return this;
     }
@@ -208,7 +208,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase isLeftAlignedWith(List<WebElement> webElements) {
         for (UIElement element : asElements(webElements)) {
-            rootElement.validateLeftAlignedWith(element, getContext(), errors);
+            rootElement.validateLeftAlignedWith(element, getContext());
         }
         drawLeftOffsetLine();
         return this;
@@ -223,7 +223,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isRightAlignedWith(WebElement element, String readableName) {
-        rootElement.validateRightAlignedWith(asElement(element, readableName), getContext(), errors);
+        rootElement.validateRightAlignedWith(asElement(element, readableName), getContext());
         drawRightOffsetLine();
         return this;
     }
@@ -237,7 +237,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase isRightAlignedWith(List<WebElement> elements) {
         for (WebElement element : elements) {
-            rootElement.validateRightAlignedWith(asElement(element), getContext(), errors);
+            rootElement.validateRightAlignedWith(asElement(element), getContext());
         }
         drawRightOffsetLine();
         return this;
@@ -252,7 +252,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isTopAlignedWith(WebElement element, String readableName) {
-        rootElement.validateTopAlignedWith(asElement(element, readableName), getContext(), errors);
+        rootElement.validateTopAlignedWith(asElement(element, readableName), getContext());
         drawTopOffsetLine();
         return this;
     }
@@ -266,7 +266,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase isTopAlignedWith(List<WebElement> elements) {
         for (WebElement element : elements) {
-            rootElement.validateTopAlignedWith(asElement(element), getContext(), errors);
+            rootElement.validateTopAlignedWith(asElement(element), getContext());
         }
         drawTopOffsetLine();
         return this;
@@ -281,7 +281,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isBottomAlignedWith(WebElement element, String readableName) {
-        rootElement.validateBottomAlignedWith(asElement(element, readableName), getContext(), errors);
+        rootElement.validateBottomAlignedWith(asElement(element, readableName), getContext());
         drawBottomOffsetLine();
         return this;
     }
@@ -295,7 +295,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase isBottomAlignedWith(List<WebElement> elements) {
         for (WebElement element : elements) {
-            rootElement.validateBottomAlignedWith(asElement(element), getContext(), errors);
+            rootElement.validateBottomAlignedWith(asElement(element), getContext());
         }
         drawBottomOffsetLine();
         return this;
@@ -310,7 +310,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasEqualWidthAs(WebElement element, String readableName) {
-        rootElement.validateSameWidth(asElement(element, readableName), getContext(), errors);
+        rootElement.validateSameWidth(asElement(element, readableName), getContext());
         return this;
     }
 
@@ -323,13 +323,13 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase hasEqualWidthAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            rootElement.validateSameWidth(asElement(element), getContext(), errors);
+            rootElement.validateSameWidth(asElement(element), getContext());
         }
         return this;
     }
 
     public UIValidatorBase hasWidth(Condition<Scalar> condition) {
-        rootElement.validateWidth(condition, getContext(), errors);
+        rootElement.validateWidth(condition, getContext());
         return this;
     }
 
@@ -342,7 +342,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasEqualHeightAs(WebElement element, String readableName) {
-        rootElement.validateSameHeight(asElement(element, readableName), getContext(), errors);
+        rootElement.validateSameHeight(asElement(element, readableName), getContext());
         return this;
     }
 
@@ -355,13 +355,13 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase hasEqualHeightAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            rootElement.validateSameHeight(asElement(element), getContext(), errors);
+            rootElement.validateSameHeight(asElement(element), getContext());
         }
         return this;
     }
 
     public UIValidatorBase hasHeight(Condition<Scalar> condition) {
-        rootElement.validateHeight(condition, getContext(), errors);
+        rootElement.validateHeight(condition, getContext());
         return this;
     }
 
@@ -374,7 +374,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasEqualSizeAs(WebElement element, String readableName) {
-        rootElement.validateSameSize(asElement(element, readableName), getContext(), errors);
+        rootElement.validateSameSize(asElement(element, readableName), getContext());
         return this;
     }
 
@@ -387,7 +387,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     @Override
     public UIValidatorBase hasEqualSizeAs(List<WebElement> elements) {
         for (WebElement element : elements) {
-            rootElement.validateSameSize(asElement(element), getContext(), errors);
+            rootElement.validateSameSize(asElement(element), getContext());
         }
         return this;
     }
@@ -448,29 +448,29 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     public void validateMinOffsetNew(int top, int right, int bottom, int left) {
-        rootElement.validateLeftOffset(greaterOrEqualTo(percentOrPixels(left)), page, getContext(), errors);
-        rootElement.validateTopOffset(greaterOrEqualTo(percentOrPixels(top)), page, getContext(), errors);
-        rootElement.validateRightOffset(greaterOrEqualTo(percentOrPixels(right)), page, getContext(), errors);
-        rootElement.validateBottomOffset(greaterOrEqualTo(percentOrPixels(bottom)), page, getContext(), errors);
+        rootElement.validateLeftOffset(greaterOrEqualTo(percentOrPixels(left)), page, getContext());
+        rootElement.validateTopOffset(greaterOrEqualTo(percentOrPixels(top)), page, getContext());
+        rootElement.validateRightOffset(greaterOrEqualTo(percentOrPixels(right)), page, getContext());
+        rootElement.validateBottomOffset(greaterOrEqualTo(percentOrPixels(bottom)), page, getContext());
     }
 
     public UIElementValidator hasLeftOffsetToPage(Condition<Scalar> condition) {
-        rootElement.validateLeftOffset(condition, page, getContext(), errors);
+        rootElement.validateLeftOffset(condition, page, getContext());
         return this;
     }
 
     public UIElementValidator hasRightOffsetToPage(Condition<Scalar> condition) {
-        rootElement.validateRightOffset(condition, page, getContext(), errors);
+        rootElement.validateRightOffset(condition, page, getContext());
         return this;
     }
 
     public UIElementValidator hasTopOffsetToPage(Condition<Scalar> condition) {
-        rootElement.validateTopOffset(condition, page, getContext(), errors);
+        rootElement.validateTopOffset(condition, page, getContext());
         return this;
     }
 
     public UIElementValidator hasBottomOffsetToPage(Condition<Scalar> condition) {
-        rootElement.validateBottomOffset(condition, page, getContext(), errors);
+        rootElement.validateBottomOffset(condition, page, getContext());
         return this;
     }
 
@@ -492,10 +492,10 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
     }
 
     public void validateMaxOffsetNew(int top, int right, int bottom, int left) {
-        rootElement.validateLeftOffset(lessOrEqualTo(percentOrPixels(left)), page, getContext(), errors);
-        rootElement.validateTopOffset(lessOrEqualTo(percentOrPixels(top)), page, getContext(), errors);
-        rootElement.validateRightOffset(lessOrEqualTo(percentOrPixels(right)), page, getContext(), errors);
-        rootElement.validateBottomOffset(lessOrEqualTo(percentOrPixels(bottom)), page, getContext(), errors);
+        rootElement.validateLeftOffset(lessOrEqualTo(percentOrPixels(left)), page, getContext());
+        rootElement.validateTopOffset(lessOrEqualTo(percentOrPixels(top)), page, getContext());
+        rootElement.validateRightOffset(lessOrEqualTo(percentOrPixels(right)), page, getContext());
+        rootElement.validateBottomOffset(lessOrEqualTo(percentOrPixels(bottom)), page, getContext());
     }
 
     /**
@@ -507,7 +507,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase hasCssValue(String cssProperty, String... args) {
-        rootElement.validateHasCssValue(cssProperty, args, errors);
+        rootElement.validateHasCssValue(cssProperty, args, getContext());
         return this;
     }
 
@@ -520,7 +520,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase doesNotHaveCssValue(String cssProperty, String... args) {
-        rootElement.validateDoesNotHaveCssValue(cssProperty, args, errors);
+        rootElement.validateDoesNotHaveCssValue(cssProperty, args, getContext());
         return this;
     }
 
@@ -531,7 +531,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isCenteredOnPageHorizontally() {
-        rootElement.validateCenteredOnVertically(page, getContext(), errors);
+        rootElement.validateCenteredOnVertically(page, getContext());
         return this;
     }
 
@@ -542,7 +542,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isCenteredOnPageVertically() {
-        rootElement.validateCenteredOnHorizontally(page, getContext(), errors);
+        rootElement.validateCenteredOnHorizontally(page, getContext());
         return this;
     }
 
@@ -555,7 +555,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isInsideOf(WebElement containerElement, String readableContainerName) {
-        rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), getContext(), errors);
+        rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), getContext());
         return this;
     }
 
@@ -566,12 +566,12 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         Scalar right = percentOrPixels(padding.getRight()).evaluateIn(getContext(), Direction.RIGHT);
         Scalar bottom = percentOrPixels(padding.getBottom()).evaluateIn(getContext(), Direction.DOWN);
 
-        rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), errors, getContext(), top, left, right, bottom);
+        rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), getContext(), top, left, right, bottom);
         return this;
     }
 
     private void validateNotSameSize(UIElement element) {
-        rootElement.validateNotSameSize(element, getContext(), errors);
+        rootElement.validateNotSameSize(element, getContext());
     }
 
     @Override

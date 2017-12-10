@@ -4,6 +4,7 @@ import net.itarray.automotion.internal.geometry.ConnectedIntervals;
 import net.itarray.automotion.internal.geometry.Interval;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
+import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.validation.ChunkUIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.Units;
@@ -29,7 +30,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         super(snapshot);
         if (!allowEmpty && webElements.isEmpty()) {
             String message = "Set root web element";
-            addError(message);
+            getContext().add(message);
         } else {
             if (!getDriver().isAppiumContext()) {
                 try {
@@ -113,7 +114,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             Interval yInterval = element.getYInterval();
             Interval yCell = rows.get(rows.indexOf(yInterval));
             if (!(xInterval.equals(xCell) && yInterval.equals(yCell))) {
-                errors.add(String.format("banane"));
+                getContext().add(String.format("banane"));
             }
         }
     }
@@ -275,13 +276,14 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     }
 
     private void validateElementsAreNotOverlapped(List<UIElement> elements) {
+        Context context = getContext();
         for (int firstIndex = 0; firstIndex < elements.size(); firstIndex++) {
             UIElement first = elements.get(firstIndex);
             for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
                 UIElement second = elements.get(secondIndex);
-                if (first.overlaps(second, getContext())) {
-                    errors.add("Elements are overlapped");
-                    errors.draw(first);
+                if (first.overlaps(second, context)) {
+                    context.add("Elements are overlapped");
+                    context.draw(first);
                     break;
                 }
             }
@@ -299,7 +301,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
         int mapSize = map.size();
         if (rows > 0) {
             if (mapSize != rows) {
-                addError(String.format("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is %d. Actual is %d", rows, mapSize));
+                getContext().add(String.format("Elements in a grid are not aligned properly. Looks like grid has wrong amount of rows. Expected is %d. Actual is %d", rows, mapSize));
             }
         }
 
@@ -312,7 +314,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
                     if (actualInARow != columns) {
                         errorLastLine++;
                         if (errorLastLine > 1 || actualInARow > columns) {
-                            addError(String.format("Elements in a grid are not aligned properly in row #%d. Expected %d elements in a row. Actually it's %d", rowCount, columns, actualInARow));
+                            getContext().add(String.format("Elements in a grid are not aligned properly in row #%d. Expected %d elements in a row. Actually it's %d", rowCount, columns, actualInARow));
                         }
                     }
                     rowCount++;
@@ -323,16 +325,16 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     private void validateRightAlignedWithChunk(List<UIElement> elements) {
         if (!elements.isEmpty()) {
-            int oldErrorsSize = errors.getMessages().size();
+            int oldErrorsSize = getContext().errorCount();
             int pickedIndex = 0;
             UIElement element = elements.get(pickedIndex);
             for (int i = 0; i < elements.size(); i++) {
                 if (i != pickedIndex) {
                     UIElement elementToCompare = elements.get(i);
-                    element.validateRightAlignedWith(elementToCompare, getContext(), errors);
+                    element.validateRightAlignedWith(elementToCompare, getContext());
                 }
             }
-            if (errors.getMessages().size() != oldErrorsSize) {
+            if (getContext().errorCount() != oldErrorsSize) {
                 Vector onLine = elements.get(pickedIndex).getCorner();
                 drawVerticalLine(onLine);
             }
@@ -341,14 +343,14 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     private void validateLeftAlignedWithChunk(List<UIElement> elements) {
         if (!elements.isEmpty()) {
-            int oldErrorsSize = errors.getMessages().size();
+            int oldErrorsSize = getContext().errorCount();
             int pickedIndex = 0;
             UIElement element = elements.get(pickedIndex);
             for (int i = 0; i < elements.size(); i++) {
                 UIElement elementToCompare = elements.get(i);
-                element.validateLeftAlignedWith(elementToCompare, getContext(), errors);
+                element.validateLeftAlignedWith(elementToCompare, getContext());
             }
-            if (errors.getMessages().size() != oldErrorsSize) {
+            if (getContext().errorCount() != oldErrorsSize) {
                 drawVerticalLine(elements.get(pickedIndex).getOrigin());
             }
         }
@@ -356,14 +358,14 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     private void validateTopAlignedWithChunk(List<UIElement> elements) {
         if (!elements.isEmpty()) {
-            int oldErrorsSize = errors.getMessages().size();
+            int oldErrorsSize = getContext().errorCount();
             int pickedIndex = 0;
             UIElement element = elements.get(pickedIndex);
             for (int i = 0; i < elements.size(); i++) {
                 UIElement elementToCompare = elements.get(i);
-                element.validateTopAlignedWith(elementToCompare, getContext(), errors);
+                element.validateTopAlignedWith(elementToCompare, getContext());
             }
-            if (errors.getMessages().size() != oldErrorsSize) {
+            if (getContext().errorCount() != oldErrorsSize) {
                 drawHorizontalLine(elements.get(pickedIndex).getOrigin());
             }
         }
@@ -371,93 +373,99 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     private void validateBottomAlignedWithChunk(List<UIElement> elements) {
         if (!elements.isEmpty()) {
-            int oldErrorsSize = errors.getMessages().size();
+            int oldErrorsSize = getContext().errorCount();
             int pickedIndex = 0;
             UIElement element = elements.get(pickedIndex);
             for (int i = 0; i < elements.size(); i++) {
                 UIElement elementToCompare = elements.get(i);
-                element.validateBottomAlignedWith(elementToCompare, getContext(), this.errors);
+                element.validateBottomAlignedWith(elementToCompare, getContext());
             }
-            if (errors.getMessages().size() != oldErrorsSize) {
+            if (getContext().errorCount() != oldErrorsSize) {
                 drawHorizontalLine(elements.get(pickedIndex).getCorner());
             }
         }
     }
 
     private void validateSameWidth(List<UIElement> elements) {
+        Context context = getContext();
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            if (!element.hasSameWidthAs(elementToCompare, getContext())) {
-                errors.add(String.format("Element %s has different width than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
-                errors.draw(element);
-                errors.draw(elementToCompare);
+            if (!element.hasSameWidthAs(elementToCompare, context)) {
+                context.add(String.format("Element %s has different width than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
+                context.draw(element);
+                context.draw(elementToCompare);
             }
         }
     }
 
     private void validateSameHeight(List<UIElement> elements) {
+        Context context = getContext();
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            if (!element.hasSameHeightAs(elementToCompare, getContext())) {
-                errors.add(String.format("Element %s has different height than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
-                errors.draw(element);
-                errors.draw(elementToCompare);
+            if (!element.hasSameHeightAs(elementToCompare, context)) {
+                context.add(String.format("Element %s has different height than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
+                context.draw(element);
+                context.draw(elementToCompare);
             }
         }
     }
 
     private void validateSameSize(List<UIElement> elements) {
+        Context context = getContext();
         for (int i = 0; i < elements.size() - 1; i++) {
             UIElement element = elements.get(i);
             UIElement elementToCompare = elements.get(i + 1);
-            if (!element.hasSameSizeAs(elementToCompare, getContext())) {
-                errors.add(String.format("Element %s has different size than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
-                errors.draw(element);
-                errors.draw(elementToCompare);
+            if (!element.hasSameSizeAs(elementToCompare, context)) {
+                context.add(String.format("Element %s has different size than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
+                context.draw(element);
+                context.draw(elementToCompare);
             }
 
         }
     }
 
     private void validateHaveDifferentSizes(List<UIElement> elements) {
+        Context context = getContext();
         for (int firstIndex = 0; firstIndex < elements.size(); firstIndex++) {
             UIElement element = elements.get(firstIndex);
             for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
                 UIElement elementToCompare = elements.get(secondIndex);
-                if (element.hasSameSizeAs(elementToCompare, getContext())) {
-                    errors.add(String.format("Element %s has same size than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
-                    errors.draw(element);
-                    errors.draw(elementToCompare);
+                if (element.hasSameSizeAs(elementToCompare, context)) {
+                    context.add(String.format("Element %s has same size than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
+                    context.draw(element);
+                    context.draw(elementToCompare);
                 }
             }
         }
     }
 
     private void validateHaveDifferentWidths(List<UIElement> elements) {
+        Context context = getContext();
         for (int firstIndex = 0; firstIndex < elements.size(); firstIndex++) {
             UIElement element = elements.get(firstIndex);
             for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
                 UIElement elementToCompare = elements.get(secondIndex);
-                if (element.hasSameWidthAs(elementToCompare, getContext())) {
-                    errors.add(String.format("Element %s has same width than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
-                    errors.draw(element);
-                    errors.draw(elementToCompare);
+                if (element.hasSameWidthAs(elementToCompare, context)) {
+                    context.add(String.format("Element %s has same width than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
+                    context.draw(element);
+                    context.draw(elementToCompare);
                 }
             }
         }
     }
 
     private void validateNotSameHeight(List<UIElement> elements) {
+        Context context = getContext();
         for (int firstIndex = 0; firstIndex < elements.size(); firstIndex++) {
             UIElement element = elements.get(firstIndex);
             for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
                 UIElement elementToCompare = elements.get(secondIndex);
-                if (element.hasSameHeightAs(elementToCompare, getContext())) {
-                    errors.add(String.format("Element %s has same height than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
-                    errors.draw(element);
-                    errors.draw(elementToCompare);
+                if (element.hasSameHeightAs(elementToCompare, context)) {
+                    context.add(String.format("Element %s has same height than element %s.", element.getQuotedName(), elementToCompare.getQuotedName()));
+                    context.draw(element);
+                    context.draw(elementToCompare);
                 }
             }
         }
@@ -465,19 +473,19 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     private void validateCenteredOnPageVertically(List<UIElement> elements) {
         for (UIElement element : elements) {
-            element.validateCenteredOnVertically(page, getContext(), errors);
+            element.validateCenteredOnVertically(page, getContext());
         }
     }
 
     private void validateCenteredOnPageHorizontally(List<UIElement> elements) {
         for (UIElement element : elements) {
-            element.validateCenteredOnHorizontally(page, getContext(), errors);
+            element.validateCenteredOnHorizontally(page, getContext());
         }
     }
 
     private void validateInsideOfContainer(UIElement containerElement, List<UIElement> elements) {
         for (UIElement element : elements) {
-            element.validateInsideOfContainer(containerElement, getContext(), errors);
+            element.validateInsideOfContainer(containerElement, getContext());
         }
     }
 

@@ -11,6 +11,7 @@ public class TestContext implements Context {
     private final Rectangle pageRectangle;
     private Scalar tolerance;
     private boolean pixels = true;
+    private int errorCount;
 
     public TestContext() {
         this(new Rectangle(0, 0, 200, 150));
@@ -47,5 +48,15 @@ public class TestContext implements Context {
     }
     public TestContext withTolerance(int tolerance) {
         return withTolerance(scalar(1));
+    }
+
+    @Override
+    public void add(String message) {
+        errorCount++;
+    }
+
+    @Override
+    public int errorCount() {
+        return errorCount;
     }
 }

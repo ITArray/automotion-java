@@ -229,33 +229,33 @@ public class UIElement {
                 Condition.lessOrEqualTo(getBottom()).isSatisfiedOn(other.getBottom(), context, DOWN);
     }
 
-    public void validateLeftAlignedWith(UIElement element, Context context, Errors errors) {
-        validateEqualEnd(LEFT, element, context, errors);
+    public void validateLeftAlignedWith(UIElement element, Context context) {
+        validateEqualEnd(LEFT, element, context);
     }
 
-    public void validateRightAlignedWith(UIElement element, Context context, Errors errors) {
-        validateEqualEnd(RIGHT, element, context, errors);
+    public void validateRightAlignedWith(UIElement element, Context context) {
+        validateEqualEnd(RIGHT, element, context);
     }
 
-    public void validateTopAlignedWith(UIElement element, Context context, Errors errors) {
-        validateEqualEnd(UP, element, context, errors);
+    public void validateTopAlignedWith(UIElement element, Context context) {
+        validateEqualEnd(UP, element, context);
     }
 
-    public void validateBottomAlignedWith(UIElement element, Context context, Errors errors) {
-        validateEqualEnd(DOWN, element, context, errors);
+    public void validateBottomAlignedWith(UIElement element, Context context) {
+        validateEqualEnd(DOWN, element, context);
     }
 
-    private <V extends MetricSpace<V>> void validateEqualEnd(ExtendGiving<V> direction, UIElement element, Context context, Errors errors) {
+    private <V extends MetricSpace<V>> void validateEqualEnd(ExtendGiving<V> direction, UIElement element, Context context) {
         boolean valid = equalTo(
                 end(direction),
                 element.end(direction)
         ).evaluateIn(context, direction);
         if (!valid) {
-            errors.add(String.format("Element %s has not the same %s offset as element %s",
+            context.add(String.format("Element %s has not the same %s offset as element %s",
                                 getQuotedName(),
                                 direction.endName(),
                                 element.getQuotedName()));
-            errors.draw(element);
+            context.draw(element);
         }
     }
 
@@ -263,21 +263,21 @@ public class UIElement {
         return ElementPropertyExpression.end(direction, this);
     }
 
-    public void validateSameSize(UIElement element, Context context, Errors errors) {
-        validateSameExtend(ORIGIN_CORNER, element, context, errors);
+    public void validateSameSize(UIElement element, Context context) {
+        validateSameExtend(ORIGIN_CORNER, element, context);
     }
 
-    public void validateSameHeight(UIElement element, Context context, Errors errors) {
-        validateSameExtend(DOWN, element, context, errors);
+    public void validateSameHeight(UIElement element, Context context) {
+        validateSameExtend(DOWN, element, context);
     }
 
-    public void validateSameWidth(UIElement element, Context context, Errors errors) {
-        validateSameExtend(RIGHT, element, context, errors);
+    public void validateSameWidth(UIElement element, Context context) {
+        validateSameExtend(RIGHT, element, context);
     }
 
-    public <V extends MetricSpace<V>> void validateSameExtend(ExtendGiving<V> direction, UIElement element, Context context, Errors errors) {
+    public <V extends MetricSpace<V>> void validateSameExtend(ExtendGiving<V> direction, UIElement element, Context context) {
         if (!hasEqualExtendAs(element, direction, context)) {
-            errors.add(String.format("Element %s has not the same %s as element %s. %s of %s is %s. %s of element is %s",
+            context.add(String.format("Element %s has not the same %s as element %s. %s of %s is %s. %s of element is %s",
                                 getQuotedName(),
                                 direction.extendName(),
                                 element.getQuotedName(),
@@ -286,13 +286,13 @@ public class UIElement {
                                 direction.extend(rectangle).toStringWithUnits(PIXELS),
                                 capitalize(direction.extendName()),
                                 direction.extend(element.rectangle).toStringWithUnits(PIXELS)));
-            errors.draw(element);
+            context.draw(element);
         }
     }
 
-    public <V extends MetricSpace<V>> void validateNotSameExtend(ExtendGiving<V> direction, UIElement element, Context context, Errors errors) {
+    public <V extends MetricSpace<V>> void validateNotSameExtend(ExtendGiving<V> direction, UIElement element, Context context) {
         if (hasEqualExtendAs(element, direction, context)) {
-            errors.add(String.format("Element %s has the same %s as element %s. %s of %s is %s. %s of element is %s",
+            context.add(String.format("Element %s has the same %s as element %s. %s of %s is %s. %s of element is %s",
                                 getQuotedName(),
                                 direction.extendName(),
                                 element.getQuotedName(),
@@ -301,79 +301,79 @@ public class UIElement {
                                 direction.extend(rectangle).toStringWithUnits(PIXELS),
                                 capitalize(direction.extendName()),
                                 direction.extend(element.rectangle).toStringWithUnits(PIXELS)));
-            errors.draw(element);
+            context.draw(element);
         }
     }
 
-    public void validateNotSameSize(UIElement element, Context context, Errors errors) {
-        validateNotSameExtend(ORIGIN_CORNER, element, context, errors);
+    public void validateNotSameSize(UIElement element, Context context) {
+        validateNotSameExtend(ORIGIN_CORNER, element, context);
     }
 
 
-    public void validateIsRightOf(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
-        validateSuccessor(LEFT, element, condition, context, errors);
+    public void validateIsRightOf(UIElement element, Condition<Scalar> condition, Context context) {
+        validateSuccessor(LEFT, element, condition, context);
     }
 
-    public void validateIsLeftOf(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
-        validateSuccessor(RIGHT, element, condition, context, errors);
+    public void validateIsLeftOf(UIElement element, Condition<Scalar> condition, Context context) {
+        validateSuccessor(RIGHT, element, condition, context);
     }
 
-    public void validateIsBelow(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
-        validateSuccessor(UP, element, condition, context, errors);
+    public void validateIsBelow(UIElement element, Condition<Scalar> condition, Context context) {
+        validateSuccessor(UP, element, condition, context);
     }
 
-    public void validateIsAbove(UIElement element, Condition<Scalar> condition, Context context, Errors errors) {
-        validateSuccessor(DOWN, element, condition, context, errors);
+    public void validateIsAbove(UIElement element, Condition<Scalar> condition, Context context) {
+        validateSuccessor(DOWN, element, condition, context);
     }
 
-    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Context context, Errors errors) {
+    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Context context) {
         Scalar signedDistance = signedDistanceToSuccessor(direction, toBeValidatedSuccessor);
         if (!signedDistance.satisfies(condition, context, direction)) {
-            errors.add(String.format("%s element aligned not properly. Expected margin should be %s. Actual margin is %s",
+            context.add(String.format("%s element aligned not properly. Expected margin should be %s. Actual margin is %s",
                                 direction.afterName(),
                                 condition.getDescription(context, direction),
                                 signedDistance.toStringWithUnits(PIXELS)));
-            errors.draw(toBeValidatedSuccessor);
+            context.draw(toBeValidatedSuccessor);
         }
     }
 
-    public void validateOverlappingWithElement(UIElement element, Context context, Errors errors) {
+    public void validateOverlappingWithElement(UIElement element, Context context) {
         if (!overlaps(element, context)) {
-            errors.add(String.format("Element %s is not overlapped with element %s but should be",
+            context.add(String.format("Element %s is not overlapped with element %s but should be",
                                 getQuotedName(),
                                 element.getQuotedName()));
-            errors.draw(element);
+            context.draw(element);
         }
     }
 
-    public void validateNotOverlappingWithElement(UIElement element, Context context, Errors errors) {
+    public void validateNotOverlappingWithElement(UIElement element, Context context) {
         if (overlaps(element, context)) {
-            errors.add(String.format("Element %s is overlapped with element %s but should not",
+            context.add(String.format("Element %s is overlapped with element %s but should not",
                                 getQuotedName(),
                                 element.getQuotedName()));
-            errors.draw(element);
+            context.draw(element);
         }
     }
 
-    public void validateLeftOffset(Condition condition, UIElement page, Context context, Errors errors) {
-        validateOffset(LEFT, condition, page, context, errors);
+    public void validateLeftOffset(Condition condition, UIElement page, Context context) {
+        validateOffset(LEFT, condition, page, context);
     }
 
-    public void validateRightOffset(Condition condition, UIElement page, Context context, Errors errors) {
-        validateOffset(RIGHT, condition, page, context, errors);
+    public void validateRightOffset(Condition condition, UIElement page, Context context) {
+        validateOffset(RIGHT, condition, page, context);
     }
 
-    public void validateTopOffset(Condition condition, UIElement page, Context context, Errors errors) {
-        validateOffset(UP, condition, page, context, errors);
+    public void validateTopOffset(Condition condition, UIElement page, Context context) {
+        validateOffset(UP, condition, page, context);
     }
 
-    public void validateBottomOffset(Condition condition, UIElement page, Context context, Errors errors) {
-        validateOffset(DOWN, condition, page, context, errors);
+    public void validateBottomOffset(Condition condition, UIElement page, Context context) {
+        validateOffset(DOWN, condition, page, context);
     }
 
-    public void validateOffset(Direction direction, Condition condition, UIElement page, Context context, Errors errors) {
+    public void validateOffset(Direction direction, Condition condition, UIElement page, Context context) {
         if (!getOffset(direction, page).satisfies(condition, context, direction)) {
-            errors.add(
+            context.add(
                     String.format("Expected %s offset of element %s to be %s. Actual %s offset is: %s",
                             direction.endName(),
                             getQuotedName(),
@@ -383,18 +383,18 @@ public class UIElement {
         }
     }
 
-    public void validateCenteredOnVertically(UIElement page, Context context, Errors errors) {
-        validateCentered(RIGHT, page, context, errors);
+    public void validateCenteredOnVertically(UIElement page, Context context) {
+        validateCentered(RIGHT, page, context);
     }
 
-    public void validateCenteredOnHorizontally(UIElement page, Context context, Errors errors) {
-        validateCentered(DOWN, page, context, errors);
+    public void validateCenteredOnHorizontally(UIElement page, Context context) {
+        validateCentered(DOWN, page, context);
     }
 
-    private void validateCentered(Direction direction, UIElement page, Context context, Errors errors) {
+    private void validateCentered(Direction direction, UIElement page, Context context) {
         Direction opposite = direction.opposite();
         if (!hasEqualOppositeOffsets(direction, page, context)) {
-            errors.add(String.format("Element %s has not equal %s and %s offset. %s offset is %s, %s is %s",
+            context.add(String.format("Element %s has not equal %s and %s offset. %s offset is %s, %s is %s",
                                 getQuotedName(),
                                 opposite.endName(),
                                 direction.endName(),
@@ -402,72 +402,72 @@ public class UIElement {
                                 getOffset(opposite, page).toStringWithUnits(PIXELS),
                                 direction.endName(),
                                 getOffset(direction, page).toStringWithUnits(PIXELS)));
-            errors.draw(this);
+            context.draw(this);
         }
     }
 
-    public void validateHeight(Condition<Scalar> condition, Context context, Errors errors) {
-        validateExtend(DOWN, condition, context, errors);
+    public void validateHeight(Condition<Scalar> condition, Context context) {
+        validateExtend(DOWN, condition, context);
     }
 
-    public void validateWidth(Condition<Scalar> condition, Context context, Errors errors) {
-        validateExtend(RIGHT, condition, context, errors);
+    public void validateWidth(Condition<Scalar> condition, Context context) {
+        validateExtend(RIGHT, condition, context);
     }
 
-    private void validateExtend(Direction direction, Condition<Scalar> condition, Context context, Errors errors) {
+    private void validateExtend(Direction direction, Condition<Scalar> condition, Context context) {
         Expression<Boolean> assertion = condition.applyTo(extend(direction));
         if (!assertion.evaluateIn(context, direction)) {
-            errors.add(
+            context.add(
                     assertion.getDescription(context, direction));
         }
     }
 
-    public void validateDoesNotHaveCssValue(String cssProperty, String[] args, Errors errors) {
+    public void validateDoesNotHaveCssValue(String cssProperty, String[] args, Context context) {
         String cssValue = getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {
                 val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
                 if (TextFinder.textIsFound(val, cssValue)) {
-                    errors.add(String.format("CSS property '%s' should not contain value '%s'. Actual value is '%s'", cssProperty, val, cssValue));
+                    context.add(String.format("CSS property '%s' should not contain value '%s'. Actual value is '%s'", cssProperty, val, cssValue));
                 }
             }
         } else {
-            errors.add(
+            context.add(
                     String.format("Element %s does not have css property '%s'",
                             getQuotedName(),
                             cssProperty));
         }
     }
 
-    public void validateHasCssValue(String cssProperty, String[] args, Errors errors) {
+    public void validateHasCssValue(String cssProperty, String[] args, Context context) {
         String cssValue = getCssValue(cssProperty);
 
         if (!cssValue.equals("")) {
             for (String val : args) {
                 val = !val.startsWith("#") ? val : SystemHelper.hexStringToARGB(val);
                 if (!TextFinder.textIsFound(val, cssValue)) {
-                    errors.add(String.format("Expected value of '%s' is '%s'. Actual value is '%s'", cssProperty, val, cssValue));
+                    context.add(String.format("Expected value of '%s' is '%s'. Actual value is '%s'", cssProperty, val, cssValue));
                 }
             }
         } else {
-            errors.add(
+            context.add(
                     String.format("Element %s does not have css property '%s'",
                             getQuotedName(),
                             cssProperty));
         }
     }
 
-    public void validateInsideOfContainer(UIElement containerElement, Context context, Errors errors) {
+    public void validateInsideOfContainer(UIElement containerElement, Context context) {
         if (!containerElement.contains(this, context)) {
-            errors.add(String.format("Element '%s' is not inside of '%s'",
+            context.add(String.format("Element '%s' is not inside of '%s'",
                                 getName(),
                                 containerElement.getName()));
-            errors.draw(containerElement);
+            context.draw(containerElement);
         }
     }
 
-    public void validateInsideOfContainer(UIElement element, Errors errors, Context context, Scalar top, Scalar left, Scalar right, Scalar bottom) {
+    public void validateInsideOfContainer(UIElement element, Context context, Scalar top, Scalar left, Scalar right, Scalar bottom) {
         Vector originPadding = new Vector(left, top);
         Vector cornerPadding = new Vector(right, bottom);
 
@@ -480,7 +480,7 @@ public class UIElement {
         Vector cornerOffset = getCorner().minus(element.getCorner());
 
         if (!element.contains(paddedRoot, context)) {
-            errors.add(String.format("Padding of element %s is incorrect. Expected padding: top[%s], right[%s], bottom[%s], left[%s]. Actual padding: top[%s], right[%s], bottom[%s], left[%s]",
+            context.add(String.format("Padding of element %s is incorrect. Expected padding: top[%s], right[%s], bottom[%s], left[%s]. Actual padding: top[%s], right[%s], bottom[%s], left[%s]",
                                 getQuotedName(),
                                 originPadding.getY(),
                                 cornerPadding.getX(),
@@ -490,7 +490,7 @@ public class UIElement {
                                 cornerOffset.getX(),
                                 cornerOffset.getY(),
                                 originOffset.getX()));
-            errors.draw(element);
+            context.draw(element);
         }
     }
 
