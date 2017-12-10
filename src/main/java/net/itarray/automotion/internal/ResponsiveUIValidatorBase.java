@@ -132,7 +132,16 @@ public abstract class ResponsiveUIValidatorBase {
 
             @Override
             public void draw(UIElement element) {
-                errors.draw(element);
+                if (isWithReport()) {
+                    errors.draw(element);
+                }
+            }
+
+            @Override
+            public void drawRoot(UIElement element) {
+                if (isWithReport()) {
+                    getDrawableScreenshot().drawRootElement(element);
+                }
             }
 
             @Override
@@ -274,7 +283,4 @@ public abstract class ResponsiveUIValidatorBase {
         return getReport().getDrawingConfiguration();
     }
 
-    protected void drawElement(UIElement element) {
-        getDrawableScreenshot().drawRootElement(element);
-    }
 }

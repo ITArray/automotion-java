@@ -598,7 +598,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
 
     @Override
     protected void drawRootElement() {
-        drawElement(rootElement);
+        getContext().drawRoot(rootElement);
     }
 
 }
