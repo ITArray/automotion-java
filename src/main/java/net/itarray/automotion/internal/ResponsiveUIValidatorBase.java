@@ -136,6 +136,20 @@ public abstract class ResponsiveUIValidatorBase {
             }
 
             @Override
+            public void drawHorizontalLine(Vector onLine) {
+                if (isWithReport()) {
+                    getDrawableScreenshot().drawHorizontalLine(onLine.getY());
+                }
+            }
+
+            @Override
+            public void drawVerticalLine(Vector onLine) {
+                if (isWithReport()) {
+                    getDrawableScreenshot().drawVerticalLine(onLine.getX());
+                }
+            }
+
+            @Override
             public int errorCount() {
                 return errors.getMessages().size();
             }
@@ -258,18 +272,6 @@ public abstract class ResponsiveUIValidatorBase {
 
     public DrawingConfiguration getDrawingConfiguration() {
         return getReport().getDrawingConfiguration();
-    }
-
-    protected void drawHorizontalLine(Vector onLine) {
-        if (isWithReport()) {
-            getDrawableScreenshot().drawHorizontalLine(onLine.getY());
-        }
-    }
-
-    protected void drawVerticalLine(Vector onLine) {
-        if (isWithReport()) {
-            getDrawableScreenshot().drawVerticalLine(onLine.getX());
-        }
     }
 
     protected void drawElement(UIElement element) {

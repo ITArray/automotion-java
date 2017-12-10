@@ -324,64 +324,68 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
     }
 
     private void validateRightAlignedWithChunk(List<UIElement> elements) {
+        Context context = getContext();
         if (!elements.isEmpty()) {
-            int oldErrorsSize = getContext().errorCount();
+            int oldErrorsSize = context.errorCount();
             int pickedIndex = 0;
             UIElement element = elements.get(pickedIndex);
             for (int i = 0; i < elements.size(); i++) {
                 if (i != pickedIndex) {
                     UIElement elementToCompare = elements.get(i);
-                    element.validateRightAlignedWith(elementToCompare, getContext());
+                    element.validateRightAlignedWith(elementToCompare, context);
                 }
             }
-            if (getContext().errorCount() != oldErrorsSize) {
+            if (context.errorCount() != oldErrorsSize) {
                 Vector onLine = elements.get(pickedIndex).getCorner();
-                drawVerticalLine(onLine);
+                context.drawVerticalLine(onLine);
             }
         }
     }
 
     private void validateLeftAlignedWithChunk(List<UIElement> elements) {
+        Context context = getContext();
         if (!elements.isEmpty()) {
-            int oldErrorsSize = getContext().errorCount();
+            int oldErrorsSize = context.errorCount();
             int pickedIndex = 0;
             UIElement element = elements.get(pickedIndex);
             for (int i = 0; i < elements.size(); i++) {
                 UIElement elementToCompare = elements.get(i);
-                element.validateLeftAlignedWith(elementToCompare, getContext());
+                element.validateLeftAlignedWith(elementToCompare, context);
             }
-            if (getContext().errorCount() != oldErrorsSize) {
-                drawVerticalLine(elements.get(pickedIndex).getOrigin());
+            if (context.errorCount() != oldErrorsSize) {
+                context.drawVerticalLine(elements.get(pickedIndex).getOrigin());
             }
         }
     }
 
     private void validateTopAlignedWithChunk(List<UIElement> elements) {
+        Context context = getContext();
         if (!elements.isEmpty()) {
-            int oldErrorsSize = getContext().errorCount();
+            int oldErrorsSize = context.errorCount();
             int pickedIndex = 0;
             UIElement element = elements.get(pickedIndex);
             for (int i = 0; i < elements.size(); i++) {
                 UIElement elementToCompare = elements.get(i);
-                element.validateTopAlignedWith(elementToCompare, getContext());
+                element.validateTopAlignedWith(elementToCompare, context);
             }
-            if (getContext().errorCount() != oldErrorsSize) {
-                drawHorizontalLine(elements.get(pickedIndex).getOrigin());
+            if (context.errorCount() != oldErrorsSize) {
+                context.drawHorizontalLine(elements.get(pickedIndex).getOrigin());
             }
         }
     }
 
     private void validateBottomAlignedWithChunk(List<UIElement> elements) {
+        Context context = getContext();
         if (!elements.isEmpty()) {
-            int oldErrorsSize = getContext().errorCount();
+            int oldErrorsSize = context.errorCount();
             int pickedIndex = 0;
             UIElement element = elements.get(pickedIndex);
             for (int i = 0; i < elements.size(); i++) {
                 UIElement elementToCompare = elements.get(i);
-                element.validateBottomAlignedWith(elementToCompare, getContext());
+                element.validateBottomAlignedWith(elementToCompare, context);
             }
-            if (getContext().errorCount() != oldErrorsSize) {
-                drawHorizontalLine(elements.get(pickedIndex).getCorner());
+            if (context.errorCount() != oldErrorsSize) {
+                context.drawHorizontalLine(elements.get(pickedIndex).getCorner());
             }
         }
     }

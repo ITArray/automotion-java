@@ -2,6 +2,7 @@ package net.itarray.automotion.internal;
 
 import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.internal.properties.PixelConstant;
 import net.itarray.automotion.validation.UIElementValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -194,8 +195,9 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isLeftAlignedWith(WebElement element, String readableName) {
-        rootElement.validateLeftAlignedWith(asElement(element, readableName), getContext());
-        drawLeftOffsetLine();
+        Context context = getContext();
+        rootElement.validateLeftAlignedWith(asElement(element, readableName), context);
+        context.drawVerticalLine(rootElement.getOrigin());
         return this;
     }
 
@@ -207,10 +209,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isLeftAlignedWith(List<WebElement> webElements) {
+        Context context = getContext();
         for (UIElement element : asElements(webElements)) {
-            rootElement.validateLeftAlignedWith(element, getContext());
+            rootElement.validateLeftAlignedWith(element, context);
         }
-        drawLeftOffsetLine();
+        context.drawVerticalLine(rootElement.getOrigin());
         return this;
     }
 
@@ -223,8 +226,9 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isRightAlignedWith(WebElement element, String readableName) {
-        rootElement.validateRightAlignedWith(asElement(element, readableName), getContext());
-        drawRightOffsetLine();
+        Context context = getContext();
+        rootElement.validateRightAlignedWith(asElement(element, readableName), context);
+        context.drawVerticalLine(rootElement.getCorner());
         return this;
     }
 
@@ -236,10 +240,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isRightAlignedWith(List<WebElement> elements) {
+        Context context = getContext();
         for (WebElement element : elements) {
-            rootElement.validateRightAlignedWith(asElement(element), getContext());
+            rootElement.validateRightAlignedWith(asElement(element), context);
         }
-        drawRightOffsetLine();
+        context.drawVerticalLine(rootElement.getCorner());
         return this;
     }
 
@@ -252,8 +257,9 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isTopAlignedWith(WebElement element, String readableName) {
-        rootElement.validateTopAlignedWith(asElement(element, readableName), getContext());
-        drawTopOffsetLine();
+        Context context = getContext();
+        rootElement.validateTopAlignedWith(asElement(element, readableName), context);
+        context.drawHorizontalLine(rootElement.getOrigin());
         return this;
     }
 
@@ -265,10 +271,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isTopAlignedWith(List<WebElement> elements) {
+        Context context = getContext();
         for (WebElement element : elements) {
-            rootElement.validateTopAlignedWith(asElement(element), getContext());
+            rootElement.validateTopAlignedWith(asElement(element), context);
         }
-        drawTopOffsetLine();
+        context.drawHorizontalLine(rootElement.getOrigin());
         return this;
     }
 
@@ -281,8 +288,9 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isBottomAlignedWith(WebElement element, String readableName) {
-        rootElement.validateBottomAlignedWith(asElement(element, readableName), getContext());
-        drawBottomOffsetLine();
+        Context context = getContext();
+        rootElement.validateBottomAlignedWith(asElement(element, readableName), context);
+        context.drawHorizontalLine(rootElement.getCorner());
         return this;
     }
 
@@ -294,10 +302,11 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isBottomAlignedWith(List<WebElement> elements) {
+        Context context = getContext();
         for (WebElement element : elements) {
-            rootElement.validateBottomAlignedWith(asElement(element), getContext());
+            rootElement.validateBottomAlignedWith(asElement(element), context);
         }
-        drawBottomOffsetLine();
+        context.drawHorizontalLine(rootElement.getCorner());
         return this;
     }
 
@@ -592,19 +601,4 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         drawElement(rootElement);
     }
 
-    private void drawLeftOffsetLine() {
-        drawVerticalLine(rootElement.getOrigin());
-    }
-
-    private void drawRightOffsetLine() {
-        drawVerticalLine(rootElement.getCorner());
-    }
-
-    private void drawTopOffsetLine() {
-        drawHorizontalLine(rootElement.getOrigin());
-    }
-
-    private void drawBottomOffsetLine() {
-        drawHorizontalLine(rootElement.getCorner());
-    }
 }
