@@ -475,7 +475,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
 
     private void validateInsideOfContainer(UIElement containerElement, List<UIElement> elements) {
         for (UIElement element : elements) {
-            element.validateInsideOfContainer(containerElement, errors);
+            element.validateInsideOfContainer(containerElement, getContext(), errors);
         }
     }
 

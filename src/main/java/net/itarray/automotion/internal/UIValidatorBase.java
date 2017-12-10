@@ -555,7 +555,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
      */
     @Override
     public UIValidatorBase isInsideOf(WebElement containerElement, String readableContainerName) {
-        rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), errors);
+        rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), getContext(), errors);
         return this;
     }
 
@@ -566,7 +566,7 @@ public class UIValidatorBase extends ResponsiveUIValidatorBase implements UIElem
         Scalar right = percentOrPixels(padding.getRight()).evaluateIn(getContext(), Direction.RIGHT);
         Scalar bottom = percentOrPixels(padding.getBottom()).evaluateIn(getContext(), Direction.DOWN);
 
-        rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), errors, top, left, right, bottom);
+        rootElement.validateInsideOfContainer(asElement(containerElement, readableContainerName), errors, getContext(), top, left, right, bottom);
         return this;
     }
 

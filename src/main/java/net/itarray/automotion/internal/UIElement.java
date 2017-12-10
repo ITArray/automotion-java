@@ -146,7 +146,7 @@ public class UIElement {
     }
 
     public boolean hasSameSizeAs(UIElement other, Context context) {
-        return hasEqualExtendAs(other, Rectangle.ORIGIN_CORNER, context);
+        return hasEqualExtendAs(other, ORIGIN_CORNER, context);
     }
 
     public Scalar getLeft() {
@@ -221,8 +221,12 @@ public class UIElement {
         return text.substring(0, maxLength-postfix.length()) + postfix;
     }
 
-    public boolean contains(UIElement other) {
-        return rectangle.contains(other.rectangle);
+    public boolean contains(UIElement other, Context context) {
+        return
+                Condition.lessOrEqualTo(other.getLeft()).isSatisfiedOn(getLeft(), context, RIGHT) &&
+                Condition.lessOrEqualTo(getRight()).isSatisfiedOn(other.getRight(), context, RIGHT) &&
+                Condition.lessOrEqualTo(other.getTop()).isSatisfiedOn(getTop(), context, DOWN) &&
+                Condition.lessOrEqualTo(getBottom()).isSatisfiedOn(other.getBottom(), context, DOWN);
     }
 
     public void validateLeftAlignedWith(UIElement element, Context context, Errors errors) {
@@ -454,8 +458,8 @@ public class UIElement {
         }
     }
 
-    public void validateInsideOfContainer(UIElement containerElement, Errors errors) {
-        if (!containerElement.contains(this)) {
+    public void validateInsideOfContainer(UIElement containerElement, Context context, Errors errors) {
+        if (!containerElement.contains(this, context)) {
             errors.add(String.format("Element '%s' is not inside of '%s'",
                                 getName(),
                                 containerElement.getName()));
@@ -463,7 +467,7 @@ public class UIElement {
         }
     }
 
-    public void validateInsideOfContainer(UIElement element, Errors errors, Scalar top, Scalar left, Scalar right, Scalar bottom) {
+    public void validateInsideOfContainer(UIElement element, Errors errors, Context context, Scalar top, Scalar left, Scalar right, Scalar bottom) {
         Vector originPadding = new Vector(left, top);
         Vector cornerPadding = new Vector(right, bottom);
 
@@ -475,7 +479,7 @@ public class UIElement {
         Vector originOffset = getOrigin().minus(element.getOrigin());
         Vector cornerOffset = getCorner().minus(element.getCorner());
 
-        if (!element.contains(paddedRoot)) {
+        if (!element.contains(paddedRoot, context)) {
             errors.add(String.format("Padding of element %s is incorrect. Expected padding: top[%s], right[%s], bottom[%s], left[%s]. Actual padding: top[%s], right[%s], bottom[%s], left[%s]",
                                 getQuotedName(),
                                 originPadding.getY(),
