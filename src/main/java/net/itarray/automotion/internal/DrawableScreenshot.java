@@ -64,11 +64,6 @@ public class DrawableScreenshot {
         graphics.drawHorizontalLine(y.intValue(), extend.getX().intValue());
     }
 
-    public void drawRectangle(int x, int y, int width, int height) {
-        drawingConfiguration.setHighlightedElementStyle(graphics);
-        graphics.drawRectByExtend(x, y, width, height);
-    }
-
     public void saveDrawing() {
         try {
             ImageIO.write(drawings, "png", drawingsOutput);
@@ -79,10 +74,21 @@ public class DrawableScreenshot {
         drawings.getGraphics().dispose();
     }
 
-    public void drawRootElement(UIElement rootElement) {
+    public void drawRoot(UIElement rootElement) {
         drawingConfiguration.setRootElementStyle(graphics);
-        int x = rootElement.getX().intValue();
-        int y = rootElement.getY().intValue();
-        graphics.drawRectByExtend(x, y, rootElement.getWidth().intValue(), rootElement.getHeight().intValue());
+        basicDraw(rootElement);
+    }
+
+    public void draw(UIElement element) {
+        drawingConfiguration.setHighlightedElementStyle(graphics);
+        basicDraw(element);
+    }
+
+    private void basicDraw(UIElement element) {
+        int x = element.getOrigin().getX().intValue();
+        int y = element.getOrigin().getY().intValue();
+        int width = element.getWidth().intValue();
+        int height = element.getHeight().intValue();
+        graphics.drawRectByExtend(x, y, width, height);
     }
 }

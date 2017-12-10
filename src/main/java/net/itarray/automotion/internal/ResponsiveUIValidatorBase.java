@@ -137,18 +137,14 @@ public abstract class ResponsiveUIValidatorBase {
             @Override
             public void draw(UIElement element) {
                 if (isWithReport()) {
-                    int x = element.getOrigin().getX().intValue();
-                    int y = element.getOrigin().getY().intValue();
-                    int width = element.getWidth().intValue();
-                    int height = element.getHeight().intValue();
-                    getDrawableScreenshot().drawRectangle(x, y, width, height);
+                    getDrawableScreenshot().draw(element);
                 }
             }
 
             @Override
             public void drawRoot(UIElement element) {
                 if (isWithReport()) {
-                    getDrawableScreenshot().drawRootElement(element);
+                    getDrawableScreenshot().drawRoot(element);
                 }
             }
 
