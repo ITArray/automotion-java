@@ -225,10 +225,6 @@ public class UIElement {
         return rectangle.contains(other.rectangle);
     }
 
-    public boolean contains(Rectangle other) {
-        return rectangle.contains(other);
-    }
-
     public void validateLeftAlignedWith(UIElement element, Context context, Errors errors) {
         validateEqualEnd(LEFT, element, context, errors);
     }
@@ -471,9 +467,10 @@ public class UIElement {
         Vector originPadding = new Vector(left, top);
         Vector cornerPadding = new Vector(right, bottom);
 
-        Rectangle paddedRoot = new Rectangle(
+        UIElement paddedRoot = asElement(new Rectangle(
                 getOrigin().minus(originPadding),
-                getCorner().plus(cornerPadding));
+                getCorner().plus(cornerPadding)),
+                "padded root");
 
         Vector originOffset = getOrigin().minus(element.getOrigin());
         Vector cornerOffset = getCorner().minus(element.getCorner());
