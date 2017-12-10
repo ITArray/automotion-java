@@ -98,6 +98,7 @@
                     <additionalparam>-Xdoclint:none</additionalparam>
                     <javadocDirectory>${project.basedir}/target/generated-sources/apidocs</javadocDirectory>
                     <failOnError>false</failOnError>
+                    <excludePackageNames>net.itarray.automotion.internal:net.itarray.automotion.internal.*</excludePackageNames>
                 </configuration>
             </plugin>
             <plugin>
