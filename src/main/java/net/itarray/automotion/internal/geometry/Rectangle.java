@@ -15,6 +15,16 @@ public class Rectangle {
         }
 
         @Override
+        public String beginName() {
+            return "top left";
+        }
+
+        @Override
+        public String endName() {
+            return "bottom right";
+        }
+
+        @Override
         public Vector begin(Rectangle rectangle) {
             return rectangle.getOrigin();
         }
@@ -72,4 +82,9 @@ public class Rectangle {
         return contains(Direction.RIGHT, other) && contains(Direction.DOWN, other);
     }
 
+    @Override
+    public String toString() {
+        Vector extend = corner.minus(origin);
+        return String.format("[(%s,%s) - %sx%s]", origin.getX(), origin.getY(), extend.getX(), extend.getY());
+    }
 }

@@ -14,14 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ElementPropertyExpressionTest {
 
-    private UIElement element;
     private Expression<Scalar> property;
 
     @Before
     public void createProperty() {
-        element = UIElement.asElement(new Rectangle(10, 20, 100, 200), "sample");
-        ElementPropertyExpression<Scalar> property = ElementPropertyExpression.extend(Direction.RIGHT, element);
-        this.property = property;
+        UIElement element = UIElement.asElement(new Rectangle(10, 20, 100, 200), "sample");
+        this.property = element.extend(Direction.RIGHT);
     }
 
     @Test

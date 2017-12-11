@@ -106,6 +106,7 @@ public interface ChunkUIElementValidator {
     ChunkUIElementValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 
     ChunkUIElementValidator doNotOverlap();
+
     ChunkUIElementValidator areInsideOf(WebElement containerElement, String readableContainerName);
 
     // size

@@ -10,53 +10,49 @@ import org.junit.Test;
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class LessOrEqualToTest {
+public class ConditionGreaterOrEqualToTest {
 
     private Condition<Scalar> condition;
     private Scalar limit;
-    private Context context;
+    private TestContext context;
     private Direction direction;
 
     @Before
     public void createProperty() {
         limit = scalar(7);
-        condition = Condition.lessOrEqualTo(limit);
+        condition = Condition.greaterOrEqualTo(limit);
         context = new TestContext();
         direction = Direction.RIGHT;
     }
 
     @Test
     public void isSatisfiedOnValuesSmallerThanTheLimit() {
-        boolean result = condition.isSatisfiedOn(limit.minus(1), context, direction);
-        assertThat(result).isTrue();
+        assertThat(condition.isSatisfiedOn(limit.minus(1), context, direction)).isFalse();
+        assertThat(condition.isSatisfiedOn(limit.minus(2), context.withTolerance(1), direction)).isFalse();
     }
 
     @Test
     public void isSatisfiedOnValuesEqualToTheLimit() {
-        boolean result = condition.isSatisfiedOn(limit, context, direction);
-        assertThat(result).isTrue();
+        assertThat(condition.isSatisfiedOn(limit, context, direction)).isTrue();
+        assertThat(condition.isSatisfiedOn(limit, context.withTolerance(1), direction)).isTrue();
+        assertThat(condition.isSatisfiedOn(limit.minus(1), context.withTolerance(1), direction)).isTrue();
     }
 
     @Test
     public void isSatisfiedOnValuesGreaterThanTheLimit() {
-        boolean result = condition.isSatisfiedOn(limit.plus(1), context, direction);
-        assertThat(result).isFalse();
+        assertThat(condition.isSatisfiedOn(limit.plus(1), context, direction)).isTrue();
+        assertThat(condition.isSatisfiedOn(limit.plus(1), context.withTolerance(1), direction)).isTrue();
     }
 
     @Test
     public void isEqualToLessOrEqualConditionsWithEqualLimit() {
-        assertThat(condition).isEqualTo(Condition.lessOrEqualTo(limit));
-        assertThat(condition.hashCode()).isEqualTo(Condition.lessOrEqualTo(limit).hashCode());
+        assertThat(condition).isEqualTo(Condition.greaterOrEqualTo(limit));
+        assertThat(condition.hashCode()).isEqualTo(Condition.greaterOrEqualTo(limit).hashCode());
     }
 
     @Test
     public void isNotEqualToLessOrEqualConditionsWithDifferentLimit() {
-        assertThat(condition).isNotEqualTo(Condition.lessOrEqualTo(limit.plus(1)));
-    }
-
-    @Test
-    public void isNotEqualToGreaterOrEqualConditionsWithDifferentLimit() {
-        assertThat(condition).isNotEqualTo(Condition.greaterOrEqualTo(limit));
+        assertThat(condition).isNotEqualTo(Condition.greaterOrEqualTo(limit.plus(1)));
     }
 
     @Test

@@ -3,12 +3,15 @@ package net.itarray.automotion.internal;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import net.itarray.automotion.internal.geometry.Vector;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,6 +40,19 @@ public class DriverFacade {
             throw new RuntimeException(e);
         }
     }
+
+    public Vector getExtend(File screenshotName) {
+        try {
+            BufferedImage img = ImageIO.read(screenshotName);
+
+            int width = img.getWidth();
+            int height = img.getHeight();
+            return new Vector(width, height);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public WebDriver getDriver() {
         return driver;

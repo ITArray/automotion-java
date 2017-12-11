@@ -5,6 +5,7 @@ import net.itarray.automotion.internal.DriverFacade;
 import net.itarray.automotion.internal.HtmlReportBuilder;
 import net.itarray.automotion.internal.ResolutionImpl;
 import net.itarray.automotion.internal.ZoomUnknown;
+import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Resolution;
 import net.itarray.automotion.validation.properties.Zoom;
 import org.openqa.selenium.WebDriver;
@@ -12,6 +13,8 @@ import org.openqa.selenium.WebDriver;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 
 public class ResponsiveUIValidator {
 
@@ -25,6 +28,7 @@ public class ResponsiveUIValidator {
     private double mobileTopBarOffset = 20;
     private final DrawingConfiguration drawingConfiguration = new DrawingConfiguration();
     private double scaleFactor = 1;
+    private Scalar tolerance = scalar(0);
 
     public ResponsiveUIValidator(WebDriver driver) {
         this(new DriverFacade(driver));
@@ -203,6 +207,21 @@ public class ResponsiveUIValidator {
      */
     public void setLinesColor(Color color) {
         drawingConfiguration.setLinesColor(color);
+    }
+
+    /**
+     * Set the tolerance (in pixels) to be used in all verifications.
+     *
+     * @param tolerance the tolerance (in pixels) to be used in all verifications
+     * @return
+     */
+    public ResponsiveUIValidator withTolerance(int tolerance) {
+        this.tolerance = scalar(tolerance);
+        return this;
+    }
+
+    public Scalar getTolerance() {
+        return tolerance;
     }
 
     public DrawingConfiguration getDrawingConfiguration() {

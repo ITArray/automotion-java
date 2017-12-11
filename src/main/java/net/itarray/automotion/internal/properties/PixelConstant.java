@@ -1,6 +1,8 @@
 package net.itarray.automotion.internal.properties;
 
 import net.itarray.automotion.internal.geometry.Direction;
+import net.itarray.automotion.internal.geometry.ExtendGiving;
+import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Expression;
 
@@ -13,12 +15,12 @@ public class PixelConstant implements Expression<Scalar> {
     }
 
     @Override
-    public Scalar evaluateIn(Context context, Direction direction) {
+    public <V extends MetricSpace<V>> Scalar evaluateIn(Context context, ExtendGiving<V> direction) {
         return value;
     }
 
     @Override
-    public String getDescription(Context context, Direction direction) {
+    public <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction) {
         return value.toString() + "px";
     }
 

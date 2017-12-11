@@ -1,13 +1,18 @@
 package net.itarray.automotion.validation.properties;
 
 import net.itarray.automotion.internal.geometry.Direction;
+import net.itarray.automotion.internal.geometry.ExtendGiving;
+import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Between;
 import net.itarray.automotion.internal.properties.BinaryScalarConditionWithFixedOperand;
 import net.itarray.automotion.internal.properties.ConditionedExpression;
 import net.itarray.automotion.internal.properties.ConstantExpression;
 import net.itarray.automotion.internal.properties.Context;
+import net.itarray.automotion.internal.properties.ContextBiFunction;
 import net.itarray.automotion.internal.properties.PixelConstant;
+
+import java.util.function.BiPredicate;
 
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 
@@ -22,7 +27,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> equalTo(Expression<Scalar> lowerLimit) {
-        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::equals, "equal to %s");
+        return new BinaryScalarConditionWithFixedOperand(lowerLimit, ContextBiFunction.equalToWithTolerance, "equal to %s");
     }
 
     static Condition<Scalar> greaterOrEqualTo(int limit) {
@@ -34,7 +39,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> greaterOrEqualTo(Expression<Scalar> lowerLimit) {
-        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::isGreaterOrEqualTo, "greater or equal to %s");
+        return new BinaryScalarConditionWithFixedOperand(lowerLimit, ContextBiFunction.greaterOrEqualTo, "greater or equal to %s");
     }
 
     static Condition<Scalar> greaterThan(int limit) {
@@ -46,7 +51,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> greaterThan(Expression<Scalar> lowerLimit) {
-        return new BinaryScalarConditionWithFixedOperand(lowerLimit, Scalar::isGreaterThan, "greater than %s");
+        return new BinaryScalarConditionWithFixedOperand(lowerLimit, ContextBiFunction.greaterThan, "greater than %s");
     }
 
     static Condition<Scalar> lessOrEqualTo(int limit) {
@@ -58,7 +63,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> lessOrEqualTo(Expression<Scalar> upperLimit) {
-        return new BinaryScalarConditionWithFixedOperand(upperLimit, Scalar::isLessOrEqualTo, "less or equal to %s");
+        return new BinaryScalarConditionWithFixedOperand(upperLimit, ContextBiFunction.lessOrEqualTo, "less or equal to %s");
     }
 
     static Condition<Scalar> lessThan(int limit) {
@@ -70,7 +75,7 @@ public interface Condition<T> {
     }
 
     static Condition<Scalar> lessThan(Expression<Scalar> upperLimit) {
-        return new BinaryScalarConditionWithFixedOperand(upperLimit, Scalar::isLessThan, "less than %s");
+        return new BinaryScalarConditionWithFixedOperand(upperLimit, ContextBiFunction.lessThan, "less than %s");
     }
 
     static LowerLimit between(int lowerLimit) {
@@ -114,7 +119,7 @@ public interface Condition<T> {
         }
     }
 
-    default boolean isSatisfiedOn(T value, Context context, Direction direction) {
+    default <V extends MetricSpace<V>> boolean isSatisfiedOn(T value, Context context, ExtendGiving<V> direction) {
         return applyTo(new ConstantExpression<T>(value)).evaluateIn(context, direction);
     }
 
@@ -122,5 +127,5 @@ public interface Condition<T> {
         return new ConditionedExpression<>(toBeConditioned, this);
     }
 
-    String getDescription(Context context, Direction direction);
+    <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction);
 }

@@ -2,9 +2,11 @@ package net.itarray.automotion.tests.properties;
 
 import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.Scalar;
-import net.itarray.automotion.internal.properties.Context;
-import net.itarray.automotion.validation.properties.Condition;
+import net.itarray.automotion.internal.properties.BinaryExpression;
+import net.itarray.automotion.internal.properties.PixelConstant;
+import net.itarray.automotion.validation.properties.Expression;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
@@ -12,34 +14,36 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class EqualToTest {
 
-    private Condition<Scalar> condition;
-    private Scalar limit;
-    private Context context;
-    private Direction direction;
+    private Expression<Boolean> expression;
 
     @Before
-    public void createProperty() {
-        limit = scalar(7);
-        condition = Condition.equalTo(limit);
-        context = new TestContext();
-        direction = Direction.RIGHT;
+    public void setUp() {
+        expression = Expression.equalTo(
+                new PixelConstant(scalar(17)),
+                new PixelConstant(scalar(16)));
     }
 
     @Test
-    public void isNotSatisfiedOnValuesSmallerThanTheLimit() {
-        boolean result = condition.isSatisfiedOn(limit.minus(1), context, direction);
+    public void evaluatesToTheValueOfTheOperationAppliedToTheEvaluatedLeftAndRightExpressions() {
+        Boolean result = expression.evaluateIn(new TestContext(), Direction.RIGHT);
         assertThat(result).isFalse();
     }
 
     @Test
-    public void isSatisfiedOnValuesEqualToTheLimit() {
-        boolean result = condition.isSatisfiedOn(limit, context, direction);
+    public void evaluatesToTheValueOfTheOperationAppliedToTheEvaluatedLeftAndRightExpressionsTakingTheToleranceOfTheContextIntoAccount() {
+        Boolean result = expression.evaluateIn(new TestContext().withTolerance(scalar(1)), Direction.RIGHT);
         assertThat(result).isTrue();
     }
 
     @Test
-    public void isNotSatisfiedOnValuesGreaterThanTheLimit() {
-        boolean result = condition.isSatisfiedOn(limit.plus(1), context, direction);
-        assertThat(result).isFalse();
+    public void describesItself() {
+        String description = expression.getDescription(new TestContext(), Direction.RIGHT);
+        assertThat(description).isEqualTo("17px to be equal to 16px");
+    }
+
+    @Test
+    public void describesItselfWithTolerance() {
+        String description = expression.getDescription(new TestContext().withTolerance(scalar(1)), Direction.RIGHT);
+        assertThat(description).isEqualTo("17px to be equal to 16px with tolerance 1");
     }
 }

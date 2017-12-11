@@ -1,7 +1,8 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.geometry.Vector;
 import net.itarray.automotion.tools.helpers.Helper;
-import org.json.simple.JSONObject;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,21 +15,20 @@ import static net.itarray.automotion.validation.Constants.*;
 public class DrawableScreenshot {
 
     private final DrawingConfiguration drawingConfiguration;
-    private BufferedImage img;
     private TransformedGraphics graphics;
     private File screenshotName;
     private File drawingsOutput;
     private BufferedImage drawings;
+    private final Vector extend;
 
-    public DrawableScreenshot(SimpleTransform transform, DrawingConfiguration drawingConfiguration, String rootElementReadableName, File screenshotName) {
+    public DrawableScreenshot(Vector extend, SimpleTransform transform, DrawingConfiguration drawingConfiguration, String rootElementReadableName, File screenshotName) {
         this.drawingConfiguration = drawingConfiguration;
         this.screenshotName = screenshotName;
         drawingsOutput = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-draw-" + System.currentTimeMillis() + Helper.getGeneratedStringWithLength(7) + ".png");
 
         try {
-            img = ImageIO.read(screenshotName);
-
-            drawings = new BufferedImage(img.getWidth(), img.getHeight(),
+            this.extend = extend;
+            drawings = new BufferedImage(extend.getX().intValue(), extend.getY().intValue(),
                     BufferedImage.TYPE_INT_ARGB);
 
             Graphics2D g2d = drawings.createGraphics();
@@ -54,30 +54,17 @@ public class DrawableScreenshot {
         return drawingsOutput;
     }
 
-    public void drawOffsets(UIElement rootElement, OffsetLineCommands offsetLineCommands) {
-        offsetLineCommands.draw(graphics, img, rootElement, drawingConfiguration);
+    public void drawVerticalLine(Scalar x) {
+        drawingConfiguration.setLinesStyle(graphics);
+        graphics.drawVerticalLine(x.intValue(), extend.getY().intValue());
     }
 
-    public void drawScreenshot(String rootElementReadableName, Errors errors) {
-        for (Object obj : errors.getMessages()) {
-            JSONObject det = (JSONObject) obj;
-            JSONObject details = (JSONObject) det.get(REASON);
-            JSONObject numE = (JSONObject) details.get(ELEMENT);
+    public void drawHorizontalLine(Scalar y) {
+        drawingConfiguration.setLinesStyle(graphics);
+        graphics.drawHorizontalLine(y.intValue(), extend.getX().intValue());
+    }
 
-            if (numE != null) {
-                int x = (int) (float) numE.get(X);
-                int y = (int) (float) numE.get(Y);
-                int width = (int) (float) numE.get(WIDTH);
-                int height = (int) (float) numE.get(HEIGHT);
-
-                drawingConfiguration.setHighlightedElementStyle(graphics);
-                graphics.drawRectByExtend(x, y, width, height);
-            }
-        }
-
-
-
-
+    public void saveDrawing() {
         try {
             ImageIO.write(drawings, "png", drawingsOutput);
         } catch (IOException e) {
@@ -85,13 +72,23 @@ public class DrawableScreenshot {
         }
 
         drawings.getGraphics().dispose();
-
     }
 
-    public void drawRootElement(UIElement rootElement) {
+    public void drawRoot(UIElement rootElement) {
         drawingConfiguration.setRootElementStyle(graphics);
-        int x = rootElement.getX().intValue();
-        int y = rootElement.getY().intValue();
-        graphics.drawRectByExtend(x, y, rootElement.getWidth().intValue(), rootElement.getHeight().intValue());
+        basicDraw(rootElement);
+    }
+
+    public void draw(UIElement element) {
+        drawingConfiguration.setHighlightedElementStyle(graphics);
+        basicDraw(element);
+    }
+
+    private void basicDraw(UIElement element) {
+        int x = element.getOrigin().getX().intValue();
+        int y = element.getOrigin().getY().intValue();
+        int width = element.getWidth().intValue();
+        int height = element.getHeight().intValue();
+        graphics.drawRectByExtend(x, y, width, height);
     }
 }

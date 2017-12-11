@@ -1,8 +1,10 @@
 package net.itarray.automotion.internal.geometry;
 
+import org.apache.commons.math3.fraction.Fraction;
+
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 
-public class Vector implements GroupElement<Vector> {
+public class Vector implements MetricSpace<Vector> {
     private final Scalar x;
     private final Scalar y;
 
@@ -55,5 +57,11 @@ public class Vector implements GroupElement<Vector> {
 
     public Vector plus(Vector addend) {
         return new Vector(x.plus(addend.getX()), y.plus(addend.getY()));
+    }
+
+    public Scalar norm() {
+        Fraction sumOfCoordinateSquares = x.times(x).plus(y.times(y)).fractionValue();
+        double distance = Math.sqrt(sumOfCoordinateSquares.doubleValue());
+        return scalar(new Fraction(distance));
     }
 }

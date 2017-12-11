@@ -1,19 +1,27 @@
 package rectangles;
 
 import net.itarray.automotion.internal.DriverFacade;
+import net.itarray.automotion.internal.geometry.Vector;
+import net.itarray.automotion.validation.properties.Expression;
 import org.openqa.selenium.Dimension;
 
 import java.io.File;
 
 public class DummyDriverFacade extends DriverFacade {
 
+    private final boolean chromeDriver;
+    private final boolean firefoxDriver;
     private Dimension pageSize;
     private Dimension resolution;
+    private Vector screenSize;
 
     public DummyDriverFacade() {
         super(null);
         resolution = new Dimension(1280, 1080);
+        screenSize = new Vector(2000, 1000);
         pageSize = new Dimension(RectangleFixture.pageWidth, RectangleFixture.pageHeight);
+        chromeDriver = true;
+        firefoxDriver = false;
     }
 
     public void setPageSize(Dimension pageSize) {
@@ -27,6 +35,26 @@ public class DummyDriverFacade extends DriverFacade {
     @Override
     public File takeScreenshot() {
         throw new RuntimeException("should not happen");
+    }
+
+    @Override
+    public void takeScreenshot(File file) {
+        // do nothing here
+    }
+
+    @Override
+    public Vector getExtend(File screenshotName) {
+        return screenSize;
+    }
+
+    @Override
+    public boolean isChromeDriver() {
+        return chromeDriver;
+    }
+
+    @Override
+    public boolean isFirefoxDriver() {
+        return firefoxDriver;
     }
 
     @Override

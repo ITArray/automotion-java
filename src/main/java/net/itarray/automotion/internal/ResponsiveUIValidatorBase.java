@@ -1,5 +1,9 @@
 package net.itarray.automotion.internal;
 
+import net.itarray.automotion.internal.geometry.Rectangle;
+import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.geometry.Vector;
+import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.tools.helpers.Helper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.UISnapshot;
@@ -8,19 +12,27 @@ import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
 
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
 import static net.itarray.automotion.validation.Constants.*;
 
 public abstract class ResponsiveUIValidatorBase {
 
-    protected final Errors errors;
+    private final Errors errors;
     protected final UIElement page;
     private final long startTime;
-    private final UISnapshot snapshot;
+    protected final UISnapshot snapshot;
     private final DriverFacade driver;
     private final double zoomFactor;
+    private DrawableScreenshot drawableScreenshot;
+    private Scalar tolerance;
+    private boolean rootElementDrawn;
 
     protected ResponsiveUIValidatorBase(UISnapshot snapshot) {
         this.snapshot = snapshot;
@@ -28,8 +40,26 @@ public abstract class ResponsiveUIValidatorBase {
         this.errors = new Errors();
         this.zoomFactor = snapshot.getZoomFactor();
         Dimension dimension = this.driver.retrievePageSize();
-        page = UIElement.asElement(new net.itarray.automotion.internal.geometry.Rectangle(0, 0, dimension.getWidth(), dimension.getHeight()), "page");
+        this.page = UIElement.asElement(new net.itarray.automotion.internal.geometry.Rectangle(0, 0, dimension.getWidth(), dimension.getHeight()), "page");
         this.startTime = System.currentTimeMillis();
+        tolerance = snapshot.getResponsiveUIValidator().getTolerance();
+    }
+
+
+    public DrawableScreenshot getDrawableScreenshot() {
+        if (drawableScreenshot == null) {
+            File screenshotName = snapshot.takeScreenshot();
+            Vector extend = driver.getExtend(screenshotName);
+            this.drawableScreenshot = new DrawableScreenshot(extend, getTransform(), getDrawingConfiguration(), getNameOfToBeValidated(), screenshotName);
+        }
+        if (isWithReport() && !rootElementDrawn) {
+            rootElementDrawn = true;
+            drawRootElement();
+        }
+        return drawableScreenshot;
+    }
+
+    protected void doSnapshot() {
     }
 
     public Errors getErrors() {
@@ -71,10 +101,6 @@ public abstract class ResponsiveUIValidatorBase {
         return this;
     }
 
-    protected void addError(String message) {
-        errors.add(message);
-    }
-
     public boolean validate() {
 
         if (errors.hasMessages()) {
@@ -84,24 +110,76 @@ public abstract class ResponsiveUIValidatorBase {
         return !errors.hasMessages();
     }
 
+    protected boolean isPixels() {
+        return getUnits().equals(Units.PX);
+    }
+
+    protected Context getContext() {
+        return new Context() {
+            @Override
+            public Rectangle getPageRectangle() {
+                return page.getRectangle();
+            }
+
+            @Override
+            public boolean isPixels() {
+                return ResponsiveUIValidatorBase.this.isPixels();
+            }
+
+            @Override
+            public Scalar getTolerance() { return tolerance; }
+
+            @Override
+            public void add(String message) {
+                errors.add(message);
+            }
+
+            @Override
+            public void draw(UIElement element) {
+                if (isWithReport()) {
+                    getDrawableScreenshot().draw(element);
+                }
+            }
+
+            @Override
+            public void drawRoot(UIElement element) {
+                if (isWithReport()) {
+                    getDrawableScreenshot().drawRoot(element);
+                }
+            }
+
+            @Override
+            public void drawHorizontalLine(Vector onLine) {
+                if (isWithReport()) {
+                    getDrawableScreenshot().drawHorizontalLine(onLine.getY());
+                }
+            }
+
+            @Override
+            public void drawVerticalLine(Vector onLine) {
+                if (isWithReport()) {
+                    getDrawableScreenshot().drawVerticalLine(onLine.getX());
+                }
+            }
+
+            @Override
+            public int errorCount() {
+                return errors.getMessages().size();
+            }
+        };
+    }
+
+
     protected abstract String getNameOfToBeValidated();
 
     private void compileValidationReport() {
-        if (!isWithReport()) {
-            return;
+        if (isWithReport()) {
+            getDrawableScreenshot().saveDrawing();
         }
 
-        File screenshotName = snapshot.takeScreenshot();
-
-        DrawableScreenshot screenshot = new DrawableScreenshot(getTransform(), getDrawingConfiguration(), getNameOfToBeValidated(), screenshotName);
-
-        drawRootElement(screenshot);
-
-        drawOffsets(screenshot);
-
-        screenshot.drawScreenshot(getNameOfToBeValidated(), errors);
-
-        writeResults(screenshot);
+        if (isWithReport()) {
+            writeResults(getDrawableScreenshot());
+        }
     }
 
     private SimpleTransform getTransform() {
@@ -154,9 +232,9 @@ public abstract class ResponsiveUIValidatorBase {
         String jsonFileName = getNameOfToBeValidated().replace(" ", "") + "-automotion" + ms + uuid + ".json";
         File jsonFile = new File(TARGET_AUTOMOTION_JSON + jsonFileName);
         jsonFile.getParentFile().mkdirs();
-        try (
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(jsonFile), StandardCharsets.UTF_8);
-                Writer writer = new BufferedWriter(outputStreamWriter)) {
+        try (OutputStreamWriter outputStreamWriter =
+                     new OutputStreamWriter(new FileOutputStream(jsonFile), StandardCharsets.UTF_8);
+             Writer writer = new BufferedWriter(outputStreamWriter)) {
             writer.write(jsonResults.toJSONString());
         } catch (IOException ex) {
             throw new RuntimeException("Cannot create json report: " + jsonFile, ex);
@@ -169,11 +247,7 @@ public abstract class ResponsiveUIValidatorBase {
         getReport().addJsonFile(jsonFileName);
     }
 
-    protected void drawOffsets(DrawableScreenshot screenshot) {
-        throw new RuntimeException("should be overwritten");
-    }
-
-    protected void drawRootElement(DrawableScreenshot screenshot) {
+    protected void drawRootElement() {
         throw new RuntimeException("should be overwritten");
     }
 

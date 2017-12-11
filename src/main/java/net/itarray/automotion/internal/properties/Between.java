@@ -1,9 +1,14 @@
 package net.itarray.automotion.internal.properties;
 
 import net.itarray.automotion.internal.geometry.Direction;
+import net.itarray.automotion.internal.geometry.ExtendGiving;
+import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.validation.properties.Expression;
+
+import static java.lang.String.format;
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 
 public class Between implements Condition<Scalar> {
 
@@ -20,18 +25,22 @@ public class Between implements Condition<Scalar> {
     }
 
     @Override
-    public boolean isSatisfiedOn(Scalar value, Context context, Direction direction) {
+    public <V extends MetricSpace<V>> boolean isSatisfiedOn(Scalar value, Context context, ExtendGiving<V> direction) {
         return lowerLimit.isSatisfiedOn(value, context, direction) && upperLimit.isSatisfiedOn(value, context, direction);
     }
 
     @Override
-    public String getDescription(Context context, Direction direction) {
-        return String.format("between %s and %s", lowerLimitExpression.getDescription(context, direction), upperLimitExpression.getDescription(context, direction));
+    public <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction) {
+        return format(
+                "between %s and %s%s",
+                lowerLimitExpression.getDescription(context, direction),
+                upperLimitExpression.getDescription(context, direction),
+                context.getTolerance().equals(scalar(0)) ? "" : format("(~%s)", context.getTolerance()));
     }
 
     @Override
     public String toString() {
-        return String.format("between[%s, %s]", lowerLimit, upperLimit);
+        return format("between[%s, %s]", lowerLimit, upperLimit);
     }
 
 

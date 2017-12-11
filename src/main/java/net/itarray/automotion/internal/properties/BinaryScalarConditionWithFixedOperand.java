@@ -1,45 +1,48 @@
 package net.itarray.automotion.internal.properties;
 
-import com.webfirmframework.wffweb.tag.html.formatting.S;
-import net.itarray.automotion.internal.geometry.Direction;
+import net.itarray.automotion.internal.geometry.ExtendGiving;
+import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.validation.properties.Expression;
 
 import java.util.function.BiPredicate;
 
+import static java.lang.String.format;
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.apache.commons.lang3.text.WordUtils.uncapitalize;
 
 
 public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> {
     private final Expression<Scalar> fixedOperand;
-    private final BiPredicate<Scalar, Scalar> predicate;
+    private final ContextBiFunction<Scalar, Scalar, Boolean> contextPredicate;
     private final String toStringFormat;
 
 
     public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, BiPredicate<Scalar, Scalar> predicate, String toStringFormat) {
+        this(fixedOperand, (left, right, context) -> predicate.test(left, right), toStringFormat);
+    }
+
+    public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, ContextBiFunction<Scalar, Scalar, Boolean> contextPredicate, String toStringFormat) {
         this.fixedOperand = fixedOperand;
-        this.predicate = predicate;
+        this.contextPredicate = contextPredicate;
         this.toStringFormat = toStringFormat;
     }
 
-    protected boolean applyTo(Scalar operand, Scalar fixedOperand) {
-        return predicate.test(operand, fixedOperand);
+    @Override
+    public <V extends MetricSpace<V>> boolean isSatisfiedOn(Scalar value, Context context, ExtendGiving<V> direction) {
+        return contextPredicate.apply(value, fixedOperand.evaluateIn(context, direction), context);
     }
 
     @Override
-    public boolean isSatisfiedOn(Scalar value, Context context, Direction direction) {
-        return applyTo(value, fixedOperand.evaluateIn(context, direction));
-    }
-
-    @Override
-    public String getDescription(Context context, Direction direction) {
-        return String.format(toStringFormat, fixedOperand.getDescription(context, direction));
+    public <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction) {
+        String tolerance = context.getTolerance().equals(scalar(0)) ? "" : format("(~%s)", context.getTolerance());
+        return format(toStringFormat, fixedOperand.getDescription(context, direction)) + tolerance;
     }
 
     @Override
     public String toString() {
-        return String.format("%s(%s)", uncapitalize(getClass().getSimpleName()), fixedOperand);
+        return format("%s(%s)", uncapitalize(getClass().getSimpleName()), fixedOperand);
     }
 
 
@@ -49,11 +52,11 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
             return false;
         }
         BinaryScalarConditionWithFixedOperand other = (BinaryScalarConditionWithFixedOperand) object;
-        return fixedOperand.equals(other.fixedOperand) && predicate.equals(other.predicate);
+        return fixedOperand.equals(other.fixedOperand) && contextPredicate.equals(other.contextPredicate);
     }
 
     @Override
     public int hashCode() {
-        return fixedOperand.hashCode() * 31 ^ predicate.hashCode();
+        return fixedOperand.hashCode() * 31 ^ contextPredicate.hashCode();
     }
 }

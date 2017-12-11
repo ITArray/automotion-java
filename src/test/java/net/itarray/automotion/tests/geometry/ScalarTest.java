@@ -168,5 +168,11 @@ public class ScalarTest {
         assertThat(scalar.satisfies(Condition.greaterOrEqualTo(value), context, direction)).isTrue();
         assertThat(scalar.satisfies(Condition.greaterOrEqualTo(value+1), context, direction)).isFalse();
     }
+
+    @Test
+    public void norm() {
+        assertThat(scalar.norm()).isEqualTo(scalar);
+        assertThat(scalar.negated().norm()).isEqualTo(scalar);
+    }
 }
 
