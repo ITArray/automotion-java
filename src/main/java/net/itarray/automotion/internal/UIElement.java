@@ -172,6 +172,13 @@ public class UIElement {
                 Condition.lessThan(getBottom()).isSatisfiedOn(other.getTop(), context, DOWN);
     }
 
+    public boolean notOverlaps(UIElement other, Context context) {
+        return Condition.greaterOrEqualTo(other.getRight()).isSatisfiedOn(getLeft(), context, RIGHT)  ||
+                Condition.greaterOrEqualTo(getRight()).isSatisfiedOn(other.getLeft(), context, RIGHT) ||
+                Condition.greaterOrEqualTo(other.getBottom()).isSatisfiedOn(getTop(), context, DOWN) ||
+                Condition.greaterOrEqualTo(getBottom()).isSatisfiedOn(other.getTop(), context, DOWN);
+    }
+
     private Scalar getOffset(Direction direction, UIElement page) {
         return direction.signedDistance(getEnd(direction), page.getEnd(direction));
     }
@@ -347,7 +354,7 @@ public class UIElement {
     }
 
     public void validateNotOverlappingWithElement(UIElement element, Context context) {
-        if (overlaps(element, context)) {
+        if (!notOverlaps(element, context)) {
             context.add(String.format("Element %s is overlapped with element %s but should not",
                                 getQuotedName(),
                                 element.getQuotedName()));
