@@ -59,7 +59,7 @@ public class IntersectionTest {
 
     @Test
     public void areNotOverlapped() {
-        assertThat(areNotOverlappedWithEachOther(Arrays.asList(root, other)))
+        assertThat(doNotOverlap(Arrays.asList(root, other)))
                 .withFailMessage(failMessage(intersectionExpectation()))
                 .isEqualTo(!intersects);
     }
