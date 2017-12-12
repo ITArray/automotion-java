@@ -48,11 +48,22 @@ public class ToleranceOnNegativeAssumptionsTest {
         assertThatHasDifferentSizeWithTolerance(-1, 0).isFalse();
         assertThatHasDifferentSizeWithTolerance( 0, 0).isFalse();
         assertThatHasDifferentSizeWithTolerance(+1, 0).isFalse();
-        assertThatHasDifferentSizeWithTolerance(0, +2).isTrue();
+        assertThatHasDifferentSizeWithTolerance(+2, 0).isTrue();
+        assertThatHasDifferentWidthWithTolerance(-2).isTrue();
+        assertThatHasDifferentWidthWithTolerance(-1).isFalse();
+        assertThatHasDifferentWidthWithTolerance( 0).isFalse();
+        assertThatHasDifferentWidthWithTolerance(+1).isFalse();
+        assertThatHasDifferentWidthWithTolerance(+2).isTrue();
         assertThatHasDifferentSizeWithTolerance(0, -2).isTrue();
         assertThatHasDifferentSizeWithTolerance(0, -1).isFalse();
+        assertThatHasDifferentSizeWithTolerance(0, 0).isFalse();
         assertThatHasDifferentSizeWithTolerance(0, +1).isFalse();
         assertThatHasDifferentSizeWithTolerance(0, +2).isTrue();
+        assertThatHasDifferentHeightWithTolerance(-2).isTrue();
+        assertThatHasDifferentHeightWithTolerance(-1).isFalse();
+        assertThatHasDifferentHeightWithTolerance( 0).isFalse();
+        assertThatHasDifferentHeightWithTolerance(+1).isFalse();
+        assertThatHasDifferentHeightWithTolerance(+2).isTrue();
     }
 
     public AbstractBooleanAssert<?> assertThatHasDifferentSizeWithTolerance(int deltaWidth, int deltaHeight) {
@@ -60,6 +71,16 @@ public class ToleranceOnNegativeAssumptionsTest {
         return assertThat(hasDifferentSizeAs(root, element, 1) &&
                 hasDifferentSizeAs(root, asList(element), 1) &&
                 haveDifferentSizes(asList(root, element), 1));
+    }
+
+    public AbstractBooleanAssert<?> assertThatHasDifferentHeightWithTolerance(int deltaHeight) {
+        WebElement element = DummyWebElement.createElement(x, y, x + width, y + height + deltaHeight);
+        return assertThat(haveDifferentHeights(asList(root, element), 1));
+    }
+
+    public AbstractBooleanAssert<?> assertThatHasDifferentWidthWithTolerance(int deltaWidth) {
+        WebElement element = DummyWebElement.createElement(x, y, x + width + deltaWidth, y + height);
+        return assertThat(haveDifferentWidths(asList(root, element), 1));
     }
 
     private AbstractBooleanAssert<?> assertThatNotOverlappingWithTolerance(int x, int y) {

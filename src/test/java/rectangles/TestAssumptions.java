@@ -235,7 +235,11 @@ public class TestAssumptions {
     }
 
     public static boolean haveDifferentWidths(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::haveDifferentWidths, 0);
+        return haveDifferentWidths(elements, 0);
+    }
+
+    public static boolean haveDifferentWidths(List<WebElement> elements, int tolerance) {
+        return validate(elements, ResponsiveUIChunkValidator::haveDifferentWidths, tolerance);
     }
 
     public static boolean hasEqualHeightAs(WebElement root, WebElement other) {
@@ -251,7 +255,11 @@ public class TestAssumptions {
     }
 
     public static boolean haveDifferentHeights(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::haveDifferentHeights, 0);
+        return haveDifferentHeights(elements, 0);
+    }
+
+    public static boolean haveDifferentHeights(List<WebElement> elements, int tolerance) {
+        return validate(elements, ResponsiveUIChunkValidator::haveDifferentHeights, tolerance);
     }
 
     public static boolean hasEqualSizeAs(WebElement root, WebElement other) {
