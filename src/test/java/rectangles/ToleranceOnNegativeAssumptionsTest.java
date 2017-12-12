@@ -1,6 +1,5 @@
 package rectangles;
 
-import com.google.common.collect.Lists;
 import org.assertj.core.api.AbstractBooleanAssert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,8 +7,7 @@ import org.openqa.selenium.WebElement;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static rectangles.TestAssumptions.doNotOverlap;
-import static rectangles.TestAssumptions.isNotOverlapping;
+import static rectangles.TestAssumptions.*;
 
 public class ToleranceOnNegativeAssumptionsTest {
 
@@ -44,10 +42,31 @@ public class ToleranceOnNegativeAssumptionsTest {
         assertThatNotOverlappingWithTolerance(x, y-height+2).isFalse();
     }
 
+    @Test
+    public void hasDifferentSizeAsWithTolerance() {
+        assertThatHasDifferentSizeWithTolerance(-2, 0).isTrue();
+        assertThatHasDifferentSizeWithTolerance(-1, 0).isFalse();
+        assertThatHasDifferentSizeWithTolerance( 0, 0).isFalse();
+        assertThatHasDifferentSizeWithTolerance(+1, 0).isFalse();
+        assertThatHasDifferentSizeWithTolerance(0, +2).isTrue();
+        assertThatHasDifferentSizeWithTolerance(0, -2).isTrue();
+        assertThatHasDifferentSizeWithTolerance(0, -1).isFalse();
+        assertThatHasDifferentSizeWithTolerance(0, +1).isFalse();
+        assertThatHasDifferentSizeWithTolerance(0, +2).isTrue();
+    }
+
+    public AbstractBooleanAssert<?> assertThatHasDifferentSizeWithTolerance(int deltaWidth, int deltaHeight) {
+        WebElement element = DummyWebElement.createElement(x, y, x + width + deltaWidth, y + height + deltaHeight);
+        return assertThat(hasDifferentSizeAs(root, element, 1) &&
+                hasDifferentSizeAs(root, asList(element), 1) &&
+                haveDifferentSizes(asList(root, element), 1));
+    }
+
     private AbstractBooleanAssert<?> assertThatNotOverlappingWithTolerance(int x, int y) {
-        return assertThat(isNotOverlapping(root, createElement(x, y), 1) &&
-                doNotOverlap(asList(root, createElement(x, y)), 1) &&
-                isNotOverlapping(root, asList(createElement(x,y)), 1));
+        WebElement element = createElement(x, y);
+        return assertThat(isNotOverlapping(root, element, 1) &&
+                doNotOverlap(asList(root, element), 1) &&
+                isNotOverlapping(root, asList(element), 1));
     }
 
 

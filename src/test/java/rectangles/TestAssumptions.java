@@ -267,15 +267,27 @@ public class TestAssumptions {
     }
 
     public static boolean hasDifferentSizeAs(WebElement root, WebElement other) {
-        return validate(root, uiValidator -> uiValidator.hasDifferentSizeAs(other, "Blub"), 0);
+        return hasDifferentSizeAs(root, other, 0);
+    }
+
+    public static boolean hasDifferentSizeAs(WebElement root, WebElement other, int tolerance) {
+        return validate(root, uiValidator -> uiValidator.hasDifferentSizeAs(other, "Blub"), tolerance);
     }
 
     public static boolean hasDifferentSizeAs(WebElement root, List<WebElement> others) {
-        return validate(root, uiValidator -> uiValidator.hasDifferentSizeAs(others), 0);
+        return hasDifferentSizeAs(root, others, 0);
+    }
+
+    public static boolean hasDifferentSizeAs(WebElement root, List<WebElement> others, int tolerance) {
+        return validate(root, uiValidator -> uiValidator.hasDifferentSizeAs(others), tolerance);
     }
 
     public static boolean haveDifferentSizes(List<WebElement> elements) {
-        return validate(elements, ResponsiveUIChunkValidator::haveDifferentSizes, 0);
+        return haveDifferentSizes(elements, 0);
+    }
+
+    public static boolean haveDifferentSizes(List<WebElement> elements, int tolerance) {
+        return validate(elements, ResponsiveUIChunkValidator::haveDifferentSizes, tolerance);
     }
 
     public static boolean hasHeightBetween(WebElement root, int min, int max) {
