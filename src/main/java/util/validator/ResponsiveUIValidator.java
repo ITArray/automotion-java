@@ -32,6 +32,11 @@ public class ResponsiveUIValidator {
         responsiveUIValidator.dontDrawMap();
     }
 
+    public ResponsiveUIValidator withTolerance(int tolerance) {
+        responsiveUIValidator.withTolerance(tolerance);
+        return this;
+    }
+
     public boolean isWithReport() {
         return responsiveUIValidator.isWithReport();
     }
