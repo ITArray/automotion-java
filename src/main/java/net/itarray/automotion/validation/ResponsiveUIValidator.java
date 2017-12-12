@@ -216,6 +216,9 @@ public class ResponsiveUIValidator {
      * @return
      */
     public ResponsiveUIValidator withTolerance(int tolerance) {
+        if (tolerance < 0) {
+            throw new IllegalArgumentException("tolerance needs to be greater or equal to zero, tolerance supplied was " + tolerance);
+        }
         this.tolerance = scalar(tolerance);
         return this;
     }
