@@ -45,7 +45,9 @@ public class ToleranceOnNegativeAssumptionsTest {
     }
 
     private AbstractBooleanAssert<?> assertThatNotOverlappingWithTolerance(int x, int y) {
-        return assertThat(isNotOverlapping(root, createElement(x, y), 1) && doNotOverlap(asList(root, createElement(x, y)), 1));
+        return assertThat(isNotOverlapping(root, createElement(x, y), 1) &&
+                doNotOverlap(asList(root, createElement(x, y)), 1) &&
+                isNotOverlapping(root, asList(createElement(x,y)), 1));
     }
 
 

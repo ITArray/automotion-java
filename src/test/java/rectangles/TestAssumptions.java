@@ -198,6 +198,10 @@ public class TestAssumptions {
         return validate(root, uiValidator -> uiValidator.isNotOverlapping(other, "Blub"), tolerance);
     }
 
+    public static boolean isNotOverlapping(WebElement root, List<WebElement> others, int tolerance) {
+        return validate(root, others, UIValidator::isNotOverlapping, tolerance);
+    }
+
     public static boolean doNotOverlap(List<WebElement> elements) {
         return doNotOverlap(elements, 0);
     }
