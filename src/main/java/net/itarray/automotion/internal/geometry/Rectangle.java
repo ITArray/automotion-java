@@ -4,6 +4,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
+import java.util.function.Function;
+
 public class Rectangle {
     private final Vector origin;
     private final Vector corner;
@@ -32,6 +34,11 @@ public class Rectangle {
         @Override
         public Vector end(Rectangle rectangle) {
             return rectangle.getCorner();
+        }
+
+        @Override
+        public Function<Vector, Vector> transform() {
+            return v -> v;
         }
     };
 

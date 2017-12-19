@@ -179,7 +179,7 @@ public class UIElement {
                 Condition.greaterOrEqualTo(getBottom()).isSatisfiedOn(other.getTop(), context, DOWN);
     }
 
-    private Scalar getOffset(Direction direction, UIElement page) {
+    private <V extends MetricSpace<V>> V getOffset(ExtendGiving<V> direction, UIElement page) {
         return direction.signedDistance(getEnd(direction), page.getEnd(direction));
     }
 

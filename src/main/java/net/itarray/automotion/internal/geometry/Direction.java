@@ -1,5 +1,7 @@
 package net.itarray.automotion.internal.geometry;
 
+import java.util.function.Function;
+
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 
 public enum Direction implements ExtendGiving<Scalar> {
@@ -27,6 +29,11 @@ public enum Direction implements ExtendGiving<Scalar> {
         public String extendName() {
             return "height";
         }
+        @Override
+        public Function<Vector, Scalar> transform() {
+            return v -> v.getY().times(unit());
+        }
+
     },
     UP {
         public String beforeName() {
@@ -55,6 +62,12 @@ public enum Direction implements ExtendGiving<Scalar> {
 
         @Override
         protected Scalar unit() { return scalar(-1);}
+        @Override
+        public Function<Vector, Scalar> transform() {
+            return v -> v.getY().times(unit());
+        }
+
+
     },
     RIGHT {
         public String beforeName() {
@@ -138,5 +151,12 @@ public enum Direction implements ExtendGiving<Scalar> {
         return p2.minus(p1).times(unit());
     }
 
+    @Override
+    public Function<Vector, Scalar> transform() {
+        return v -> v.getX().times(unit());
+    }
+
     protected Scalar unit() { return scalar(1);}
+
+
 }
