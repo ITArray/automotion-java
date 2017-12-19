@@ -7,7 +7,6 @@ import net.itarray.automotion.internal.geometry.Interval;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
-import net.itarray.automotion.internal.properties.ConstantExpression;
 import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
@@ -179,14 +178,16 @@ public class UIElement {
                 Condition.greaterOrEqualTo(getBottom()).isSatisfiedOn(other.getTop(), context, DOWN);
     }
 
-    private <V extends MetricSpace<V>> V getOffset(ExtendGiving<V> direction, UIElement page) {
-        return direction.signedDistance(getEnd(direction), page.getEnd(direction));
+    private <V extends MetricSpace<V>> V getOffset(ExtendGiving<V> direction, UIElement page, Context context) {
+        return offset(page, direction).evaluateIn(context, direction);
     }
 
-    private boolean hasEqualOppositeOffsets(Direction direction, UIElement page, Context context) {
-        return equalTo(
-                new ConstantExpression<>(getOffset(direction, page)),
-                new ConstantExpression<>(getOffset(direction.opposite(), page))).evaluateIn(context, direction);
+    private <V extends MetricSpace<V>> Expression<V> offset(UIElement page, ExtendGiving<V> direction) {
+        return Expression.signedDistance(end(direction), page.end(direction), direction);
+    }
+
+    private Expression<Boolean> equalOppositeOffsets(Direction direction, UIElement page) {
+        return equalTo(offset(page, direction), offset(page, direction.opposite()));
     }
 
     private boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
@@ -379,14 +380,14 @@ public class UIElement {
     }
 
     public void validateOffset(Direction direction, Condition condition, UIElement page, Context context) {
-        if (!getOffset(direction, page).satisfies(condition, context, direction)) {
+        if (!getOffset(direction, page, context).satisfies(condition, context, direction)) {
             context.add(
                     String.format("Expected %s offset of element %s to be %s. Actual %s offset is: %s",
                             direction.endName(),
                             getQuotedName(),
                             condition.getDescription(context, direction),
                             direction.endName(),
-                            getOffset(direction, page).toStringWithUnits(PIXELS)));
+                            getOffset(direction, page, context).toStringWithUnits(PIXELS)));
         }
     }
 
@@ -400,15 +401,16 @@ public class UIElement {
 
     private void validateCentered(Direction direction, UIElement page, Context context) {
         Direction opposite = direction.opposite();
-        if (!hasEqualOppositeOffsets(direction, page, context)) {
+        Expression<Boolean> expression = equalOppositeOffsets(direction, page);
+        if (!expression.evaluateIn(context, direction)) {
             context.add(String.format("Element %s has not equal %s and %s offset. %s offset is %s, %s is %s",
                                 getQuotedName(),
                                 opposite.endName(),
                                 direction.endName(),
                                 capitalize(opposite.endName()),
-                                getOffset(opposite, page).toStringWithUnits(PIXELS),
+                                getOffset(opposite, page, context).toStringWithUnits(PIXELS),
                                 direction.endName(),
-                                getOffset(direction, page).toStringWithUnits(PIXELS)));
+                                getOffset(direction, page, context).toStringWithUnits(PIXELS)));
             context.draw(this);
         }
     }

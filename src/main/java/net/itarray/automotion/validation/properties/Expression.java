@@ -44,6 +44,14 @@ public interface Expression<T> {
                 "%s to be equal to %s");
     }
 
+    static <V extends MetricSpace<V>> Expression<V> signedDistance(Expression<V> left, Expression<V> right, ExtendGiving<V> extendGiving) {
+        return new BinaryExpression<>(
+                left,
+                right,
+                (scalar, other, context) -> extendGiving.signedDistance(scalar, other),
+                "%s to be equal to %s");
+    }
+
     <V extends MetricSpace<V>> T evaluateIn(Context context, ExtendGiving<V> direction);
 
     <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction);
