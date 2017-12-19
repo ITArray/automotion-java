@@ -5,7 +5,7 @@ import java.util.function.Function;
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 
 public enum Direction implements ExtendGiving<Scalar> {
-    DOWN{
+    DOWN(Vector::getY, 1) {
         public String beforeName() {
             return "Above";
         }
@@ -29,13 +29,8 @@ public enum Direction implements ExtendGiving<Scalar> {
         public String extendName() {
             return "height";
         }
-        @Override
-        public Function<Vector, Scalar> transform() {
-            return v -> v.getY().times(unit());
-        }
-
     },
-    UP {
+    UP(Vector::getY, -1) {
         public String beforeName() {
             return "Below";
         }
@@ -60,16 +55,8 @@ public enum Direction implements ExtendGiving<Scalar> {
             return "height";
         }
 
-        @Override
-        protected Scalar unit() { return scalar(-1);}
-        @Override
-        public Function<Vector, Scalar> transform() {
-            return v -> v.getY().times(unit());
-        }
-
-
     },
-    RIGHT {
+    RIGHT(Vector::getX, 1) {
         public String beforeName() {
             return "Left";
         }
@@ -94,7 +81,7 @@ public enum Direction implements ExtendGiving<Scalar> {
             return "width";
         }
     },
-    LEFT {
+    LEFT(Vector::getX, -1) {
         public String beforeName() {
             return "Right";
         }
@@ -119,9 +106,10 @@ public enum Direction implements ExtendGiving<Scalar> {
             return "width";
         }
 
-        @Override
-        protected Scalar unit() { return scalar(-1);}
     };
+
+    private final Function<Vector, Scalar> projection;
+    private final Scalar u;
 
     public abstract Direction opposite();
 
@@ -147,16 +135,18 @@ public enum Direction implements ExtendGiving<Scalar> {
 
     public abstract String extendName();
 
+    @Override
     public Scalar signedDistance(Scalar p1, Scalar p2) {
-        return p2.minus(p1).times(unit());
+        return p2.minus(p1).times(u);
     }
 
     @Override
     public Function<Vector, Scalar> transform() {
-        return v -> v.getX().times(unit());
+        return v -> projection.apply(v).times(u);
     }
 
-    protected Scalar unit() { return scalar(1);}
-
-
+    Direction(Function<Vector, Scalar> projection, int u) {
+        this.projection = projection;
+        this.u = scalar(u);
+    }
 }
