@@ -1,12 +1,9 @@
 package net.itarray.automotion.internal.geometry;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
+
 public enum Direction implements ExtendGiving<Scalar> {
     DOWN{
-        @Override
-        public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p1.isLessOrEqualTo(p2);
-        }
-
         public String beforeName() {
             return "Above";
         }
@@ -32,11 +29,6 @@ public enum Direction implements ExtendGiving<Scalar> {
         }
     },
     UP {
-        @Override
-        public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p2.isLessOrEqualTo(p1);
-        }
-
         public String beforeName() {
             return "Below";
         }
@@ -60,13 +52,11 @@ public enum Direction implements ExtendGiving<Scalar> {
         public String extendName() {
             return "height";
         }
+
+        @Override
+        protected Scalar unit() { return scalar(-1);}
     },
     RIGHT {
-        @Override
-        public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p1.isLessOrEqualTo(p2);
-        }
-
         public String beforeName() {
             return "Left";
         }
@@ -92,11 +82,6 @@ public enum Direction implements ExtendGiving<Scalar> {
         }
     },
     LEFT {
-        @Override
-        public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p2.isLessOrEqualTo(p1);
-        }
-
         public String beforeName() {
             return "Right";
         }
@@ -120,6 +105,9 @@ public enum Direction implements ExtendGiving<Scalar> {
         public String extendName() {
             return "width";
         }
+
+        @Override
+        protected Scalar unit() { return scalar(-1);}
     };
 
     public abstract Direction opposite();
@@ -146,13 +134,9 @@ public enum Direction implements ExtendGiving<Scalar> {
 
     public abstract String extendName();
 
-    public abstract boolean beforeOrEqual(Scalar p1, Scalar p2);
-
     public Scalar signedDistance(Scalar p1, Scalar p2) {
-        return beforeOrEqual(p1, p2) ? distance(p1, p2) : distance(p1, p2).negated();
+        return p2.minus(p1).times(unit());
     }
 
-    public Scalar distance(Scalar p1, Scalar p2) {
-        return p2.minus(p1).abs();
-    }
+    protected Scalar unit() { return scalar(1);}
 }

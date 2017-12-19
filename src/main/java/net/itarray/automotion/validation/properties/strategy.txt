@@ -1,8 +1,6 @@
 
 - next steps:
-    - merge
     - error message for gridCells
-    - pull request
     - create report synchronously with switch to include good cases
     - build the representations
 

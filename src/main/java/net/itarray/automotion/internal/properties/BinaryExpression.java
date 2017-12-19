@@ -1,9 +1,7 @@
 package net.itarray.automotion.internal.properties;
 
-import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.MetricSpace;
-import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Expression;
 
 import java.util.function.BiFunction;
