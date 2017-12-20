@@ -166,17 +166,17 @@ public class UIElement {
     }
 
     public boolean overlaps(UIElement other, Context context) {
-        return Condition.lessThan(other.getRight()).isSatisfiedOn(getLeft(), context, RIGHT)  &&
-                Condition.lessThan(getRight()).isSatisfiedOn(other.getLeft(), context, RIGHT) &&
-                Condition.lessThan(other.getBottom()).isSatisfiedOn(getTop(), context, DOWN) &&
-                Condition.lessThan(getBottom()).isSatisfiedOn(other.getTop(), context, DOWN);
+        return Condition.lessThan(other.end(RIGHT)).applyTo(end(LEFT)).evaluateIn(context, RIGHT) &&
+                Condition.lessThan(end(RIGHT)).applyTo(other.end(LEFT)).evaluateIn(context, RIGHT) &&
+                Condition.lessThan(other.end(DOWN)).applyTo(end(UP)).evaluateIn(context, DOWN) &&
+                Condition.lessThan(end(DOWN)).applyTo(other.end(UP)).evaluateIn(context, DOWN);
     }
 
     public boolean notOverlaps(UIElement other, Context context) {
-        return Condition.greaterOrEqualTo(other.getRight()).isSatisfiedOn(getLeft(), context, RIGHT)  ||
-                Condition.greaterOrEqualTo(getRight()).isSatisfiedOn(other.getLeft(), context, RIGHT) ||
-                Condition.greaterOrEqualTo(other.getBottom()).isSatisfiedOn(getTop(), context, DOWN) ||
-                Condition.greaterOrEqualTo(getBottom()).isSatisfiedOn(other.getTop(), context, DOWN);
+        return Condition.greaterOrEqualTo(other.end(RIGHT)).applyTo(end(LEFT)).evaluateIn(context, RIGHT) ||
+                Condition.greaterOrEqualTo(end(RIGHT)).applyTo(other.end(LEFT)).evaluateIn(context, RIGHT) ||
+                Condition.greaterOrEqualTo(other.end(DOWN)).applyTo(end(UP)).evaluateIn(context, DOWN) ||
+                Condition.greaterOrEqualTo(end(DOWN)).applyTo(other.end(UP)).evaluateIn(context, DOWN);
     }
 
     private <V extends MetricSpace<V>> Expression<V> offset(UIElement page, ExtendGiving<V> direction) {
