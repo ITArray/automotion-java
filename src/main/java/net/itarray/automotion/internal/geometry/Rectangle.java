@@ -4,45 +4,14 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
-import java.util.function.Function;
+import static net.itarray.automotion.internal.geometry.Direction.DOWN;
+import static net.itarray.automotion.internal.geometry.Direction.RIGHT;
 
 public class Rectangle {
     private final Vector origin;
     private final Vector corner;
 
-    public static final ExtendGiving<Vector> ORIGIN_CORNER = new ExtendGiving<Vector>() {
-        @Override
-        public String extendName() {
-            return "size";
-        }
-
-        @Override
-        public String beginName() {
-            return "top left";
-        }
-
-        @Override
-        public String endName() {
-            return "bottom right";
-        }
-
-        @Override
-        public Vector begin(Rectangle rectangle) {
-            return rectangle.getOrigin();
-        }
-
-        @Override
-        public Vector end(Rectangle rectangle) {
-            return rectangle.getCorner();
-        }
-
-        @Override
-        public Function<Vector, Vector> transform() {
-            return v -> v;
-        }
-    };
-
-
+    public static final ExtendGiving<Vector> ORIGIN_CORNER = new VectorExtendGiving(RIGHT, DOWN);
 
     public static Rectangle rectangle(WebElement webElement) {
         Point location = webElement.getLocation();
@@ -77,7 +46,7 @@ public class Rectangle {
     }
 
     public boolean intersects(Rectangle other) {
-        return intersects(Direction.RIGHT, other) && intersects(Direction.DOWN, other);
+        return intersects(RIGHT, other) && intersects(DOWN, other);
     }
 
     public boolean contains(Direction direction, Rectangle other) {
@@ -86,7 +55,7 @@ public class Rectangle {
     }
 
     public boolean contains(Rectangle other) {
-        return contains(Direction.RIGHT, other) && contains(Direction.DOWN, other);
+        return contains(RIGHT, other) && contains(DOWN, other);
     }
 
     @Override
@@ -94,4 +63,5 @@ public class Rectangle {
         Vector extend = corner.minus(origin);
         return String.format("[(%s,%s) - %sx%s]", origin.getX(), origin.getY(), extend.getX(), extend.getY());
     }
+
 }
