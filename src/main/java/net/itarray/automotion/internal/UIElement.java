@@ -7,6 +7,7 @@ import net.itarray.automotion.internal.geometry.Interval;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
+import net.itarray.automotion.internal.properties.ConstantExpression;
 import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
@@ -223,11 +224,11 @@ public class UIElement {
 
     public boolean contains(UIElement other, Context context) {
         return
-                Condition.lessOrEqualTo(other.getLeft()).isSatisfiedOn(getLeft(), context, RIGHT) &&
-                Condition.lessOrEqualTo(getRight()).isSatisfiedOn(other.getRight(), context, RIGHT) &&
-                Condition.lessOrEqualTo(other.getTop()).isSatisfiedOn(getTop(), context, DOWN) &&
-                Condition.lessOrEqualTo(getBottom()).isSatisfiedOn(other.getBottom(), context, DOWN);
-    }
+                Condition.lessOrEqualTo(other.end(LEFT)).applyTo(end(LEFT)).evaluateIn(context, RIGHT) &&
+                Condition.lessOrEqualTo(end(RIGHT)).applyTo(other.end(RIGHT)).evaluateIn(context, RIGHT) &&
+                Condition.lessOrEqualTo(other.end(UP)).applyTo(end(UP)).evaluateIn(context, DOWN) &&
+                Condition.lessOrEqualTo(end(DOWN)).applyTo(other.end(DOWN)).evaluateIn(context, DOWN);
+}
 
     public void validateLeftAlignedWith(UIElement element, Context context) {
         validateEqualEnd(LEFT, element, context);
