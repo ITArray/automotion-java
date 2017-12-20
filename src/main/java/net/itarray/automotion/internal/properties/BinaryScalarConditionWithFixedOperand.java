@@ -18,11 +18,6 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
     private final ContextBiFunction<Scalar, Scalar, Boolean> contextPredicate;
     private final String toStringFormat;
 
-
-    public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, BiPredicate<Scalar, Scalar> predicate, String toStringFormat) {
-        this(fixedOperand, (left, right, context) -> predicate.test(left, right), toStringFormat);
-    }
-
     public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, ContextBiFunction<Scalar, Scalar, Boolean> contextPredicate, String toStringFormat) {
         this.fixedOperand = fixedOperand;
         this.contextPredicate = contextPredicate;
