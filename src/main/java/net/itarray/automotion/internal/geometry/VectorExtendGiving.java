@@ -43,4 +43,9 @@ public class VectorExtendGiving implements ExtendGiving<Vector> {
     public Function<Vector, Vector> transform() {
         return v -> new Vector(x.transform().apply(v), y.transform().apply(v));
     }
+
+    @Override
+    public Vector signedDistance(Vector p1, Vector p2) {
+        return new Vector(x.signedDistance(p1.getX(), p2.getX()), y.signedDistance(p1.getY(), p2.getY()));
+    }
 }
