@@ -9,37 +9,31 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ConditionLessThanTest {
+public class ConditionLessThanTest extends ScalarConditionTest {
 
-    private Condition<Scalar> condition;
     private Scalar limit;
-    private TestContext context;
-    private Direction direction;
 
     @Before
     public void createProperty() {
         limit = Scalar.scalar(7);
         condition = Condition.lessThan(limit);
-        context = new TestContext();
-        direction = Direction.RIGHT;
     }
 
     @Test
     public void isSatisfiedOnValuesSmallerThanTheLimit() {
-        assertThat(condition.isSatisfiedOn(limit.minus(1), context, direction)).isTrue();
-        assertThat(condition.isSatisfiedOn(limit.minus(1), context.withTolerance(1), direction)).isTrue();
-        assertThat(condition.isSatisfiedOn(limit, context.withTolerance(1), direction)).isTrue();
+        assertThat(satisfiedOn(limit.minus(1))).isTrue();
+        assertThat(satisfiedOnWithTolerance(limit.minus(1))).isTrue();
+        assertThat(satisfiedOnWithTolerance(limit)).isTrue();
     }
 
     @Test
     public void isNotSatisfiedOnValuesEqualToTheLimit() {
-        assertThat(condition.isSatisfiedOn(limit, context, direction)).isFalse();
+        assertThat(satisfiedOn(limit)).isFalse();
     }
 
     @Test
     public void isNotSatisfiedOnValuesGreaterThanTheLimit() {
-        assertThat(condition.isSatisfiedOn(limit.plus(1), context, direction)).isFalse();
-        assertThat(condition.isSatisfiedOn(limit.plus(1), context.withTolerance(1), direction)).isFalse();
+        assertThat(satisfiedOn(limit.plus(1))).isFalse();
+        assertThat(satisfiedOnWithTolerance(limit.plus(1))).isFalse();
     }
-
 }

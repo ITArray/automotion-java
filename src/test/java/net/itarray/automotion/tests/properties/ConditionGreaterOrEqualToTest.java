@@ -10,38 +10,33 @@ import org.junit.Test;
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ConditionGreaterOrEqualToTest {
+public class ConditionGreaterOrEqualToTest extends ScalarConditionTest {
 
-    private Condition<Scalar> condition;
     private Scalar limit;
-    private TestContext context;
-    private Direction direction;
 
     @Before
     public void createProperty() {
         limit = scalar(7);
         condition = Condition.greaterOrEqualTo(limit);
-        context = new TestContext();
-        direction = Direction.RIGHT;
     }
 
     @Test
     public void isSatisfiedOnValuesSmallerThanTheLimit() {
-        assertThat(condition.isSatisfiedOn(limit.minus(1), context, direction)).isFalse();
-        assertThat(condition.isSatisfiedOn(limit.minus(2), context.withTolerance(1), direction)).isFalse();
+        assertThat(satisfiedOn(limit.minus(1))).isFalse();
+        assertThat(satisfiedOnWithTolerance(limit.minus(2))).isFalse();
     }
 
     @Test
     public void isSatisfiedOnValuesEqualToTheLimit() {
-        assertThat(condition.isSatisfiedOn(limit, context, direction)).isTrue();
-        assertThat(condition.isSatisfiedOn(limit, context.withTolerance(1), direction)).isTrue();
-        assertThat(condition.isSatisfiedOn(limit.minus(1), context.withTolerance(1), direction)).isTrue();
+        assertThat(satisfiedOn(limit)).isTrue();
+        assertThat(satisfiedOnWithTolerance(limit)).isTrue();
+        assertThat(satisfiedOnWithTolerance(limit.minus(1))).isTrue();
     }
 
     @Test
     public void isSatisfiedOnValuesGreaterThanTheLimit() {
-        assertThat(condition.isSatisfiedOn(limit.plus(1), context, direction)).isTrue();
-        assertThat(condition.isSatisfiedOn(limit.plus(1), context.withTolerance(1), direction)).isTrue();
+        assertThat(satisfiedOn(limit.plus(1))).isTrue();
+        assertThat(satisfiedOnWithTolerance(limit.plus(1))).isTrue();
     }
 
     @Test

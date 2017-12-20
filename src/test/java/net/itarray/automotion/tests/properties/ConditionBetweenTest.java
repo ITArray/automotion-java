@@ -10,57 +10,46 @@ import org.junit.Test;
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ConditionBetweenTest {
+public class ConditionBetweenTest extends ScalarConditionTest {
 
-    private Condition<Scalar> condition;
     private Scalar lowerLimit;
     private Scalar upperLimit;
-    private Context context;
-    private Direction direction;
 
     @Before
     public void createProperty() {
         lowerLimit = scalar(7);
         upperLimit = scalar(10);
         condition = Condition.between(lowerLimit).and(upperLimit);
-        context = new TestContext();
-        direction = Direction.RIGHT;
     }
 
     @Test
     public void isSatisfiedOnValuesSmallerThanTheLowerLimit() {
-        boolean result = condition.isSatisfiedOn(lowerLimit.minus(1), context, direction);
-        assertThat(result).isFalse();
+        assertThat(satisfiedOn(lowerLimit.minus(1))).isFalse();
     }
 
     @Test
     public void isSatisfiedOnValuesEqualToTheLowerLimit() {
-        boolean result = condition.isSatisfiedOn(lowerLimit, context, direction);
-        assertThat(result).isTrue();
+        assertThat(satisfiedOn(lowerLimit)).isTrue();
     }
 
     @Test
     public void isSatisfiedOnValuesGreaterThanTheLowerLimit() {
-        boolean result = condition.isSatisfiedOn(lowerLimit.plus(1), context, direction);
-        assertThat(result).isTrue();
+        assertThat(satisfiedOn(lowerLimit.plus(1))).isTrue();
     }
 
     @Test
     public void isSatisfiedOnValuesSmallerThanTheLimit() {
-        boolean result = condition.isSatisfiedOn(upperLimit.minus(1), context, direction);
-        assertThat(result).isTrue();
+        assertThat(satisfiedOn(upperLimit.minus(1))).isTrue();
     }
 
     @Test
     public void isSatisfiedOnValuesEqualToTheLimit() {
-        boolean result = condition.isSatisfiedOn(upperLimit, context, direction);
-        assertThat(result).isTrue();
+        assertThat(satisfiedOn(upperLimit)).isTrue();
     }
 
     @Test
     public void isSatisfiedOnValuesGreaterThanTheLimit() {
-        boolean result = condition.isSatisfiedOn(upperLimit.plus(1), context, direction);
-        assertThat(result).isFalse();
+        assertThat(satisfiedOn(upperLimit.plus(1))).isFalse();
     }
 
     @Test

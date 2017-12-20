@@ -18,7 +18,7 @@ public class ConditionedExpression<T> implements Expression<Boolean> {
 
     @Override
     public <V extends MetricSpace<V>> Boolean evaluateIn(Context context, ExtendGiving<V> direction) {
-        return toBeApplied.isSatisfiedOn(toBeConditioned.evaluateIn(context, direction), context, direction);
+        return toBeApplied.isSatisfiedOn(toBeConditioned, context, direction);
     }
 
     @Override

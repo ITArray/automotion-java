@@ -30,8 +30,8 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
     }
 
     @Override
-    public <V extends MetricSpace<V>> boolean isSatisfiedOn(Scalar value, Context context, ExtendGiving<V> direction) {
-        return contextPredicate.apply(value, fixedOperand.evaluateIn(context, direction), context);
+    public <V extends MetricSpace<V>> boolean isSatisfiedOn(Expression<Scalar> toBeConditioned, Context context, ExtendGiving<V> direction) {
+        return contextPredicate.apply(toBeConditioned.evaluateIn(context, direction), fixedOperand.evaluateIn(context, direction), context);
     }
 
     @Override

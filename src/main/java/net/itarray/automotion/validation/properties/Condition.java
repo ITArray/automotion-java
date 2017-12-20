@@ -119,8 +119,8 @@ public interface Condition<T> {
         }
     }
 
-    default <V extends MetricSpace<V>> boolean isSatisfiedOn(T value, Context context, ExtendGiving<V> direction) {
-        return applyTo(new ConstantExpression<T>(value)).evaluateIn(context, direction);
+    default <V extends MetricSpace<V>> boolean isSatisfiedOn(Expression<T> toBeConditioned, Context context, ExtendGiving<V> direction) {
+        return applyTo(toBeConditioned).evaluateIn(context, direction);
     }
 
     default Expression<Boolean> applyTo(Expression<T> toBeConditioned) {

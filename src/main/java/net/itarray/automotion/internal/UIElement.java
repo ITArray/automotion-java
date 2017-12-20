@@ -328,12 +328,12 @@ public class UIElement {
     }
 
     public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Context context) {
-        Scalar signedDistance = signedDistanceToSuccessor(direction, toBeValidatedSuccessor);
-        if (!signedDistance.satisfies(condition, context, direction)) {
+        ConstantExpression<Scalar> signedDistance = new ConstantExpression<>(signedDistanceToSuccessor(direction, toBeValidatedSuccessor));
+        if (!condition.isSatisfiedOn(signedDistance, context, direction)) {
             context.add(String.format("%s element aligned not properly. Expected margin should be %s. Actual margin is %s",
                                 direction.afterName(),
                                 condition.getDescription(context, direction),
-                                signedDistance.toStringWithUnits(PIXELS)));
+                                signedDistance.evaluateIn(context, direction).toStringWithUnits(PIXELS)));
             context.draw(toBeValidatedSuccessor);
         }
     }
@@ -374,7 +374,7 @@ public class UIElement {
 
     public void validateOffset(Direction direction, Condition condition, UIElement page, Context context) {
         Expression<Scalar> offset = offset(page, direction);
-        if (!offset.evaluateIn(context, direction).satisfies(condition, context, direction)) {
+        if (!condition.isSatisfiedOn(offset, context, direction)) {
             context.add(
                     String.format("Expected %s offset of element %s to be %s. Actual %s offset is: %s",
                             direction.endName(),
