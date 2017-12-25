@@ -41,7 +41,7 @@ public interface Expression<T> {
                 left,
                 right,
                 (scalar, other, context) -> scalar.minus(other).norm().isLessOrEqualTo(context.getTolerance()),
-                "%s to be equal to %s");
+                "Expected %1$s to be equal to %2$s.");
     }
 
     static <V extends MetricSpace<V>> Expression<V> signedDistance(Expression<V> left, Expression<V> right, ExtendGiving<V> extendGiving) {
@@ -49,7 +49,7 @@ public interface Expression<T> {
                 left,
                 right,
                 (scalar, other, context) -> extendGiving.signedDistance(scalar, other),
-                "%s to be equal to %s");
+                "Expected %1$s to be equal to %2$s.");
     }
 
     <V extends MetricSpace<V>> T evaluateIn(Context context, ExtendGiving<V> direction);

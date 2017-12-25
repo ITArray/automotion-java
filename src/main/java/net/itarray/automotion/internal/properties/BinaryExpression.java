@@ -31,12 +31,14 @@ public class BinaryExpression<L, R, T> implements Expression<T> {
         return contextBiFunction.apply(left.evaluateIn(context, direction), right.evaluateIn(context, direction), context);
     }
 
-    @Override
-    public <V extends MetricSpace<V>>String getDescription(Context context, ExtendGiving<V> direction) {
-        String toleranceDescription = context.getTolerance().equals(scalar(0)) ? "" : String.format(" with tolerance %s", context.getTolerance());
-        return String.format(
-                descriptionFormat,
+    public <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction) {
+        String toleranceDescription = context.getTolerance().equals(scalar(0)) ? "" : String.format(" (With tolerance %s).", context.getTolerance());
+        L t = left.evaluateIn(context, direction);
+        return String.format(descriptionFormat,
                 left.getDescription(context, direction),
-                right.getDescription(context, direction)) + toleranceDescription;
+                right.getDescription(context, direction),
+                left.getRepeatedDescription(context, direction),
+                (t instanceof MetricSpace) ? ((MetricSpace) t).toStringWithUnits("px") : t) + toleranceDescription;
     }
+
 }

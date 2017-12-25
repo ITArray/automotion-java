@@ -25,8 +25,10 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
     }
 
     @Override
-    public <V extends MetricSpace<V>> boolean isSatisfiedOn(Expression<Scalar> toBeConditioned, Context context, ExtendGiving<V> direction) {
-        return contextPredicate.apply(toBeConditioned.evaluateIn(context, direction), fixedOperand.evaluateIn(context, direction), context);
+    public Expression<Boolean> applyTo(Expression<Scalar> toBeConditioned) {
+        String toStringFormat = this.toStringFormat.replace("%s", "%2$s");
+        return new BinaryExpression<>(toBeConditioned, fixedOperand, contextPredicate,
+                "Expected %1$s to be " + toStringFormat + ". Actual %3$s is: %4$s");
     }
 
     @Override
