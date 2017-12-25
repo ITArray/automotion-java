@@ -183,20 +183,24 @@ public class UIElement {
         return Expression.signedDistance(end(direction), page.end(direction), direction);
     }
 
+    @Deprecated
     private boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
         return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualTo(scalar(0));
     }
 
+    @Deprecated
     private Scalar signedDistanceToSuccessor(Direction direction, UIElement successor) {
         return direction.signedDistance(direction.end(rectangle), direction.begin(successor.rectangle));
     }
 
     // todo: used only in PageValidator - no tolerance yet
+    @Deprecated
     public  boolean hasRightElement(UIElement rightElement) {
         return hasSuccessor(RIGHT, rightElement);
     }
 
     // todo: used only in PageValidator - no tolerance yet
+    @Deprecated
     public boolean hasBelowElement(UIElement bottomElement) {
         return hasSuccessor(DOWN, bottomElement);
     }
@@ -264,6 +268,10 @@ public class UIElement {
         return ElementPropertyExpression.end(direction, this);
     }
 
+    public <V extends MetricSpace<V>> Expression<V> begin(ExtendGiving<V> direction) {
+        return ElementPropertyExpression.begin(direction, this);
+    }
+
     public void validateSameSize(UIElement element, Context context) {
         validateSameExtend(ORIGIN_CORNER, element, context);
     }
@@ -328,7 +336,7 @@ public class UIElement {
     }
 
     public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Context context) {
-        ConstantExpression<Scalar> signedDistance = new ConstantExpression<>(signedDistanceToSuccessor(direction, toBeValidatedSuccessor));
+        Expression<Scalar> signedDistance = Expression.signedDistance(end(direction), toBeValidatedSuccessor.begin(direction), direction);
         if (!condition.isSatisfiedOn(signedDistance, context, direction)) {
             context.add(String.format("%s element aligned not properly. Expected margin should be %s. Actual margin is %s",
                                 direction.afterName(),
