@@ -103,9 +103,9 @@ public abstract class ResponsiveUIValidatorBase {
 
     public boolean validate() {
 
-        if (errors.hasMessages()) {
+        //if (errors.hasMessages()) {
             compileValidationReport();
-        }
+        //}
 
         return !errors.hasMessages();
     }

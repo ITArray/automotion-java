@@ -37,6 +37,8 @@ public class HtmlReportBuilder {
 
     private List<String> jsonFiles;
     private Object screenshotDrawingOverlay;
+    private int failuresCounter = 0;
+    private int successCounter = 0;
 
     public void buildReport(String reportName, List<String> jsonFiles) {
         this.jsonFiles = jsonFiles;
@@ -64,12 +66,18 @@ public class HtmlReportBuilder {
     }
 
     private Html buildHtml() throws IOException, ParseException {
-        return new Html(null, new Style("background-color: #f5f5f5")) {{
+        return new Html(null,
+                new Style("background-color: #fff")) {{
             super.setPrependDocType(true);
             new Head(this) {{
                 new TitleTag(this) {{
                     new NoTag(this, "Automotion report");
                 }};
+                new Script(this,
+                        new Src("https://cdn.plot.ly/plotly-latest.min.js"));
+                new Script(this,
+                        new Src("https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"));
+
                 new StyleTag(this) {{
                     new NoTag(this, ".accordion {\n" +
                             "    background-color: #eee;\n" +
@@ -176,12 +184,17 @@ public class HtmlReportBuilder {
                 }};
             }};
             new Body(this) {{
-                new Style("background: #f5f5f5; margin: 0px");
+                new Style("background: white; margin: 0px");
                 new Div(this, new Style("background-color: rgb(0,191,255); color: white; padding: 10px")) {{
                     new H1(this) {{
                         new NoTag(this, String.format("Results from: %s", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                     }};
                 }};
+
+                new Div(this,
+                        new Style("margin-top: 5px"),
+                        new Id("plot")) {{}};
+
                 Map<String, File> filesByName = jsonFilesByNameInTargetJsonDirectory();
                 for (String jsonFile : jsonFiles) {
                     if (filesByName.containsKey(jsonFile)) {
@@ -192,22 +205,37 @@ public class HtmlReportBuilder {
 
                             JSONObject jsonObject = (JSONObject) obj;
                             JSONArray details = (JSONArray) jsonObject.get(DETAILS);
+                            boolean isFailed = (Boolean) jsonObject.get("error");
+
+                            if (isFailed) {
+                                failuresCounter ++;
+                            } else {
+                                successCounter ++;
+                            }
+
                             new Div(this,
                                     new Style("margin-top:2px"),
                                     new ClassAttribute("accordion")) {{
                                 new H1(this,
                                         new Style("color: rgb(47,79,79); font-size:24px")) {{
                                     new NoTag(this, String.format("Scenario: \"%s\"", jsonObject.get(SCENARIO)));
-                                    new Span(this,
-                                            new Style("color: tomato; float:right; font-size:18px; margin-right: 32px")) {{
-                                        new NoTag(this, "Failed");
-                                    }};
+                                    if (isFailed) {
+                                        new Span(this,
+                                                new Style("color: tomato; float:right; font-size:18px; margin-right: 32px")) {{
+                                            new NoTag(this, "Failed");
+                                        }};
+                                    } else {
+                                        new Span(this,
+                                                new Style("color: green; float:right; font-size:18px; margin-right: 32px")) {{
+                                            new NoTag(this, "Passed");
+                                        }};
+                                    }
                                 }};
 
                             }};
 
                             new Div(this,
-                                    new Style("background: #f5f5f5"),
+                                    //new Style("background: #f5f5f5"),
                                     new ClassAttribute("panel")) {{
                                 new H2(this,
                                         new Style("color: rgb(0,139,139)")) {{
@@ -244,17 +272,20 @@ public class HtmlReportBuilder {
                                             //new OnMouseOver("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'block'"),
                                             //new OnMouseOut("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'none'"),
                                             new Style("position:relative; left: 0; top:0; width: 96%; margin-left:2%")) {{
-                                        new Img(this,
-                                                new Style("position:relative; left: 0; top:0"),
-                                                new Src(String.format("img/%s", jsonObject.get(SCREENSHOT))),
-                                                new Alt("screenshot"));
-                                        new Img(this,
-                                                new Id(screenshotDrawingOverlay.toString()),
-                                                new Style("position:absolute; left: 0; top:0;"),
-                                                //new Style("position:absolute; left: 0; top:0; display:none;"),
-                                                new Src(String.format("img/%s", screenshotDrawingOverlay)),
-                                                new OnClick("showModal('" + screenshotDrawingOverlay.toString() + "')"),
-                                                new Alt("screenshot-overlay"));
+
+                                        if (isFailed) {
+                                            new Img(this,
+                                                    new Style("position:relative; left: 0; top:0"),
+                                                    new Src(String.format("img/%s", jsonObject.get(SCREENSHOT))),
+                                                    new Alt("screenshot"));
+                                            new Img(this,
+                                                    new Id(screenshotDrawingOverlay.toString()),
+                                                    new Style("position:absolute; left: 0; top:0;"),
+                                                    //new Style("position:absolute; left: 0; top:0; display:none;"),
+                                                    new Src(String.format("img/%s", screenshotDrawingOverlay)),
+                                                    new OnClick("showModal('" + screenshotDrawingOverlay.toString() + "')"),
+                                                    new Alt("screenshot-overlay"));
+                                        }
                                     }};
 
                                 }};
@@ -284,6 +315,24 @@ public class HtmlReportBuilder {
 
                     }
                 }
+
+                new Script(this){{
+                    new NoTag(this, "" +
+                        "var data = [{\n" +
+                            "  values: [" + successCounter + ", " + failuresCounter + "],\n" +
+                            "  labels: ['Passed', 'Failed'],\n" +
+                            "  type: 'pie',\n" +
+                            "  hole: .4\n" +
+                            "}];\n" +
+                            "\n" +
+                            "var layout = {\n" +
+                            "  height: 400,\n" +
+                            "  width: 500\n" +
+                            "};\n" +
+                            "\n" +
+                            "Plotly.newPlot('plot', data, layout);");
+                }};
+
                 jsonFiles.clear();
 
                 new Script(this) {{
