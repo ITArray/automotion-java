@@ -39,6 +39,9 @@ public class HtmlReportBuilder {
     private Object screenshotDrawingOverlay;
     private int failuresCounter = 0;
     private int successCounter = 0;
+    private int counter = 0;
+    private String barDuration = "";
+    private String barScenariosNames = "";
 
     public void buildReport(String reportName, List<String> jsonFiles) {
         this.jsonFiles = jsonFiles;
@@ -195,6 +198,10 @@ public class HtmlReportBuilder {
                         new Style("margin-top: 5px"),
                         new Id("plot")) {{}};
 
+                new Div(this,
+                        new Style("margin-top: 5px"),
+                        new Id("bar")) {{}};
+
                 Map<String, File> filesByName = jsonFilesByNameInTargetJsonDirectory();
                 for (String jsonFile : jsonFiles) {
                     if (filesByName.containsKey(jsonFile)) {
@@ -207,11 +214,16 @@ public class HtmlReportBuilder {
                             JSONArray details = (JSONArray) jsonObject.get(DETAILS);
                             boolean isFailed = (Boolean) jsonObject.get("error");
 
+                            counter ++;
+
                             if (isFailed) {
                                 failuresCounter ++;
                             } else {
                                 successCounter ++;
                             }
+
+                            barDuration += String.format("%s, ", ((String)jsonObject.get(TIME_EXECUTION)).split(" ")[0]);
+                            barScenariosNames += String.format("'%d. %s', ", counter, jsonObject.get(SCENARIO));
 
                             new Div(this,
                                     new Style("margin-top:2px"),
@@ -331,6 +343,18 @@ public class HtmlReportBuilder {
                             "};\n" +
                             "\n" +
                             "Plotly.newPlot('plot', data, layout);");
+                }};
+
+                new Script(this){{
+                    new NoTag(this, "var data = [\n" +
+                            "  {\n" +
+                            "    x: ["  + barScenariosNames.substring(0, barScenariosNames.length() - 2) + "],\n" +
+                            "    y: [" + barDuration.substring(0, barDuration.length() - 2) + "],\n" +
+                            "    type: 'bar'\n" +
+                            "  }\n" +
+                            "];\n" +
+                            "\n" +
+                            "Plotly.newPlot('bar', data);");
                 }};
 
                 jsonFiles.clear();
