@@ -1,12 +1,9 @@
 package net.itarray.automotion.internal;
 
-import com.gargoylesoftware.htmlunit.javascript.host.css.CSS;
-import com.webfirmframework.wffweb.css.file.CssBlock;
 import com.webfirmframework.wffweb.tag.html.*;
 import com.webfirmframework.wffweb.tag.html.attribute.Alt;
 import com.webfirmframework.wffweb.tag.html.attribute.Src;
-import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnMouseOut;
-import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnMouseOver;
+import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
 import com.webfirmframework.wffweb.tag.html.attribute.global.ClassAttribute;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Id;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
@@ -59,7 +56,7 @@ public class HtmlReportBuilder {
         File report = new File(TARGET_AUTOMOTION + reportName.replace(" ", "_") + "-" + ms + uuid + ".html");
         report.getParentFile().mkdirs();
         try (FileOutputStream fos = new FileOutputStream(report);
-                BufferedOutputStream bos = new BufferedOutputStream(fos);) {
+             BufferedOutputStream bos = new BufferedOutputStream(fos);) {
 
             html.toOutputStream(bos);
             bos.flush();
@@ -97,10 +94,90 @@ public class HtmlReportBuilder {
                             "    background-color: white;\n" +
                             "}");
                 }};
+                new StyleTag(this) {{
+                    new NoTag(this, "/* Style the Image Used to Trigger the Modal */\n" +
+                            "#myImg {\n" +
+                            "    border-radius: 5px;\n" +
+                            "    cursor: pointer;\n" +
+                            "    transition: 0.3s;\n" +
+                            "}\n" +
+                            "\n" +
+                            "#myImg:hover {opacity: 0.7;}\n" +
+                            "\n" +
+                            "/* The Modal (background) */\n" +
+                            ".modal {\n" +
+                            "    display: none; /* Hidden by default */\n" +
+                            "    position: fixed; /* Stay in place */\n" +
+                            "    z-index: 1; /* Sit on top */\n" +
+                            "    padding-top: 10px; /* Location of the box */\n" +
+                            "    left: 0;\n" +
+                            "    top: 0;\n" +
+                            "    width: 100%; /* Full width */\n" +
+                            "    height: 100%; /* Full height */\n" +
+                            "    overflow: auto; /* Enable scroll if needed */\n" +
+                            "    background-color: rgb(0,0,0); /* Fallback color */\n" +
+                            "    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */\n" +
+                            "}\n" +
+                            "\n" +
+                            "/* Modal Content (Image) */\n" +
+                            ".modal-content {\n" +
+                            "    margin: auto;\n" +
+                            "    display: block;\n" +
+                            "height: 98%;\n" +
+                            "    width: auto;\n" +
+                            "}\n" +
+                            "\n" +
+                            "/* Caption of Modal Image (Image Text) - Same Width as the Image */\n" +
+                            "#caption {\n" +
+                            "    margin: auto;\n" +
+                            "    display: block;\n" +
+                            "height: 50px;\n" +
+                            "    width: auto;\n" +
+                            "    text-align: center;\n" +
+                            "    color: #ccc;\n" +
+                            "    padding: 10px 0;\n" +
+                            "}\n" +
+                            "\n" +
+                            "/* Add Animation - Zoom in the Modal */\n" +
+                            ".modal-content, #caption { \n" +
+                            "    animation-name: zoom;\n" +
+                            "    animation-duration: 0.6s;\n" +
+                            "}\n" +
+                            "\n" +
+                            "@keyframes zoom {\n" +
+                            "    from {transform:scale(0)} \n" +
+                            "    to {transform:scale(1)}\n" +
+                            "}\n" +
+                            "\n" +
+                            "/* The Close Button */\n" +
+                            ".close {\n" +
+                            "    position: absolute;\n" +
+                            "    top: 15px;\n" +
+                            "    right: 35px;\n" +
+                            "    color: #f1f1f1;\n" +
+                            "    font-size: 40px;\n" +
+                            "    font-weight: bold;\n" +
+                            "    transition: 0.3s;\n" +
+                            "}\n" +
+                            "\n" +
+                            ".close:hover,\n" +
+                            ".close:focus {\n" +
+                            "    color: #bbb;\n" +
+                            "    text-decoration: none;\n" +
+                            "    cursor: pointer;\n" +
+                            "}\n" +
+                            "\n" +
+                            "/* 100% Image Width on Smaller Screens */\n" +
+                            "@media only screen and (max-width: 700px){\n" +
+                            "    .modal-content {\n" +
+                            "        width: 100%;\n" +
+                            "    }\n" +
+                            "}");
+                }};
             }};
             new Body(this) {{
                 new Style("background: #f5f5f5; margin: 0px");
-                new Div(this, new Style("width: 100%; background-color: rgb(0,191,255); color: white; padding: 10px")) {{
+                new Div(this, new Style("background-color: rgb(0,191,255); color: white; padding: 10px")) {{
                     new H1(this) {{
                         new NoTag(this, String.format("Results from: %s", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                     }};
@@ -116,10 +193,10 @@ public class HtmlReportBuilder {
                             JSONObject jsonObject = (JSONObject) obj;
                             JSONArray details = (JSONArray) jsonObject.get(DETAILS);
                             new Div(this,
-                                    new Style("width: 98%; margin-left:1%; margin-right: 1%; margin-top:2px"),
+                                    new Style("margin-top:2px"),
                                     new ClassAttribute("accordion")) {{
                                 new H1(this,
-                                        new Style("color: rgb(47,79,79); margin-top: 0px; font-size:24px")) {{
+                                        new Style("color: rgb(47,79,79); font-size:24px")) {{
                                     new NoTag(this, String.format("Scenario: \"%s\"", jsonObject.get(SCENARIO)));
                                     new Span(this,
                                             new Style("color: tomato; float:right; font-size:18px; margin-right: 32px")) {{
@@ -176,9 +253,29 @@ public class HtmlReportBuilder {
                                                 new Style("position:absolute; left: 0; top:0;"),
                                                 //new Style("position:absolute; left: 0; top:0; display:none;"),
                                                 new Src(String.format("img/%s", screenshotDrawingOverlay)),
+                                                new OnClick("showModal('" + screenshotDrawingOverlay.toString() + "')"),
                                                 new Alt("screenshot-overlay"));
                                     }};
 
+                                }};
+                            }};
+
+                            new Div(this,
+                                    new ClassAttribute("modal"),
+                                    new Id("myModal")) {{
+
+                                new Span(this,
+                                        new ClassAttribute("close")) {{
+                                    new NoTag(this, "&times;");
+                                }};
+
+                                new Img(this,
+                                        new Id("img01"),
+                                        new ClassAttribute("modal-content"));
+
+                                new Div(this,
+                                        new Id("caption")) {{
+                                    new NoTag(this, "");
                                 }};
                             }};
 
@@ -204,6 +301,27 @@ public class HtmlReportBuilder {
                             "        }\n" +
                             "    });\n" +
                             "}");
+                }};
+
+                new Script(this) {{
+                    new NoTag(this, "function showModal(imageId) {" +
+                            "var modal = document.getElementById('myModal');\n" +
+                            "\n" +
+                            "// Get the image and insert it inside the modal - use its \"alt\" text as a caption\n" +
+                            "var img = document.getElementById(imageId);\n" +
+                            "var modalImg = document.getElementById(\"img01\");\n" +
+                            "var captionText = document.getElementById(\"caption\");\n" +
+                            "modal.style.display = \"block\";\n" +
+                            "modalImg.src = img.src;\n" +
+                            "captionText.innerHTML = img.alt;\n" +
+                            "\n" +
+                            "// Get the <span> element that closes the modal\n" +
+                            "var span = document.getElementsByClassName(\"close\")[0];\n" +
+                            "\n" +
+                            "// When the user clicks on <span> (x), close the modal\n" +
+                            "span.onclick = function() { \n" +
+                            "  modal.style.display = \"none\";\n" +
+                            "}}");
                 }};
 
             }};
