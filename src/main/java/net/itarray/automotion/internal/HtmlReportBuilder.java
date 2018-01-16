@@ -214,7 +214,7 @@ public class HtmlReportBuilder {
                         }};
 
                         new Div(this,
-                                new ClassAttribute("col-xs-12 col-md-8"),
+                                new ClassAttribute("col-xs-12 col-md-12"),
                                 new Style("margin-top: 5px"),
                                 new Id("bar")) {{
                         }};

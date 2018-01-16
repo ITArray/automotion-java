@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static net.itarray.automotion.validation.Constants.*;
+import static net.itarray.automotion.validation.Constants.TARGET_AUTOMOTION_IMG;
 
 public class DrawableScreenshot {
 
@@ -67,7 +67,7 @@ public class DrawableScreenshot {
     public void saveDrawing() {
         try {
             ImageIO.write(drawings, "png", drawingsOutput);
-        } catch (IOException e) { }
+        } catch (IOException | NullPointerException e) {}
 
         drawings.getGraphics().dispose();
     }
