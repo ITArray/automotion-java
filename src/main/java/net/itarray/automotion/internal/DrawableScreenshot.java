@@ -66,12 +66,8 @@ public class DrawableScreenshot {
 
     public void saveDrawing() {
         try {
-            if (drawingsOutput.exists()) {
-                ImageIO.write(drawings, "png", drawingsOutput);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Writing file failed for " + drawingsOutput , e);
-        }
+            ImageIO.write(drawings, "png", drawingsOutput);
+        } catch (IOException e) { }
 
         drawings.getGraphics().dispose();
     }

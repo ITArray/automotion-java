@@ -76,6 +76,13 @@ public class HtmlReportBuilder {
                 new TitleTag(this) {{
                     new NoTag(this, "Automotion report");
                 }};
+                new NoTag(this, "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
+                new NoTag(this, "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">");
+
+                new NoTag(this, "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\" integrity=\"sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u\" crossorigin=\"anonymous\">");
+                new NoTag(this, "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css\" integrity=\"sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp\" crossorigin=\"anonymous\">");
+                new NoTag(this, "<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\" integrity=\"sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\" crossorigin=\"anonymous\"></script>");
+
                 new Script(this,
                         new Src("https://cdn.plot.ly/plotly-latest.min.js"));
                 new Script(this,
@@ -188,215 +195,231 @@ public class HtmlReportBuilder {
             }};
             new Body(this) {{
                 new Style("background: white; margin: 0px");
-                new Div(this, new Style("background-color: rgb(0,191,255); color: white; padding: 10px")) {{
-                    new H1(this) {{
-                        new NoTag(this, String.format("Results from: %s", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
-                    }};
-                }};
-
-                new Div(this,
-                        new Style("margin-top: 5px"),
-                        new Id("plot")) {{}};
-
-                new Div(this,
-                        new Style("margin-top: 5px"),
-                        new Id("bar")) {{}};
-
-                Map<String, File> filesByName = jsonFilesByNameInTargetJsonDirectory();
-                for (String jsonFile : jsonFiles) {
-                    if (filesByName.containsKey(jsonFile)) {
-                        File file = filesByName.get(jsonFile);
-                        if (file.isFile()) {
-                            JSONParser parser = new JSONParser();
-                            Object obj = parser.parse(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
-
-                            JSONObject jsonObject = (JSONObject) obj;
-                            JSONArray details = (JSONArray) jsonObject.get(DETAILS);
-                            boolean isFailed = (Boolean) jsonObject.get("error");
-
-                            counter ++;
-
-                            if (isFailed) {
-                                failuresCounter ++;
-                            } else {
-                                successCounter ++;
-                            }
-
-                            barDuration += String.format("%s, ", ((String)jsonObject.get(TIME_EXECUTION)).split(" ")[0]);
-                            barScenariosNames += String.format("'%d. %s', ", counter, jsonObject.get(SCENARIO));
-
-                            new Div(this,
-                                    new Style("margin-top:2px"),
-                                    new ClassAttribute("accordion")) {{
-                                new H1(this,
-                                        new Style("color: rgb(47,79,79); font-size:24px")) {{
-                                    new NoTag(this, String.format("Scenario: \"%s\"", jsonObject.get(SCENARIO)));
-                                    if (isFailed) {
-                                        new Span(this,
-                                                new Style("color: tomato; float:right; font-size:18px; margin-right: 32px")) {{
-                                            new NoTag(this, "Failed");
-                                        }};
-                                    } else {
-                                        new Span(this,
-                                                new Style("color: green; float:right; font-size:18px; margin-right: 32px")) {{
-                                            new NoTag(this, "Passed");
-                                        }};
-                                    }
-                                }};
-
+                new Div(this, new ClassAttribute("container-fluid")) {{
+                    new Div(this,
+                            new ClassAttribute("row")) {{
+                        new Div(this, new Style("background-color: rgb(0,191,255); color: white; padding: 10px")) {{
+                            new H1(this) {{
+                                new NoTag(this, String.format("Results from: %s", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                             }};
+                        }};
+                    }};
 
-                            new Div(this,
-                                    //new Style("background: #f5f5f5"),
-                                    new ClassAttribute("panel")) {{
-                                new H2(this,
-                                        new Style("color: rgb(0,139,139)")) {{
-                                    new NoTag(this, String.format("Element: \"%s\"", jsonObject.get(ELEMENT_NAME)));
-                                }};
-                                new H3(this,
-                                        new Style("color: rgb(255,69,0)")) {{
-                                    new NoTag(this, "Failures:");
-                                }};
-                                new Ol(this) {{
-                                    for (Object details : details) {
-                                        JSONObject det = (JSONObject) details;
-                                        JSONObject reason = (JSONObject) det.get(REASON);
-                                        String numE = (String) reason.get(MESSAGE);
+                    new Div(this,
+                            new ClassAttribute("row")) {{
+                        new Div(this,
+                                new ClassAttribute("col-xs-12 col-sm-6 col-md-4"),
+                                new Style("margin-top: 5px"),
+                                new Id("plot")) {{
+                        }};
 
-                                        new Li(this) {{
-                                            new NoTag(this, numE);
+                        new Div(this,
+                                new ClassAttribute("col-xs-12 col-md-8"),
+                                new Style("margin-top: 5px"),
+                                new Id("bar")) {{
+                        }};
+                    }};
+
+                    Map<String, File> filesByName = jsonFilesByNameInTargetJsonDirectory();
+                    for (String jsonFile : jsonFiles) {
+                        if (filesByName.containsKey(jsonFile)) {
+                            File file = filesByName.get(jsonFile);
+                            if (file.isFile()) {
+                                JSONParser parser = new JSONParser();
+                                Object obj = parser.parse(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
+
+                                JSONObject jsonObject = (JSONObject) obj;
+                                JSONArray details = (JSONArray) jsonObject.get(DETAILS);
+                                boolean isFailed = (Boolean) jsonObject.get("error");
+
+                                counter++;
+
+                                if (isFailed) {
+                                    failuresCounter++;
+                                } else {
+                                    successCounter++;
+                                }
+
+                                barDuration += String.format("%s, ", ((String) jsonObject.get(TIME_EXECUTION)).split(" ")[0]);
+                                barScenariosNames += String.format("'%d. %s', ", counter, jsonObject.get(SCENARIO));
+                                new Div(this,
+                                        new ClassAttribute("row")) {
+                                    {
+                                        new Div(this,
+                                                new Style("margin-top:2px"),
+                                                new ClassAttribute("accordion")) {{
+                                            new H1(this,
+                                                    new Style("color: rgb(47,79,79); font-size:24px")) {{
+                                                new NoTag(this, String.format("Scenario: \"%s\"", jsonObject.get(SCENARIO)));
+                                                if (isFailed) {
+                                                    new Span(this,
+                                                            new Style("color: tomato; float:right; font-size:18px; margin-right: 32px")) {{
+                                                        new NoTag(this, "Failed");
+                                                    }};
+                                                } else {
+                                                    new Span(this,
+                                                            new Style("color: green; float:right; font-size:18px; margin-right: 32px")) {{
+                                                        new NoTag(this, "Passed");
+                                                    }};
+                                                }
+                                            }};
+
                                         }};
-                                    }
-                                }};
-                                new H4(this,
-                                        new Style("color: rgb(105,105,105)")) {{
-                                    new NoTag(this, String.format("Time execution: %s", jsonObject.get(TIME_EXECUTION)));
-                                }};
 
-                                //TODO uncomment after implementing the hovering events
+                                        new Div(this,
+                                                //new Style("background: #f5f5f5"),
+                                                new ClassAttribute("panel")) {{
+                                            new H2(this,
+                                                    new Style("color: rgb(0,139,139)")) {{
+                                                new NoTag(this, String.format("Element: \"%s\"", jsonObject.get(ELEMENT_NAME)));
+                                            }};
+                                            new H3(this,
+                                                    new Style("color: rgb(255,69,0)")) {{
+                                                new NoTag(this, "Failures:");
+                                            }};
+                                            new Ol(this) {{
+                                                for (Object details : details) {
+                                                    JSONObject det = (JSONObject) details;
+                                                    JSONObject reason = (JSONObject) det.get(REASON);
+                                                    String numE = (String) reason.get(MESSAGE);
+
+                                                    new Li(this) {{
+                                                        new NoTag(this, numE);
+                                                    }};
+                                                }
+                                            }};
+                                            new H4(this,
+                                                    new Style("color: rgb(105,105,105)")) {{
+                                                new NoTag(this, String.format("Time execution: %s", jsonObject.get(TIME_EXECUTION)));
+                                            }};
+
+                                            //TODO uncomment after implementing the hovering events
 //                            new H5(this,
 //                                    new Style("color: #4d4d4d")) {{
 //                                new NoTag(this, "Hover over the image to see the results");
 //                            }};
-                                new P(this) {{
-                                    screenshotDrawingOverlay = jsonObject.get(DRAWINGS);
-                                    new Div(this,
-                                            //new OnMouseOver("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'block'"),
-                                            //new OnMouseOut("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'none'"),
-                                            new Style("position:relative; left: 0; top:0; width: 96%; margin-left:2%")) {{
+                                            new P(this) {{
+                                                screenshotDrawingOverlay = jsonObject.get(DRAWINGS);
+                                                new Div(this,
+                                                        //new OnMouseOver("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'block'"),
+                                                        //new OnMouseOut("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'none'"),
+                                                        new Style("position:relative; left: 0; top:0; width: 96%; margin-left:2%")) {{
 
-                                        if (isFailed) {
-                                            new Img(this,
-                                                    new Style("position:relative; left: 0; top:0"),
-                                                    new Src(String.format("img/%s", jsonObject.get(SCREENSHOT))),
-                                                    new Alt("screenshot"));
-                                            new Img(this,
-                                                    new Id(screenshotDrawingOverlay.toString()),
-                                                    new Style("position:absolute; left: 0; top:0;"),
-                                                    //new Style("position:absolute; left: 0; top:0; display:none;"),
-                                                    new Src(String.format("img/%s", screenshotDrawingOverlay)),
-                                                    new OnClick("showModal('" + screenshotDrawingOverlay.toString() + "')"),
-                                                    new Alt("screenshot-overlay"));
-                                        }
-                                    }};
+                                                    if (isFailed) {
+                                                        new Img(this,
+                                                                new Style("position:relative; left: 0; top:0"),
+                                                                new Src(String.format("img/%s", jsonObject.get(SCREENSHOT))),
+                                                                new Alt("screenshot"));
+                                                        new Img(this,
+                                                                new Id(screenshotDrawingOverlay.toString()),
+                                                                new Style("position:absolute; left: 0; top:0;"),
+                                                                //new Style("position:absolute; left: 0; top:0; display:none;"),
+                                                                new Src(String.format("img/%s", screenshotDrawingOverlay.toString())),
+                                                                new OnClick("showModal('" + screenshotDrawingOverlay.toString() + "')"),
+                                                                new Alt("screenshot-overlay"));
+                                                    }
+                                                }};
 
-                                }};
-                            }};
+                                            }};
+                                        }};
+                                    }
+                                };
 
-                            new Div(this,
-                                    new ClassAttribute("modal"),
-                                    new Id("myModal")) {{
 
-                                new Span(this,
-                                        new ClassAttribute("close")) {{
-                                    new NoTag(this, "&times;");
-                                }};
+                                while (!file.delete()) ;
+                            }
 
-                                new Img(this,
-                                        new Id("img01"),
-                                        new ClassAttribute("modal-content"));
-
-                                new Div(this,
-                                        new Id("caption")) {{
-                                    new NoTag(this, "");
-                                }};
-                            }};
-
-                            while (!file.delete()) ;
                         }
-
                     }
-                }
 
-                new Script(this){{
-                    new NoTag(this, "" +
-                        "var data = [{\n" +
-                            "  values: [" + successCounter + ", " + failuresCounter + "],\n" +
-                            "  labels: ['Passed', 'Failed'],\n" +
-                            "  type: 'pie',\n" +
-                            "  hole: .4\n" +
-                            "}];\n" +
-                            "\n" +
-                            "var layout = {\n" +
-                            "  height: 400,\n" +
-                            "  width: 500\n" +
-                            "};\n" +
-                            "\n" +
-                            "Plotly.newPlot('plot', data, layout);");
+                    new Div(this,
+                            new ClassAttribute("modal"),
+                            new Id("myModal")) {{
+
+                        new Span(this,
+                                new ClassAttribute("close")) {{
+                            new NoTag(this, "&times;");
+                        }};
+
+                        new Img(this,
+                                new Id("img01"),
+                                new ClassAttribute("modal-content"));
+
+                        new Div(this,
+                                new Id("caption")) {{
+                            new NoTag(this, "");
+                        }};
+                    }};
+
+                    new Script(this) {{
+                        new NoTag(this, "" +
+                                "var data = [{\n" +
+                                "  values: [" + successCounter + ", " + failuresCounter + "],\n" +
+                                "  labels: ['Passed', 'Failed'],\n" +
+                                "  type: 'pie',\n" +
+                                "  hole: .4\n" +
+                                "}];\n" +
+                                "\n" +
+                                "var layout = {\n" +
+                                "  height: 400,\n" +
+                                "  width: 500\n" +
+                                "};\n" +
+                                "\n" +
+                                "Plotly.newPlot('plot', data, layout);");
+                    }};
+
+                    new Script(this) {{
+                        new NoTag(this, "var data = [\n" +
+                                "  {\n" +
+                                "    x: [" + barScenariosNames.substring(0, barScenariosNames.length() - 2) + "],\n" +
+                                "    y: [" + barDuration.substring(0, barDuration.length() - 2) + "],\n" +
+                                "    type: 'bar'\n" +
+                                "  }\n" +
+                                "];\n" +
+                                "\n" +
+                                "Plotly.newPlot('bar', data);");
+                    }};
+
+                    jsonFiles.clear();
+
+                    new Script(this) {{
+                        new NoTag(this, "var acc = document.getElementsByClassName(\"accordion\");\n" +
+                                "var i;\n" +
+                                "\n" +
+                                "for (i = 0; i < acc.length; i++) {\n" +
+                                "    acc[i].addEventListener(\"click\", function() {\n" +
+                                "        this.classList.toggle(\"active\");\n" +
+                                "        var panel = this.nextElementSibling;\n" +
+                                "        if (panel.style.display === \"block\") {\n" +
+                                "            panel.style.display = \"none\";\n" +
+                                "        } else {\n" +
+                                "            panel.style.display = \"block\";\n" +
+                                "        }\n" +
+                                "    });\n" +
+                                "}");
+                    }};
+
+                    new Script(this) {{
+                        new NoTag(this, "function showModal(imageId) {" +
+                                "var modal = document.getElementById('myModal');\n" +
+                                "\n" +
+                                "// Get the image and insert it inside the modal - use its \"alt\" text as a caption\n" +
+                                "var img = document.getElementById(imageId);\n" +
+                                "var modalImg = document.getElementById(\"img01\");\n" +
+                                "var captionText = document.getElementById(\"caption\");\n" +
+                                "modal.style.display = \"block\";\n" +
+                                "modalImg.src = img.src;\n" +
+                                "captionText.innerHTML = img.alt;\n" +
+                                "\n" +
+                                "// Get the <span> element that closes the modal\n" +
+                                "var span = document.getElementsByClassName(\"close\")[0];\n" +
+                                "\n" +
+                                "// When the user clicks on <span> (x), close the modal\n" +
+                                "span.onclick = function() { \n" +
+                                "  modal.style.display = \"none\";\n" +
+                                "}}");
+                    }};
                 }};
-
-                new Script(this){{
-                    new NoTag(this, "var data = [\n" +
-                            "  {\n" +
-                            "    x: ["  + barScenariosNames.substring(0, barScenariosNames.length() - 2) + "],\n" +
-                            "    y: [" + barDuration.substring(0, barDuration.length() - 2) + "],\n" +
-                            "    type: 'bar'\n" +
-                            "  }\n" +
-                            "];\n" +
-                            "\n" +
-                            "Plotly.newPlot('bar', data);");
-                }};
-
-                jsonFiles.clear();
-
-                new Script(this) {{
-                    new NoTag(this, "var acc = document.getElementsByClassName(\"accordion\");\n" +
-                            "var i;\n" +
-                            "\n" +
-                            "for (i = 0; i < acc.length; i++) {\n" +
-                            "    acc[i].addEventListener(\"click\", function() {\n" +
-                            "        this.classList.toggle(\"active\");\n" +
-                            "        var panel = this.nextElementSibling;\n" +
-                            "        if (panel.style.display === \"block\") {\n" +
-                            "            panel.style.display = \"none\";\n" +
-                            "        } else {\n" +
-                            "            panel.style.display = \"block\";\n" +
-                            "        }\n" +
-                            "    });\n" +
-                            "}");
-                }};
-
-                new Script(this) {{
-                    new NoTag(this, "function showModal(imageId) {" +
-                            "var modal = document.getElementById('myModal');\n" +
-                            "\n" +
-                            "// Get the image and insert it inside the modal - use its \"alt\" text as a caption\n" +
-                            "var img = document.getElementById(imageId);\n" +
-                            "var modalImg = document.getElementById(\"img01\");\n" +
-                            "var captionText = document.getElementById(\"caption\");\n" +
-                            "modal.style.display = \"block\";\n" +
-                            "modalImg.src = img.src;\n" +
-                            "captionText.innerHTML = img.alt;\n" +
-                            "\n" +
-                            "// Get the <span> element that closes the modal\n" +
-                            "var span = document.getElementsByClassName(\"close\")[0];\n" +
-                            "\n" +
-                            "// When the user clicks on <span> (x), close the modal\n" +
-                            "span.onclick = function() { \n" +
-                            "  modal.style.display = \"none\";\n" +
-                            "}}");
-                }};
-
             }};
         }};
     }
