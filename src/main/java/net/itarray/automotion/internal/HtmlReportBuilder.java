@@ -200,8 +200,8 @@ public class HtmlReportBuilder {
                     new Div(this,
                             new ClassAttribute("row")) {{
                         new Div(this,
-                                new Style("background-color: rgb(0,191,255); color: white; padding: 10px; font-size:18px; font-weight: 300;")) {{
-                            new H1(this, new Style("font-size:18px; font-weight: 300;")) {{
+                                new Style("background-color: rgb(0,191,255); color: white; padding: 10px;")) {{
+                            new H1(this, new Style("font-size:22px; font-weight: 200;")) {{
                                 new NoTag(this, String.format("Results from: %s", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                             }};
                         }};
@@ -245,23 +245,27 @@ public class HtmlReportBuilder {
                                 new Div(this,
                                         new ClassAttribute("row")) {
                                     {
+                                        String bgColor = "background: rgba(0,250,154, 0.5)";
+                                        if (isFailed) {
+                                            bgColor = "background: rgba(240,128,128, 0.5)";
+                                        }
                                         new Div(this,
-                                                new Style("margin-top:2px"),
+                                                new Style("margin-top:2px;" + bgColor),
                                                 new ClassAttribute("accordion")) {{
                                             new H1(this,
-                                                    new Style("color: rgb(47,79,79); font-size:24px; font-size:18px; font-weight: 300;")) {{
+                                                    new Style("color: rgb(47,79,79); font-size:24px; font-size:18px; font-weight: 300; text-decoration: underline;")) {{
                                                 new NoTag(this, String.format("Scenario: \"%s\"", jsonObject.get(SCENARIO)));
-                                                if (isFailed) {
-                                                    new Span(this,
-                                                            new Style("color: rgb(255,99,71); float:right; font-size:18px; font-weight: 500; margin-right: 32px")) {{
-                                                        new NoTag(this, "Failed");
-                                                    }};
-                                                } else {
-                                                    new Span(this,
-                                                            new Style("color: rgb(60,179,113); float:right; font-size:18px; font-weight: 500; margin-right: 32px")) {{
-                                                        new NoTag(this, "Passed");
-                                                    }};
-                                                }
+//                                                if (isFailed) {
+//                                                    new Span(this,
+//                                                            new Style("color: rgb(255,99,71); float:right; font-size:18px; font-weight: 500; margin-right: 32px")) {{
+//                                                        new NoTag(this, "Failed");
+//                                                    }};
+//                                                } else {
+//                                                    new Span(this,
+//                                                            new Style("color: rgb(60,179,113); float:right; font-size:18px; font-weight: 500; margin-right: 32px")) {{
+//                                                        new NoTag(this, "Passed");
+//                                                    }};
+//                                                }
                                             }};
 
                                         }};
@@ -273,10 +277,12 @@ public class HtmlReportBuilder {
                                                     new Style("color: rgb(0,139,139); font-size:18px; font-weight: 300;")) {{
                                                 new NoTag(this, String.format("Element: \"%s\"", jsonObject.get(ELEMENT_NAME)));
                                             }};
-                                            new H3(this,
-                                                    new Style("color: rgb(255,69,0); font-size:18px; font-weight: 300;")) {{
-                                                new NoTag(this, "Failures:");
-                                            }};
+                                            if (isFailed) {
+                                                new H3(this,
+                                                        new Style("color: rgb(255,69,0); font-size:18px; font-weight: 300;")) {{
+                                                    new NoTag(this, "Failures:");
+                                                }};
+                                            }
                                             new Ol(this) {{
                                                 for (Object details : details) {
                                                     JSONObject det = (JSONObject) details;
@@ -284,7 +290,7 @@ public class HtmlReportBuilder {
                                                     String numE = (String) reason.get(MESSAGE);
 
                                                     new Li(this,
-                                                            new Style("color: rgb(105,105,105); font-size:14px; font-weight: 300;")) {{
+                                                            new Style("color: rgb(105,105,105); font-size:14px; font-weight: 400;")) {{
                                                         new NoTag(this, numE);
                                                     }};
                                                 }
