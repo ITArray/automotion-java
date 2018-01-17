@@ -19,4 +19,5 @@ public class Constants {
     public static final String TARGET_AUTOMOTION_JSON = "target/automotion/json/";
     public static final String TARGET_AUTOMOTION_IMG = "target/automotion/img/";
     public static final String TARGET_AUTOMOTION = "target/automotion/";
+    public static final String TARGET_AUTOMOTION_HTML = "target/automotion/html/";
 }
