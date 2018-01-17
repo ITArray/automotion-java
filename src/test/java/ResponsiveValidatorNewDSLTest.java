@@ -1,10 +1,8 @@
-import net.itarray.automotion.internal.FinalReportBuilder;
 import net.itarray.automotion.tools.driver.WebDriverFactory;
 import net.itarray.automotion.tools.helpers.EnvironmentHelper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
 import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.properties.Padding;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Ignore;
@@ -151,11 +149,11 @@ public class ResponsiveValidatorNewDSLTest {
         responsiveUIValidator.generateReport("Home Page");
         time("-9-");
 
-        try {
-            new FinalReportBuilder().execute();
-        } catch (MojoExecutionException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            new FinalReportBuilder().execute();
+//        } catch (MojoExecutionException e) {
+//            e.printStackTrace();
+//        }
         softly.assertAll();
     }
 

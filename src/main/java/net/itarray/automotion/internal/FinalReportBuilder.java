@@ -10,9 +10,6 @@ import com.webfirmframework.wffweb.tag.html.lists.Li;
 import com.webfirmframework.wffweb.tag.html.lists.Ol;
 import com.webfirmframework.wffweb.tag.html.metainfo.Head;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.Mojo;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -24,11 +21,9 @@ import java.util.List;
 import static net.itarray.automotion.validation.Constants.TARGET_AUTOMOTION;
 import static net.itarray.automotion.validation.Constants.TARGET_AUTOMOTION_HTML;
 
-@Mojo(name = "automotion")
-public class FinalReportBuilder extends AbstractMojo {
+public class FinalReportBuilder {
 
-    @Override
-    public void execute() throws MojoExecutionException {
+    public void execute() {
         File folder = new File(TARGET_AUTOMOTION_HTML);
         File[] listOfFiles = folder.listFiles();
         List<String> files = new ArrayList<>();
