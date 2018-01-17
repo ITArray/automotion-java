@@ -126,7 +126,11 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <groupId>net.itarray</groupId>
+                <artifactId>automotion-maven-plugin</artifactId>
+                <version>1.0.0</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -243,17 +247,6 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-plugin-api</artifactId>
-            <version>3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven.plugin-tools</groupId>
-            <artifactId>maven-plugin-annotations</artifactId>
-            <version>3.4</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
