@@ -22,6 +22,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -200,10 +201,21 @@ public class HtmlReportBuilder {
                     new Div(this,
                             new ClassAttribute("row")) {{
                         new Div(this,
-                                new Style("background-color: rgb(0,191,255); color: white; padding: 10px;")) {{
-                            new H1(this, new Style("font-size:22px; font-weight: 200;")) {{
+                                new Style("background-color: rgb(0,191,255); color: white; padding: 10px; height: 90px")) {{
+                            new H1(this, new Style("font-size:22px; font-weight: 200;"),
+                                    new ClassAttribute("col-md-10")) {{
                                 new NoTag(this, String.format("Results from: %s", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                             }};
+//                            new com.webfirmframework.wffweb.tag.html.formsandinputs.Button(this,
+//                                    new Style("margin: 10px"),
+//                                    new ClassAttribute("col-md-1 btn btn-success")){{
+//                                        new NoTag(this, "Passed");
+//                            }};
+//                            new com.webfirmframework.wffweb.tag.html.formsandinputs.Button(this,
+//                                    new Style("margin: 10px"),
+//                                    new ClassAttribute("col-md-1 btn btn-danger")){{
+//                                new NoTag(this, "Failed");
+//                            }};
                         }};
                     }};
 
@@ -233,15 +245,18 @@ public class HtmlReportBuilder {
                                 boolean isFailed = (Boolean) jsonObject.get("error");
 
                                 counter++;
-
+                                String className;
                                 if (isFailed) {
                                     failuresCounter++;
+                                    className = "failed";
                                 } else {
                                     successCounter++;
+                                    className = "passed";
                                 }
 
                                 barDuration += String.format("%s, ", ((String) jsonObject.get(TIME_EXECUTION)).split(" ")[0]);
                                 barScenariosNames += String.format("'%d. %s', ", counter, jsonObject.get(SCENARIO));
+                                String finalClassName = className;
                                 new Div(this,
                                         new ClassAttribute("row")) {
                                     {
@@ -251,7 +266,7 @@ public class HtmlReportBuilder {
                                         }
                                         new Div(this,
                                                 new Style("margin-top:2px;" + bgColor),
-                                                new ClassAttribute("accordion")) {{
+                                                new ClassAttribute("accordion " + finalClassName)) {{
                                             new H1(this,
                                                     new Style("color: rgb(47,79,79); font-size:24px; font-size:18px; font-weight: 300; text-decoration: underline;")) {{
                                                 new NoTag(this, String.format("Scenario: \"%s\"", jsonObject.get(SCENARIO)));

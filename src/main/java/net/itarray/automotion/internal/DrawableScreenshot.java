@@ -24,7 +24,7 @@ public class DrawableScreenshot {
     public DrawableScreenshot(Vector extend, SimpleTransform transform, DrawingConfiguration drawingConfiguration, String rootElementReadableName, File screenshotName) {
         this.drawingConfiguration = drawingConfiguration;
         this.screenshotName = screenshotName;
-        drawingsOutput = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-draw-" + System.currentTimeMillis() + Helper.getGeneratedStringWithLength(7) + ".png");
+        drawingsOutput = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replaceAll("[\\W]|_", "") + "-draw-" + System.currentTimeMillis() + Helper.getGeneratedStringWithLength(7) + ".png");
 
         try {
             this.extend = extend;
@@ -41,7 +41,7 @@ public class DrawableScreenshot {
     }
 
     public static File takeScreenshot(DriverFacade driver, String rootElementReadableName) {
-        File screenshotName = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + System.currentTimeMillis() + Helper.getGeneratedStringWithLength(7) + ".png");
+        File screenshotName = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replaceAll("[\\W]|_", "") + "-" + System.currentTimeMillis() + Helper.getGeneratedStringWithLength(7) + ".png");
         driver.takeScreenshot(screenshotName);
         return screenshotName;
     }

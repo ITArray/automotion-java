@@ -1,3 +1,4 @@
+import net.itarray.automotion.internal.FinalReportBuilder;
 import net.itarray.automotion.tools.driver.WebDriverFactory;
 import net.itarray.automotion.tools.helpers.EnvironmentHelper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
@@ -149,12 +150,12 @@ public class ResponsiveValidatorNewDSLTest {
         responsiveUIValidator.generateReport("Home Page");
         time("-9-");
 
-//        try {
-//            new FinalReportBuilder().execute();
-//        } catch (MojoExecutionException e) {
-//            e.printStackTrace();
-//        }
         softly.assertAll();
+    }
+
+    @Test
+    public void testFinalReport() {
+        new FinalReportBuilder().execute();
     }
 
     @After
