@@ -40,7 +40,7 @@ public interface Expression<T> {
         return new BinaryExpression<>(
                 left,
                 right,
-                (scalar, other, context) -> scalar.minus(other).norm().isLessOrEqualTo(context.getTolerance()),
+                (vector, other, context) -> vector.minus(other).norm().isLessOrEqualTo(context.getTolerance()),
                 "Expected %1$s to be equal to %2$s.");
     }
 
@@ -48,8 +48,8 @@ public interface Expression<T> {
         return new BinaryExpression<>(
                 left,
                 right,
-                (scalar, other, context) -> extendGiving.signedDistance(scalar, other),
-                "Expected %1$s to be equal to %2$s.");
+                (vector, other, context) -> extendGiving.signedDistance(vector, other),
+                "offset of %1$s from %2$s");
     }
 
     <V extends MetricSpace<V>> T evaluateIn(Context context, ExtendGiving<V> direction);

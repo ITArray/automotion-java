@@ -7,7 +7,6 @@ import net.itarray.automotion.internal.geometry.Interval;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
-import net.itarray.automotion.internal.properties.ConstantExpression;
 import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
@@ -337,14 +336,13 @@ public class UIElement {
 
     public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Context context) {
         Expression<Scalar> signedDistance = Expression.signedDistance(end(direction), toBeValidatedSuccessor.begin(direction), direction);
-        if (!condition.isSatisfiedOn(signedDistance, context, direction)) {
-            context.add(String.format("%s element aligned not properly. Expected margin should be %s. Actual margin is %s",
-                                direction.afterName(),
-                                condition.getDescription(context, direction),
-                                signedDistance.evaluateIn(context, direction).toStringWithUnits(PIXELS)));
+        Expression<Boolean> assertion = condition.applyTo(signedDistance, direction.afterName() + " element aligned not properly. Expected margin should be %2$s. Actual margin is %4$s");
+        if (!assertion.evaluateIn(context, direction)) {
+            context.add(assertion.getDescription(context, direction));
             context.draw(toBeValidatedSuccessor);
         }
     }
+
 
     public void validateOverlappingWithElement(UIElement element, Context context) {
         if (!overlaps(element, context)) {

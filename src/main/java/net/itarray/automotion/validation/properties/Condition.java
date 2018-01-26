@@ -127,5 +127,9 @@ public interface Condition<T> {
         return new ConditionedExpression<>(toBeConditioned, this);
     }
 
+    default Expression<Boolean> applyTo(Expression<T> toBeConditioned, String messageFormat) {
+        return new ConditionedExpression<>(toBeConditioned, this, messageFormat);
+    }
+
     <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction);
 }

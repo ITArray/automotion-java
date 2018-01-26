@@ -10,10 +10,16 @@ public class ConditionedExpression<T> implements Expression<Boolean> {
 
     private final Expression<T> toBeConditioned;
     private final Condition<T> toBeApplied;
+    private final String messageFormat;
 
     public ConditionedExpression(Expression<T> toBeConditioned, Condition<T> toBeApplied) {
+        this(toBeConditioned, toBeApplied, "Expected %1$s to be %2$s. Actual %3$s is: %4$s");
+    }
+
+    public ConditionedExpression(Expression<T> toBeConditioned, Condition<T> toBeApplied, String messageFormat) {
         this.toBeConditioned = toBeConditioned;
         this.toBeApplied = toBeApplied;
+        this.messageFormat = messageFormat;
     }
 
     @Override
@@ -24,7 +30,7 @@ public class ConditionedExpression<T> implements Expression<Boolean> {
     @Override
     public <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction) {
         T t = toBeConditioned.evaluateIn(context, direction);
-        return String.format("Expected %s to be %s. Actual %s is: %s",
+        return String.format(messageFormat,
                 toBeConditioned.getDescription(context, direction),
                 toBeApplied.getDescription(context, direction),
                 toBeConditioned.getRepeatedDescription(context, direction),
