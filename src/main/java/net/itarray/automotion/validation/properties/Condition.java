@@ -1,18 +1,15 @@
 package net.itarray.automotion.validation.properties;
 
-import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.properties.Between;
 import net.itarray.automotion.internal.properties.BinaryScalarConditionWithFixedOperand;
+import net.itarray.automotion.internal.properties.ConditionedExpressionDescription;
 import net.itarray.automotion.internal.properties.ConditionedExpression;
-import net.itarray.automotion.internal.properties.ConstantExpression;
 import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.internal.properties.ContextBiFunction;
 import net.itarray.automotion.internal.properties.PixelConstant;
-
-import java.util.function.BiPredicate;
 
 import static net.itarray.automotion.internal.geometry.Scalar.scalar;
 
@@ -127,8 +124,8 @@ public interface Condition<T> {
         return new ConditionedExpression<>(toBeConditioned, this);
     }
 
-    default Expression<Boolean> applyTo(Expression<T> toBeConditioned, String messageFormat) {
-        return new ConditionedExpression<>(toBeConditioned, this, messageFormat);
+    default Expression<Boolean> applyTo(Expression<T> toBeConditioned, ConditionedExpressionDescription<T> description) {
+        return new ConditionedExpression<>(toBeConditioned, this, description);
     }
 
     <V extends MetricSpace<V>> String getDescription(Context context, ExtendGiving<V> direction);

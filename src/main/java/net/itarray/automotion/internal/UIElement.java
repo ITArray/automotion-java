@@ -8,6 +8,7 @@ import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
 import net.itarray.automotion.internal.properties.Context;
+import net.itarray.automotion.internal.properties.SuccessorConditionedExpressionDescription;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
 import net.itarray.automotion.validation.properties.Condition;
@@ -336,7 +337,7 @@ public class UIElement {
 
     public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Context context) {
         Expression<Scalar> signedDistance = Expression.signedDistance(end(direction), toBeValidatedSuccessor.begin(direction), direction);
-        Expression<Boolean> assertion = condition.applyTo(signedDistance, direction.afterName() + " element aligned not properly. Expected margin should be %2$s. Actual margin is %4$s");
+        Expression<Boolean> assertion = condition.applyTo(signedDistance, new SuccessorConditionedExpressionDescription<>(signedDistance, condition, direction));
         if (!assertion.evaluateIn(context, direction)) {
             context.add(assertion.getDescription(context, direction));
             context.draw(toBeValidatedSuccessor);
