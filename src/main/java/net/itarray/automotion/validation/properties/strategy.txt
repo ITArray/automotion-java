@@ -1,7 +1,8 @@
 
 - next steps:
+    - create report synchronously with switch to include good cases -> Denys
+    - make each validation a boolean expression -> Torsten
     - error message for gridCells
-    - create report synchronously with switch to include good cases
     - build the representations
 
 - each validation is basically a boolean expression.
