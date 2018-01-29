@@ -1,15 +1,14 @@
 package net.itarray.automotion.internal.properties;
 
-import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.validation.properties.Condition;
 import net.itarray.automotion.validation.properties.Expression;
 
-public class SuccessorConditionedExpressionDescription<T> extends ConditionedExpressionDescription<T> {
-    private final Direction direction;
+public class SuccessorConditionedExpressionDescription<T, V extends MetricSpace<V>> extends ConditionedExpressionDescription<T> {
+    private final ExtendGiving<V> direction;
 
-    public SuccessorConditionedExpressionDescription(Expression<T> toBeConditioned, Condition<T> toBeApplied, Direction direction) {
+    public SuccessorConditionedExpressionDescription(Expression<T> toBeConditioned, Condition<T> toBeApplied, ExtendGiving<V> direction) {
         super(toBeConditioned, toBeApplied);
         this.direction = direction;
     }

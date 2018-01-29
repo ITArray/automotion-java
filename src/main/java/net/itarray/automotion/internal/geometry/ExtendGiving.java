@@ -5,6 +5,8 @@ import java.util.function.Function;
 public interface ExtendGiving<V extends MetricSpace<V>> {
     String beginName();
     String endName();
+    String beforeName();
+    String afterName();
     String extendName();
 
     V begin(Rectangle rectangle);

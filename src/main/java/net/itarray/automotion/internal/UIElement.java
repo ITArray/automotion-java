@@ -335,8 +335,8 @@ public class UIElement {
         validateSuccessor(DOWN, element, condition, context);
     }
 
-    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Context context) {
-        Expression<Scalar> signedDistance = Expression.signedDistance(end(direction), toBeValidatedSuccessor.begin(direction), direction);
+    public <V extends MetricSpace<V>> void validateSuccessor(ExtendGiving<V> direction, UIElement toBeValidatedSuccessor, Condition<V> condition, Context context) {
+        Expression<V> signedDistance = Expression.signedDistance(end(direction), toBeValidatedSuccessor.begin(direction), direction);
         Expression<Boolean> assertion = condition.applyTo(signedDistance, new SuccessorConditionedExpressionDescription<>(signedDistance, condition, direction));
         if (!assertion.evaluateIn(context, direction)) {
             context.add(assertion.getDescription(context, direction));

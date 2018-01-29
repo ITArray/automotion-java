@@ -29,6 +29,13 @@ public class VectorExtendGiving implements ExtendGiving<Vector> {
         return format("%s %s", x.endName(), y.endName());
     }
 
+    public String beforeName() {
+        return format("%s and %s", x.beforeName(), y.beforeName().toLowerCase());
+    }
+    public String afterName() {
+        return format("%s or %s", x.afterName(), y.afterName().toLowerCase());
+    }
+
     @Override
     public Vector begin(Rectangle rectangle) {
         return new Vector(x.begin(rectangle), y.begin(rectangle));
