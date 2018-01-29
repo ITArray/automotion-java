@@ -8,6 +8,7 @@ import net.itarray.automotion.internal.properties.AndExpression;
 import net.itarray.automotion.internal.properties.BinaryExpression;
 import net.itarray.automotion.internal.properties.ConstantExpression;
 import net.itarray.automotion.internal.properties.Context;
+import net.itarray.automotion.internal.properties.OrExpression;
 import net.itarray.automotion.internal.properties.PagePercentage;
 import net.itarray.automotion.internal.properties.PagePercentageOrPixels;
 import net.itarray.automotion.internal.properties.PercentReference;
@@ -64,5 +65,9 @@ public interface Expression<T> {
 
     static Expression<Boolean> and(Expression<Boolean> left, Expression<Boolean> right) {
         return new AndExpression(left, right);
+    }
+
+    static Expression<Boolean> or(Expression<Boolean> left, Expression<Boolean> right) {
+        return new OrExpression(left, right);
     }
 }
