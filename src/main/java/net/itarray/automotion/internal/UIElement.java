@@ -176,11 +176,19 @@ public class UIElement {
         );
     }
 
-    public boolean notOverlaps(UIElement other, Context context) {
-        return Condition.greaterOrEqualTo(other.end(RIGHT)).applyTo(end(LEFT)).evaluateIn(context, RIGHT) ||
-                Condition.greaterOrEqualTo(end(RIGHT)).applyTo(other.end(LEFT)).evaluateIn(context, RIGHT) ||
-                Condition.greaterOrEqualTo(other.end(DOWN)).applyTo(end(UP)).evaluateIn(context, DOWN) ||
-                Condition.greaterOrEqualTo(end(DOWN)).applyTo(other.end(UP)).evaluateIn(context, DOWN);
+    public boolean doesNotOverlap(UIElement other, Context context) {
+        return notOverlaps(other).evaluateIn(context, DOWN);
+    }
+
+    public Expression<Boolean> notOverlaps(UIElement other) {
+        return Expression.or(
+                Expression.or(
+                        Condition.greaterOrEqualTo(other.end(RIGHT)).applyTo(end(LEFT)),
+                        Condition.greaterOrEqualTo(end(RIGHT)).applyTo(other.end(LEFT))),
+                Expression.or(
+                        Condition.greaterOrEqualTo(other.end(DOWN)).applyTo(end(UP)),
+                        Condition.greaterOrEqualTo(end(DOWN)).applyTo(other.end(UP)))
+        );
     }
 
     private <V extends MetricSpace<V>> Expression<V> offset(UIElement page, ExtendGiving<V> direction) {
@@ -359,7 +367,7 @@ public class UIElement {
     }
 
     public void validateNotOverlappingWithElement(UIElement element, Context context) {
-        if (!notOverlaps(element, context)) {
+        if (!notOverlaps(element).evaluateIn(context, DOWN)) {
             context.add(String.format("Element %s is overlapped with element %s but should not",
                                 getQuotedName(),
                                 element.getQuotedName()));

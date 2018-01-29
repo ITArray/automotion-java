@@ -1,4 +1,4 @@
-package net.itarray.automotion.internal;
+    package net.itarray.automotion.internal;
 
 import net.itarray.automotion.internal.geometry.ConnectedIntervals;
 import net.itarray.automotion.internal.geometry.Interval;
@@ -281,7 +281,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement first = elements.get(firstIndex);
             for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
                 UIElement second = elements.get(secondIndex);
-                if (!first.notOverlaps(second, context)) {
+                if (!first.doesNotOverlap(second, context)) {
                     context.add("Elements are overlapped");
                     context.draw(first);
                     break;
