@@ -4,7 +4,9 @@ import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.properties.AndExpression;
 import net.itarray.automotion.internal.properties.BinaryExpression;
+import net.itarray.automotion.internal.properties.ConstantExpression;
 import net.itarray.automotion.internal.properties.Context;
 import net.itarray.automotion.internal.properties.PagePercentage;
 import net.itarray.automotion.internal.properties.PagePercentageOrPixels;
@@ -60,4 +62,7 @@ public interface Expression<T> {
         return getDescription(context, direction);
     }
 
+    static Expression<Boolean> and(Expression<Boolean> left, Expression<Boolean> right) {
+        return new AndExpression(left, right);
+    }
 }
