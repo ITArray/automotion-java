@@ -165,11 +165,15 @@ public class UIElement {
         return getCorner().getY();
     }
 
-    public boolean overlaps(UIElement other, Context context) {
-        return Condition.lessThan(other.end(RIGHT)).applyTo(end(LEFT)).evaluateIn(context, RIGHT) &&
-                Condition.lessThan(end(RIGHT)).applyTo(other.end(LEFT)).evaluateIn(context, RIGHT) &&
-                Condition.lessThan(other.end(DOWN)).applyTo(end(UP)).evaluateIn(context, DOWN) &&
-                Condition.lessThan(end(DOWN)).applyTo(other.end(UP)).evaluateIn(context, DOWN);
+    public Expression<Boolean> overlaps(UIElement other) {
+        return Expression.and(
+                Expression.and(
+                        Condition.lessThan(other.end(RIGHT)).applyTo(end(LEFT)),
+                        Condition.lessThan(end(RIGHT)).applyTo(other.end(LEFT))),
+                Expression.and(
+                        Condition.lessThan(other.end(DOWN)).applyTo(end(UP)),
+                        Condition.lessThan(end(DOWN)).applyTo(other.end(UP)))
+        );
     }
 
     public boolean notOverlaps(UIElement other, Context context) {
@@ -346,7 +350,7 @@ public class UIElement {
 
 
     public void validateOverlappingWithElement(UIElement element, Context context) {
-        if (!overlaps(element, context)) {
+        if (!overlaps(element).evaluateIn(context, DOWN)) {
             context.add(String.format("Element %s is not overlapped with element %s but should be",
                                 getQuotedName(),
                                 element.getQuotedName()));
