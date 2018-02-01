@@ -176,10 +176,6 @@ public class UIElement {
         );
     }
 
-    public boolean doesNotOverlap(UIElement other, Context context) {
-        return notOverlaps(other).evaluateIn(context, DOWN);
-    }
-
     public Expression<Boolean> notOverlaps(UIElement other) {
         return Expression.or(
                 Expression.or(
@@ -366,13 +362,15 @@ public class UIElement {
         }
     }
 
-    public void validateNotOverlappingWithElement(UIElement element, Context context) {
+    public boolean validateNotOverlappingWithElement(UIElement element, Context context) {
         if (!notOverlaps(element).evaluateIn(context, DOWN)) {
             context.add(String.format("Element %s is overlapped with element %s but should not",
                                 getQuotedName(),
                                 element.getQuotedName()));
             context.draw(element);
+            return false;
         }
+        return true;
     }
 
     public void validateLeftOffset(Condition condition, UIElement page, Context context) {

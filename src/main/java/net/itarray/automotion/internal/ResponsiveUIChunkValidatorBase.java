@@ -281,9 +281,7 @@ public class ResponsiveUIChunkValidatorBase extends ResponsiveUIValidatorBase im
             UIElement first = elements.get(firstIndex);
             for (int secondIndex = firstIndex+1; secondIndex < elements.size(); secondIndex++) {
                 UIElement second = elements.get(secondIndex);
-                if (!first.doesNotOverlap(second, context)) {
-                    context.add("Elements are overlapped");
-                    context.draw(first);
+                if (!first.validateNotOverlappingWithElement(second, context)) {
                     break;
                 }
             }
