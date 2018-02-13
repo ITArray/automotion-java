@@ -18,11 +18,6 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
     private final ContextBiFunction<Scalar, Scalar, Boolean> contextPredicate;
     private final String toStringFormat;
 
-
-    public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, BiPredicate<Scalar, Scalar> predicate, String toStringFormat) {
-        this(fixedOperand, (left, right, context) -> predicate.test(left, right), toStringFormat);
-    }
-
     public BinaryScalarConditionWithFixedOperand(Expression<Scalar> fixedOperand, ContextBiFunction<Scalar, Scalar, Boolean> contextPredicate, String toStringFormat) {
         this.fixedOperand = fixedOperand;
         this.contextPredicate = contextPredicate;
@@ -30,8 +25,10 @@ public class BinaryScalarConditionWithFixedOperand implements Condition<Scalar> 
     }
 
     @Override
-    public <V extends MetricSpace<V>> boolean isSatisfiedOn(Scalar value, Context context, ExtendGiving<V> direction) {
-        return contextPredicate.apply(value, fixedOperand.evaluateIn(context, direction), context);
+    public Expression<Boolean> applyTo(Expression<Scalar> toBeConditioned) {
+        String toStringFormat = this.toStringFormat.replace("%s", "%2$s");
+        return new BinaryExpression<>(toBeConditioned, fixedOperand, contextPredicate,
+                "Expected %1$s to be " + toStringFormat + ". Actual %3$s is: %4$s");
     }
 
     @Override

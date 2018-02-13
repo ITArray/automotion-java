@@ -38,12 +38,12 @@ public class EqualToTest {
     @Test
     public void describesItself() {
         String description = expression.getDescription(new TestContext(), Direction.RIGHT);
-        assertThat(description).isEqualTo("17px to be equal to 16px");
+        assertThat(description).isEqualTo("Expected 17px to be equal to 16px.");
     }
 
     @Test
     public void describesItselfWithTolerance() {
         String description = expression.getDescription(new TestContext().withTolerance(scalar(1)), Direction.RIGHT);
-        assertThat(description).isEqualTo("17px to be equal to 16px with tolerance 1");
+        assertThat(description).isEqualTo("Expected 17px to be equal to 16px. (With tolerance 1).");
     }
 }

@@ -20,7 +20,7 @@ public class BinaryExpressionTest {
                 new PixelConstant(scalar(17)),
                 new PixelConstant(scalar(16)),
                 Scalar::isLessOrEqualTo,
-                "%s to be less or equal to %s");
+                "Expected %1$s to be less or equal to %2$s.");
     }
 
     @Test
@@ -32,6 +32,6 @@ public class BinaryExpressionTest {
     @Test
     public void shouldName() {
         String description = expression.getDescription(new TestContext(), Direction.RIGHT);
-        assertThat(description).isEqualTo("17px to be less or equal to 16px");
+        assertThat(description).isEqualTo("Expected 17px to be less or equal to 16px.");
     }
 }

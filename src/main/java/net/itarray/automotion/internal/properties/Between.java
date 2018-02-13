@@ -25,8 +25,8 @@ public class Between implements Condition<Scalar> {
     }
 
     @Override
-    public <V extends MetricSpace<V>> boolean isSatisfiedOn(Scalar value, Context context, ExtendGiving<V> direction) {
-        return lowerLimit.isSatisfiedOn(value, context, direction) && upperLimit.isSatisfiedOn(value, context, direction);
+    public <V extends MetricSpace<V>> boolean isSatisfiedOn(Expression<Scalar> toBeConditioned, Context context, ExtendGiving<V> direction) {
+        return lowerLimit.isSatisfiedOn(toBeConditioned, context, direction) && upperLimit.isSatisfiedOn(toBeConditioned, context, direction);
     }
 
     @Override

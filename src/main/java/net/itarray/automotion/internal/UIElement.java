@@ -7,8 +7,8 @@ import net.itarray.automotion.internal.geometry.Interval;
 import net.itarray.automotion.internal.geometry.Rectangle;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.internal.geometry.Vector;
-import net.itarray.automotion.internal.properties.ConstantExpression;
 import net.itarray.automotion.internal.properties.Context;
+import net.itarray.automotion.internal.properties.SuccessorConditionedExpressionDescription;
 import net.itarray.automotion.tools.general.SystemHelper;
 import net.itarray.automotion.tools.helpers.TextFinder;
 import net.itarray.automotion.validation.properties.Condition;
@@ -165,44 +165,50 @@ public class UIElement {
         return getCorner().getY();
     }
 
-    public boolean overlaps(UIElement other, Context context) {
-        return Condition.lessThan(other.getRight()).isSatisfiedOn(getLeft(), context, RIGHT)  &&
-                Condition.lessThan(getRight()).isSatisfiedOn(other.getLeft(), context, RIGHT) &&
-                Condition.lessThan(other.getBottom()).isSatisfiedOn(getTop(), context, DOWN) &&
-                Condition.lessThan(getBottom()).isSatisfiedOn(other.getTop(), context, DOWN);
+    public Expression<Boolean> overlaps(UIElement other) {
+        return Expression.and(
+                Expression.and(
+                        Condition.lessThan(other.end(RIGHT)).applyTo(end(LEFT)),
+                        Condition.lessThan(end(RIGHT)).applyTo(other.end(LEFT))),
+                Expression.and(
+                        Condition.lessThan(other.end(DOWN)).applyTo(end(UP)),
+                        Condition.lessThan(end(DOWN)).applyTo(other.end(UP)))
+        );
     }
 
-    public boolean notOverlaps(UIElement other, Context context) {
-        return Condition.greaterOrEqualTo(other.getRight()).isSatisfiedOn(getLeft(), context, RIGHT)  ||
-                Condition.greaterOrEqualTo(getRight()).isSatisfiedOn(other.getLeft(), context, RIGHT) ||
-                Condition.greaterOrEqualTo(other.getBottom()).isSatisfiedOn(getTop(), context, DOWN) ||
-                Condition.greaterOrEqualTo(getBottom()).isSatisfiedOn(other.getTop(), context, DOWN);
+    public Expression<Boolean> notOverlaps(UIElement other) {
+        return Expression.or(
+                Expression.or(
+                        Condition.greaterOrEqualTo(other.end(RIGHT)).applyTo(end(LEFT)),
+                        Condition.greaterOrEqualTo(end(RIGHT)).applyTo(other.end(LEFT))),
+                Expression.or(
+                        Condition.greaterOrEqualTo(other.end(DOWN)).applyTo(end(UP)),
+                        Condition.greaterOrEqualTo(end(DOWN)).applyTo(other.end(UP)))
+        );
     }
 
-    private Scalar getOffset(Direction direction, UIElement page) {
-        return direction.signedDistance(getEnd(direction), page.getEnd(direction));
+    private <V extends MetricSpace<V>> Expression<V> offset(UIElement page, ExtendGiving<V> direction) {
+        return Expression.signedDistance(end(direction), page.end(direction), direction);
     }
 
-    private boolean hasEqualOppositeOffsets(Direction direction, UIElement page, Context context) {
-        return equalTo(
-                new ConstantExpression<>(getOffset(direction, page)),
-                new ConstantExpression<>(getOffset(direction.opposite(), page))).evaluateIn(context, direction);
-    }
-
+    @Deprecated
     private boolean hasSuccessor(Direction direction, UIElement possibleSuccessor) {
         return signedDistanceToSuccessor(direction, possibleSuccessor).isGreaterOrEqualTo(scalar(0));
     }
 
+    @Deprecated
     private Scalar signedDistanceToSuccessor(Direction direction, UIElement successor) {
         return direction.signedDistance(direction.end(rectangle), direction.begin(successor.rectangle));
     }
 
     // todo: used only in PageValidator - no tolerance yet
+    @Deprecated
     public  boolean hasRightElement(UIElement rightElement) {
         return hasSuccessor(RIGHT, rightElement);
     }
 
     // todo: used only in PageValidator - no tolerance yet
+    @Deprecated
     public boolean hasBelowElement(UIElement bottomElement) {
         return hasSuccessor(DOWN, bottomElement);
     }
@@ -230,11 +236,11 @@ public class UIElement {
 
     public boolean contains(UIElement other, Context context) {
         return
-                Condition.lessOrEqualTo(other.getLeft()).isSatisfiedOn(getLeft(), context, RIGHT) &&
-                Condition.lessOrEqualTo(getRight()).isSatisfiedOn(other.getRight(), context, RIGHT) &&
-                Condition.lessOrEqualTo(other.getTop()).isSatisfiedOn(getTop(), context, DOWN) &&
-                Condition.lessOrEqualTo(getBottom()).isSatisfiedOn(other.getBottom(), context, DOWN);
-    }
+                Condition.lessOrEqualTo(other.end(LEFT)).applyTo(end(LEFT)).evaluateIn(context, RIGHT) &&
+                Condition.lessOrEqualTo(end(RIGHT)).applyTo(other.end(RIGHT)).evaluateIn(context, RIGHT) &&
+                Condition.lessOrEqualTo(other.end(UP)).applyTo(end(UP)).evaluateIn(context, DOWN) &&
+                Condition.lessOrEqualTo(end(DOWN)).applyTo(other.end(DOWN)).evaluateIn(context, DOWN);
+}
 
     public void validateLeftAlignedWith(UIElement element, Context context) {
         validateEqualEnd(LEFT, element, context);
@@ -268,6 +274,10 @@ public class UIElement {
 
     public <V extends MetricSpace<V>> Expression<V> end(ExtendGiving<V> direction) {
         return ElementPropertyExpression.end(direction, this);
+    }
+
+    public <V extends MetricSpace<V>> Expression<V> begin(ExtendGiving<V> direction) {
+        return ElementPropertyExpression.begin(direction, this);
     }
 
     public void validateSameSize(UIElement element, Context context) {
@@ -333,19 +343,18 @@ public class UIElement {
         validateSuccessor(DOWN, element, condition, context);
     }
 
-    public void validateSuccessor(Direction direction, UIElement toBeValidatedSuccessor, Condition<Scalar> condition, Context context) {
-        Scalar signedDistance = signedDistanceToSuccessor(direction, toBeValidatedSuccessor);
-        if (!signedDistance.satisfies(condition, context, direction)) {
-            context.add(String.format("%s element aligned not properly. Expected margin should be %s. Actual margin is %s",
-                                direction.afterName(),
-                                condition.getDescription(context, direction),
-                                signedDistance.toStringWithUnits(PIXELS)));
+    public <V extends MetricSpace<V>> void validateSuccessor(ExtendGiving<V> direction, UIElement toBeValidatedSuccessor, Condition<V> condition, Context context) {
+        Expression<V> signedDistance = Expression.signedDistance(end(direction), toBeValidatedSuccessor.begin(direction), direction);
+        Expression<Boolean> assertion = condition.applyTo(signedDistance, new SuccessorConditionedExpressionDescription<>(signedDistance, condition, direction));
+        if (!assertion.evaluateIn(context, direction)) {
+            context.add(assertion.getDescription(context, direction));
             context.draw(toBeValidatedSuccessor);
         }
     }
 
+
     public void validateOverlappingWithElement(UIElement element, Context context) {
-        if (!overlaps(element, context)) {
+        if (!overlaps(element).evaluateIn(context, DOWN)) {
             context.add(String.format("Element %s is not overlapped with element %s but should be",
                                 getQuotedName(),
                                 element.getQuotedName()));
@@ -353,13 +362,15 @@ public class UIElement {
         }
     }
 
-    public void validateNotOverlappingWithElement(UIElement element, Context context) {
-        if (!notOverlaps(element, context)) {
+    public boolean validateNotOverlappingWithElement(UIElement element, Context context) {
+        if (!notOverlaps(element).evaluateIn(context, DOWN)) {
             context.add(String.format("Element %s is overlapped with element %s but should not",
                                 getQuotedName(),
                                 element.getQuotedName()));
             context.draw(element);
+            return false;
         }
+        return true;
     }
 
     public void validateLeftOffset(Condition condition, UIElement page, Context context) {
@@ -379,14 +390,15 @@ public class UIElement {
     }
 
     public void validateOffset(Direction direction, Condition condition, UIElement page, Context context) {
-        if (!getOffset(direction, page).satisfies(condition, context, direction)) {
+        Expression<Scalar> offset = offset(page, direction);
+        if (!condition.isSatisfiedOn(offset, context, direction)) {
             context.add(
                     String.format("Expected %s offset of element %s to be %s. Actual %s offset is: %s",
                             direction.endName(),
                             getQuotedName(),
                             condition.getDescription(context, direction),
                             direction.endName(),
-                            getOffset(direction, page).toStringWithUnits(PIXELS)));
+                            offset.evaluateIn(context, direction).toStringWithUnits(PIXELS)));
         }
     }
 
@@ -400,15 +412,18 @@ public class UIElement {
 
     private void validateCentered(Direction direction, UIElement page, Context context) {
         Direction opposite = direction.opposite();
-        if (!hasEqualOppositeOffsets(direction, page, context)) {
+        Expression<Scalar> offset = offset(page, direction);
+        Expression<Scalar> oppositeOffset = offset(page, opposite);
+        Expression<Boolean> expression = equalTo(offset, oppositeOffset);
+        if (!expression.evaluateIn(context, direction)) {
             context.add(String.format("Element %s has not equal %s and %s offset. %s offset is %s, %s is %s",
                                 getQuotedName(),
                                 opposite.endName(),
                                 direction.endName(),
                                 capitalize(opposite.endName()),
-                                getOffset(opposite, page).toStringWithUnits(PIXELS),
+                                oppositeOffset.evaluateIn(context, opposite).toStringWithUnits(PIXELS),
                                 direction.endName(),
-                                getOffset(direction, page).toStringWithUnits(PIXELS)));
+                                offset.evaluateIn(context, direction).toStringWithUnits(PIXELS)));
             context.draw(this);
         }
     }

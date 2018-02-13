@@ -69,7 +69,6 @@ public class ResponsiveValidatorNewDSLTest {
         ResponsiveUIValidator responsiveUIValidator = new ResponsiveUIValidator(driver);
 
         responsiveUIValidator.setLinesColor(Color.BLACK);
-        responsiveUIValidator.withTolerance(-10);
         SoftAssertions softly = new SoftAssertions();
 
         time("-1-");
