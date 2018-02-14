@@ -99,10 +99,6 @@ public class Scalar implements MetricSpace<Scalar>, Comparable<Scalar> {
         return scalar(fraction.abs());
     }
 
-    public boolean satisfies(Condition condition, Context context, Direction direction) {
-        return condition.isSatisfiedOn(this, context, direction);
-    }
-
     public Scalar times(Scalar multiplicator) {
         return scalar(fraction.multiply(multiplicator.fraction));
     }

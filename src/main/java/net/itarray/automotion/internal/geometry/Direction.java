@@ -1,12 +1,11 @@
 package net.itarray.automotion.internal.geometry;
 
-public enum Direction implements ExtendGiving<Scalar> {
-    DOWN{
-        @Override
-        public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p1.isLessOrEqualTo(p2);
-        }
+import java.util.function.Function;
 
+import static net.itarray.automotion.internal.geometry.Scalar.scalar;
+
+public enum Direction implements ExtendGiving<Scalar> {
+    DOWN(Vector::getY, 1) {
         public String beforeName() {
             return "Above";
         }
@@ -31,12 +30,7 @@ public enum Direction implements ExtendGiving<Scalar> {
             return "height";
         }
     },
-    UP {
-        @Override
-        public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p2.isLessOrEqualTo(p1);
-        }
-
+    UP(Vector::getY, -1) {
         public String beforeName() {
             return "Below";
         }
@@ -60,13 +54,9 @@ public enum Direction implements ExtendGiving<Scalar> {
         public String extendName() {
             return "height";
         }
-    },
-    RIGHT {
-        @Override
-        public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p1.isLessOrEqualTo(p2);
-        }
 
+    },
+    RIGHT(Vector::getX, 1) {
         public String beforeName() {
             return "Left";
         }
@@ -91,12 +81,7 @@ public enum Direction implements ExtendGiving<Scalar> {
             return "width";
         }
     },
-    LEFT {
-        @Override
-        public boolean beforeOrEqual(Scalar p1, Scalar p2) {
-            return p2.isLessOrEqualTo(p1);
-        }
-
+    LEFT(Vector::getX, -1) {
         public String beforeName() {
             return "Right";
         }
@@ -120,7 +105,11 @@ public enum Direction implements ExtendGiving<Scalar> {
         public String extendName() {
             return "width";
         }
+
     };
+
+    private final Function<Vector, Scalar> projection;
+    private final Scalar u;
 
     public abstract Direction opposite();
 
@@ -146,13 +135,18 @@ public enum Direction implements ExtendGiving<Scalar> {
 
     public abstract String extendName();
 
-    public abstract boolean beforeOrEqual(Scalar p1, Scalar p2);
-
+    @Override
     public Scalar signedDistance(Scalar p1, Scalar p2) {
-        return beforeOrEqual(p1, p2) ? distance(p1, p2) : distance(p1, p2).negated();
+        return p2.minus(p1).times(u);
     }
 
-    public Scalar distance(Scalar p1, Scalar p2) {
-        return p2.minus(p1).abs();
+    @Override
+    public Function<Vector, Scalar> transform() {
+        return v -> projection.apply(v).times(u);
+    }
+
+    Direction(Function<Vector, Scalar> projection, int u) {
+        this.projection = projection;
+        this.u = scalar(u);
     }
 }

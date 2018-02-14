@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/ITArray/Automotion-Java.svg?branch=master)](https://travis-ci.org/ITArray/Automotion-Java)
-[![Gratipay User](https://img.shields.io/gratipay/user/dzaiats.svg)](https://gratipay.com/~dzaiats/)
+[![Build Status](https://travis-ci.org/ITArray/automotion-java.svg?branch=master)](https://travis-ci.org/ITArray/automotion-java)
 
 # Automotion #
 ![alt tag](https://www.itarray.net/wp-content/uploads/2016/12/Automotion-2.jpg)

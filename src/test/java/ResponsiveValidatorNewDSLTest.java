@@ -1,4 +1,3 @@
-import net.itarray.automotion.internal.FinalReportBuilder;
 import net.itarray.automotion.tools.driver.WebDriverFactory;
 import net.itarray.automotion.tools.helpers.EnvironmentHelper;
 import net.itarray.automotion.validation.ResponsiveUIValidator;
@@ -70,7 +69,6 @@ public class ResponsiveValidatorNewDSLTest {
         ResponsiveUIValidator responsiveUIValidator = new ResponsiveUIValidator(driver);
 
         responsiveUIValidator.setLinesColor(Color.BLACK);
-        responsiveUIValidator.withTolerance(10);
         SoftAssertions softly = new SoftAssertions();
 
         time("-1-");
@@ -151,11 +149,6 @@ public class ResponsiveValidatorNewDSLTest {
         time("-9-");
 
         softly.assertAll();
-    }
-
-    @Test
-    public void testFinalReport() {
-        new FinalReportBuilder().execute();
     }
 
     @After

@@ -4,8 +4,11 @@ import net.itarray.automotion.internal.geometry.Direction;
 import net.itarray.automotion.internal.geometry.ExtendGiving;
 import net.itarray.automotion.internal.geometry.MetricSpace;
 import net.itarray.automotion.internal.geometry.Scalar;
+import net.itarray.automotion.internal.properties.AndExpression;
 import net.itarray.automotion.internal.properties.BinaryExpression;
+import net.itarray.automotion.internal.properties.ConstantExpression;
 import net.itarray.automotion.internal.properties.Context;
+import net.itarray.automotion.internal.properties.OrExpression;
 import net.itarray.automotion.internal.properties.PagePercentage;
 import net.itarray.automotion.internal.properties.PagePercentageOrPixels;
 import net.itarray.automotion.internal.properties.PercentReference;
@@ -40,8 +43,16 @@ public interface Expression<T> {
         return new BinaryExpression<>(
                 left,
                 right,
-                (scalar, other, context) -> scalar.minus(other).norm().isLessOrEqualTo(context.getTolerance()),
-                "%s to be equal to %s");
+                (vector, other, context) -> vector.minus(other).norm().isLessOrEqualTo(context.getTolerance()),
+                "Expected %1$s to be equal to %2$s.");
+    }
+
+    static <V extends MetricSpace<V>> Expression<V> signedDistance(Expression<V> left, Expression<V> right, ExtendGiving<V> extendGiving) {
+        return new BinaryExpression<>(
+                left,
+                right,
+                (vector, other, context) -> extendGiving.signedDistance(vector, other),
+                "offset of %1$s from %2$s");
     }
 
     <V extends MetricSpace<V>> T evaluateIn(Context context, ExtendGiving<V> direction);
@@ -52,4 +63,11 @@ public interface Expression<T> {
         return getDescription(context, direction);
     }
 
+    static Expression<Boolean> and(Expression<Boolean> left, Expression<Boolean> right) {
+        return new AndExpression(left, right);
+    }
+
+    static Expression<Boolean> or(Expression<Boolean> left, Expression<Boolean> right) {
+        return new OrExpression(left, right);
+    }
 }
