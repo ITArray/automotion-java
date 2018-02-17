@@ -22,7 +22,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -44,6 +43,11 @@ public class HtmlReportBuilder {
     private String barDuration = "";
     private String barScenariosNames = "";
 
+    public HtmlReportBuilder() {
+        failuresCounter = 0;
+        successCounter = 0;
+    }
+
     public void buildReport(String reportName, List<String> jsonFiles) {
         this.jsonFiles = jsonFiles;
         try {
@@ -59,7 +63,12 @@ public class HtmlReportBuilder {
         long ms = System.currentTimeMillis();
         String uuid = Helper.getGeneratedStringWithLength(7);
 
-        File report = new File(TARGET_AUTOMOTION_HTML + reportName.replace(" ", "_") + "-" + ms + uuid + ".html");
+        String statusFolder = "success/";
+        if (failuresCounter > 0) {
+            statusFolder = "failure/";
+        }
+
+        File report = new File(TARGET_AUTOMOTION_HTML + statusFolder + reportName.replace(" ", "_") + "-" + ms + uuid + ".html");
         report.getParentFile().mkdirs();
         try (FileOutputStream fos = new FileOutputStream(report);
              BufferedOutputStream bos = new BufferedOutputStream(fos);) {
@@ -330,13 +339,13 @@ public class HtmlReportBuilder {
                                                     if (isFailed) {
                                                         new Img(this,
                                                                 new Style("position:relative; left: 0; top:0"),
-                                                                new Src(String.format("../img/%s", jsonObject.get(SCREENSHOT))),
+                                                                new Src(String.format("../../img/%s", jsonObject.get(SCREENSHOT))),
                                                                 new Alt("screenshot"));
                                                         new Img(this,
                                                                 new Id(screenshotDrawingOverlay.toString()),
                                                                 new Style("position:absolute; left: 0; top:0;"),
                                                                 //new Style("position:absolute; left: 0; top:0; display:none;"),
-                                                                new Src(String.format("../img/%s", screenshotDrawingOverlay.toString())),
+                                                                new Src(String.format("../../img/%s", screenshotDrawingOverlay.toString())),
                                                                 new OnClick("showModal('" + screenshotDrawingOverlay.toString() + "')"),
                                                                 new Alt("screenshot-overlay"));
                                                     }
