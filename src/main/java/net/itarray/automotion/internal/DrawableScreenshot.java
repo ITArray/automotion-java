@@ -10,26 +10,29 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static net.itarray.automotion.validation.Constants.*;
+import static net.itarray.automotion.validation.Constants.TARGET_AUTOMOTION_IMG;
 
 public class DrawableScreenshot {
 
     private final DrawingConfiguration drawingConfiguration;
+    private final Vector extend;
     private TransformedGraphics graphics;
     private File screenshotName;
     private File drawingsOutput;
     private BufferedImage drawings;
-    private final Vector extend;
 
     public DrawableScreenshot(Vector extend, SimpleTransform transform, DrawingConfiguration drawingConfiguration, String rootElementReadableName, File screenshotName) {
         this.drawingConfiguration = drawingConfiguration;
         this.screenshotName = screenshotName;
-        drawingsOutput = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-draw-" + System.currentTimeMillis() + Helper.getGeneratedStringWithLength(7) + ".png");
+        File imgFolder = new File(TARGET_AUTOMOTION_IMG);
+        if (!imgFolder.exists()) {
+            imgFolder.mkdir();
+        }
+        drawingsOutput = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replaceAll("[\\W]|_", "") + "-draw-" + System.currentTimeMillis() + Helper.getGeneratedStringWithLength(7) + ".png");
 
         try {
             this.extend = extend;
-            drawings = new BufferedImage(extend.getX().intValue(), extend.getY().intValue(),
-                    BufferedImage.TYPE_INT_ARGB);
+            drawings = new BufferedImage(extend.getX().intValue(), extend.getY().intValue(), BufferedImage.TYPE_INT_ARGB);
 
             Graphics2D g2d = drawings.createGraphics();
 
@@ -41,7 +44,7 @@ public class DrawableScreenshot {
     }
 
     public static File takeScreenshot(DriverFacade driver, String rootElementReadableName) {
-        File screenshotName = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replace(" ", "") + "-" + System.currentTimeMillis() + Helper.getGeneratedStringWithLength(7) + ".png");
+        File screenshotName = new File(TARGET_AUTOMOTION_IMG + rootElementReadableName.replaceAll("[\\W]|_", "") + "-" + System.currentTimeMillis() + Helper.getGeneratedStringWithLength(7) + ".png");
         driver.takeScreenshot(screenshotName);
         return screenshotName;
     }
@@ -66,12 +69,14 @@ public class DrawableScreenshot {
 
     public void saveDrawing() {
         try {
-            ImageIO.write(drawings, "png", drawingsOutput);
-        } catch (IOException e) {
-            throw new RuntimeException("Writing file failed for " + drawingsOutput , e);
-        }
+            if (drawings != null && drawingsOutput != null) {
+                ImageIO.write(drawings, "png", drawingsOutput);
+            }
+        } catch (NullPointerException | IOException ignored) {}
 
-        drawings.getGraphics().dispose();
+        if (drawings != null) {
+            drawings.getGraphics().dispose();
+        }
     }
 
     public void drawRoot(UIElement rootElement) {

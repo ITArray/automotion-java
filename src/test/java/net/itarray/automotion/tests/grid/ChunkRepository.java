@@ -3,9 +3,9 @@ package net.itarray.automotion.tests.grid;
 import net.itarray.automotion.validation.Chunk;
 import net.itarray.automotion.validation.Chunks;
 import net.itarray.automotion.validation.Element;
-import org.assertj.core.util.Maps;
 import org.openqa.selenium.WebElement;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +14,7 @@ import static rectangles.DummyWebElement.createElement;
 
 public class ChunkRepository {
 
-    Map<String, List<WebElement>> chunksById = Maps.newHashMap();
+    Map<String, List<WebElement>> chunksById = new HashMap<>();
 
     public void addClass(Class<?> aClass) {
         Chunks definitions = aClass.getAnnotation(Chunks.class);

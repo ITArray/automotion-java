@@ -5,6 +5,7 @@ import net.itarray.automotion.validation.UISnapshot;
 import net.itarray.automotion.validation.properties.Padding;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -26,6 +27,9 @@ public class ResponsiveValidatorNewDSLTest {
 
     private static WebDriver driver;
     private static long start;
+    private TestPage page;
+    private ResponsiveUIValidator responsiveUIValidator;
+    private SoftAssertions softly;
 
     public static void main(String[] args) {
         ManualTestSupport.deleteOutputDirectory();
@@ -49,8 +53,8 @@ public class ResponsiveValidatorNewDSLTest {
         System.out.println((stop - start) + " ms " + msg);
     }
 
-    @Test
-    public void testThatResponsiveValidatorWorks() {
+    @Before
+    public void setUp() {
         Map<String, String> sysProp = new HashMap<>();
         //sysProp.put("BROWSER", "Chrome");
         //sysProp.put("IS_LOCAL", "true");
@@ -64,13 +68,31 @@ public class ResponsiveValidatorNewDSLTest {
 
         start = System.currentTimeMillis();
 
-        TestPage page = new TestPage(driver);
+        page = new TestPage(driver);
 
-        ResponsiveUIValidator responsiveUIValidator = new ResponsiveUIValidator(driver);
+        responsiveUIValidator = new ResponsiveUIValidator(driver);
 
         responsiveUIValidator.setLinesColor(Color.BLACK);
-        SoftAssertions softly = new SoftAssertions();
+        softly = new SoftAssertions();
+    }
 
+    @Test
+    public void testGenerateGreenTests() {
+        time("-1-");
+        UISnapshot mainSnapshot = responsiveUIValidator.snapshot("Main");
+        boolean success3 = mainSnapshot.findElements(page.gridElements())
+                .alignedAsGrid(4, 3)
+                .doNotOverlap()
+                .validate();
+
+        softly.assertThat(success3).isEqualTo(true).overridingErrorMessage("Failed validation of Grid");
+
+        responsiveUIValidator.generateReport("Home Page");
+
+        softly.assertAll();
+    }
+    @Test
+    public void testThatResponsiveValidatorWorks() {
         time("-1-");
         UISnapshot mainSnapshot = responsiveUIValidator.snapshot("Main");
         boolean success1 = mainSnapshot.findElement(page.topSlider(), "Top Slider")
