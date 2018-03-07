@@ -4,11 +4,15 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import net.itarray.automotion.internal.geometry.Vector;
+import net.itarray.automotion.tools.general.SystemHelper;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import ru.yandex.qatools.ashot.AShot;
+import ru.yandex.qatools.ashot.Screenshot;
+import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,7 +21,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import static net.itarray.automotion.tools.environment.EnvironmentFactory.*;
+import static java.lang.Integer.parseInt;
+import static net.itarray.automotion.tools.environment.EnvironmentFactory.getApp;
+import static net.itarray.automotion.tools.environment.EnvironmentFactory.isFirefox;
 
 public class DriverFacade {
     private final WebDriver driver;
@@ -32,12 +38,22 @@ public class DriverFacade {
 
     public void takeScreenshot(File file) {
         file.getParentFile().mkdirs();
-        byte[] bytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 
-        try (OutputStream stream = new FileOutputStream(file); ){
-            stream.write(bytes);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (!isPhantomJSDriver() && !isAppiumContext() && parseInt(getZoom().replace("%", "")) <= 100) {
+            Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportRetina(100, 0, 0, (SystemHelper.isRetinaDisplay()) ? 2 : 1)).takeScreenshot(driver);
+            try {
+                ImageIO.write(screenshot.getImage(), "PNG", file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            byte[] bytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+
+            try (OutputStream stream = new FileOutputStream(file)) {
+                stream.write(bytes);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -112,6 +128,21 @@ public class DriverFacade {
         }
     }
 
+    public void setZoom(int percentage) {
+        if (!isAppiumContext()) {
+            if (percentage <= 0) {
+                throw new IllegalArgumentException(String.format("illegal zoom percentage %s - should be greater than zero", percentage));
+            }
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            if (isFirefox()) {
+                jse.executeScript("document.body.style.MozTransform = 'scale(" + (percentage / 100f) + ")';");
+            } else {
+                jse.executeScript("document.body.style.zoom = '" + percentage + "%'");
+            }
+        }
+
+    }
+
     private String getZoomScript() {
         if (isFirefox()) {
             return "document.body.style.MozTransform";
@@ -153,20 +184,15 @@ public class DriverFacade {
         }
     }
 
-
     public Dimension retrievePageSize() {
         return new Dimension((int) retrievePageWidth(), (int) retrievePageHeight());
-    }
-
-    public void setResolution(Dimension resolution) {
-        driver.manage().window().setSize(resolution);
     }
 
     public Dimension getResolution() {
         if (isAppiumContext() && getApp() == null) {
             String resolution = ((RemoteWebDriver) driver).getCapabilities().getCapability("deviceScreenSize").toString();
-            int width = Integer.parseInt(resolution.split("x")[0]);
-            int height = Integer.parseInt(resolution.split("x")[1]);
+            int width = parseInt(resolution.split("x")[0]);
+            int height = parseInt(resolution.split("x")[1]);
 
             return new Dimension(width, height);
         } else {
@@ -174,18 +200,7 @@ public class DriverFacade {
         }
     }
 
-    public void setZoom(int percentage) {
-        if (!isAppiumContext()) {
-            if (percentage <= 0) {
-                throw new IllegalArgumentException(String.format("illegal zoom percentage %s - should be greater than zero", percentage));
-            }
-            JavascriptExecutor jse = (JavascriptExecutor) driver;
-            if (isFirefox()) {
-                jse.executeScript("document.body.style.MozTransform = 'scale(" + (percentage / 100f) + ")';");
-            } else {
-                jse.executeScript("document.body.style.zoom = '" + percentage + "%'");
-            }
-        }
-
+    public void setResolution(Dimension resolution) {
+        driver.manage().window().setSize(resolution);
     }
 }

@@ -9,6 +9,7 @@ import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Resolution;
 import net.itarray.automotion.validation.properties.Zoom;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 
 import java.awt.*;
 import java.util.ArrayList;
