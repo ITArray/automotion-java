@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -65,7 +64,7 @@ public class ResponsiveValidatorNewDSLTest {
         WebDriverFactory driverFactory = new WebDriverFactory();
         driver = driverFactory.getDriver();
         driver.get("http://visual.itarray.net");
-        driver.manage().window().maximize();
+        //driver.manage().window().maximize();
 
         start = System.currentTimeMillis();
 

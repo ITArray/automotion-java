@@ -1,15 +1,10 @@
 package net.itarray.automotion.validation;
 
-import net.itarray.automotion.internal.DrawingConfiguration;
-import net.itarray.automotion.internal.DriverFacade;
-import net.itarray.automotion.internal.HtmlReportBuilder;
-import net.itarray.automotion.internal.ResolutionImpl;
-import net.itarray.automotion.internal.ZoomUnknown;
+import net.itarray.automotion.internal.*;
 import net.itarray.automotion.internal.geometry.Scalar;
 import net.itarray.automotion.validation.properties.Resolution;
 import net.itarray.automotion.validation.properties.Zoom;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -165,6 +160,24 @@ public class ResponsiveUIValidator {
      */
     public void setRetinaScaleFactor(double factor) {
         scaleFactor = factor;
+    }
+
+    /**
+     * Set header cut height. It is needed for the taking of fullscreen screenshot on the pages with the fixed header
+     *
+     * @param px
+     */
+    public void setHeaderCutPx(int px) {
+        System.setProperty("headerCutPx", String.valueOf(px));
+    }
+
+    /**
+     * Set footer cut height. It is needed for the taking of fullscreen screenshot on the pages with the fixed header
+     *
+     * @param px
+     */
+    public void setFooterCutPx(int px) {
+        System.setProperty("footerCutPx", String.valueOf(px));
     }
 
     /**

@@ -40,12 +40,22 @@ public class DriverFacade {
         file.getParentFile().mkdirs();
 
         if (!isPhantomJSDriver() && !isAppiumContext() && parseInt(getZoom().replace("%", "")) <= 100) {
-            Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportRetina(100, 0, 0, (SystemHelper.isRetinaDisplay()) ? 2 : 1)).takeScreenshot(driver);
+            long windowYOffset = (long) executeScript("return window.pageYOffset");
+            long windowXOffset = (long) executeScript("return window.pageXOffset");
+
+            Screenshot screenshot = new AShot()
+                    .shootingStrategy(ShootingStrategies.viewportRetina(100,
+                            Integer.parseInt(System.getProperty("headerCutPx") != null ? System.getProperty("headerCutPx") : "0"),
+                            Integer.parseInt(System.getProperty("footerCutPx") != null ? System.getProperty("footerCutPx") : "0"),
+                            (SystemHelper.isRetinaDisplay()) ? 2 : 1)).takeScreenshot(driver);
+
             try {
                 ImageIO.write(screenshot.getImage(), "PNG", file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            executeScript("window.scrollTo(" + windowXOffset + ", " + windowYOffset + ")");
         } else {
             byte[] bytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 
