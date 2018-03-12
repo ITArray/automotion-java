@@ -5,6 +5,7 @@
 
 ##### Official web site: https://automotion.itarray.net/
 ##### Example: https://github.com/ITArray/automotion-example
+##### Example of composed report based on automotion-maven-plugin: https://automotion-report-demo.itarray.net/
 ### Steps to connect ###
  - Repo:
    * add dependecy:
