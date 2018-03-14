@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -56,15 +55,16 @@ public class ResponsiveValidatorNewDSLTest {
     @Before
     public void setUp() {
         Map<String, String> sysProp = new HashMap<>();
-        //sysProp.put("BROWSER", "Chrome");
-        //sysProp.put("IS_LOCAL", "true");
-        sysProp.put("IS_HEADLESS", "true");
-        sysProp.put(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "/Users/" + System.getProperty("user.name") + "/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs");
+        sysProp.put("BROWSER", "Chrome");
+        sysProp.put("IS_LOCAL", "true");
+        //sysProp.put("IS_HEADLESS", "true");
+        //sysProp.put(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "/Users/" + System.getProperty("user.name") + "/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs");
+        sysProp.put("webdriver.chrome.driver", "/Users/" + System.getProperty("user.name") + "/Downloads/chromedriver");
         EnvironmentHelper.setEnv(sysProp);
         WebDriverFactory driverFactory = new WebDriverFactory();
         driver = driverFactory.getDriver();
         driver.get("http://visual.itarray.net");
-        driver.manage().window().maximize();
+        //driver.manage().window().maximize();
 
         start = System.currentTimeMillis();
 

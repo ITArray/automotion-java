@@ -42,26 +42,34 @@ public class WebDriverFactory {
 
     private static void setChromeDriver() {
         Platform platform = Platform.getCurrent();
-        String chromeBinary = "src/main/resources/drivers/chromedriver"
-                + (platform.toString().toUpperCase().contains("WIN") ? ".exe" : "");
-        System.setProperty("webdriver.chrome.driver", chromeBinary);
+        if (System.getProperty("webdriver.chrome.driver") == null || System.getProperty("webdriver.chrome.driver").isEmpty()) {
+            String chromeBinary = "src/main/resources/drivers/chromedriver"
+                    + (platform.toString().toUpperCase().contains("WIN") ? ".exe" : "");
+            System.setProperty("webdriver.chrome.driver", chromeBinary);
+        }
     }
 
     private static void setGeckoDriver() {
         Platform platform = Platform.getCurrent();
-        String geckoBinary = "src/main/resources/drivers/geckodriver"
-                + (platform.toString().toUpperCase().contains("WIN") ? ".exe" : "");
-        System.setProperty("webdriver.gecko.driver", geckoBinary);
+        if (System.getProperty("webdriver.gecko.driver") == null || System.getProperty("webdriver.gecko.driver").isEmpty()) {
+            String geckoBinary = "src/main/resources/drivers/geckodriver"
+                    + (platform.toString().toUpperCase().contains("WIN") ? ".exe" : "");
+            System.setProperty("webdriver.gecko.driver", geckoBinary);
+        }
     }
 
     private static void setIEDriver() {
-        String ieBinary = "src/main/resources/drivers/IEDriverServer.exe";
-        System.setProperty("webdriver.ie.driver", ieBinary);
+        if (System.getProperty("webdriver.ie.driver") == null || System.getProperty("webdriver.ie.driver").isEmpty()) {
+            String ieBinary = "src/main/resources/drivers/IEDriverServer.exe";
+            System.setProperty("webdriver.ie.driver", ieBinary);
+        }
     }
 
     private static void setEdgeDriver() {
-        String edgeBinary = "src/main/resources/drivers/MicrosoftWebDriver.exe";
-        System.setProperty("webdriver.edge.driver", edgeBinary);
+        if (System.getProperty("webdriver.edge.driver") == null || System.getProperty("webdriver.edge.driver").isEmpty()) {
+            String edgeBinary = "src/main/resources/drivers/MicrosoftWebDriver.exe";
+            System.setProperty("webdriver.edge.driver", edgeBinary);
+        }
     }
 
     public WebDriver getDriver() {
@@ -114,6 +122,9 @@ public class WebDriverFactory {
             options.addArguments("--start-maximized");
             options.addArguments("--kiosk");
             options.addArguments("--disable-notifications");
+            options.setExperimentalOption("useAutomationExtension", false);
+            options.addArguments("disable-infobars");
+
             webDriver = new ChromeDriver(options);
         } else if (isSafari()) {
             webDriver = new SafariDriver();

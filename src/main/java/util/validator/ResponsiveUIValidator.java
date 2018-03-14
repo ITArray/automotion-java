@@ -104,6 +104,24 @@ public class ResponsiveUIValidator {
         responsiveUIValidator.setRetinaScaleFactor(factor);
     }
 
+    /**
+     * Set header cut height. It is needed for the taking of fullscreen screenshot on the pages with the fixed header
+     *
+     * @param px
+     */
+    public void setHeaderCutPx(int px) {
+        System.setProperty("headerCutPx", String.valueOf(px));
+    }
+
+    /**
+     * Set footer cut height. It is needed for the taking of fullscreen screenshot on the pages with the fixed header
+     *
+     * @param px
+     */
+    public void setFooterCutPx(int px) {
+        System.setProperty("footerCutPx", String.valueOf(px));
+    }
+
     public boolean isMobileTopBarOffset() {
         return responsiveUIValidator.isMobileTopBarOffsetState();
     }

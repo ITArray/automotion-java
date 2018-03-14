@@ -12,22 +12,17 @@ import org.json.simple.JSONObject;
 import org.openqa.selenium.Dimension;
 
 import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 import static net.itarray.automotion.validation.Constants.*;
 
 public abstract class ResponsiveUIValidatorBase {
 
-    private final Errors errors;
     protected final UIElement page;
-    private final long startTime;
     protected final UISnapshot snapshot;
+    private final Errors errors;
+    private final long startTime;
     private final DriverFacade driver;
     private final double zoomFactor;
     private DrawableScreenshot drawableScreenshot;
@@ -47,12 +42,12 @@ public abstract class ResponsiveUIValidatorBase {
 
 
     public DrawableScreenshot getDrawableScreenshot() {
-        if (drawableScreenshot == null) {
+        if (drawableScreenshot == null && this.errors.hasMessages()) {
             File screenshotName = snapshot.takeScreenshot();
             Vector extend = driver.getExtend(screenshotName);
             this.drawableScreenshot = new DrawableScreenshot(extend, getTransform(), getDrawingConfiguration(), getNameOfToBeValidated(), screenshotName);
         }
-        if (isWithReport() && !rootElementDrawn) {
+        if (isWithReport() && !rootElementDrawn && this.errors.hasMessages()) {
             rootElementDrawn = true;
             drawRootElement();
         }
@@ -104,7 +99,7 @@ public abstract class ResponsiveUIValidatorBase {
     public boolean validate() {
 
         //if (errors.hasMessages()) {
-            compileValidationReport();
+        compileValidationReport();
         //}
 
         return !errors.hasMessages();
@@ -127,7 +122,9 @@ public abstract class ResponsiveUIValidatorBase {
             }
 
             @Override
-            public Scalar getTolerance() { return tolerance; }
+            public Scalar getTolerance() {
+                return tolerance;
+            }
 
             @Override
             public void add(String message) {
@@ -136,29 +133,41 @@ public abstract class ResponsiveUIValidatorBase {
 
             @Override
             public void draw(UIElement element) {
-                if (isWithReport()) {
-                    getDrawableScreenshot().draw(element);
+                DrawableScreenshot drawableScreenshot = getDrawableScreenshot();
+                if (drawableScreenshot != null) {
+                    if (isWithReport()) {
+                        getDrawableScreenshot().draw(element);
+                    }
                 }
             }
 
             @Override
             public void drawRoot(UIElement element) {
-                if (isWithReport()) {
-                    getDrawableScreenshot().drawRoot(element);
+                DrawableScreenshot drawableScreenshot = getDrawableScreenshot();
+                if (drawableScreenshot != null) {
+                    if (isWithReport()) {
+                        getDrawableScreenshot().drawRoot(element);
+                    }
                 }
             }
 
             @Override
             public void drawHorizontalLine(Vector onLine) {
-                if (isWithReport()) {
-                    getDrawableScreenshot().drawHorizontalLine(onLine.getY());
+                DrawableScreenshot drawableScreenshot = getDrawableScreenshot();
+                if (drawableScreenshot != null) {
+                    if (isWithReport()) {
+                        getDrawableScreenshot().drawHorizontalLine(onLine.getY());
+                    }
                 }
             }
 
             @Override
             public void drawVerticalLine(Vector onLine) {
-                if (isWithReport()) {
-                    getDrawableScreenshot().drawVerticalLine(onLine.getX());
+                DrawableScreenshot drawableScreenshot = getDrawableScreenshot();
+                if (drawableScreenshot != null) {
+                    if (isWithReport()) {
+                        getDrawableScreenshot().drawVerticalLine(onLine.getX());
+                    }
                 }
             }
 
@@ -173,8 +182,12 @@ public abstract class ResponsiveUIValidatorBase {
     protected abstract String getNameOfToBeValidated();
 
     private void compileValidationReport() {
-        if (isWithReport()) {
-            getDrawableScreenshot().saveDrawing();
+        DrawableScreenshot drawableScreenshot = getDrawableScreenshot();
+
+        if (drawableScreenshot != null) {
+            if (isWithReport()) {
+                getDrawableScreenshot().saveDrawing();
+            }
         }
 
         if (isWithReport()) {
@@ -224,8 +237,8 @@ public abstract class ResponsiveUIValidatorBase {
         jsonResults.put(ROOT_ELEMENT, rootDetails);
         jsonResults.put(TIME_EXECUTION, String.valueOf(System.currentTimeMillis() - startTime) + " milliseconds");
         jsonResults.put(ELEMENT_NAME, getNameOfToBeValidated());
-        jsonResults.put(SCREENSHOT, drawableScreenshot.getScreenshotName().getName());
-        jsonResults.put(DRAWINGS, drawableScreenshot.getDrawingsOutput().getName());
+        jsonResults.put(SCREENSHOT, drawableScreenshot != null ? drawableScreenshot.getScreenshotName().getName() : "");
+        jsonResults.put(DRAWINGS, drawableScreenshot != null ? drawableScreenshot.getDrawingsOutput().getName() : "");
 
         long ms = System.currentTimeMillis();
         String uuid = Helper.getGeneratedStringWithLength(7);

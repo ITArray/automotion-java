@@ -1,10 +1,11 @@
-[![Build Status](https://travis-ci.org/ITArray/automotion-java.svg?branch=master)](https://travis-ci.org/ITArray/automotion-java)
+[![Build Status](https://travis-ci.org/ITArray/automotion-java.svg?branch=master)](https://travis-ci.org/ITArray/automotion-java) [![Maven Central](https://img.shields.io/maven-central/v/net.itarray/automotion.svg?label=Maven%20Central)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22net.itarray%22%20AND%20a%3A%22automotion%22)
 
 # Automotion #
 ![alt tag](https://www.itarray.net/wp-content/uploads/2016/12/Automotion-2.jpg)
 
 ##### Official web site: https://automotion.itarray.net/
 ##### Example: https://github.com/ITArray/automotion-example
+##### Example of composed report based on automotion-maven-plugin: https://automotion-report-demo.itarray.net/
 ### Steps to connect ###
  - Repo:
    * add dependecy:

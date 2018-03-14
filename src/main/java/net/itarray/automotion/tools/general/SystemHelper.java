@@ -27,15 +27,9 @@ public class SystemHelper {
                         isRetina = true;
                     }
                 }
-            } catch (Exception e) {
-                try {
-                    isRetina = getDisplayScaleFactor() > 140;
-                } catch (Exception e1) {e1.printStackTrace();}
+            } catch (Exception ignored) {
             }
-        } catch (Exception e) {
-            try {
-                isRetina = getDisplayScaleFactor() > 140;
-            } catch (Exception e1) {e1.printStackTrace();}
+        } catch (Exception ignored) {
         }
         return isRetina;
     }
