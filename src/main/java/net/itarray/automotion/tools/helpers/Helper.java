@@ -31,7 +31,7 @@ public class Helper {
     public static File createFile(String filename) throws IOException, AWTException {
         File file;
         try {
-            file = new File("target/" + filename);
+            file = new File("target" + File.separator + filename);
         } catch (Exception ex) {
             file = new File(filename);
         }
