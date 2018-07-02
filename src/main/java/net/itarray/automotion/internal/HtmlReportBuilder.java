@@ -63,9 +63,9 @@ public class HtmlReportBuilder {
         long ms = System.currentTimeMillis();
         String uuid = Helper.getGeneratedStringWithLength(7);
 
-        String statusFolder = "success/";
+        String statusFolder = "success" + File.separator;
         if (failuresCounter > 0) {
-            statusFolder = "failure/";
+            statusFolder = "failure" + File.separator;
         }
 
         File report = new File(TARGET_AUTOMOTION_HTML + statusFolder + reportName.replace(" ", "_") + "-" + ms + uuid + ".html");
