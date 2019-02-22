@@ -1,32 +1,18 @@
 package util.property;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Properties;
-
+/**
+ * @deprecated As of release 2.0, replaced by{@link net.itarray.automotion.tools.property.PropertyLoader}
+ */
+@Deprecated
 public class PropertyLoader {
 
-    private String propertyFileName;
+    private final net.itarray.automotion.tools.property.PropertyLoader delegatee;
 
     public PropertyLoader(String propertyPath) {
-        this.propertyFileName = propertyPath;
+        delegatee = new net.itarray.automotion.tools.property.PropertyLoader(propertyPath);
     }
 
     public String loadProperty(String name) {
-        Properties props = new Properties();
-        try {
-
-            props.load(new BufferedReader(new InputStreamReader(PropertyLoader.class.getResourceAsStream("/" + propertyFileName), "utf-8")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String value = "";
-
-        if (name != null) {
-            value = props.getProperty(name);
-        }
-        return value;
+        return delegatee.loadProperty(name);
     }
 }

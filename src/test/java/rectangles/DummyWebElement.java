@@ -1,5 +1,6 @@
 package rectangles;
 
+import net.itarray.automotion.internal.geometry.Scalar;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
@@ -8,12 +9,17 @@ import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 public class DummyWebElement implements WebElement {
 
     private final Point location;
     private final Dimension size;
+    private final Map<String, String> cssAttributesByName = new HashMap<>();
 
     private DummyWebElement(Point location, Dimension size) {
         this.location = location;
@@ -96,13 +102,21 @@ public class DummyWebElement implements WebElement {
     }
 
     @Override
-    public String getCssValue(String s) {
-        return null;
+    public String getCssValue(String propertyName) {
+        return cssAttributesByName.getOrDefault(propertyName, "");
+    }
+
+    public void putCssValue(String propertyName, String propertyValue) {
+        cssAttributesByName.put(propertyName, propertyValue);
     }
 
     @Override
     public <X> X getScreenshotAs(OutputType<X> outputType) throws WebDriverException {
         return null;
+    }
+
+    public static WebElement createElement(Scalar originX, Scalar originY, Scalar cornerX, Scalar cornerY) {
+        return createElement(originX.intValue(), originY.intValue(), cornerX.intValue(), cornerY.intValue());
     }
 
     public static WebElement createElement(int originX, int originY, int cornerX, int cornerY) {
@@ -153,5 +167,17 @@ public class DummyWebElement implements WebElement {
 
     public static WebElement createElementMovedUpByHeightPlus(int deltaY) {
         return createElementMovedUpBy(RectangleFixture.height+deltaY);
+    }
+
+    public static List<WebElement> createElements(double[][] rects) {
+        List<WebElement> elements = newArrayList();
+        for (double[] rect : rects) {
+            elements.add(createElement(convert(rect[0]), convert(rect[1]), convert(rect[2]), convert(rect[3])));
+        }
+        return elements;
+    }
+
+    public static int convert(double value) {
+        return (int) value;
     }
 }

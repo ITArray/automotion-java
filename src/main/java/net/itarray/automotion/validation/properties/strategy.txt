@@ -1,0 +1,41 @@
+
+- next steps:
+    - create report synchronously with switch to include good cases -> Denys
+    - make each validation a boolean expression -> Torsten
+    - error message for gridCells
+    - build the representations
+
+- each validation is basically a boolean expression.
+
+- expression can print e.g. left_align(#e1, #e2)
+- expression can be evaluated e.g. false
+- expression can explain there value left(#1)[100] != left(#2)[101]
+- explaining shortcuts (first false for and, first true for or)
+- all values are dynamic (not cached) (so elements can be reused)
+- expression originating from objects have visual representations
+- how to represent scalars and boolean?
+
+- types
+    - rectangle (literals or expression)
+    - intervals (as projections of rectangles, literals or expression)
+    - scalars (as projections of rectangles, literals or expression)
+    - points #e1.origin{(10,15)}
+    - extends #e1.extend{(100,200)} ((#e1=[(10,15):(100,200)]).extend=(100,200))
+
+
+- some representations:
+    - top, bottom, left, right: lines with corners (or corner to corner marked)
+    - width: middle of top an bottom
+    - size: top left to bottom right
+    - aligned: a line through the first (or one which occurs most)
+    - leftOf: a directed distance (left of argument to right of receiver)
+    - overlapping: true -> intersection, false -> distance (edge to edge or side to side)
+    - inside: true -> ..., false -> ... model as relation of for sides
+    - offset: signed distance side to side (leftOf,...)
+    - centered: unsigned distance from mirrored other side (choose one?)
+    - alignedAsGrid ?
+    - alignedAsGridCells: grid as lines, equality as relation of sides
+
+
+- misc
+    - increase screenshot with white background if needed

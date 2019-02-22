@@ -1,6 +1,5 @@
 package rectangles;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -46,35 +45,35 @@ public class IntersectionTest {
 
     @Test
     public void shouldOverlap() {
-        assertThat(overlapWith(root, other))
+        assertThat(isOverlapping(root, other))
                 .withFailMessage(failMessage(intersectionExpectation()))
                 .isEqualTo(intersects);
     }
 
     @Test
     public void shouldNotOverlap() {
-        assertThat(notOverlapWith(root, other))
+        assertThat(isNotOverlapping(root, other))
                 .withFailMessage(failMessage(intersectionExpectation()))
                 .isEqualTo(!intersects);
     }
 
     @Test
     public void areNotOverlapped() {
-        assertThat(areNotOverlappedWithEachOther(Arrays.asList(root, other)))
+        assertThat(doNotOverlap(Arrays.asList(root, other)))
                 .withFailMessage(failMessage(intersectionExpectation()))
                 .isEqualTo(!intersects);
     }
 
     @Test
     public void shouldBeInsideOf() {
-        assertThat(insideOf(root, other))
+        assertThat(isInsideOf(root, other))
                 .withFailMessage(failMessage(insideOfMessage()))
                 .isEqualTo(otherContainsRoot);
     }
 
     @Test
     public void shouldBeInsideOfChunkVersion() {
-        assertThat(insideOf(singletonList(root), other))
+        assertThat(areInsideOf(singletonList(root), other))
                 .withFailMessage(failMessage(insideOfMessage()))
                 .isEqualTo(otherContainsRoot);
     }
@@ -87,7 +86,7 @@ public class IntersectionTest {
     @Test
     public void shouldBeInsideOfWithZeroPadding() {
         Padding padding = new Padding(0);
-        assertThat(insideOf(root, other, padding))
+        assertThat(isInsideOf(root, other, padding))
                 .withFailMessage(failMessage(insideOfMessage() + " with zero padding"))
                 .isEqualTo(otherContainsRoot);
     }
@@ -104,7 +103,7 @@ public class IntersectionTest {
                 RectangleFixture.originY + paddingTop,
                 RectangleFixture.cornerX - paddingRight,
                 RectangleFixture.cornerY - paddingBottom);
-        assertThat(insideOf(insetRoot, other, padding))
+        assertThat(isInsideOf(insetRoot, other, padding))
                 .withFailMessage(failMessage(insideOfMessage() + " with non zero padding"))
                 .isEqualTo(otherContainsRoot);
     }

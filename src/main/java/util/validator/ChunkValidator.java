@@ -1,41 +1,48 @@
 package util.validator;
 
+import net.itarray.automotion.validation.ChunkUIElementValidator;
 import org.openqa.selenium.WebElement;
 
-public interface ChunkValidator {
+/**
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.ChunkUIElementValidator}
+ */
+@Deprecated
+public interface ChunkValidator extends ChunkUIElementValidator {
 
     ResponsiveUIChunkValidator changeMetricsUnitsTo(ResponsiveUIValidator.Units units);
+
+    ResponsiveUIChunkValidator changeMetricsUnitsTo(net.itarray.automotion.validation.Units units);
 
     ResponsiveUIChunkValidator alignedAsGrid(int horizontalGridSize);
 
     ResponsiveUIChunkValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
 
-    ResponsiveUIChunkValidator areNotOverlappedWithEachOther();
+    ResponsiveUIChunkValidator doNotOverlap();
 
-    ResponsiveUIChunkValidator withSameSize();
+    ResponsiveUIChunkValidator haveEqualSize();
 
-    ResponsiveUIChunkValidator withSameWidth();
+    ResponsiveUIChunkValidator haveEqualWidth();
 
-    ResponsiveUIChunkValidator withSameHeight();
+    ResponsiveUIChunkValidator haveEqualHeight();
 
-    ResponsiveUIChunkValidator withNotSameSize();
+    ResponsiveUIChunkValidator haveDifferentSizes();
 
-    ResponsiveUIChunkValidator withNotSameWidth();
+    ResponsiveUIChunkValidator haveDifferentWidths();
 
-    ResponsiveUIChunkValidator withNotSameHeight();
+    ResponsiveUIChunkValidator haveDifferentHeights();
 
-    ResponsiveUIChunkValidator sameRightOffset();
+    ResponsiveUIChunkValidator areRightAligned();
 
-    ResponsiveUIChunkValidator sameLeftOffset();
+    ResponsiveUIChunkValidator areLeftAligned();
 
-    ResponsiveUIChunkValidator sameTopOffset();
+    ResponsiveUIChunkValidator areTopAligned();
 
-    ResponsiveUIChunkValidator sameBottomOffset();
+    ResponsiveUIChunkValidator areBottomAligned();
 
-    ResponsiveUIChunkValidator equalLeftRightOffset();
+    ResponsiveUIChunkValidator areCenteredOnPageVertically();
 
-    ResponsiveUIChunkValidator equalTopBottomOffset();
+    ResponsiveUIChunkValidator areCenteredOnPageHorizontally();
 
-    ResponsiveUIChunkValidator insideOf(WebElement containerElement, String readableContainerName);
+    ResponsiveUIChunkValidator areInsideOf(WebElement containerElement, String readableContainerName);
 
 }

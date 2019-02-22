@@ -5,40 +5,43 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import java.io.IOException;
 import java.util.Map;
 
-public class ConnectionFactory extends ConnectionBuilder {
+/**
+ * @deprecated As of release 2.0, replaced by{@link net.itarray.automotion.tools.http.connections.ConnectionFactory}
+ */
+@Deprecated
+public class ConnectionFactory {
 
-    private String url;
+    private final net.itarray.automotion.tools.http.connections.ConnectionFactory delegatee;
 
     public ConnectionFactory(String url) {
-        super(url);
-        this.url = url;
+        delegatee = new net.itarray.automotion.tools.http.connections.ConnectionFactory(url);
     }
 
     public CloseableHttpResponse sendPostWithFullResponse(Map map, String endpoint, String token, boolean withMediaFile) throws IOException {
-        return new ConnectionBuilder(url).sendPOST(map, endpoint, token, withMediaFile);
+        return delegatee.sendPostWithFullResponse(map, endpoint, token, withMediaFile);
     }
 
     public Map<Integer, String> sendPost(Map map, String endpoint, String token, boolean withMediaFile) throws IOException {
-        return new ConnectionBuilder(url).getPOST(map, endpoint, token, withMediaFile);
+        return delegatee.sendPost(map, endpoint, token, withMediaFile);
     }
 
     public Map<Integer, String> sendPost(Map map, Map headers, String endpoint, String token, boolean withMediaFile) throws IOException {
-        return new ConnectionBuilder(url).getPOST(map, headers, endpoint, token, withMediaFile);
+        return delegatee.sendPost(map, headers, endpoint, token, withMediaFile);
     }
 
     public Map<Integer, String> sendGet(String endpoint, String token) throws IOException {
-        return new ConnectionBuilder(url).getGET(endpoint, token);
+        return delegatee.sendGet(endpoint, token);
     }
 
     public Map<Integer, String> sendGet(String endpoint, Map headers) throws IOException {
-        return new ConnectionBuilder(url).getGET(endpoint, headers);
+        return delegatee.sendGet(endpoint, headers);
     }
 
     public Map<Integer, String> sendPut(Map map, String endpoint, String token) throws IOException {
-        return new ConnectionBuilder(url).getPUT(map, endpoint, token);
+        return delegatee.sendPut(map, endpoint, token);
     }
 
     public Map<Integer, String> sendDelete(String endpoint, String token) throws IOException {
-        return new ConnectionBuilder(url).getDELETE(endpoint, token);
+        return delegatee.sendDelete(endpoint, token);
     }
 }

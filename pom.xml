@@ -6,10 +6,10 @@
 
     <groupId>net.itarray</groupId>
     <artifactId>automotion</artifactId>
-    <version>1.4.6</version>
+    <version>2.2.0</version>
     <name>Automotion</name>
-    <description>Library for automation testing</description>
-    <url>https://www.itarray.net</url>
+    <description>Library for smart visual automation testing</description>
+    <url>https://automotion.itarray.net</url>
 
     <licenses>
         <license>
@@ -22,7 +22,7 @@
         <developer>
             <name>ITArray</name>
             <email>denys.zaiats@gmail.com</email>
-            <organization>FACEY.TOP</organization>
+            <organization>ITArray</organization>
             <organizationUrl>https://www.itarray.net</organizationUrl>
         </developer>
     </developers>
@@ -58,7 +58,7 @@
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.3</version>
+                <version>1.6.7</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
@@ -82,7 +82,20 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <groupId>net.itarray</groupId>
+                <artifactId>automotion-maven-plugin</artifactId>
+                <version>1.0.5</version>
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>automotion</id>-->
+                        <!--<phase>install</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>automotion-report</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -96,9 +109,42 @@
                 </executions>
                 <configuration>
                     <additionalparam>-Xdoclint:none</additionalparam>
+                    <javadocDirectory>${project.basedir}/target/generated-sources/apidocs</javadocDirectory>
+                    <failOnError>false</failOnError>
+                    <excludePackageNames>net.itarray.automotion.internal:net.itarray.automotion.internal.*
+                    </excludePackageNames>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.2.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <id>compress-facelets</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>net.itarray.automotion.JavadocImageGenerator</mainClass>
+                            <arguments>
+                                <argument>${project.basedir}/target</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.itarray</groupId>
+                <artifactId>automotion-maven-plugin</artifactId>
+                <version>1.0.5</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -117,37 +163,42 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>3.4.0</version>
+            <version>3.141.59</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-server</artifactId>
-            <version>3.4.0</version>
+            <version>3.141.59</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-remote-driver</artifactId>
-            <version>3.4.0</version>
+            <version>3.141.59</version>
         </dependency>
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <version>4.1.2</version>
+            <version>7.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>21.0</version>
+            <version>24.0-jre</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.3</version>
+            <version>4.5.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
-            <version>4.5.3</version>
+            <version>4.5.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.6.1</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
@@ -161,9 +212,15 @@
         </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4.7</version>
+            <artifactId>javax.mail-api</artifactId>
+            <version>1.6.2</version>
         </dependency>
+        <dependency>
+            <groupId>ru.yandex.qatools.ashot</groupId>
+            <artifactId>ashot</artifactId>
+            <version>1.5.4</version>
+        </dependency>
+
         <dependency>
             <groupId>com.optimaize.languagedetector</groupId>
             <artifactId>language-detector</artifactId>
@@ -172,7 +229,7 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>phantomjsdriver</artifactId>
-            <version>1.4.3</version>
+            <version>1.4.4</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.seleniumhq.selenium</groupId>
@@ -191,12 +248,24 @@
         <dependency>
             <groupId>com.webfirmframework</groupId>
             <artifactId>wffweb</artifactId>
-            <version>2.1.8</version>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.2.0</version>
+            <version>3.11.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.23.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

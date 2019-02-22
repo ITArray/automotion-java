@@ -1,10 +1,11 @@
-[![Build Status](https://travis-ci.org/ITArray/Automotion-Java.svg?branch=master)](https://travis-ci.org/ITArray/Automotion-Java)
-[![Gratipay User](https://img.shields.io/gratipay/user/dzaiats.svg)](https://gratipay.com/~dzaiats/)
+[![Build Status](https://travis-ci.org/ITArray/automotion-java.svg?branch=master)](https://travis-ci.org/ITArray/automotion-java) [![Maven Central](https://img.shields.io/maven-central/v/net.itarray/automotion.svg?label=Maven%20Central)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22net.itarray%22%20AND%20a%3A%22automotion%22)
 
 # Automotion #
 ![alt tag](https://www.itarray.net/wp-content/uploads/2016/12/Automotion-2.jpg)
 
+##### Official web site: https://automotion.itarray.net/
 ##### Example: https://github.com/ITArray/automotion-example
+##### Example of composed report based on automotion-maven-plugin: https://automotion-report-demo.itarray.net/
 ### Steps to connect ###
  - Repo:
    * add dependecy:
@@ -15,106 +16,31 @@
                     <version>LATEST</version>
                 </dependency>
 
-### Steps of adding to the project ###
-
-- Create instance of WebDriverFactory and call getDriver:
-
-            WebDriverFactory driverFactory = new WebDriverFactory();
-            WebDriver driver = driverFactory.getDriver();
-            
-- Extend Your page classes from BaseWebMobileElement class to have access to methods:
-
-            getWebElement(final By by)
-            getWebElement(ExpectedCondition<WebElement> expectedCondition)
-            
-            getMobileElement(final By by, int timeOfWaiting)
-            getMobileElement(final By by)
-            
-            getWebElements(final By by)
-            getWebElements(ExpectedCondition<List<WebElement>> expectedCondition)  
-
-### Steps of using during test run ###
-
-#### ! Do not forget to put Chrome and Gecko drivers into Your project src/test/resources/drivers ! ####
-
- - Specify env variables or system properties (example):
-    * For Web local run:       
-         
-            IS_LOCAL=True
-            BROWSER=Firefox|Chrome|IE|Safari|EDGE
-
-    * For Web remote run:
-
-            IS_REMOTE=True
-            BROWSER=Firefox|Chrome|IE|Safari|EDGE
-            EXECUTOR=http://{host}:{port}/wd/hub
-            (optional available with Chrome only) MOBILE_DEVICE_EMULATION=Google Nexus 5|Apple iPhone 6|Samsung Galaxy S5
-
-    * For Web Mobile run:
-
-            IS_MOBILE=True
-            PLATFORM=Android|iOS
-            BROWSER=Chrome|Safari
-            EXECUTOR=http://{host}:{port}/wd/hub
-            DEVICE=Device name
-            
-    * For Web Headless run (with PhantomJS without browser):
-
-            IS_HEADLESS=True
-            BROWSER=Firefox|Chrome|IE|Safari
-            PHANTOM_JS_PATH=C://phantomjs.exe
-
-    * For Native Mobile run:
-
-            IS_MOBILE=True
-            PLATFORM=Android|iOS
-            APP={path_to_app}
-            EXECUTOR=http://{host}:{port}/wd/hub
-            DEVICE=Device name
-
-    * For Windows UWP:
-
-            IS_MOBILE=True
-            PLATFORM=Windows
-            APP={path_to_app}
-            EXECUTOR=http://{host}:{port}/wd/hub
-            DEVICE=Device name or ID
-
 ### Responsive UI Validation ###
  - Responsive UI Validator allows to validate UI on web or mobile page using lots of criterias. Also it allows tu build thr HTMl report after validation.
             
             ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driver);
+            UISnapshot mainSnapshot = uiValidator.snapshot("Main");
             
+            boolean success = mainSnapshot.findElement(page.topSlider(), "Top Slider")
+                    .isLeftAlignedWith(page.gridContainer(), "Grid Container")
+                    .isBottomAlignedWith(page.topTextBlock(), "Text Block")
+                    .hasWidth(between(percent(300, PAGE)).and(percent(500, PAGE)))
+                    .hasEqualSizeAs(page.gridElements())
+                    .isCenteredOnPageHorizontally()
+                    .isCenteredOnPageVertically()
+                    .isInsideOf(page.mainContainer(), "Main container", new Padding(10, 50, 10, 20))
+                    .validate();
             
-            boolean result = uiValidator.init()
-                   .findElement({rootEelement}, "Name of element")
-                   .sameOffsetLeftAs({element} "Panel 1")
-                   .sameOffsetLeftAs({element} "Button 1")
-                   .sameOffsetRightAs({element} "Button 2")
-                   .sameOffsetRightAs({element}, "Button 3)
-                   .withCssValue("border", "2px", "solid", "#FBDCDC")
-                   .withCssValue("border-radius", "4px")
-                   .withoutCssValue("color", "#FFFFFF")
-                   .sameSizeAs({list_elements},)
-                   .insideOf({element}, "Container")
-                   .notOverlapWith({element}, "Other element")
-                   .withTopElement({element}, 10, 15)
-                   .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PERCENT)
-                   .widthBetween(50, 55)
-                   .heightBetween(90, 95)
-                   .drawMap()
-                   .validate();
-            
-            
-            uiValidator.generateReport();
+            uiValidator.generateReport("Report Name");
             
  - Description for each methods available in the framework:
     
     * Init method:
     
-            init(); // Method that defines start of new validation. Needs to be called each time before calling findElement(), findElements()
+            snapshot(); // Method that defines start of new validation. Needs to be called each time before calling findElement(), findElements()
             
-            init("Scenario name"); // Method that defines start of new validation with specified name of scenario. Needs to be called each time before calling findElement(), findElements()
+            snapshot("Scenario name"); // Method that defines start of new validation with specified name of scenario. Needs to be called each time before calling findElement(), findElements()
             
             setColorForRootElement(Color color); // Set color for main element. This color will be used for highlighting element in results
             
@@ -122,124 +48,119 @@
             
             setLinesColor(Color color); // Set color for grid lines. This color will be used for the lines of alignment grid in results
             
+            setRetinaScaleFactor(double factor); // Set scale factor for retina and mobile screens
+            
             findElement(WebElement element, String readableNameOfElement); // Main method to specify which element we want to validate (can be called only findElement() OR findElements() for single validation)
             
             findElements(List<WebElement> elements); // Main method to specify the list of elements that we want to validate (can be called only findElement() OR findElements() for single validation)
     
     * For single element findElement({element}, "name"):
     
-            insideOf(WebElement containerElement, String readableContainerName); // Verify that element is located inside of specified element
-         
-            withLeftElement(WebElement element); // Verify that element which located left to is correct
-        
-            withLeftElement(WebElement element, int minMargin, int maxMargin); // Verify that element which located left to is correct with specified margins
-        
-            withRightElement(WebElement element); // Verify that element which located right to is correct
-        
-            withRightElement(WebElement element, int minMargin, int maxMargin); // Verify that element which located right to is correct with specified margins
-        
-            withTopElement(WebElement element); // Verify that element which located top to is correct
-        
-            withTopElement(WebElement element, int minMargin, int maxMargin); // Verify that element which located top to is correct with specified margins
-        
-            withBottomElement(WebElement element); // Verify that element which located bottom to is correct
-        
-            withBottomElement(WebElement element, int minMargin, int maxMargin); // Verify that element which located bottom to is correct with specified margins
-        
-            notOverlapWith(WebElement element, String readableName); // Verify that element is NOT overlapped with specified element
-        
-            overlapWith(WebElement element, String readableName); // Verify that element is overlapped with specified element
-        
-            notOverlapWith(List<WebElement> elements); // Verify that element is NOT overlapped with every element is the list
-        
-            sameOffsetLeftAs(WebElement element, String readableName); // Verify that element has the same left offset as specified element
-        
-            sameOffsetLeftAs(List<WebElement> elements); // Verify that element has the same left offset as every element is the list
-        
-            sameOffsetRightAs(WebElement element, String readableName); // Verify that element has the same right offset as specified element
-        
-            sameOffsetRightAs(List<WebElement> elements); // Verify that element has the same right offset as every element is the list
-        
-            sameOffsetTopAs(WebElement element, String readableName); // Verify that element has the same top offset as specified element
-        
-            sameOffsetTopAs(List<WebElement> elements); // Verify that element has the same top offset as every element is the list
-        
-            sameOffsetBottomAs(WebElement element, String readableName); // Verify that element has the same bottom offset as specified element
-        
-            sameOffsetBottomAs(List<WebElement> elements); // Verify that element has the same bottom offset as every element is the list
-        
-            sameWidthAs(WebElement element, String readableName); // Verify that element has the same width as specified element
-        
-            sameWidthAs(List<WebElement> elements); // Verify that element has the same width as every element in the list
-        
-            minWidth(int width); // Verify that width of element is not less than specified
-        
-            maxWidth(int width); // Verify that width of element is not bigger than specified
-        
-            widthBetween(int min, int max); // Verify that width of element is in range
-        
-            sameHeightAs(WebElement element, String readableName); // Verify that element has the same height as specified element
-        
-            sameHeightAs(List<WebElement> elements); // Verify that element has the same height as every element in the list
-        
-            minHeight(int height); // Verify that height of element is not less than specified
-        
-            maxHeight(int height); // Verify that height of element is not bigger than specified
-        
-            sameSizeAs(WebElement element, String readableName); // Verify that element has the same size as specified element
-        
-            sameSizeAs(List<WebElement> elements); // Verify that element has the same size as every element in the list
-        
-            heightBetween(int min, int max); // Verify that height of element is in range
-        
-            minOffset(int top, int right, int bottom, int left); // Verify that min offset of element is not less than (min value is -10000)
-        
-            maxOffset(int top, int right, int bottom, int left); // Verify that max offset of element is not bigger than (min value is -10000)
-        
-            withCssValue(String cssProperty, String... args); // Verify that element has correct CSS values
-        
-            withoutCssValue(String cssProperty, String... args); // Verify that concrete CSS values are absent for specified element
-        
-            equalLeftRightOffset(); // Verify that element has equal left and right offsets (e.g. Bootstrap container)
-        
-            equalTopBottomOffset(); // Verify that element has equal top and bottom offset (aligned vertically in center)
-         
-            changeMetricsUnitsTo(ResponsiveUIValidator.Units units); // Change units to Pixels or % (Units.PX, Units.PERCENT)
-
+           // position
+           
+            UIElementValidator isRightOf(WebElement element);
+            UIElementValidator isRightOf(WebElement element, Condition<Scalar> distanceCondition);
+           
+            UIElementValidator isLeftOf(WebElement element);
+            UIElementValidator isLeftOf(WebElement element, Condition<Scalar> distanceCondition);
+           
+            UIElementValidator isBelow(WebElement element);
+            UIElementValidator isBelow(WebElement element, Condition<Scalar> distanceCondition);
+           
+            UIElementValidator isAbove(WebElement element);
+            UIElementValidator isAbove(WebElement element, Condition<Scalar> distanceCondition);
+           
+            // area
+           
+            UIElementValidator isOverlapping(WebElement element, String readableName);
+            UIElementValidator isNotOverlapping(WebElement element, String readableName);
+            UIElementValidator isNotOverlapping(List<WebElement> elements);
+           
+            UIElementValidator isInsideOf(WebElement containerElement, String readableContainerName);
+            UIElementValidator isInsideOf(WebElement containerElement, String readableContainerName, Padding padding);
+           
+            // alignment
+           
+            UIElementValidator isLeftAlignedWith(WebElement element, String readableName);
+            UIElementValidator isLeftAlignedWith(List<WebElement> elements);
+           
+            UIElementValidator isRightAlignedWith(WebElement element, String readableName);
+            UIElementValidator isRightAlignedWith(List<WebElement> elements);
+           
+            UIElementValidator isTopAlignedWith(WebElement element, String readableName);
+            UIElementValidator isTopAlignedWith(List<WebElement> elements);
+           
+            UIElementValidator isBottomAlignedWith(WebElement element, String readableName);
+            UIElementValidator isBottomAlignedWith(List<WebElement> elements);
+           
+            // size
+           
+            UIElementValidator hasWidth(Condition<Scalar> condition);
+            UIElementValidator hasHeight(Condition<Scalar> condition);
+           
+            UIElementValidator hasEqualWidthAs(WebElement element, String readableName);
+            UIElementValidator hasEqualWidthAs(List<WebElement> elements);
+           
+            UIElementValidator hasEqualHeightAs(WebElement element, String readableName);
+            UIElementValidator hasEqualHeightAs(List<WebElement> elements);
+           
+            UIElementValidator hasEqualSizeAs(WebElement element, String readableName);
+            UIElementValidator hasEqualSizeAs(List<WebElement> elements);
+           
+            UIElementValidator hasDifferentSizeAs(WebElement element, String readableName);
+            UIElementValidator hasDifferentSizeAs(List<WebElement> elements);
+           
+            // offset?
+           
+            UIElementValidator hasLeftOffsetToPage(Condition<Scalar> condition);
+            UIElementValidator hasRightOffsetToPage(Condition<Scalar> condition);
+            UIElementValidator hasTopOffsetToPage(Condition<Scalar> condition);
+            UIElementValidator hasBottomOffsetToPage(Condition<Scalar> condition);
+           
+            // css
+           
+            UIElementValidator hasCssValue(String cssProperty, String... args);
+            UIElementValidator doesNotHaveCssValue(String cssProperty, String... args);
+           
+            // distribution
+           
+            UIElementValidator isCenteredOnPageHorizontally();
+            UIElementValidator isCenteredOnPageVertically();
     * For list of elements findElements({element}):
             
-            insideOf(WebElement containerElement, String readableContainerName); // Verify that elements are located inside of specified element
-            
-            alignedAsGrid(int horizontalGridSize); // Verify that elements are aligned in a grid view width specified amount of columns
-            
-            alignedAsGrid(int horizontalGridSize, int verticalGridSize); // Verify that elements are aligned in a grid view width specified amount of columns and rows
-            
-            areNotOverlappedWithEachOther(); // Verify that every element in the list is not overlapped with another element from this list
-            
-            withSameSize(); // Verify that elements in the list have the same size
-            
-            withSameWidth(); // Verify that elements in the list have the same width
-            
-            withSameHeight(); // Verify that elements in the list have the same height
-            
-            sameRightOffset(); // Verify that elements in the list have the right offset
-            
-            sameLeftOffset(); // Verify that elements in the list have the same left offset
-            
-            sameTopOffset(); // Verify that elements in the list have the same top offset
-            
-            sameBottomOffset(); // Verify that elements in the list have the same bottom offset
-            
-            equalLeftRightOffset(); // Verify that every element in the list have equal right and left offset (aligned horizontally in center)
-            
-            equalTopBottomOffset(); // Verify that every element in the list have equal top and bottom offset (aligned vertically in center)
-            
-            changeMetricsUnitsTo(ResponsiveUIValidator.Units units); // Change units to Pixels or % (Units.PX, Units.PERCENT)
-           
-    * Generating results:
+            // areAlignedInColumns(numberOfColumns)
+            ChunkUIElementValidator alignedAsGrid(int horizontalGridSize);
+        
+            ChunkUIElementValidator alignedAsGrid(int horizontalGridSize, int verticalGridSize);
+        
+            // area
+        
+            ChunkUIElementValidator doNotOverlap();
+            ChunkUIElementValidator areInsideOf(WebElement containerElement, String readableContainerName);
+        
+            // size
+        
+            ChunkUIElementValidator haveEqualSize();
+            ChunkUIElementValidator haveEqualWidth();
+            ChunkUIElementValidator haveEqualHeight();
+            ChunkUIElementValidator haveDifferentSizes();
+            ChunkUIElementValidator haveDifferentWidths();
+            ChunkUIElementValidator haveDifferentHeights();
+        
+            // alignment
+        
+            ChunkUIElementValidator areLeftAligned();
+            ChunkUIElementValidator areRightAligned();
+            ChunkUIElementValidator areTopAligned();
+            ChunkUIElementValidator areBottomAligned();
+        
+            //
+        
+            ChunkUIElementValidator areCenteredOnPageVertically();
+            ChunkUIElementValidator areCenteredOnPageHorizontally();
     
-            drawMap(); // Methods needs to be called to collect all the results in JSON file and screenshots
-            
+    * Generating results:
+                
             validate(); // Call method to summarize and validate the results (can be called with drawMap(). In this case result will be only True or False)
             
             generateReport(); // Call method to generate HTML report
@@ -247,19 +168,7 @@
             generateReport("file report name"); // Call method to generate HTML report with specified file report name
 
 ### Possibilities ###
- - Verification that elements are aligned correctly on the web or mobile page
-    * Elements horizontally are aligned correctly:
-        
-            PageValidator.elementsAreAlignedHorizontally(List<WebElement> elements) - boolean
-    
-    * Elements vertically are aligned correctly:
-    
-            PageValidator.elementsAreAlignedVertically(List<WebElement> elements) - boolean
-        
-    * Elements are aligned properly in general:
-    
-            PageValidator.elementsAreAlignedProperly(List<WebElement> elements) - boolean
-            
+
  - Helpers that are useful in the very different situations:
     * Generate UUID with specified length:
             
@@ -371,7 +280,70 @@
             Parameter token - is authorisation token if we want to perform request with auth. If not, just leave this parameter as empty string
 
             
+### Usage as standalone framework with out of the box configuration ###
+
+- Create instance of WebDriverFactory and call getDriver:
+
+            WebDriverFactory driverFactory = new WebDriverFactory();
+            WebDriver driver = driverFactory.getDriver();
             
+- Extend Your page classes from BaseWebMobileElement class to have access to methods:
+
+            getWebElement(final By by)
+            getWebElement(ExpectedCondition<WebElement> expectedCondition)
+            
+            getMobileElement(final By by, int timeOfWaiting)
+            getMobileElement(final By by)
+            
+            getWebElements(final By by)
+            getWebElements(ExpectedCondition<List<WebElement>> expectedCondition)  
+
+### Steps of using during test run ###
+
+#### ! Do not forget to put Chrome and Gecko drivers into Your project src/test/resources/drivers ! ####
+
+ - Specify env variables or system properties (example):
+    * For Web local run:       
+         
+            IS_LOCAL=True
+            BROWSER=Firefox|Chrome|IE|Safari|EDGE
+
+    * For Web remote run:
+
+            IS_REMOTE=True
+            BROWSER=Firefox|Chrome|IE|Safari|EDGE
+            EXECUTOR=http://{host}:{port}/wd/hub
+            (optional available with Chrome only) MOBILE_DEVICE_EMULATION=Google Nexus 5|Apple iPhone 6|Samsung Galaxy S5
+
+    * For Web Mobile run:
+
+            IS_MOBILE=True
+            PLATFORM=Android|iOS
+            BROWSER=Chrome|Safari
+            EXECUTOR=http://{host}:{port}/wd/hub
+            DEVICE=Device name
+            
+    * For Web Headless run (with PhantomJS without browser):
+
+            IS_HEADLESS=True
+            BROWSER=Firefox|Chrome|IE|Safari
+            PHANTOM_JS_PATH=C://phantomjs.exe
+
+    * For Native Mobile run:
+
+            IS_MOBILE=True
+            PLATFORM=Android|iOS
+            APP={path_to_app}
+            EXECUTOR=http://{host}:{port}/wd/hub
+            DEVICE=Device name
+
+    * For Windows UWP:
+
+            IS_MOBILE=True
+            PLATFORM=Windows
+            APP={path_to_app}
+            EXECUTOR=http://{host}:{port}/wd/hub
+            DEVICE=Device name or ID            
             
     
     

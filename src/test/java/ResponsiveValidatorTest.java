@@ -1,4 +1,7 @@
-import http.helpers.EnvironmentHelper;
+import net.itarray.automotion.tools.driver.DriverHelper;
+import net.itarray.automotion.tools.driver.WebDriverFactory;
+import net.itarray.automotion.tools.helpers.EnvironmentHelper;
+import net.itarray.automotion.validation.ResponsiveUIValidator;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Ignore;
@@ -7,19 +10,32 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
-import util.driver.DriverHelper;
-import util.driver.WebDriverFactory;
-import util.validator.ResponsiveUIValidator;
 import util.validator.properties.Padding;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.itarray.automotion.validation.properties.Condition.between;
+
 @Ignore
 public class ResponsiveValidatorTest {
 
     private static WebDriver driver;
+    private static long start;
+
+    public static void main(String[] args) {
+        ManualTestSupport.deleteOutputDirectory();
+        ResponsiveValidatorTest test = new ResponsiveValidatorTest();
+        try {
+            test.testThatResponsiveValidatorWorks();
+        } finally {
+            test.tearDown();
+            long stop = System.currentTimeMillis();
+            System.out.println((stop - start) + " ms");
+            ManualTestSupport.openReportInDefaultBrowser();;
+        }
+    }
 
     @Test
     public void testThatResponsiveValidatorWorks() {
@@ -34,6 +50,8 @@ public class ResponsiveValidatorTest {
         driver.get("http://visual.itarray.net");
         driver.manage().window().maximize();
 
+        start = System.currentTimeMillis();
+
         TestPage page = new TestPage(driver);
 
         ResponsiveUIValidator uiValidator = new ResponsiveUIValidator(driver);
@@ -43,14 +61,13 @@ public class ResponsiveValidatorTest {
 
         boolean success1 = uiValidator.init("Validation of Top Slider Element")
                 .findElement(page.topSlider(), "Top Slider")
-                .sameOffsetLeftAs(page.gridContainer(), "Grid Container")
-                .sameOffsetBottomAs(page.topTextBlock(), "Text Block")
-                .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX)
-                .widthBetween(300, 500)
-                .sameSizeAs(page.gridElements())
-                .equalLeftRightOffset()
-                .equalTopBottomOffset()
-                .insideOf(page.mainContainer(), "Main container", new Padding(10, 50, 10, 20))
+                .isLeftAlignedWith(page.gridContainer(), "Grid Container")
+                .isBottomAlignedWith(page.topTextBlock(), "Text Block")
+                .hasWidth(between(300).and(500))
+                .hasEqualSizeAs(page.gridElements())
+                .isCenteredOnPageHorizontally()
+                .isCenteredOnPageVertically()
+                .isInsideOf(page.mainContainer(), "Main container", new Padding(10, 50, 10, 20))
                 .drawMap()
                 .validate();
 
@@ -58,7 +75,7 @@ public class ResponsiveValidatorTest {
 
         boolean success0 = uiValidator.init("Validation of Grid view")
                 .findElement(page.gridContainer(), "Grid Container")
-                .equalLeftRightOffset()
+                .isCenteredOnPageHorizontally()
                 .drawMap()
                 .validate();
 
@@ -66,7 +83,7 @@ public class ResponsiveValidatorTest {
 
         boolean success01 = uiValidator.init("Validation of Main container")
                 .findElement(page.mainContainer(), "Main Container")
-                .equalLeftRightOffset()
+                .isCenteredOnPageHorizontally()
                 .drawMap()
                 .validate();
 
@@ -75,8 +92,8 @@ public class ResponsiveValidatorTest {
 
         boolean success2 = uiValidator.init("Validation of Top Text block")
                 .findElement(page.topTextBlock(), "Top Text block")
-                .sameOffsetRightAs(page.gridContainer(), "Grid Container")
-                .sameOffsetTopAs(page.topSlider(), "Top Slider")
+                .isRightAlignedWith(page.gridContainer(), "Grid Container")
+                .isTopAlignedWith(page.topSlider(), "Top Slider")
                 .drawMap()
                 .validate();
 
@@ -85,11 +102,11 @@ public class ResponsiveValidatorTest {
         boolean success3 = uiValidator.init("Validation of a grid view")
                 .findElements(page.gridElements())
                 .alignedAsGrid(4, 3)
-                .withSameSize()
-                .areNotOverlappedWithEachOther()
-                .sameTopOffset()
-                .equalLeftRightOffset()
-                .equalTopBottomOffset()
+                .haveEqualSize()
+                .doNotOverlap()
+                .areTopAligned()
+                .areCenteredOnPageVertically()
+                .areCenteredOnPageHorizontally()
                 .drawMap()
                 .validate();
 
@@ -98,10 +115,10 @@ public class ResponsiveValidatorTest {
         for (WebElement card : page.gridElements()) {
             boolean success = uiValidator.init("Validation of style for each of cards in a grid view")
                     .findElement(card.findElement(By.className("project-details")), "Project details block")
-                    .withCssValue("background", "#f8f8f8")
-                    .withCssValue("color", "#6f6f6f")
-                    .notOverlapWith(card.findElement(By.className("gallery-hover-4col")), "Image Container")
-                    .sameWidthAs(card.findElement(By.className("gallery-hover-4col")), "Image Container")
+                    .hasCssValue("background", "#f8f8f8")
+                    .hasCssValue("color", "#6f6f6f")
+                    .isNotOverlapping(card.findElement(By.className("gallery-hover-4col")), "Image Container")
+                    .hasEqualWidthAs(card.findElement(By.className("gallery-hover-4col")), "Image Container")
                     .drawMap()
                     .validate();
             softly.assertThat(success).isEqualTo(true).overridingErrorMessage("Failed validation of Grid in a list");
@@ -113,8 +130,8 @@ public class ResponsiveValidatorTest {
             DriverHelper.zoomInOutPage(driver, val);
             boolean success = uiValidator.init("Validate on page zoom " + val + "%")
                     .findElement(page.mainContainer(), "Main container")
-                    .equalLeftRightOffset()
-                    .sameWidthAs(page.gridContainer(), "Grid Container")
+                    .isCenteredOnPageHorizontally()
+                    .hasEqualWidthAs(page.gridContainer(), "Grid Container")
                     .drawMap()
                     .validate();
 

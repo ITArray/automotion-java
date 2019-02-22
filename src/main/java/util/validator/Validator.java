@@ -1,94 +1,81 @@
 package util.validator;
 
+import net.itarray.automotion.validation.UIElementValidator;
 import org.openqa.selenium.WebElement;
-import util.validator.properties.Padding;
+import net.itarray.automotion.validation.properties.Padding;
 
 import java.util.List;
 
-interface Validator {
+/**
+ * @deprecated As of release 2.0, replaced by {@link net.itarray.automotion.validation.UIElementValidator}
+ */
+@Deprecated
+public interface Validator extends UIElementValidator {
 
-    UIValidator changeMetricsUnitsTo(ResponsiveUIValidator.Units units);
+    UIValidator changeMetricsUnitsTo(util.validator.ResponsiveUIValidator.Units units);
 
-    UIValidator withLeftElement(WebElement element);
+    UIValidator changeMetricsUnitsTo(net.itarray.automotion.validation.Units units);
 
-    UIValidator withLeftElement(WebElement element, int minMargin, int maxMargin);
+    UIValidator isRightOf(WebElement element);
 
-    UIValidator withRightElement(WebElement element);
+    UIValidator isLeftOf(WebElement element);
 
-    UIValidator withRightElement(WebElement element, int minMargin, int maxMargin);
+    UIValidator isBelow(WebElement element);
 
-    UIValidator withTopElement(WebElement element);
+    UIValidator isAbove(WebElement element);
 
-    UIValidator withTopElement(WebElement element, int minMargin, int maxMargin);
+    UIValidator isNotOverlapping(WebElement element, String readableName);
 
-    UIValidator withBottomElement(WebElement element);
+    UIValidator isOverlapping(WebElement element, String readableName);
 
-    UIValidator withBottomElement(WebElement element, int minMargin, int maxMargin);
+    UIValidator isNotOverlapping(List<WebElement> elements);
 
-    UIValidator notOverlapWith(WebElement element, String readableName);
+    UIValidator isLeftAlignedWith(WebElement element, String readableName);
 
-    UIValidator overlapWith(WebElement element, String readableName);
+    UIValidator isLeftAlignedWith(List<WebElement> elements);
 
-    UIValidator notOverlapWith(List<WebElement> elements);
+    UIValidator isRightAlignedWith(WebElement element, String readableName);
 
-    UIValidator sameOffsetLeftAs(WebElement element, String readableName);
+    UIValidator isRightAlignedWith(List<WebElement> elements);
 
-    UIValidator sameOffsetLeftAs(List<WebElement> elements);
+    UIValidator isTopAlignedWith(WebElement element, String readableName);
 
-    UIValidator sameOffsetRightAs(WebElement element, String readableName);
+    UIValidator isTopAlignedWith(List<WebElement> elements);
 
-    UIValidator sameOffsetRightAs(List<WebElement> elements);
+    UIValidator isBottomAlignedWith(WebElement element, String readableName);
 
-    UIValidator sameOffsetTopAs(WebElement element, String readableName);
+    UIValidator isBottomAlignedWith(List<WebElement> elements);
 
-    UIValidator sameOffsetTopAs(List<WebElement> elements);
+    UIValidator hasEqualWidthAs(WebElement element, String readableName);
 
-    UIValidator sameOffsetBottomAs(WebElement element, String readableName);
+    UIValidator hasEqualWidthAs(List<WebElement> elements);
 
-    UIValidator sameOffsetBottomAs(List<WebElement> elements);
+    UIValidator hasEqualHeightAs(WebElement element, String readableName);
 
-    UIValidator sameWidthAs(WebElement element, String readableName);
+    UIValidator hasEqualHeightAs(List<WebElement> elements);
 
-    UIValidator sameWidthAs(List<WebElement> elements);
+    UIValidator hasEqualSizeAs(WebElement element, String readableName);
 
-    UIValidator minWidth(int width);
+    UIValidator hasEqualSizeAs(List<WebElement> elements);
 
-    UIValidator maxWidth(int width);
+    UIValidator hasDifferentSizeAs(WebElement element, String readableName);
 
-    UIValidator widthBetween(int min, int max);
-
-    UIValidator sameHeightAs(WebElement element, String readableName);
-
-    UIValidator sameHeightAs(List<WebElement> elements);
-
-    UIValidator minHeight(int height);
-
-    UIValidator maxHeight(int height);
-
-    UIValidator sameSizeAs(WebElement element, String readableName);
-
-    UIValidator sameSizeAs(List<WebElement> elements);
-
-    UIValidator notSameSizeAs(WebElement element, String readableName);
-
-    UIValidator notSameSizeAs(List<WebElement> elements);
-
-    UIValidator heightBetween(int min, int max);
+    UIValidator hasDifferentSizeAs(List<WebElement> elements);
 
     UIValidator minOffset(int top, int right, int bottom, int left);
 
     UIValidator maxOffset(int top, int right, int bottom, int left);
 
-    UIValidator withCssValue(String cssProperty, String... args);
+    UIValidator hasCssValue(String cssProperty, String... args);
 
-    UIValidator withoutCssValue(String cssProperty, String... args);
+    UIValidator doesNotHaveCssValue(String cssProperty, String... args);
 
-    UIValidator equalLeftRightOffset();
+    UIValidator isCenteredOnPageHorizontally();
 
-    UIValidator equalTopBottomOffset();
+    UIValidator isCenteredOnPageVertically();
 
-    UIValidator insideOf(WebElement containerElement, String readableContainerName);
+    UIValidator isInsideOf(WebElement containerElement, String readableContainerName);
 
-    UIValidator insideOf(WebElement containerElement, String readableContainerName, Padding padding);
+    UIValidator isInsideOf(WebElement containerElement, String readableContainerName, Padding padding);
 
 }
