@@ -209,7 +209,7 @@ public class HtmlReportBuilder {
                             new ClassAttribute("row")) {{
                         new Div(this,
                                 new Style("background-color: rgb(0,191,255); color: white; padding: 10px; height: 90px")) {{
-                            new H1(this, new Style("font-size:22px; font-weight: 200;"),
+                            new H1(this, new Style("font-size:22px; font-weight: lighter;"),
                                     new ClassAttribute("col-md-10")) {{
                                 new NoTag(this, String.format("Results from: %s", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
                             }};
@@ -275,7 +275,7 @@ public class HtmlReportBuilder {
                                                 new Style("margin-top:2px;" + bgColor),
                                                 new ClassAttribute("accordion " + finalClassName)) {{
                                             new H1(this,
-                                                    new Style("color: rgb(47,79,79); font-size:24px; font-size:18px; font-weight: 300; text-decoration: underline;")) {{
+                                                    new Style("color: rgb(47,79,79); font-size:24px; font-size:18px; font-weight: lighter; text-decoration: underline;")) {{
                                                 new NoTag(this, String.format("Scenario: \"%s\"", jsonObject.get(SCENARIO)));
 //                                                if (isFailed) {
 //                                                    new Span(this,
@@ -296,12 +296,12 @@ public class HtmlReportBuilder {
                                                 //new Style("background: #f5f5f5"),
                                                 new ClassAttribute("panel")) {{
                                             new H2(this,
-                                                    new Style("color: rgb(0,139,139); font-size:18px; font-weight: 300;")) {{
+                                                    new Style("color: rgb(0,139,139); font-size:18px; font-weight: lighter;")) {{
                                                 new NoTag(this, String.format("Element: \"%s\"", jsonObject.get(ELEMENT_NAME)));
                                             }};
                                             if (isFailed) {
                                                 new H3(this,
-                                                        new Style("color: rgb(255,69,0); font-size:18px; font-weight: 300;")) {{
+                                                        new Style("color: rgb(255,69,0); font-size:18px; font-weight: lighter;")) {{
                                                     new NoTag(this, "Failures:");
                                                 }};
                                             }
@@ -312,13 +312,13 @@ public class HtmlReportBuilder {
                                                     String numE = (String) reason.get(MESSAGE);
 
                                                     new Li(this,
-                                                            new Style("color: rgb(105,105,105); font-size:14px; font-weight: 400;")) {{
+                                                            new Style("color: rgb(105,105,105); font-size:14px; font-weight: normal;")) {{
                                                         new NoTag(this, numE);
                                                     }};
                                                 }
                                             }};
                                             new H4(this,
-                                                    new Style("color: rgb(105,105,105); font-size:14px; font-weight: 300;")) {{
+                                                    new Style("color: rgb(105,105,105); font-size:14px; font-weight: lighter;")) {{
                                                 new NoTag(this, String.format("Time execution: %s", jsonObject.get(TIME_EXECUTION)));
                                             }};
 
@@ -332,16 +332,16 @@ public class HtmlReportBuilder {
                                                 new Div(this,
                                                         //new OnMouseOver("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'block'"),
                                                         //new OnMouseOut("document.getElementById('" + screenshotDrawingOverlay.toString()+ "').style.display = 'none'"),
-                                                        new Style("position:relative; left: 0; top:0; width: 96%; margin-left:2%")) {{
+                                                        new Style("position:relative; left: 0px; top:0px; width: 96%; margin-left:2%")) {{
 
                                                     if (isFailed) {
                                                         new Img(this,
-                                                                new Style("position:relative; left: 0; top:0"),
+                                                                new Style("position:relative; left: 0px; top:0px"),
                                                                 new Src(String.format("../../img/%s", jsonObject.get(SCREENSHOT))),
                                                                 new Alt("screenshot"));
                                                         new Img(this,
                                                                 new Id(screenshotDrawingOverlay.toString()),
-                                                                new Style("position:absolute; left: 0; top:0;"),
+                                                                new Style("position:absolute; left: 0px; top:0px;"),
                                                                 //new Style("position:absolute; left: 0; top:0; display:none;"),
                                                                 new Src(String.format("../../img/%s", screenshotDrawingOverlay.toString())),
                                                                 new OnClick("showModal('" + screenshotDrawingOverlay.toString() + "')"),
