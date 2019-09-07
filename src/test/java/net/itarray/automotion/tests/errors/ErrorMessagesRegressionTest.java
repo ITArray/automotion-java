@@ -77,7 +77,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().isLeftAlignedWith(singletonList(createElement(105, 200, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has not the same left offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[105,200], size=[395,200]'");
+                .isEqualTo("Element 'under test' has not the same left offset as element 'with properties: tag=[null], text=[], coord=[105,200], size=[395,200]'");
     }
 
     @Test
@@ -101,7 +101,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().isRightAlignedWith(singletonList(createElement(100, 200, 505, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has not the same right offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,200]'");
+                .isEqualTo("Element 'under test' has not the same right offset as element 'with properties: tag=[null], text=[], coord=[100,200], size=[405,200]'");
     }
 
     @Test
@@ -125,7 +125,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().isTopAlignedWith(singletonList(createElement(100, 205, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has not the same top offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,205], size=[400,195]'");
+                .isEqualTo("Element 'under test' has not the same top offset as element 'with properties: tag=[null], text=[], coord=[100,205], size=[400,195]'");
     }
 
     @Test
@@ -149,7 +149,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().isBottomAlignedWith(singletonList(createElement(100, 200, 500, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has not the same bottom offset as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,205]'");
+                .isEqualTo("Element 'under test' has not the same bottom offset as element 'with properties: tag=[null], text=[], coord=[100,200], size=[400,205]'");
     }
 
     @Test
@@ -237,7 +237,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().hasEqualWidthAs(singletonList(createElement(100, 200, 505, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has not the same width as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]'. Width of 'under test' is 400px. Width of element is 405px");
+                .isEqualTo("Element 'under test' has not the same width as element 'with properties: tag=[null], text=[], coord=[100,200], size=[405,205]'. Width of 'under test' is 400px. Width of element is 405px");
     }
 
     @Test
@@ -261,7 +261,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().hasEqualHeightAs(singletonList(createElement(100, 200, 505, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has not the same height as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]'. Height of 'under test' is 200px. Height of element is 205px");
+                .isEqualTo("Element 'under test' has not the same height as element 'with properties: tag=[null], text=[], coord=[100,200], size=[405,205]'. Height of 'under test' is 200px. Height of element is 205px");
     }
 
     @Test
@@ -293,7 +293,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().hasEqualSizeAs(singletonList(createElement(100, 200, 505, 405)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has not the same size as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[405,205]'. Size of 'under test' is 400px x 200px. Size of element is 405px x 205px");
+                .isEqualTo("Element 'under test' has not the same size as element 'with properties: tag=[null], text=[], coord=[100,200], size=[405,205]'. Size of 'under test' is 400px x 200px. Size of element is 405px x 205px");
     }
 
     @Test
@@ -309,7 +309,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().hasDifferentSizeAs(singletonList(createElement(100, 200, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' has the same size as element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]'. Size of 'under test' is 400px x 200px. Size of element is 400px x 200px");
+                .isEqualTo("Element 'under test' has the same size as element 'with properties: tag=[null], text=[], coord=[100,200], size=[400,200]'. Size of 'under test' is 400px x 200px. Size of element is 400px x 200px");
     }
 
     @Test
@@ -325,7 +325,7 @@ public class ErrorMessagesRegressionTest {
         createElementValidator().isNotOverlapping(singletonList(createElement(100, 200, 500, 400)));
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'under test' is overlapped with element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' but should not");
+                .isEqualTo("Element 'under test' is overlapped with element 'with properties: tag=[null], text=[], coord=[100,200], size=[400,200]' but should not");
     }
 
     @Test
@@ -349,7 +349,7 @@ public class ErrorMessagesRegressionTest {
         createChunkValidator().areInsideOf(createElement(1100, 1200, 500, 400), "specifying");
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' is not inside of 'specifying'");
+                .isEqualTo("Element 'with properties: tag=[null], text=[], coord=[100,200], size=[400,200]' is not inside of 'specifying'");
     }
 
     @Test
@@ -438,7 +438,7 @@ public class ErrorMessagesRegressionTest {
         createChunkValidator().areCenteredOnPageVertically();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' has not equal left and right offset. Left offset is 100px, right is 1500px");
+                .isEqualTo("Element 'with properties: tag=[null], text=[], coord=[100,200], size=[400,200]' has not equal left and right offset. Left offset is 100px, right is 1500px");
     }
 
     @Test
@@ -454,7 +454,7 @@ public class ErrorMessagesRegressionTest {
         createChunkValidator().areCenteredOnPageHorizontally();
         Errors errors = base.getErrors();
         assertThat(errors.getLastMessage())
-                .isEqualTo("Element 'with properties: tag=[null], id=[null], class=[null], text=[], coord=[100,200], size=[400,200]' has not equal top and bottom offset. Top offset is 200px, bottom is 600px");
+                .isEqualTo("Element 'with properties: tag=[null], text=[], coord=[100,200], size=[400,200]' has not equal top and bottom offset. Top offset is 200px, bottom is 600px");
     }
 
     @Test

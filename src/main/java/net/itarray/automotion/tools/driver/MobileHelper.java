@@ -3,6 +3,8 @@ package net.itarray.automotion.tools.driver;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -125,7 +127,7 @@ public class MobileHelper {
         DriverHelper.clickByLocation(driver, element, DriverHelper.ClickPoint.TOP_RIGHT);
         //element.clear();
         for (int i = 0; i < 30; i++){
-            driver.pressKeyCode(BACKSPACE);
+            driver.pressKey(new KeyEvent(AndroidKey.DEL));
         }
 
         return element;

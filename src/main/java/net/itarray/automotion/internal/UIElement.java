@@ -76,10 +76,8 @@ public class UIElement {
     private static String defaultName(WebElement webElement) {
         Point location = webElement.getLocation();
         Dimension size = webElement.getSize();
-        return String.format("with properties: tag=[%s], id=[%s], class=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
+        return String.format("with properties: tag=[%s], text=[%s], coord=[%s,%s], size=[%s,%s]",
                 webElement.getTagName(),
-                webElement.getAttribute("id"),
-                webElement.getAttribute("class"),
                 getShortenedText(webElement.getText()),
                 String.valueOf(location.getX()),
                 String.valueOf(location.getY()),

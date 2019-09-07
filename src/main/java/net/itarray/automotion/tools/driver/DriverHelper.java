@@ -2,6 +2,8 @@ package net.itarray.automotion.tools.driver;
 
 import io.appium.java_client.*;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.apache.commons.io.FileUtils;
@@ -48,7 +50,7 @@ public class DriverHelper {
      */
     public static void sendKeysFullClear(AndroidDriver driver, MobileElement element, String text) {
         MobileHelper.clearField(driver, element).sendKeys(text);
-        driver.pressKeyCode(84);
+        driver.pressKey(new KeyEvent(AndroidKey.DEL));
 
         LOG.info("Send text: " + text);
     }

@@ -5,6 +5,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import net.itarray.automotion.internal.geometry.Vector;
 import net.itarray.automotion.tools.general.SystemHelper;
+import org.openqa.grid.common.exception.CapabilityNotPresentOnTheGridException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -199,12 +200,17 @@ public class DriverFacade {
     }
 
     public Dimension getResolution() {
-        if (isAppiumContext() && getApp() == null) {
-            String resolution = ((RemoteWebDriver) driver).getCapabilities().getCapability("deviceScreenSize").toString();
-            int width = parseInt(resolution.split("x")[0]);
-            int height = parseInt(resolution.split("x")[1]);
+        if (isAppiumContext() && ((AppiumDriver)driver).getCapabilities().getCapability("app") == null) {
+            Object res = ((RemoteWebDriver) driver).getCapabilities().getCapability("deviceScreenSize");
+            if (res != null) {
+                String resolution = String.valueOf(res);
+                int width = parseInt(resolution.split("x")[0]);
+                int height = parseInt(resolution.split("x")[1]);
 
-            return new Dimension(width, height);
+                return new Dimension(width, height);
+            } else {
+                throw new CapabilityNotPresentOnTheGridException("Capability 'deviceScreenSize' is not found. Please, add this capability as e.g: deviceScreenSize=800x1200");
+            }
         } else {
             return driver.manage().window().getSize();
         }
