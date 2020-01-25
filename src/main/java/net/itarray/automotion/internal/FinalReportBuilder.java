@@ -3,18 +3,21 @@ package net.itarray.automotion.internal;
 import com.webfirmframework.wffweb.tag.html.Body;
 import com.webfirmframework.wffweb.tag.html.Html;
 import com.webfirmframework.wffweb.tag.html.TitleTag;
+import com.webfirmframework.wffweb.tag.html.attribute.Charset;
 import com.webfirmframework.wffweb.tag.html.attribute.Href;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
 import com.webfirmframework.wffweb.tag.html.links.A;
 import com.webfirmframework.wffweb.tag.html.lists.Li;
 import com.webfirmframework.wffweb.tag.html.lists.Ol;
 import com.webfirmframework.wffweb.tag.html.metainfo.Head;
+import com.webfirmframework.wffweb.tag.html.metainfo.Meta;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +58,7 @@ public class FinalReportBuilder {
                 new TitleTag(this) {{
                     new NoTag(this, "Automotion report");
                 }};
+                new Meta(this, new Charset(StandardCharsets.UTF_8.name()));
                 new NoTag(this, "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
                 new NoTag(this, "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">");
 
