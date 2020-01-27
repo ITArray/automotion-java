@@ -2,6 +2,7 @@ package net.itarray.automotion.internal;
 
 import com.webfirmframework.wffweb.tag.html.*;
 import com.webfirmframework.wffweb.tag.html.attribute.Alt;
+import com.webfirmframework.wffweb.tag.html.attribute.Charset;
 import com.webfirmframework.wffweb.tag.html.attribute.Src;
 import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
 import com.webfirmframework.wffweb.tag.html.attribute.global.ClassAttribute;
@@ -11,6 +12,7 @@ import com.webfirmframework.wffweb.tag.html.images.Img;
 import com.webfirmframework.wffweb.tag.html.lists.Li;
 import com.webfirmframework.wffweb.tag.html.lists.Ol;
 import com.webfirmframework.wffweb.tag.html.metainfo.Head;
+import com.webfirmframework.wffweb.tag.html.metainfo.Meta;
 import com.webfirmframework.wffweb.tag.html.programming.Script;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Span;
@@ -86,6 +88,7 @@ public class HtmlReportBuilder {
                 new TitleTag(this) {{
                     new NoTag(this, "Automotion report");
                 }};
+                new Meta(this, new Charset(StandardCharsets.UTF_8.name()));
                 new NoTag(this, "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
                 new NoTag(this, "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">");
 
