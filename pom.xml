@@ -177,12 +177,12 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.11</version>
+            <version>4.5.12</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
-            <version>4.5.11</version>
+            <version>4.5.12</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -197,7 +197,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.28</version>
+            <version>1.7.30</version>
         </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
@@ -237,7 +237,7 @@
         <dependency>
             <groupId>com.webfirmframework</groupId>
             <artifactId>wffweb</artifactId>
-            <version>3.0.13</version>
+            <version>3.0.14</version>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
